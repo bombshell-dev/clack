@@ -19,11 +19,12 @@ importers:
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       typescript: ^4.9.5
+    dependencies:
+      picocolors: 1.0.0
+      sisteransi: 1.0.5
     devDependencies:
       '@types/node': 18.11.19
       esbuild: 0.17.6
-      picocolors: 1.0.0
-      sisteransi: 1.0.5
       typescript: 4.9.5
 
   packages/demo:
@@ -35,16 +36,6 @@ importers:
       '@clack/core': link:../core
       boxen: 7.0.1
       picocolors: 1.0.0
-
-  packages/flex:
-    specifiers:
-      add: ^2.0.6
-      sisteransi: ^1.0.5
-      yoga-wasm-web: 0.3.1
-    dependencies:
-      add: 2.0.6
-      sisteransi: 1.0.5
-      yoga-wasm-web: 0.3.1
 
 packages:
 
@@ -563,10 +554,6 @@ packages:
   /@types/semver/6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
     dev: true
-
-  /add/2.0.6:
-    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
-    dev: false
 
   /ansi-align/3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
@@ -1839,6 +1826,7 @@ packages:
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
+    dev: false
 
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -2017,6 +2005,7 @@ packages:
 
   /sisteransi/1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+    dev: false
 
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
@@ -2409,7 +2398,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  /yoga-wasm-web/0.3.1:
-    resolution: {integrity: sha512-J74OxJtRb5GLW/GH+ibYpb0/0zixk9qp0EOIuKKkavk0w0cMHIQ76YPkca4cRBUW+d+r+GFSM9Q3a+HXQd4b8g==}
-    dev: false
