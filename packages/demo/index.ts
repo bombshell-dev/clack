@@ -38,7 +38,7 @@ async function run() {
     const Option = (label: string, active: boolean) => `${active ? c.cyan('🟦') : '⬜'} ${label}`;
 
     const select = new SelectPrompt({
-        initialIndex: 1,
+        initialValue: 1,
         options: [
             { value: 1, label: 'One' },
             { value: 2, label: 'Two' },
@@ -59,56 +59,11 @@ async function run() {
     
     const choice = await select.prompt();
     if (isCancel(choice)) {
-        console.log('See you later!');z
+        console.log('See you later!');
         return;
     }
 
     console.log({ choice });
-    
-
-    // await sleep(10000);
-    // const name = await input(`  ${c.bgMagenta(c.white(' dir '))}  Where should we create your new project?\n         `, { placeholder: 'Ahhhhhh' })
-    // if (wasCancelled(name)) {
-    //     return;
-    // }
-
-    // const template = await select(` ${c.bgMagenta(c.white(' tmpl '))}  How would you like to start your new project?\n`, ['Include sample files', 'Use blog template', 'Empty'], {
-    //     render(opts, { done, index }) {
-    //         return opts.map((opt, i) => {
-    //             if (i === index) return '      ' + (done ? ' ' : c.green('•')) + '  ' + (done ? c.dim(opt) : opt);
-    //             return '      ' + c.dim('•') + '  ' + opt;
-    //         }).join('\n')
-    //     },
-    // })
-    // if (wasCancelled(template)) {
-    //     return;
-    // }
-    // console.log()
-
-    // const other = await text(` ${c.bgMagenta(c.white(' some '))}  Meh?\n         `)
-    // if (wasCancelled(other)) {
-    //     return;
-    // }
-    // const goon = await confirm(`\nShould I continue?\n> `);
-    // if (wasCancelled(name)) {
-    //     console.log('Fine, don\'t answer.')
-    //     return;
-    // }
-    // console.log({ goon });
-
-    // const option = await select('\nChoose an option:\n> ', ['a', 'b', 'c'], {
-    //     render(i, opts) {
-    //         return opts.map((text, j) => {
-    //             if (i === j) return `[${text}]`;
-    //             return ` ${text} `;
-    //         }).join(' ');
-    //     }
-    // });
-    // if (wasCancelled(option)) {
-    //     console.log('Fine, don\'t answer.')
-    //     return;
-    // }
-    // console.log({ option });
 }
 
 run();
