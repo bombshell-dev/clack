@@ -31,14 +31,16 @@
   "packageManager": "pnpm@7.6.0",
   "scripts": {
     "build": "pnpm run build:bundle && pnpm run build:types",
-    "build:bundle": "esbuild src/index.ts --bundle --sourcemap=external --outfile=dist/index.js --format=esm --platform=node --target=node16",
+    "build:bundle": "esbuild src/index.ts --bundle --sourcemap=external --outfile=dist/index.js --format=esm --platform=node --target=node16 --external:picocolors --external:sisteransi",
     "build:types": "tsc -p ."
+  },
+  "dependencies": {
+    "picocolors": "^1.0.0",
+    "sisteransi": "^1.0.5"
   },
   "devDependencies": {
     "@types/node": "^18.11.19",
     "esbuild": "^0.17.6",
-    "picocolors": "^1.0.0",
-    "sisteransi": "^1.0.5",
     "typescript": "^4.9.5"
   }
 }
