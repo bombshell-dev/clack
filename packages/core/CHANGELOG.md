@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.3
+
+### Patch Changes
+
+- 5605d28: Do not bundle dependencies (take II)
+
 ## 0.0.2
 
 ### Patch Changes
