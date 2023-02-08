@@ -1,0 +1,16 @@
+{
+  "name": "@clack/core",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "start": "tsx ./index.ts"
+  },
+  "dependencies": {
+    "picocolors": "^1.0.0",
+    "sisteransi": "^1.0.5",
+    "strip-ansi": "^7.0.1"
+  }
+}

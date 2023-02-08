@@ -1,0 +1,16 @@
+{
+  "name": "@clack/root",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx ./index.ts"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.0",
+    "@types/node": "18",
+    "tsx": "^3.12.2"
+  },
+  "volta": {
+    "node": "18.14.0"
+  }
+}
