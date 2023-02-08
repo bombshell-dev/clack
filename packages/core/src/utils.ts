@@ -1,3 +1,5 @@
+import type { Key } from "node:readline";
+
 import * as readline from "node:readline";
 import { stdin, stdout } from 'node:process';
 
@@ -47,7 +49,7 @@ export function block({ input = stdin, output = stdout, overwrite = true, hideCu
     readline.emitKeypressEvents(input, rl)
     if (input.isTTY) input.setRawMode(true);
 
-    const clear = (data: Buffer, { name }) => {
+    const clear = (data: Buffer, { name }: Key) => {
         const str = String(data);
         if (str === '\x03') {
             process.exit(0);

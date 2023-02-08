@@ -3,10 +3,42 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
-  "dependencies": {
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natemoo-re/clack"
+  },
+  "bugs": {
+    "url": "https://github.com/natemoo-re/clack/issues"
+  },
+  "homepage": "https://github.com/natemoo-re/clack#README",
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "author": {
+    "name": "Nate Moore",
+    "email": "nate@natemoo.re",
+    "url": "https://twitter.com/n_moore"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@7.6.0",
+  "scripts": {
+    "build": "pnpm run build:bundle && pnpm run build:types",
+    "build:bundle": "esbuild src/index.ts --bundle --sourcemap=external --outfile=dist/index.js --format=esm --platform=node --target=node16",
+    "build:types": "tsc -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.19",
+    "esbuild": "^0.17.6",
     "picocolors": "^1.0.0",
-    "sisteransi": "^1.0.5"
+    "sisteransi": "^1.0.5",
+    "typescript": "^4.9.5"
   }
 }

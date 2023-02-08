@@ -43,9 +43,9 @@ export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
 export default class Prompt {
   private input: Readable;
   private output: Writable;
-  private rl: ReadLine;
+  private rl!: ReadLine;
   private opts: Omit<PromptOptions<Prompt>, 'render'|'input'|'output'>;
-  private _render: (context: Omit<Prompt, 'prompt'>) => string;
+  private _render: (context: Omit<Prompt, 'prompt'>) => string | void;
   protected _cursor: number = 0;
 
   public state: State = 'initial';
