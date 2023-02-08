@@ -1,6 +1,7 @@
 export { default as Prompt, isCancel } from "./prompts/prompt.js";
 export { default as TextPrompt } from './prompts/text.js';
 export { default as SelectPrompt } from './prompts/select.js';
+export { default as ConfirmPrompt } from './prompts/confirm.js';
 // export { select } from './prompts/select.js';
 // export { confirm } from './prompts/confirm.js';
 // export { typeahead } from './prompts/typeahead.js';

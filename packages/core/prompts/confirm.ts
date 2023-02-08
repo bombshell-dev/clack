@@ -1,48 +1,46 @@
-import * as readline from "node:readline";
-import { stdin, stdout } from 'node:process';
+import Prompt, { PromptOptions } from './prompt.js';
 
-import { block } from '../utils.js'
 
-const dirs = new Set(['up', 'down', 'right', 'left']);
-export async function confirm(question: string, { render = (value: boolean) => value ? `[Y] /  N ` : ` Y  / [N]`, input = stdin, output = stdout } = {}) {
-    let value = true;
-    
-    output.write(question);
-    const prefix = question.split('\n').at(-1) ?? '';
-    const initialPrompt = render(value);
-    const lines = initialPrompt.split('\n');
-    const dx = -999;
-    const dy = -1 * (lines.length - 1);
-    output.write(initialPrompt);
+interface ConfirmOptions<T extends { value: boolean }> extends PromptOptions<ConfirmPrompt<T>> {
+    options: T[];
+    initialValue?: boolean;
+}
+export default class ConfirmPrompt<T extends { value: boolean }> extends Prompt {
+    options: T[];
+    cursor: number = 0;
 
-    const reset = () => {
-        readline.moveCursor(output, dx, dy, () => {
-            readline.clearScreenDown(output, () => {
-                output.write(`${prefix}${render(value)}`);
-            })
-        });
+    private get _value() {
+        return this.options[this.cursor]
     }
 
-    const unblock = block({ input, output, overwrite: false });
-    return new Promise((resolve) => {
-        const keypress = (char: string, { name }) => {
-            if (dirs.has(name)) {
-                value = !value;
-                return reset();
-            } else if (name === 'return') {
-                unblock();
-                input.off('keypress', keypress);
-                resolve(value);
-            } else {
-                if (char === 'y' || char === 'n') {
-                    value = char === 'y';
-                    reset();
-                    resolve(value);
-                    input.off('keypress', keypress);
-                }
-                return reset();
+    constructor(opts: ConfirmOptions<T>) {
+        super(opts);
+        
+        this.options = opts.options;
+        this.cursor = this.options.findIndex(({ value }) => value === opts.initialValue);
+        if (this.cursor === -1) this.cursor = 0;
+        
+        this.on('value', () => {
+            this.value = this._value.value;
+        })
+
+        this.on('confirm', (confirm) => {
+            this.cursor = this.options.findIndex(({ value }) => value === confirm);
+            if (this.cursor === -1) this.cursor = 0;
+            this.value = confirm;
+            this.state = 'submit';
+            this.close()
+        })
+        
+        this.on('cursor', (key) => {
+            switch (key) {
+                case 'left': 
+                case 'up': 
+                    return this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+                case 'down': 
+                case 'right':
+                    return this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
             }
-        }
-        input.on('keypress', keypress);
-    })
+        })
+    }
 }

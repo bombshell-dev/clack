@@ -8,7 +8,10 @@ export default class TextPrompt extends Prompt {
     }
     constructor(opts: PromptOptions<TextPrompt>) {
         super(opts);
-
+        
+        this.on('finalize', () => {
+            this.valueWithCursor = this.value;
+        });
         this.on('value', () => {
             if (this.cursor >= this.value.length) {
                 this.valueWithCursor = `${this.value}${color.inverse(color.hidden('_'))}`;

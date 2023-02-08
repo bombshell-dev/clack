@@ -134,6 +134,9 @@ export default class Prompt {
     if (key?.name && keys.has(key.name)) {
       this.emit('cursor', key.name);
     }
+    if (char === 'y' || char === 'n') {
+      this.emit('confirm', char === 'y');
+    }
 
     if (key?.name === 'return') {
       if (this.opts.validate) {
@@ -153,14 +156,13 @@ export default class Prompt {
     if (this.state === 'submit' || this.state === 'cancel') {
       this.emit('finalize');
     }
-
     this.render();
     if (this.state === 'submit' || this.state === 'cancel') {
       this.close();
     }
   }
 
-  private close() {
+  protected close() {
     this.input.removeListener('keypress', this.onKeypress)
     this.output.write('\n');
     setRawMode(this.input, false);
