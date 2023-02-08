@@ -5,12 +5,8 @@
   "exports": {
     ".": "./index.ts"
   },
-  "scripts": {
-    "start": "tsx ./index.ts"
-  },
   "dependencies": {
     "picocolors": "^1.0.0",
-    "sisteransi": "^1.0.5",
-    "strip-ansi": "^7.0.1"
+    "sisteransi": "^1.0.5"
   }
 }
