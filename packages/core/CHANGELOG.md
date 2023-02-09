@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.5
+
+### Patch Changes
+
+- 491f9e0: update readme
+
 ## 0.0.4
 
 ### Patch Changes
