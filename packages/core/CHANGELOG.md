@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.4
+
+### Patch Changes
+
+- 7372d5c: Fix bug with line deletion
+
 ## 0.0.3
 
 ### Patch Changes
