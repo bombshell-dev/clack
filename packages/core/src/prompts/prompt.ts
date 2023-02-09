@@ -37,6 +37,7 @@ export interface PromptOptions<Self extends Prompt> {
     validate?: ((value: string) => string | void) | undefined;
     input?: Readable;
     output?: Writable;
+    debug?: boolean;
 }
 
 export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
@@ -188,10 +189,11 @@ export default class Prompt {
     const frame = this._render(this) ?? '';
     if (frame === this._prevFrame) return;
 
-    if (this.state !== 'initial') {
+    if (this.state === 'initial') {
+      this.output.write(cursor.hide);
+    } else {
       const diff = diffLines(this._prevFrame, frame);
       this.restoreCursor();
-      
       // If a single line has changed, only update that line
       if (diff && diff?.length === 1) {
         const diffLine = diff[0];
@@ -200,7 +202,6 @@ export default class Prompt {
         const lines = frame.split('\n');
         this.output.write(lines[diffLine]);
         this._prevFrame = frame;
-        // TODO: handle wrapping
         this.output.write(cursor.move(0, lines.length - diffLine - 1))
         return;
       // If many lines have changed, rerender everything past the first line
@@ -212,14 +213,10 @@ export default class Prompt {
         const newLines = lines.slice(diffLine);
         this.output.write(newLines.join('\n'));
         this._prevFrame = frame;
-        // TODO: handle wrapping
-        this.output.write(cursor.move(0, newLines.length - 1))
         return;
       }
 
       this.output.write(erase.down());
-    } else {
-      this.output.write(cursor.hide);
     }
     
     this.output.write(frame);
