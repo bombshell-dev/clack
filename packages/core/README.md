@@ -17,6 +17,6 @@ const p = new TextPrompt({
 
 const name = await p.prompt();
 if (isCancel(name)) {
-  return;
+  process.exit(0);
 }
 ```
