@@ -140,7 +140,7 @@ export default class Prompt {
     if (key?.name && keys.has(key.name)) {
       this.emit('cursor', key.name);
     }
-    if (char.toLowerCase() === 'y' || char.toLowerCase() === 'n') {
+    if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
       this.emit('confirm', char.toLowerCase() === 'y');
     }
 
