@@ -33,6 +33,7 @@ const keys = new Set(['up', 'down', 'left', 'right']);
 
 export interface PromptOptions<Self extends Prompt> {
     render(this: Omit<Self, 'prompt'>): string | void;
+    initialValue?: any;
     validate?: ((value: string) => string | void) | undefined;
     input?: Readable;
     output?: Writable;
@@ -45,6 +46,7 @@ export default class Prompt {
   private output: Writable;
   private rl!: ReadLine;
   private opts: Omit<PromptOptions<Prompt>, 'render'|'input'|'output'>;
+  private _track: boolean = false;
   private _render: (context: Omit<Prompt, 'prompt'>) => string | void;
   protected _cursor: number = 0;
 
@@ -52,12 +54,13 @@ export default class Prompt {
   public value: any;
   public error: string = '';
 
-  constructor({ render, input = stdin, output = stdout, ...opts }: PromptOptions<Prompt>) {
+  constructor({ render, input = stdin, output = stdout, initialValue, ...opts }: PromptOptions<Prompt>, trackValue: boolean = true) {
     this.opts = opts;
     this.onKeypress = this.onKeypress.bind(this);
     this.close = this.close.bind(this);
     this.render = this.render.bind(this);
     this._render = render.bind(this);
+    this._track = trackValue;
 
     this.input = input;
     this.output = output;
@@ -66,9 +69,11 @@ export default class Prompt {
   public prompt() {
     const sink = new WriteStream(0)
     sink._write = (chunk, encoding, done) => {
-      this.value = this.rl.line.replace(/\t/g, '');
-      this._cursor = this.rl.cursor;
-      this.emit('value', this.value);
+      if (this._track) {
+        this.value = this.rl.line.replace(/\t/g, '');
+        this._cursor = this.rl.cursor;
+        this.emit('value', this.value);
+      }
       done()
     }
     this.input.pipe(sink);
@@ -89,10 +94,10 @@ export default class Prompt {
     this.render();
 
     return new Promise<string|symbol>((resolve, reject) => {
-      this.once('clack:submit', () => {
+      this.once('submit', () => {
         resolve(this.value);
       })
-      this.once('clack:cancel', () => {
+      this.once('cancel', () => {
         this.output.write(cursor.show);
         resolve(cancel);
       })
@@ -135,8 +140,8 @@ export default class Prompt {
     if (key?.name && keys.has(key.name)) {
       this.emit('cursor', key.name);
     }
-    if (char === 'y' || char === 'n') {
-      this.emit('confirm', char === 'y');
+    if (char.toLowerCase() === 'y' || char.toLowerCase() === 'n') {
+      this.emit('confirm', char.toLowerCase() === 'y');
     }
 
     if (key?.name === 'return') {
@@ -168,40 +173,52 @@ export default class Prompt {
     this.output.write('\n');
     setRawMode(this.input, false);
     this.rl.close();
-    this.emit(`clack:${this.state}`, this.value);
+    this.emit(`${this.state}`, this.value);
     this.unsubscribe();
+  }
+
+  // TODO: handle wrapping
+  private restoreCursor() {
+    const lines = this._prevFrame.split('\n').length - 1;
+    this.output.write(cursor.move(-999, lines * -1));
   }
 
   private _prevFrame = '';
   private render() {
     const frame = this._render(this) ?? '';
     if (frame === this._prevFrame) return;
+
     if (this.state !== 'initial') {
       const diff = diffLines(this._prevFrame, frame);
-
-      this.output.write(cursor.restore);
+      this.restoreCursor();
       
       // If a single line has changed, only update that line
       if (diff && diff?.length === 1) {
         const diffLine = diff[0];
-        this.output.write(cursor.move(-1, diffLine));
+        this.output.write(cursor.move(0, diffLine));
         this.output.write(erase.lines(1));
-        this.output.write(frame.split('\n')[diffLine]);
+        const lines = frame.split('\n');
+        this.output.write(lines[diffLine]);
         this._prevFrame = frame;
+        // TODO: handle wrapping
+        this.output.write(cursor.move(0, lines.length - diffLine - 1))
         return;
       // If many lines have changed, rerender everything past the first line
       } else if (diff && diff?.length > 1) {
         const diffLine = diff[0];
-        this.output.write(cursor.move(-1, diffLine));
+        this.output.write(cursor.move(0, diffLine));
         this.output.write(erase.down());
-        this.output.write(frame.split('\n').slice(diffLine).join('\n'));
+        const lines = frame.split('\n');
+        const newLines = lines.slice(diffLine);
+        this.output.write(newLines.join('\n'));
         this._prevFrame = frame;
+        // TODO: handle wrapping
+        this.output.write(cursor.move(0, newLines.length - 1))
         return;
       }
 
       this.output.write(erase.down());
     } else {
-      this.output.write(cursor.save);
       this.output.write(cursor.hide);
     }
     

@@ -13,7 +13,7 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
     }
 
     constructor(opts: SelectOptions<T>) {
-        super(opts);
+        super(opts, false);
         
         this.options = opts.options;
         this.cursor = this.options.findIndex(({ value }) => value === opts.initialValue);

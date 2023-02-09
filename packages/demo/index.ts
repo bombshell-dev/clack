@@ -1,4 +1,4 @@
-import { PasswordPrompt, SelectPrompt, isCancel } from '@clack/core';
+import { PasswordPrompt, ConfirmPrompt, isCancel } from '@clack/core';
 import c from 'picocolors';
 import boxen from 'boxen';
 
@@ -34,20 +34,16 @@ async function run() {
 
     const Option = (label: string, active: boolean) => `${active ? c.cyan('🟦') : '⬜'} ${label}`;
 
-    const select = new SelectPrompt({
-        initialValue: 1,
-        options: [
-            { value: 1, label: 'One' },
-            { value: 2, label: 'Two' },
-            { value: 3, label: 'Three' }
-        ],
+    const select = new ConfirmPrompt({
+        active: 'yes',
+        inactive: 'no',
         render() {
             const title = `Select an option!\n`;
             switch (this.state) {
-                case 'submit': return `✅ ${title}${Option(this.options.find((opt, i) => i === this.cursor)!.label, true)}`;
+                case 'submit': return `✅ ${title}${c.dim(this.value ? 'yes' : 'no')}`;
                 case 'cancel': return `❌ ${title.trim()}`;
                 default: {
-                    return `💭 ${title}${this.options.map((opt, i) => Option(opt.label, i === this.cursor)).join('\n')}`;
+                    return `💭 ${title}${this.value ? c.cyan('yes') : 'yes'} / ${!this.value ? c.cyan('no') : 'no'}`;
                 }
             }
             return ''
