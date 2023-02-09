@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm -r run build"
+    "build": "pnpm -r run build",
+    "start": "pnpm --filter demo run start"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",

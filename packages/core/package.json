@@ -12,7 +12,8 @@
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/natemoo-re/clack"
+    "url": "https://github.com/natemoo-re/clack",
+    "directory": "packages/core"
   },
   "bugs": {
     "url": "https://github.com/natemoo-re/clack/issues"

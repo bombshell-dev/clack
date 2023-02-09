@@ -1,29 +1,26 @@
-import { TextPrompt, SelectPrompt, isCancel } from '@clack/core';
+import { PasswordPrompt, SelectPrompt, isCancel } from '@clack/core';
 import c from 'picocolors';
 import boxen from 'boxen';
 
 async function run() {
-    const text = new TextPrompt({
-        validate(value) {
-            if (value === '') return 'Value is required!';
-        },
+    const text = new PasswordPrompt({
         render() {
             const title = `What's your name?\n`;
             const boxOpts = { width: 48, padding: { left: 1, right: 1, top: 0, bottom: 0 }};
             switch (this.state) {
                 case 'initial': {
-                    const input = boxen((!this.value ? c.bgWhite(c.black('N')) + c.dim('obody') : this.valueWithCursor), boxOpts);
+                    const input = boxen((!this.value ? c.bgWhite(c.black('P')) + c.dim('assword') : this.valueWithCursor), boxOpts);
                     return `🙋 ${title}${input}`;
                 }
                 case 'active': {
-                    const input = boxen((!this.value ? c.bgWhite(c.black('N')) + c.dim('obody') : this.valueWithCursor), boxOpts);
+                    const input = boxen((!this.value ? c.bgWhite(c.black('P')) + c.dim('assword') : this.valueWithCursor), boxOpts);
                     return `💭 ${title}${input}`;
                 }
                 case 'error': {
-                    const input = boxen((!this.value ? c.bgWhite(c.black('N')) + c.dim('obody') : this.valueWithCursor), { ...boxOpts, borderColor: 'yellow' });
+                    const input = boxen((!this.value ? c.bgWhite(c.black('P')) + c.dim('assword') : this.valueWithCursor), { ...boxOpts, borderColor: 'yellow' });
                     return `🚸 What's your name? ${c.yellow(this.error)}\n${input}`;
                 }
-                case 'submit': return `✅ ${title}${boxen(c.dim(this.value), { ...boxOpts, borderColor: 'gray'  })}`;
+                case 'submit': return `✅ ${title}${boxen(c.dim(this.valueWithCursor), { ...boxOpts, borderColor: 'gray'  })}`;
                 case 'cancel': return `❌ What's your name?`;
             }
         }

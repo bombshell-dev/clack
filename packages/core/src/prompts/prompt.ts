@@ -93,6 +93,7 @@ export default class Prompt {
         resolve(this.value);
       })
       this.once('clack:cancel', () => {
+        this.output.write(cursor.show);
         resolve(cancel);
       })
     })
