@@ -5,10 +5,11 @@
   "type": "module",
   "dependencies": {
     "@clack/core": "workspace:*",
-    "boxen": "^7.0.1",
+    "@clack/prompts": "workspace:*",
     "picocolors": "^1.0.0"
   },
   "scripts": {
-    "start": "tsx ./index.ts"
+    "start": "tsx ./index.ts",
+    "prompt": "tsx ./prompt.ts"
   }
 }
