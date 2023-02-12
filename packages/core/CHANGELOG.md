@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.8
+
+### Patch Changes
+
+- a4b5e13: Bug fixes, exposes `block` utility
+
 ## 0.0.7
 
 ### Patch Changes
