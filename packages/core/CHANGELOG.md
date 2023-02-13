@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.9
+
+### Patch Changes
+
+- Fix node@16 issue (cannot read "createInterface" of undefined)
+
 ## 0.0.8
 
 ### Patch Changes

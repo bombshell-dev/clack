@@ -79,7 +79,7 @@ export default class Prompt {
     }
     this.input.pipe(sink);
 
-    this.rl = readline.promises.createInterface({
+    this.rl = readline.createInterface({
         input: this.input,
         output: sink,
         tabSize: 2,

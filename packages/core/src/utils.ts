@@ -5,7 +5,7 @@ import { stdin, stdout } from 'node:process';
 import { cursor } from "sisteransi";
 
 export function block({ input = stdin, output = stdout, overwrite = true, hideCursor = true } = {}) {
-    const rl = readline.promises.createInterface({
+    const rl = readline.createInterface({
         input,
         output,
         prompt: '',

@@ -1,5 +1,12 @@
 # @clack/prompts
 
+## 0.0.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @clack/core@0.0.9
+
 ## 0.0.1
 
 ### Patch Changes

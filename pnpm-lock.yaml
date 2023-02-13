@@ -39,7 +39,7 @@ importers:
 
   packages/prompts:
     specifiers:
-      '@clack/core': workspace:^0.0.8
+      '@clack/core': workspace:^0.0.9
       '@types/node': ^18.11.19
       add: ^2.0.6
       esbuild: ^0.17.6
