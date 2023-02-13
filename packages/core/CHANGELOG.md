@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.10
+
+### Patch Changes
+
+- a0cb382: Add `main` entrypoint
+
 ## 0.0.9
 
 ### Patch Changes
