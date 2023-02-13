@@ -176,7 +176,7 @@ export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Option
         } else if (state === 'active-selected') {
             return `${color.cyan('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
         } else if (state === 'submitted') {
-            return `${label}`;
+            return `${color.dim(label)}`;
         }
         return `${color.dim('◻')} ${color.dim(label)}`;
     }
@@ -190,11 +190,11 @@ export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Option
             switch (this.state) {
                 case 'submit': {
                     const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
-                    return selectedOptions.map((option, i) => opt(option, 'submitted')).join(", ");
+                    return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'submitted')).join(color.dim(", "))}`;
                 };
                 case 'cancel': {
                     const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
-                    return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'cancelled')).join(", ")}\n${color.gray(bar)}`
+                    return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'cancelled')).join(color.dim(", "))}\n${color.gray(bar)}`
                 };
                 default: {
                     return `${title}${color.cyan(bar)}  ${this.options.map((option, i) => {
