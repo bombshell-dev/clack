@@ -90,12 +90,12 @@ export const confirm = (opts: ConfirmOptions) => {
         default: {
           return `${title}${color.cyan(bar)}  ${
             this.value
-              ? `${color.green("◼")} ${active}`
-              : `${color.dim("◻")} ${color.dim(active)}`
+              ? `${color.green("●")} ${active}`
+              : `${color.dim("○")} ${color.dim(active)}`
           } ${color.dim("/")} ${
             !this.value
-              ? `${color.green("◼")} ${inactive}`
-              : `${color.dim("◻")} ${color.dim(inactive)}`
+              ? `${color.green("●")} ${inactive}`
+              : `${color.dim("○")} ${color.dim(inactive)}`
           }\n${color.cyan(barEnd)}\n`;
         }
       }
@@ -122,7 +122,7 @@ export const select = <Options extends Option[]>(
   ) => {
     const label = option.label ?? option.value;
     if (state === "active") {
-      return `${color.green("◼")} ${label} ${
+      return `${color.green("●")} ${label} ${
         option.hint ? color.dim(`(${option.hint})`) : ""
       }`;
     } else if (state === "selected") {
@@ -130,7 +130,7 @@ export const select = <Options extends Option[]>(
     } else if (state === "cancelled") {
       return `${color.strikethrough(color.dim(label))}`;
     }
-    return `${color.dim("◻")} ${color.dim(label)}`;
+    return `${color.dim("○")} ${color.dim(label)}`;
   };
 
   return new SelectPrompt({
@@ -266,7 +266,7 @@ export const spinner = () => {
         dot = i % 2 === 0 ? i / 2 : dot;
         process.stdout.write(cursor.move(-999, -1));
         process.stdout.write(
-            `${color.magenta(frame)}  ${message}${dot > 0 ? '.'.repeat(dot) : ''}   \n`
+            `${color.magenta(frame)}  ${message}${dot > 0 ? '.'.repeat(dot).slice(0, 3) : ''}   \n`
         );
         i = i > frames.length - 2 ? 0 : i + 1;
       }, delay);
