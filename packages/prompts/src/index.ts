@@ -1,5 +1,5 @@
-import { MultiSelectPrompt, State } from "@clack/core";
-import { TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
+import { State } from "@clack/core";
+import { MultiSelectPrompt, TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
 import color from "picocolors";
 import { cursor, erase } from "sisteransi";
 
