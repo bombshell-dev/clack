@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 0.0.10
+
+### Patch Changes
+
+- e0b49e5: Update spinner so it actually spins
+
 ## 0.0.9
 
 ### Patch Changes
