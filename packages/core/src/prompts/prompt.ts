@@ -152,6 +152,7 @@ export default class Prompt {
         if (problem) {
           this.error = problem;
           this.state = 'error';
+          this.rl.write(this.value);
         }
       }
       if (this.state !== 'error') {

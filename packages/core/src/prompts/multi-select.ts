@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt.js';
+import Prompt, { PromptOptions } from './prompt';
 import color from 'picocolors';
 
 interface MultiSelectOptions<T extends { value: any }> extends PromptOptions<MultiSelectPrompt<T>> {
