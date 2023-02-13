@@ -1,6 +1,6 @@
 # `@clack/prompts`
 
-Build beautiful command-line apps in minutes 🪄
+Effortlessly build beautiful command-line apps 🪄
 
 https://user-images.githubusercontent.com/7118177/218354495-aece6e96-cad2-403b-85d1-921a689556e4.mp4
 
