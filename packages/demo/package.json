@@ -10,7 +10,10 @@
     "picocolors": "^1.0.0"
   },
   "scripts": {
-    "start": "tsx ./index.ts",
-    "prompt": "tsx ./prompt.ts"
+    "start": "jiti ./index.ts",
+    "prompt": "jiti ./prompt.ts"
+  },
+  "devDependencies": {
+    "jiti": "^1.17.0"
   }
 }

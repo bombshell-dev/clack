@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt.js';
+import Prompt, { PromptOptions } from './prompt';
 import { cursor } from 'sisteransi';
 
 interface ConfirmOptions extends PromptOptions<ConfirmPrompt> {

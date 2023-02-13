@@ -4,16 +4,11 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "strict": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "module": "NodeNext",
-    "outDir": "./dist",
-    "declarationDir": "./dist",
-    "target": "ES2020",
-    "jsx": "react",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment"
+    "module": "ESNext",
+    "target": "ES2020"
   }
 }

@@ -2,11 +2,13 @@
   "name": "@clack/core",
   "version": "0.0.12",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -47,9 +49,7 @@
   "license": "MIT",
   "packageManager": "pnpm@7.6.0",
   "scripts": {
-    "build": "pnpm run build:bundle && pnpm run build:types",
-    "build:bundle": "esbuild src/index.ts --bundle --sourcemap=external --outfile=dist/index.js --format=esm --platform=node --target=node16 --external:picocolors --external:sisteransi",
-    "build:types": "tsc -p ."
+    "prepack": "unbuild"
   },
   "dependencies": {
     "picocolors": "^1.0.0",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.19",
-    "esbuild": "^0.17.6",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "unbuild": "^1.1.1"
   }
 }
