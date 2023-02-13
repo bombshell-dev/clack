@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 0.0.5
+
+### Patch Changes
+
+- Update README
+
 ## 0.0.4
 
 ### Patch Changes
