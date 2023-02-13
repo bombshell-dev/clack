@@ -164,7 +164,7 @@ export const select = <Options extends Option[]>(
   }).prompt();
 };
 
-export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Options>) => {
+export const multiselect = <Options extends Option[]>(opts: SelectOptions<Options>) => {
     const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
         const label =  option.label ?? option.value;
         if (state === 'active') {

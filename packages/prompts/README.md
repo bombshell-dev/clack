@@ -2,7 +2,6 @@
 
 Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stackblitz.com/edit/clack-prompts?file=index.js)
 
-
 ![clack-prompt](https://user-images.githubusercontent.com/7118177/218462018-bb41eff4-5335-4abe-9eeb-31e8c8402713.gif)
 
 ---
@@ -86,6 +85,23 @@ const projectType = await select({
     { value: "ts", label: "TypeScript" },
     { value: "js", label: "JavaScript" },
     { value: "coffee", label: "CoffeeScript", hint: "oh no" },
+  ],
+});
+```
+
+### Multi-Select
+
+The `multiselect` component allows a user to choose many values from a list of options. The result is an array with all selected `value` props.
+
+```js
+import { multiselect } from "@clack/prompts";
+
+const additionalTools = await multiselect({
+  message: "Select additional tools.",
+  options: [
+    { value: "eslint", label: "ESLint", hint: "recommended" },
+    { value: "prettier", label: "Prettier" },
+    { value: "gh-action", label: "GitHub Action" },
   ],
 });
 ```

@@ -49,7 +49,7 @@ async function main () {
             {value: 'eslint', label: 'ESLint', hint: 'recommended' },
             {value: 'prettier', label: 'Prettier' },
             {value: 'gh-action', label: 'GitHub Action' },
-        ] 
+        ]
     });
 
     if(isCancel(d)) {
