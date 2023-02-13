@@ -1,14 +1,14 @@
 {
-  "include": ["src"],
   "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
     "declaration": true,
+    "moduleResolution": "node",
     "emitDeclarationOnly": true,
     "strict": true,
-    "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "module": "ESNext",
-    "target": "ES2020"
+    "types": ["node"]
   }
 }
