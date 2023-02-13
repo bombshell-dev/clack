@@ -19,10 +19,25 @@
   "bugs": {
     "url": "https://github.com/natemoo-re/clack/issues"
   },
-  "homepage": "https://github.com/natemoo-re/clack#README",
+  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
   "files": [
     "dist",
     "CHANGELOG.md"
+  ],
+  "keywords": [
+    "ask",
+    "clack",
+    "cli",
+    "command-line",
+    "command",
+    "input",
+    "interact",
+    "interface",
+    "menu",
+    "prompt",
+    "prompts",
+    "stdin",
+    "ui"
   ],
   "author": {
     "name": "Nate Moore",

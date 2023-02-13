@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/natemoo-re/clack/issues"
   },
-  "homepage": "https://github.com/natemoo-re/clack#README",
+  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/prompts#readme",
   "files": [
     "dist",
     "CHANGELOG.md"
@@ -30,15 +30,29 @@
     "url": "https://twitter.com/n_moore"
   },
   "license": "MIT",
+  "keywords": [
+    "ask",
+    "clack",
+    "cli",
+    "command-line",
+    "command",
+    "input",
+    "interact",
+    "interface",
+    "menu",
+    "prompt",
+    "prompts",
+    "stdin",
+    "ui"
+  ],
   "packageManager": "pnpm@7.6.0",
   "scripts": {
     "build": "pnpm run build:bundle && pnpm run build:types",
-    "build:bundle": "esbuild src/index.ts --bundle --sourcemap=external --outfile=dist/index.js --format=esm --platform=node --target=node16 --external:picocolors --external:@clack/core",
+    "build:bundle": "esbuild src/index.ts --bundle --sourcemap=external --outfile=dist/index.js --format=esm --platform=node --target=node16 --external:sisteransi --external:picocolors --external:@clack/core",
     "build:types": "tsc -p ."
   },
   "dependencies": {
     "@clack/core": "workspace:^0.0.10",
-    "add": "^2.0.6",
     "picocolors": "^1.0.0",
     "sisteransi": "^1.0.5"
   },
