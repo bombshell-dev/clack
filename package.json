@@ -5,7 +5,7 @@
   "scripts": {
     "stub": "pnpm -r run prepack --stub",
     "build": "pnpm -r run prepack",
-    "start": "pnpm --filter basic-demo run start"
+    "start": "pnpm --filter @example/basic run start"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",

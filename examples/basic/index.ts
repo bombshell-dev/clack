@@ -1,4 +1,4 @@
-import { text, select, confirm, intro, outro, cancel, spinner, isCancel, multiSelect } from '@clack/prompts';
+import { text, select, confirm, intro, outro, cancel, spinner, isCancel, multiselect } from '@clack/prompts';
 import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
 
@@ -43,7 +43,7 @@ async function main () {
         process.exit(0);
     }
 
-    const d = await multiSelect({
+    const d = await multiselect({
         message: 'Select additional tools.',
         options: [
             {value: 'eslint', label: 'ESLint', hint: 'recommended' },
