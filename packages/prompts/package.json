@@ -1,6 +1,6 @@
 {
   "name": "@clack/prompts",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "main": "./dist/index.js",
   "exports": {
@@ -52,7 +52,7 @@
     "build:types": "tsc -p ."
   },
   "dependencies": {
-    "@clack/core": "workspace:^0.0.10",
+    "@clack/core": "workspace:^0.0.11",
     "picocolors": "^1.0.0",
     "sisteransi": "^1.0.5"
   },
