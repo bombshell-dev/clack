@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.0.12
+
+### Patch Changes
+
+- 9d371c3: Fix rendering bug when using y/n to confirm
+
 ## 0.0.11
 
 ### Patch Changes

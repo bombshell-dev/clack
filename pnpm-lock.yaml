@@ -41,7 +41,7 @@ importers:
 
   packages/prompts:
     specifiers:
-      '@clack/core': workspace:^0.0.11
+      '@clack/core': workspace:^0.0.12
       '@types/node': ^18.11.19
       esbuild: ^0.17.6
       picocolors: ^1.0.0
