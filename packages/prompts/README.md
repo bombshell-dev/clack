@@ -1,6 +1,7 @@
 # `@clack/prompts`
 
-Effortlessly build beautiful command-line apps 🪄
+Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stackblitz.com/edit/clack-prompts?file=index.js)
+
 
 ![clack-prompt](https://user-images.githubusercontent.com/7118177/218462018-bb41eff4-5335-4abe-9eeb-31e8c8402713.gif)
 
