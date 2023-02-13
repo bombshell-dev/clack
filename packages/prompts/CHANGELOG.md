@@ -1,5 +1,15 @@
 # @clack/prompts
 
+## 0.0.6
+
+### Patch Changes
+
+- d20ef2a: Update keywords, URLs
+- Updated dependencies [441d5b7]
+- Updated dependencies [d20ef2a]
+- Updated dependencies [fe13c2f]
+  - @clack/core@0.0.11
+
 ## 0.0.5
 
 ### Patch Changes

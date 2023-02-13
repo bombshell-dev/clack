@@ -1,5 +1,13 @@
 # @clack/core
 
+## 0.0.11
+
+### Patch Changes
+
+- 441d5b7: fix select return undefined
+- d20ef2a: Update keywords, URLs
+- fe13c2f: fix cursor missing after submit
+
 ## 0.0.10
 
 ### Patch Changes
