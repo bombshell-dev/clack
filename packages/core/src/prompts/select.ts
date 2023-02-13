@@ -33,6 +33,7 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
                 case 'down': 
                 case 'right':
                     this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
+                    break;
             }
             this.changeValue();
         })
