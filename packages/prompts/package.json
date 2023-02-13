@@ -2,6 +2,7 @@
   "name": "@clack/prompts",
   "version": "0.0.2",
   "type": "module",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

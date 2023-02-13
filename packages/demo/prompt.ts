@@ -2,6 +2,10 @@ import { text, select, confirm, intro, outro, cancel, spinner, isCancel } from '
 import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
 
+console.clear(); 
+
+await setTimeout(1000);
+
 intro(`${color.bgCyan(color.black(' create-app '))}`);
 
 const a = await text({
@@ -46,3 +50,9 @@ await setTimeout(5000);
 s.stop('Installed via npm');
 
 outro('Have fun out there!');
+
+await setTimeout(3000);
+
+console.clear();
+
+await setTimeout(3000);

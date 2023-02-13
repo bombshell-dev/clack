@@ -2,6 +2,7 @@
   "name": "@clack/core",
   "version": "0.0.9",
   "type": "module",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
