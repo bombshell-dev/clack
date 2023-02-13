@@ -1,11 +1,9 @@
-import { text, select, confirm, intro, outro, cancel, spinner, isCancel } from '@clack/prompts';
+import { text, select, confirm, intro, outro, cancel, spinner, isCancel, multiSelect } from '@clack/prompts';
 import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
 
 async function main () {
-    console.clear(); 
-
-    await setTimeout(1000);
+    console.clear();
 
     intro(`${color.bgCyan(color.black(' create-app '))}`);
 
@@ -45,6 +43,20 @@ async function main () {
         process.exit(0);
     }
 
+    const d = await multiSelect({
+        message: 'Select additional tools.',
+        options: [
+            {value: 'eslint', label: 'ESLint', hint: 'recommended' },
+            {value: 'prettier', label: 'Prettier' },
+            {value: 'gh-action', label: 'GitHub Action' },
+        ] 
+    });
+
+    if(isCancel(d)) {
+        cancel('Operation cancelled.');
+        process.exit(0);
+    }
+
     const s = spinner();
     s.start('Installing via npm');
     await setTimeout(5000);
@@ -55,8 +67,6 @@ async function main () {
     await setTimeout(3000);
 
     console.clear();
-
-    await setTimeout(3000);
 }
 
 main().catch(console.error);

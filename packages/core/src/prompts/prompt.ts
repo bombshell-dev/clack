@@ -29,7 +29,7 @@ function setRawMode(input: Readable, value: boolean) {
     if ((input as typeof stdin).isTTY) (input as typeof stdin).setRawMode(value);
 }
 
-const keys = new Set(['up', 'down', 'left', 'right']);
+const keys = new Set(['up', 'down', 'left', 'right', 'space', 'enter']);
 
 export interface PromptOptions<Self extends Prompt> {
     render(this: Omit<Self, 'prompt'>): string | void;
