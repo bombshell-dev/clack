@@ -3,9 +3,7 @@ import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
 
 async function main () {
-    console.clear(); 
-
-    await setTimeout(1000);
+    console.clear();
 
     intro(`${color.bgCyan(color.black(' create-app '))}`);
 
@@ -45,16 +43,16 @@ async function main () {
         process.exit(0);
     }
 
-    const m = await multiSelect({
-        message: 'Select one/many styling tools',
+    const d = await multiSelect({
+        message: 'Select additional tools.',
         options: [
-            {value: 'eslint', label: 'Eslint'},
-            {value: 'prettier', label: 'Prettier'},
-            {value: 'another-option', label: 'Another awesome option', hint: "I'm not creative"},
+            {value: 'eslint', label: 'ESLint', hint: 'recommended' },
+            {value: 'prettier', label: 'Prettier' },
+            {value: 'gh-action', label: 'GitHub Action' },
         ] 
     });
 
-    if(isCancel(m)) {
+    if(isCancel(d)) {
         cancel('Operation cancelled.');
         process.exit(0);
     }
@@ -69,8 +67,6 @@ async function main () {
     await setTimeout(3000);
 
     console.clear();
-
-    await setTimeout(3000);
 }
 
 main().catch(console.error);

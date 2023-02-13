@@ -168,13 +168,13 @@ export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Option
     const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
         const label =  option.label ?? option.value;
         if (state === 'active') {
-            return `${color.green('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
+            return `${color.cyan('◻')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
         } else if (state === 'selected') {
-            return `${color.cyan('◼')} ${label}`
+            return `${color.green('◼')} ${color.dim(label)}`
         } else if (state === 'cancelled') {
-            return `${color.strikethrough(color.dim(label))}`
+            return `${color.strikethrough(color.dim(label))}`;
         } else if (state === 'active-selected') {
-            return `${color.cyan('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
+            return `${color.green('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
         } else if (state === 'submitted') {
             return `${color.dim(label)}`;
         }
@@ -185,7 +185,7 @@ export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Option
         options: opts.options,
         initialValue: opts.initialValue,
         render() {
-            const title = `${color.gray(bar)}\n${symbol(this.state)}  ${opts.message}\n`;
+            let title = `${color.gray(bar)}\n${symbol(this.state)}  ${opts.message}\n`;
 
             switch (this.state) {
                 case 'submit': {
@@ -194,14 +194,23 @@ export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Option
                 };
                 case 'cancel': {
                     const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
-                    if(!selectedOptions.length) {
-                        return `${title}${color.gray(bar)}  ${opt(
-                            this.options[this.cursor],
-                            "cancelled"
-                          )}\n${color.gray(bar)}`;
-                    }
-                    return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'cancelled')).join(color.dim(", "))}\n${color.gray(bar)}`
+                    const label = selectedOptions.map((option, i) => opt(option, 'cancelled')).join(color.dim(", "));
+                    return `${title}${color.gray(bar)}  ${label.trim() ? `${label}\n${color.gray(bar)}` : ''}`
                 };
+                case 'error': {
+                    const footer = this.error.split('\n').map((ln, i) => i === 0 ? `${color.yellow(barEnd)}  ${color.yellow(ln)}` : `   ${ln}`).join('\n');
+                    return `${title}${color.yellow(bar)}  ${this.options.map((option, i) => {
+                        const isOptionSelected = this.selectedValues.includes(option.value); 
+                        const isOptionHovered = i === this.cursor;
+                        if(isOptionHovered && isOptionSelected)  {
+                            return opt(option, 'active-selected');
+                        }
+                        if(isOptionSelected) {
+                            return opt(option, 'selected');
+                        }
+                        return opt(option, isOptionHovered ? 'active' : 'inactive');
+                    }).join(`\n${color.yellow(bar)}  `)}\n${footer}\n`;
+                }
                 default: {
                     return `${title}${color.cyan(bar)}  ${this.options.map((option, i) => {
                         const isOptionSelected = this.selectedValues.includes(option.value); 
