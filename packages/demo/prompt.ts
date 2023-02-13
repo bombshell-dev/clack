@@ -1,4 +1,4 @@
-import { text, select, confirm, intro, outro, cancel, spinner, isCancel } from '@clack/prompts';
+import { text, select, confirm, intro, outro, cancel, spinner, isCancel, multiSelect } from '@clack/prompts';
 import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
 
@@ -41,6 +41,20 @@ async function main () {
     })
 
     if (isCancel(c)) {
+        cancel('Operation cancelled.');
+        process.exit(0);
+    }
+
+    const m = await multiSelect({
+        message: 'Select one/many styling tools',
+        options: [
+            {value: 'eslint', label: 'Eslint'},
+            {value: 'prettier', label: 'Prettier'},
+            {value: 'another-option', label: 'Another awesome option', hint: "I'm not creative"},
+        ] 
+    });
+
+    if(isCancel(m)) {
         cancel('Operation cancelled.');
         process.exit(0);
     }
