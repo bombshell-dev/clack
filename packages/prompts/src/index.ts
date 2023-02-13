@@ -1,4 +1,4 @@
-import { State } from "@clack/core";
+import { MultiSelectPrompt, State } from "@clack/core";
 import { TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
 import color from "picocolors";
 import { cursor, erase } from "sisteransi";
@@ -163,6 +163,56 @@ export const select = <Options extends Option[]>(
     },
   }).prompt();
 };
+
+export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Options>) => {
+    const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
+        const label =  option.label ?? option.value;
+        if (state === 'active') {
+            return `${color.green('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
+        } else if (state === 'selected') {
+            return `${color.cyan('◼')} ${label}`
+        } else if (state === 'cancelled') {
+            return `${color.strikethrough(color.dim(label))}`
+        } else if (state === 'active-selected') {
+            return `${color.cyan('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
+        } else if (state === 'submitted') {
+            return `${label}`;
+        }
+        return `${color.dim('◻')} ${color.dim(label)}`;
+    }
+
+    return new MultiSelectPrompt({
+        options: opts.options,
+        initialValue: opts.initialValue,
+        render() {
+            const title = `${color.gray(bar)}\n${symbol(this.state)}  ${opts.message}\n`;
+
+            switch (this.state) {
+                case 'submit': {
+                    const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
+                    return selectedOptions.map((option, i) => opt(option, 'submitted')).join(", ");
+                };
+                case 'cancel': {
+                    const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
+                    return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'cancelled')).join(", ")}\n${color.gray(bar)}`
+                };
+                default: {
+                    return `${title}${color.cyan(bar)}  ${this.options.map((option, i) => {
+                        const isOptionSelected = this.selectedValues.includes(option.value); 
+                        const isOptionHovered = i === this.cursor;
+                        if(isOptionHovered && isOptionSelected)  {
+                            return opt(option, 'active-selected');
+                        }
+                        if(isOptionSelected) {
+                            return opt(option, 'selected');
+                        }
+                        return opt(option, isOptionHovered ? 'active' : 'inactive');
+                    }).join(`\n${color.cyan(bar)}  `)}\n${color.cyan(barEnd)}\n`;
+                }
+            }
+        }
+    }).prompt();
+}
 
 export const cancel = (message = "") => {
   process.stdout.write(`${color.gray(barEnd)}  ${color.red(message)}\n\n`);
