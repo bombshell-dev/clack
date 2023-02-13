@@ -194,6 +194,12 @@ export const multiSelect = <Options extends Option[]>(opts: SelectOptions<Option
                 };
                 case 'cancel': {
                     const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
+                    if(!selectedOptions.length) {
+                        return `${title}${color.gray(bar)}  ${opt(
+                            this.options[this.cursor],
+                            "cancelled"
+                          )}\n${color.gray(bar)}`;
+                    }
                     return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'cancelled')).join(color.dim(", "))}\n${color.gray(bar)}`
                 };
                 default: {
