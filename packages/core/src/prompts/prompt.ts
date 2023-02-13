@@ -97,10 +97,12 @@ export default class Prompt {
     return new Promise<string|symbol>((resolve, reject) => {
       this.once('submit', () => {
         this.output.write(cursor.show);
+        setRawMode(this.input, false);
         resolve(this.value);
       })
       this.once('cancel', () => {
         this.output.write(cursor.show);
+        setRawMode(this.input, false);
         resolve(cancel);
       })
     })
