@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt.js';
+import Prompt, { PromptOptions } from './prompt';
 
 interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPrompt<T>> {
     options: T[]

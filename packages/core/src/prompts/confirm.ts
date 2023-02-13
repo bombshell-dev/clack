@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt.js';
+import Prompt, { PromptOptions } from './prompt';
 
 
 interface ConfirmOptions extends PromptOptions<ConfirmPrompt> {

@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt.js';
+import Prompt, { PromptOptions } from './prompt';
 import color from 'picocolors';
 
 interface PasswordOptions extends PromptOptions<PasswordPrompt> {

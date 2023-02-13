@@ -3,13 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm -r run build",
+    "stub": "pnpm -r run prepack --stub",
+    "build": "pnpm -r run prepack",
     "start": "pnpm --filter demo run start"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
     "@types/node": "18",
-    "tsx": "^3.12.2"
+    "unbuild": "^1.1.1"
   },
   "packageManager": "pnpm@7.6.0",
   "volta": {
