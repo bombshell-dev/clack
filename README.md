@@ -4,8 +4,10 @@
 <div align="center">
     <img src="/.github/assets/clack.gif?sanitize=true" alt="clack" width="240" />
 </div>
-<h3 align="center">Effortless command line applications.</h3>
-<h4 align="center"><a href="packages/core#readme">Read the docs</a></h4>
+<h3 align="center">Build beautiful command line applications in minutes 🪄</h3>
+
+<h4 align="center"><a href="packages/core#readme"><code>@clack/core</code></a></h4>
+<h4 align="center"><a href="packages/prompts#readme"><code>@clack/prompts</code></a></h4>
 
 <br />
 <br />
