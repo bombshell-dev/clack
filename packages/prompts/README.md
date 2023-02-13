@@ -2,7 +2,7 @@
 
 Effortlessly build beautiful command-line apps 🪄
 
-https://user-images.githubusercontent.com/7118177/218354495-aece6e96-cad2-403b-85d1-921a689556e4.mp4
+![clack-prompt](https://user-images.githubusercontent.com/7118177/218462018-bb41eff4-5335-4abe-9eeb-31e8c8402713.gif)
 
 ---
 
