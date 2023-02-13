@@ -43,14 +43,12 @@ importers:
     specifiers:
       '@clack/core': workspace:^0.0.10
       '@types/node': ^18.11.19
-      add: ^2.0.6
       esbuild: ^0.17.6
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       typescript: ^4.9.5
     dependencies:
       '@clack/core': link:../core
-      add: 2.0.6
       picocolors: 1.0.0
       sisteransi: 1.0.5
     devDependencies:
@@ -575,10 +573,6 @@ packages:
   /@types/semver/6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
     dev: true
-
-  /add/2.0.6:
-    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
-    dev: false
 
   /ansi-align/3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
