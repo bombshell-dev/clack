@@ -6,8 +6,8 @@
 </div>
 <h3 align="center">Effortlessly build beautiful CLIs 🪄</h3>
 
-<h4 align="center"><a href="packages/core#readme"><code>@clack/core</code></a></h4>
-<h4 align="center"><a href="packages/prompts#readme"><code>@clack/prompts</code></a></h4>
+<h4 align="center"><a href="packages/core#readme"><code>@clack/core</code></a>: unstyled, extensible primitives for CLIs</h4>
+<h4 align="center"><a href="packages/prompts#readme"><code>@clack/prompts</code></a>: beautiful, ready-to-use CLI prompt components</h4>
 
 <br />
 <br />
