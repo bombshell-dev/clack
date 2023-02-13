@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 0.1.0
+
+### Minor Changes
+
+- 7015ec9: Create new prompt: multi-select
+
+### Patch Changes
+
+- Updated dependencies [7015ec9]
+  - @clack/core@0.1.0
+
 ## 0.0.10
 
 ### Patch Changes

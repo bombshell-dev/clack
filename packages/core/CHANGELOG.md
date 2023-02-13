@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.1.0
+
+### Minor Changes
+
+- 7015ec9: Create new prompt: multi-select
+
 ## 0.0.12
 
 ### Patch Changes
