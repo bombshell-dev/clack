@@ -1,5 +1,12 @@
 # @clack/core
 
+## 0.1.1
+
+### Patch Changes
+
+- 4be7dbf: Ensure raw mode is unset on submit
+- b480679: Preserve value if validation fails
+
 ## 0.1.0
 
 ### Minor Changes

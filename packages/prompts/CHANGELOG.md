@@ -1,5 +1,14 @@
 # @clack/prompts
 
+## 0.1.1
+
+### Patch Changes
+
+- fa09bf5: Use circle for radio, square for checkbox
+- Updated dependencies [4be7dbf]
+- Updated dependencies [b480679]
+  - @clack/core@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
