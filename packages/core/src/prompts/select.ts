@@ -12,25 +12,29 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
         return this.options[this.cursor]
     }
 
+    private changeValue() {
+        this.value = this._value.value;
+    }
+
     constructor(opts: SelectOptions<T>) {
         super(opts, false);
         
         this.options = opts.options;
         this.cursor = this.options.findIndex(({ value }) => value === opts.initialValue);
         if (this.cursor === -1) this.cursor = 0;
-        this.on('value', () => {
-            this.value = this._value.value;
-        })
+        this.changeValue();
         
         this.on('cursor', (key) => {
             switch (key) {
                 case 'left': 
                 case 'up': 
-                    return this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+                    this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+                    break;
                 case 'down': 
                 case 'right':
-                    return this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
+                    this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
             }
+            this.changeValue();
         })
     }
 }
