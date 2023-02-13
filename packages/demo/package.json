@@ -6,6 +6,7 @@
   "dependencies": {
     "@clack/core": "workspace:*",
     "@clack/prompts": "workspace:*",
+    "boxen": "^7.0.1",
     "picocolors": "^1.0.0"
   },
   "scripts": {
