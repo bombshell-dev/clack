@@ -1,5 +1,30 @@
 # @clack/prompts
 
+## 0.0.10
+
+### Patch Changes
+
+- e0b49e5: Update spinner so it actually spins
+
+## 0.0.9
+
+### Patch Changes
+
+- Update README
+
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [9d371c3]
+  - @clack/core@0.0.12
+
+## 0.0.7
+
+### Patch Changes
+
+- Update README
+
 ## 0.0.6
 
 ### Patch Changes

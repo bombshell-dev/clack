@@ -1,5 +1,5 @@
 import Prompt, { PromptOptions } from './prompt';
-
+import { cursor } from 'sisteransi';
 
 interface ConfirmOptions extends PromptOptions<ConfirmPrompt> {
     active: string;
@@ -24,6 +24,7 @@ export default class ConfirmPrompt extends Prompt {
         })
 
         this.on('confirm', (confirm) => {
+            this.output.write(cursor.move(0, -1));
             this.value = confirm;
             this.state = 'submit';
             this.close()

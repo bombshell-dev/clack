@@ -43,8 +43,8 @@ export interface PromptOptions<Self extends Prompt> {
 export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
 
 export default class Prompt {
-  private input: Readable;
-  private output: Writable;
+  protected input: Readable;
+  protected output: Writable;
   private rl!: ReadLine;
   private opts: Omit<PromptOptions<Prompt>, 'render'|'input'|'output'>;
   private _track: boolean = false;
