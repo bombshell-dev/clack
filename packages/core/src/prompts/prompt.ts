@@ -68,7 +68,7 @@ export default class Prompt {
     this.output = output;
   }
 
-  public prompt() {
+  public prompt(initialValue?: string) {
     const sink = new WriteStream(0)
     sink._write = (chunk, encoding, done) => {
       if (this._track) {
@@ -89,6 +89,10 @@ export default class Prompt {
     })
     readline.emitKeypressEvents(this.input, this.rl);
     this.rl.prompt();
+
+    if (initialValue) {
+      this.rl.write(initialValue);
+    }
 
     this.input.on('keypress', this.onKeypress);
     setRawMode(this.input, true);

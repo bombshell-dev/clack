@@ -27,6 +27,7 @@ const barEnd = "└";
 export interface TextOptions {
   message: string;
   placeholder?: string;
+  initial?: string;
   validate?: (value: string) => string | void;
 }
 export const text = (opts: TextOptions) => {
@@ -60,7 +61,7 @@ export const text = (opts: TextOptions) => {
           )}\n`;
       }
     },
-  }).prompt() as Promise<string | symbol>;
+  }).prompt(opts.initial) as Promise<string | symbol>;
 };
 
 export interface ConfirmOptions {
