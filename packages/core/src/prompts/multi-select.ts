@@ -30,7 +30,9 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
             }
         }
         super(opts, false);
-        
+        this.once('finalize', () => {
+            this.value = this.selectedValues;
+        })
         this.options = opts.options;
         this.cursor = this.options.findIndex(({ value }) => value === opts.initialValue);
         this.selectedValues = []
