@@ -23,7 +23,7 @@ async function main() {
 
   const dir = await text({
     message: 'Where should we create your project?',
-    placeholder: './sparkling-slop',
+    placeholder: './sparkling-solid',
   })
 
   if (isCancel(dir)) {
@@ -62,6 +62,7 @@ async function main() {
 
   const install = await confirm({
     message: 'Install dependencies?',
+    initialValue: false,
   })
 
   if (isCancel(install)) {

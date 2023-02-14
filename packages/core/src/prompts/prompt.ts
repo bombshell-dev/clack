@@ -92,6 +92,8 @@ export default class Prompt {
     })
     readline.emitKeypressEvents(this.input, this.rl)
     this.rl.prompt()
+    if (this.opts.initialValue !== undefined && this._track)
+      this.rl.write(this.opts.initialValue)
 
     this.input.on('keypress', this.onKeypress)
     setRawMode(this.input, true)
