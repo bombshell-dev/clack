@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "stub": "pnpm -r run prepack --stub",
-    "build": "pnpm -r run prepack",
+    "build": "pnpm run build:core && pnpm run build:prompts",
+    "build:core": "pnpm --filter @clack/core run prepack",
+    "build:prompts": "pnpm --filter @clack/prompts run prepack",
     "start": "pnpm --filter @example/basic run start"
   },
   "devDependencies": {
