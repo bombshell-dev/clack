@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 0.2.2
+
+### Patch Changes
+
+- 94b24d9: Fix CJS `ansi-regex` interop
+
 ## 0.2.1
 
 ### Patch Changes
