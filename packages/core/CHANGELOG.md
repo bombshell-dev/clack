@@ -1,5 +1,14 @@
 # @clack/core
 
+## 0.1.2
+
+### Patch Changes
+
+- Allow isCancel to type guard any unknown value
+- 7dcad8f: Allow placeholder to be passed to TextPrompt
+- 2242f13: Fix multiselect returning undefined
+- b1341d6: Improved placeholder handling
+
 ## 0.1.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @clack/prompts
 
+## 0.2.0
+
+### Minor Changes
+
+- Improved type safety
+- b1341d6: Updated styles, new note component
+
+### Patch Changes
+
+- Updated dependencies [7dcad8f]
+- Updated dependencies [2242f13]
+- Updated dependencies [b1341d6]
+  - @clack/core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

@@ -21,7 +21,7 @@ function diffLines(a: string, b: string) {
 }
 
 const cancel = Symbol('clack:cancel');
-export function isCancel(value: string|symbol): value is symbol {
+export function isCancel(value: unknown): value is symbol {
   return value === cancel;
 }
 

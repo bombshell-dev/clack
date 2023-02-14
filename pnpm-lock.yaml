@@ -42,7 +42,7 @@ importers:
 
   packages/prompts:
     specifiers:
-      '@clack/core': workspace:^0.1.1
+      '@clack/core': workspace:^0.1.2
       ansi-regex: ^6.0.1
       picocolors: ^1.0.0
       sisteransi: ^1.0.5

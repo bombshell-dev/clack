@@ -60,7 +60,7 @@ export const text = (opts: TextOptions) => {
           )}\n`;
       }
     },
-  }).prompt();
+  }).prompt() as Promise<string | symbol>;
 };
 
 export interface ConfirmOptions {
@@ -102,21 +102,21 @@ export const confirm = (opts: ConfirmOptions) => {
         }
       }
     },
-  }).prompt();
+  }).prompt() as Promise<boolean | symbol>;
 };
 
-interface Option {
-  value: any;
+interface Option<Value extends Readonly<string>> {
+  value: Value;
   label?: string;
   hint?: string;
 }
-export interface SelectOptions<Options extends Option[]> {
+export interface SelectOptions<Options extends Option<Value>[], Value extends Readonly<string>> {
   message: string;
   options: Options;
   initialValue?: Options[number]["value"];
 }
-export const select = <Options extends Option[]>(
-  opts: SelectOptions<Options>
+export const select = <Options extends Option<Value>[], Value extends Readonly<string>>(
+  opts: SelectOptions<Options, Value>
 ) => {
   const opt = (
     option: Options[number],
@@ -163,10 +163,10 @@ export const select = <Options extends Option[]>(
         }
       }
     },
-  }).prompt();
+  }).prompt() as Promise<Options[number]['value'] | symbol>;
 };
 
-export const multiselect = <Options extends Option[]>(opts: SelectOptions<Options>) => {
+export const multiselect = <Options extends Option<Value>[], Value extends Readonly<string>>(opts: SelectOptions<Options, Value>) => {
     const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
         const label =  option.label ?? option.value;
         if (state === 'active') {
@@ -191,18 +191,18 @@ export const multiselect = <Options extends Option[]>(opts: SelectOptions<Option
 
             switch (this.state) {
                 case 'submit': {
-                    const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
+                    const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value as any));
                     return `${title}${color.gray(bar)}  ${selectedOptions.map((option, i) => opt(option, 'submitted')).join(color.dim(", "))}`;
                 };
                 case 'cancel': {
-                    const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value));
+                    const selectedOptions = this.options.filter(option => this.selectedValues.some(selectedValue => selectedValue === option.value as any));
                     const label = selectedOptions.map((option, i) => opt(option, 'cancelled')).join(color.dim(", "));
                     return `${title}${color.gray(bar)}  ${label.trim() ? `${label}\n${color.gray(bar)}` : ''}`
                 };
                 case 'error': {
                     const footer = this.error.split('\n').map((ln, i) => i === 0 ? `${color.yellow(barEnd)}  ${color.yellow(ln)}` : `   ${ln}`).join('\n');
                     return `${title}${color.yellow(bar)}  ${this.options.map((option, i) => {
-                        const isOptionSelected = this.selectedValues.includes(option.value); 
+                        const isOptionSelected = this.selectedValues.includes(option.value as any); 
                         const isOptionHovered = i === this.cursor;
                         if(isOptionHovered && isOptionSelected)  {
                             return opt(option, 'active-selected');
@@ -215,7 +215,7 @@ export const multiselect = <Options extends Option[]>(opts: SelectOptions<Option
                 }
                 default: {
                     return `${title}${color.cyan(bar)}  ${this.options.map((option, i) => {
-                        const isOptionSelected = this.selectedValues.includes(option.value); 
+                        const isOptionSelected = this.selectedValues.includes(option.value as any); 
                         const isOptionHovered = i === this.cursor;
                         if(isOptionHovered && isOptionSelected)  {
                             return opt(option, 'active-selected');
@@ -228,7 +228,7 @@ export const multiselect = <Options extends Option[]>(opts: SelectOptions<Option
                 }
             }
         }
-    }).prompt();
+    }).prompt() as Promise<Options[number]['value'][] | symbol>;
 }
 
 const strip = (str: string) => str.replace(ansiRegex(), '')
