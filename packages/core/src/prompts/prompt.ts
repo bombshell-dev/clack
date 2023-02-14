@@ -56,7 +56,7 @@ export default class Prompt {
   public value: any;
   public error: string = '';
 
-  constructor({ render, input = stdin, output = stdout, initialValue, ...opts }: PromptOptions<Prompt>, trackValue: boolean = true) {
+  constructor({ render, input = stdin, output = stdout, ...opts }: PromptOptions<Prompt>, trackValue: boolean = true) {
     this.opts = opts;
     this.onKeypress = this.onKeypress.bind(this);
     this.close = this.close.bind(this);
@@ -89,6 +89,9 @@ export default class Prompt {
     })
     readline.emitKeypressEvents(this.input, this.rl);
     this.rl.prompt();
+    if (this.opts.initialValue !== undefined && this._track) {
+      this.rl.write(this.opts.initialValue);
+    }
 
     this.input.on('keypress', this.onKeypress);
     setRawMode(this.input, true);

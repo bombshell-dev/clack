@@ -27,12 +27,14 @@ const barEnd = "└";
 export interface TextOptions {
   message: string;
   placeholder?: string;
+  initialValue?: string;
   validate?: (value: string) => string | void;
 }
 export const text = (opts: TextOptions) => {
   return new TextPrompt({
     validate: opts.validate,
     placeholder: opts.placeholder,
+    initialValue: opts.initialValue,
     render() {
       const title = `${color.gray(bar)}\n${symbol(this.state)}  ${
         opts.message
