@@ -8,7 +8,8 @@
     "build": "pnpm -r run prepack",
     "start": "pnpm --filter @example/basic run start",
     "cleanup": "rimraf 'packages/**/node_modules' 'examples/**/node_modules' 'node_modules'",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts . --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.2",
