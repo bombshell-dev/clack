@@ -33,6 +33,7 @@ const keys = new Set(['up', 'down', 'left', 'right', 'space', 'enter']);
 
 export interface PromptOptions<Self extends Prompt> {
     render(this: Omit<Self, 'prompt'>): string | void;
+    placeholder?: string;
     initialValue?: any;
     validate?: ((value: string) => string | void) | undefined;
     input?: Readable;

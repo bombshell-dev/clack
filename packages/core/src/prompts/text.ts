@@ -1,12 +1,16 @@
 import Prompt, { PromptOptions } from './prompt';
 import color from 'picocolors';
 
+export interface TextOptions extends PromptOptions<TextPrompt> {
+    placeholder?: string;
+}
+
 export default class TextPrompt extends Prompt {
     valueWithCursor = '';
     get cursor() {
         return this._cursor;
     }
-    constructor(opts: PromptOptions<TextPrompt>) {
+    constructor(opts: TextOptions) {
         super(opts);
         
         this.on('finalize', () => {
