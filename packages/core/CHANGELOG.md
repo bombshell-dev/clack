@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.1.3
+
+### Patch Changes
+
+- a99c458: Support `initialValue` option for text prompt
+
 ## 0.1.2
 
 ### Patch Changes
