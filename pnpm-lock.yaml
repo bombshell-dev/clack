@@ -43,11 +43,13 @@ importers:
   packages/prompts:
     specifiers:
       '@clack/core': workspace:^0.1.1
+      ansi-regex: ^6.0.1
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       unbuild: ^1.1.1
     dependencies:
       '@clack/core': link:../core
+      ansi-regex: 6.0.1
       picocolors: 1.0.0
       sisteransi: 1.0.5
     devDependencies:
@@ -1068,6 +1070,11 @@ packages:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
     dev: true
+
+  /ansi-regex/6.0.1:
+    resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /ansi-styles/3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}

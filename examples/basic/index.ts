@@ -1,72 +1,87 @@
-import { text, select, confirm, intro, outro, cancel, spinner, isCancel, multiselect } from '@clack/prompts';
-import color from 'picocolors';
-import { setTimeout } from 'node:timers/promises';
+import {
+  text,
+  select,
+  confirm,
+  intro,
+  outro,
+  cancel,
+  spinner,
+  isCancel,
+  multiselect,
+  note,
+} from "@clack/prompts";
+import color from "picocolors";
+import { setTimeout } from "node:timers/promises";
 
-async function main () {
-    console.clear();
+async function main() {
+  console.clear();
 
-    intro(`${color.bgCyan(color.black(' create-app '))}`);
+  await setTimeout(1000);
 
-    const a = await text({
-        message: 'What is your twitter handle?',
-        placeholder: '@username',
-        validate(value) {
-            if (value[0] !== '@') return `Value must start with @!`;
-        }
-    })
+  intro(`${color.bgCyan(color.black(" create-app "))}`);
 
-    if (isCancel(a)) {
-        cancel('Operation cancelled.');
-        process.exit(0);
-    }
+  const dir = await text({
+    message: "Where should we create your project?",
+    placeholder: "./sparkling-slop",
+  });
 
-    const b = await confirm({
-        message: 'Are you sure?'
-    })
+  if (isCancel(dir)) {
+    cancel("Operation cancelled.");
+    process.exit(0);
+  }
 
-    if (isCancel(b)) {
-        cancel('Operation cancelled.');
-        process.exit(0);
-    }
+  const projectType = await select({
+    message: "Pick a project type.",
+    options: [
+      { value: "ts", label: "TypeScript" },
+      { value: "js", label: "JavaScript" },
+      { value: "coffee", label: "CoffeeScript", hint: "oh no" },
+    ],
+  });
 
-    const c = await select({
-        message: 'Pick a project type.',
-        options: [
-            { value: 'ts', label: 'TypeScript' },
-            { value: 'js', label: 'JavaScript' },
-            { value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
-        ]
-    })
+  if (isCancel(projectType)) {
+    cancel("Operation cancelled.");
+    process.exit(0);
+  }
 
-    if (isCancel(c)) {
-        cancel('Operation cancelled.');
-        process.exit(0);
-    }
+  const tools = await multiselect({
+    message: "Select additional tools.",
+    options: [
+      { value: "prettier", label: "Prettier", hint: "recommended" },
+      { value: "eslint", label: "ESLint" },
+      { value: "stylelint", label: "Stylelint" },
+      { value: "gh-action", label: "GitHub Action" },
+    ],
+  });
 
-    const d = await multiselect({
-        message: 'Select additional tools.',
-        options: [
-            {value: 'eslint', label: 'ESLint', hint: 'recommended' },
-            {value: 'prettier', label: 'Prettier' },
-            {value: 'gh-action', label: 'GitHub Action' },
-        ]
-    });
+  if (isCancel(tools)) {
+    cancel("Operation cancelled.");
+    process.exit(0);
+  }
 
-    if(isCancel(d)) {
-        cancel('Operation cancelled.');
-        process.exit(0);
-    }
+  const install = await confirm({
+    message: "Install dependencies?",
+  });
 
+  if (isCancel(install)) {
+    cancel("Operation cancelled.");
+    process.exit(0);
+  }
+
+  if (install) {
     const s = spinner();
-    s.start('Installing via npm');
+    s.start("Installing via pnpm");
     await setTimeout(5000);
-    s.stop('Installed via npm');
+    s.stop("Installed via pnpm");  
+  }
 
-    outro('Have fun out there!');
+  let nextSteps = `cd ${dir}        \n${install ? '' : 'npm install\n'}npm run dev`;
 
-    await setTimeout(3000);
+  note(nextSteps, 'Next steps.');
+  
+  await setTimeout(3000);
 
-    console.clear();
+  outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);
 }
 
 main().catch(console.error);

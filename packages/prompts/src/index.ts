@@ -2,6 +2,7 @@ import { State } from "@clack/core";
 import { MultiSelectPrompt, TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
 import color from "picocolors";
 import { cursor, erase } from "sisteransi";
+import ansiRegex from 'ansi-regex';
 
 export { isCancel } from "@clack/core";
 
@@ -15,7 +16,7 @@ const symbol = (state: State) => {
     case "error":
       return color.yellow("▲");
     case "submit":
-      return color.green("✔");
+      return color.green("○");
   }
 };
 
@@ -31,6 +32,7 @@ export interface TextOptions {
 export const text = (opts: TextOptions) => {
   return new TextPrompt({
     validate: opts.validate,
+    placeholder: opts.placeholder,
     render() {
       const title = `${color.gray(bar)}\n${symbol(this.state)}  ${
         opts.message
@@ -229,6 +231,17 @@ export const multiselect = <Options extends Option[]>(opts: SelectOptions<Option
     }).prompt();
 }
 
+const strip = (str: string) => str.replace(ansiRegex(), '')
+export const note = (message = "", title = '') => {
+  const lines = `\n${message}\n`.split('\n');
+  const len = lines.reduce((sum, ln) => {
+    ln = strip(ln);
+    return ln.length > sum ? ln.length : sum
+  }, 0) + 2;
+  const msg = lines.map((ln) => `${color.gray(bar)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(bar)}`).join('\n');
+  process.stdout.write(`${color.gray(bar)}\n${color.green('○')}  ${color.reset(title)} ${color.gray('─'.repeat(len - title.length - 1) + '╮')}\n${msg}\n${color.gray('├' + '─'.repeat(len + 2) + '╯')}\n`);
+};
+
 export const cancel = (message = "") => {
   process.stdout.write(`${color.gray(barEnd)}  ${color.red(message)}\n\n`);
 };
@@ -239,19 +252,19 @@ export const intro = (title = "") => {
 
 export const outro = (message = "") => {
   process.stdout.write(
-    `${color.gray(bar)}\n${color.gray(barEnd)}  ${color.green(message)}\n\n`
+    `${color.gray(bar)}\n${color.gray(barEnd)}  ${message}\n\n`
   );
 };
 
 const arc = [
-    '◒', '◒', '◐', '◐', '◓', '◓', '◑', '◑'
+    '◒', '◐', '◓', '◑'
 ]
 
 export const spinner = () => {
   let unblock: () => void;
   let loop: NodeJS.Timer;
   const frames = arc;
-  const delay = 120;
+  const delay = 80;
   return {
     start(message = "") {
       message = message.replace(/\.?\.?\.$/, "");
@@ -263,12 +276,12 @@ export const spinner = () => {
       let dot = 0;
       loop = setInterval(() => {
         let frame = frames[i];
-        dot = i % 2 === 0 ? i / 2 : dot;
         process.stdout.write(cursor.move(-999, -1));
         process.stdout.write(
-            `${color.magenta(frame)}  ${message}${dot > 0 ? '.'.repeat(dot).slice(0, 3) : ''}   \n`
+            `${color.magenta(frame)}  ${message}${Math.floor(dot) >= 1 ? '.'.repeat(Math.floor(dot)).slice(0, 3) : ''}   \n`
         );
-        i = i > frames.length - 2 ? 0 : i + 1;
+        i = i === frames.length - 1 ? 0 : i + 1;
+        dot = dot === frames.length ? 0 : (dot + 0.125);
       }, delay);
     },
     stop(message = "") {
@@ -276,7 +289,7 @@ export const spinner = () => {
       process.stdout.write(erase.down(2));
       clearInterval(loop);
       process.stdout.write(
-        `${color.gray(bar)}\n${color.gray("○")}  ${message}\n`
+        `${color.gray(bar)}\n${color.green("○")}  ${message}\n`
       );
       unblock();
     },

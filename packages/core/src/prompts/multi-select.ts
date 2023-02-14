@@ -26,7 +26,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
     constructor(opts: MultiSelectOptions<T>) {
         if (!opts.validate) {
             opts.validate = () => {
-                if (this.selectedValues.length === 0) return `Please select at least one option\n${color.reset(color.dim(`Press ${color.gray(color.inverse(' space '))} to select, ${color.gray(color.inverse(' enter '))} to submit`))}`
+                if (this.selectedValues.length === 0) return `Please select at least one option\n${color.reset(color.dim(`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(color.bgWhite(color.inverse(' enter ')))} to submit`))}`
             }
         }
         super(opts, false);
