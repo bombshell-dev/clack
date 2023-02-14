@@ -10,6 +10,6 @@ export default definePreset({
     esbuild: {
       minify: true,
       sourceMap: true,
-    }
-  }
+    },
+  },
 })

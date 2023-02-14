@@ -10,5 +10,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "types": ["node"]
-  }
+  },
+  "exclude": [
+    "**/dist/**",
+    "**/examples/**"
+  ]
 }
