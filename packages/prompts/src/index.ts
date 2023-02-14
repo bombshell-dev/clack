@@ -2,25 +2,29 @@ import { State } from "@clack/core";
 import { MultiSelectPrompt, TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
 import color from "picocolors";
 import { cursor, erase } from "sisteransi";
+import isUnicodeSupported from "is-unicode-supported";
+
 export { isCancel } from "@clack/core";
+
+const unicode = isUnicodeSupported();
 
 const symbol = (state: State) => {
   switch (state) {
     case "initial":
     case "active":
-      return color.cyan("●");
+      return color.cyan(unicode ? "●" : "$");
     case "cancel":
-      return color.red("■");
+      return color.red(unicode ? "■" : "x");
     case "error":
-      return color.yellow("▲");
+      return color.yellow(unicode ? "▲" : "x");
     case "submit":
-      return color.green("○");
+      return color.green(unicode ? "○" : "$");
   }
 };
 
-const barStart = "┌";
-const bar = "│";
-const barEnd = "└";
+const barStart = unicode ? "┌" : "|";
+const bar = unicode ? "│" : "|";
+const barEnd = unicode ? "└" : "|";
 
 export interface TextOptions {
   message: string;
@@ -92,12 +96,12 @@ export const confirm = (opts: ConfirmOptions) => {
         default: {
           return `${title}${color.cyan(bar)}  ${
             this.value
-              ? `${color.green("●")} ${active}`
-              : `${color.dim("○")} ${color.dim(active)}`
+              ? `${color.green(unicode ? "●" : ">")} ${active}`
+              : `${color.dim(unicode ? "○" : " ")} ${color.dim(active)}`
           } ${color.dim("/")} ${
             !this.value
-              ? `${color.green("●")} ${inactive}`
-              : `${color.dim("○")} ${color.dim(inactive)}`
+              ? `${color.green(unicode ? "●" : ">")} ${inactive}`
+              : `${color.dim(unicode ? "○" : " ")} ${color.dim(inactive)}`
           }\n${color.cyan(barEnd)}\n`;
         }
       }
@@ -124,7 +128,7 @@ export const select = <Options extends Option<Value>[], Value extends Readonly<s
   ) => {
     const label = option.label ?? option.value;
     if (state === "active") {
-      return `${color.green("●")} ${label} ${
+      return `${color.green(unicode ? "●" : '>')} ${label} ${
         option.hint ? color.dim(`(${option.hint})`) : ""
       }`;
     } else if (state === "selected") {
@@ -132,7 +136,7 @@ export const select = <Options extends Option<Value>[], Value extends Readonly<s
     } else if (state === "cancelled") {
       return `${color.strikethrough(color.dim(label))}`;
     }
-    return `${color.dim("○")} ${color.dim(label)}`;
+    return `${color.dim(unicode ? "○" : '-')} ${color.dim(label)}`;
   };
 
   return new SelectPrompt({
@@ -170,17 +174,17 @@ export const multiselect = <Options extends Option<Value>[], Value extends Reado
     const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
         const label =  option.label ?? option.value;
         if (state === 'active') {
-            return `${color.cyan('◻')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
+            return `${color.cyan(unicode ? '◻' : ">")} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
         } else if (state === 'selected') {
-            return `${color.green('◼')} ${color.dim(label)}`
+            return `${color.green(unicode ? '◼' : "+")} ${color.dim(label)}`
         } else if (state === 'cancelled') {
             return `${color.strikethrough(color.dim(label))}`;
         } else if (state === 'active-selected') {
-            return `${color.green('◼')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
+            return `${color.green(unicode ? '◼' : "+")} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
         } else if (state === 'submitted') {
             return `${color.dim(label)}`;
         }
-        return `${color.dim('◻')} ${color.dim(label)}`;
+        return `${color.dim(unicode ? '◻' : "-")} ${color.dim(label)}`;
     }
 
     return new MultiSelectPrompt({
@@ -239,7 +243,7 @@ export const note = (message = "", title = '') => {
     return ln.length > sum ? ln.length : sum
   }, 0) + 2;
   const msg = lines.map((ln) => `${color.gray(bar)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(bar)}`).join('\n');
-  process.stdout.write(`${color.gray(bar)}\n${color.green('○')}  ${color.reset(title)} ${color.gray('─'.repeat(len - title.length - 1) + '╮')}\n${msg}\n${color.gray('├' + '─'.repeat(len + 2) + '╯')}\n`);
+  process.stdout.write(`${color.gray(bar)}\n${color.green(unicode ? '○' : '$')}  ${color.reset(title)} ${color.gray((unicode ? '─' : '-').repeat(len - title.length - 1) + (unicode ? '╮' : '+'))}\n${msg}\n${color.gray((unicode ? '├' : '+') + (unicode ? '─' : '-').repeat(len + 2) + (unicode ? '╯' : '+'))}\n`);
 };
 
 export const cancel = (message = "") => {
@@ -256,15 +260,15 @@ export const outro = (message = "") => {
   );
 };
 
-const arc = [
+const arc = unicode ? [
     '◒', '◐', '◓', '◑'
-]
+] : ['.','o','O','0']
 
 export const spinner = () => {
   let unblock: () => void;
   let loop: NodeJS.Timer;
   const frames = arc;
-  const delay = 80;
+  const delay = unicode ? 80 : 120;
   return {
     start(message = "") {
       message = message.replace(/\.?\.?\.$/, "");
@@ -289,7 +293,7 @@ export const spinner = () => {
       process.stdout.write(erase.down(2));
       clearInterval(loop);
       process.stdout.write(
-        `${color.gray(bar)}\n${color.green("○")}  ${message}\n`
+        `${color.gray(bar)}\n${color.green(unicode ? "○" : '$')}  ${message}\n`
       );
       unblock();
     },
