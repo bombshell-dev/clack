@@ -22,7 +22,7 @@ async function main() {
 
   const dir = await text({
     message: "Where should we create your project?",
-    placeholder: "./sparkling-slop",
+    placeholder: "./sparkling-solid",
   });
 
   if (isCancel(dir)) {
@@ -61,6 +61,7 @@ async function main() {
 
   const install = await confirm({
     message: "Install dependencies?",
+    initialValue: false
   });
 
   if (isCancel(install)) {
@@ -79,7 +80,7 @@ async function main() {
 
   note(nextSteps, 'Next steps.');
   
-  await setTimeout(3000);
+  await setTimeout(1000);
 
   outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);
 }
