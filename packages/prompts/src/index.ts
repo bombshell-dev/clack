@@ -2,7 +2,7 @@ import { State } from "@clack/core";
 import { MultiSelectPrompt, TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
 import color from "picocolors";
 import { cursor, erase } from "sisteransi";
-import ansiRegex from 'ansi-regex';
+import { ansiRegex } from './utils';
 
 export { isCancel } from "@clack/core";
 
