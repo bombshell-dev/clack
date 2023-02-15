@@ -115,6 +115,14 @@ export interface SelectOptions<Options extends Option<Value>[], Value extends Re
   options: Options;
   initialValue?: Options[number]["value"];
 }
+
+export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Readonly<string>> {
+  message: string;
+  options: Options;
+  initialValue?: Options[number]['value'][];
+  cursorAt?: Options[number]["value"]
+}
+
 export const select = <Options extends Option<Value>[], Value extends Readonly<string>>(
   opts: SelectOptions<Options, Value>
 ) => {
@@ -166,7 +174,7 @@ export const select = <Options extends Option<Value>[], Value extends Readonly<s
   }).prompt() as Promise<Options[number]['value'] | symbol>;
 };
 
-export const multiselect = <Options extends Option<Value>[], Value extends Readonly<string>>(opts: SelectOptions<Options, Value>) => {
+export const multiselect = <Options extends Option<Value>[], Value extends Readonly<string>>(opts: MultiSelectOptions<Options, Value>) => {
     const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
         const label =  option.label ?? option.value;
         if (state === 'active') {
@@ -186,6 +194,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Reado
     return new MultiSelectPrompt({
         options: opts.options,
         initialValue: opts.initialValue,
+        cursorAt: opts.cursorAt,
         render() {
             let title = `${color.gray(bar)}\n${symbol(this.state)}  ${opts.message}\n`;
 
