@@ -114,6 +114,7 @@ export interface SelectOptions<Options extends Option<Value>[], Value extends Re
   message: string;
   options: Options;
   initialValue?: Options[number]["value"];
+  isAllowEmpty?: boolean;
 }
 export const select = <Options extends Option<Value>[], Value extends Readonly<string>>(
   opts: SelectOptions<Options, Value>
@@ -186,6 +187,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Reado
     return new MultiSelectPrompt({
         options: opts.options,
         initialValue: opts.initialValue,
+        isAllowEmpty: opts.isAllowEmpty,
         render() {
             let title = `${color.gray(bar)}\n${symbol(this.state)}  ${opts.message}\n`;
 
