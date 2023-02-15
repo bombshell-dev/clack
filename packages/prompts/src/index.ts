@@ -380,9 +380,8 @@ export interface CreatePromptGroupOptions <T extends PromptType, K extends strin
  * and return a results of objects within the group
  */
 export const definePromptGroup = async <T extends PromptType, K extends string>({ onCancel, prompts }: CreatePromptGroupOptions<T, K>) => {
-  const promptGroup = prompts instanceof Array ? prompts : [prompts];
-  // Return K as a key of the results object and map to the return value of K type
   const results = {} as any;
+  const promptGroup = prompts instanceof Array ? prompts : [prompts];
 
   for (const prompt of promptGroup) {
     const { name: promptName, type, options } = prompt;
