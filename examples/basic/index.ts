@@ -8,6 +8,8 @@ import {
   spinner,
   isCancel,
   multiselect,
+  definePromptGroup,
+  definePrompt,
   note,
 } from "@clack/prompts";
 import color from "picocolors";
@@ -20,44 +22,45 @@ async function main() {
 
   intro(`${color.bgCyan(color.black(" create-app "))}`);
 
-  const dir = await text({
-    message: "Where should we create your project?",
-    placeholder: "./sparkling-solid",
-  });
-
-  if (isCancel(dir)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
-
-  const projectType = await select({
-    message: "Pick a project type.",
-    options: [
-      { value: "ts", label: "TypeScript" },
-      { value: "js", label: "JavaScript" },
-      { value: "coffee", label: "CoffeeScript", hint: "oh no" },
-    ],
-  });
-
-  if (isCancel(projectType)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
-
-  const tools = await multiselect({
-    message: "Select additional tools.",
-    options: [
-      { value: "prettier", label: "Prettier", hint: "recommended" },
-      { value: "eslint", label: "ESLint" },
-      { value: "stylelint", label: "Stylelint" },
-      { value: "gh-action", label: "GitHub Action" },
-    ],
-  });
-
-  if (isCancel(tools)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
+  const project = await definePromptGroup({
+    onCancel: ({ cancel: cancelMessage }) => {
+      cancelMessage("Group Operation cancelled.");
+      process.exit(0);
+    },
+    prompts: [
+      definePrompt('text', {
+        name: "path",
+        options: {
+          message: "Where should we create your project?",
+          placeholder: "./sparkling-solid",
+        },
+      }),
+      {
+        type: 'select',
+        name: 'type',
+        options: {
+          message: "Pick a project type.",
+          options: [
+            { value: "ts", label: "TypeScript" },
+            { value: "js", label: "JavaScript" },
+            { value: "coffee", label: "CoffeeScript", hint: "oh no" },
+          ],
+        },
+      },
+      definePrompt('multiselect', {
+        name: 'tools',
+        options: {
+          message: "Select additional tools.",
+          options: [
+            { value: "prettier", label: "Prettier", hint: "recommended" },
+            { value: "eslint", label: "ESLint" },
+            { value: "stylelint", label: "Stylelint" },
+            { value: "gh-action", label: "GitHub Action" },
+          ],
+        },
+      })
+    ]
+  })
 
   const install = await confirm({
     message: "Install dependencies?",
@@ -76,7 +79,7 @@ async function main() {
     s.stop("Installed via pnpm");  
   }
 
-  let nextSteps = `cd ${dir}        \n${install ? '' : 'npm install\n'}npm run dev`;
+  let nextSteps = `cd ${project.path}        \n${install ? '' : 'npm install\n'}npm run dev`;
 
   note(nextSteps, 'Next steps.');
   

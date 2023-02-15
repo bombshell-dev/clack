@@ -1,4 +1,4 @@
-import { State } from "@clack/core";
+import { isCancel, State } from "@clack/core";
 import { MultiSelectPrompt, TextPrompt, SelectPrompt, ConfirmPrompt, block } from "@clack/core";
 import color from "picocolors";
 import { cursor, erase } from "sisteransi";
@@ -305,4 +305,102 @@ function ansiRegex() {
 	].join('|');
 
 	return new RegExp(pattern, 'g');
+}
+
+
+const prompts = {
+  text,
+  select,
+  multiselect,
+  confirm
+} as const;
+
+export type PromptType = keyof typeof prompts;
+export type PromptMapFunction = {
+  [K in PromptType]: typeof prompts[K];
+}
+export type PromptMapOpts = {
+  [K in PromptType]: Parameters<PromptMapFunction[K]>[0];
+}
+
+export interface Prompts<T extends PromptType> {
+  /**
+   * The options for the prompt that was defined.
+   */
+  options: PromptMapOpts[T];
+}
+
+export interface PromptsGroup<T extends PromptType, K extends string> extends Prompts<T> {
+  /**
+   * The name of the prompt. This is used to identify the prompt from the result.
+   */
+  name: K;
+}
+
+export interface PromptGroupReturn<T extends PromptType, K extends string> extends PromptsGroup<T, K> {
+  type: T;
+}
+
+export async function definePrompt<T extends PromptType>(type: T, opts: Prompts<T>): Promise<ReturnType<PromptMapFunction[T]>>;
+export function definePrompt<T extends PromptType, K extends string>(type: T, opts: PromptsGroup<T, K>): PromptGroupReturn<T, K>;
+
+/**
+ * Define a prompt to be initialized
+ * and return the result
+ */
+export function definePrompt <T extends PromptType, K extends string>(type: T, opts: Prompts<T> | PromptsGroup<T, K>) {
+  // If define prop within a group
+  if ('name' in opts) {
+    return {
+      type,
+      ...opts,
+    }
+  }
+
+  // @ts-expect-error - we know that the user will pass a valid prompt type options
+  return prompts[type](opts.options);
+}
+
+export interface CreatePromptGroupOptions <T extends PromptType, K extends string> {
+  /**
+   * Control how the group can be canceld 
+   * if one of the prompts is canceld.
+   */
+  onCancel?: (opts: { results: Record<string, any>, cancel: typeof cancel }) => void;
+
+  /**
+   * The prompts to be displayed
+   * @default []
+   */
+  prompts: PromptGroupReturn<T, K> | PromptGroupReturn<T, K>[];
+}
+
+/**
+ * Define a group of prompts to be displayed
+ * and return a results of objects within the group
+ */
+export const definePromptGroup = async <T extends PromptType, K extends string>({ onCancel, prompts }: CreatePromptGroupOptions<T, K>) => {
+  const promptGroup = prompts instanceof Array ? prompts : [prompts];
+  // Return K as a key of the results object and map to the return value of K type
+  const results = {} as any;
+
+  for (const prompt of promptGroup) {
+    const { name: promptName, type, options } = prompt;
+    const result = await definePrompt(type, { options }).catch(() => "error");
+
+    // Pass the results to the onCancel function
+    // so the user can decide what to do with the results
+    // TODO: Switch to callback within core to avoid isCancel Fn
+    if (typeof onCancel === 'function' && isCancel(result)) {
+      onCancel({ results, cancel });
+      results[promptName] = "canceled";
+      continue;
+    }
+
+    results[promptName] = result;
+  }
+
+  return results as {
+    [P in K]: Exclude<Awaited<ReturnType<PromptMapFunction[T]>>, symbol>;
+  };
 }
