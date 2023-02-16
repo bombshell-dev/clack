@@ -43,6 +43,7 @@ importers:
   packages/prompts:
     specifiers:
       '@clack/core': workspace:^0.1.3
+      is-unicode-supported: ^1.3.0
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       unbuild: ^1.1.1
@@ -51,6 +52,7 @@ importers:
       picocolors: 1.0.0
       sisteransi: 1.0.5
     devDependencies:
+      is-unicode-supported: 1.3.0
       unbuild: 1.1.1
 
 packages:
@@ -1990,6 +1992,11 @@ packages:
       for-each: 0.3.3
       gopd: 1.0.1
       has-tostringtag: 1.0.0
+    dev: true
+
+  /is-unicode-supported/1.3.0:
+    resolution: {integrity: sha512-43r2mRvz+8JRIKnWJ+3j8JtjRKZ6GmjzfaE/qiBJnikNnYv/6bagRJ1kUhNk8R5EX/GkobD+r+sfxCPJsiKBLQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /is-weakref/1.0.2:
