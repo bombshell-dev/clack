@@ -26,19 +26,19 @@ export function isCancel(value: unknown): value is symbol {
 }
 
 function setRawMode(input: Readable, value: boolean) {
-    if ((input as typeof stdin).isTTY) (input as typeof stdin).setRawMode(value);
+  if ((input as typeof stdin).isTTY) (input as typeof stdin).setRawMode(value);
 }
 
 const keys = new Set(['up', 'down', 'left', 'right', 'space', 'enter']);
 
 export interface PromptOptions<Self extends Prompt> {
-    render(this: Omit<Self, 'prompt'>): string | void;
-    placeholder?: string;
-    initialValue?: any;
-    validate?: ((value: string) => string | void) | undefined;
-    input?: Readable;
-    output?: Writable;
-    debug?: boolean;
+  render(this: Omit<Self, 'prompt'>): string | void;
+  placeholder?: string;
+  initialValue?: any;
+  validate?: ((value: string) => string | void) | undefined;
+  input?: Readable;
+  output?: Writable;
+  debug?: boolean;
 }
 
 export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
@@ -47,7 +47,7 @@ export default class Prompt {
   protected input: Readable;
   protected output: Writable;
   private rl!: ReadLine;
-  private opts: Omit<PromptOptions<Prompt>, 'render'|'input'|'output'>;
+  private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
   private _track: boolean = false;
   private _render: (context: Omit<Prompt, 'prompt'>) => string | void;
   protected _cursor: number = 0;
@@ -81,11 +81,11 @@ export default class Prompt {
     this.input.pipe(sink);
 
     this.rl = readline.createInterface({
-        input: this.input,
-        output: sink,
-        tabSize: 2,
-        prompt: '',
-        escapeCodeTimeout: 50
+      input: this.input,
+      output: sink,
+      tabSize: 2,
+      prompt: '',
+      escapeCodeTimeout: 50
     })
     readline.emitKeypressEvents(this.input, this.rl);
     this.rl.prompt();
@@ -98,7 +98,7 @@ export default class Prompt {
 
     this.render();
 
-    return new Promise<string|symbol>((resolve, reject) => {
+    return new Promise<string | symbol>((resolve, reject) => {
       this.once('submit', () => {
         this.output.write(cursor.show);
         setRawMode(this.input, false);
@@ -145,8 +145,24 @@ export default class Prompt {
       this.state = 'active';
     }
 
-    if (key?.name && keys.has(key.name)) {
-      this.emit('cursor', key.name);
+    switch (key?.name) {
+      case 'h':
+        this.emit('cursor', 'left');
+        break;
+      case 'j':
+        this.emit('cursor', 'down');
+        break;
+      case 'k':
+        this.emit('cursor', 'up');
+        break;
+      case 'l':
+        this.emit('cursor', 'right');
+        break;
+      default:
+        if (keys.has(key?.name ?? '')) {
+          this.emit('cursor', key?.name);
+        }
+        break;
     }
     if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
       this.emit('confirm', char.toLowerCase() === 'y');
@@ -167,7 +183,7 @@ export default class Prompt {
       if (this.state !== 'error') {
         this.state = 'submit';
       }
-    } 
+    }
     if (char === '\x03') {
       this.state = 'cancel';
     }
@@ -216,7 +232,7 @@ export default class Prompt {
         this._prevFrame = frame;
         this.output.write(cursor.move(0, lines.length - diffLine - 1))
         return;
-      // If many lines have changed, rerender everything past the first line
+        // If many lines have changed, rerender everything past the first line
       } else if (diff && diff?.length > 1) {
         const diffLine = diff[0];
         this.output.write(cursor.move(0, diffLine));
@@ -230,7 +246,7 @@ export default class Prompt {
 
       this.output.write(erase.down());
     }
-    
+
     this.output.write(frame);
     if (this.state === 'initial') {
       this.state = 'active';
