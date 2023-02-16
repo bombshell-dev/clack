@@ -49,10 +49,10 @@ importers:
       unbuild: ^1.1.1
     dependencies:
       '@clack/core': link:../core
-      is-unicode-supported: 1.3.0
       picocolors: 1.0.0
       sisteransi: 1.0.5
     devDependencies:
+      is-unicode-supported: 1.3.0
       unbuild: 1.1.1
 
 packages:
@@ -1997,7 +1997,7 @@ packages:
   /is-unicode-supported/1.3.0:
     resolution: {integrity: sha512-43r2mRvz+8JRIKnWJ+3j8JtjRKZ6GmjzfaE/qiBJnikNnYv/6bagRJ1kUhNk8R5EX/GkobD+r+sfxCPJsiKBLQ==}
     engines: {node: '>=12'}
-    dev: false
+    dev: true
 
   /is-weakref/1.0.2:
     resolution: {integrity: sha512-qctsuLZmIQ0+vSSMfoVvyFe2+GSEvnmZ2ezTup1SBse9+twCCeial6EEi3Nc2KFcf6+qz2FBPnjXsk8xhKSaPQ==}
