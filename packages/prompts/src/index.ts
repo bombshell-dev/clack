@@ -69,7 +69,7 @@ export const text = (opts: TextOptions) => {
             S_BAR
           )}  ${value}\n${color.yellow(S_BAR_END)}  ${color.yellow(this.error)}\n`;
         case "submit":
-          return `${title}${color.gray(S_BAR)}  ${color.dim(this.value)}`;
+          return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
         case "cancel":
           return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
             color.dim(this.value)
