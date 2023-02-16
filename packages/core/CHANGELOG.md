@@ -1,5 +1,12 @@
 # @clack/core
 
+## 0.1.4
+
+### Patch Changes
+
+- ca77da1: Fix multiselect initial value logic
+- 8aed606: Fix `MaxListenersExceededWarning` by detaching `stdin` listeners on close
+
 ## 0.1.3
 
 ### Patch Changes
