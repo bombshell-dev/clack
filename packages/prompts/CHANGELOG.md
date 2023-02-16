@@ -1,5 +1,19 @@
 # @clack/prompts
 
+## 0.3.0
+
+### Minor Changes
+
+- 493c592: Improve types for select/multiselect prompts. Numbers and booleans are now supported as the `value` option.
+- 15558e3: Improved Windows/non-unicode support
+
+### Patch Changes
+
+- ca77da1: Fix multiselect initial value logic
+- Updated dependencies [ca77da1]
+- Updated dependencies [8aed606]
+  - @clack/core@0.1.4
+
 ## 0.2.2
 
 ### Patch Changes

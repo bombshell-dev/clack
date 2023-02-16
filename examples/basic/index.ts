@@ -40,6 +40,7 @@ async function main() {
         name: 'type',
         options: {
           message: "Pick a project type.",
+          initialValue: 'ts',
           options: [
             { value: "ts", label: "TypeScript" },
             { value: "js", label: "JavaScript" },
@@ -51,6 +52,8 @@ async function main() {
         name: 'tools',
         options: {
           message: "Select additional tools.",
+          cursorAt: 'stylelint',
+          initialValue: ['eslint', 'gh-action'],
           options: [
             { value: "prettier", label: "Prettier", hint: "recommended" },
             { value: "eslint", label: "ESLint" },
