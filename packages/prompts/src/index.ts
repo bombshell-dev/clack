@@ -105,32 +105,33 @@ export const confirm = (opts: ConfirmOptions) => {
   }).prompt() as Promise<boolean | symbol>;
 };
 
-interface Option<Value extends Readonly<string>> {
+type Primitive = Readonly<string | boolean | number>;
+interface Option<Value extends Primitive> {
   value: Value;
   label?: string;
   hint?: string;
 }
-export interface SelectOptions<Options extends Option<Value>[], Value extends Readonly<string>> {
+export interface SelectOptions<Options extends Option<Value>[], Value extends Primitive> {
   message: string;
   options: Options;
   initialValue?: Options[number]["value"];
 }
 
-export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Readonly<string>> {
+export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
   message: string;
   options: Options;
   initialValue?: Options[number]['value'][];
   cursorAt?: Options[number]["value"]
 }
 
-export const select = <Options extends Option<Value>[], Value extends Readonly<string>>(
+export const select = <Options extends Option<Value>[], Value extends Primitive>(
   opts: SelectOptions<Options, Value>
 ) => {
   const opt = (
     option: Options[number],
     state: "inactive" | "active" | "selected" | "cancelled"
   ) => {
-    const label = option.label ?? option.value;
+    const label = option.label ?? String(option.value);
     if (state === "active") {
       return `${color.green("●")} ${label} ${
         option.hint ? color.dim(`(${option.hint})`) : ""
@@ -174,9 +175,9 @@ export const select = <Options extends Option<Value>[], Value extends Readonly<s
   }).prompt() as Promise<Options[number]['value'] | symbol>;
 };
 
-export const multiselect = <Options extends Option<Value>[], Value extends Readonly<string>>(opts: MultiSelectOptions<Options, Value>) => {
+export const multiselect = <Options extends Option<Value>[], Value extends Primitive>(opts: MultiSelectOptions<Options, Value>) => {
     const opt = (option: Options[number], state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled') => {
-        const label =  option.label ?? option.value;
+        const label =  option.label ?? String(option.value);
         if (state === 'active') {
             return `${color.cyan('◻')} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`
         } else if (state === 'selected') {
