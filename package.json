@@ -8,7 +8,7 @@
     "build:core": "pnpm --filter @clack/core run build",
     "build:prompts": "pnpm --filter @clack/prompts run build",
     "start": "pnpm --filter @example/basic run start",
-    "ci:version": "changeset version && pnpm install",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:release": "changeset publish"
   },
   "devDependencies": {
