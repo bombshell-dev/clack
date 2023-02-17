@@ -32,8 +32,8 @@ jobs:
       - uses: changesets/action@v1
         if: ${{ github.event_name != 'pull_request' }}
         with:
-          version: pnpm changeset version && pnpm install
-          publish: pnpm changeset publish
+          version: pnpm run ci:version
+          publish: pnpm run ci:publish
           commit: "[ci] release"
           title: "[ci] release"
         env:
