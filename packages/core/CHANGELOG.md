@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.1.6
+
+### Patch Changes
+
+- 7fb5375: Adds a new `defaultValue` option to the text prompt, removes automatic usage of the placeholder value.
+
 ## 0.1.5
 
 ### Patch Changes
