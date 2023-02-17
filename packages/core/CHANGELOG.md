@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.1.5
+
+### Patch Changes
+
+- de1314e: Support `required` option for multi-select
+
 ## 0.1.4
 
 ### Patch Changes

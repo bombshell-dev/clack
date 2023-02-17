@@ -1,5 +1,17 @@
 # @clack/prompts
 
+## 0.4.0
+
+### Minor Changes
+
+- 61b88b6: Add `group` construct to group many prompts together
+
+### Patch Changes
+
+- de1314e: Support `required` option for multi-select
+- Updated dependencies [de1314e]
+  - @clack/core@0.1.5
+
 ## 0.3.0
 
 ### Minor Changes
