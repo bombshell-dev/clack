@@ -49,7 +49,7 @@
   "license": "MIT",
   "packageManager": "pnpm@7.6.0",
   "scripts": {
-    "prepack": "unbuild"
+    "build": "unbuild"
   },
   "dependencies": {
     "picocolors": "^1.0.0",

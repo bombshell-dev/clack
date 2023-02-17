@@ -49,7 +49,7 @@
   ],
   "packageManager": "pnpm@7.6.0",
   "scripts": {
-    "prepack": "unbuild"
+    "build": "unbuild"
   },
   "dependencies": {
     "@clack/core": "^0.1.5",
