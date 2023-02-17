@@ -9,7 +9,7 @@
     "build:prompts": "pnpm --filter @clack/prompts run build",
     "start": "pnpm --filter @example/basic run start",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:release": "changeset publish"
+    "ci:publish": "changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
