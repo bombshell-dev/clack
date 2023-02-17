@@ -3,6 +3,7 @@ import color from 'picocolors';
 
 export interface TextOptions extends PromptOptions<TextPrompt> {
     placeholder?: string;
+    defaultValue?: string;
 }
 
 export default class TextPrompt extends Prompt {
@@ -14,6 +15,9 @@ export default class TextPrompt extends Prompt {
         super(opts);
         
         this.on('finalize', () => {
+            if (!this.value) {
+                this.value = opts.defaultValue;
+            }
             this.valueWithCursor = this.value;
         });
         this.on('value', () => {

@@ -153,9 +153,6 @@ export default class Prompt {
     }
 
     if (key?.name === 'return') {
-      if ('placeholder' in this.opts && !this.value) {
-        this.value = this.opts.placeholder;
-      }
       if (this.opts.validate) {
         const problem = this.opts.validate(this.value);
         if (problem) {
