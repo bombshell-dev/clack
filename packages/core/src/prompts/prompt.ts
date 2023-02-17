@@ -29,7 +29,12 @@ function setRawMode(input: Readable, value: boolean) {
 	if ((input as typeof stdin).isTTY) (input as typeof stdin).setRawMode(value);
 }
 
-const aliases = new Map([['k', 'up'], ['j', 'down'], ['h', 'left'], ['l', 'right']]);
+const aliases = new Map([
+	['k', 'up'],
+	['j', 'down'],
+	['h', 'left'],
+	['l', 'right'],
+]);
 const keys = new Set(['up', 'down', 'left', 'right', 'space', 'enter']);
 
 export interface PromptOptions<Self extends Prompt> {
