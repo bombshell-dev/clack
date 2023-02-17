@@ -104,7 +104,7 @@ const additionalTools = await multiselect({
     { value: "prettier", label: "Prettier" },
     { value: "gh-action", label: "GitHub Action" },
   ],
-  isAllowEmpty: true,
+  required: false,
 });
 ```
 

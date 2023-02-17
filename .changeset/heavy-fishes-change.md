@@ -3,4 +3,4 @@
 "@clack/core": patch
 ---
 
-Support `isAllowEmpty` option for multi-select
+Support `required` option for multi-select
