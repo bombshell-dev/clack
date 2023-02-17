@@ -1,15 +1,4 @@
-import {
-  text,
-  select,
-  confirm,
-  intro,
-  outro,
-  cancel,
-  spinner,
-  isCancel,
-  multiselect,
-  note,
-} from "@clack/prompts";
+import * as p from "@clack/prompts"
 import color from "picocolors";
 import { setTimeout } from "node:timers/promises";
 
@@ -18,74 +7,71 @@ async function main() {
 
   await setTimeout(1000);
 
-  intro(`${color.bgCyan(color.black(" create-app "))}`);
+  p.intro(`${color.bgCyan(color.black(" create-app "))}`);
 
-  const dir = await text({
-    message: "Where should we create your project?",
-    placeholder: "./sparkling-solid",
-  });
+  const project = await p.group({
+    path: () => p.text({
+      message: "Where should we create your project?",
+      placeholder: "./sparkling-solid",
+      validate: (value) => {
+        if (!value) return "Please enter a path.";
+        if (value[0] !== '.') return "Please enter an absolute path.";
+      }
+    }),
+    type: async ({ results }) => {
+      const s = p.spinner();
+      const options = [
+        { value: "ts", label: "TypeScript" },
+        { value: "js", label: "JavaScript" },
+        { value: "coffee", label: "CoffeeScript", hint: "oh no" },
+      ];
 
-  if (isCancel(dir)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
+      s.start("Loading project types");
+      await setTimeout(2000);
+      s.stop("Loaded project types");  
 
-  const projectType = await select({
-    message: "Pick a project type.",
-    options: [
-      { value: "ts", label: "TypeScript" },
-      { value: "js", label: "JavaScript" },
-      { value: "coffee", label: "CoffeeScript", hint: "oh no" },
-    ],
-    initialValue: 'ts'
-  });
+      return p.select({
+        message: `Pick a project type within "${results.path}"`,
+        initialValue: 'ts',
+        options: options,
+      })
+    },
+    tools: () => p.multiselect({
+      message: "Select additional tools.",
+      cursorAt: 'stylelint',
+      initialValue: ['eslint', 'gh-action'],
+      options: [
+        { value: "prettier", label: "Prettier", hint: "recommended" },
+        { value: "eslint", label: "ESLint" },
+        { value: "stylelint", label: "Stylelint" },
+        { value: "gh-action", label: "GitHub Action" },
+      ],
+    }),
+    install: () => p.confirm({
+      message: "Install dependencies?",
+      initialValue: false
+    })
+  }, {
+    onCancel: () => {
+      p.cancel("Operation cancelled.");
+      process.exit(0);
+    },
+  })
 
-  if (isCancel(projectType)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
-
-  const tools = await multiselect({
-    message: "Select additional tools.",
-    options: [
-      { value: "prettier", label: "Prettier", hint: "recommended" },
-      { value: "eslint", label: "ESLint" },
-      { value: "stylelint", label: "Stylelint" },
-      { value: "gh-action", label: "GitHub Action" },
-    ],
-    initialValue: ['eslint', 'gh-action'],
-    cursorAt: 'stylelint'
-  });
-
-  if (isCancel(tools)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
-
-  const install = await confirm({
-    message: "Install dependencies?",
-    initialValue: false
-  });
-
-  if (isCancel(install)) {
-    cancel("Operation cancelled.");
-    process.exit(0);
-  }
-
-  if (install) {
-    const s = spinner();
+  if (project.install) {
+    const s = p.spinner();
     s.start("Installing via pnpm");
     await setTimeout(5000);
     s.stop("Installed via pnpm");  
   }
 
-  let nextSteps = `cd ${dir}        \n${install ? '' : 'npm install\n'}npm run dev`;
+  let nextSteps = `cd ${project.path}        \n${project.install ? '' : 'pnpm install\n'}pnpm dev`;
 
-  note(nextSteps, 'Next steps.');
+  p.note(nextSteps, 'Next steps.');
   
   await setTimeout(1000);
 
-  outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);
+  p.outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);
 }
 
 main().catch(console.error);
