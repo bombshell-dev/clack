@@ -66,13 +66,7 @@ async function main() {
 
 	p.note(nextSteps, 'Next steps.');
 
-	await setTimeout(1000);
-
 	p.outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);
-
-	await setTimeout(3000);
-
-	console.clear();
 }
 
 main().catch(console.error);
