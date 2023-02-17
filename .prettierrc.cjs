@@ -11,6 +11,6 @@ module.exports = {
       options: {
         useTabs: false,
       },
-    }
+    },
   ],
 };
