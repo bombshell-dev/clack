@@ -141,6 +141,7 @@ export interface MultiSelectOptions<Options extends Option<Value>[], Value exten
   message: string;
   options: Options;
   initialValue?: Options[number]['value'][];
+  required?: boolean;
   cursorAt?: Options[number]["value"]
 }
 
@@ -215,6 +216,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
     return new MultiSelectPrompt({
         options: opts.options,
         initialValue: opts.initialValue,
+        required: opts.required ?? true,
         cursorAt: opts.cursorAt,
         render() {
             let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
