@@ -3,8 +3,9 @@ import color from 'picocolors';
 
 interface MultiSelectOptions<T extends { value: any }> extends PromptOptions<MultiSelectPrompt<T>> {
     options: T[];
-    initialValue?: T['value'];
-    required?: boolean
+    initialValue?: T['value'][];
+    required?: boolean;
+    cursorAt?: T['value']
 }
 export default class MultiSelectPrompt<T extends { value: any }> extends Prompt {
     options: T[];
@@ -35,8 +36,8 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
             this.value = this.selectedValues;
         })
         this.options = opts.options;
-        this.cursor = this.options.findIndex(({ value }) => value === opts.initialValue);
-        this.selectedValues = []
+        this.cursor = this.options.findIndex(({ value }) => value === opts.cursorAt);
+        this.selectedValues = opts.initialValue || [];
         if (this.cursor === -1) this.cursor = 0;
 
         this.on('cursor', (key) => {

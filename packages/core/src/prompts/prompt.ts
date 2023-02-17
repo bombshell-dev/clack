@@ -181,6 +181,7 @@ export default class Prompt {
   }
 
   protected close() {
+    this.input.unpipe();
     this.input.removeListener('keypress', this.onKeypress)
     this.output.write('\n');
     setRawMode(this.input, false);

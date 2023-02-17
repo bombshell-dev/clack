@@ -37,6 +37,7 @@ async function main() {
       { value: "js", label: "JavaScript" },
       { value: "coffee", label: "CoffeeScript", hint: "oh no" },
     ],
+    initialValue: 'ts'
   });
 
   if (isCancel(projectType)) {
@@ -52,6 +53,8 @@ async function main() {
       { value: "stylelint", label: "Stylelint" },
       { value: "gh-action", label: "GitHub Action" },
     ],
+    initialValue: ['eslint', 'gh-action'],
+    cursorAt: 'stylelint'
   });
 
   if (isCancel(tools)) {
