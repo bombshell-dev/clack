@@ -162,6 +162,9 @@ export default class Prompt {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
+		if (char) {
+			this.emit('key', char.toLowerCase());
+		}
 
 		if (key?.name === 'return') {
 			if (this.opts.validate) {
