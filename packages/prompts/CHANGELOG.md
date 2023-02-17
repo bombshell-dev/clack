@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 0.4.3
+
+### Patch Changes
+
+- 83d890e: Fix text cancel display bug
+
 ## 0.4.2
 
 ### Patch Changes
