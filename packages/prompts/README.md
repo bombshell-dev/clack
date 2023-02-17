@@ -2,16 +2,16 @@
 
 Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stackblitz.com/edit/clack-prompts?file=index.js)
 
-![clack-prompt](https://user-images.githubusercontent.com/7118177/218462018-bb41eff4-5335-4abe-9eeb-31e8c8402713.gif)
+![clack-prompt](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-demo.gif)
 
 ---
 
 `@clack/prompts` is an opinionated, pre-styled wrapper around [`@clack/core`](https://www.npmjs.com/package/@clack/core).
 
-- 🤏 Only 4 kB gzip (80% smaller than `prompts`)
+- 🤏 80% smaller than other options
 - 💎 Beautiful, minimal UI
 - ✅ Simple API
-- 🧱 Comes with `text`, `confirm`, `select`, and `spinner` components
+- 🧱 Comes with `text`, `confirm`, `select`, `multiselect`, and `spinner` components
 
 ## Basics
 
