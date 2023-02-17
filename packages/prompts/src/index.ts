@@ -45,6 +45,7 @@ const symbol = (state: State) => {
 export interface TextOptions {
   message: string;
   placeholder?: string;
+  defaultValue?: string;
   initialValue?: string;
   validate?: (value: string) => string | void;
 }
@@ -52,6 +53,7 @@ export const text = (opts: TextOptions) => {
   return new TextPrompt({
     validate: opts.validate,
     placeholder: opts.placeholder,
+    defaultValue: opts.defaultValue,
     initialValue: opts.initialValue,
     render() {
       const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${

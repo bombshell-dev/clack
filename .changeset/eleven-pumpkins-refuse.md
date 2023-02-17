@@ -3,4 +3,4 @@
 "@clack/core": patch
 ---
 
-Do not automatically default value to placeholder
+Adds a new `defaultValue` option to the text prompt, removes automatic usage of the placeholder value.
