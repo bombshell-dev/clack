@@ -17,7 +17,7 @@ async function main() {
 					placeholder: './sparkling-solid',
 					validate: (value) => {
 						if (!value) return 'Please enter a path.';
-						if (value[0] !== '.') return 'Please enter an absolute path.';
+						if (value[0] !== '.') return 'Please enter a relative path.';
 					},
 				}),
 			type: ({ results }) =>
