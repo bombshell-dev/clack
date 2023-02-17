@@ -1,5 +1,13 @@
 # @clack/prompts
 
+## 0.4.1
+
+### Patch Changes
+
+- 7fb5375: Adds a new `defaultValue` option to the text prompt, removes automatic usage of the placeholder value.
+- Updated dependencies [7fb5375]
+  - @clack/core@0.1.6
+
 ## 0.4.0
 
 ### Minor Changes
