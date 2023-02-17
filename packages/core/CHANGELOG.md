@@ -1,5 +1,13 @@
 # @clack/core
 
+## 0.1.7
+
+### Patch Changes
+
+- 6d9e675: Add support for neovim cursor motion (`hjkl`)
+
+  Thanks [@esau-morais](https://github.com/esau-morais) for the assist!
+
 ## 0.1.6
 
 ### Patch Changes
