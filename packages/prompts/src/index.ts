@@ -77,9 +77,9 @@ export const text = (opts: TextOptions) => {
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(this.value ?? ''))}${
-						this.value?.trim() ? '\n' + color.gray(S_BAR) : ''
-					}`;
+					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
+						color.dim(this.value ?? '')
+					)}${this.value?.trim() ? '\n' + color.gray(S_BAR) : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
