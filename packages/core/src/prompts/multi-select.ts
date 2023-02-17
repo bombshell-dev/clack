@@ -4,7 +4,7 @@ import color from 'picocolors';
 interface MultiSelectOptions<T extends { value: any }> extends PromptOptions<MultiSelectPrompt<T>> {
     options: T[];
     initialValue?: T['value'];
-    isAllowEmpty?: boolean
+    required?: boolean
 }
 export default class MultiSelectPrompt<T extends { value: any }> extends Prompt {
     options: T[];
