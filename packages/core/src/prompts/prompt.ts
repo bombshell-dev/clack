@@ -29,6 +29,7 @@ function setRawMode(input: Readable, value: boolean) {
 	if ((input as typeof stdin).isTTY) (input as typeof stdin).setRawMode(value);
 }
 
+const aliases = new Map([['k', 'up'], ['j', 'down'], ['h', 'left'], ['l', 'right']]);
 const keys = new Set(['up', 'down', 'left', 'right', 'space', 'enter']);
 
 export interface PromptOptions<Self extends Prompt> {
@@ -147,7 +148,9 @@ export default class Prompt {
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
-
+		if (key?.name && !this._track && aliases.has(key.name)) {
+			this.emit('cursor', aliases.get(key.name));
+		}
 		if (key?.name && keys.has(key.name)) {
 			this.emit('cursor', key.name);
 		}
