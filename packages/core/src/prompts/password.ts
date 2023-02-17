@@ -10,7 +10,7 @@ export default class PasswordPrompt extends Prompt {
 	get cursor() {
 		return this._cursor;
 	}
-	private get masked() {
+	get masked() {
 		return this.value
 			.split('')
 			.map(() => this._mask)
