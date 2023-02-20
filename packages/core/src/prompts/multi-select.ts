@@ -15,7 +15,8 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
 	}
 
 	private toggleValue() {
-		this.value = this.value.some(({ value }: T) => value === this._value.value)
+		const selected = this.value.some(({ value }: T) => value === this._value.value);
+		this.value = selected
 			? this.value.filter(({ value }: T) => value !== this._value.value)
 			: [...this.value, this._value];
 	}
