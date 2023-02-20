@@ -44,7 +44,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
 		});
 		this.options = opts.options;
 		this.cursor = this.options.findIndex(({ value }) => value === opts.cursorAt);
-		this.selectedValues = JSON.parse(JSON.stringify(opts.initialValue)) || [];
+		this.selectedValues = opts.initialValue ? opts.initialValue.slice() : [];
 		if (this.cursor === -1) this.cursor = 0;
 
 		this.on('cursor', (key) => {
