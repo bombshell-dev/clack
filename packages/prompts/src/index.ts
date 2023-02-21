@@ -222,13 +222,17 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 ) => {
 	const opt = (
 		option: Options[number],
-		state: 'inactive' | 'selected' | 'cancelled' = 'inactive'
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
 			return `${color.dim(label)}`;
 		} else if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
+		} else if (state === 'active') {
+			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
 		}
 		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label} ${
 			option.hint ? color.dim(`(${option.hint})`) : ''
@@ -253,7 +257,7 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 					)}`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.map((option, i) => opt(option))
+						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
