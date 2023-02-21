@@ -367,48 +367,33 @@ function ansiRegex() {
 	return new RegExp(pattern, 'g');
 }
 
-export type PromptGroupAwaitedReturn<T> = {
-	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
+type GroupAwaitedReturn<T> = {
+	[P in keyof T]: Awaited<T[P]>;
 };
 
-export interface PromptGroupOptions<T> {
-	/**
-	 * Control how the group can be canceld
-	 * if one of the prompts is canceld.
-	 */
-	onCancel?: (opts: { results: Partial<PromptGroupAwaitedReturn<T>> }) => void;
-}
+type GroupPromptFactory<T, P extends keyof T = keyof T> = (
+	results: Partial<GroupAwaitedReturn<T>>
+) => Promise<T[P] | symbol>;
 
-export type PromptGroup<T> = {
-	[P in keyof T]: (opts: { results: Partial<PromptGroupAwaitedReturn<T>> }) => Promise<T[P]>;
+export type Group<T> = {
+	[P in keyof T]: GroupPromptFactory<T, P>;
 };
 
 /**
- * Define a group of prompts to be displayed
- * and return a results of objects within the group
+ * Define a group of prompts to be displayed in sequence,
+ * returns results for each prompt in the group or `cancel`.
  */
-export const group = async <T>(
-	prompts: PromptGroup<T>,
-	opts?: PromptGroupOptions<T>
-): Promise<PromptGroupAwaitedReturn<T>> => {
-	const results = {} as any;
-	const promptNames = Object.keys(prompts);
+export const group = async <T>(prompts: Group<T>): Promise<GroupAwaitedReturn<T> | symbol> => {
+	const results = {} as GroupAwaitedReturn<T>;
 
-	for (const name of promptNames) {
-		const result = await prompts[name as keyof T]({ results }).catch((e) => {
-			throw e;
-		});
+	for (const [key, prompt] of Object.entries<GroupPromptFactory<T>>(prompts)) {
+		const result = await prompt(results);
 
-		// Pass the results to the onCancel function
-		// so the user can decide what to do with the results
-		// TODO: Switch to callback within core to avoid isCancel Fn
-		if (typeof opts?.onCancel === 'function' && isCancel(result)) {
-			results[name] = 'canceled';
-			opts.onCancel({ results });
-			continue;
+		if (isCancel(result)) {
+			return result;
 		}
 
-		results[name] = result;
+		results[key as keyof T] = result;
 	}
 
 	return results;

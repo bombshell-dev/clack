@@ -125,34 +125,29 @@ s.stop('Installed via npm');
 
 ### Grouping
 
-Grouping prompts together is a great way to keep your code organized. This accepts a JSON object with a name that can be used to reference the group later. The second argument is an optional but has a `onCancel` callback that will be called if the user cancels one of the prompts in the group.
+Group prompts together to keep your code organized. Returns results of each prompt accessible by name. If one prompt is cancelled, the entire group is cancelled and `cancel` is returned instead. Each prompt factory function is passed the results of previous prompts.
 
 ```js
 import * as p from '@clack/prompts';
 
-const group = await p.group(
-  {
-    name: () => p.text({ message: 'What is your name?' }),
-    age: () => p.text({ message: 'What is your age?' }),
-    color: ({ results }) =>
-      p.multiselect({
-        message: `What is your favorite color ${results.name}?`,
-        options: [
-          { value: 'red', label: 'Red' },
-          { value: 'green', label: 'Green' },
-          { value: 'blue', label: 'Blue' },
-        ],
-      }),
-  },
-  {
-    // On Cancel callback that wraps the group
-    // So if the user cancels one of the prompts in the group this function will be called
-    onCancel: ({ results }) => {
-      p.cancel('Operation cancelled.');
-      process.exit(0);
-    },
-  }
-);
+const group = await p.group({
+  name: () => p.text({ message: 'What is your name?' }),
+  age: () => p.text({ message: 'What is your age?' }),
+  color: ({ name }) =>
+    p.multiselect({
+      message: `What is your favorite color ${name}?`,
+      options: [
+        { value: 'red', label: 'Red' },
+        { value: 'green', label: 'Green' },
+        { value: 'blue', label: 'Blue' },
+      ],
+    }),
+});
+
+if (p.isCancel(group)) {
+  p.cancel('Operation cancelled.');
+  process.exit(0);
+}
 
 console.log(group.name, group.age, group.color);
 ```
