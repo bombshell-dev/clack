@@ -11,10 +11,7 @@ export default class PasswordPrompt extends Prompt {
 		return this._cursor;
 	}
 	get masked() {
-		return this.value
-			.split('')
-			.map(() => this._mask)
-			.join('');
+		return this.value.replaceAll(/./g, this._mask);
 	}
 	constructor({ mask, ...opts }: PasswordOptions) {
 		super(opts);
