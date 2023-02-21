@@ -1,5 +1,15 @@
 # @clack/prompts
 
+## 0.4.5
+
+### Patch Changes
+
+- 1251132: Multiselect: return `Value[]` instead of `Option[]`.
+- 8994382: Add a password prompt to `@clack/prompts`
+- Updated dependencies [1251132]
+- Updated dependencies [8994382]
+  - @clack/core@0.1.9
+
 ## 0.4.4
 
 ### Patch Changes
