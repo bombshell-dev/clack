@@ -139,14 +139,6 @@ export interface SelectOptions<Options extends Option<Value>[], Value extends Pr
 	initialValue?: Options[number]['value'];
 }
 
-export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
-	message: string;
-	options: Options;
-	initialValue?: Options[number]['value'][];
-	required?: boolean;
-	cursorAt?: Options[number]['value'];
-}
-
 export const select = <Options extends Option<Value>[], Value extends Primitive>(
 	opts: SelectOptions<Options, Value>
 ) => {
@@ -191,6 +183,13 @@ export const select = <Options extends Option<Value>[], Value extends Primitive>
 	}).prompt() as Promise<Options[number]['value'] | symbol>;
 };
 
+export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
+	message: string;
+	options: Options;
+	initialValue?: Options[number]['value'][];
+	required?: boolean;
+	cursorAt?: Options[number]['value'];
+}
 export const multiselect = <Options extends Option<Value>[], Value extends Primitive>(
 	opts: MultiSelectOptions<Options, Value>
 ) => {
@@ -222,24 +221,28 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 		initialValue: opts.initialValue,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
+		validate(value) {
+			if (this.required && value.length === 0)
+				return `Please select at least one option.\n${color.reset(
+					color.dim(
+						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
+							color.bgWhite(color.inverse(' enter '))
+						)} to submit`
+					)
+				)}`;
+		},
 		render() {
 			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit': {
-					const selectedOptions = this.options.filter((option) =>
-						this.selectedValues.some((selectedValue) => selectedValue === (option.value as any))
-					);
-					return `${title}${color.gray(S_BAR)}  ${selectedOptions
-						.map((option, i) => opt(option, 'submitted'))
+					return `${title}${color.gray(S_BAR)}  ${this.value
+						.map((option: Option<Value>) => opt(option, 'submitted'))
 						.join(color.dim(', '))}`;
 				}
 				case 'cancel': {
-					const selectedOptions = this.options.filter((option) =>
-						this.selectedValues.some((selectedValue) => selectedValue === (option.value as any))
-					);
-					const label = selectedOptions
-						.map((option, i) => opt(option, 'cancelled'))
+					const label = this.value
+						.map((option: Option<Value>) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
 					return `${title}${color.gray(S_BAR)}  ${
 						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
@@ -254,30 +257,34 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 						.join('\n');
 					return `${title}${color.yellow(S_BAR)}  ${this.options
 						.map((option, i) => {
-							const isOptionSelected = this.selectedValues.includes(option.value as any);
-							const isOptionHovered = i === this.cursor;
-							if (isOptionHovered && isOptionSelected) {
+							const selected = this.value.some(
+								({ value }: Option<Value>) => value === option.value
+							);
+							const active = i === this.cursor;
+							if (active && selected) {
 								return opt(option, 'active-selected');
 							}
-							if (isOptionSelected) {
+							if (selected) {
 								return opt(option, 'selected');
 							}
-							return opt(option, isOptionHovered ? 'active' : 'inactive');
+							return opt(option, active ? 'active' : 'inactive');
 						})
 						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => {
-							const isOptionSelected = this.selectedValues.includes(option.value as any);
-							const isOptionHovered = i === this.cursor;
-							if (isOptionHovered && isOptionSelected) {
+							const selected = this.value.some(
+								({ value }: Option<Value>) => value === option.value
+							);
+							const active = i === this.cursor;
+							if (active && selected) {
 								return opt(option, 'active-selected');
 							}
-							if (isOptionSelected) {
+							if (selected) {
 								return opt(option, 'selected');
 							}
-							return opt(option, isOptionHovered ? 'active' : 'inactive');
+							return opt(option, active ? 'active' : 'inactive');
 						})
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
