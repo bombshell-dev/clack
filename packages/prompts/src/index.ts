@@ -254,8 +254,8 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 		initialValue: opts.initialValue,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
-		validate(value) {
-			if (this.required && value.length === 0)
+		validate(selected: Value[]) {
+			if (this.required && selected.length === 0)
 				return `Please select at least one option.\n${color.reset(
 					color.dim(
 						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
@@ -269,13 +269,15 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${this.value
-						.map((option: Option<Value>) => opt(option, 'submitted'))
+					return `${title}${color.gray(S_BAR)}  ${this.options
+						.filter(({ value }) => this.value.includes(value))
+						.map((option) => opt(option, 'submitted'))
 						.join(color.dim(', '))}`;
 				}
 				case 'cancel': {
-					const label = this.value
-						.map((option: Option<Value>) => opt(option, 'cancelled'))
+					const label = this.options
+						.filter(({ value }) => this.value.includes(value))
+						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
 					return `${title}${color.gray(S_BAR)}  ${
 						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
@@ -290,9 +292,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 						.join('\n');
 					return `${title}${color.yellow(S_BAR)}  ${this.options
 						.map((option, i) => {
-							const selected = this.value.some(
-								({ value }: Option<Value>) => value === option.value
-							);
+							const selected = this.value.includes(option.value);
 							const active = i === this.cursor;
 							if (active && selected) {
 								return opt(option, 'active-selected');
@@ -307,9 +307,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => {
-							const selected = this.value.some(
-								({ value }: Option<Value>) => value === option.value
-							);
+							const selected = this.value.includes(option.value);
 							const active = i === this.cursor;
 							if (active && selected) {
 								return opt(option, 'active-selected');

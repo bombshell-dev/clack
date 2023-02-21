@@ -11,13 +11,13 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
 	cursor: number = 0;
 
 	private get _value() {
-		return this.options[this.cursor];
+		return this.options[this.cursor].value;
 	}
 
 	private toggleValue() {
-		const selected = this.value.some(({ value }: T) => value === this._value.value);
+		const selected = this.value.includes(this._value);
 		this.value = selected
-			? this.value.filter(({ value }: T) => value !== this._value.value)
+			? this.value.filter((value: T['value']) => value !== this._value)
 			: [...this.value, this._value];
 	}
 
@@ -25,7 +25,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
 		super(opts, false);
 
 		this.options = opts.options;
-		this.value = this.options.filter(({ value }) => opts.initialValue?.includes(value));
+		this.value = [...(opts.initialValue ?? [])];
 		this.cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
 			0

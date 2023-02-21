@@ -41,7 +41,7 @@ export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | void;
 	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: string) => string | void) | undefined;
+	validate?: ((value: any) => string | void) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
