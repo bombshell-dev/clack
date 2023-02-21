@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 0.4.4
+
+### Patch Changes
+
+- d96071c: Don't mutate `initialValue` in `multiselect`, fix parameter type for `validate()`.
+
+  Credits to @banjo for the bug report and initial PR!
+
+- Updated dependencies [d96071c]
+  - @clack/core@0.1.8
+
 ## 0.4.3
 
 ### Patch Changes
