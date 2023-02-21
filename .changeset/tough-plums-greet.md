@@ -1,6 +1,6 @@
 ---
-"@clack/core": patch
-"@clack/prompts": patch
+'@clack/core': patch
+'@clack/prompts': patch
 ---
 
 Don't mutate `initialValue` in `multiselect`, fix parameter type for `validate()`.
