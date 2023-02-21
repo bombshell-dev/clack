@@ -230,7 +230,9 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 		} else if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
 		}
-		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label}`;
+		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label} ${
+			option.hint ? color.dim(`(${option.hint})`) : ''
+		}`;
 	};
 
 	return new SelectKeyPrompt({

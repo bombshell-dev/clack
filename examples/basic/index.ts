@@ -1,6 +1,6 @@
 import * as p from '@clack/prompts';
-import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
+import color from 'picocolors';
 
 async function main() {
 	console.clear();
@@ -11,14 +11,15 @@ async function main() {
 
 	const project = await p.group(
 		{
-			continue: () => p.selectKey({
-				message: 'Use this commit message?',
-				options: [
-					{ value: 'y', label: 'yes' },
-					{ value: 'n', label: 'no' },
-					{ value: 'r', label: 'regenerate' },
-				]
-			}),
+			continue: () =>
+				p.selectKey({
+					message: 'Use this commit message?',
+					options: [
+						{ value: 'y', label: 'yes', hint: 'default' },
+						{ value: 'n', label: 'no' },
+						{ value: 'r', label: 'regenerate' },
+					],
+				}),
 			path: () =>
 				p.text({
 					message: 'Where should we create your project?',
