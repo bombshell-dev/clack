@@ -4,6 +4,7 @@ import {
 	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
+	SelectKeyPrompt,
 	SelectPrompt,
 	State,
 	TextPrompt,
