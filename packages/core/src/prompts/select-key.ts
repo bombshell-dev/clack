@@ -11,17 +11,21 @@ export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
 		super(opts, false);
 
 		this.options = opts.options;
-		const keys = opts.options.map(({ value: [initial] }) => initial);
+		const keys = this.options.map(({ value: [initial] }) => initial);
 		this.cursor = Math.max(keys.indexOf(opts.initialValue), 0);
 
 		this.on('key', (key) => {
 			if (!keys.includes(key)) return;
-			const value = opts.options.find(({ value: [initial] }) => initial === key);
+			const value = this.options.find(({ value: [initial] }) => initial === key);
 			if (value) {
 				this.value = value.value;
 				this.state = 'submit';
 				this.emit('submit');
 			}
+		});
+
+		this.once('finalize', () => {
+			this.value = this.options[this.cursor].value;
 		});
 	}
 }
