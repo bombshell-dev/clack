@@ -20,6 +20,15 @@ async function main() {
 						if (value[0] !== '.') return 'Please enter a relative path.';
 					},
 				}),
+			password: () =>
+				p.password({
+					message: 'Provide a password',
+					mask: '🧹',
+					validate: (value) => {
+						if (!value) return 'Please enter a password.';
+						if (value.length < 5) return 'Password should have at least 5 characters.';
+					},
+				}),
 			type: ({ results }) =>
 				p.select({
 					message: `Pick a project type within "${results.path}"`,
