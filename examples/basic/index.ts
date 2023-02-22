@@ -42,7 +42,7 @@ async function main() {
 			tools: () =>
 				p.multiselect({
 					message: 'Select additional tools.',
-					initialValue: ['prettier', 'eslint'],
+					initialValues: ['prettier', 'eslint'],
 					options: [
 						{ value: 'prettier', label: 'Prettier', hint: 'recommended' },
 						{ value: 'eslint', label: 'ESLint', hint: 'recommended' },

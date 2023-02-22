@@ -219,7 +219,7 @@ export const select = <Options extends Option<Value>[], Value extends Primitive>
 export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
 	message: string;
 	options: Options;
-	initialValue?: Options[number]['value'][];
+	initialValues?: Options[number]['value'][];
 	required?: boolean;
 	cursorAt?: Options[number]['value'];
 }
@@ -251,7 +251,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 
 	return new MultiSelectPrompt({
 		options: opts.options,
-		initialValue: opts.initialValue,
+		initialValues: opts.initialValues,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
 		validate(selected: Value[]) {
