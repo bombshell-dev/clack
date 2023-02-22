@@ -23,9 +23,5 @@ export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
 				this.emit('submit');
 			}
 		});
-
-		this.once('finalize', () => {
-			this.value = this.options[this.cursor].value;
-		});
 	}
 }
