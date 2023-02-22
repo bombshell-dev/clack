@@ -1,6 +1,6 @@
 {
   "name": "@clack/core",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

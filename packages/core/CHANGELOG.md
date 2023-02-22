@@ -1,5 +1,12 @@
 # @clack/core
 
+## 0.2.0
+
+### Minor Changes
+
+- d74dd05: Adds a `selectKey` prompt type
+- 54c1bc3: **Breaking Change** `multiselect` has renamed `initialValue` to `initialValues`
+
 ## 0.1.9
 
 ### Patch Changes
