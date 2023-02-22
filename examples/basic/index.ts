@@ -23,7 +23,6 @@ async function main() {
 			password: () =>
 				p.password({
 					message: 'Provide a password',
-					mask: '🧹',
 					validate: (value) => {
 						if (!value) return 'Please enter a password.';
 						if (value.length < 5) return 'Password should have at least 5 characters.';

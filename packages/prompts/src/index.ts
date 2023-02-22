@@ -31,6 +31,7 @@ const S_RADIO_INACTIVE = s('○', ' ');
 const S_CHECKBOX_ACTIVE = s('◻', '[•]');
 const S_CHECKBOX_SELECTED = s('◼', '[+]');
 const S_CHECKBOX_INACTIVE = s('◻', '[ ]');
+const S_PASSWORD_MASK = s('▪', '•');
 
 const S_BAR_H = s('─', '-');
 const S_CORNER_TOP_RIGHT = s('╮', '+');
@@ -97,7 +98,7 @@ export interface PasswordOptions {
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
 		validate: opts.validate,
-		mask: opts.mask,
+		mask: opts.mask ?? S_PASSWORD_MASK,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.valueWithCursor;
