@@ -3,6 +3,7 @@ import {
 	ConfirmPrompt,
 	isCancel,
 	MultiSelectPrompt,
+	GroupMultiSelectPrompt,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
@@ -327,7 +328,7 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 					return `${title}${color.gray(S_BAR)}  ${this.options
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'submitted'))
-						.join(color.dim(', '))}`;
+						.join(color.dim(', ')) || color.dim('none')}`;
 				}
 				case 'cancel': {
 					const label = this.options
@@ -387,14 +388,140 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 	}).prompt() as Promise<Options[number]['value'][] | symbol>;
 };
 
+export interface GroupMultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
+	message: string;
+	options: Record<string, Options>;
+	initialValues?: Options[number]['value'][];
+	required?: boolean;
+	cursorAt?: Options[number]['value'];
+}
+export const groupMultiselect = <Options extends Option<Value>[], Value extends Primitive>(
+	opts: GroupMultiSelectOptions<Options, Value>
+) => {
+	const opt = (
+		option: Options[number],
+		state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'group-active' | 'group-active-selected' | 'submitted' | 'cancelled',
+		options: Options = [] as any,
+	) => {
+		const label = option.label ?? String(option.value);
+		const isItem = typeof option.group === 'string';
+		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
+		const isLast = isItem && next.group === true;
+		const prefix = typeof option.group === 'string' ? `${isLast ? S_BAR_END : S_BAR} ` : '';
+
+		if (state === 'active') {
+			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		} else if (state === 'group-active') {
+			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
+		} else if (state === 'group-active-selected') {
+			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+		} else if (state === 'selected') {
+			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+		} else if (state === 'cancelled') {
+			return `${color.strikethrough(color.dim(label))}`;
+		} else if (state === 'active-selected') {
+			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		} else if (state === 'submitted') {
+			return `${color.dim(label)}`;
+		}
+		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+	};
+
+	return new GroupMultiSelectPrompt({
+		options: opts.options,
+		initialValues: opts.initialValues,
+		required: opts.required ?? true,
+		cursorAt: opts.cursorAt,
+		validate(selected: Value[]) {
+			if (this.required && selected.length === 0)
+				return `Please select at least one option.\n${color.reset(
+					color.dim(
+						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
+							color.bgWhite(color.inverse(' enter '))
+						)} to submit`
+					)
+				)}`;
+		},
+		render() {
+			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+
+			switch (this.state) {
+				case 'submit': {
+					return `${title}${color.gray(S_BAR)}  ${this.options
+						.filter(({ value }) => this.value.includes(value))
+						.map((option) => opt(option, 'submitted'))
+						.join(color.dim(', '))}`;
+				}
+				case 'cancel': {
+					const label = this.options
+						.filter(({ value }) => this.value.includes(value))
+						.map((option) => opt(option, 'cancelled'))
+						.join(color.dim(', '));
+					return `${title}${color.gray(S_BAR)}  ${
+						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
+					}`;
+				}
+				case 'error': {
+					const footer = this.error
+						.split('\n')
+						.map((ln, i) =>
+							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
+						)
+						.join('\n');
+					return `${title}${color.yellow(S_BAR)}  ${this.options
+						.map((option, i, options) => {
+							const selected = this.value.includes(option.value) || (option.group === true && this.isGroupSelected(option.value));
+							const active = i === this.cursor;
+							const groupActive = !active &&  typeof option.group === 'string' && this.options[this.cursor].value === option.group;
+							if (groupActive) {
+								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
+							}
+							if (active && selected) {
+								return opt(option, 'active-selected', options);
+							}
+							if (selected) {
+								return opt(option, 'selected', options);
+							}
+							return opt(option, active ? 'active' : 'inactive', options);
+						})
+						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+				}
+				default: {
+					return `${title}${color.cyan(S_BAR)}  ${this.options
+						.map((option, i, options) => {
+							const selected = this.value.includes(option.value) || (option.group === true && this.isGroupSelected(option.value));
+							const active = i === this.cursor;
+							const groupActive = !active &&  typeof option.group === 'string' && this.options[this.cursor].value === option.group;
+							if (groupActive) {
+								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
+							}
+							if (active && selected) {
+								return opt(option, 'active-selected', options);
+							}
+							if (selected) {
+								return opt(option, 'selected', options);
+							}
+							return opt(option, active ? 'active' : 'inactive', options);
+						})
+						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+				}
+			}
+		},
+	}).prompt() as Promise<Options[number]['value'][] | symbol>;
+};
+
 const strip = (str: string) => str.replace(ansiRegex(), '');
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
-	const len =
+	const len = Math.max(
 		lines.reduce((sum, ln) => {
 			ln = strip(ln);
 			return ln.length > sum ? ln.length : sum;
-		}, 0) + 2;
+		}, 0), strip(title).length) + 2;
 	const msg = lines
 		.map(
 			(ln) =>
@@ -405,7 +532,7 @@ export const note = (message = '', title = '') => {
 		.join('\n');
 	process.stdout.write(
 		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(len - title.length - 1) + S_CORNER_TOP_RIGHT
+			S_BAR_H.repeat(Math.max(len - title.length - 1, 1)) + S_CORNER_TOP_RIGHT
 		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
 	);
 };
@@ -511,7 +638,7 @@ export interface PromptGroupOptions<T> {
 }
 
 export type PromptGroup<T> = {
-	[P in keyof T]: (opts: { results: Partial<PromptGroupAwaitedReturn<T>> }) => Promise<T[P]>;
+	[P in keyof T]: (opts: { results: Partial<PromptGroupAwaitedReturn<T>> }) => void | Promise<T[P] | void>;
 };
 
 /**
@@ -526,7 +653,8 @@ export const group = async <T>(
 	const promptNames = Object.keys(prompts);
 
 	for (const name of promptNames) {
-		const result = await prompts[name as keyof T]({ results }).catch((e) => {
+		const prompt = prompts[name as keyof T];
+		const result = await prompt({ results })?.catch((e) => {
 			throw e;
 		});
 
