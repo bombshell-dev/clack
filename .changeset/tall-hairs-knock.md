@@ -1,7 +1,6 @@
 ---
-"@example/basic": patch
-"@clack/core": patch
-"@clack/prompts": patch
+"@clack/core": minor
+"@clack/prompts": minor
 ---
 
-multiselect: rename initialValue to initialValues.
+**Breaking Change** `multiselect` has renamed `initialValue` to `initialValues`
