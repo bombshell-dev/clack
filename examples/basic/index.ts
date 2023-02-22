@@ -1,6 +1,6 @@
 import * as p from '@clack/prompts';
-import color from 'picocolors';
 import { setTimeout } from 'node:timers/promises';
+import color from 'picocolors';
 
 async function main() {
 	console.clear();

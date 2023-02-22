@@ -4,6 +4,7 @@ import {
 	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
+	SelectKeyPrompt,
 	SelectPrompt,
 	State,
 	TextPrompt,
@@ -206,6 +207,54 @@ export const select = <Options extends Option<Value>[], Value extends Primitive>
 						this.options[this.cursor],
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
+				default: {
+					return `${title}${color.cyan(S_BAR)}  ${this.options
+						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
+						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+				}
+			}
+		},
+	}).prompt() as Promise<Options[number]['value'] | symbol>;
+};
+
+export const selectKey = <Options extends Option<Value>[], Value extends string>(
+	opts: SelectOptions<Options, Value>
+) => {
+	const opt = (
+		option: Options[number],
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'
+	) => {
+		const label = option.label ?? String(option.value);
+		if (state === 'selected') {
+			return `${color.dim(label)}`;
+		} else if (state === 'cancelled') {
+			return `${color.strikethrough(color.dim(label))}`;
+		} else if (state === 'active') {
+			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		}
+		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label} ${
+			option.hint ? color.dim(`(${option.hint})`) : ''
+		}`;
+	};
+
+	return new SelectKeyPrompt({
+		options: opts.options,
+		initialValue: opts.initialValue,
+		render() {
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+
+			switch (this.state) {
+				case 'submit':
+					return `${title}${color.gray(S_BAR)}  ${opt(
+						this.options.find((opt) => opt.value === this.value)!,
+						'selected'
+					)}`;
+				case 'cancel':
+					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
+						S_BAR
+					)}`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
