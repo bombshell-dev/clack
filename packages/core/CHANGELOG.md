@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.2.1
+
+### Patch Changes
+
+- ec812b6: fix `readline` hang on Windows
+
 ## 0.2.0
 
 ### Minor Changes
