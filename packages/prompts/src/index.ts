@@ -38,6 +38,11 @@ const S_CORNER_TOP_RIGHT = s('╮', '+');
 const S_CONNECT_LEFT = s('├', '+');
 const S_CORNER_BOTTOM_RIGHT = s('╯', '+');
 
+const S_INFO = s('ℹ', 'i');
+const S_SUCCESS = s('✔', '√');
+const S_WARN = s('⚠', '!');
+const S_ERROR = s('✘', 'x');
+
 const symbol = (state: State) => {
 	switch (state) {
 		case 'initial':
@@ -407,6 +412,27 @@ export const intro = (title = '') => {
 
 export const outro = (message = '') => {
 	process.stdout.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
+};
+
+export type LogMessageOptions = {
+	symbol?: string;
+};
+export const log = {
+	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
+		process.stdout.write(`${color.gray(S_BAR)}\n${symbol}  ${message}\n`);
+	},
+	info: (message: string) => {
+		log.message(message, { symbol: color.blue(S_INFO) });
+	},
+	success: (message: string) => {
+		log.message(message, { symbol: color.green(S_SUCCESS) });
+	},
+	warn: (message: string) => {
+		log.message(message, { symbol: color.yellow(S_WARN) });
+	},
+	error: (message: string) => {
+		log.message(message, { symbol: color.red(S_ERROR) });
+	},
 };
 
 const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
