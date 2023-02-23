@@ -40,6 +40,9 @@ export function block({
 	return () => {
 		input.off('keypress', clear);
 		if (hideCursor) process.stdout.write(cursor.show);
+
+		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
+		rl.terminal = false;
 		rl.close();
 	};
 }
