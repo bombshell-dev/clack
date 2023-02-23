@@ -77,14 +77,6 @@ async function main() {
 		return onCancel()
 	}
 
-	const accept = await p.confirm({
-		message: 'Is this your desired changeset?'
-	})
-
-	if (p.isCancel(accept)) {
-		return onCancel()
-	}
-
 	p.outro(`Changeset added! ${color.underline(color.cyan('.changeset/orange-crabs-sing.md'))}`);
 }
 
