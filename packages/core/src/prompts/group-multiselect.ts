@@ -11,7 +11,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 	cursor: number = 0;
 
 	getGroupItems(group: string): T[] {
-		return this.options.filter(i => i.group === group);
+		return this.options.filter(o => o.group === group);
 	}
 
 	isGroupSelected(group: string) {
