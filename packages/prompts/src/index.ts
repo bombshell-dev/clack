@@ -38,10 +38,10 @@ const S_CORNER_TOP_RIGHT = s('╮', '+');
 const S_CONNECT_LEFT = s('├', '+');
 const S_CORNER_BOTTOM_RIGHT = s('╯', '+');
 
-const S_INFO = s('ℹ', 'i');
-const S_SUCCESS = s('✔', '√');
-const S_WARN = s('⚠', '!');
-const S_ERROR = s('✘', 'x');
+const S_INFO = s('●', '•');
+const S_SUCCESS = s('◆', '*');
+const S_WARN = s('▲', '!');
+const S_ERROR = s('■', 'x');
 
 const symbol = (state: State) => {
 	switch (state) {
