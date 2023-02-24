@@ -27,13 +27,13 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			if (this.isGroupSelected(group)) {
 				this.value = this.value.filter((v: string) => groupedItems.findIndex(i => i.value === v) === -1);
 			} else {
-				this.value = [...this.value, ...groupedItems.map(v => v.value)];
+				this.value = [...this.value, ...groupedItems.map(i => i.value)];
 			}
 			this.value = Array.from(new Set(this.value));
 		} else {
 			const selected = this.value.includes(item.value);
 			this.value = selected
-				? this.value.filter((value: T['value']) => value !== item.value)
+				? this.value.filter((v: T['value']) => v !== item.value)
 				: [...this.value, item.value];
 		}
 	}
@@ -41,10 +41,10 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 	constructor(opts: GroupMultiSelectOptions<T>) {
 		super(opts, false);
 
-		this.options = Object.keys(opts.options).reduce((acc, key) => {
-			acc.push({ value: key, group: true, label: key }, ...opts.options[key].map(opt => ({ ...opt, group: key })));
-			return acc;
-		}, [] as { value: any, [key: string]: any }[]);
+		this.options = Object.entries(options).flatMap(([key, option]) => [
+	{ value: key, group: true, label: key },
+	...option.map((opt) => ({ ...opt, group: key })),
+])
 		this.value = [...(opts.initialValues ?? [])];
 		this.cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),

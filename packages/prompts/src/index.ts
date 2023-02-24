@@ -407,7 +407,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 		const isItem = typeof option.group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
 		const isLast = isItem && next.group === true;
-		const prefix = typeof option.group === 'string' ? `${isLast ? S_BAR_END : S_BAR} ` : '';
+		const prefix = isItem ? `${isLast ? S_BAR_END : S_BAR} ` : '';
 
 		if (state === 'active') {
 			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
@@ -495,7 +495,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 						.map((option, i, options) => {
 							const selected = this.value.includes(option.value) || (option.group === true && this.isGroupSelected(option.value));
 							const active = i === this.cursor;
-							const groupActive = !active &&  typeof option.group === 'string' && this.options[this.cursor].value === option.group;
+							const groupActive = !active && typeof option.group === 'string' && this.options[this.cursor].value === option.group;
 							if (groupActive) {
 								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
 							}
