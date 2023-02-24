@@ -430,6 +430,10 @@ export const log = {
 	warn: (message: string) => {
 		log.message(message, { symbol: color.yellow(S_WARN) });
 	},
+	/** alias for `log.warn()`. */
+	warning: (message: string) => {
+		log.warn(message);
+	},
 	error: (message: string) => {
 		log.message(message, { symbol: color.red(S_ERROR) });
 	},
