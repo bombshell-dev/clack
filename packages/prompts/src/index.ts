@@ -419,7 +419,7 @@ export type LogMessageOptions = {
 };
 export const log = {
 	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
-		process.stdout.write(`${color.gray(S_BAR)}\n${symbol}  ${message}\n`);
+		process.stdout.write(`${color.gray(S_BAR)}\n` + message ? `${symbol}  ${message}\n` : '');
 	},
 	info: (message: string) => {
 		log.message(message, { symbol: color.blue(S_INFO) });
