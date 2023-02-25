@@ -1,5 +1,18 @@
 # @clack/prompts
 
+## 0.6.0
+
+### Minor Changes
+
+- 8a4a12f: add `groupMultiselect` prompt
+- 165a1b3: Add `log` APIs. Supports `log.info`, `log.success`, `log.warn`, and `log.error`. For low-level control, `log.message` is also exposed.
+
+### Patch Changes
+
+- Updated dependencies [8a4a12f]
+- Updated dependencies [8a4a12f]
+  - @clack/core@0.3.0
+
 ## 0.5.1
 
 ### Patch Changes

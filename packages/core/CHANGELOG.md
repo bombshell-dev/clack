@@ -1,5 +1,15 @@
 # @clack/core
 
+## 0.3.0
+
+### Minor Changes
+
+- 8a4a12f: Add `GroupMultiSelect` prompt
+
+### Patch Changes
+
+- 8a4a12f: add `groupMultiselect` prompt
+
 ## 0.2.1
 
 ### Patch Changes
