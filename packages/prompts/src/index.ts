@@ -411,12 +411,12 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 			| 'group-active-selected'
 			| 'submitted'
 			| 'cancelled',
-		options: Options = [] as any
+		options: Options[number][] = [] as any
 	) => {
 		const label = option.label ?? String(option.value);
-		const isItem = typeof option.group === 'string';
+		const isItem = typeof (option as any).group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
-		const isLast = isItem && next.group === true;
+		const isLast = isItem && (next as any).group === true;
 		const prefix = isItem ? `${isLast ? S_BAR_END : S_BAR} ` : '';
 
 		if (state === 'active') {
@@ -486,7 +486,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
-								(option.group === true && this.isGroupSelected(option.value));
+								(option.group === true && this.isGroupSelected(`${option.value}`));
 							const active = i === this.cursor;
 							const groupActive =
 								!active &&
@@ -510,7 +510,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
-								(option.group === true && this.isGroupSelected(option.value));
+								(option.group === true && this.isGroupSelected(`${option.value}`));
 							const active = i === this.cursor;
 							const groupActive =
 								!active &&
