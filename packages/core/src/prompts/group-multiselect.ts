@@ -40,7 +40,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 
 	constructor(opts: GroupMultiSelectOptions<T>) {
 		super(opts, false);
-
+		const { options } = opts;
 		this.options = Object.entries(options).flatMap(([key, option]) => [
 	{ value: key, group: true, label: key },
 	...option.map((opt) => ({ ...opt, group: key })),
