@@ -177,16 +177,13 @@ interface Option<Value extends Primitive> {
 export interface SelectOptions<Options extends Option<Value>[], Value extends Primitive> {
 	message: string;
 	options: Options;
-	initialValue?: Options[number]['value'];
+	initialValue?: Value;
 }
 
 export const select = <Options extends Option<Value>[], Value extends Primitive>(
 	opts: SelectOptions<Options, Value>
 ) => {
-	const opt = (
-		option: Options[number],
-		state: 'inactive' | 'active' | 'selected' | 'cancelled'
-	) => {
+	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
 		const label = option.label ?? String(option.value);
 		if (state === 'active') {
 			return `${color.green(S_RADIO_ACTIVE)} ${label} ${
@@ -221,14 +218,14 @@ export const select = <Options extends Option<Value>[], Value extends Primitive>
 				}
 			}
 		},
-	}).prompt() as Promise<Options[number]['value'] | symbol>;
+	}).prompt() as Promise<Value | symbol>;
 };
 
 export const selectKey = <Options extends Option<Value>[], Value extends string>(
 	opts: SelectOptions<Options, Value>
 ) => {
 	const opt = (
-		option: Options[number],
+		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'
 	) => {
 		const label = option.label ?? String(option.value);
@@ -269,21 +266,21 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 				}
 			}
 		},
-	}).prompt() as Promise<Options[number]['value'] | symbol>;
+	}).prompt() as Promise<Value | symbol>;
 };
 
 export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
 	message: string;
 	options: Options;
-	initialValues?: Options[number]['value'][];
+	initialValues?: Value[];
 	required?: boolean;
-	cursorAt?: Options[number]['value'];
+	cursorAt?: Value;
 }
 export const multiselect = <Options extends Option<Value>[], Value extends Primitive>(
 	opts: MultiSelectOptions<Options, Value>
 ) => {
 	const opt = (
-		option: Options[number],
+		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled'
 	) => {
 		const label = option.label ?? String(option.value);
@@ -387,21 +384,21 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 				}
 			}
 		},
-	}).prompt() as Promise<Options[number]['value'][] | symbol>;
+	}).prompt() as Promise<Value[] | symbol>;
 };
 
 export interface GroupMultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
 	message: string;
 	options: Record<string, Options>;
-	initialValues?: Options[number]['value'][];
+	initialValues?: Value[];
 	required?: boolean;
-	cursorAt?: Options[number]['value'];
+	cursorAt?: Value;
 }
 export const groupMultiselect = <Options extends Option<Value>[], Value extends Primitive>(
 	opts: GroupMultiSelectOptions<Options, Value>
 ) => {
 	const opt = (
-		option: Options[number],
+		option: Option<Value>,
 		state:
 			| 'inactive'
 			| 'active'
@@ -411,7 +408,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 			| 'group-active-selected'
 			| 'submitted'
 			| 'cancelled',
-		options: Options[number][] = [] as any
+		options: Option<Value>[] = []
 	) => {
 		const label = option.label ?? String(option.value);
 		const isItem = typeof (option as any).group === 'string';
@@ -531,7 +528,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 				}
 			}
 		},
-	}).prompt() as Promise<Options[number]['value'][] | symbol>;
+	}).prompt() as Promise<Value[] | symbol>;
 };
 
 const strip = (str: string) => str.replace(ansiRegex(), '');
