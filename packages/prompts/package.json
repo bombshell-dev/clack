@@ -1,6 +1,6 @@
 {
   "name": "@clack/prompts",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -52,7 +52,7 @@
     "build": "unbuild"
   },
   "dependencies": {
-    "@clack/core": "^0.2.1",
+    "@clack/core": "^0.3.0",
     "picocolors": "^1.0.0",
     "sisteransi": "^1.0.5"
   },
