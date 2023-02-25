@@ -33,6 +33,19 @@ importers:
     devDependencies:
       jiti: 1.17.0
 
+  examples/changesets:
+    specifiers:
+      '@clack/core': workspace:*
+      '@clack/prompts': workspace:*
+      jiti: ^1.17.0
+      picocolors: ^1.0.0
+    dependencies:
+      '@clack/core': link:../../packages/core
+      '@clack/prompts': link:../../packages/prompts
+      picocolors: 1.0.0
+    devDependencies:
+      jiti: 1.17.0
+
   packages/core:
     specifiers:
       picocolors: ^1.0.0
