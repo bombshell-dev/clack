@@ -567,6 +567,9 @@ export const log = {
 	success: (message: string) => {
 		log.message(message, { symbol: color.green(S_SUCCESS) });
 	},
+	step: (message: string) => {
+		log.message(message, { symbol: color.green(S_STEP_SUBMIT) });
+	},
 	warn: (message: string) => {
 		log.message(message, { symbol: color.yellow(S_WARN) });
 	},

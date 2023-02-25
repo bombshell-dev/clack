@@ -59,7 +59,7 @@ async function main() {
 				if (possiblePackages.length === 0) return;
 				let note = possiblePackages.join('\n');
 				
-				p.note(note, `These packages will have a ${color.green('patch')} bump.`);
+				p.log.step(`These packages will have a ${color.green('patch')} bump.\n${color.dim(note)}`);
 				return possiblePackages
 			}
 		},
