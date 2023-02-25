@@ -16,7 +16,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
 
 	private toggleAll() {
 		const allSelected = this.value.length === this.options.length;
-		this.value = allSelected ? [] : this.options.map(v => v.value);
+		this.value = allSelected ? [] : this.options.map((v) => v.value);
 	}
 
 	private toggleValue() {
@@ -37,9 +37,9 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt 
 		);
 		this.on('key', (char) => {
 			if (char === 'a') {
-				this.toggleAll()
+				this.toggleAll();
 			}
-		})
+		});
 
 		this.on('cursor', (key) => {
 			switch (key) {

@@ -1,6 +1,7 @@
 import Prompt, { PromptOptions } from './prompt';
 
-interface GroupMultiSelectOptions<T extends { value: any }> extends PromptOptions<GroupMultiSelectPrompt<T>> {
+interface GroupMultiSelectOptions<T extends { value: any }>
+	extends PromptOptions<GroupMultiSelectPrompt<T>> {
 	options: Record<string, T[]>;
 	initialValues?: T['value'][];
 	required?: boolean;
@@ -11,12 +12,12 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 	cursor: number = 0;
 
 	getGroupItems(group: string): T[] {
-		return this.options.filter(o => o.group === group);
+		return this.options.filter((o) => o.group === group);
 	}
 
 	isGroupSelected(group: string) {
 		const items = this.getGroupItems(group);
-		return items.every(i => this.value.includes(i.value));
+		return items.every((i) => this.value.includes(i.value));
 	}
 
 	private toggleValue() {
@@ -25,9 +26,11 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			const group = item.value;
 			const groupedItems = this.getGroupItems(group);
 			if (this.isGroupSelected(group)) {
-				this.value = this.value.filter((v: string) => groupedItems.findIndex(i => i.value === v) === -1);
+				this.value = this.value.filter(
+					(v: string) => groupedItems.findIndex((i) => i.value === v) === -1
+				);
 			} else {
-				this.value = [...this.value, ...groupedItems.map(i => i.value)];
+				this.value = [...this.value, ...groupedItems.map((i) => i.value)];
 			}
 			this.value = Array.from(new Set(this.value));
 		} else {
@@ -42,9 +45,9 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		super(opts, false);
 		const { options } = opts;
 		this.options = Object.entries(options).flatMap(([key, option]) => [
-	{ value: key, group: true, label: key },
-	...option.map((opt) => ({ ...opt, group: key })),
-])
+			{ value: key, group: true, label: key },
+			...option.map((opt) => ({ ...opt, group: key })),
+		]);
 		this.value = [...(opts.initialValues ?? [])];
 		this.cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),

@@ -1,9 +1,9 @@
 import {
 	block,
 	ConfirmPrompt,
+	GroupMultiSelectPrompt,
 	isCancel,
 	MultiSelectPrompt,
-	GroupMultiSelectPrompt,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
@@ -325,10 +325,12 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${this.options
-						.filter(({ value }) => this.value.includes(value))
-						.map((option) => opt(option, 'submitted'))
-						.join(color.dim(', ')) || color.dim('none')}`;
+					return `${title}${color.gray(S_BAR)}  ${
+						this.options
+							.filter(({ value }) => this.value.includes(value))
+							.map((option) => opt(option, 'submitted'))
+							.join(color.dim(', ')) || color.dim('none')
+					}`;
 				}
 				case 'cancel': {
 					const label = this.options
@@ -400,8 +402,16 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 ) => {
 	const opt = (
 		option: Options[number],
-		state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'group-active' | 'group-active-selected' | 'submitted' | 'cancelled',
-		options: Options = [] as any,
+		state:
+			| 'inactive'
+			| 'active'
+			| 'selected'
+			| 'active-selected'
+			| 'group-active'
+			| 'group-active-selected'
+			| 'submitted'
+			| 'cancelled',
+		options: Options = [] as any
 	) => {
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
@@ -474,9 +484,14 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 						.join('\n');
 					return `${title}${color.yellow(S_BAR)}  ${this.options
 						.map((option, i, options) => {
-							const selected = this.value.includes(option.value) || (option.group === true && this.isGroupSelected(option.value));
+							const selected =
+								this.value.includes(option.value) ||
+								(option.group === true && this.isGroupSelected(option.value));
 							const active = i === this.cursor;
-							const groupActive = !active &&  typeof option.group === 'string' && this.options[this.cursor].value === option.group;
+							const groupActive =
+								!active &&
+								typeof option.group === 'string' &&
+								this.options[this.cursor].value === option.group;
 							if (groupActive) {
 								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
 							}
@@ -493,9 +508,14 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i, options) => {
-							const selected = this.value.includes(option.value) || (option.group === true && this.isGroupSelected(option.value));
+							const selected =
+								this.value.includes(option.value) ||
+								(option.group === true && this.isGroupSelected(option.value));
 							const active = i === this.cursor;
-							const groupActive = !active && typeof option.group === 'string' && this.options[this.cursor].value === option.group;
+							const groupActive =
+								!active &&
+								typeof option.group === 'string' &&
+								this.options[this.cursor].value === option.group;
 							if (groupActive) {
 								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
 							}
@@ -517,11 +537,14 @@ export const groupMultiselect = <Options extends Option<Value>[], Value extends 
 const strip = (str: string) => str.replace(ansiRegex(), '');
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
-	const len = Math.max(
-		lines.reduce((sum, ln) => {
-			ln = strip(ln);
-			return ln.length > sum ? ln.length : sum;
-		}, 0), strip(title).length) + 2;
+	const len =
+		Math.max(
+			lines.reduce((sum, ln) => {
+				ln = strip(ln);
+				return ln.length > sum ? ln.length : sum;
+			}, 0),
+			strip(title).length
+		) + 2;
 	const msg = lines
 		.map(
 			(ln) =>
@@ -641,7 +664,9 @@ export interface PromptGroupOptions<T> {
 }
 
 export type PromptGroup<T> = {
-	[P in keyof T]: (opts: { results: Partial<PromptGroupAwaitedReturn<T>> }) => void | Promise<T[P] | void>;
+	[P in keyof T]: (opts: {
+		results: Partial<PromptGroupAwaitedReturn<T>>;
+	}) => void | Promise<T[P] | void>;
 };
 
 /**
