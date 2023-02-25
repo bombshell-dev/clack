@@ -47,7 +47,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		this.options = Object.entries(options).flatMap(([key, option]) => [
 			{ value: key, group: true, label: key },
 			...option.map((opt) => ({ ...opt, group: key })),
-		]);
+		]) as any;
 		this.value = [...(opts.initialValues ?? [])];
 		this.cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
