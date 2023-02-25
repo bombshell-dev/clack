@@ -345,19 +345,27 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
-						.map((option, i) => {
-							const selected = this.value.includes(option.value);
-							const active = i === this.cursor;
-							if (active && selected) {
-								return opt(option, 'active-selected');
-							}
-							if (selected) {
-								return opt(option, 'selected');
-							}
-							return opt(option, active ? 'active' : 'inactive');
-						})
-						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+					return (
+						title +
+						color.yellow(S_BAR) +
+						'  ' +
+						this.options
+							.map((option, i) => {
+								const selected = this.value.includes(option.value);
+								const active = i === this.cursor;
+								if (active && selected) {
+									return opt(option, 'active-selected');
+								}
+								if (selected) {
+									return opt(option, 'selected');
+								}
+								return opt(option, active ? 'active' : 'inactive');
+							})
+							.join(`\n${color.yellow(S_BAR)}  `) +
+						'\n' +
+						footer +
+						'\n'
+					);
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
@@ -419,7 +427,12 @@ export type LogMessageOptions = {
 };
 export const log = {
 	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
-		process.stdout.write(`${color.gray(S_BAR)}\n` + message ? `${symbol}  ${message}\n` : '');
+		const parts = [`${color.gray(S_BAR)}`];
+		if (message) {
+			const [firstLine, ...lines] = message.split('\n');
+			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
+		}
+		process.stdout.write(`${parts.join('\n')}\n`);
 	},
 	info: (message: string) => {
 		log.message(message, { symbol: color.blue(S_INFO) });
