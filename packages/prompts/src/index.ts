@@ -38,6 +38,11 @@ const S_CORNER_TOP_RIGHT = s('╮', '+');
 const S_CONNECT_LEFT = s('├', '+');
 const S_CORNER_BOTTOM_RIGHT = s('╯', '+');
 
+const S_INFO = s('●', '•');
+const S_SUCCESS = s('◆', '*');
+const S_WARN = s('▲', '!');
+const S_ERROR = s('■', 'x');
+
 const symbol = (state: State) => {
 	switch (state) {
 		case 'initial':
@@ -340,19 +345,27 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
-						.map((option, i) => {
-							const selected = this.value.includes(option.value);
-							const active = i === this.cursor;
-							if (active && selected) {
-								return opt(option, 'active-selected');
-							}
-							if (selected) {
-								return opt(option, 'selected');
-							}
-							return opt(option, active ? 'active' : 'inactive');
-						})
-						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+					return (
+						title +
+						color.yellow(S_BAR) +
+						'  ' +
+						this.options
+							.map((option, i) => {
+								const selected = this.value.includes(option.value);
+								const active = i === this.cursor;
+								if (active && selected) {
+									return opt(option, 'active-selected');
+								}
+								if (selected) {
+									return opt(option, 'selected');
+								}
+								return opt(option, active ? 'active' : 'inactive');
+							})
+							.join(`\n${color.yellow(S_BAR)}  `) +
+						'\n' +
+						footer +
+						'\n'
+					);
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
@@ -407,6 +420,36 @@ export const intro = (title = '') => {
 
 export const outro = (message = '') => {
 	process.stdout.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
+};
+
+export type LogMessageOptions = {
+	symbol?: string;
+};
+export const log = {
+	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
+		const parts = [`${color.gray(S_BAR)}`];
+		if (message) {
+			const [firstLine, ...lines] = message.split('\n');
+			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
+		}
+		process.stdout.write(`${parts.join('\n')}\n`);
+	},
+	info: (message: string) => {
+		log.message(message, { symbol: color.blue(S_INFO) });
+	},
+	success: (message: string) => {
+		log.message(message, { symbol: color.green(S_SUCCESS) });
+	},
+	warn: (message: string) => {
+		log.message(message, { symbol: color.yellow(S_WARN) });
+	},
+	/** alias for `log.warn()`. */
+	warning: (message: string) => {
+		log.warn(message);
+	},
+	error: (message: string) => {
+		log.message(message, { symbol: color.red(S_ERROR) });
+	},
 };
 
 const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
