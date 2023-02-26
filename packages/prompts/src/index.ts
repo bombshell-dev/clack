@@ -169,18 +169,18 @@ export const confirm = (opts: ConfirmOptions) => {
 };
 
 type Primitive = Readonly<string | boolean | number>;
-interface Option<Value extends Primitive> {
-	value: Value;
-	label?: string;
-	hint?: string;
-}
-export interface SelectOptions<Options extends Option<Value>[], Value extends Primitive> {
+
+type Option<Value> = Value extends Primitive
+	? { value: Value; label?: string; hint?: string }
+	: { value: Value; label: string; hint?: string };
+
+export interface SelectOptions<Options extends Option<Value>[], Value> {
 	message: string;
 	options: Options;
 	initialValue?: Value;
 }
 
-export const select = <Options extends Option<Value>[], Value extends Primitive>(
+export const select = <Options extends Option<Value>[], Value>(
 	opts: SelectOptions<Options, Value>
 ) => {
 	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
@@ -269,14 +269,14 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 	}).prompt() as Promise<Value | symbol>;
 };
 
-export interface MultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
+export interface MultiSelectOptions<Options extends Option<Value>[], Value> {
 	message: string;
 	options: Options;
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
 }
-export const multiselect = <Options extends Option<Value>[], Value extends Primitive>(
+export const multiselect = <Options extends Option<Value>[], Value>(
 	opts: MultiSelectOptions<Options, Value>
 ) => {
 	const opt = (
@@ -387,14 +387,14 @@ export const multiselect = <Options extends Option<Value>[], Value extends Primi
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-export interface GroupMultiSelectOptions<Options extends Option<Value>[], Value extends Primitive> {
+export interface GroupMultiSelectOptions<Options extends Option<Value>[], Value> {
 	message: string;
 	options: Record<string, Options>;
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
 }
-export const groupMultiselect = <Options extends Option<Value>[], Value extends Primitive>(
+export const groupMultiselect = <Options extends Option<Value>[], Value>(
 	opts: GroupMultiSelectOptions<Options, Value>
 ) => {
 	const opt = (
