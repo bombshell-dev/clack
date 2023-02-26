@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 0.6.1
+
+### Patch Changes
+
+- ca08fb6: Support complex value types for `select`, `multiselect` and `groupMultiselect`.
+
 ## 0.6.0
 
 ### Minor Changes
