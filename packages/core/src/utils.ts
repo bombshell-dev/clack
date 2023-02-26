@@ -101,7 +101,7 @@ export function _wrap(str: string, cols = process.stdout.columns): string {
 			i += len;
 		}
 	}
-	
+
 	const re = ansiRegex();
 	let lastIndex = 0;
 	let lastPart = "";
@@ -114,7 +114,7 @@ export function _wrap(str: string, cols = process.stdout.columns): string {
 			if (sCode > pCode) {
 				handle(chunk, { prefix, suffix });
 			} else {
-				handle(chunk)	
+				handle(chunk)
 			}
 		} else {
 			handle(chunk)
@@ -125,7 +125,7 @@ export function _wrap(str: string, cols = process.stdout.columns): string {
 	const chunk = str.slice(lastIndex);
 	handle(chunk);
 	parts.push(part);
-	
+
 	return parts.map(p => /^\s{2,}/.test(p) ? p : p.trimStart()).join('\n');
 }
 

@@ -1,0 +1,62 @@
+{
+  "name": "@clack/logger",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natemoo-re/clack",
+    "directory": "packages/logger"
+  },
+  "bugs": {
+    "url": "https://github.com/natemoo-re/clack/issues"
+  },
+  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/logger#readme",
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "ask",
+    "clack",
+    "cli",
+    "command-line",
+    "command",
+    "input",
+    "interact",
+    "interface",
+    "menu",
+    "prompt",
+    "prompts",
+    "stdin",
+    "ui"
+  ],
+  "author": {
+    "name": "Nate Moore",
+    "email": "nate@natemoo.re",
+    "url": "https://twitter.com/n_moore"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@7.6.0",
+  "scripts": {
+    "build": "unbuild"
+  },
+  "dependencies": {
+    "@clack/core": "workspace:*",
+    "easta": "^7.0.0",
+    "eastasianwidth": "^0.2.0"
+  },
+  "devDependencies": {
+    "unbuild": "^1.1.1"
+  }
+}
