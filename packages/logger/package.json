@@ -1,6 +1,6 @@
 {
-  "name": "@clack/core",
-  "version": "0.3.0",
+  "name": "@clack/logger",
+  "version": "0.0.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -16,12 +16,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/natemoo-re/clack",
-    "directory": "packages/core"
+    "directory": "packages/logger"
   },
   "bugs": {
     "url": "https://github.com/natemoo-re/clack/issues"
   },
-  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
+  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/logger#readme",
   "files": [
     "dist",
     "CHANGELOG.md"
@@ -52,9 +52,9 @@
     "build": "unbuild"
   },
   "dependencies": {
-    "eastasianwidth": "^0.2.0",
-    "picocolors": "^1.0.0",
-    "sisteransi": "^1.0.5"
+    "@clack/core": "workspace:*",
+    "easta": "^7.0.0",
+    "eastasianwidth": "^0.2.0"
   },
   "devDependencies": {
     "unbuild": "^1.1.1"

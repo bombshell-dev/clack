@@ -46,14 +46,46 @@ importers:
     devDependencies:
       jiti: 1.17.0
 
+  examples/dev-server:
+    specifiers:
+      '@clack/core': ^0.3.0
+      '@clack/logger': workspace:*
+      jiti: ^1.17.0
+      picocolors: ^1.0.0
+      sisteransi: ^1.0.5
+      string-width: ^5.1.2
+    dependencies:
+      '@clack/core': link:../../packages/core
+      '@clack/logger': link:../../packages/logger
+      picocolors: 1.0.0
+      sisteransi: 1.0.5
+      string-width: 5.1.2
+    devDependencies:
+      jiti: 1.17.0
+
   packages/core:
     specifiers:
+      eastasianwidth: ^0.2.0
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       unbuild: ^1.1.1
     dependencies:
+      eastasianwidth: 0.2.0
       picocolors: 1.0.0
       sisteransi: 1.0.5
+    devDependencies:
+      unbuild: 1.1.1
+
+  packages/logger:
+    specifiers:
+      '@clack/core': workspace:*
+      easta: ^7.0.0
+      eastasianwidth: ^0.2.0
+      unbuild: ^1.1.1
+    dependencies:
+      '@clack/core': link:../core
+      easta: 7.0.0
+      eastasianwidth: 0.2.0
     devDependencies:
       unbuild: 1.1.1
 
@@ -1105,6 +1137,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /ansi-regex/6.0.1:
+    resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
+    engines: {node: '>=12'}
+    dev: false
+
   /ansi-styles/3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
     engines: {node: '>=4'}
@@ -1405,6 +1442,15 @@ packages:
       path-type: 4.0.0
     dev: true
 
+  /easta/7.0.0:
+    resolution: {integrity: sha512-caC2nQJKBc21OP3tsltT2eQPntubPtPdios67ZOQseyw+29UfdIM5aFVZ7Dh74+ZEhTJx8RLOckp8mY+NI+CTw==}
+    engines: {node: '>=14'}
+    dev: false
+
+  /eastasianwidth/0.2.0:
+    resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
+    dev: false
+
   /editorconfig/0.15.3:
     resolution: {integrity: sha512-M9wIMFx96vq0R4F+gRpY3o2exzb8hEj/n9S8unZtHSvYjibBp/iMufSzvmOcV/laG0ZtuTVGtiJggPOSW2r93g==}
     hasBin: true
@@ -1422,6 +1468,10 @@ packages:
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
     dev: true
+
+  /emoji-regex/9.2.2:
+    resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+    dev: false
 
   /enquirer/2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
@@ -2726,6 +2776,15 @@ packages:
       strip-ansi: 6.0.1
     dev: true
 
+  /string-width/5.1.2:
+    resolution: {integrity: sha512-HnLOCR3vjcY8beoNLtcjZ5/nxn2afmME6lhrDrebokqMap+XbeW8n9TXpPDOqdGK5qcI3oT0GKTW6wC7EMiVqA==}
+    engines: {node: '>=12'}
+    dependencies:
+      eastasianwidth: 0.2.0
+      emoji-regex: 9.2.2
+      strip-ansi: 7.0.1
+    dev: false
+
   /string.prototype.trimend/1.0.6:
     resolution: {integrity: sha512-JySq+4mrPf9EsDBEDYMOb/lM7XQLulwg5R/m1r0PXEFqrV0qHvl58sdTilSXtKOflCsK2E8jxf+GKC0T07RWwQ==}
     dependencies:
@@ -2748,6 +2807,13 @@ packages:
     dependencies:
       ansi-regex: 5.0.1
     dev: true
+
+  /strip-ansi/7.0.1:
+    resolution: {integrity: sha512-cXNxvT8dFNRVfhVME3JAe98mkXDYN2O1l7jmcwMnOslDeESg1rF/OZMtK0nRAhiari1unG5cD4jG3rapUAkLbw==}
+    engines: {node: '>=12'}
+    dependencies:
+      ansi-regex: 6.0.1
+    dev: false
 
   /strip-bom/3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
