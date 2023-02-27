@@ -8,7 +8,7 @@
     "build:core": "pnpm --filter @clack/core run build",
     "build:prompts": "pnpm --filter @clack/prompts run build",
     "start": "pnpm --filter @example/basic run start",
-    "dev": "pnpm --filter @example/changesets run start",
+    "dev": "pnpm --filter @example/dev run start",
     "format": "pnpm run format:code",
     "format:code": "prettier -w . --cache",
     "format:imports": "organize-imports-cli ./packages/*/tsconfig.json",

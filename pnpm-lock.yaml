@@ -46,7 +46,29 @@ importers:
     devDependencies:
       jiti: 1.17.0
 
+  examples/dev:
+    specifiers:
+      '@clack/logger': workspace:*
+      jiti: ^1.17.0
+      picocolors: ^1.0.0
+    dependencies:
+      '@clack/logger': link:../../packages/logger
+      picocolors: 1.0.0
+    devDependencies:
+      jiti: 1.17.0
+
   packages/core:
+    specifiers:
+      picocolors: ^1.0.0
+      sisteransi: ^1.0.5
+      unbuild: ^1.1.1
+    dependencies:
+      picocolors: 1.0.0
+      sisteransi: 1.0.5
+    devDependencies:
+      unbuild: 1.1.1
+
+  packages/logger:
     specifiers:
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
