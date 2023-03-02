@@ -38,11 +38,15 @@ const aliases = new Map([
 ]);
 const keys = new Set(['up', 'down', 'left', 'right', 'space', 'enter']);
 
+export interface Validator<Value = any> {
+	(value: Value): string | void | Promise<string | void>;
+}
+
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | void;
 	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: any) => string | void) | undefined;
+	validate?: Validator;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
@@ -153,7 +157,7 @@ export default class Prompt {
 		this.subscribers.clear();
 	}
 
-	private onKeypress(char: string, key?: Key) {
+	private async onKeypress(char: string, key?: Key) {
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
@@ -172,7 +176,7 @@ export default class Prompt {
 
 		if (key?.name === 'return') {
 			if (this.opts.validate) {
-				const problem = this.opts.validate(this.value);
+				const problem = await this.opts.validate(this.value);
 				if (problem) {
 					this.error = problem;
 					this.state = 'error';
