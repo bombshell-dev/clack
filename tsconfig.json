@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "module": "ESNext",
     "target": "ESNext",
-    "declaration": true,
     "moduleResolution": "node",
-    "emitDeclarationOnly": true,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "types": ["node"]
-  }
+    "skipLibCheck": true,
+  },
+  "include": [
+    "packages"
+  ]
 }
