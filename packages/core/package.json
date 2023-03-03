@@ -54,8 +54,5 @@
   "dependencies": {
     "picocolors": "^1.0.0",
     "sisteransi": "^1.0.5"
-  },
-  "devDependencies": {
-    "unbuild": "^1.1.1"
   }
 }
