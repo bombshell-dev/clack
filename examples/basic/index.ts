@@ -15,8 +15,7 @@ async function main() {
 				p.text({
 					message: 'Where should we create your project?',
 					placeholder: './sparkling-solid',
-					validate: async (value) => {
-						await setTimeout(299);
+					validate: (value) => {
 						if (!value) return 'Please enter a path.';
 						if (value[0] !== '.') return 'Please enter a relative path.';
 					},
