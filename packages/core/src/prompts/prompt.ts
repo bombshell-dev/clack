@@ -206,7 +206,8 @@ export default class Prompt {
 	}
 
 	private restoreCursor() {
-		const lines = wrap(this._prevFrame, process.stdout.columns, { hard: true }).split('\n').length - 1;
+		const lines =
+			wrap(this._prevFrame, process.stdout.columns, { hard: true }).split('\n').length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
