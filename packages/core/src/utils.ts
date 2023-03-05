@@ -71,7 +71,9 @@ export function width(str: string): number {
 const words = new Intl.Segmenter([], { granularity: 'word' });
 const graphemes = new Intl.Segmenter([], { granularity: 'grapheme' });
 
-export function wrap(str: string, cols = process.stdout.columns): string {
+// TODO: match behavior with `wrap-ansi`
+// There are currently some bugs here that keep ansi escapes from working properly
+export function _wrap(str: string, cols = process.stdout.columns): string {
 	const parts: string[] = [];
 	let part = '';
 	let i = 0;
