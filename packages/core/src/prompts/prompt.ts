@@ -4,6 +4,7 @@ import { stdin, stdout } from 'node:process';
 import readline from 'node:readline';
 import { Readable, Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
+import { setTimeout } from 'node:timers/promises';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
@@ -52,7 +53,7 @@ export interface PromptOptions<Self extends Prompt> {
 	debug?: boolean;
 }
 
-export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
+export type State = 'initial' | 'active' | 'cancel' | 'validate' | 'submit' | 'error';
 
 export default class Prompt {
 	protected input: Readable;
@@ -176,7 +177,17 @@ export default class Prompt {
 
 		if (key?.name === 'return') {
 			if (this.opts.validate) {
-				const problem = await this.opts.validate(this.value);
+				this.state = 'validate';
+				let problem = this.opts.validate(this.value);
+				// Only trigger validation state after 300ms.
+				// If problem resolves first, render will be cancelled.
+				await Promise.race([
+					problem,
+					setTimeout(300).then(() => {
+						this.render();
+					}),
+				]);
+				problem = await problem;
 				if (problem) {
 					this.error = problem;
 					this.state = 'error';
