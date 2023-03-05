@@ -3,8 +3,6 @@ import type { Key } from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import * as readline from 'node:readline';
 import { cursor } from 'sisteransi';
-// @ts-expect-error no types
-import ea from 'eastasianwidth';
 
 export function block({
 	input = stdin,
@@ -64,68 +62,68 @@ export function strip(str: string) {
 	return str.replace(ansiRegex(), '');
 }
 
-export function width(str: string): number {
-	return Array.from(graphemes.segment(str)).map(({ segment: c }) => ea.characterLength(c)).reduce((a, b) => a + b, 0);
-}
+// export function width(str: string): number {
+// 	return Array.from(graphemes.segment(str)).map(({ segment: c }) => ea.characterLength(c)).reduce((a, b) => a + b, 0);
+// }
 
-const words = new Intl.Segmenter([], { granularity: 'word' });
-const graphemes = new Intl.Segmenter([], { granularity: 'grapheme' });
+// const words = new Intl.Segmenter([], { granularity: 'word' });
+// const graphemes = new Intl.Segmenter([], { granularity: 'grapheme' });
 
 // TODO: match behavior with `wrap-ansi`
 // There are currently some bugs here that keep ansi escapes from working properly
-export function _wrap(str: string, cols = process.stdout.columns): string {
-	const parts: string[] = [];
-	let part = '';
-	let i = 0;
-	const handle = (chunk: string, { prefix = "", suffix = '' } = {}) => {
-		for (const word of words.segment(chunk)) {
-			if (word.segment === '\n') {
-				parts.push(part)
-				i = 0
-				part = ''
-				continue;
-			}
-			const len = width(word.segment);
-			// Gracefully handle trailing punctuation by ensuring it is always joined with the previous word
-			if (len === 1 && word.segment.trim() && /\W/.test(word.segment)) {
-				part += word.segment;
-				i += 1
-				continue;
-			}
-			if ((i + len) > cols - 1) {
-				parts.push(part.trim())
-				i = 0
-				part = ''
-			}
-			part += `${prefix}${word.segment}${suffix}`
-			i += len;
-		}
-	}
+// export function _wrap(str: string, cols = process.stdout.columns): string {
+// 	const parts: string[] = [];
+// 	let part = '';
+// 	let i = 0;
+// 	const handle = (chunk: string, { prefix = "", suffix = '' } = {}) => {
+// 		for (const word of words.segment(chunk)) {
+// 			if (word.segment === '\n') {
+// 				parts.push(part)
+// 				i = 0
+// 				part = ''
+// 				continue;
+// 			}
+// 			const len = width(word.segment);
+// 			// Gracefully handle trailing punctuation by ensuring it is always joined with the previous word
+// 			if (len === 1 && word.segment.trim() && /\W/.test(word.segment)) {
+// 				part += word.segment;
+// 				i += 1
+// 				continue;
+// 			}
+// 			if ((i + len) > cols - 1) {
+// 				parts.push(part.trim())
+// 				i = 0
+// 				part = ''
+// 			}
+// 			part += `${prefix}${word.segment}${suffix}`
+// 			i += len;
+// 		}
+// 	}
 
-	const re = ansiRegex();
-	let lastIndex = 0;
-	let lastPart = "";
-	let m;
-	while (m = re.exec(str)) {
-		const chunk = m.input.slice(lastIndex, m.index);
-		const [prefix, suffix] = [lastPart, m[0]]
-		if (prefix) {
-			const [pCode, sCode] = [Number(prefix.slice(2, -1)), Number(suffix.slice(2, -1))]
-			if (sCode > pCode) {
-				handle(chunk, { prefix, suffix });
-			} else {
-				handle(chunk)
-			}
-		} else {
-			handle(chunk)
-		}
-		lastPart = m[0];
-		lastIndex = m.index + m[0].length;
-	}
-	const chunk = str.slice(lastIndex);
-	handle(chunk);
-	parts.push(part);
+// 	const re = ansiRegex();
+// 	let lastIndex = 0;
+// 	let lastPart = "";
+// 	let m;
+// 	while (m = re.exec(str)) {
+// 		const chunk = m.input.slice(lastIndex, m.index);
+// 		const [prefix, suffix] = [lastPart, m[0]]
+// 		if (prefix) {
+// 			const [pCode, sCode] = [Number(prefix.slice(2, -1)), Number(suffix.slice(2, -1))]
+// 			if (sCode > pCode) {
+// 				handle(chunk, { prefix, suffix });
+// 			} else {
+// 				handle(chunk)
+// 			}
+// 		} else {
+// 			handle(chunk)
+// 		}
+// 		lastPart = m[0];
+// 		lastIndex = m.index + m[0].length;
+// 	}
+// 	const chunk = str.slice(lastIndex);
+// 	handle(chunk);
+// 	parts.push(part);
 
-	return parts.map(p => /^\s{2,}/.test(p) ? p : p.trimStart()).join('\n');
-}
+// 	return parts.map(p => /^\s{2,}/.test(p) ? p : p.trimStart()).join('\n');
+// }
 

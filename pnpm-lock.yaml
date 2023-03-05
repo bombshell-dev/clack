@@ -48,12 +48,10 @@ importers:
 
   packages/core:
     specifiers:
-      eastasianwidth: ^0.2.0
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       wrap-ansi: ^8.1.0
     dependencies:
-      eastasianwidth: 0.2.0
       picocolors: 1.0.0
       sisteransi: 1.0.5
     devDependencies:
@@ -1219,6 +1217,7 @@ packages:
 
   /eastasianwidth/0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
+    dev: true
 
   /editorconfig/0.15.3:
     resolution: {integrity: sha512-M9wIMFx96vq0R4F+gRpY3o2exzb8hEj/n9S8unZtHSvYjibBp/iMufSzvmOcV/laG0ZtuTVGtiJggPOSW2r93g==}

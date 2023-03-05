@@ -13,6 +13,7 @@ import {
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
+import { strip } from '@clack/core';
 
 export { isCancel } from '@clack/core';
 
@@ -531,7 +532,6 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-const strip = (str: string) => str.replace(ansiRegex(), '');
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
 	const len =
