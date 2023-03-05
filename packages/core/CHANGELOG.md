@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.3.2
+
+### Patch Changes
+
+- c96eda5: Enable hard line-wrapping behavior for long words without spaces
+
 ## 0.3.1
 
 ### Patch Changes
