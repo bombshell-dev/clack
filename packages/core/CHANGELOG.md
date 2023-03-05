@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.3.1
+
+### Patch Changes
+
+- 58a1df1: Fix line duplication bug by automatically wrapping prompts to `process.stdout.columns`
+
 ## 0.3.0
 
 ### Minor Changes
