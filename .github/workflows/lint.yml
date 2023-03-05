@@ -19,4 +19,5 @@ jobs:
           cache: "pnpm"
       - if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         run: pnpm install
+      - run: pnpm build
       - run: pnpm type-check
