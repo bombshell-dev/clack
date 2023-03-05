@@ -5,6 +5,7 @@ import readline from 'node:readline';
 import { Readable, Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
+import wrap from 'wrap-ansi';
 
 function diffLines(a: string, b: string) {
 	if (a === b) return;
@@ -104,17 +105,20 @@ export default class Prompt {
 
 		this.input.on('keypress', this.onKeypress);
 		setRawMode(this.input, true);
+		this.output.on('resize', this.render);
 
 		this.render();
 
 		return new Promise<string | symbol>((resolve, reject) => {
 			this.once('submit', () => {
 				this.output.write(cursor.show);
+				this.output.off('resize', this.render);
 				setRawMode(this.input, false);
 				resolve(this.value);
 			});
 			this.once('cancel', () => {
 				this.output.write(cursor.show);
+				this.output.off('resize', this.render);
 				setRawMode(this.input, false);
 				resolve(cancel);
 			});
@@ -203,13 +207,13 @@ export default class Prompt {
 
 	// TODO: handle wrapping
 	private restoreCursor() {
-		const lines = this._prevFrame.split('\n').length - 1;
+		const lines = wrap(this._prevFrame, process.stdout.columns).split('\n').length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
 	private _prevFrame = '';
 	private render() {
-		const frame = this._render(this) ?? '';
+		const frame = wrap(this._render(this) ?? '', process.stdout.columns);
 		if (frame === this._prevFrame) return;
 
 		if (this.state === 'initial') {
