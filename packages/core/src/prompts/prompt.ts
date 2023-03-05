@@ -205,15 +205,14 @@ export default class Prompt {
 		this.unsubscribe();
 	}
 
-	// TODO: handle wrapping
 	private restoreCursor() {
-		const lines = wrap(this._prevFrame, process.stdout.columns).split('\n').length - 1;
+		const lines = wrap(this._prevFrame, process.stdout.columns, { hard: true }).split('\n').length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
 	private _prevFrame = '';
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns);
+		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
 		if (frame === this._prevFrame) return;
 
 		if (this.state === 'initial') {
