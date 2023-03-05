@@ -1,5 +1,13 @@
 # @clack/prompts
 
+## 0.6.3
+
+### Patch Changes
+
+- c96eda5: Enable hard line-wrapping behavior for long words without spaces
+- Updated dependencies [c96eda5]
+  - @clack/core@0.3.2
+
 ## 0.6.2
 
 ### Patch Changes
