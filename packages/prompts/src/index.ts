@@ -84,7 +84,9 @@ export const text = (opts: TextOptions) => {
 
 			switch (this.state) {
 				case 'validate':
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}  ${color.dim('Validating...')}\n`;
+					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}  ${color.dim(
+						'Validating...'
+					)}\n`;
 				case 'error':
 					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
 						S_BAR_END
@@ -117,6 +119,10 @@ export const password = (opts: PasswordOptions) => {
 			const masked = this.masked;
 
 			switch (this.state) {
+				case 'validate':
+					return `${title}${color.cyan(S_BAR)}  ${masked}\n${color.cyan(S_BAR_END)}  ${color.dim(
+						'Validating...'
+					)}\n`;
 				case 'error':
 					return `${title.trim()}\n${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
 						S_BAR_END
