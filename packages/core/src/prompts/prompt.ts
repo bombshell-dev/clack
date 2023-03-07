@@ -4,9 +4,10 @@ import { stdin, stdout } from 'node:process';
 import readline from 'node:readline';
 import { Readable, Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
-import { setTimeout } from 'node:timers/promises';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
+
+const VALIDATION_STATE_DELAY = 400;
 
 function diffLines(a: string, b: string) {
 	if (a === b) return;
@@ -20,6 +21,26 @@ function diffLines(a: string, b: string) {
 	}
 
 	return diff;
+}
+
+function raceTimeout<Value>(
+	promise: Promise<Value>,
+	{ onTimeout, delay }: { onTimeout(): void; delay: number }
+) {
+	let timer: NodeJS.Timeout;
+
+	return Promise.race([
+		new Promise<void>((resolve) => {
+			timer = setTimeout(() => {
+				onTimeout();
+				resolve();
+			}, delay);
+		}),
+		promise.then((value) => {
+			clearTimeout(timer);
+			return value;
+		}),
+	]);
 }
 
 const cancel = Symbol('clack:cancel');
@@ -178,16 +199,16 @@ export default class Prompt {
 		if (key?.name === 'return') {
 			if (this.opts.validate) {
 				this.state = 'validate';
-				let problem = this.opts.validate(this.value);
-				// Only trigger validation state after 300ms.
-				// If problem resolves first, render will be cancelled.
-				await Promise.race([
-					problem,
-					setTimeout(300).then(() => {
+				const validation = Promise.resolve(this.opts.validate(this.value));
+				// Delay rendering of validation state.
+				// If validation resolves first, render will be cancelled.
+				await raceTimeout(validation, {
+					onTimeout: () => {
 						this.render();
-					}),
-				]);
-				problem = await problem;
+					},
+					delay: VALIDATION_STATE_DELAY,
+				});
+				const problem = await validation;
 				if (problem) {
 					this.error = problem;
 					this.state = 'error';
