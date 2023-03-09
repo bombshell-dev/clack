@@ -666,7 +666,7 @@ type Prettify<T> = {
 
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
-		results: Prettify<Partial<PromptGroupAwaitedReturn<T>>>;
+		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
 	}) => void | Promise<T[P] | void>;
 };
 
