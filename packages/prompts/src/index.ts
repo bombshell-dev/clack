@@ -58,6 +58,8 @@ const symbol = (state: State) => {
 	}
 };
 
+type Prettify<T> = { [K in keyof T]: T[K] } & {};
+
 export interface TextOptions {
 	message: string;
 	placeholder?: string;
@@ -673,7 +675,7 @@ export type PromptGroup<T> = {
 export const group = async <T>(
 	prompts: PromptGroup<T>,
 	opts?: PromptGroupOptions<T>
-): Promise<PromptGroupAwaitedReturn<T>> => {
+): Promise<Prettify<PromptGroupAwaitedReturn<T>>> => {
 	const results = {} as any;
 	const promptNames = Object.keys(prompts);
 
