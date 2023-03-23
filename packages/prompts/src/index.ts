@@ -607,10 +607,11 @@ const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 export const spinner = () => {
 	let unblock: () => void;
 	let loop: NodeJS.Timer;
+	let message = ''
 	const delay = unicode ? 80 : 120;
 	return {
-		start(message = '') {
-			message = message.replace(/\.?\.?\.$/, '');
+		start(_message = '') {
+			message = _message.replace(/\.?\.?\.$/, '');
 			unblock = block();
 			process.stdout.write(`${color.gray(S_BAR)}\n${color.magenta('○')}  ${message}\n`);
 			let i = 0;
@@ -627,7 +628,11 @@ export const spinner = () => {
 				dot = dot === frames.length ? 0 : dot + 0.125;
 			}, delay);
 		},
-		stop(message = '') {
+		message(_message = '') {
+			message = _message
+		},
+		stop(_message = '') {
+			message = _message
 			process.stdout.write(cursor.move(-999, -2));
 			process.stdout.write(erase.down(2));
 			clearInterval(loop);
