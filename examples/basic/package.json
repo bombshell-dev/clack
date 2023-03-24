@@ -9,7 +9,8 @@
     "picocolors": "^1.0.0"
   },
   "scripts": {
-    "start": "jiti ./index.ts"
+    "start": "jiti ./index.ts",
+    "spinner": "jiti ./spinner.ts"
   },
   "devDependencies": {
     "jiti": "^1.17.0"
