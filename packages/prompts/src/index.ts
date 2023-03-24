@@ -610,7 +610,8 @@ export const spinner = () => {
 	let message = ''
 	const delay = unicode ? 80 : 120;
 	return {
-		start(_message = '') {
+		start(msg = '') {
+			this.message(msg)
 			message = _message.replace(/\.?\.?\.$/, '');
 			unblock = block();
 			process.stdout.write(`${color.gray(S_BAR)}\n${color.magenta('○')}  ${message}\n`);
@@ -628,11 +629,11 @@ export const spinner = () => {
 				dot = dot === frames.length ? 0 : dot + 0.125;
 			}, delay);
 		},
-		message(_message = '') {
-			message = _message
+		message(msg = '') {
+			message = msg ?? message
 		},
-		stop(_message = '') {
-			message = _message
+		stop(msg = '') {
+			this.message(msg)
 			process.stdout.write(cursor.move(-999, -2));
 			process.stdout.write(erase.down(2));
 			clearInterval(loop);
