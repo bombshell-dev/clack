@@ -607,33 +607,71 @@ const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 export const spinner = () => {
 	let unblock: () => void;
 	let loop: NodeJS.Timer;
+	let isSpinnerActive: boolean = false;
 	const delay = unicode ? 80 : 120;
+
+	const start = (message: string = ''): void => {
+		isSpinnerActive = true;
+		message = message.replace(/\.?\.?\.$/, '');
+		unblock = block();
+		process.stdout.write(`${color.gray(S_BAR)}\n${color.magenta('○')}  ${message}\n`);
+		let i = 0;
+		let dot = 0;
+		loop = setInterval(() => {
+			let frame = frames[i];
+			process.stdout.write(cursor.move(-999, -1));
+			process.stdout.write(
+				`${color.magenta(frame)}  ${message}${
+					Math.floor(dot) >= 1 ? '.'.repeat(Math.floor(dot)).slice(0, 3) : ''
+				}   \n`
+			);
+			i = i === frames.length - 1 ? 0 : i + 1;
+			dot = dot === frames.length ? 0 : dot + 0.125;
+		}, delay);
+	};
+
+	const stop = (message: string = '', code: number = 0): void => {
+		isSpinnerActive = false;
+		process.stdout.write(cursor.move(-999, -2));
+		process.stdout.write(erase.down(2));
+		clearInterval(loop);
+		const bar = color.gray(S_BAR);
+		const step =
+			code === 0
+				? color.green(S_STEP_SUBMIT)
+				: code === 1
+				? color.red(S_STEP_CANCEL)
+				: color.red(S_STEP_ERROR);
+		process.stdout.write(`${bar}\n${step}  ${message}\n`);
+		unblock();
+	};
+
+	const handleCancel = () => {
+		if (isSpinnerActive) {
+			stop('Canceled', 1);
+		}
+	};
+
+	const handleError = () => {
+		if (isSpinnerActive) {
+			stop('Something went wrong', 2);
+		}
+	};
+
+	// Trigger on code exception
+	process.on('uncaughtException', handleError);
+	// Trigger on promise rejection
+	process.on('unhandledRejection', handleError);
+	// Trigger on Ctrl + C -> multi platform
+	process.on('SIGINT', handleCancel);
+	// Trigger on kill process
+	process.on('SIGTERM', handleCancel);
+	// Trigger on system shutdown
+	process.on('exit', handleCancel);
+
 	return {
-		start(message = '') {
-			message = message.replace(/\.?\.?\.$/, '');
-			unblock = block();
-			process.stdout.write(`${color.gray(S_BAR)}\n${color.magenta('○')}  ${message}\n`);
-			let i = 0;
-			let dot = 0;
-			loop = setInterval(() => {
-				let frame = frames[i];
-				process.stdout.write(cursor.move(-999, -1));
-				process.stdout.write(
-					`${color.magenta(frame)}  ${message}${
-						Math.floor(dot) >= 1 ? '.'.repeat(Math.floor(dot)).slice(0, 3) : ''
-					}   \n`
-				);
-				i = i === frames.length - 1 ? 0 : i + 1;
-				dot = dot === frames.length ? 0 : dot + 0.125;
-			}, delay);
-		},
-		stop(message = '') {
-			process.stdout.write(cursor.move(-999, -2));
-			process.stdout.write(erase.down(2));
-			clearInterval(loop);
-			process.stdout.write(`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${message}\n`);
-			unblock();
-		},
+		start,
+		stop,
 	};
 };
 
