@@ -646,28 +646,22 @@ export const spinner = () => {
 		unblock();
 	};
 
-	const handleCancel = () => {
+	const handleExit = (code: number) => {
 		if (isSpinnerActive) {
-			stop('Canceled', 1);
+			stop(code > 1 ? 'Something went wrong' : 'Canceled', code);
 		}
 	};
 
-	const handleError = () => {
-		if (isSpinnerActive) {
-			stop('Something went wrong', 2);
-		}
-	};
-
-	// Trigger on code exception
-	process.on('uncaughtException', handleError);
-	// Trigger on promise rejection
-	process.on('unhandledRejection', handleError);
+	// Trigger on uncaught code exception
+	process.on('uncaughtException', () => handleExit(2));
+	// Trigger on unhandled promise rejection
+	process.on('unhandledRejection', () => handleExit(2));
 	// Trigger on Ctrl + C -> multi platform
-	process.on('SIGINT', handleCancel);
+	process.on('SIGINT', () => handleExit(1));
 	// Trigger on kill process
-	process.on('SIGTERM', handleCancel);
+	process.on('SIGTERM', () => handleExit(1));
 	// Trigger on system shutdown
-	process.on('exit', handleCancel);
+	process.on('exit', handleExit);
 
 	return {
 		start,
