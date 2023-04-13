@@ -602,47 +602,43 @@ export const log = {
 	},
 };
 
-const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-
 export const spinner = () => {
 	let unblock: () => void;
 	let loop: NodeJS.Timer;
 	let isSpinnerActive: boolean = false;
+	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
 
 	const start = (message: string = ''): void => {
 		isSpinnerActive = true;
-		message = message.replace(/\.?\.?\.$/, '');
 		unblock = block();
-		process.stdout.write(`${color.gray(S_BAR)}\n${color.magenta('○')}  ${message}\n`);
-		let i = 0;
-		let dot = 0;
+		message = message.replace(/\.+$/, '');
+		process.stdout.write(`${color.gray(S_BAR)}\n`);
+		let frameIndex = 0;
+		let dotsTimer = 0;
 		loop = setInterval(() => {
-			let frame = frames[i];
-			process.stdout.write(cursor.move(-999, -1));
-			process.stdout.write(
-				`${color.magenta(frame)}  ${message}${
-					Math.floor(dot) >= 1 ? '.'.repeat(Math.floor(dot)).slice(0, 3) : ''
-				}   \n`
-			);
-			i = i === frames.length - 1 ? 0 : i + 1;
-			dot = dot === frames.length ? 0 : dot + 0.125;
+			const frame = color.magenta(frames[frameIndex]);
+			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
+			process.stdout.write(cursor.move(-999, 0));
+			process.stdout.write(erase.down(1));
+			process.stdout.write(`${frame}  ${message}${loadingDots}`);
+			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
+			dotsTimer = dotsTimer < frames.length ? dotsTimer + 0.125 : 0;
 		}, delay);
 	};
 
 	const stop = (message: string = '', code: number = 0): void => {
 		isSpinnerActive = false;
-		process.stdout.write(cursor.move(-999, -2));
-		process.stdout.write(erase.down(2));
 		clearInterval(loop);
-		const bar = color.gray(S_BAR);
 		const step =
 			code === 0
 				? color.green(S_STEP_SUBMIT)
 				: code === 1
 				? color.red(S_STEP_CANCEL)
 				: color.red(S_STEP_ERROR);
-		process.stdout.write(`${bar}\n${step}  ${message}\n`);
+		process.stdout.write(cursor.move(-999, 0));
+		process.stdout.write(erase.down(1));
+		process.stdout.write(`${step}  ${message}\n\n`);
 		unblock();
 	};
 
@@ -652,15 +648,18 @@ export const spinner = () => {
 		}
 	};
 
-	// Trigger on uncaught code exception
+	/**
+	 *  Signal Events: https://nodejs.org/api/process.html#signal-events
+	 * `uncaughtException`: Trigger on uncaught code exception
+	 * `unhandledRejection`: Trigger on unhandled promise rejection
+	 * `SIGINT`: Trigger on Ctrl + C. PS: it will not trigger while terminal raw mode is enabled
+	 * `SIGTERM`: Trigger on kill process
+	 * `exit`: Trigger on exit
+	 */
 	process.on('uncaughtException', () => handleExit(2));
-	// Trigger on unhandled promise rejection
 	process.on('unhandledRejection', () => handleExit(2));
-	// Trigger on Ctrl + C -> multi platform
 	process.on('SIGINT', () => handleExit(1));
-	// Trigger on kill process
 	process.on('SIGTERM', () => handleExit(1));
-	// Trigger on system shutdown
 	process.on('exit', handleExit);
 
 	return {
