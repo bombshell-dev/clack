@@ -638,7 +638,7 @@ export const spinner = () => {
 				: color.red(S_STEP_ERROR);
 		process.stdout.write(cursor.move(-999, 0));
 		process.stdout.write(erase.down(1));
-		process.stdout.write(`${step}  ${message}\n\n`);
+		process.stdout.write(`${step}  ${message}\n`);
 		unblock();
 	};
 
