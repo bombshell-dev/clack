@@ -642,16 +642,15 @@ export const spinner = () => {
 		unblock();
 	};
 
-	const handleExit = (code: number, error?: unknown) => {
+	const handleExit = (code: number) => {
 		const message = code > 1 ? 'Something went wrong' : 'Canceled';
 		if (isSpinnerActive) stop(message, code);
-		if (error) console.error(error);
 	};
 
 	// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
-	process.on('uncaughtException', (error) => handleExit(2, error));
+	process.on('uncaughtExceptionMonitor', () => handleExit(2));
 	// Reference: https://nodejs.org/api/process.html#event-unhandledrejection
-	process.on('unhandledRejection', (error) => handleExit(2, error));
+	process.on('unhandledRejection', () => handleExit(2));
 	// Reference Signal Events: https://nodejs.org/api/process.html#signal-events
 	process.on('SIGINT', () => handleExit(1));
 	process.on('SIGTERM', () => handleExit(1));
