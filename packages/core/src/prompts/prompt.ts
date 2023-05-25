@@ -6,6 +6,7 @@ import { Readable, Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
+import { Fzf } from 'fzf';
 
 function diffLines(a: string, b: string) {
 	if (a === b) return;
@@ -46,6 +47,7 @@ export interface PromptOptions<Self extends Prompt> {
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
+	enableFilter?: boolean;
 }
 
 export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
@@ -58,6 +60,7 @@ export default class Prompt {
 	private _track: boolean = false;
 	private _render: (context: Omit<Prompt, 'prompt'>) => string | void;
 	protected _cursor: number = 0;
+	private _filterKey = '';
 
 	public state: State = 'initial';
 	public value: any;
@@ -136,7 +139,7 @@ export default class Prompt {
 		arr.push({ cb, once: true });
 		this.subscribers.set(event, arr);
 	}
-	public emit(event: string, ...data: any[]) {
+	public emit<T extends any>(event: string, ...data: T[]) {
 		const cbs = this.subscribers.get(event) ?? [];
 		const cleanup: (() => void)[] = [];
 		for (const subscriber of cbs) {
@@ -157,7 +160,12 @@ export default class Prompt {
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
-		if (key?.name && !this._track && aliases.has(key.name)) {
+		if (
+			key?.name &&
+			!this._track &&
+			/* disable moving aliases when enable filter */
+			(this.opts.enableFilter ? false : aliases.has(key.name))
+		) {
 			this.emit('cursor', aliases.get(key.name));
 		}
 		if (key?.name && keys.has(key.name)) {
@@ -251,5 +259,25 @@ export default class Prompt {
 			this.state = 'active';
 		}
 		this._prevFrame = frame;
+	}
+
+	protected registerFilterer(list: string[]) {
+		if (this.opts.enableFilter) {
+			const fzf = new Fzf(list);
+			this.on('key', (key) => {
+				if (key === /* backspace */ '\x7F') {
+					if (this._filterKey.length) this._filterKey = this._filterKey.slice(0, -1);
+					if (!this._filterKey.length) this.emit('filterClear');
+				} else if (key.length === 1 && key !== ' ') {
+					this._filterKey += key;
+				}
+				const filtered = fzf.find(this._filterKey);
+				this.emit('filtered', filtered);
+			});
+		}
+	}
+
+	getFilterKey() {
+		return this._filterKey;
 	}
 }

@@ -46,8 +46,22 @@ importers:
     devDependencies:
       jiti: 1.17.0
 
+  examples/test:
+    specifiers:
+      '@clack/core': workspace:*
+      '@clack/prompts': workspace:*
+      jiti: ^1.17.0
+      picocolors: ^1.0.0
+    dependencies:
+      '@clack/core': link:../../packages/core
+      '@clack/prompts': link:../../packages/prompts
+      picocolors: 1.0.0
+    devDependencies:
+      jiti: 1.17.1
+
   packages/core:
     specifiers:
+      fzf: ^0.5.2
       picocolors: ^1.0.0
       sisteransi: ^1.0.5
       wrap-ansi: ^8.1.0
@@ -55,6 +69,7 @@ importers:
       picocolors: 1.0.0
       sisteransi: 1.0.5
     devDependencies:
+      fzf: 0.5.2
       wrap-ansi: 8.1.0
 
   packages/prompts:
@@ -1489,6 +1504,10 @@ packages:
 
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+    dev: true
+
+  /fzf/0.5.2:
+    resolution: {integrity: sha512-Tt4kuxLXFKHy8KT40zwsUPUkg1CrsgY25FxA2U/j/0WgEDCk3ddc/zLTCCcbSHX9FcKtLuVaDGtGE/STWC+j3Q==}
     dev: true
 
   /gensync/1.0.0-beta.2:
