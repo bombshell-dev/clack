@@ -58,6 +58,6 @@
   },
   "devDependencies": {
     "wrap-ansi": "^8.1.0",
-		"fzf": "^0.5.2"
+	"fzf": "^0.5.2"
   }
 }
