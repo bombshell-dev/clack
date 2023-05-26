@@ -272,7 +272,7 @@ export default class Prompt {
 					this._filterKey += key;
 				}
 				const filtered = fzf.find(this._filterKey);
-				this.emit('filtered', filtered);
+				this.emit('filter', filtered);
 			});
 		}
 	}

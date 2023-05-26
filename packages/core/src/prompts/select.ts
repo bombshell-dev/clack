@@ -1,5 +1,5 @@
 import Prompt, { PromptOptions } from './prompt';
-import { Fzf, FzfResultItem } from 'fzf';
+import { type FzfResultItem } from 'fzf';
 
 interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPrompt<T>> {
 	options: T[];
@@ -43,7 +43,7 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
 
 		// For filter
 		this.registerFilterer(this.options.map(({ value }) => value));
-		this.on('filtered', (filtered: FzfResultItem[]) => {
+		this.on('filter', (filtered: FzfResultItem[]) => {
 			this.cursor = 0;
 			if (filtered.length) {
 				this.options = filtered.map(
