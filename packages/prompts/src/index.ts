@@ -178,6 +178,7 @@ export interface SelectOptions<Options extends Option<Value>[], Value> {
 	message: string;
 	options: Options;
 	initialValue?: Value;
+	enableFilter?: boolean;
 }
 
 export const select = <Options extends Option<Value>[], Value>(
@@ -200,8 +201,14 @@ export const select = <Options extends Option<Value>[], Value>(
 	return new SelectPrompt({
 		options: opts.options,
 		initialValue: opts.initialValue,
+		enableFilter: opts.enableFilter,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+
+			const filterKey = this.getFilterKey().length
+				? this.getFilterKey()
+				: color.gray('Type to filter...');
+			const filterer = opts.enableFilter ? `  > ${filterKey}\n${color.cyan(S_BAR)}  ` : '';
 
 			switch (this.state) {
 				case 'submit':
@@ -212,7 +219,7 @@ export const select = <Options extends Option<Value>[], Value>(
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}${color.cyan(S_BAR)}${filterer}${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}

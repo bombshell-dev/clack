@@ -57,6 +57,7 @@
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
-    "wrap-ansi": "^8.1.0"
+    "wrap-ansi": "^8.1.0",
+	"fzf": "^0.5.2"
   }
 }
