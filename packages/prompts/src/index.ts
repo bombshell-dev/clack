@@ -178,6 +178,7 @@ export interface SelectOptions<Options extends Option<Value>[], Value> {
 	message: string;
 	options: Options;
 	initialValue?: Value;
+	maxItems?: number;
 }
 
 export const select = <Options extends Option<Value>[], Value>(
@@ -197,6 +198,8 @@ export const select = <Options extends Option<Value>[], Value>(
 		return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
 	};
 
+	let slidingWindowLocation = 0;
+
 	return new SelectPrompt({
 		options: opts.options,
 		initialValue: opts.initialValue,
@@ -212,8 +215,37 @@ export const select = <Options extends Option<Value>[], Value>(
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
 				default: {
+					// We clamp to minimum 5 because anything less doesn't make sense UX wise
+					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
+					if (this.cursor >= slidingWindowLocation + maxItems - 3) {
+						slidingWindowLocation = Math.max(
+							Math.min(this.cursor - maxItems + 3, this.options.length - maxItems),
+							0
+						);
+					} else if (this.cursor < slidingWindowLocation + 2) {
+						slidingWindowLocation = Math.max(this.cursor - 2, 0);
+					}
+
+					const shouldRenderTopEllipsis =
+						maxItems < this.options.length && slidingWindowLocation > 0;
+					const shouldRenderBottomEllipsis =
+						maxItems < this.options.length &&
+						slidingWindowLocation + maxItems < this.options.length;
+
 					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
+						.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
+						.map((option, i, arr) => {
+							if (i === 0 && shouldRenderTopEllipsis) {
+								return color.dim('...');
+							} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
+								return color.dim('...');
+							} else {
+								return opt(
+									option,
+									i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'
+								);
+							}
+						})
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
