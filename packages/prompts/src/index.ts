@@ -635,44 +635,71 @@ export const log = {
 	},
 };
 
-const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-
 export const spinner = () => {
+	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
+	const delay = unicode ? 80 : 120;
+
 	let unblock: () => void;
 	let loop: NodeJS.Timer;
-	let message = '';
-	const delay = unicode ? 80 : 120;
+	let isSpinnerActive: boolean = false;
+	let _message: string = '';
+
+	const start = (msg: string = ''): void => {
+		isSpinnerActive = true;
+		unblock = block();
+		_message = msg.replace(/\.+$/, '');
+		process.stdout.write(`${color.gray(S_BAR)}\n`);
+		let frameIndex = 0;
+		let dotsTimer = 0;
+		loop = setInterval(() => {
+			const frame = color.magenta(frames[frameIndex]);
+			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
+			process.stdout.write(cursor.move(-999, 0));
+			process.stdout.write(erase.down(1));
+			process.stdout.write(`${frame}  ${_message}${loadingDots}`);
+			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
+			dotsTimer = dotsTimer < frames.length ? dotsTimer + 0.125 : 0;
+		}, delay);
+	};
+
+	const stop = (msg: string = '', code: number = 0): void => {
+		_message = msg ?? _message
+		isSpinnerActive = false;
+		clearInterval(loop);
+		const step =
+			code === 0
+				? color.green(S_STEP_SUBMIT)
+				: code === 1
+				? color.red(S_STEP_CANCEL)
+				: color.red(S_STEP_ERROR);
+		process.stdout.write(cursor.move(-999, 0));
+		process.stdout.write(erase.down(1));
+		process.stdout.write(`${step}  ${_message}\n`);
+		unblock();
+	};
+
+	const message = (msg: string = ''): void => {
+		_message = msg ?? _message;
+	};
+
+	const handleExit = (code: number) => {
+		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		if (isSpinnerActive) stop(msg, code);
+	};
+
+	// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
+	process.on('uncaughtExceptionMonitor', () => handleExit(2));
+	// Reference: https://nodejs.org/api/process.html#event-unhandledrejection
+	process.on('unhandledRejection', () => handleExit(2));
+	// Reference Signal Events: https://nodejs.org/api/process.html#signal-events
+	process.on('SIGINT', () => handleExit(1));
+	process.on('SIGTERM', () => handleExit(1));
+	process.on('exit', handleExit);
+
 	return {
-		start(msg = '') {
-			this.message(msg);
-			message = message.replace(/\.?\.?\.$/, '');
-			unblock = block();
-			process.stdout.write(`${color.gray(S_BAR)}\n${color.magenta('○')}  ${message}\n`);
-			let i = 0;
-			let dot = 0;
-			loop = setInterval(() => {
-				let frame = frames[i];
-				process.stdout.write(cursor.move(-999, -1));
-				process.stdout.write(
-					`${color.magenta(frame)}  ${message}${
-						Math.floor(dot) >= 1 ? '.'.repeat(Math.floor(dot)).slice(0, 3) : ''
-					}   \n`
-				);
-				i = i === frames.length - 1 ? 0 : i + 1;
-				dot = dot === frames.length ? 0 : dot + 0.125;
-			}, delay);
-		},
-		message(msg = '') {
-			message = msg ?? message;
-		},
-		stop(msg = '') {
-			this.message(msg);
-			process.stdout.write(cursor.move(-999, -2));
-			process.stdout.write(erase.down(2));
-			clearInterval(loop);
-			process.stdout.write(`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${message}\n`);
-			unblock();
-		},
+		start,
+		stop,
+		message,
 	};
 };
 
