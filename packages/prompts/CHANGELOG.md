@@ -1,5 +1,19 @@
 # @clack/prompts
 
+## 0.7.0
+
+### Minor Changes
+
+- b27a701: add maxItems option to select prompt
+- 89371be: added a new method called `spinner.message(msg: string)`
+
+### Patch Changes
+
+- 52183c4: Fix `spinner` conflict with terminal on error between `spinner.start()` and `spinner.stop()`
+- ab51d29: Fixes cases where the note title length was miscalculated due to ansi characters
+- Updated dependencies [cd79076]
+  - @clack/core@0.3.3
+
 ## 0.6.3
 
 ### Patch Changes
