@@ -2,4 +2,4 @@
 '@clack/prompts': minor
 ---
 
-feat(@clack/prompts): new method `spinner.message(msg: string)`
+add new spinner method called `spinner.message(msg: string)`
