@@ -178,6 +178,7 @@ export interface SelectOptions<Options extends Option<Value>[], Value> {
 	message: string;
 	options: Options;
 	initialValue?: Value;
+	maxItems?: number;
 }
 
 export const select = <Options extends Option<Value>[], Value>(
@@ -197,6 +198,8 @@ export const select = <Options extends Option<Value>[], Value>(
 		return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
 	};
 
+	let slidingWindowLocation = 0;
+
 	return new SelectPrompt({
 		options: opts.options,
 		initialValue: opts.initialValue,
@@ -212,8 +215,37 @@ export const select = <Options extends Option<Value>[], Value>(
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
 				default: {
+					// We clamp to minimum 5 because anything less doesn't make sense UX wise
+					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
+					if (this.cursor >= slidingWindowLocation + maxItems - 3) {
+						slidingWindowLocation = Math.max(
+							Math.min(this.cursor - maxItems + 3, this.options.length - maxItems),
+							0
+						);
+					} else if (this.cursor < slidingWindowLocation + 2) {
+						slidingWindowLocation = Math.max(this.cursor - 2, 0);
+					}
+
+					const shouldRenderTopEllipsis =
+						maxItems < this.options.length && slidingWindowLocation > 0;
+					const shouldRenderBottomEllipsis =
+						maxItems < this.options.length &&
+						slidingWindowLocation + maxItems < this.options.length;
+
 					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
+						.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
+						.map((option, i, arr) => {
+							if (i === 0 && shouldRenderTopEllipsis) {
+								return color.dim('...');
+							} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
+								return color.dim('...');
+							} else {
+								return opt(
+									option,
+									i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'
+								);
+							}
+						})
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
@@ -534,13 +566,14 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 const strip = (str: string) => str.replace(ansiRegex(), '');
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
+	const titleLen = strip(title).length;
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
 				ln = strip(ln);
 				return ln.length > sum ? ln.length : sum;
 			}, 0),
-			strip(title).length
+			titleLen
 		) + 2;
 	const msg = lines
 		.map(
@@ -552,7 +585,7 @@ export const note = (message = '', title = '') => {
 		.join('\n');
 	process.stdout.write(
 		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(Math.max(len - title.length - 1, 1)) + S_CORNER_TOP_RIGHT
+			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
 		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
 	);
 };
@@ -603,16 +636,18 @@ export const log = {
 };
 
 export const spinner = () => {
-	let unblock: () => void;
-	let loop: NodeJS.Timer;
-	let isSpinnerActive: boolean = false;
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
 
-	const start = (message: string = ''): void => {
+	let unblock: () => void;
+	let loop: NodeJS.Timer;
+	let isSpinnerActive: boolean = false;
+	let _message: string = '';
+
+	const start = (msg: string = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
-		message = message.replace(/\.+$/, '');
+		_message = msg.replace(/\.+$/, '');
 		process.stdout.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let dotsTimer = 0;
@@ -621,13 +656,14 @@ export const spinner = () => {
 			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
 			process.stdout.write(cursor.move(-999, 0));
 			process.stdout.write(erase.down(1));
-			process.stdout.write(`${frame}  ${message}${loadingDots}`);
+			process.stdout.write(`${frame}  ${_message}${loadingDots}`);
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			dotsTimer = dotsTimer < frames.length ? dotsTimer + 0.125 : 0;
 		}, delay);
 	};
 
-	const stop = (message: string = '', code: number = 0): void => {
+	const stop = (msg: string = '', code: number = 0): void => {
+		_message = msg ?? _message
 		isSpinnerActive = false;
 		clearInterval(loop);
 		const step =
@@ -642,9 +678,13 @@ export const spinner = () => {
 		unblock();
 	};
 
+	const message = (msg: string = ''): void => {
+		_message = msg ?? _message;
+	};
+
 	const handleExit = (code: number) => {
-		const message = code > 1 ? 'Something went wrong' : 'Canceled';
-		if (isSpinnerActive) stop(message, code);
+		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		if (isSpinnerActive) stop(msg, code);
 	};
 
 	// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
@@ -659,6 +699,7 @@ export const spinner = () => {
 	return {
 		start,
 		stop,
+		message,
 	};
 };
 
