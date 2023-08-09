@@ -663,7 +663,7 @@ export const spinner = () => {
 	};
 
 	const stop = (msg: string = '', code: number = 0): void => {
-		_message = msg ?? _message
+		_message = msg ?? _message;
 		isSpinnerActive = false;
 		clearInterval(loop);
 		const step =
