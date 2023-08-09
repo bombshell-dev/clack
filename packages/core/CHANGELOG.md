@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.3.3
+
+### Patch Changes
+
+- cd79076: fix: restore raw mode on unblock
+
 ## 0.3.2
 
 ### Patch Changes
