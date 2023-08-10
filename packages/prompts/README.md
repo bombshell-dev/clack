@@ -117,7 +117,7 @@ import { spinner } from '@clack/prompts';
 
 const s = spinner();
 s.start('Installing via npm');
-// Do installation
+// Do installation here
 s.stop('Installed via npm');
 ```
 
