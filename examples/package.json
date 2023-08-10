@@ -1,5 +1,5 @@
 {
-  "name": "@example/basic",
+  "name": "@clack/examples",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,8 +9,9 @@
     "picocolors": "^1.0.0"
   },
   "scripts": {
-    "start": "jiti ./index.ts",
-    "spinner": "jiti ./spinner.ts"
+    "basic": "jiti ./basic.ts",
+    "spinner": "jiti ./spinner.ts",
+    "changesets": "jiti ./changesets.ts"
   },
   "devDependencies": {
     "jiti": "^1.17.0"
