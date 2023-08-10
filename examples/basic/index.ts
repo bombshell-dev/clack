@@ -32,9 +32,13 @@ async function main() {
 				p.select({
 					message: `Pick a project type within "${results.path}"`,
 					initialValue: 'ts',
+					maxItems: 5,
 					options: [
 						{ value: 'ts', label: 'TypeScript' },
 						{ value: 'js', label: 'JavaScript' },
+						{ value: 'rust', label: 'Rust' },
+						{ value: 'go', label: 'Go' },
+						{ value: 'python', label: 'Python' },
 						{ value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
 					],
 				}),
@@ -66,7 +70,7 @@ async function main() {
 	if (project.install) {
 		const s = p.spinner();
 		s.start('Installing via pnpm');
-		await setTimeout(5000);
+		await setTimeout(2500);
 		s.stop('Installed via pnpm');
 	}
 
