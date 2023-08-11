@@ -770,11 +770,11 @@ export const group = async <T>(
 	return results;
 };
 
-type NextPromptBuilder<
+type NextWorkflowBuilder<
 	TResults extends Record<string, unknown>,
 	TKey extends string,
 	TResult
-> = PromptBuilder<
+> = WorkflowBuilder<
 	{
 		[Key in keyof TResults]: Key extends TKey ? TResult : TResults[Key];
 	} & {
@@ -782,20 +782,20 @@ type NextPromptBuilder<
 	}
 >;
 
-class PromptBuilder<TResults extends Record<string, unknown> = {}> {
+class WorkflowBuilder<TResults extends Record<string, unknown> = {}> {
 	private results: TResults = {} as TResults;
 	private prompts: Record<string, PromptWithOptions<TResults, unknown>> = {};
 	private cancelCallback: PromptWithOptions<Partial<TResults>, void> | undefined;
 
-	public add<TKey extends string, TResult>(
+	public step<TKey extends string, TResult>(
 		key: TKey extends keyof TResults ? never : TKey,
 		prompt: PromptWithOptions<TResults, TResult>
-	): NextPromptBuilder<TResults, TKey, TResult> {
+	): NextWorkflowBuilder<TResults, TKey, TResult> {
 		this.prompts[key] = prompt;
-		return this as NextPromptBuilder<TResults, TKey, TResult>;
+		return this as NextWorkflowBuilder<TResults, TKey, TResult>;
 	}
 
-	public onCancel(cb: PromptWithOptions<Partial<TResults>, void>): PromptBuilder<TResults> {
+	public onCancel(cb: PromptWithOptions<Partial<TResults>, void>): WorkflowBuilder<TResults> {
 		this.cancelCallback = cb;
 		return this;
 	}
@@ -814,6 +814,6 @@ class PromptBuilder<TResults extends Record<string, unknown> = {}> {
 	}
 }
 
-export const builder = () => {
-	return new PromptBuilder();
+export const workflow = () => {
+	return new WorkflowBuilder();
 };

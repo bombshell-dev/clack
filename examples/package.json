@@ -12,7 +12,7 @@
     "basic": "jiti ./basic.ts",
     "spinner": "jiti ./spinner.ts",
     "changesets": "jiti ./changesets.ts",
-    "builder": "jiti ./builder.ts"
+    "workflow": "jiti ./workflow.ts"
   },
   "devDependencies": {
     "jiti": "^1.17.0"

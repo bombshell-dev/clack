@@ -2,4 +2,4 @@
 '@clack/prompts': minor
 ---
 
-add prompt `builder`
+add prompt `workflow` builder

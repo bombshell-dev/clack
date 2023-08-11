@@ -123,7 +123,7 @@ s.stop('Installed via npm');
 
 ## Utilities
 
-### Grouping
+### Group
 
 Grouping prompts together is a great way to keep your code organized. This accepts a JSON object with a name that can be used to reference the group later. The second argument is an optional but has a `onCancel` callback that will be called if the user cancels one of the prompts in the group.
 
@@ -157,18 +157,18 @@ const group = await p.group(
 console.log(group.name, group.age, group.color);
 ```
 
-### Building
+### Workflow
 
-Just like `group`, but on `builder` way, so you can choose which one fits better.
+Just like `group`, but on builder way, so you can choose which one fits better.
 
 ```js
 import * as p from '@clack/prompts';
 
 const results = await p
-  .builder()
-  .add('name', () => p.text({ message: 'What is your name?' }))
-  .add('age', () => p.text({ message: 'What is your age?' }))
-  .add('color', ({ results }) =>
+  .workflow()
+  .step('name', () => p.text({ message: 'What is your name?' }))
+  .step('age', () => p.text({ message: 'What is your age?' }))
+  .step('color', ({ results }) =>
     p.multiselect({
       message: `What is your favorite color ${results.name}?`,
       options: [
@@ -179,7 +179,7 @@ const results = await p
     })
   )
   .onCancel(() => {
-    p.cancel('Builder canceled');
+    p.cancel('Workflow canceled');
     process.exit(0);
   })
   .run();
