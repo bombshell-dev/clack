@@ -714,8 +714,20 @@ function ansiRegex() {
 	return new RegExp(pattern, 'g');
 }
 
-export type PromptGroupAwaitedReturn<T> = {
+type Prettify<T> = {
+	[P in keyof T]: T[P];
+} & {};
+
+export type PromptGroupAwaitedReturn<T> = Prettify<{
 	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
+}>;
+
+export type PromptWithOptions<TResults, TReturn> = (opts: {
+	results: PromptGroupAwaitedReturn<TResults>;
+}) => TReturn;
+
+export type PromptGroup<T> = {
+	[P in keyof T]: PromptWithOptions<Partial<Omit<T, P>>, void | Promise<T[P] | void>>;
 };
 
 export interface PromptGroupOptions<T> {
@@ -723,18 +735,8 @@ export interface PromptGroupOptions<T> {
 	 * Control how the group can be canceled
 	 * if one of the prompts is canceled.
 	 */
-	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
+	onCancel?: PromptWithOptions<Partial<T>, void>;
 }
-
-type Prettify<T> = {
-	[P in keyof T]: T[P];
-} & {};
-
-export type PromptGroup<T> = {
-	[P in keyof T]: (opts: {
-		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => void | Promise<T[P] | void>;
-};
 
 /**
  * Define a group of prompts to be displayed
@@ -743,7 +745,7 @@ export type PromptGroup<T> = {
 export const group = async <T>(
 	prompts: PromptGroup<T>,
 	opts?: PromptGroupOptions<T>
-): Promise<Prettify<PromptGroupAwaitedReturn<T>>> => {
+): Promise<PromptGroupAwaitedReturn<T>> => {
 	const results = {} as any;
 	const promptNames = Object.keys(prompts);
 
@@ -768,32 +770,47 @@ export const group = async <T>(
 	return results;
 };
 
-class PromptBuilder<TResults extends Record<string, unknown> = {}> {
-	private results = {} as TResults;
+type NextPromptBuilder<
+	TResults extends Record<string, unknown>,
+	TKey extends string,
+	TResult
+> = PromptBuilder<
+	{
+		[Key in keyof TResults]: Key extends TKey ? TResult : TResults[Key];
+	} & {
+		[Key in TKey]: TResult;
+	}
+>;
 
-	add<TKey extends string, TResult extends Promise<unknown>>(
+class PromptBuilder<TResults extends Record<string, unknown> = {}> {
+	private results: TResults = {} as TResults;
+	private prompts: Record<string, PromptWithOptions<TResults, unknown>> = {};
+	private cancelCallback: PromptWithOptions<Partial<TResults>, void> | undefined;
+
+	public add<TKey extends string, TResult>(
 		key: TKey extends keyof TResults ? never : TKey,
-		prompt: (data: { results: Prettify<PromptGroupAwaitedReturn<TResults>> }) => TResult
-	): PromptBuilder<
-		{
-			[Key in keyof TResults]: Key extends TKey ? TResult : TResults[Key];
-		} & {
-			[Key in TKey]: TResult;
-		}
-	> {
-		// @ts-ignore
-		this.results[key] = prompt;
-		// @ts-ignore
+		prompt: PromptWithOptions<TResults, TResult>
+	): NextPromptBuilder<TResults, TKey, TResult> {
+		this.prompts[key] = prompt;
+		return this as NextPromptBuilder<TResults, TKey, TResult>;
+	}
+
+	public onCancel(cb: PromptWithOptions<Partial<TResults>, void>): PromptBuilder<TResults> {
+		this.cancelCallback = cb;
 		return this;
 	}
 
-	async run(): Promise<Prettify<PromptGroupAwaitedReturn<TResults>>> {
-		for (const [key, prompt] of Object.entries(this.results)) {
-			// @ts-ignore
-			this.results[key] = await prompt({ results: this.results });
+	public async run(): Promise<PromptGroupAwaitedReturn<TResults>> {
+		for (const [key, prompt] of Object.entries(this.prompts)) {
+			const result = await prompt({ results: this.results as any });
+			if (isCancel(result)) {
+				this.cancelCallback?.({ results: this.results as any });
+				continue;
+			}
+			//@ts-ignore
+			this.results[key] = result;
 		}
-		// @ts-ignore
-		return this.results;
+		return this.results as PromptGroupAwaitedReturn<TResults>;
 	}
 }
 
