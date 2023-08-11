@@ -56,4 +56,14 @@ import * as p from '@clack/prompts';
 			})
 		)
 		.run();
+
+	await p
+		.builder()
+		.add('cancel', () => p.text({ message: 'Try cancel prompt (Ctrl + C):' }))
+		.add('afterCancel', () => p.text({ message: 'This will not appear!' }))
+		.onCancel(({ results }) => {
+			p.cancel('Builder canceled');
+			process.exit(0);
+		})
+		.run();
 })();
