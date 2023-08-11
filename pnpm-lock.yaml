@@ -10,7 +10,7 @@ importers:
       organize-imports-cli: ^0.10.0
       prettier: ^2.8.4
       typescript: ^4.9.5
-      unbuild: ^1.1.2
+      unbuild: 1.1.2
     devDependencies:
       '@changesets/cli': 2.26.2
       '@types/node': 18.17.4
@@ -18,7 +18,7 @@ importers:
       organize-imports-cli: 0.10.0
       prettier: 2.8.8
       typescript: 4.9.5
-      unbuild: 1.2.1
+      unbuild: 1.1.2
 
   examples:
     specifiers:
@@ -921,8 +921,8 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@rollup/plugin-alias/5.0.0_rollup@3.28.0:
-    resolution: {integrity: sha512-l9hY5chSCjuFRPsnRm16twWBiSApl2uYFLsepQYwtBuAxNMQ/1dJqADld40P0Jkqm65GRTLy/AC6hnpVebtLsA==}
+  /@rollup/plugin-alias/4.0.4_rollup@3.28.0:
+    resolution: {integrity: sha512-0CaAY238SMtYAWEXXptWSR8iz8NYZnH7zNBKuJ14xFJSGwLtPgjvXYsoApAHfzYXXH1ejxpVw7WlHss3zhh9SQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0
@@ -1314,6 +1314,10 @@ packages:
 
   /commondir/1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
+    dev: true
+
+  /consola/2.15.3:
+    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
     dev: true
 
   /consola/3.2.3:
@@ -2212,6 +2216,13 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
+  /magic-string/0.29.0:
+    resolution: {integrity: sha512-WcfidHrDjMY+eLjlU+8OvwREqHwpgCeKVBUpQ3OhYYuvfaYCUgcbuBzappNzZvg/v8onU3oQj+BYpkOJe9Iw4Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
   /magic-string/0.30.2:
     resolution: {integrity: sha512-lNZdu7pewtq/ZvWUp9Wpf/x7WzMTsR26TWV03BRZrXFsv+BI6dy8RAiKgm1uM/kyR0rCfUcqvOlXKG66KhIGug==}
     engines: {node: '>=12'}
@@ -2291,7 +2302,7 @@ packages:
     hasBin: true
     dev: true
 
-  /mkdist/1.3.0_typescript@5.1.6:
+  /mkdist/1.3.0_typescript@4.9.5:
     resolution: {integrity: sha512-ZQrUvcL7LkRdzMREpDyg9AT18N9Tl5jc2qeKAUeEw0KGsgykbHbuRvysGAzTuGtwuSg0WQyNit5jh/k+Er3JEg==}
     hasBin: true
     peerDependencies:
@@ -2312,7 +2323,7 @@ packages:
       mlly: 1.4.0
       mri: 1.2.0
       pathe: 1.1.1
-      typescript: 5.1.6
+      typescript: 4.9.5
     dev: true
 
   /mlly/1.4.0:
@@ -2607,7 +2618,7 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rollup-plugin-dts/5.3.1_5hqljqcx3exyzpwmxqkxnmw77u:
+  /rollup-plugin-dts/5.3.1_goscwovs23ng2c52dbttmefzoe:
     resolution: {integrity: sha512-gusMi+Z4gY/JaEQeXnB0RUdU82h1kF0WYzCWgVmV4p3hWXqelaKuCvcJawfeg+EKn2T1Ie+YWF2OiN1/L8bTVg==}
     engines: {node: '>=v14.21.3'}
     peerDependencies:
@@ -2616,7 +2627,7 @@ packages:
     dependencies:
       magic-string: 0.30.2
       rollup: 3.28.0
-      typescript: 5.1.6
+      typescript: 4.9.5
     optionalDependencies:
       '@babel/code-frame': 7.22.10
     dev: true
@@ -2988,12 +2999,6 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript/5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: true
-
   /ufo/1.2.0:
     resolution: {integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==}
     dev: true
@@ -3007,34 +3012,34 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
-  /unbuild/1.2.1:
-    resolution: {integrity: sha512-J4efk69Aye43tWcBPCsLK7TIRppGrEN4pAlDzRKo3HSE6MgTSTBxSEuE3ccx7ixc62JvGQ/CoFXYqqF2AHozow==}
+  /unbuild/1.1.2:
+    resolution: {integrity: sha512-EK5LeABThyn5KbX0eo5c7xKRQhnHVxKN8/e5Y+YQEf4ZobJB6OZ766756wbVqzIY/G/MvAfLbc6EwFPdSNnlpA==}
     hasBin: true
     dependencies:
-      '@rollup/plugin-alias': 5.0.0_rollup@3.28.0
+      '@rollup/plugin-alias': 4.0.4_rollup@3.28.0
       '@rollup/plugin-commonjs': 24.1.0_rollup@3.28.0
       '@rollup/plugin-json': 6.0.0_rollup@3.28.0
       '@rollup/plugin-node-resolve': 15.1.0_rollup@3.28.0
       '@rollup/plugin-replace': 5.0.2_rollup@3.28.0
       '@rollup/pluginutils': 5.0.2_rollup@3.28.0
       chalk: 5.3.0
-      consola: 3.2.3
+      consola: 2.15.3
       defu: 6.1.2
       esbuild: 0.17.19
       globby: 13.2.2
       hookable: 5.5.3
       jiti: 1.19.1
-      magic-string: 0.30.2
-      mkdist: 1.3.0_typescript@5.1.6
+      magic-string: 0.29.0
+      mkdist: 1.3.0_typescript@4.9.5
       mlly: 1.4.0
       mri: 1.2.0
       pathe: 1.1.1
       pkg-types: 1.0.3
       pretty-bytes: 6.1.1
       rollup: 3.28.0
-      rollup-plugin-dts: 5.3.1_5hqljqcx3exyzpwmxqkxnmw77u
+      rollup-plugin-dts: 5.3.1_goscwovs23ng2c52dbttmefzoe
       scule: 1.0.0
-      typescript: 5.1.6
+      typescript: 4.9.5
       untyped: 1.4.0
     transitivePeerDependencies:
       - sass

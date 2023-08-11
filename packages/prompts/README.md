@@ -174,8 +174,8 @@ const results = await p
       options: [
         { value: 'red', label: 'Red' },
         { value: 'green', label: 'Green' },
-        { value: 'blue', label: 'Blue' }
-      ]
+        { value: 'blue', label: 'Blue' },
+      ],
     })
   )
   .onCancel(() => {
