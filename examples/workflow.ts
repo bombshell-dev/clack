@@ -2,8 +2,8 @@ import * as p from '@clack/prompts';
 
 (async () => {
 	const results = await p
-		.builder()
-		.add('path', () =>
+		.workflow()
+		.step('path', () =>
 			p.text({
 				message: 'Where should we create your project?',
 				placeholder: './sparkling-solid',
@@ -13,7 +13,7 @@ import * as p from '@clack/prompts';
 				},
 			})
 		)
-		.add('password', () =>
+		.step('password', () =>
 			p.password({
 				message: 'Provide a password',
 				validate: (value) => {
@@ -22,7 +22,7 @@ import * as p from '@clack/prompts';
 				},
 			})
 		)
-		.add('type', ({ results }) =>
+		.step('type', ({ results }) =>
 			p.select({
 				message: `Pick a project type within "${results.path}"`,
 				initialValue: 'ts',
@@ -37,7 +37,7 @@ import * as p from '@clack/prompts';
 				],
 			})
 		)
-		.add('tools', () =>
+		.step('tools', () =>
 			p.multiselect({
 				message: 'Select additional tools.',
 				initialValues: ['prettier', 'eslint'],
@@ -49,7 +49,7 @@ import * as p from '@clack/prompts';
 				],
 			})
 		)
-		.add('install', ({ results }) =>
+		.step('install', ({ results }) =>
 			p.confirm({
 				message: 'Install dependencies?',
 				initialValue: false,
@@ -58,11 +58,11 @@ import * as p from '@clack/prompts';
 		.run();
 
 	await p
-		.builder()
-		.add('cancel', () => p.text({ message: 'Try cancel prompt (Ctrl + C):' }))
-		.add('afterCancel', () => p.text({ message: 'This will not appear!' }))
+		.workflow()
+		.step('cancel', () => p.text({ message: 'Try cancel prompt (Ctrl + C):' }))
+		.step('afterCancel', () => p.text({ message: 'This will not appear!' }))
 		.onCancel(({ results }) => {
-			p.cancel('Builder canceled');
+			p.cancel('Workflow canceled');
 			process.exit(0);
 		})
 		.run();
