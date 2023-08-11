@@ -187,3 +187,32 @@ log.message('Hello, World', { symbol: color.cyan('~') });
 ```
 
 [clack-log-prompts](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-logs.png)
+
+### Building
+
+Just like `group`, but on `builder` way, so you can choose which one fits better.
+
+```js
+import * as p from '@clack/prompts';
+
+const results = await p
+  .builder()
+  .add('name', () => p.text({ message: 'What is your name?' }))
+  .add('age', () => p.text({ message: 'What is your age?' }))
+  .add('color', ({ results }) =>
+    p.multiselect({
+      message: `What is your favorite color ${results.name}?`,
+      options: [
+        { value: 'red', label: 'Red' },
+        { value: 'green', label: 'Green' },
+        { value: 'blue', label: 'Blue' },
+      ],
+    })
+  )
+  .onCancel(() => {
+    p.cancel('Builder canceled');
+    process.exit(0);
+  })
+  .run();
+console.log(results.name, results.age, results.color);
+```
