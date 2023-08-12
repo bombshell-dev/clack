@@ -287,7 +287,10 @@ export interface SelectOptions<Options extends Option<Value>[], Value> {
 export const select = <Options extends Option<Value>[], Value>(
 	opts: SelectOptions<Options, Value>
 ) => {
-	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
+	const opt = (
+		option: Option<Value>,
+		state: 'inactive' | 'active' | 'selected' | 'cancelled'
+	): string => {
 		const label = option.label ?? String(option.value);
 		if (state === 'active') {
 			return `${color.green(S_RADIO_ACTIVE)} ${label} ${
@@ -307,16 +310,30 @@ export const select = <Options extends Option<Value>[], Value>(
 		options: opts.options,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = [
+				color.gray(S_BAR),
+				formatTextWithMaxWidth(opts.message, {
+					initialSymbol: symbol(this.state),
+				}),
+			].join('\n');
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
+					return [
+						title,
+						formatTextWithMaxWidth(opt(this.options[this.cursor], 'selected'), {
+							lineWrapper: color.dim,
+						}),
+					].join('\n');
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+					return [
+						title,
+						formatTextWithMaxWidth(opt(this.options[this.cursor], 'cancelled'), {
+							defaultSymbol: color.gray(S_BAR),
+							endSymbol: color.gray(S_BAR_END),
+							lineWrapper: (line) => color.strikethrough(color.dim(line)),
+						}),
+					].join('\n');
 				default: {
 					// We clamp to minimum 5 because anything less doesn't make sense UX wise
 					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
@@ -335,21 +352,24 @@ export const select = <Options extends Option<Value>[], Value>(
 						maxItems < this.options.length &&
 						slidingWindowLocation + maxItems < this.options.length;
 
-					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
-						.map((option, i, arr) => {
-							if (i === 0 && shouldRenderTopEllipsis) {
-								return color.dim('...');
-							} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
-								return color.dim('...');
-							} else {
-								return opt(
-									option,
-									i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'
-								);
-							}
-						})
-						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					return [
+						title,
+						this.options
+							.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
+							.map((option, i, arr) => {
+								if (i === 0 && shouldRenderTopEllipsis) {
+									return color.dim('...');
+								} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
+									return color.dim('...');
+								} else {
+									return formatTextWithMaxWidth(
+										opt(option, i + slidingWindowLocation === this.cursor ? 'active' : 'inactive')
+									);
+								}
+							})
+							.join('\n'),
+						color.cyan(S_BAR_END),
+					].join('\n');
 				}
 			}
 		},
