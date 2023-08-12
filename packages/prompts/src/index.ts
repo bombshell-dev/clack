@@ -60,13 +60,13 @@ const symbol = (state: State) => {
 
 function formatTextWithMaxWidth(
 	text: string,
-	options?: Partial<{
-		defaultSymbol: string;
-		initialSymbol: string;
-		newLineSymbol: string;
-		endSymbol: string;
-		lineWrapper: (line: string) => string;
-	}>
+	options?: {
+		defaultSymbol?: string;
+		initialSymbol?: string;
+		newLineSymbol?: string;
+		endSymbol?: string;
+		lineWrapper?: (line: string) => string;
+	}
 ): string {
 	const defaultSymbol = options?.defaultSymbol ?? color.cyan(S_BAR);
 	const initialSymbol = options?.initialSymbol ?? defaultSymbol;
@@ -151,14 +151,19 @@ export const text = (opts: TextOptions) => {
 				case 'cancel':
 					return [
 						title,
-						formatTextWithMaxWidth(this.value?.trim() ? this.value : '', {
+						formatTextWithMaxWidth(this.value ?? '', {
 							defaultSymbol: color.gray(S_BAR),
 							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
 				default:
-					return [title, formatTextWithMaxWidth(value)].join('\n');
+					return [
+						title,
+						formatTextWithMaxWidth(value, {
+							endSymbol: color.cyan(S_BAR_END),
+						}),
+					].join('\n');
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
@@ -174,23 +179,43 @@ export const password = (opts: PasswordOptions) => {
 		validate: opts.validate,
 		mask: opts.mask ?? S_PASSWORD_MASK,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = [
+				color.gray(S_BAR),
+				formatTextWithMaxWidth(opts.message, {
+					initialSymbol: symbol(this.state),
+				}),
+			].join('\n');
 			const value = this.valueWithCursor;
 			const masked = this.masked;
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
-						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
+					return [
+						title,
+						formatTextWithMaxWidth(masked, {
+							defaultSymbol: color.yellow(S_BAR),
+						}),
+						formatTextWithMaxWidth(this.error, {
+							defaultSymbol: color.yellow(S_BAR),
+							endSymbol: color.yellow(S_BAR_END),
+							lineWrapper: color.yellow,
+						}),
+					].join('\n');
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
+					return [title, formatTextWithMaxWidth(masked, { lineWrapper: color.dim })].join('\n');
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked ?? ''))}${
-						masked ? '\n' + color.gray(S_BAR) : ''
-					}`;
+					return [
+						title,
+						formatTextWithMaxWidth(masked ?? '', {
+							defaultSymbol: color.gray(S_BAR),
+							endSymbol: color.gray(S_BAR_END),
+							lineWrapper: (line) => color.strikethrough(color.dim(line)),
+						}),
+					].join('\n');
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
+					return [title, formatTextWithMaxWidth(value, { endSymbol: color.cyan(S_BAR_END) })].join(
+						'\n'
+					);
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
@@ -210,16 +235,26 @@ export const confirm = (opts: ConfirmOptions) => {
 		inactive,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = [
+				color.gray(S_BAR),
+				formatTextWithMaxWidth(opts.message, {
+					initialSymbol: symbol(this.state),
+				}),
+			].join('\n');
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
+					return [title, formatTextWithMaxWidth(value, { lineWrapper: color.dim })].join('\n');
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(value)
-					)}\n${color.gray(S_BAR)}`;
+					return [
+						title,
+						formatTextWithMaxWidth(value, {
+							defaultSymbol: color.gray(S_BAR),
+							endSymbol: color.gray(S_BAR_END),
+							lineWrapper: (line) => color.strikethrough(color.dim(line)),
+						}),
+					].join('\n');
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${
 						this.value
