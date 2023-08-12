@@ -65,6 +65,7 @@ function formatTextWithMaxWidth(
 		initialSymbol?: string;
 		newLineSymbol?: string;
 		endSymbol?: string;
+		maxWidth?: number;
 		lineWrapper?: (line: string) => string;
 	}
 ): string {
@@ -74,7 +75,7 @@ function formatTextWithMaxWidth(
 	const endSymbol = options?.endSymbol ?? defaultSymbol;
 
 	const terminalWidth = process.stdout.columns || 80;
-	const maxWidth = terminalWidth - 2;
+	const maxWidth = options?.maxWidth ?? terminalWidth - 2;
 
 	const formattedLines: string[] = [];
 	const paragraphs = text.split(/\n/g);
@@ -98,9 +99,9 @@ function formatTextWithMaxWidth(
 	return formattedLines
 		.map((line, i, ar) => {
 			const symbol = i === 0 ? initialSymbol : i + 1 === ar.length ? endSymbol : newLineSymbol;
-			const fullLine = line.padEnd(maxWidth + 1, ' ');
-			const wrappedLine = options?.lineWrapper ? options.lineWrapper(fullLine) : fullLine;
-			return `${symbol} ${wrappedLine}`;
+			const wrappedLine = options?.lineWrapper ? options.lineWrapper(line) : line;
+			const fullLine = wrappedLine + ' '.repeat(Math.max(maxWidth - strLength(wrappedLine), 0));
+			return `${symbol} ${fullLine}`;
 		})
 		.join('\n');
 }
@@ -486,7 +487,7 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 							this.options
 								.filter(({ value }) => this.value.includes(value))
 								.map((option) => opt(option, 'submitted'))
-								.join(color.dim(', ')),
+								.join(color.dim(', '))
 						),
 					].join('\n');
 				}
@@ -712,41 +713,57 @@ const strLength = (str: string) => {
 	return len;
 };
 export const note = (message = '', title = '') => {
-	const lines = `\n${message}\n`.split('\n');
-	const titleLen = strip(title).length;
-	const len =
-		Math.max(
-			lines.reduce((sum, ln) => {
-				ln = strip(ln);
-				return ln.length > sum ? ln.length : sum;
-			}, 0),
-			titleLen
-		) + 2;
-	const msg = lines
-		.map(
-			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
-					S_BAR
-				)}`
-		)
-		.join('\n');
-	process.stdout.write(
-		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
-		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
-	);
+	const len = Math.floor((process.stdout.columns ?? 80) * 0.8);
+	const messageLen = Math.floor(len * 0.95);
+	const noteBox = [
+		color.gray(S_BAR),
+		`${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
+			S_BAR_H.repeat(len - strLength(title) - 3) + S_CORNER_TOP_RIGHT
+		)}`,
+		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
+		formatTextWithMaxWidth(message, {
+			defaultSymbol: color.gray(S_BAR),
+			maxWidth: messageLen,
+			lineWrapper: (line) => line + ' '.repeat(len - strLength(line) - 1) + color.gray(S_BAR),
+		}),
+		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
+		color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len) + S_CORNER_BOTTOM_RIGHT),
+		'',
+	].join('\n');
+	process.stdout.write(noteBox);
 };
 
 export const cancel = (message = '') => {
-	process.stdout.write(`${color.gray(S_BAR_END)}  ${color.red(message)}\n\n`);
+	process.stdout.write(
+		formatTextWithMaxWidth(message, {
+			defaultSymbol: color.gray(S_BAR),
+			initialSymbol: color.gray(S_BAR_END),
+			lineWrapper: color.red,
+		}) + '\n\n'
+	);
 };
 
 export const intro = (title = '') => {
-	process.stdout.write(`${color.gray(S_BAR_START)}  ${title}\n`);
+	process.stdout.write(
+		formatTextWithMaxWidth(title, {
+			initialSymbol: color.gray(S_BAR_START),
+			defaultSymbol: color.gray(S_BAR),
+		})
+	);
 };
 
 export const outro = (message = '') => {
-	process.stdout.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
+	process.stdout.write(
+		[
+			color.gray(S_BAR),
+			formatTextWithMaxWidth(message, {
+				defaultSymbol: color.gray(S_BAR),
+				endSymbol: color.gray(S_BAR_END),
+			}),
+			'',
+			'',
+		].join('\n')
+	);
 };
 
 export type LogMessageOptions = {
@@ -754,12 +771,12 @@ export type LogMessageOptions = {
 };
 export const log = {
 	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
-		const parts = [`${color.gray(S_BAR)}`];
-		if (message) {
-			const [firstLine, ...lines] = message.split('\n');
-			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
-		}
-		process.stdout.write(`${parts.join('\n')}\n`);
+		process.stdout.write(
+			formatTextWithMaxWidth(message, {
+				initialSymbol: symbol,
+				defaultSymbol: color.gray(S_BAR),
+			})
+		);
 	},
 	info: (message: string) => {
 		log.message(message, { symbol: color.blue(S_INFO) });
