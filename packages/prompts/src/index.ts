@@ -704,7 +704,7 @@ const strLength = (str: string) => {
 	if (!str) return 0;
 
 	const colorCodeRegex = /\x1B\[[0-9;]*[mG]/g;
-	const arr = [...str.replace(colorCodeRegex, '')];
+	const arr = [...strip(str.replace(colorCodeRegex, ''))];
 	let len = 0;
 
 	for (const char of arr) {
