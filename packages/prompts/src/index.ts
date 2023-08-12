@@ -473,69 +473,81 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			let title = [
+				color.gray(S_BAR),
+				formatTextWithMaxWidth(opts.message, { initialSymbol: symbol(this.state) }),
+			].join('\n');
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${
-						this.options
-							.filter(({ value }) => this.value.includes(value))
-							.map((option) => opt(option, 'submitted'))
-							.join(color.dim(', ')) || color.dim('none')
-					}`;
+					return [
+						title,
+						formatTextWithMaxWidth(
+							this.options
+								.filter(({ value }) => this.value.includes(value))
+								.map((option) => opt(option, 'submitted'))
+								.join(color.dim(', ')),
+						),
+					].join('\n');
 				}
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value }) => this.value.includes(value))
-						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
-						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
-					}`;
+					return [
+						title,
+						formatTextWithMaxWidth(label ?? '', {
+							defaultSymbol: color.gray(S_BAR),
+							endSymbol: color.gray(S_BAR_END),
+							lineWrapper: (line) => color.strikethrough(color.dim(line)),
+						}),
+					].join('\n');
 				}
 				case 'error': {
-					const footer = this.error
-						.split('\n')
-						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
-						)
-						.join('\n');
-					return (
-						title +
-						color.yellow(S_BAR) +
-						'  ' +
+					return [
+						title,
 						this.options
 							.map((option, i) => {
 								const selected = this.value.includes(option.value);
 								const active = i === this.cursor;
+								let line = '';
 								if (active && selected) {
-									return opt(option, 'active-selected');
+									line = opt(option, 'active-selected');
+								} else if (selected) {
+									line = opt(option, 'selected');
+								} else {
+									line = opt(option, active ? 'active' : 'inactive');
 								}
-								if (selected) {
-									return opt(option, 'selected');
-								}
-								return opt(option, active ? 'active' : 'inactive');
+								return formatTextWithMaxWidth(line);
 							})
-							.join(`\n${color.yellow(S_BAR)}  `) +
-						'\n' +
-						footer +
-						'\n'
-					);
+							.join('\n'),
+						formatTextWithMaxWidth(this.error, {
+							defaultSymbol: color.yellow(S_BAR),
+							lineWrapper: color.yellow,
+							endSymbol: color.yellow(S_BAR_END),
+						}),
+					].join('\n');
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.map((option, i) => {
-							const selected = this.value.includes(option.value);
-							const active = i === this.cursor;
-							if (active && selected) {
-								return opt(option, 'active-selected');
-							}
-							if (selected) {
-								return opt(option, 'selected');
-							}
-							return opt(option, active ? 'active' : 'inactive');
-						})
-						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					return [
+						title,
+						this.options
+							.map((option, i) => {
+								const selected = this.value.includes(option.value);
+								const active = i === this.cursor;
+								let line = '';
+								if (active && selected) {
+									line = opt(option, 'active-selected');
+								} else if (selected) {
+									line = opt(option, 'selected');
+								} else {
+									line = opt(option, active ? 'active' : 'inactive');
+								}
+								return formatTextWithMaxWidth(line);
+							})
+							.join('\n'),
+						color.cyan(S_BAR_END),
+					].join('\n');
 				}
 			}
 		},
