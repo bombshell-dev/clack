@@ -58,6 +58,53 @@ const symbol = (state: State) => {
 	}
 };
 
+function formatTextWithMaxWidth(
+	text: string,
+	options?: Partial<{
+		defaultSymbol: string;
+		initialSymbol: string;
+		newLineSymbol: string;
+		endSymbol: string;
+		lineWrapper: (line: string) => string;
+	}>
+): string {
+	const defaultSymbol = options?.defaultSymbol ?? color.cyan(S_BAR);
+	const initialSymbol = options?.initialSymbol ?? defaultSymbol;
+	const newLineSymbol = options?.newLineSymbol ?? defaultSymbol;
+	const endSymbol = options?.endSymbol ?? defaultSymbol;
+
+	const terminalWidth = process.stdout.columns || 80;
+	const maxWidth = terminalWidth - 2;
+
+	const formattedLines: string[] = [];
+	const paragraphs = text.split(/\n/g);
+
+	for (const paragraph of paragraphs) {
+		let currentLine = '';
+		const words = paragraph.split(/\s/g);
+
+		for (const word of words) {
+			if (strLength(currentLine) + strLength(word) + 1 <= maxWidth) {
+				currentLine += ` ${word}`;
+			} else {
+				formattedLines.push(currentLine);
+				currentLine = word;
+			}
+		}
+
+		formattedLines.push(currentLine);
+	}
+
+	return formattedLines
+		.map((line, i, ar) => {
+			const symbol = i === 0 ? initialSymbol : i + 1 === ar.length ? endSymbol : newLineSymbol;
+			const fullLine = line.padEnd(maxWidth + 1, ' ');
+			const wrappedLine = options?.lineWrapper ? options.lineWrapper(fullLine) : fullLine;
+			return `${symbol} ${wrappedLine}`;
+		})
+		.join('\n');
+}
+
 export interface TextOptions {
 	message: string;
 	placeholder?: string;
@@ -72,7 +119,12 @@ export const text = (opts: TextOptions) => {
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = [
+				color.gray(S_BAR),
+				formatTextWithMaxWidth(opts.message, {
+					initialSymbol: symbol(this.state),
+				}),
+			].join('\n');
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 				: color.inverse(color.hidden('_'));
@@ -80,17 +132,33 @@ export const text = (opts: TextOptions) => {
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
-						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
+					return [
+						title,
+						formatTextWithMaxWidth(value, {
+							defaultSymbol: color.yellow(S_BAR),
+						}),
+						formatTextWithMaxWidth(this.error, {
+							defaultSymbol: color.yellow(S_BAR),
+							endSymbol: color.yellow(S_BAR_END),
+							lineWrapper: color.yellow,
+						}),
+					].join('\n');
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
+					return [
+						title,
+						formatTextWithMaxWidth(this.value ?? opts.placeholder, { lineWrapper: color.dim }),
+					].join('\n');
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(this.value ?? '')
-					)}${this.value?.trim() ? '\n' + color.gray(S_BAR) : ''}`;
+					return [
+						title,
+						formatTextWithMaxWidth(this.value?.trim() ? this.value : '', {
+							defaultSymbol: color.gray(S_BAR),
+							endSymbol: color.gray(S_BAR_END),
+							lineWrapper: (line) => color.strikethrough(color.dim(line)),
+						}),
+					].join('\n');
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
+					return [title, formatTextWithMaxWidth(value)].join('\n');
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
@@ -564,6 +632,18 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 };
 
 const strip = (str: string) => str.replace(ansiRegex(), '');
+const strLength = (str: string) => {
+	if (!str) return 0;
+
+	const colorCodeRegex = /\x1B\[[0-9;]*[mG]/g;
+	const arr = [...str.replace(colorCodeRegex, '')];
+	let len = 0;
+
+	for (const char of arr) {
+		len += char.charCodeAt(0) > 127 || char.charCodeAt(0) === 94 ? 2 : 1;
+	}
+	return len;
+};
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
 	const titleLen = strip(title).length;
