@@ -3,28 +3,10 @@ import * as p from '@clack/prompts';
 (async () => {
 	const results = await p
 		.workflow()
-		.step('path', () =>
-			p.text({
-				message: 'Where should we create your project?',
-				placeholder: './sparkling-solid',
-				validate: (value) => {
-					if (!value) return 'Please enter a path.';
-					if (value[0] !== '.') return 'Please enter a relative path.';
-				},
-			})
-		)
-		.step('password', () =>
-			p.password({
-				message: 'Provide a password',
-				validate: (value) => {
-					if (!value) return 'Please enter a password.';
-					if (value.length < 5) return 'Password should have at least 5 characters.';
-				},
-			})
-		)
-		.step('type', ({ results }) =>
+		.step('name', () => p.text({ message: 'What is your package name?' }))
+		.step('type', () =>
 			p.select({
-				message: `Pick a project type within "${results.path}"`,
+				message: `Pick a project type:`,
 				initialValue: 'ts',
 				maxItems: 5,
 				options: [
@@ -37,24 +19,35 @@ import * as p from '@clack/prompts';
 				],
 			})
 		)
-		.step('tools', () =>
-			p.multiselect({
-				message: 'Select additional tools.',
-				initialValues: ['prettier', 'eslint'],
-				options: [
-					{ value: 'prettier', label: 'Prettier', hint: 'recommended' },
-					{ value: 'eslint', label: 'ESLint', hint: 'recommended' },
-					{ value: 'stylelint', label: 'Stylelint' },
-					{ value: 'gh-action', label: 'GitHub Action' },
-				],
-			})
-		)
-		.step('install', ({ results }) =>
+		.step('install', () =>
 			p.confirm({
 				message: 'Install dependencies?',
 				initialValue: false,
 			})
 		)
+		.step('fork', ({ results }) => {
+			if (results.install === true) {
+				return p.workflow().step('package', () =>
+					p.select({
+						message: 'Pick a project manager:',
+						options: [
+							{
+								label: 'npm',
+								value: 'npm',
+							},
+							{
+								label: 'yarn',
+								value: 'yarn',
+							},
+							{
+								label: 'pnpm',
+								value: 'pnpm',
+							},
+						],
+					})
+				).run();
+			}
+		})
 		.run();
 
 	await p
