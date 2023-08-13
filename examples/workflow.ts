@@ -29,7 +29,8 @@ import * as p from '@clack/prompts';
 			if (results.install === true) {
 				return p.workflow().step('package', () =>
 					p.select({
-						message: 'Pick a project manager:',
+						message: 'Pick a package manager:',
+						initialValue: 'pnpm',
 						options: [
 							{
 								label: 'npm',
