@@ -807,6 +807,20 @@ export const spinner = () => {
 	let loop: NodeJS.Timer;
 	let isSpinnerActive: boolean = false;
 	let _message: string = '';
+	let _prevMessage: string = '';
+
+	const formatMessage = (symbol: string, msg: string): string => {
+		return formatTextWithMaxWidth(msg, {
+			initialSymbol: symbol,
+			defaultSymbol: '',
+		});
+	};
+
+	const clearPrevMessage = (): void => {
+		const linesCounter = _prevMessage.split(/\n/g).length;
+		process.stdout.write(cursor.move(-999, (linesCounter - 1) * -1));
+		process.stdout.write(erase.down(linesCounter));
+	};
 
 	const start = (msg: string = ''): void => {
 		isSpinnerActive = true;
@@ -816,34 +830,34 @@ export const spinner = () => {
 		let frameIndex = 0;
 		let dotsTimer = 0;
 		loop = setInterval(() => {
+			clearPrevMessage();
 			const frame = color.magenta(frames[frameIndex]);
 			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
-			process.stdout.write(cursor.move(-999, 0));
-			process.stdout.write(erase.down(1));
-			process.stdout.write(`${frame}  ${_message}${loadingDots}`);
+			const newMessage = formatMessage(frame, _message + loadingDots);
+			_prevMessage = newMessage;
+			process.stdout.write(newMessage);
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			dotsTimer = dotsTimer < frames.length ? dotsTimer + 0.125 : 0;
 		}, delay);
 	};
 
 	const stop = (msg: string = '', code: number = 0): void => {
-		_message = msg ?? _message;
 		isSpinnerActive = false;
 		clearInterval(loop);
+		clearPrevMessage();
 		const step =
 			code === 0
 				? color.green(S_STEP_SUBMIT)
 				: code === 1
 				? color.red(S_STEP_CANCEL)
 				: color.red(S_STEP_ERROR);
-		process.stdout.write(cursor.move(-999, 0));
-		process.stdout.write(erase.down(1));
-		process.stdout.write(`${step}  ${_message}\n`);
+		_message = formatMessage(step, msg || _message);
+		process.stdout.write(_message + '\n');
 		unblock();
 	};
 
 	const message = (msg: string = ''): void => {
-		_message = msg ?? _message;
+		_message = msg || _message;
 	};
 
 	const handleExit = (code: number) => {
