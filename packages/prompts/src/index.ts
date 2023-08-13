@@ -737,7 +737,7 @@ export const cancel = (message = '') => {
 	process.stdout.write(
 		formatTextWithMaxWidth(message, {
 			defaultSymbol: color.gray(S_BAR),
-			initialSymbol: color.gray(S_BAR_END),
+			endSymbol: color.gray(S_BAR_END),
 			lineWrapper: color.red,
 		}) + '\n\n'
 	);
