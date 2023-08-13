@@ -779,23 +779,48 @@ export const log = {
 		);
 	},
 	info: (message: string) => {
-		log.message(message, { symbol: color.blue(S_INFO) });
+		process.stdout.write(
+			formatTextWithMaxWidth(message, {
+				initialSymbol: color.blue(S_INFO),
+				defaultSymbol: color.blue(S_BAR),
+			})
+		);
 	},
 	success: (message: string) => {
-		log.message(message, { symbol: color.green(S_SUCCESS) });
+		process.stdout.write(
+			formatTextWithMaxWidth(message, {
+				initialSymbol: color.green(S_SUCCESS),
+				defaultSymbol: color.green(S_BAR),
+			})
+		);
 	},
 	step: (message: string) => {
-		log.message(message, { symbol: color.green(S_STEP_SUBMIT) });
+		process.stdout.write(
+			formatTextWithMaxWidth(message, {
+				initialSymbol: color.green(S_STEP_SUBMIT),
+				defaultSymbol: color.green(S_BAR),
+			})
+		);
 	},
 	warn: (message: string) => {
-		log.message(message, { symbol: color.yellow(S_WARN) });
+		process.stdout.write(
+			formatTextWithMaxWidth(message, {
+				initialSymbol: color.yellow(S_WARN),
+				defaultSymbol: color.yellow(S_BAR),
+			})
+		);
 	},
 	/** alias for `log.warn()`. */
 	warning: (message: string) => {
 		log.warn(message);
 	},
 	error: (message: string) => {
-		log.message(message, { symbol: color.red(S_ERROR) });
+		process.stdout.write(
+			formatTextWithMaxWidth(message, {
+				initialSymbol: color.red(S_ERROR),
+				defaultSymbol: color.red(S_BAR),
+			})
+		);
 	},
 };
 
