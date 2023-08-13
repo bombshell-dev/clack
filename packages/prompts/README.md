@@ -166,22 +166,55 @@ import * as p from '@clack/prompts';
 
 const results = await p
   .workflow()
-  .step('name', () => p.text({ message: 'What is your name?' }))
-  .step('age', () => p.text({ message: 'What is your age?' }))
-  .step('color', ({ results }) =>
-    p.multiselect({
-      message: `What is your favorite color ${results.name}?`,
+  .step('name', () => p.text({ message: 'What is your package name?' }))
+  .step('type', () =>
+    p.select({
+      message: `Pick a project type:`,
+      initialValue: 'ts',
+      maxItems: 5,
       options: [
-        { value: 'red', label: 'Red' },
-        { value: 'green', label: 'Green' },
-        { value: 'blue', label: 'Blue' },
+        { value: 'ts', label: 'TypeScript' },
+        { value: 'js', label: 'JavaScript' },
+        { value: 'rust', label: 'Rust' },
+        { value: 'go', label: 'Go' },
+        { value: 'python', label: 'Python' },
+        { value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
       ],
     })
   )
+  .step('install', () =>
+    p.confirm({
+      message: 'Install dependencies?',
+      initialValue: false,
+    })
+  )
+  .step('fork', ({ results }) => {
+    if (results.install === true) {
+      return p.workflow().step('package', () =>
+        p.select({
+          message: 'Pick a project manager:',
+          options: [
+            {
+              label: 'npm',
+              value: 'npm',
+            },
+            {
+              label: 'yarn',
+              value: 'yarn',
+            },
+            {
+              label: 'pnpm',
+              value: 'pnpm',
+            },
+          ],
+        })
+      ).run();
+    }
+  })
   .onCancel(() => {
     p.cancel('Workflow canceled');
     process.exit(0);
   })
   .run();
-console.log(results.name, results.age, results.color);
+console.log(results);
 ```
