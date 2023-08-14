@@ -750,7 +750,12 @@ export const note = (message = '', title = '') => {
 		)}`,
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
 		lines
-			.map((line) => line + ' '.repeat(Math.max(len + 2 - strLength(line), 0)) + color.gray(S_BAR))
+			.map(
+				(line) =>
+					line +
+					' '.repeat(Math.max(len + (unicode ? 2 : 1) - strLength(line), 0)) +
+					color.gray(S_BAR)
+			)
 			.join('\n'),
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
 		color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len) + S_CORNER_BOTTOM_RIGHT),
@@ -772,7 +777,7 @@ export const intro = (title = '') => {
 	process.stdout.write(
 		formatTextWithMaxWidth(title, {
 			initialSymbol: color.gray(S_BAR_START),
-		})
+		}) + '\n'
 	);
 };
 
@@ -797,47 +802,37 @@ export const log = {
 		process.stdout.write(
 			formatTextWithMaxWidth(message, {
 				initialSymbol: symbol,
-			})
+			}) + '\n'
 		);
 	},
 	info: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.blue(S_INFO),
-			})
-		);
+		log.message(message, {
+			symbol: color.blue(S_INFO),
+		});
 	},
 	success: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.green(S_SUCCESS),
-			})
-		);
+		log.message(message, {
+			symbol: color.green(S_SUCCESS),
+		});
 	},
 	step: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.green(S_STEP_SUBMIT),
-			})
-		);
+		log.message(message, {
+			symbol: color.green(S_STEP_SUBMIT),
+		});
 	},
 	warn: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.yellow(S_WARN),
-			})
-		);
+		log.message(message, {
+			symbol: color.yellow(S_WARN),
+		});
 	},
 	/** alias for `log.warn()`. */
 	warning: (message: string) => {
 		log.warn(message);
 	},
 	error: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.red(S_ERROR),
-			})
-		);
+		log.message(message, {
+			symbol: color.red(S_ERROR),
+		});
 	},
 };
 
