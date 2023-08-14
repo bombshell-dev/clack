@@ -740,12 +740,13 @@ export const note = (message = '', title = '') => {
 	const noteBox = [
 		color.gray(S_BAR),
 		`${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(len - strLength(title) - 3) + S_CORNER_TOP_RIGHT
+			S_BAR_H.repeat(Math.max(len - strLength(title) - 3, 0)) + S_CORNER_TOP_RIGHT
 		)}`,
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
 		formatTextWithMaxWidth(message, {
 			maxWidth: messageLen,
-			lineWrapper: (line) => line + ' '.repeat(len - strLength(line) - 1) + color.gray(S_BAR),
+			lineWrapper: (line) =>
+				line + ' '.repeat(Math.max(len - strLength(line) - 1, 0)) + color.gray(S_BAR),
 		}),
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
 		color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len) + S_CORNER_BOTTOM_RIGHT),
