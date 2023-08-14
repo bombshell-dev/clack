@@ -537,7 +537,9 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 								} else {
 									line = opt(option, active ? 'active' : 'inactive');
 								}
-								return formatTextWithMaxWidth(line);
+								return formatTextWithMaxWidth(line, {
+									defaultSymbol: color.yellow(S_BAR),
+								});
 							})
 							.join('\n'),
 						formatTextWithMaxWidth(this.error, {
@@ -566,10 +568,12 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 								} else {
 									line = opt(option, active ? 'active' : 'inactive');
 								}
-								return formatTextWithMaxWidth(line);
+								return formatTextWithMaxWidth(line, {
+									defaultSymbol: color.cyan(S_BAR),
+								});
 							})
 							.join('\n'),
-						color.gray(S_BAR_END),
+						color.cyan(S_BAR_END),
 					].join('\n');
 				}
 			}
