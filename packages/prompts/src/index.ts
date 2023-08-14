@@ -103,7 +103,7 @@ function formatTextWithMaxWidth(
 					? options?.endSymbol ?? defaultSymbol
 					: options?.newLineSymbol ?? defaultSymbol;
 			const wrappedLine = options?.lineWrapper ? options.lineWrapper(line) : line;
-			const fullLine = wrappedLine + ' '.repeat(Math.max(maxWidth - strLength(wrappedLine), 0));
+			const fullLine = wrappedLine;
 			return `${symbol} ${fullLine}`;
 		})
 		.join('\n');
@@ -270,7 +270,7 @@ export const confirm = (opts: ConfirmOptions) => {
 						}),
 					].join('\n');
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					return `${title}\n${color.cyan(S_BAR)}  ${
 						this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${active}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
@@ -426,16 +426,17 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
 						this.options.find((opt) => opt.value === this.value)!,
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
-						S_BAR
-					)}`;
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
+						this.options[0],
+						'cancelled'
+					)}\n${color.gray(S_BAR)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
@@ -652,7 +653,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${this.options
+					return `${title}\n${color.gray(S_BAR)}  ${this.options
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'submitted'))
 						.join(color.dim(', '))}`;
@@ -662,7 +663,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
+					return `${title}\n${color.gray(S_BAR)}  ${
 						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
 					}`;
 				}
@@ -673,7 +674,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
+					return `${title}\n${color.yellow(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -697,7 +698,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -739,19 +740,23 @@ const strLength = (str: string) => {
 	return len;
 };
 export const note = (message = '', title = '') => {
-	const len = Math.floor((process.stdout.columns ?? 80) * 0.8);
-	const messageLen = Math.floor(len * 0.95);
+	const maxWidth = Math.floor((process.stdout.columns ?? 80) * 0.8);
+	const lines = formatTextWithMaxWidth(message, { maxWidth: maxWidth - 2 }).split(/\n/g);
+	const titleLen = strLength(title);
+	const messageLen = lines.reduce((sum, line) => {
+		const length = strLength(line);
+		return length > sum ? length : sum;
+	}, 0);
+	const len = Math.min(Math.max(messageLen, titleLen) + 2, maxWidth);
 	const noteBox = [
 		color.gray(S_BAR),
 		`${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(Math.max(len - strLength(title) - 3, 0)) + S_CORNER_TOP_RIGHT
+			S_BAR_H.repeat(Math.max(len - titleLen - 3, 0)) + S_CORNER_TOP_RIGHT
 		)}`,
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
-		formatTextWithMaxWidth(message, {
-			maxWidth: messageLen,
-			lineWrapper: (line) =>
-				line + ' '.repeat(Math.max(len - strLength(line) - 1, 0)) + color.gray(S_BAR),
-		}),
+		lines
+			.map((line) => line + ' '.repeat(Math.max(len + 2 - strLength(line), 0)) + color.gray(S_BAR))
+			.join('\n'),
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
 		color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len) + S_CORNER_BOTTOM_RIGHT),
 		'',
