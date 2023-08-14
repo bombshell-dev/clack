@@ -156,7 +156,6 @@ export const text = (opts: TextOptions) => {
 					return [
 						title,
 						formatTextWithMaxWidth(this.value ?? '', {
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
@@ -215,7 +214,6 @@ export const password = (opts: PasswordOptions) => {
 					return [
 						title,
 						formatTextWithMaxWidth(masked ?? '', {
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
@@ -265,7 +263,6 @@ export const confirm = (opts: ConfirmOptions) => {
 					return [
 						title,
 						formatTextWithMaxWidth(value, {
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
@@ -343,7 +340,6 @@ export const select = <Options extends Option<Value>[], Value>(
 					return [
 						title,
 						formatTextWithMaxWidth(opt(this.options[this.cursor], 'cancelled'), {
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
@@ -518,7 +514,6 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 					return [
 						title,
 						formatTextWithMaxWidth(label ?? '', {
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
