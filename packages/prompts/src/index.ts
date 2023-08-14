@@ -69,11 +69,6 @@ function formatTextWithMaxWidth(
 		lineWrapper?: (line: string) => string;
 	}
 ): string {
-	const defaultSymbol = options?.defaultSymbol ?? color.gray(S_BAR);
-	const initialSymbol = options?.initialSymbol ?? defaultSymbol;
-	const newLineSymbol = options?.newLineSymbol ?? defaultSymbol;
-	const endSymbol = options?.endSymbol ?? defaultSymbol;
-
 	const terminalWidth = process.stdout.columns || 80;
 	const maxWidth = options?.maxWidth ?? terminalWidth - 2;
 
@@ -96,9 +91,17 @@ function formatTextWithMaxWidth(
 		formattedLines.push(currentLine);
 	}
 
+	const defaultSymbol = options?.defaultSymbol ?? color.gray(S_BAR);
 	return formattedLines
 		.map((line, i, ar) => {
-			const symbol = i === 0 ? initialSymbol : i + 1 === ar.length ? endSymbol : newLineSymbol;
+			const symbol =
+				i === 0 && i + 1 === ar.length
+					? options?.initialSymbol ?? options?.endSymbol ?? defaultSymbol
+					: i === 0
+					? options?.initialSymbol ?? defaultSymbol
+					: i + 1 === ar.length
+					? options?.endSymbol ?? defaultSymbol
+					: options?.newLineSymbol ?? defaultSymbol;
 			const wrappedLine = options?.lineWrapper ? options.lineWrapper(line) : line;
 			const fullLine = wrappedLine + ' '.repeat(Math.max(maxWidth - strLength(wrappedLine), 0));
 			return `${symbol} ${fullLine}`;
@@ -378,12 +381,14 @@ export const select = <Options extends Option<Value>[], Value>(
 								} else {
 									return formatTextWithMaxWidth(
 										opt(option, i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'),
-										{ defaultSymbol: color.cyan(S_BAR) }
+										{
+											defaultSymbol: color.cyan(S_BAR),
+										}
 									);
 								}
 							})
 							.join('\n'),
-						color.cyan(S_BAR_END),
+						shouldRenderBottomEllipsis ? undefined : color.cyan(S_BAR_END),
 					].join('\n');
 				}
 			}
@@ -564,7 +569,7 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 								return formatTextWithMaxWidth(line);
 							})
 							.join('\n'),
-						color.cyan(S_BAR_END),
+						color.gray(S_BAR_END),
 					].join('\n');
 				}
 			}
