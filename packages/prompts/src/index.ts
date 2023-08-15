@@ -75,7 +75,7 @@ function formatTextWithMaxWidth(
 	const endSymbol = options?.endSymbol ?? defaultSymbol;
 
 	const terminalWidth = process.stdout.columns || 80;
-	const maxWidth = options?.maxWidth ?? terminalWidth - 2;
+	const maxWidth = options?.maxWidth ?? terminalWidth;
 
 	const formattedLines: string[] = [];
 	const paragraphs = text.split(/\n/g);
@@ -85,8 +85,19 @@ function formatTextWithMaxWidth(
 		const words = paragraph.split(/\s/g);
 
 		for (const word of words) {
-			if (strLength(currentLine) + strLength(word) + 1 <= maxWidth) {
+			if (strLength(currentLine + word) + 3 <= maxWidth) {
 				currentLine += ` ${word}`;
+			} else if (strLength(word) + 2 >= maxWidth) {
+				const splitIndex = maxWidth - strLength(currentLine) - 3;
+				formattedLines.push(currentLine + ' ' + word.slice(0, splitIndex));
+
+				const chunkLength = maxWidth - 2;
+				let chunk = word.slice(splitIndex);
+				while (strLength(chunk) >= chunkLength) {
+					formattedLines.push(chunk.slice(0, chunkLength));
+					chunk = chunk.slice(chunkLength);
+				}
+				currentLine = chunk;
 			} else {
 				formattedLines.push(currentLine);
 				currentLine = word;
