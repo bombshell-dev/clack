@@ -102,9 +102,15 @@ function formatTextWithMaxWidth(
 					: i + 1 === ar.length
 					? options?.endSymbol ?? defaultSymbol
 					: options?.newLineSymbol ?? defaultSymbol;
-			const wrappedLine = options?.lineWrapper ? options.lineWrapper(line) : line;
-			const fullLine = wrappedLine;
-			return `${symbol} ${fullLine}`;
+
+			// only format the line without the leading space.
+			const leadingSpaceRegex = /^\s/;
+			const wrappedLine = options?.lineWrapper
+				? leadingSpaceRegex.test(line)
+					? ' ' + options.lineWrapper(line.slice(1))
+					: options.lineWrapper(line)
+				: line;
+			return `${symbol} ${wrappedLine}`;
 		})
 		.join('\n');
 }
@@ -161,15 +167,14 @@ export const text = (opts: TextOptions) => {
 					].join('\n');
 				default:
 					return [
-						color.gray(S_BAR),
 						formatTextWithMaxWidth(opts.message, {
 							initialSymbol: symbol(this.state),
 							defaultSymbol: color.cyan(S_BAR),
 						}),
 						formatTextWithMaxWidth(value, {
 							defaultSymbol: color.cyan(S_BAR),
-							endSymbol: color.cyan(S_BAR_END),
 						}),
+						color.cyan(S_BAR_END),
 					].join('\n');
 			}
 		},
@@ -226,8 +231,8 @@ export const password = (opts: PasswordOptions) => {
 						}),
 						formatTextWithMaxWidth(value, {
 							defaultSymbol: color.cyan(S_BAR),
-							endSymbol: color.cyan(S_BAR_END),
 						}),
+						color.cyan(S_BAR_END),
 					].join('\n');
 			}
 		},
@@ -371,9 +376,16 @@ export const select = <Options extends Option<Value>[], Value>(
 							.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
 							.map((option, i, arr) => {
 								if (i === 0 && shouldRenderTopEllipsis) {
-									return color.dim('...');
+									return formatTextWithMaxWidth(color.dim('...'), {
+										defaultSymbol: color.cyan(S_BAR),
+									});
 								} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
-									return color.dim('...');
+									return [
+										formatTextWithMaxWidth(color.dim('...'), {
+											defaultSymbol: color.cyan(S_BAR),
+										}),
+										color.cyan(S_BAR_END),
+									].join('\n');
 								} else {
 									return formatTextWithMaxWidth(
 										opt(option, i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'),
@@ -510,38 +522,35 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value }) => this.value.includes(value))
+						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return [
-						title,
-						formatTextWithMaxWidth(label ?? '', {
-							lineWrapper: (line) => color.strikethrough(color.dim(line)),
-						}),
-					].join('\n');
+
+					return [title, formatTextWithMaxWidth(label ?? '')].join('\n');
 				}
 				case 'error': {
+					const errMsg = this.error.split('\n').map((ln, i) => (i === 0 ? color.yellow(ln) : ln));
+
 					return [
 						title,
 						this.options
 							.map((option, i) => {
 								const selected = this.value.includes(option.value);
 								const active = i === this.cursor;
-								let line = '';
+								let line = opt(option, active ? 'active' : 'inactive');
 								if (active && selected) {
 									line = opt(option, 'active-selected');
 								} else if (selected) {
 									line = opt(option, 'selected');
-								} else {
-									line = opt(option, active ? 'active' : 'inactive');
 								}
+
 								return formatTextWithMaxWidth(line, {
 									defaultSymbol: color.yellow(S_BAR),
 								});
 							})
 							.join('\n'),
-						formatTextWithMaxWidth(this.error, {
-							defaultSymbol: color.yellow(S_BAR),
-							lineWrapper: color.yellow,
-							endSymbol: color.yellow(S_BAR_END),
+						formatTextWithMaxWidth(errMsg.join('\n'), {
+							defaultSymbol: color.yellow(S_BAR_END),
+							endSymbol: color.hidden('-'),
 						}),
 					].join('\n');
 				}
