@@ -69,11 +69,6 @@ function formatTextWithMaxWidth(
 		lineWrapper?: (line: string) => string;
 	}
 ): string {
-	const defaultSymbol = options?.defaultSymbol ?? color.cyan(S_BAR);
-	const initialSymbol = options?.initialSymbol ?? defaultSymbol;
-	const newLineSymbol = options?.newLineSymbol ?? defaultSymbol;
-	const endSymbol = options?.endSymbol ?? defaultSymbol;
-
 	const terminalWidth = process.stdout.columns || 80;
 	const maxWidth = options?.maxWidth ?? terminalWidth;
 
@@ -107,12 +102,26 @@ function formatTextWithMaxWidth(
 		formattedLines.push(currentLine);
 	}
 
+	const defaultSymbol = options?.defaultSymbol ?? color.gray(S_BAR);
 	return formattedLines
 		.map((line, i, ar) => {
-			const symbol = i === 0 ? initialSymbol : i + 1 === ar.length ? endSymbol : newLineSymbol;
-			const wrappedLine = options?.lineWrapper ? options.lineWrapper(line) : line;
-			const fullLine = wrappedLine + ' '.repeat(Math.max(maxWidth - strLength(wrappedLine), 0));
-			return `${symbol} ${fullLine}`;
+			const symbol =
+				i === 0 && i + 1 === ar.length
+					? options?.initialSymbol ?? options?.endSymbol ?? defaultSymbol
+					: i === 0
+					? options?.initialSymbol ?? defaultSymbol
+					: i + 1 === ar.length
+					? options?.endSymbol ?? defaultSymbol
+					: options?.newLineSymbol ?? defaultSymbol;
+
+			// only format the line without the leading space.
+			const leadingSpaceRegex = /^\s/;
+			const wrappedLine = options?.lineWrapper
+				? leadingSpaceRegex.test(line)
+					? ' ' + options.lineWrapper(line.slice(1))
+					: options.lineWrapper(line)
+				: line;
+			return `${symbol} ${wrappedLine}`;
 		})
 		.join('\n');
 }
@@ -164,17 +173,20 @@ export const text = (opts: TextOptions) => {
 					return [
 						title,
 						formatTextWithMaxWidth(this.value ?? '', {
-							defaultSymbol: color.gray(S_BAR),
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
 				default:
 					return [
-						title,
-						formatTextWithMaxWidth(value, {
-							endSymbol: color.cyan(S_BAR_END),
+						color.gray(S_BAR),
+						formatTextWithMaxWidth(opts.message, {
+							initialSymbol: symbol(this.state),
+							defaultSymbol: color.cyan(S_BAR),
 						}),
+						formatTextWithMaxWidth(value, {
+							defaultSymbol: color.cyan(S_BAR),
+						}),
+						color.cyan(S_BAR_END),
 					].join('\n');
 			}
 		},
@@ -219,15 +231,21 @@ export const password = (opts: PasswordOptions) => {
 					return [
 						title,
 						formatTextWithMaxWidth(masked ?? '', {
-							defaultSymbol: color.gray(S_BAR),
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
 				default:
-					return [title, formatTextWithMaxWidth(value, { endSymbol: color.cyan(S_BAR_END) })].join(
-						'\n'
-					);
+					return [
+						color.gray(S_BAR),
+						formatTextWithMaxWidth(opts.message, {
+							initialSymbol: symbol(this.state),
+							defaultSymbol: color.cyan(S_BAR),
+						}),
+						formatTextWithMaxWidth(value, {
+							defaultSymbol: color.cyan(S_BAR),
+						}),
+						color.cyan(S_BAR_END),
+					].join('\n');
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
@@ -262,13 +280,11 @@ export const confirm = (opts: ConfirmOptions) => {
 					return [
 						title,
 						formatTextWithMaxWidth(value, {
-							defaultSymbol: color.gray(S_BAR),
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					return `${title}\n${color.cyan(S_BAR)}  ${
 						this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${active}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
@@ -341,8 +357,6 @@ export const select = <Options extends Option<Value>[], Value>(
 					return [
 						title,
 						formatTextWithMaxWidth(opt(this.options[this.cursor], 'cancelled'), {
-							defaultSymbol: color.gray(S_BAR),
-							endSymbol: color.gray(S_BAR_END),
 							lineWrapper: (line) => color.strikethrough(color.dim(line)),
 						}),
 					].join('\n');
@@ -365,22 +379,36 @@ export const select = <Options extends Option<Value>[], Value>(
 						slidingWindowLocation + maxItems < this.options.length;
 
 					return [
-						title,
+						color.gray(S_BAR),
+						formatTextWithMaxWidth(opts.message, {
+							initialSymbol: symbol(this.state),
+							defaultSymbol: color.cyan(S_BAR),
+						}),
 						this.options
 							.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
 							.map((option, i, arr) => {
 								if (i === 0 && shouldRenderTopEllipsis) {
-									return color.dim('...');
+									return formatTextWithMaxWidth(color.dim('...'), {
+										defaultSymbol: color.cyan(S_BAR),
+									});
 								} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
-									return color.dim('...');
+									return [
+										formatTextWithMaxWidth(color.dim('...'), {
+											defaultSymbol: color.cyan(S_BAR),
+										}),
+										color.cyan(S_BAR_END),
+									].join('\n');
 								} else {
 									return formatTextWithMaxWidth(
-										opt(option, i + slidingWindowLocation === this.cursor ? 'active' : 'inactive')
+										opt(option, i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'),
+										{
+											defaultSymbol: color.cyan(S_BAR),
+										}
 									);
 								}
 							})
 							.join('\n'),
-						color.cyan(S_BAR_END),
+						shouldRenderBottomEllipsis ? undefined : color.cyan(S_BAR_END),
 					].join('\n');
 				}
 			}
@@ -418,16 +446,17 @@ export const selectKey = <Options extends Option<Value>[], Value extends string>
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
 						this.options.find((opt) => opt.value === this.value)!,
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
-						S_BAR
-					)}`;
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
+						this.options[0],
+						'cancelled'
+					)}\n${color.gray(S_BAR)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
@@ -505,44 +534,45 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value }) => this.value.includes(value))
+						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return [
-						title,
-						formatTextWithMaxWidth(label ?? '', {
-							defaultSymbol: color.gray(S_BAR),
-							endSymbol: color.gray(S_BAR_END),
-							lineWrapper: (line) => color.strikethrough(color.dim(line)),
-						}),
-					].join('\n');
+
+					return [title, formatTextWithMaxWidth(label ?? '')].join('\n');
 				}
 				case 'error': {
+					const errMsg = this.error.split('\n').map((ln, i) => (i === 0 ? color.yellow(ln) : ln));
+
 					return [
 						title,
 						this.options
 							.map((option, i) => {
 								const selected = this.value.includes(option.value);
 								const active = i === this.cursor;
-								let line = '';
+								let line = opt(option, active ? 'active' : 'inactive');
 								if (active && selected) {
 									line = opt(option, 'active-selected');
 								} else if (selected) {
 									line = opt(option, 'selected');
-								} else {
-									line = opt(option, active ? 'active' : 'inactive');
 								}
-								return formatTextWithMaxWidth(line);
+
+								return formatTextWithMaxWidth(line, {
+									defaultSymbol: color.yellow(S_BAR),
+								});
 							})
 							.join('\n'),
-						formatTextWithMaxWidth(this.error, {
-							defaultSymbol: color.yellow(S_BAR),
-							lineWrapper: color.yellow,
-							endSymbol: color.yellow(S_BAR_END),
+						formatTextWithMaxWidth(errMsg.join('\n'), {
+							defaultSymbol: color.yellow(S_BAR_END),
+							endSymbol: color.hidden('-'),
 						}),
 					].join('\n');
 				}
 				default: {
 					return [
-						title,
+						color.gray(S_BAR),
+						formatTextWithMaxWidth(opts.message, {
+							initialSymbol: symbol(this.state),
+							defaultSymbol: color.cyan(S_BAR),
+						}),
 						this.options
 							.map((option, i) => {
 								const selected = this.value.includes(option.value);
@@ -555,7 +585,9 @@ export const multiselect = <Options extends Option<Value>[], Value>(
 								} else {
 									line = opt(option, active ? 'active' : 'inactive');
 								}
-								return formatTextWithMaxWidth(line);
+								return formatTextWithMaxWidth(line, {
+									defaultSymbol: color.cyan(S_BAR),
+								});
 							})
 							.join('\n'),
 						color.cyan(S_BAR_END),
@@ -637,7 +669,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${this.options
+					return `${title}\n${color.gray(S_BAR)}  ${this.options
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'submitted'))
 						.join(color.dim(', '))}`;
@@ -647,7 +679,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
+					return `${title}\n${color.gray(S_BAR)}  ${
 						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
 					}`;
 				}
@@ -658,7 +690,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
+					return `${title}\n${color.yellow(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -682,7 +714,7 @@ export const groupMultiselect = <Options extends Option<Value>[], Value>(
 						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -724,19 +756,28 @@ const strLength = (str: string) => {
 	return len;
 };
 export const note = (message = '', title = '') => {
-	const len = Math.floor((process.stdout.columns ?? 80) * 0.8);
-	const messageLen = Math.floor(len * 0.95);
+	const maxWidth = Math.floor((process.stdout.columns ?? 80) * 0.8);
+	const lines = formatTextWithMaxWidth(message, { maxWidth: maxWidth - 2 }).split(/\n/g);
+	const titleLen = strLength(title);
+	const messageLen = lines.reduce((sum, line) => {
+		const length = strLength(line);
+		return length > sum ? length : sum;
+	}, 0);
+	const len = Math.min(Math.max(messageLen, titleLen) + 2, maxWidth);
 	const noteBox = [
 		color.gray(S_BAR),
 		`${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(len - strLength(title) - 3) + S_CORNER_TOP_RIGHT
+			S_BAR_H.repeat(Math.max(len - titleLen - 3, 0)) + S_CORNER_TOP_RIGHT
 		)}`,
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
-		formatTextWithMaxWidth(message, {
-			defaultSymbol: color.gray(S_BAR),
-			maxWidth: messageLen,
-			lineWrapper: (line) => line + ' '.repeat(len - strLength(line) - 1) + color.gray(S_BAR),
-		}),
+		lines
+			.map(
+				(line) =>
+					line +
+					' '.repeat(Math.max(len + (unicode ? 2 : 1) - strLength(line), 0)) +
+					color.gray(S_BAR)
+			)
+			.join('\n'),
 		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
 		color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len) + S_CORNER_BOTTOM_RIGHT),
 		'',
@@ -747,7 +788,6 @@ export const note = (message = '', title = '') => {
 export const cancel = (message = '') => {
 	process.stdout.write(
 		formatTextWithMaxWidth(message, {
-			defaultSymbol: color.gray(S_BAR),
 			endSymbol: color.gray(S_BAR_END),
 			lineWrapper: color.red,
 		}) + '\n\n'
@@ -758,8 +798,7 @@ export const intro = (title = '') => {
 	process.stdout.write(
 		formatTextWithMaxWidth(title, {
 			initialSymbol: color.gray(S_BAR_START),
-			defaultSymbol: color.gray(S_BAR),
-		})
+		}) + '\n'
 	);
 };
 
@@ -768,7 +807,6 @@ export const outro = (message = '') => {
 		[
 			color.gray(S_BAR),
 			formatTextWithMaxWidth(message, {
-				defaultSymbol: color.gray(S_BAR),
 				endSymbol: color.gray(S_BAR_END),
 			}),
 			'',
@@ -785,53 +823,37 @@ export const log = {
 		process.stdout.write(
 			formatTextWithMaxWidth(message, {
 				initialSymbol: symbol,
-				defaultSymbol: color.gray(S_BAR),
-			})
+			}) + '\n'
 		);
 	},
 	info: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.blue(S_INFO),
-				defaultSymbol: color.blue(S_BAR),
-			})
-		);
+		log.message(message, {
+			symbol: color.blue(S_INFO),
+		});
 	},
 	success: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.green(S_SUCCESS),
-				defaultSymbol: color.green(S_BAR),
-			})
-		);
+		log.message(message, {
+			symbol: color.green(S_SUCCESS),
+		});
 	},
 	step: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.green(S_STEP_SUBMIT),
-				defaultSymbol: color.green(S_BAR),
-			})
-		);
+		log.message(message, {
+			symbol: color.green(S_STEP_SUBMIT),
+		});
 	},
 	warn: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.yellow(S_WARN),
-				defaultSymbol: color.yellow(S_BAR),
-			})
-		);
+		log.message(message, {
+			symbol: color.yellow(S_WARN),
+		});
 	},
 	/** alias for `log.warn()`. */
 	warning: (message: string) => {
 		log.warn(message);
 	},
 	error: (message: string) => {
-		process.stdout.write(
-			formatTextWithMaxWidth(message, {
-				initialSymbol: color.red(S_ERROR),
-				defaultSymbol: color.red(S_BAR),
-			})
-		);
+		log.message(message, {
+			symbol: color.red(S_ERROR),
+		});
 	},
 };
 
@@ -848,7 +870,6 @@ export const spinner = () => {
 	const formatMessage = (symbol: string, msg: string): string => {
 		return formatTextWithMaxWidth(msg, {
 			initialSymbol: symbol,
-			defaultSymbol: '',
 		});
 	};
 
