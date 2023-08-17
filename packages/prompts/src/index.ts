@@ -2,6 +2,7 @@ import {
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
 	MultiSelectPrompt,
+	NonEmptyArray,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
@@ -214,7 +215,7 @@ type Option<Value> = Value extends Primitive
 
 export interface SelectOptions<Value> {
 	message: string;
-	options: Option<Value>[];
+	options: NonEmptyArray<Option<Value>>;
 	initialValue?: Value;
 	maxItems?: number;
 }

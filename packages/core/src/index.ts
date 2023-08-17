@@ -11,3 +11,4 @@ export { default as SelectKeyPrompt } from './prompts/select-key';
 export { default as TextPrompt } from './prompts/text';
 export { block, isCancel } from './utils';
 export { updateSettings } from './utils/settings';
+export type { NonEmptyArray } from './utility-types';
