@@ -130,6 +130,7 @@ export interface FormatOptions extends Record<LineOption, Partial<FormatLineOpti
 	 * //=> 'foo bar\nbaz'
 	 */
 	maxWidth: number;
+	minWidth: number;
 }
 
 export default class Prompt {
@@ -330,6 +331,7 @@ export default class Prompt {
 			) + 2;
 		const terminalWidth = process.stdout.columns || 80;
 		const maxWidth = options?.maxWidth ?? terminalWidth;
+		const minWidth = options?.minWidth ?? 1;
 
 		const formattedLines: string[] = [];
 		const paragraphs = text.split(/\n/g);
@@ -386,7 +388,9 @@ export default class Prompt {
 				const styledLine = leadingSpaceRegex.test(line)
 					? ' ' + styleLine(line.slice(1))
 					: styleLine(line);
-				return [startLine, styleLine(styledLine), endLine].join(' ');
+				const fullLine =
+					styledLine + ' '.repeat(Math.max(minWidth - strLength(styledLine) - emptySlots, 0));
+				return [startLine, fullLine, endLine].join(' ');
 			})
 			.join('\n');
 	}
