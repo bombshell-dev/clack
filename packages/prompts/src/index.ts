@@ -12,7 +12,6 @@ import {
 	TextPrompt,
 	strLength,
 } from '@clack/core';
-import { defaultTheme, S } from '@clack/core/themes';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
@@ -226,7 +225,7 @@ export interface PasswordOptions {
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
 		validate: opts.validate,
-		mask: opts.mask ?? S.PASSWORD_MASK,
+		mask: opts.mask ?? S_PASSWORD_MASK,
 		render() {
 			return applyTheme({
 				ctx: this,
@@ -375,7 +374,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 			}
 
-			return defaultTheme({
+			return applyTheme({
 				ctx: this,
 				message: opts.message,
 				value,
@@ -400,21 +399,21 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'active') {
-			return `${color.cyan(S.CHECKBOX_ACTIVE)} ${label} ${
+			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		} else if (state === 'selected') {
-			return `${color.green(S.CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
 		} else if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
 		} else if (state === 'active-selected') {
-			return `${color.green(S.CHECKBOX_SELECTED)} ${label} ${
+			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		} else if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		return `${color.dim(S.CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
 	};
 
 	return new MultiSelectPrompt({
@@ -530,28 +529,28 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const isItem = typeof (option as any).group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
 		const isLast = isItem && (next as any).group === true;
-		const prefix = isItem ? `${isLast ? S.BAR_END : S.BAR} ` : '';
+		const prefix = isItem ? `${isLast ? S_BAR_END : S_BAR} ` : '';
 
 		if (state === 'active') {
-			return `${color.dim(prefix)}${color.cyan(S.CHECKBOX_ACTIVE)} ${label} ${
+			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		} else if (state === 'group-active') {
-			return `${prefix}${color.cyan(S.CHECKBOX_ACTIVE)} ${color.dim(label)}`;
+			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
 		} else if (state === 'group-active-selected') {
-			return `${prefix}${color.green(S.CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
 		} else if (state === 'selected') {
-			return `${color.dim(prefix)}${color.green(S.CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
 		} else if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
 		} else if (state === 'active-selected') {
-			return `${color.dim(prefix)}${color.green(S.CHECKBOX_SELECTED)} ${label} ${
+			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		} else if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		return `${color.dim(prefix)}${color.dim(S.CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
 	};
 
 	return new GroupMultiSelectPrompt({
@@ -606,7 +605,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S.BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
+							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
 					return `${title}\n${color.yellow(S_BAR)}  ${this.options
@@ -630,7 +629,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							}
 							return opt(option, active ? 'active' : 'inactive', options);
 						})
-						.join(`\n${color.yellow(S.BAR)}  `)}\n${footer}\n`;
+						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
 					return `${title}\n${color.cyan(S_BAR)}  ${this.options
@@ -654,7 +653,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							}
 							return opt(option, active ? 'active' : 'inactive', options);
 						})
-						.join(`\n${color.cyan(S.BAR)}  `)}\n${color.cyan(S.BAR_END)}\n`;
+						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},
@@ -841,7 +840,7 @@ export const spinner = () => {
 		isSpinnerActive = true;
 		unblock = block();
 		_message = msg.replace(/\.+$/, '');
-		process.stdout.write(`${color.gray(S.BAR)}\n`);
+		process.stdout.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let dotsTimer = 0;
 		registerHooks();
@@ -863,7 +862,7 @@ export const spinner = () => {
 		clearPrevMessage();
 		const step =
 			code === 0
-				? color.green(S.STEP_SUBMIT)
+				? color.green(S_STEP_SUBMIT)
 				: code === 1
 				? color.red(S_STEP_CANCEL)
 				: color.red(S_STEP_ERROR);
