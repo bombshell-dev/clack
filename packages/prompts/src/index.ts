@@ -357,20 +357,22 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue,
 		render() {
-			let value: string;
+			const title = `${color.gray(S.BAR)}\n${symbol(this.state)} ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit':
-					value = opt(this.options.find((opt) => opt.value === this.value)!, 'selected');
-					break;
+					return `${title}${color.gray(S.BAR)}  ${opt(
+						this.options.find((opt) => opt.value === this.value)!,
+						'selected'
+					)}`;
 				case 'cancel':
-					value = opt(this.options[0], 'cancelled');
-					break;
+					return `${title}${color.gray(S.BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
+						S.BAR
+					)}`;
 				default:
-					value = this.options
+					return `${title}${color.cyan(S.BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
-						.join('\n');
-					break;
+						.join(`\n${color.cyan(S.BAR)}  `)}\n${color.cyan(S.BAR_END)}\n`;
 			}
 
 			return applyTheme({
