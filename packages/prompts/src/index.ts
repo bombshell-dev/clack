@@ -9,7 +9,7 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt
+	TextPrompt,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -357,30 +357,23 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S.BAR)}\n${symbol(this.state)} ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}`;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S.BAR)}  ${opt(
+					return `${title}${color.gray(S_BAR)}  ${opt(
 						this.options.find((opt) => opt.value === this.value)!,
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S.BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
-						S.BAR
+					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
+						S_BAR
 					)}`;
 				default:
-					return `${title}${color.cyan(S.BAR)}  ${this.options
+					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
-						.join(`\n${color.cyan(S.BAR)}  `)}\n${color.cyan(S.BAR_END)}\n`;
+						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 			}
-
-			return applyTheme({
-				ctx: this,
-				message: opts.message,
-				value,
-				valueWithCursor: undefined,
-			});
 		},
 	}).prompt() as Promise<Value | symbol>;
 };
@@ -449,10 +442,11 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit': {
-					value = this.options
-						.filter(({ value }) => this.value.includes(value))
-						.map((option) => opt(option, 'submitted'))
-						.join(color.dim(', '));
+					value =
+						this.options
+							.filter(({ value }) => this.value.includes(value))
+							.map((option) => opt(option, 'submitted'))
+							.join(color.dim(', ')) || color.dim('none');
 					break;
 				}
 				case 'cancel': {
