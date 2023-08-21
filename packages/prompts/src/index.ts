@@ -362,8 +362,10 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit':
-					value = opt(this.options.find((opt) => opt.value === this.value)!, 'selected');
-					break;
+					return `${title}${color.gray(S.BAR)}  ${opt(
+						this.options.find((opt) => opt.value === this.value)!,
+						'selected'
+					)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
 						S_BAR
