@@ -9,6 +9,7 @@ import {
 	SelectPrompt,
 	State,
 	TextPrompt,
+	PathPrompt,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -166,6 +167,56 @@ export const confirm = (opts: ConfirmOptions) => {
 			}
 		},
 	}).prompt() as Promise<boolean | symbol>;
+};
+
+interface PathNode {
+	name: string;
+	children: PathNode[] | undefined;
+}
+
+export interface PathOptions {
+	message: string;
+}
+
+export const path = (opts: PathOptions) => {
+	const opt = (node: PathNode, state: boolean, depth: number): string => {
+		return [
+			color.cyan(S_BAR),
+			' '.repeat(depth),
+			state ? color.green(S_RADIO_ACTIVE) : color.dim(S_RADIO_INACTIVE),
+			' ',
+			node.name,
+		].join('');
+	};
+	return new PathPrompt({
+		render() {
+			const option = this._option;
+			const map = (node: PathNode, index: number = 0, depth: number = 0): string => {
+				const state =
+					option.index === index && option.depth === depth && option.node.name === node.name;
+				return node.children && node.children.length
+					? [
+							opt(node, state, depth),
+							node.children.map((_node, i) => map(_node, i, depth + 1)).join('\n'),
+					  ].join('\n')
+					: opt(node, state, depth);
+			};
+
+			const title = [color.gray(S_BAR), `${symbol(this.state)}  ${opts.message}`].join('\n');
+
+			switch (this.state) {
+				case 'submit':
+					return [title, `${color.gray(S_BAR)}  ${color.dim(this.value)}`].join('\n');
+				case 'cancel':
+					return [
+						title,
+						`${color.gray(S_BAR)}  ${color.dim(color.strikethrough(this.value))}`,
+					].join('\n');
+				default:
+					return [title, map(this.root)].join('\n');
+			}
+		},
+	}).prompt();
 };
 
 type Primitive = Readonly<string | boolean | number>;
