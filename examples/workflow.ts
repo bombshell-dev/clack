@@ -27,26 +27,29 @@ import * as p from '@clack/prompts';
 		)
 		.step('fork', ({ results }) => {
 			if (results.install === true) {
-				return p.workflow().step('package', () =>
-					p.select({
-						message: 'Pick a package manager:',
-						initialValue: 'pnpm',
-						options: [
-							{
-								label: 'npm',
-								value: 'npm',
-							},
-							{
-								label: 'yarn',
-								value: 'yarn',
-							},
-							{
-								label: 'pnpm',
-								value: 'pnpm',
-							},
-						],
-					})
-				).run();
+				return p
+					.workflow()
+					.step('package', () =>
+						p.select({
+							message: 'Pick a package manager:',
+							initialValue: 'pnpm',
+							options: [
+								{
+									label: 'npm',
+									value: 'npm',
+								},
+								{
+									label: 'yarn',
+									value: 'yarn',
+								},
+								{
+									label: 'pnpm',
+									value: 'pnpm',
+								},
+							],
+						})
+					)
+					.run();
 			}
 		})
 		.run();

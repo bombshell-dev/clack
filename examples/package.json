@@ -9,6 +9,7 @@
     "picocolors": "^1.0.0"
   },
   "scripts": {
+    "start": "jiti ./index.ts",
     "basic": "jiti ./basic.ts",
     "spinner": "jiti ./spinner.ts",
     "changesets": "jiti ./changesets.ts",
