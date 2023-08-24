@@ -7,9 +7,13 @@ interface PathNode {
 	children: PathNode[] | undefined;
 }
 
-interface PathOptions extends PromptOptions<PathPrompt> {}
+interface PathOptions extends PromptOptions<PathPrompt> {
+	onlyShowDir?: boolean;
+}
+
 export default class PathPrompt extends Prompt {
 	private cursorMap: number[];
+	private onlyShowDir: boolean;
 	public root: PathNode;
 
 	public get option() {
@@ -77,14 +81,20 @@ export default class PathPrompt extends Prompt {
 	}
 
 	private mapDir(path: string): PathNode[] {
-		return readdirSync(path, { withFileTypes: true }).map((item) => ({
-			name: item.name,
-			children: item.isDirectory() ? [] : undefined,
-		}));
+		return readdirSync(path, { withFileTypes: true })
+			.map((item) => ({
+				name: item.name,
+				children: item.isDirectory() ? [] : undefined,
+			}))
+			.filter((node) => {
+				return this.onlyShowDir ? !!node.children : true;
+			});
 	}
 
 	constructor(opts: PathOptions) {
 		super(opts, false);
+
+		this.onlyShowDir = opts.onlyShowDir ?? false;
 		const cwd = opts.initialValue ?? process.cwd();
 		this.root = {
 			name: cwd,
@@ -113,8 +123,9 @@ export default class PathPrompt extends Prompt {
 					break;
 				case 'right':
 					if (this.option.node.children) {
-						this.option.node.children = this.mapDir(this._value);
-						this.cursorMap = [...this.cursorMap, 0];
+						const children = this.mapDir(this._value);
+						this.option.node.children = children;
+						this.cursorMap = children.length ? [...this.cursorMap, 0] : this.cursorMap;
 						this.emit('resize');
 					}
 					break;

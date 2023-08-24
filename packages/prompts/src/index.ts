@@ -181,6 +181,7 @@ export interface PathOptions {
 	 */
 	initialValue?: string;
 	maxItems?: number;
+	onlyShowDir?: boolean;
 }
 
 export const path = (opts: PathOptions) => {
@@ -199,6 +200,7 @@ export const path = (opts: PathOptions) => {
 
 	return new PathPrompt({
 		initialValue: opts.initialValue,
+		onlyShowDir: opts.onlyShowDir,
 		render() {
 			const option = this.option;
 			const map = (node: PathNode, index: number = 0, depth: number = 0): string => {
