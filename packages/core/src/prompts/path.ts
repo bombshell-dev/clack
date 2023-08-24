@@ -36,7 +36,7 @@ export default class PathPrompt extends Prompt {
 				options = options.concat(aux.children);
 				aux = aux.children[this.cursorMap[i]];
 			} else {
-				break;
+				options = options.concat(aux.children ?? []);
 			}
 		}
 		return options;

@@ -191,6 +191,7 @@ export const path = (opts: PathOptions) => {
 			state ? color.green(S_RADIO_ACTIVE) : color.dim(S_RADIO_INACTIVE),
 			' ',
 			node.name,
+			node.children ? (node.children.length ? ` v` : ` >`) : undefined,
 		].join('');
 	};
 
@@ -238,6 +239,8 @@ export const path = (opts: PathOptions) => {
 						maxItems < this.options.length &&
 						slidingWindowLocation + maxItems < this.options.length;
 
+					const dots = `${color.cyan(S_BAR)} ${color.dim('...')}`;
+
 					return [
 						title,
 						map(this.root)
@@ -245,13 +248,15 @@ export const path = (opts: PathOptions) => {
 							.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
 							.map((option, i, arr) => {
 								if (i === 0 && shouldRenderTopEllipsis) {
-									return color.dim('...');
+									return dots;
 								} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
-									return color.dim('...');
+									return dots;
 								} else {
 									return option;
 								}
 							}),
+						,
+						color.cyan(S_BAR_END),
 					]
 						.flat()
 						.join('\n');
