@@ -300,7 +300,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 export interface MultiSelectOptions<Value> {
 	message: string;
-	options: Option<Value>[];
+	options: NonEmptyArray<Option<Value>>;
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
