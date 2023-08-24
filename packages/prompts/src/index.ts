@@ -179,7 +179,8 @@ export interface PathOptions {
 	/**
 	 * @default process.cwd() // current working dir
 	 */
-	initialValue?: string
+	initialValue?: string;
+	maxItems?: number;
 }
 
 export const path = (opts: PathOptions) => {
@@ -192,10 +193,13 @@ export const path = (opts: PathOptions) => {
 			node.name,
 		].join('');
 	};
+
+	let slidingWindowLocation = 0;
+
 	return new PathPrompt({
 		initialValue: opts.initialValue,
 		render() {
-			const option = this._option;
+			const option = this.option;
 			const map = (node: PathNode, index: number = 0, depth: number = 0): string => {
 				const state =
 					option.index === index && option.depth === depth && option.node.name === node.name;
@@ -218,7 +222,39 @@ export const path = (opts: PathOptions) => {
 						`${color.gray(S_BAR)}  ${color.dim(color.strikethrough(this.value))}`,
 					].join('\n');
 				default:
-					return [title, map(this.root)].join('\n');
+					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
+					if (this.cursor >= slidingWindowLocation + maxItems - 4) {
+						slidingWindowLocation = Math.max(
+							Math.min(this.cursor - maxItems + 4, this.options.length - maxItems),
+							0
+						);
+					} else if (this.cursor < slidingWindowLocation + 2) {
+						slidingWindowLocation = Math.max(this.cursor - 2, 0);
+					}
+
+					const shouldRenderTopEllipsis =
+						maxItems < this.options.length && slidingWindowLocation > 0;
+					const shouldRenderBottomEllipsis =
+						maxItems < this.options.length &&
+						slidingWindowLocation + maxItems < this.options.length;
+
+					return [
+						title,
+						map(this.root)
+							.split(/\n/g)
+							.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
+							.map((option, i, arr) => {
+								if (i === 0 && shouldRenderTopEllipsis) {
+									return color.dim('...');
+								} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
+									return color.dim('...');
+								} else {
+									return option;
+								}
+							}),
+					]
+						.flat()
+						.join('\n');
 			}
 		},
 	}).prompt();

@@ -9,13 +9,47 @@ interface PathNode {
 
 interface PathOptions extends PromptOptions<PathPrompt> {}
 export default class PathPrompt extends Prompt {
-	private cursor: number[];
-	root: PathNode;
+	private cursorMap: number[];
+	public root: PathNode;
+
+	public get option() {
+		let aux: PathNode = this.root;
+		for (let i = 0; i < this.cursorMap.length; i++) {
+			if (aux.children && aux.children[this.cursorMap[i]]) {
+				aux = aux.children[this.cursorMap[i]];
+			} else {
+				break;
+			}
+		}
+		return {
+			index: this.cursorMap[this.cursorMap.length - 1] ?? 0,
+			depth: this.cursorMap.length,
+			node: aux,
+		};
+	}
+
+	public get options(): PathNode[] {
+		let aux: PathNode = this.root;
+		let options: PathNode[] = [this.root];
+		for (let i = 0; i < this.cursorMap.length; i++) {
+			if (aux.children && aux.children[this.cursorMap[i]]) {
+				options = options.concat(aux.children);
+				aux = aux.children[this.cursorMap[i]];
+			} else {
+				break;
+			}
+		}
+		return options;
+	}
+
+	public get cursor(): number {
+		return this.cursorMap.reduce((a, b) => a + b, 0);
+	}
 
 	private get _node(): PathNode[] {
 		let aux: PathNode = this.root;
 		let options: PathNode[] = [];
-		for (const index of this.cursor) {
+		for (const index of this.cursorMap) {
 			if (aux.children?.[index]) {
 				options = aux.children;
 				aux = aux.children[index];
@@ -26,26 +60,10 @@ export default class PathPrompt extends Prompt {
 		return options;
 	}
 
-	get _option() {
-		let aux: PathNode = this.root;
-		for (let i = 0; i < this.cursor.length; i++) {
-			if (aux.children && aux.children[this.cursor[i]]) {
-				aux = aux.children[this.cursor[i]];
-			} else {
-				break;
-			}
-		}
-		return {
-			index: this.cursor[this.cursor.length - 1] ?? 0,
-			depth: this.cursor.length,
-			node: aux,
-		};
-	}
-
 	private get _value(): string {
 		const value: string[] = [];
 		let option: PathNode = this.root;
-		for (const index of this.cursor) {
+		for (const index of this.cursorMap) {
 			if (option.children?.[index]) {
 				option = option.children[index];
 				value.push(option.name);
@@ -54,7 +72,7 @@ export default class PathPrompt extends Prompt {
 		return resolve(this.root.name, ...value);
 	}
 
-	private changeValue() {
+	private _changeValue() {
 		this.value = this._value;
 	}
 
@@ -72,39 +90,39 @@ export default class PathPrompt extends Prompt {
 			name: cwd,
 			children: this.mapDir(cwd),
 		};
-		this.cursor = [0];
-		this.changeValue();
+		this.cursorMap = [0];
+		this._changeValue();
 
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'up':
-					if (this.cursor.length) {
-						this.cursor = [
-							...this.cursor.slice(0, -1),
-							this._option.index > 0 ? this._option.index - 1 : this._node.length - 1,
+					if (this.cursorMap.length) {
+						this.cursorMap = [
+							...this.cursorMap.slice(0, -1),
+							this.option.index > 0 ? this.option.index - 1 : this._node.length - 1,
 						];
 					}
 					break;
 				case 'down':
-					if (this.cursor.length) {
-						this.cursor = [
-							...this.cursor.slice(0, -1),
-							this._option.index < this._node.length - 1 ? this._option.index + 1 : 0,
+					if (this.cursorMap.length) {
+						this.cursorMap = [
+							...this.cursorMap.slice(0, -1),
+							this.option.index < this._node.length - 1 ? this.option.index + 1 : 0,
 						];
 					}
 					break;
 				case 'right':
-					if (this._option.node.children) {
-						this._option.node.children = this.mapDir(this._value);
-						this.cursor = [...this.cursor, 0];
+					if (this.option.node.children) {
+						this.option.node.children = this.mapDir(this._value);
+						this.cursorMap = [...this.cursorMap, 0];
 						this.emit('resize');
 					}
 					break;
 				case 'left':
-          const prevCursor = this.cursor
-					this.cursor = this.cursor.slice(0, -1);
-					if (this._option.node.children?.length && this.cursor.length) {
-						this._option.node.children = [];
+					const prevCursor = this.cursorMap;
+					this.cursorMap = this.cursorMap.slice(0, -1);
+					if (this.option.node.children?.length && this.cursorMap.length) {
+						this.option.node.children = [];
 						this.emit('resize');
 					} else if (prevCursor.length === 0) {
 						const cwd = resolve(this.root.name, '..');
@@ -116,7 +134,7 @@ export default class PathPrompt extends Prompt {
 					}
 					break;
 			}
-			this.changeValue();
+			this._changeValue();
 		});
 	}
 }

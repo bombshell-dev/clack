@@ -15,6 +15,7 @@ async function main() {
 			path: () =>
 				p.path({
 					message: 'Where should we create your project?',
+					maxItems: 10,
 				}),
 			password: () =>
 				p.password({
