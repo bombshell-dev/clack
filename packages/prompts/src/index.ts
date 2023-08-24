@@ -5,11 +5,11 @@ import {
 	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
+	PathPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
 	TextPrompt,
-	PathPrompt,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';

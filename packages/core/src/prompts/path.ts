@@ -1,6 +1,6 @@
 import { readdirSync } from 'node:fs';
-import Prompt, { PromptOptions } from './prompt';
 import { resolve } from 'node:path';
+import Prompt, { PromptOptions } from './prompt';
 
 interface PathNode {
 	name: string;
