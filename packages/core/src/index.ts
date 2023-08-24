@@ -7,4 +7,5 @@ export type { State } from './prompts/prompt';
 export { default as SelectPrompt } from './prompts/select';
 export { default as SelectKeyPrompt } from './prompts/select-key';
 export { default as TextPrompt } from './prompts/text';
+export { default as PathPrompt } from './prompts/path';
 export { block } from './utils';

@@ -106,6 +106,7 @@ export default class Prompt {
 		this.input.on('keypress', this.onKeypress);
 		setRawMode(this.input, true);
 		this.output.on('resize', this.render);
+		this.on('resize', this.render)
 
 		this.render();
 
