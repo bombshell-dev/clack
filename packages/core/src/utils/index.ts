@@ -42,7 +42,6 @@ export function block({
 		if (hasAliasKey([str, name, sequence], 'cancel')) {
 			if (hideCursor) output.write(cursor.show);
 			process.exit(0);
-			return;
 		}
 		if (!overwrite) return;
 		const dx = name === 'return' ? 0 : -1;
