@@ -1,4 +1,5 @@
 import * as p from '@clack/prompts';
+import { resolve } from 'node:path';
 import { setTimeout } from 'node:timers/promises';
 import color from 'picocolors';
 
@@ -12,13 +13,8 @@ async function main() {
 	const project = await p.group(
 		{
 			path: () =>
-				p.text({
+				p.path({
 					message: 'Where should we create your project?',
-					placeholder: './sparkling-solid',
-					validate: (value) => {
-						if (!value) return 'Please enter a path.';
-						if (value[0] !== '.') return 'Please enter a relative path.';
-					},
 				}),
 			password: () =>
 				p.password({

@@ -176,6 +176,10 @@ interface PathNode {
 
 export interface PathOptions {
 	message: string;
+	/**
+	 * @default process.cwd() // current working dir
+	 */
+	initialValue?: string
 }
 
 export const path = (opts: PathOptions) => {
@@ -189,6 +193,7 @@ export const path = (opts: PathOptions) => {
 		].join('');
 	};
 	return new PathPrompt({
+		initialValue: opts.initialValue,
 		render() {
 			const option = this._option;
 			const map = (node: PathNode, index: number = 0, depth: number = 0): string => {

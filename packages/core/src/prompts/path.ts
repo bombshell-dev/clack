@@ -67,9 +67,10 @@ export default class PathPrompt extends Prompt {
 
 	constructor(opts: PathOptions) {
 		super(opts, false);
+		const cwd = opts.initialValue ?? process.cwd();
 		this.root = {
-			name: process.cwd(),
-			children: this.mapDir(process.cwd()),
+			name: cwd,
+			children: this.mapDir(cwd),
 		};
 		this.cursor = [0];
 		this.changeValue();
@@ -100,9 +101,17 @@ export default class PathPrompt extends Prompt {
 					}
 					break;
 				case 'left':
+          const prevCursor = this.cursor
 					this.cursor = this.cursor.slice(0, -1);
-					if (this._option.node.children && this._option.depth !== 0) {
+					if (this._option.node.children?.length && this.cursor.length) {
 						this._option.node.children = [];
+						this.emit('resize');
+					} else if (prevCursor.length === 0) {
+						const cwd = resolve(this.root.name, '..');
+						this.root = {
+							name: cwd,
+							children: this.mapDir(cwd),
+						};
 						this.emit('resize');
 					}
 					break;
