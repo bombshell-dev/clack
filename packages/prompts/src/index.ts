@@ -314,7 +314,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 export interface MultiSelectOptions<Value> {
 	message: string;
-	options: Option<Value>[];
+	options: NonEmptyArray<Option<Value>>;
 	initialValues?: Value[];
 	maxItems?: number;
 	required?: boolean;
