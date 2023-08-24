@@ -9,7 +9,7 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt,
+	TextPrompt
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -188,7 +188,7 @@ export const path = (opts: PathOptions) => {
 	const opt = (node: PathNode, state: boolean, depth: number): string => {
 		return [
 			color.cyan(S_BAR),
-			' '.repeat(depth),
+			' '.repeat(depth + 2),
 			state ? color.green(S_RADIO_ACTIVE) : color.dim(S_RADIO_INACTIVE),
 			' ',
 			node.name,
@@ -241,7 +241,7 @@ export const path = (opts: PathOptions) => {
 						maxItems < this.options.length &&
 						slidingWindowLocation + maxItems < this.options.length;
 
-					const dots = `${color.cyan(S_BAR)} ${color.dim('...')}`;
+					const dots = `${color.cyan(S_BAR)}  ${color.dim('...')}`;
 
 					return [
 						title,
