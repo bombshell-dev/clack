@@ -3,6 +3,7 @@ import type { Key } from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import * as readline from 'node:readline';
 import { cursor } from 'sisteransi';
+import { hasAliasKey } from './aliases';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 
@@ -21,10 +22,9 @@ export function block({
 	readline.emitKeypressEvents(input, rl);
 	if (input.isTTY) input.setRawMode(true);
 
-	const clear = (data: Buffer, { name }: Key) => {
+	const clear = (data: Buffer, { name, sequence }: Key) => {
 		const str = String(data);
-		if (str === '\x03') {
-			if (hideCursor) output.write(cursor.show);
+		if (hasAliasKey([str, name, sequence], 'cancel')) {
 			process.exit(0);
 			return;
 		}
@@ -53,3 +53,5 @@ export function block({
 		rl.close();
 	};
 }
+
+export * from './aliases';
