@@ -8,7 +8,7 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt,
+	TextPrompt
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -632,7 +632,7 @@ export const spinner = () => {
 	const delay = unicode ? 80 : 120;
 
 	let unblock: () => void;
-	let loop: NodeJS.Timer;
+	let loop: NodeJS.Timeout;
 	let isSpinnerActive: boolean = false;
 	let _message: string = '';
 
