@@ -126,7 +126,6 @@ export default class PathPrompt extends Prompt {
 						const children = this.mapDir(this._value);
 						this.option.node.children = children;
 						this.cursorMap = children.length ? [...this.cursorMap, 0] : this.cursorMap;
-						this.emit('resize');
 					}
 					break;
 				case 'left':
@@ -134,14 +133,12 @@ export default class PathPrompt extends Prompt {
 					this.cursorMap = this.cursorMap.slice(0, -1);
 					if (this.option.node.children?.length && this.cursorMap.length) {
 						this.option.node.children = [];
-						this.emit('resize');
 					} else if (prevCursor.length === 0) {
 						const cwd = resolve(this.root.name, '..');
 						this.root = {
 							name: cwd,
 							children: this.mapDir(cwd),
 						};
-						this.emit('resize');
 					}
 					break;
 			}
