@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "stub": "pnpm -r run build --stub",
-    "build": "pnpm run /^build:.*/",
+    "build": "pnpm run build:core && pnpm run build:prompts",
     "build:core": "pnpm --filter @clack/core run build",
     "build:prompts": "pnpm --filter @clack/prompts run build",
     "start": "pnpm --filter @example/basic run start",
