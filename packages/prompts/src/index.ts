@@ -226,9 +226,9 @@ export const path = (opts: PathOptions) => {
 					].join('\n');
 				default:
 					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
-					if (this.cursor >= slidingWindowLocation + maxItems - 4) {
+					if (this.cursor >= slidingWindowLocation + maxItems - 3) {
 						slidingWindowLocation = Math.max(
-							Math.min(this.cursor - maxItems + 4, this.options.length - maxItems),
+							Math.min(this.cursor - maxItems + 3, this.options.length - maxItems),
 							0
 						);
 					} else if (this.cursor < slidingWindowLocation + 2) {

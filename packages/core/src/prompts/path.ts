@@ -18,11 +18,9 @@ export default class PathPrompt extends Prompt {
 
 	public get option() {
 		let aux: PathNode = this.root;
-		for (let i = 0; i < this.cursorMap.length; i++) {
-			if (aux.children && aux.children[this.cursorMap[i]]) {
-				aux = aux.children[this.cursorMap[i]];
-			} else {
-				break;
+		for (const index of this.cursorMap) {
+			if (aux.children && aux.children[index]) {
+				aux = aux.children[index];
 			}
 		}
 		return {
@@ -35,19 +33,17 @@ export default class PathPrompt extends Prompt {
 	public get options(): PathNode[] {
 		let aux: PathNode = this.root;
 		let options: PathNode[] = [this.root];
-		for (let i = 0; i < this.cursorMap.length; i++) {
-			if (aux.children && aux.children[this.cursorMap[i]]) {
-				options = options.concat(aux.children);
-				aux = aux.children[this.cursorMap[i]];
-			} else {
-				options = options.concat(aux.children ?? []);
+		for (const index of this.cursorMap) {
+			options = options.concat(aux.children ?? []);
+			if (aux.children && aux.children[index]) {
+				aux = aux.children[index];
 			}
 		}
 		return options;
 	}
 
 	public get cursor(): number {
-		return this.cursorMap.reduce((a, b) => a + b, 0);
+		return this.cursorMap.reduce((a, b) => a + b + 1, 0);
 	}
 
 	private get _node(): PathNode[] {
