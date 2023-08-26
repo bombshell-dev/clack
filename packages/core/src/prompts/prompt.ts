@@ -1,36 +1,13 @@
-import type { Key, ReadLine } from 'node:readline';
-
 import { stdin, stdout } from 'node:process';
-import readline from 'node:readline';
+import readline, { type Key, type ReadLine } from 'node:readline';
 import { Readable, Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { type InferSetType, aliases, keys, hasAliasKey } from '../utils';
+import { ALIASES, CANCEL_SYMBOL, diffLines, hasAliasKey, KEYS, setRawMode } from '../utils';
 
-function diffLines(a: string, b: string) {
-	if (a === b) return;
-
-	const aLines = a.split('\n');
-	const bLines = b.split('\n');
-	const diff: number[] = [];
-
-	for (let i = 0; i < Math.max(aLines.length, bLines.length); i++) {
-		if (aLines[i] !== bLines[i]) diff.push(i);
-	}
-
-	return diff;
-}
-
-const cancel = Symbol('clack:cancel');
-export function isCancel(value: unknown): value is symbol {
-	return value === cancel;
-}
-
-function setRawMode(input: Readable, value: boolean) {
-	if ((input as typeof stdin).isTTY) (input as typeof stdin).setRawMode(value);
-}
+import type { ClackEvents, ClackState, InferSetType } from '../types';
 
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | void;
@@ -40,24 +17,6 @@ export interface PromptOptions<Self extends Prompt> {
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
-}
-
-export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
-
-/**
- * Typed event emitter for clack
- */
-interface ClackHooks {
-	'initial': (value?: any) => void;
-	'active': (value?: any) => void;
-	'cancel': (value?: any) => void;
-	'submit': (value?: any) => void;
-	'error': (value?: any) => void;
-	'cursor': (key?: InferSetType<typeof keys>) => void;
-	'key': (key?: string) => void;
-	'value': (value?: string) => void;
-	'confirm': (value?: boolean) => void;
-	'finalize': () => void;
 }
 
 export default class Prompt {
@@ -72,20 +31,12 @@ export default class Prompt {
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
 
-	public state: State = 'initial';
+	public state: ClackState = 'initial';
 	public error = '';
 	public value: any;
 
-	constructor(
-		options: PromptOptions<Prompt>,
-		trackValue: boolean = true
-	) {
-		const {
-			input = stdin,
-			output = stdout,
-			render,
-			...opts
-		} = options;
+	constructor(options: PromptOptions<Prompt>, trackValue: boolean = true) {
+		const { input = stdin, output = stdout, render, ...opts } = options;
 
 		this.opts = opts;
 		this.onKeypress = this.onKeypress.bind(this);
@@ -109,7 +60,10 @@ export default class Prompt {
 	 * Set a subscriber with opts
 	 * @param event - The event name
 	 */
-	private setSubscriber<T extends keyof ClackHooks>(event: T, opts: { cb: ClackHooks[T]; once?: boolean }) {
+	private setSubscriber<T extends keyof ClackEvents>(
+		event: T,
+		opts: { cb: ClackEvents[T]; once?: boolean }
+	) {
 		const params = this._subscribers.get(event) ?? [];
 		params.push(opts);
 		this._subscribers.set(event, params);
@@ -120,7 +74,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public on<T extends keyof ClackHooks>(event: T, cb: ClackHooks[T]) {
+	public on<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
 		this.setSubscriber(event, { cb });
 	}
 
@@ -129,7 +83,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public once<T extends keyof ClackHooks>(event: T, cb: ClackHooks[T]) {
+	public once<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
 		this.setSubscriber(event, { cb, once: true });
 	}
 
@@ -138,7 +92,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param data - The data to pass to the callback
 	 */
-	public emit<T extends keyof ClackHooks>(event: T, ...data: Parameters<ClackHooks[T]>) {
+	public emit<T extends keyof ClackEvents>(event: T, ...data: Parameters<ClackEvents[T]>) {
 		const cbs = this._subscribers.get(event) ?? [];
 		const cleanup: (() => void)[] = [];
 
@@ -197,7 +151,7 @@ export default class Prompt {
 				this.output.write(cursor.show);
 				this.output.off('resize', this.render);
 				setRawMode(this.input, false);
-				resolve(cancel);
+				resolve(CANCEL_SYMBOL);
 			});
 		});
 	}
@@ -206,11 +160,11 @@ export default class Prompt {
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
-		if (key?.name && !this._track && aliases.has(key.name)) {
-			this.emit('cursor', aliases.get(key.name));
+		if (key?.name && !this._track && ALIASES.has(key.name)) {
+			this.emit('cursor', ALIASES.get(key.name));
 		}
-		if (key?.name && keys.has(key.name as InferSetType<typeof keys>)) {
-			this.emit('cursor', key.name as InferSetType<typeof keys>);
+		if (key?.name && KEYS.has(key.name as InferSetType<typeof KEYS>)) {
+			this.emit('cursor', key.name as InferSetType<typeof KEYS>);
 		}
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');

@@ -1,10 +1,9 @@
-
-export type InferSetType<T> = T extends Set<infer U> ? U : never;
+import type { InferSetType } from '../types';
 
 const DEFAULT_KEYS = ['up', 'down', 'left', 'right', 'space', 'enter', 'cancel'] as const;
-export const keys = new Set(DEFAULT_KEYS);
+export const KEYS = new Set(DEFAULT_KEYS);
 
-export const aliases = new Map<string, InferSetType<typeof keys>>([
+export const ALIASES = new Map<string, InferSetType<typeof KEYS>>([
 	['k', 'up'],
 	['j', 'down'],
 	['h', 'left'],
@@ -19,10 +18,10 @@ export const aliases = new Map<string, InferSetType<typeof keys>>([
  * @default
  * new Map([['k', 'up'], ['j', 'down'], ['h', 'left'], ['l', 'right'], ['\x03', 'cancel'],])
  */
-export function setGlobalAliases(alias: Array<[string, InferSetType<typeof keys>]>) {
+export function setGlobalAliases(alias: Array<[string, InferSetType<typeof KEYS>]>) {
 	for (const [newAlias, key] of alias) {
-		if (!aliases.has(newAlias)) {
-			aliases.set(newAlias, key);
+		if (!ALIASES.has(newAlias)) {
+			ALIASES.set(newAlias, key);
 		}
 	}
 }
@@ -33,13 +32,18 @@ export function setGlobalAliases(alias: Array<[string, InferSetType<typeof keys>
  * @param type - The type of key to check for
  * @returns boolean
  */
-export function hasAliasKey(key: string | Array<string | undefined>, type: InferSetType<typeof keys>) {
+export function hasAliasKey(
+	key: string | Array<string | undefined>,
+	type: InferSetType<typeof KEYS>
+) {
 	if (typeof key === 'string') {
-		return aliases.has(key) && aliases.get(key) === type;
+		return ALIASES.has(key) && ALIASES.get(key) === type;
 	}
 
-	return key.map((n) => {
-		if (n !== undefined && aliases.has(n) && aliases.get(n) === type) return true;
-		return false;
-	}).includes(true);
+	return key
+		.map((n) => {
+			if (n !== undefined && ALIASES.has(n) && ALIASES.get(n) === type) return true;
+			return false;
+		})
+		.includes(true);
 }
