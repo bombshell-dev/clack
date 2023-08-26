@@ -222,7 +222,9 @@ export const path = (opts: PathOptions) => {
 				case 'cancel':
 					return [
 						title,
-						`${color.gray(S_BAR)}  ${color.dim(color.strikethrough(this.value))}`,
+						`${color.gray(S_BAR)}  ${color.dim(color.strikethrough(this.value))}\n${color.gray(
+							S_BAR
+						)}`,
 					].join('\n');
 				default:
 					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
