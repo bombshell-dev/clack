@@ -781,11 +781,11 @@ export type Task = {
  */
 export const tasks = async (tasks: Task[]) => {
 	for (const task of tasks) {
-		if (task.enabled !== false) {
-			const s = spinner();
-			s.start(task.title);
-			const result = await task.task(s.message);
-			s.stop(result || task.title);
-		}
+		if (task.enabled === false) continue;
+
+		const s = spinner();
+		s.start(task.title);
+		const result = await task.task(s.message);
+		s.stop(result || task.title);
 	}
 };
