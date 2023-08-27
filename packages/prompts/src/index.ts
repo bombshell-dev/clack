@@ -636,6 +636,33 @@ export const spinner = () => {
 	let isSpinnerActive: boolean = false;
 	let _message: string = '';
 
+	const handleExit = (code: number) => {
+		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		if (isSpinnerActive) stop(msg, code);
+	};
+
+	const errorEventHandler = () => handleExit(2);
+	const signalEventHandler = () => handleExit(1);
+
+	const registerHooks = () => {
+		// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
+		process.on('uncaughtExceptionMonitor', errorEventHandler);
+		// Reference: https://nodejs.org/api/process.html#event-unhandledrejection
+		process.on('unhandledRejection', errorEventHandler);
+		// Reference Signal Events: https://nodejs.org/api/process.html#signal-events
+		process.on('SIGINT', signalEventHandler);
+		process.on('SIGTERM', signalEventHandler);
+		process.on('exit', handleExit);
+	};
+
+	const clearHooks = () => {
+		process.removeListener('uncaughtExceptionMonitor', errorEventHandler);
+		process.removeListener('unhandledRejection', errorEventHandler);
+		process.removeListener('SIGINT', signalEventHandler);
+		process.removeListener('SIGTERM', signalEventHandler);
+		process.removeListener('exit', handleExit);
+	};
+
 	const start = (msg: string = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
@@ -643,6 +670,7 @@ export const spinner = () => {
 		process.stdout.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let dotsTimer = 0;
+		registerHooks()
 		loop = setInterval(() => {
 			const frame = color.magenta(frames[frameIndex]);
 			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
@@ -667,26 +695,13 @@ export const spinner = () => {
 		process.stdout.write(cursor.move(-999, 0));
 		process.stdout.write(erase.down(1));
 		process.stdout.write(`${step}  ${_message}\n`);
+		clearHooks()
 		unblock();
 	};
 
 	const message = (msg: string = ''): void => {
 		_message = msg ?? _message;
 	};
-
-	const handleExit = (code: number) => {
-		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
-		if (isSpinnerActive) stop(msg, code);
-	};
-
-	// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
-	process.on('uncaughtExceptionMonitor', () => handleExit(2));
-	// Reference: https://nodejs.org/api/process.html#event-unhandledrejection
-	process.on('unhandledRejection', () => handleExit(2));
-	// Reference Signal Events: https://nodejs.org/api/process.html#signal-events
-	process.on('SIGINT', () => handleExit(1));
-	process.on('SIGTERM', () => handleExit(1));
-	process.on('exit', handleExit);
 
 	return {
 		start,
