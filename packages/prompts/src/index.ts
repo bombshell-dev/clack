@@ -58,6 +58,41 @@ const symbol = (state: State) => {
 	}
 };
 
+interface LimitOptionsParams<TOption> {
+	options: TOption[];
+	maxItems: number | undefined;
+	cursor: number;
+	style: (option: TOption, active: boolean) => string;
+}
+
+const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
+	const { cursor, options, style } = params;
+
+	// We clamp to minimum 5 because anything less doesn't make sense UX wise
+	const maxItems = params.maxItems === undefined ? Infinity : Math.max(params.maxItems, 5);
+	let slidingWindowLocation = 0;
+
+	if (cursor >= slidingWindowLocation + maxItems - 3) {
+		slidingWindowLocation = Math.max(Math.min(cursor - maxItems + 3, options.length - maxItems), 0);
+	} else if (cursor < slidingWindowLocation + 2) {
+		slidingWindowLocation = Math.max(cursor - 2, 0);
+	}
+
+	const shouldRenderTopEllipsis = maxItems < options.length && slidingWindowLocation > 0;
+	const shouldRenderBottomEllipsis =
+		maxItems < options.length && slidingWindowLocation + maxItems < options.length;
+
+	return options
+		.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
+		.map((option, i, arr) => {
+			const isTopLimit = i === 0 && shouldRenderTopEllipsis;
+			const isBottomLimit = i === arr.length - 1 && shouldRenderBottomEllipsis;
+			return isTopLimit || isBottomLimit
+				? color.dim('...')
+				: style(option, i + slidingWindowLocation === cursor);
+		});
+};
+
 export interface TextOptions {
 	message: string;
 	placeholder?: string;
@@ -184,19 +219,19 @@ export interface SelectOptions<Value> {
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
 		const label = option.label ?? String(option.value);
-		if (state === 'active') {
-			return `${color.green(S_RADIO_ACTIVE)} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
-			}`;
-		} else if (state === 'selected') {
-			return `${color.dim(label)}`;
-		} else if (state === 'cancelled') {
-			return `${color.strikethrough(color.dim(label))}`;
+		switch (state) {
+			case 'selected':
+				return `${color.dim(label)}`;
+			case 'active':
+				return `${color.green(S_RADIO_ACTIVE)} ${label} ${
+					option.hint ? color.dim(`(${option.hint})`) : ''
+				}`;
+			case 'cancelled':
+				return `${color.strikethrough(color.dim(label))}`;
+			default:
+				return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
 		}
-		return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
 	};
-
-	let slidingWindowLocation = 0;
 
 	return new SelectPrompt({
 		options: opts.options,
@@ -213,38 +248,12 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
 				default: {
-					// We clamp to minimum 5 because anything less doesn't make sense UX wise
-					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
-					if (this.cursor >= slidingWindowLocation + maxItems - 3) {
-						slidingWindowLocation = Math.max(
-							Math.min(this.cursor - maxItems + 3, this.options.length - maxItems),
-							0
-						);
-					} else if (this.cursor < slidingWindowLocation + 2) {
-						slidingWindowLocation = Math.max(this.cursor - 2, 0);
-					}
-
-					const shouldRenderTopEllipsis =
-						maxItems < this.options.length && slidingWindowLocation > 0;
-					const shouldRenderBottomEllipsis =
-						maxItems < this.options.length &&
-						slidingWindowLocation + maxItems < this.options.length;
-
-					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
-						.map((option, i, arr) => {
-							if (i === 0 && shouldRenderTopEllipsis) {
-								return color.dim('...');
-							} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
-								return color.dim('...');
-							} else {
-								return opt(
-									option,
-									i + slidingWindowLocation === this.cursor ? 'active' : 'inactive'
-								);
-							}
-						})
-						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+						cursor: this.cursor,
+						options: this.options,
+						maxItems: opts.maxItems,
+						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
+					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},
@@ -301,6 +310,7 @@ export interface MultiSelectOptions<Value> {
 	message: string;
 	options: Option<Value>[];
 	initialValues?: Value[];
+	maxItems?: number;
 	required?: boolean;
 	cursorAt?: Value;
 }
@@ -346,6 +356,17 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		render() {
 			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
+			const styleOption = (option: Option<Value>, active: boolean) => {
+				const selected = this.value.includes(option.value);
+				if (active && selected) {
+					return opt(option, 'active-selected');
+				}
+				if (selected) {
+					return opt(option, 'selected');
+				}
+				return opt(option, active ? 'active' : 'inactive');
+			};
+
 			switch (this.state) {
 				case 'submit': {
 					return `${title}${color.gray(S_BAR)}  ${
@@ -375,38 +396,24 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						title +
 						color.yellow(S_BAR) +
 						'  ' +
-						this.options
-							.map((option, i) => {
-								const selected = this.value.includes(option.value);
-								const active = i === this.cursor;
-								if (active && selected) {
-									return opt(option, 'active-selected');
-								}
-								if (selected) {
-									return opt(option, 'selected');
-								}
-								return opt(option, active ? 'active' : 'inactive');
-							})
-							.join(`\n${color.yellow(S_BAR)}  `) +
+						limitOptions({
+							options: this.options,
+							cursor: this.cursor,
+							maxItems: opts.maxItems,
+							style: styleOption,
+						}).join(`\n${color.yellow(S_BAR)}  `) +
 						'\n' +
 						footer +
 						'\n'
 					);
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
-						.map((option, i) => {
-							const selected = this.value.includes(option.value);
-							const active = i === this.cursor;
-							if (active && selected) {
-								return opt(option, 'active-selected');
-							}
-							if (selected) {
-								return opt(option, 'selected');
-							}
-							return opt(option, active ? 'active' : 'inactive');
-						})
-						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+						options: this.options,
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						style: styleOption,
+					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},
