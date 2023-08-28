@@ -228,6 +228,12 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * If true, this option will be disabled.
+			 *
+			 * By default, no option is disabled.
+			 */
+			disabled?: boolean;
 		}
 	: {
 			/**
@@ -245,6 +251,12 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * If true, this option will be disabled.
+			 *
+			 * By default, no option is disabled.
+			 */
+			disabled?: boolean;
 		};
 
 export interface SelectOptions<Value> {
@@ -274,6 +286,11 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 	return new SelectPrompt({
 		options: opts.options,
 		initialValue: opts.initialValue,
+		validate(value) {
+			if (this.options.find((o) => o.value === value)?.disabled) {
+				return 'Selected option is disabled.';
+			}
+		},
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
@@ -285,6 +302,15 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						this.options[this.cursor],
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
+				case 'error':
+					return `${title}${color.yellow(S_BAR)}  ${limitOptions({
+						cursor: this.cursor,
+						options: this.options,
+						maxItems: opts.maxItems,
+						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
+					}).join(
+						`\n${color.yellow(S_BAR)}  `
+					)}\n${color.yellow(S_BAR_END)}  ${color.yellow(this.error)}\n`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
 						cursor: this.cursor,
