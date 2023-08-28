@@ -670,7 +670,7 @@ export const spinner = () => {
 		process.stdout.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let dotsTimer = 0;
-		registerHooks()
+		registerHooks();
 		loop = setInterval(() => {
 			const frame = color.magenta(frames[frameIndex]);
 			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
@@ -695,7 +695,7 @@ export const spinner = () => {
 		process.stdout.write(cursor.move(-999, 0));
 		process.stdout.write(erase.down(1));
 		process.stdout.write(`${step}  ${_message}\n`);
-		clearHooks()
+		clearHooks();
 		unblock();
 	};
 
