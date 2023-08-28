@@ -416,7 +416,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 export interface GroupMultiSelectOptions<Value> {
 	message: string;
-	options: Record<string, Option<Value>[]>;
+	options: Record<string, NonEmptyArray<Option<Value>>>;
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
