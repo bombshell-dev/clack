@@ -110,16 +110,36 @@ const additionalTools = await multiselect({
 
 ### Path
 
-The `path` component allows a user navigate thought directories and select the desired file/folder. The result is the absolute path of the selected item.
+The `path` component allows user to select a file/folder using one of two approaches:
+
+#### Select:
+Selecting the desired file/folder using arrow keys to navigate through directories.
 
 ```js
 import { path } from '@clack/prompts';
 
 const projectPath = await path({
+  type: 'select',
   message: 'Pick a project:',
-  initialValue: process.cwd() // current working dir,
+  initialValue: process.cwd(), // current working dir,
   onlyShowDir: true,
   maxItems: 12
+});
+```
+
+
+#### Text:
+Typing the path with built-in autosuggestion and autocomplete features.
+
+```js
+import { path } from '@clack/prompts';
+
+const projectPath = await path({
+  type: 'text',
+  message: 'Pick a project:',
+  initialValue: process.cwd(), // current working dir,
+  placeholder: './app',
+  onlyShowDir: true,
 });
 ```
 
