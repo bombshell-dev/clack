@@ -174,15 +174,31 @@ interface PathNode {
 	children: PathNode[] | undefined;
 }
 
-export interface PathOptions {
+export type PathOptions = {
 	message: string;
 	/**
+	 * Starting absolute path
 	 * @default process.cwd() // current working dir
 	 */
 	initialValue?: string;
-	maxItems?: number;
+	/**
+	 * Exclude files from options
+	 * @default false
+	 */
 	onlyShowDir?: boolean;
-}
+} & (
+	| {
+			type: 'text';
+			placeholder?: string;
+	  }
+	| {
+			type: 'select';
+			/**
+			 * Limit the number of options that appears at once
+			 */
+			maxItems?: number;
+	  }
+);
 
 export const path = (opts: PathOptions) => {
 	const opt = (node: PathNode, state: boolean, depth: number): string => {
@@ -199,8 +215,10 @@ export const path = (opts: PathOptions) => {
 	let slidingWindowLocation = 0;
 
 	return new PathPrompt({
+		type: opts.type,
 		initialValue: opts.initialValue,
 		onlyShowDir: opts.onlyShowDir,
+		placeholder: 'placeholder' in opts ? opts.placeholder : '',
 		render() {
 			const option = this.option;
 			const map = (node: PathNode, index: number = 0, depth: number = 0): string => {
@@ -227,43 +245,55 @@ export const path = (opts: PathOptions) => {
 						)}`,
 					].join('\n');
 				default:
-					const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
-					if (this.cursor >= slidingWindowLocation + maxItems - 3) {
-						slidingWindowLocation = Math.max(
-							Math.min(this.cursor - maxItems + 3, this.options.length - maxItems),
-							0
-						);
-					} else if (this.cursor < slidingWindowLocation + 2) {
-						slidingWindowLocation = Math.max(this.cursor - 2, 0);
+					if (opts.type === 'select') {
+						const maxItems = opts.maxItems === undefined ? Infinity : Math.max(opts.maxItems, 5);
+						if (this.cursor >= slidingWindowLocation + maxItems - 3) {
+							slidingWindowLocation = Math.max(
+								Math.min(this.cursor - maxItems + 3, this.options.length - maxItems),
+								0
+							);
+						} else if (this.cursor < slidingWindowLocation + 2) {
+							slidingWindowLocation = Math.max(this.cursor - 2, 0);
+						}
+
+						const shouldRenderTopEllipsis =
+							maxItems < this.options.length && slidingWindowLocation > 0;
+						const shouldRenderBottomEllipsis =
+							maxItems < this.options.length &&
+							slidingWindowLocation + maxItems < this.options.length;
+
+						const dots = `${color.cyan(S_BAR)}  ${color.dim('...')}`;
+
+						return [
+							title,
+							map(this.root)
+								.split(/\n/g)
+								.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
+								.map((option, i, arr) => {
+									if (i === 0 && shouldRenderTopEllipsis) {
+										return dots;
+									} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
+										return dots;
+									} else {
+										return option;
+									}
+								}),
+							,
+							color.cyan(S_BAR_END),
+						]
+							.flat()
+							.join('\n');
 					}
 
-					const shouldRenderTopEllipsis =
-						maxItems < this.options.length && slidingWindowLocation > 0;
-					const shouldRenderBottomEllipsis =
-						maxItems < this.options.length &&
-						slidingWindowLocation + maxItems < this.options.length;
-
-					const dots = `${color.cyan(S_BAR)}  ${color.dim('...')}`;
+					const placeholder = opts.placeholder
+						? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
+						: color.inverse(color.hidden('_'));
 
 					return [
 						title,
-						map(this.root)
-							.split(/\n/g)
-							.slice(slidingWindowLocation, slidingWindowLocation + maxItems)
-							.map((option, i, arr) => {
-								if (i === 0 && shouldRenderTopEllipsis) {
-									return dots;
-								} else if (i === arr.length - 1 && shouldRenderBottomEllipsis) {
-									return dots;
-								} else {
-									return option;
-								}
-							}),
-						,
+						`${color.cyan(S_BAR)}  ${this.value ? this.valueWithHint : placeholder}`,
 						color.cyan(S_BAR_END),
-					]
-						.flat()
-						.join('\n');
+					].join('\n');
 			}
 		},
 	}).prompt();

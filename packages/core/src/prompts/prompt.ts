@@ -53,7 +53,7 @@ export type State = 'initial' | 'active' | 'cancel' | 'submit' | 'error';
 export default class Prompt {
 	protected input: Readable;
 	protected output: Writable;
-	private rl!: ReadLine;
+	protected rl!: ReadLine;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
 	private _track: boolean = false;
 	private _render: (context: Omit<Prompt, 'prompt'>) => string | void;

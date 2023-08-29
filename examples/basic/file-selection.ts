@@ -1,15 +1,28 @@
 import * as p from '@clack/prompts';
 
 (async () => {
-	const path = await p.path({
+	const selectResult = await p.path({
+		type: 'select',
 		message: 'Pick a file:',
-		onlyShowDir: false,
 		initialValue: process.cwd(),
+		onlyShowDir: false,
 		maxItems: 15,
 	});
-	if (p.isCancel(path)) {
+	if (p.isCancel(selectResult)) {
 		p.cancel('File selection canceled');
 		process.exit(0);
 	}
-	p.outro(path);
+
+	const inputResult = await p.path({
+		type: 'text',
+		message: 'Pick a file:',
+		onlyShowDir: false,
+		placeholder: process.cwd(),
+	});
+	if (p.isCancel(inputResult)) {
+		p.cancel('File selection canceled');
+		process.exit(0);
+	}
+
+	console.log({ selectResult, inputResult });
 })();
