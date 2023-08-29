@@ -1,4 +1,4 @@
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import Prompt, { PromptOptions } from './prompt';
 import color from 'picocolors';
@@ -98,12 +98,12 @@ export default class PathPrompt extends Prompt {
 		const pathEnd = this.value.replace(/.*\/(.*)$/, '$1');
 
 		let options: string[] = [];
-		if (existsSync(root)) {
+		if (statSync(root, { throwIfNoEntry: false })?.isDirectory()) {
 			options = this.mapDir(root).map((node) => node.name);
 		}
 		const option = options.find((opt) => opt.startsWith(pathEnd)) ?? '';
 
-		this.hint = option.replace(pathEnd, '') ?? '';
+		this.hint = option.replace(pathEnd, '');
 	}
 
 	private _changeInputValue(): void {
