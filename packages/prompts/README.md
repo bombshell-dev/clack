@@ -113,6 +113,7 @@ const additionalTools = await multiselect({
 The `path` component allows user to select a file/folder using one of two approaches:
 
 #### Select:
+
 Selecting the desired file/folder using arrow keys to navigate through directories.
 
 ```js
@@ -123,12 +124,12 @@ const projectPath = await path({
   message: 'Pick a project:',
   initialValue: process.cwd(), // current working dir,
   onlyShowDir: true,
-  maxItems: 12
+  maxItems: 12,
 });
 ```
 
-
 #### Text:
+
 Typing the path with built-in autosuggestion and autocomplete features.
 
 ```js

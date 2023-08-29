@@ -9,7 +9,7 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt,
+	TextPrompt
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -225,6 +225,7 @@ export type PathOptions = {
 	| {
 			type: 'text';
 			placeholder?: string;
+			validate?: (value: string) => string | void;
 	  }
 	| {
 			type: 'select';
@@ -251,6 +252,7 @@ export const path = (opts: PathOptions) => {
 		initialValue: opts.initialValue,
 		onlyShowDir: opts.onlyShowDir,
 		placeholder: 'placeholder' in opts ? opts.placeholder : '',
+		validate: 'validate' in opts ? opts.validate : undefined,
 		render() {
 			const option = this.option;
 			const map = (node: PathNode, index: number = 0, depth: number = 0): string => {
@@ -275,6 +277,12 @@ export const path = (opts: PathOptions) => {
 						`${color.gray(S_BAR)}  ${color.dim(color.strikethrough(this.value))}\n${color.gray(
 							S_BAR
 						)}`,
+					].join('\n');
+				case 'error':
+					return [
+						title,
+						`${color.yellow(S_BAR)}  ${this.value}`,
+						`${color.yellow(S_BAR_END)}  ${color.yellow(this.error)}\n`,
 					].join('\n');
 				default:
 					if (opts.type === 'select') {

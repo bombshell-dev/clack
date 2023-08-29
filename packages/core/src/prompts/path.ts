@@ -1,7 +1,7 @@
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import Prompt, { PromptOptions } from './prompt';
 import color from 'picocolors';
+import Prompt, { PromptOptions } from './prompt';
 
 interface PathNode {
 	name: string;
@@ -234,7 +234,7 @@ export default class PathPrompt extends Prompt {
 		});
 
 		this.on('finalize', () => {
-			this.value = resolve(this.value);
+			this.value = this.value ? resolve(this.value) : '';
 		});
 	}
 }
