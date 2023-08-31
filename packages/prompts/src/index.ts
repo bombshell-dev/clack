@@ -12,6 +12,7 @@ import {
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
+import readline from 'readline';
 import { cursor, erase } from 'sisteransi';
 
 export { isCancel } from '@clack/core';
@@ -740,6 +741,14 @@ export const spinner = () => {
 	};
 };
 
+function stepForCode(code: number) {
+	return code === 0
+		? color.green(S_STEP_SUBMIT)
+		: code === 1
+		? color.red(S_STEP_CANCEL)
+		: color.red(S_STEP_ERROR);
+}
+
 // Adapted from https://github.com/chalk/ansi-regex
 // @see LICENSE
 function ansiRegex() {
@@ -750,6 +759,53 @@ function ansiRegex() {
 
 	return new RegExp(pattern, 'g');
 }
+
+export type SpinnerGroup = [message: string, run: () => Promise<void>];
+
+export const spinnerGroup = async (outerMessage: string, groups: SpinnerGroup[]) => {
+	process.stdout.write(`${color.gray(S_BAR)}\n   ${S_BAR_START} ${outerMessage}\n`);
+
+	const s = spinner();
+	let caught: [group: SpinnerGroup, error: unknown] | undefined;
+
+	for (const [message, run] of groups) {
+		const line = `${color.gray(S_BAR)} ${message}`;
+		readline.clearLine(process.stdout, -1);
+		readline.moveCursor(process.stdout, -999, -1);
+
+		s.start(line);
+		await run().catch((error) => {
+			caught = [[message, run], error];
+		});
+		s.stop(line);
+
+		if (caught) {
+			break;
+		}
+	}
+
+	if (caught) {
+		readline.moveCursor(process.stdout, -999, -1);
+		process.stdout.write(
+			[
+				color.gray(S_BAR),
+				'',
+				stepForCode(1),
+				caught[0][0],
+				color.gray('>'),
+				(caught[1] as any).message || caught[1],
+			].join(' ')
+		);
+	} else {
+		readline.moveCursor(process.stdout, -999, -groups.length - 1);
+		readline.clearScreenDown(process.stdout);
+		process.stdout.write(`${stepForCode(0)}  ${outerMessage}`);
+	}
+
+	process.stdout.write('\n');
+
+	return caught;
+};
 
 export type PromptGroupAwaitedReturn<T> = {
 	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
