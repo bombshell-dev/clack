@@ -267,10 +267,7 @@ export interface SelectOptions<Value> {
 }
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
-	const opt = (
-		option: Option<Value>,
-		state: 'inactive' | 'active' | 'selected' | 'cancelled'
-	) => {
+	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'selected':
