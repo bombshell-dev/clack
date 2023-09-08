@@ -14,37 +14,37 @@ import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel, setGlobalAliases } from '@clack/core';
+export { isCancel, setGlobalAliases, mockPrompt } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
-const S_STEP_ACTIVE = s('◆', '*');
-const S_STEP_CANCEL = s('■', 'x');
-const S_STEP_ERROR = s('▲', 'x');
-const S_STEP_SUBMIT = s('◇', 'o');
+export const S_STEP_ACTIVE = s('◆', '*');
+export const S_STEP_CANCEL = s('■', 'x');
+export const S_STEP_ERROR = s('▲', 'x');
+export const S_STEP_SUBMIT = s('◇', 'o');
 
-const S_BAR_START = s('┌', 'T');
-const S_BAR = s('│', '|');
-const S_BAR_END = s('└', '—');
+export const S_BAR_START = s('┌', 'T');
+export const S_BAR = s('│', '|');
+export const S_BAR_END = s('└', '—');
 
-const S_RADIO_ACTIVE = s('●', '>');
-const S_RADIO_INACTIVE = s('○', ' ');
-const S_CHECKBOX_ACTIVE = s('◻', '[•]');
-const S_CHECKBOX_SELECTED = s('◼', '[+]');
-const S_CHECKBOX_INACTIVE = s('◻', '[ ]');
-const S_PASSWORD_MASK = s('▪', '•');
+export const S_RADIO_ACTIVE = s('●', '>');
+export const S_RADIO_INACTIVE = s('○', ' ');
+export const S_CHECKBOX_ACTIVE = s('◻', '[•]');
+export const S_CHECKBOX_SELECTED = s('◼', '[+]');
+export const S_CHECKBOX_INACTIVE = s('◻', '[ ]');
+export const S_PASSWORD_MASK = s('▪', '•');
 
-const S_BAR_H = s('─', '-');
-const S_CORNER_TOP_RIGHT = s('╮', '+');
-const S_CONNECT_LEFT = s('├', '+');
-const S_CORNER_BOTTOM_RIGHT = s('╯', '+');
+export const S_BAR_H = s('─', '-');
+export const S_CORNER_TOP_RIGHT = s('╮', '+');
+export const S_CONNECT_LEFT = s('├', '+');
+export const S_CORNER_BOTTOM_RIGHT = s('╯', '+');
 
-const S_INFO = s('●', '•');
-const S_SUCCESS = s('◆', '*');
-const S_WARN = s('▲', '!');
-const S_ERROR = s('■', 'x');
+export const S_INFO = s('●', '•');
+export const S_SUCCESS = s('◆', '*');
+export const S_WARN = s('▲', '!');
+export const S_ERROR = s('■', 'x');
 
-const symbol = (state: State) => {
+export const symbol = (state: State) => {
 	switch (state) {
 		case 'initial':
 		case 'active':
@@ -95,6 +95,12 @@ const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] =>
 		});
 };
 
+export function formatPlaceholder(placeholder: string | undefined): string {
+	return placeholder
+		? color.inverse(placeholder[0]) + color.dim(placeholder.slice(1))
+		: color.inverse(color.hidden('_'));
+}
+
 export interface TextOptions {
 	message: string;
 	placeholder?: string;
@@ -110,9 +116,7 @@ export const text = (opts: TextOptions) => {
 		initialValue: opts.initialValue,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-			const placeholder = opts.placeholder
-				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
-				: color.inverse(color.hidden('_'));
+			const placeholder = formatPlaceholder(opts.placeholder);
 			const value = !this.value ? placeholder : this.valueWithCursor;
 
 			switch (this.state) {
