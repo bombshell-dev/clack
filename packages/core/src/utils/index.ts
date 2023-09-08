@@ -6,6 +6,7 @@ import { cursor } from 'sisteransi';
 import { hasAliasKey } from './aliases';
 
 export * from './aliases';
+export * from './mock';
 export * from './string';
 
 const isWindows = globalThis.process.platform.startsWith('win');

@@ -5,7 +5,16 @@ import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { ALIASES, CANCEL_SYMBOL, KEYS, diffLines, hasAliasKey, setRawMode } from '../utils';
+import {
+	ALIASES,
+	CANCEL_SYMBOL,
+	KEYS,
+	diffLines,
+	expose,
+	hasAliasKey,
+	isTestMode,
+	setRawMode,
+} from '../utils';
 
 import type { ClackEvents, ClackState, InferSetType } from '../types';
 
@@ -47,6 +56,19 @@ export default class Prompt {
 
 		this.input = input;
 		this.output = output;
+
+		//@ts-expect-error
+		expose({
+			...this,
+			cancel: (value) => {
+				this.value = value ?? this.value;
+				this.onKeypress('', { name: '\x03' });
+			},
+			submit: (value) => {
+				this.value = value ?? this.value;
+				this.onKeypress('', { name: 'return' });
+			},
+		});
 	}
 
 	/**
@@ -107,6 +129,8 @@ export default class Prompt {
 		for (const cb of cleanup) {
 			cb();
 		}
+
+		expose({ value: this.value });
 	}
 
 	public prompt() {
@@ -225,7 +249,15 @@ export default class Prompt {
 		const frame = wrap(this._render(this) ?? '', process.stdout.columns, {
 			hard: true,
 		});
-		if (frame === this._prevFrame) return;
+
+		if (isTestMode) {
+			expose({ frame });
+			return;
+		}
+
+		if (frame === this._prevFrame) {
+			return;
+		}
 
 		if (this.state === 'initial') {
 			this.output.write(cursor.hide);
