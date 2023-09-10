@@ -10,14 +10,14 @@ jest.mock('is-unicode-supported', () => ({
 
 describe('text', () => {
 	const mock = mockPrompt();
-	const message = 'test message';
+	const message = 'tesct message';
 	const cursor = color.inverse(color.hidden('_'));
 
 	afterEach(() => {
 		mock.close();
 	});
 
-	it('should render initial state', async () => {
+	it('should render initial state', () => {
 		const title = `${color.gray(S_BAR)}\n${symbol('initial')}  ${message}\n`;
 
 		text({ message });
@@ -25,7 +25,7 @@ describe('text', () => {
 		expect(mock.frame).toBe(`${title}${color.cyan(S_BAR)}  ${cursor}\n${color.cyan(S_BAR_END)}\n`);
 	});
 
-	it('should render initial state with placeholder', async () => {
+	it('should render initial state with placeholder', () => {
 		const title = `${color.gray(S_BAR)}\n${symbol('initial')}  ${message}\n`;
 		const placeholder = randomUUID();
 
@@ -36,7 +36,7 @@ describe('text', () => {
 		);
 	});
 
-	it('should render error', async () => {
+	it('should render error', () => {
 		const value = randomUUID();
 		const title = `${color.gray(S_BAR)}\n${symbol('error')}  ${message}\n`;
 		const error = 'invalid value';
@@ -56,7 +56,7 @@ describe('text', () => {
 		);
 	});
 
-	it('should submit initialValue', async () => {
+	it('should submit initialValue', () => {
 		const value = randomUUID();
 		const title = `${color.gray(S_BAR)}\n${symbol('submit')}  ${message}\n`;
 
@@ -66,7 +66,7 @@ describe('text', () => {
 		expect(mock.frame).toBe(`${title}${color.gray(S_BAR)}  ${color.dim(value)}`);
 	});
 
-	it('should submit value', async () => {
+	it('should submit value', () => {
 		const value = randomUUID();
 		const title = `${color.gray(S_BAR)}\n${symbol('submit')}  ${message}\n`;
 
@@ -76,7 +76,7 @@ describe('text', () => {
 		expect(mock.frame).toBe(`${title}${color.gray(S_BAR)}  ${color.dim(value)}`);
 	});
 
-	it('should render cancel', async () => {
+	it('should render cancel', () => {
 		const value = randomUUID();
 		const title = `${color.gray(S_BAR)}\n${symbol('cancel')}  ${message}\n`;
 
@@ -86,5 +86,15 @@ describe('text', () => {
 		expect(mock.frame).toBe(
 			`${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(value))}\n${color.gray(S_BAR)}`
 		);
+	});
+
+	it('should return value on submit', async () => {
+		const value = randomUUID();
+
+		const promise = text({ message });
+		mock.submit(value);
+		const result = await promise;
+
+		expect(result).toBe(value);
 	});
 });

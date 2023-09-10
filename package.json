@@ -14,6 +14,8 @@
     "format:imports": "organize-imports-cli ./packages/*/tsconfig.json",
     "type-check": "tsc",
     "test": "jest --no-cache",
+    "test:w": "npm test -- --watch",
+    "test:ci": "npm test -- --coverage",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "changeset publish",
     "ci:format": "pnpm run format"
