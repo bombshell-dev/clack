@@ -11,6 +11,8 @@
     "lint": "biome lint --write --unsafe",
     "type-check": "biome lint && tsc",
     "test": "jest --no-cache",
+    "test:w": "npm test -- --watch",
+    "test:ci": "npm test -- --coverage",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "changeset publish"
   },

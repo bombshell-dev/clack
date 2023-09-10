@@ -10,7 +10,7 @@ import {
 	CANCEL_SYMBOL,
 	KEYS,
 	diffLines,
-	expose,
+	exposeTestUtils,
 	hasAliasKey,
 	isTestMode,
 	setRawMode,
@@ -57,9 +57,18 @@ export default class Prompt {
 		this.input = input;
 		this.output = output;
 
-		//@ts-expect-error
-		expose({
+		exposeTestUtils({
 			...this,
+			on: this.on.bind(this),
+			once: this.once.bind(this),
+			emit: this.emit.bind(this),
+			pressKey: this.onKeypress.bind(this),
+			setState: (state) => {
+				this.state = state;
+			},
+			setValue: (value) => {
+				this.value = value;
+			},
 			cancel: (value) => {
 				this.value = value ?? this.value;
 				this.onKeypress('', { name: '\x03' });
@@ -67,6 +76,9 @@ export default class Prompt {
 			submit: (value) => {
 				this.value = value ?? this.value;
 				this.onKeypress('', { name: 'return' });
+			},
+			close: () => {
+				this.close();
 			},
 		});
 	}
@@ -130,7 +142,7 @@ export default class Prompt {
 			cb();
 		}
 
-		expose({ value: this.value });
+		exposeTestUtils({ value: this.value });
 	}
 
 	public prompt() {
@@ -166,15 +178,13 @@ export default class Prompt {
 			this.render();
 
 			this.once('submit', () => {
+				this.output.write('\n');
 				this.output.write(cursor.show);
-				this.output.off('resize', this.render);
-				setRawMode(this.input, false);
 				resolve(this.value);
 			});
 			this.once('cancel', () => {
+				this.output.write('\n');
 				this.output.write(cursor.show);
-				this.output.off('resize', this.render);
-				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
 			});
 		});
@@ -232,7 +242,7 @@ export default class Prompt {
 	protected close() {
 		this.input.unpipe();
 		this.input.removeListener('keypress', this.onKeypress);
-		this.output.write('\n');
+		this.output.off('resize', this.render);
 		setRawMode(this.input, false);
 		this.rl.close();
 		this.emit(`${this.state}`, this.value);
@@ -246,16 +256,10 @@ export default class Prompt {
 	}
 
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns, {
-			hard: true,
-		});
+		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
+		exposeTestUtils({ frame, state: this.state, error: this.error });
 
-		if (isTestMode) {
-			expose({ frame });
-			return;
-		}
-
-		if (frame === this._prevFrame) {
+		if (isTestMode || frame === this._prevFrame) {
 			return;
 		}
 

@@ -14,7 +14,7 @@ import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel, setGlobalAliases, mockPrompt } from '@clack/core';
+export { isCancel, mockPrompt, setGlobalAliases } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
