@@ -1,12 +1,14 @@
+import { exposeTestUtils } from '../utils';
 import Prompt, { PromptOptions } from './prompt';
 
-interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPrompt<T>> {
+export interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPrompt<T>> {
 	options: T[];
 	initialValue?: T['value'];
 }
+
 export default class SelectPrompt<T extends { value: any }> extends Prompt {
-	options: T[];
-	cursor: number = 0;
+	public options: T[];
+	public cursor: number;
 
 	private get _value() {
 		return this.options[this.cursor];
@@ -24,6 +26,8 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
 		if (this.cursor === -1) this.cursor = 0;
 		this.changeValue();
 
+		this.exposeTestUtils();
+
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'left':
@@ -36,6 +40,15 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
 					break;
 			}
 			this.changeValue();
+			this.exposeTestUtils();
+		});
+	}
+
+	private exposeTestUtils() {
+		exposeTestUtils<SelectPrompt<any>>({
+			options: this.options,
+			cursor: this.cursor,
+			value: this.value,
 		});
 	}
 }
