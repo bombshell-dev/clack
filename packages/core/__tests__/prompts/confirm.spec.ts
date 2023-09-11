@@ -1,5 +1,5 @@
-import { ConfirmOptions } from '../../../prompts/src';
 import { ConfirmPrompt, mockPrompt, setGlobalAliases } from '../../src';
+import { ConfirmOptions } from '../../src/prompts/confirm';
 
 const makeSut = (opts?: Partial<ConfirmOptions>) => {
 	return new ConfirmPrompt({
@@ -12,7 +12,7 @@ const makeSut = (opts?: Partial<ConfirmOptions>) => {
 	}).prompt();
 };
 
-describe('Confirm', () => {
+describe('ConfirmPrompt', () => {
 	const mock = mockPrompt<ConfirmPrompt>();
 
 	afterEach(() => {

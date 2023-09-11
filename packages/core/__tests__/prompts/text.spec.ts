@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import color from 'picocolors';
-import { TextOptions } from '../../../prompts/src';
 import { mockPrompt, TextPrompt } from '../../src';
+import { TextOptions } from '../../src/prompts/text';
 import { cursor } from '../utils';
 
 const makeSut = (opts?: Partial<TextOptions>) => {
@@ -13,7 +13,7 @@ const makeSut = (opts?: Partial<TextOptions>) => {
 	}).prompt();
 };
 
-describe('Confirm', () => {
+describe('TextPrompt', () => {
 	const mock = mockPrompt<TextPrompt>();
 
 	afterEach(() => {

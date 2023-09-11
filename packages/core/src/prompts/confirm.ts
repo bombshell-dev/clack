@@ -2,11 +2,12 @@ import { cursor } from 'sisteransi';
 import { exposeTestUtils } from '../utils';
 import Prompt, { PromptOptions } from './prompt';
 
-interface ConfirmOptions extends PromptOptions<ConfirmPrompt> {
+export interface ConfirmOptions extends PromptOptions<ConfirmPrompt> {
 	active: string;
 	inactive: string;
 	initialValue?: boolean;
 }
+
 export default class ConfirmPrompt extends Prompt {
 	get cursor() {
 		return this.value ? 0 : 1;

@@ -149,7 +149,7 @@ export const password = (opts: PasswordOptions) => {
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.valueWithCursor;
-			const masked = this.masked;
+			const masked = this.maskedValue;
 
 			switch (this.state) {
 				case 'error':

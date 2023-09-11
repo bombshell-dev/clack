@@ -8,7 +8,7 @@ export interface TextOptions extends PromptOptions<TextPrompt> {
 }
 
 export default class TextPrompt extends Prompt {
-	public valueWithCursor = '';
+	public valueWithCursor: string;
 
 	get cursor() {
 		return this._cursor;
@@ -16,6 +16,9 @@ export default class TextPrompt extends Prompt {
 
 	constructor(opts: TextOptions) {
 		super(opts, true);
+
+		this.value = opts.initialValue ?? '';
+		this.valueWithCursor = this.value + color.inverse(color.hidden('_'));
 
 		this.exposeTestUtils();
 
@@ -27,7 +30,8 @@ export default class TextPrompt extends Prompt {
 			this.exposeTestUtils();
 		});
 
-		this.on('value', () => {
+		this.on('value', (value) => {
+			this.value = value;
 			if (this.cursor >= this.value.length) {
 				this.valueWithCursor = `${this.value}${color.inverse(color.hidden('_'))}`;
 			} else {
