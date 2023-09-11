@@ -66,6 +66,9 @@ export default class Prompt {
 			setState: (state) => {
 				this.state = state;
 			},
+			setCursor: (cursor) => {
+				this._cursor = cursor;
+			},
 			setValue: (value) => {
 				this.value = value;
 			},
