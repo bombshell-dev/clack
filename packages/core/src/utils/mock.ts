@@ -1,7 +1,7 @@
 import Prompt from '../prompts/prompt';
 import { ClackState } from '../types';
 
-export type MockResult = Prompt & {
+export type MockResult<TPrompt extends Prompt = Prompt> = TPrompt & {
 	frame: string;
 	pressKey: (char: string, key: { name: string }) => void;
 	setState: (state: ClackState) => void;
@@ -20,11 +20,13 @@ const _mockResult: Partial<MockResult> = {
 	},
 };
 
-export function mockPrompt(): MockResult {
+export function mockPrompt<TPrompt extends Prompt = Prompt>(): MockResult<TPrompt> {
 	isTestMode = true;
-	return _mockResult as MockResult;
+	return _mockResult as MockResult<TPrompt>;
 }
 
-export function exposeTestUtils(params: Partial<MockResult>): void {
+export function exposeTestUtils<TPrompt extends Prompt = Prompt>(
+	params: Partial<MockResult<TPrompt>>
+): void {
 	Object.assign(_mockResult, params);
 }
