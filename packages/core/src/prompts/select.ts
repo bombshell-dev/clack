@@ -22,8 +22,10 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
 		super(opts, false);
 
 		this.options = opts.options;
-		this.cursor = this.options.findIndex(({ value }) => value === opts.initialValue);
-		if (this.cursor === -1) this.cursor = 0;
+		this.cursor = Math.max(
+			this.options.findIndex(({ value }) => value === opts.initialValue),
+			0
+		);
 		this.changeValue();
 
 		this.exposeTestUtils();
