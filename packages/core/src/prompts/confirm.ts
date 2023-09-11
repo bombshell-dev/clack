@@ -16,7 +16,7 @@ export default class ConfirmPrompt extends Prompt {
 		super(opts, false);
 		this.value = opts.initialValue ? true : false;
 
-		exposeTestUtils<ConfirmPrompt>({ value: this.value, cursor: this.cursor });
+		this.exposeTestUtils();
 
 		this.on('confirm', (confirm) => {
 			this.output.write(cursor.move(0, -1));
@@ -27,7 +27,11 @@ export default class ConfirmPrompt extends Prompt {
 
 		this.on('cursor', () => {
 			this.value = !this.value;
-			exposeTestUtils<ConfirmPrompt>({ cursor: this.cursor });
+			this.exposeTestUtils();
 		});
+	}
+
+	private exposeTestUtils() {
+		exposeTestUtils<ConfirmPrompt>({ value: this.value, cursor: this.cursor });
 	}
 }

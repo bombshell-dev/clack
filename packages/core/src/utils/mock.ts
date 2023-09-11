@@ -4,6 +4,7 @@ import { ClackState } from '../types';
 export type MockResult<TPrompt extends Prompt = Prompt> = TPrompt & {
 	frame: string;
 	pressKey: (char: string, key: { name: string }) => void;
+	setCursor: (cursor: number) => void;
 	setState: (state: ClackState) => void;
 	setValue: (value: any) => void;
 	setIsTestMode: (state: boolean) => void;
