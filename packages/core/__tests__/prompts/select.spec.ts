@@ -1,4 +1,4 @@
-import { SelectPrompt, mockPrompt, setGlobalAliases } from '../../src';
+import { mockPrompt, SelectPrompt, setGlobalAliases } from '../../src';
 import { SelectOptions } from '../../src/prompts/select';
 
 const makeSut = (opts?: Partial<SelectOptions<any>>) => {
