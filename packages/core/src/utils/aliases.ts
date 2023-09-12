@@ -18,7 +18,7 @@ export const ALIASES = new Map<string, InferSetType<typeof KEYS>>([
  * @default
  * new Map([['k', 'up'], ['j', 'down'], ['h', 'left'], ['l', 'right'], ['\x03', 'cancel'],])
  */
-export function setGlobalAliases(alias: Array<[string, InferSetType<typeof KEYS>]>) {
+export function setGlobalAliases(alias: Array<[string, InferSetType<typeof KEYS>]>): void {
 	for (const [newAlias, key] of alias) {
 		if (!ALIASES.has(newAlias)) {
 			ALIASES.set(newAlias, key);
@@ -35,7 +35,7 @@ export function setGlobalAliases(alias: Array<[string, InferSetType<typeof KEYS>
 export function hasAliasKey(
 	key: string | Array<string | undefined>,
 	type: InferSetType<typeof KEYS>
-) {
+): boolean {
 	if (typeof key === 'string') {
 		return ALIASES.has(key) && ALIASES.get(key) === type;
 	}
