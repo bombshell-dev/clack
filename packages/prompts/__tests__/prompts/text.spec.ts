@@ -1,45 +1,48 @@
-import { randomUUID } from 'node:crypto';
-import { mockPrompt } from '@clack/core';
-import color from 'picocolors';
-import { S_BAR, S_BAR_END, formatPlaceholder, symbol, text } from '../../src';
+import { mockPrompt, type TextPrompt } from "@clack/core";
+import { randomUUID } from "node:crypto";
+import color from "picocolors";
+import { text } from "../../src";
+import { formatPlaceholder, symbol, S_BAR, S_BAR_END } from "../../src/utils";
 
-jest.mock('is-unicode-supported', () => ({
-	__esModule: true,
-	default: () => true,
-}));
-
-describe('text', () => {
-	const mock = mockPrompt();
-	const message = 'test message';
-	const cursor = color.inverse(color.hidden('_'));
+describe("text", () => {
+	const mock = mockPrompt<TextPrompt>();
+	const message = "test message";
 
 	afterEach(() => {
 		mock.close();
 	});
 
-	it('should render initial state', () => {
-		const title = `${color.gray(S_BAR)}\n${symbol('initial')}  ${message}\n`;
+	it("should render initial state", () => {
+		const title = `${color.gray(S_BAR)}\n${symbol("initial")}  ${message}\n`;
 
 		text({ message });
 
-		expect(mock.frame).toBe(`${title}${color.cyan(S_BAR)}  ${cursor}\n${color.cyan(S_BAR_END)}\n`);
+		expect(mock.state).toBe("initial");
+		expect(mock.frame).toBe(
+			`${title}${color.cyan(S_BAR)}  ${mock.valueWithCursor}\n${color.cyan(
+				S_BAR_END
+			)}\n`
+		);
 	});
 
-	it('should render initial state with placeholder', () => {
-		const title = `${color.gray(S_BAR)}\n${symbol('initial')}  ${message}\n`;
+	it("should render initial state with placeholder", () => {
+		const title = `${color.gray(S_BAR)}\n${symbol("initial")}  ${message}\n`;
 		const placeholder = randomUUID();
 
 		text({ message, placeholder });
 
+		expect(mock.state).toBe("initial");
 		expect(mock.frame).toBe(
-			`${title}${color.cyan(S_BAR)}  ${formatPlaceholder(placeholder)}\n${color.cyan(S_BAR_END)}\n`
+			`${title}${color.cyan(S_BAR)}  ${formatPlaceholder(
+				placeholder
+			)}\n${color.cyan(S_BAR_END)}\n`
 		);
 	});
 
-	it('should render error', () => {
+	it("should render error", () => {
 		const value = randomUUID();
-		const title = `${color.gray(S_BAR)}\n${symbol('error')}  ${message}\n`;
-		const error = 'invalid value';
+		const title = `${color.gray(S_BAR)}\n${symbol("error")}  ${message}\n`;
+		const error = "invalid value";
 
 		text({
 			message,
@@ -49,46 +52,66 @@ describe('text', () => {
 		});
 		mock.submit(value);
 
+		expect(mock.state).toBe("error");
 		expect(mock.frame).toBe(
-			`${title}${color.yellow(S_BAR)}  ${value + cursor}\n${color.yellow(
+			`${title}${color.yellow(S_BAR)}  ${mock.valueWithCursor}\n${color.yellow(
 				S_BAR_END
 			)}  ${color.yellow(error)}\n`
 		);
 	});
 
-	it('should submit initialValue', () => {
+	it("should submit initialValue", () => {
 		const value = randomUUID();
-		const title = `${color.gray(S_BAR)}\n${symbol('submit')}  ${message}\n`;
+		const title = `${color.gray(S_BAR)}\n${symbol("submit")}  ${message}\n`;
 
 		text({ message, initialValue: value });
 		mock.submit();
 
-		expect(mock.frame).toBe(`${title}${color.gray(S_BAR)}  ${color.dim(value)}`);
+		expect(mock.state).toBe("submit");
+		expect(mock.frame).toBe(
+			`${title}${color.gray(S_BAR)}  ${color.dim(value)}`
+		);
 	});
 
-	it('should submit value', () => {
+	it("should submit value", () => {
 		const value = randomUUID();
-		const title = `${color.gray(S_BAR)}\n${symbol('submit')}  ${message}\n`;
+		const title = `${color.gray(S_BAR)}\n${symbol("submit")}  ${message}\n`;
 
 		text({ message });
 		mock.submit(value);
 
-		expect(mock.frame).toBe(`${title}${color.gray(S_BAR)}  ${color.dim(value)}`);
+		expect(mock.state).toBe("submit");
+		expect(mock.frame).toBe(
+			`${title}${color.gray(S_BAR)}  ${color.dim(value)}`
+		);
 	});
 
-	it('should render cancel', () => {
+	it("should render cancel", () => {
 		const value = randomUUID();
-		const title = `${color.gray(S_BAR)}\n${symbol('cancel')}  ${message}\n`;
+		const title = `${color.gray(S_BAR)}\n${symbol("cancel")}  ${message}\n`;
 
 		text({ message });
 		mock.cancel(value);
 
+		expect(mock.state).toBe("cancel");
 		expect(mock.frame).toBe(
-			`${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(value))}\n${color.gray(S_BAR)}`
+			`${title}${color.gray(S_BAR)}  ${color.strikethrough(
+				color.dim(value)
+			)}\n${color.gray(S_BAR)}`
 		);
 	});
 
-	it('should return value on submit', async () => {
+	it("should render cancel without value", () => {
+		const title = `${color.gray(S_BAR)}\n${symbol("cancel")}  ${message}\n`;
+
+		text({ message });
+		mock.cancel();
+
+		expect(mock.state).toBe("cancel");
+		expect(mock.frame).toBe(`${title}${color.gray(S_BAR)}`);
+	});
+
+	it("should return value on submit", async () => {
 		const value = randomUUID();
 
 		const promise = text({ message });
