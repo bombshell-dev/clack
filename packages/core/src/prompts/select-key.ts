@@ -25,7 +25,7 @@ export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
 			if (value) {
 				this.value = value.value;
 				this.state = 'submit';
-				this.emit('submit');
+				this.close();
 			}
 			this.exposeTestUtils();
 		});
