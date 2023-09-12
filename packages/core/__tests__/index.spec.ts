@@ -1,10 +1,12 @@
 import { readdirSync } from 'node:fs';
-import * as packageExports from '../src/index';
 import { join } from 'node:path';
+import * as packageExports from '../src/index';
 
 describe('Package', () => {
 	it('should export all prompts', async () => {
-		const exportedPrompts = Object.keys(packageExports).filter((key) => /prompt/i.test(key) && !/^mock/.test(key));
+		const exportedPrompts = Object.keys(packageExports).filter(
+			(key) => /prompt/i.test(key) && !/^mock/.test(key)
+		);
 		const promptsPath = join(__dirname, '../src/prompts');
 		const promptFiles = readdirSync(promptsPath);
 
