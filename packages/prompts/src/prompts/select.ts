@@ -3,6 +3,7 @@ import color from 'picocolors';
 import {
 	limitOptions,
 	Option,
+	SelectOptions,
 	symbol,
 	S_BAR,
 	S_BAR_END,
@@ -28,13 +29,6 @@ export const opt = <TValue>(
 			return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
 	}
 };
-
-export interface SelectOptions<TValue> {
-	message: string;
-	options: Option<TValue>[];
-	initialValue?: TValue;
-	maxItems?: number;
-}
 
 const select = <TValue>(opts: SelectOptions<TValue>) => {
 	return new SelectPrompt({
