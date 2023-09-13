@@ -11,6 +11,7 @@ export type MockResult<TPrompt extends Prompt = Prompt> = TPrompt & {
 	cancel: (value?: any) => void;
 	submit: (value?: any) => void;
 	close: () => void;
+	updateRender: () => void;
 };
 
 export let isTestMode = false;
