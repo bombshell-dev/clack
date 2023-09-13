@@ -1,7 +1,10 @@
 import { SelectPrompt } from '@clack/core';
 import color from 'picocolors';
 import {
-	limitOptions, Option, symbol, S_BAR,
+	limitOptions,
+	Option,
+	symbol,
+	S_BAR,
 	S_BAR_END,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE

@@ -3,9 +3,12 @@ import color from 'picocolors';
 import { select } from '../../src';
 import { opt } from '../../src/prompts/select';
 import {
-	limitOptions, Option, symbol,
+	limitOptions,
+	Option,
+	symbol,
 	S_BAR,
-	S_BAR_END, S_RADIO_ACTIVE,
+	S_BAR_END,
+	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE
 } from '../../src/utils';
 
@@ -130,7 +133,7 @@ describe('select', () => {
 		select({ message, options: extendedOptions, maxItems: 5 });
 		const cursor = 0;
 		mock.setCursor(cursor);
-		mock.updateRender();
+		mock.updateFrame();
 
 		const INACTIVE_RADIO = color.dim(S_RADIO_INACTIVE);
 		const ACTIVE_RADIO = color.green(S_RADIO_ACTIVE);

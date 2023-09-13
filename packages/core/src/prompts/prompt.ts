@@ -63,7 +63,7 @@ export default class Prompt {
 			once: this.once.bind(this),
 			emit: this.emit.bind(this),
 			pressKey: this.onKeypress.bind(this),
-			updateRender: this.render.bind(this),
+			updateFrame: this.render.bind(this),
 			close: this.close.bind(this),
 			setState: (state) => {
 				this.state = state;
