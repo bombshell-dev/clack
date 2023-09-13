@@ -35,6 +35,18 @@ describe('text', () => {
 		);
 	});
 
+	it('should render initial state with initialValue', () => {
+		const title = `${color.gray(S_BAR)}\n${symbol('initial')}  ${message}\n`;
+		const value = randomUUID();
+
+		text({ message, initialValue: value });
+
+		expect(mock.state).toBe('initial');
+		expect(mock.frame).toBe(
+			`${title}${color.cyan(S_BAR)}  ${mock.valueWithCursor}\n${color.cyan(S_BAR_END)}\n`
+		);
+	});
+
 	it('should render error', () => {
 		const value = randomUUID();
 		const title = `${color.gray(S_BAR)}\n${symbol('error')}  ${message}\n`;
