@@ -1,9 +1,9 @@
 import { State } from '@clack/core';
-import isUnicodeSupported from 'is-unicode-supported';
+import isUnicodeSupportedFn from 'is-unicode-supported';
 import color from 'picocolors';
 
-const unicode = isUnicodeSupported();
-const s = (c: string, fallback: string) => (unicode ? c : fallback);
+export const isUnicodeSupported = isUnicodeSupportedFn();
+const s = (c: string, fallback: string) => (isUnicodeSupported ? c : fallback);
 
 export const S_STEP_ACTIVE = s('◆', '*');
 export const S_STEP_CANCEL = s('■', 'x');
