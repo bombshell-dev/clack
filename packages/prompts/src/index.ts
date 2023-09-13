@@ -1,9 +1,9 @@
 import {
-	block, GroupMultiSelectPrompt,
+	block,
+	GroupMultiSelectPrompt,
 	isCancel,
 	MultiSelectPrompt,
-	SelectKeyPrompt,
-	SelectPrompt
+	SelectKeyPrompt
 } from '@clack/core';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
@@ -11,64 +11,8 @@ import { cursor, erase } from 'sisteransi';
 export { isCancel, mockPrompt, setGlobalAliases } from '@clack/core';
 export { ConfirmOptions, default as confirm } from './prompts/confirm';
 export { default as password, PasswordOptions } from './prompts/password';
+export { default as select, SelectOptions } from './prompts/select';
 export { default as text, TextOptions } from './prompts/text';
-
-type Primitive = Readonly<string | boolean | number>;
-
-type Option<Value> = Value extends Primitive
-	? { value: Value; label?: string; hint?: string }
-	: { value: Value; label: string; hint?: string };
-
-export interface SelectOptions<Value> {
-	message: string;
-	options: Option<Value>[];
-	initialValue?: Value;
-	maxItems?: number;
-}
-
-export const select = <Value>(opts: SelectOptions<Value>) => {
-	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
-		const label = option.label ?? String(option.value);
-		switch (state) {
-			case 'selected':
-				return `${color.dim(label)}`;
-			case 'active':
-				return `${color.green(S_RADIO_ACTIVE)} ${label} ${
-					option.hint ? color.dim(`(${option.hint})`) : ''
-				}`;
-			case 'cancelled':
-				return `${color.strikethrough(color.dim(label))}`;
-			default:
-				return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
-		}
-	};
-
-	return new SelectPrompt({
-		options: opts.options,
-		initialValue: opts.initialValue,
-		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-
-			switch (this.state) {
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
-				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
-						cursor: this.cursor,
-						options: this.options,
-						maxItems: opts.maxItems,
-						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
-				}
-			}
-		},
-	}).prompt() as Promise<Value | symbol>;
-};
 
 export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 	const opt = (

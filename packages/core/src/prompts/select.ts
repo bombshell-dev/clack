@@ -51,6 +51,9 @@ export default class SelectPrompt<T extends { value: any }> extends Prompt {
 			options: this.options,
 			cursor: this.cursor,
 			value: this.value,
+			setCursor: (cursor) => {
+				this.cursor = cursor;
+			},
 		});
 	}
 }
