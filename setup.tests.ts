@@ -8,7 +8,4 @@
 
 jest.mock('wrap-ansi', () => (str: string) => str);
 
-jest.mock('is-unicode-supported', () => ({
-	__esModule: true,
-	default: () => true,
-}));
+jest.mock('is-unicode-supported', () => () => true);
