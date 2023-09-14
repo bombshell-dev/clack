@@ -1,8 +1,7 @@
-import { block, GroupMultiSelectPrompt, isCancel, SelectKeyPrompt } from '@clack/core';
+import { GroupMultiSelectPrompt, isCancel, SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
-import { cursor, erase } from 'sisteransi';
+import spinner from './prompts/spinner';
 import {
-	isUnicodeSupported,
 	SelectOptions,
 	symbol,
 	S_BAR,
@@ -14,8 +13,6 @@ import {
 	S_CONNECT_LEFT,
 	S_CORNER_BOTTOM_RIGHT,
 	S_CORNER_TOP_RIGHT,
-	S_STEP_CANCEL,
-	S_STEP_ERROR,
 	S_STEP_SUBMIT
 } from './utils';
 import { Option } from './utils/types';
@@ -26,6 +23,7 @@ export { cancel, intro, log, LogMessageOptions, outro } from './prompts/log';
 export { default as multiselect, MultiSelectOptions } from './prompts/multi-select';
 export { default as password, PasswordOptions } from './prompts/password';
 export { default as select } from './prompts/select';
+export { default as spinner } from './prompts/spinner';
 export { default as text, TextOptions } from './prompts/text';
 export { Option, SelectOptions } from './utils/types';
 
@@ -242,89 +240,6 @@ export const note = (message = '', title = '') => {
 			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
 		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
 	);
-};
-
-export const spinner = () => {
-	const frames = isUnicodeSupported ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-	const delay = isUnicodeSupported ? 80 : 120;
-
-	let unblock: () => void;
-	let loop: NodeJS.Timeout;
-	let isSpinnerActive: boolean = false;
-	let _message: string = '';
-
-	const handleExit = (code: number) => {
-		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
-		if (isSpinnerActive) stop(msg, code);
-	};
-
-	const errorEventHandler = () => handleExit(2);
-	const signalEventHandler = () => handleExit(1);
-
-	const registerHooks = () => {
-		// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
-		process.on('uncaughtExceptionMonitor', errorEventHandler);
-		// Reference: https://nodejs.org/api/process.html#event-unhandledrejection
-		process.on('unhandledRejection', errorEventHandler);
-		// Reference Signal Events: https://nodejs.org/api/process.html#signal-events
-		process.on('SIGINT', signalEventHandler);
-		process.on('SIGTERM', signalEventHandler);
-		process.on('exit', handleExit);
-	};
-
-	const clearHooks = () => {
-		process.removeListener('uncaughtExceptionMonitor', errorEventHandler);
-		process.removeListener('unhandledRejection', errorEventHandler);
-		process.removeListener('SIGINT', signalEventHandler);
-		process.removeListener('SIGTERM', signalEventHandler);
-		process.removeListener('exit', handleExit);
-	};
-
-	const start = (msg: string = ''): void => {
-		isSpinnerActive = true;
-		unblock = block();
-		_message = msg.replace(/\.+$/, '');
-		process.stdout.write(`${color.gray(S_BAR)}\n`);
-		let frameIndex = 0;
-		let dotsTimer = 0;
-		registerHooks();
-		loop = setInterval(() => {
-			const frame = color.magenta(frames[frameIndex]);
-			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
-			process.stdout.write(cursor.move(-999, 0));
-			process.stdout.write(erase.down(1));
-			process.stdout.write(`${frame}  ${_message}${loadingDots}`);
-			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
-			dotsTimer = dotsTimer < frames.length ? dotsTimer + 0.125 : 0;
-		}, delay);
-	};
-
-	const stop = (msg: string = '', code: number = 0): void => {
-		_message = msg ?? _message;
-		isSpinnerActive = false;
-		clearInterval(loop);
-		const step =
-			code === 0
-				? color.green(S_STEP_SUBMIT)
-				: code === 1
-				? color.red(S_STEP_CANCEL)
-				: color.red(S_STEP_ERROR);
-		process.stdout.write(cursor.move(-999, 0));
-		process.stdout.write(erase.down(1));
-		process.stdout.write(`${step}  ${_message}\n`);
-		clearHooks();
-		unblock();
-	};
-
-	const message = (msg: string = ''): void => {
-		_message = msg ?? _message;
-	};
-
-	return {
-		start,
-		stop,
-		message,
-	};
 };
 
 // Adapted from https://github.com/chalk/ansi-regex
