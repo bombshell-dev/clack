@@ -180,12 +180,12 @@ export default class Prompt {
 
 		return new Promise<string | symbol>((resolve, reject) => {
 			this.once('submit', () => {
-				this.output.write('\n');
+				if (!isTestMode) this.output.write('\n');
 				this.output.write(cursor.show);
 				resolve(this.value);
 			});
 			this.once('cancel', () => {
-				this.output.write('\n');
+				if (!isTestMode) this.output.write('\n');
 				this.output.write(cursor.show);
 				resolve(CANCEL_SYMBOL);
 			});

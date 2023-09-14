@@ -26,7 +26,7 @@ export type LogMessageOptions = {
 	symbol?: string;
 };
 
-export const log = {
+const log = {
 	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
 		const parts = [`${color.gray(S_BAR)}`];
 		if (message) {
@@ -55,3 +55,8 @@ export const log = {
 		log.message(message, { symbol: color.red(S_ERROR) });
 	},
 };
+
+//@ts-expect-error - Name prompt to validate package exports
+log.name = 'log';
+
+export default log;

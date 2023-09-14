@@ -17,7 +17,7 @@ import { Option } from './utils/types';
 
 export { isCancel, mockPrompt, setGlobalAliases } from '@clack/core';
 export { ConfirmOptions, default as confirm } from './prompts/confirm';
-export { cancel, intro, log, LogMessageOptions, outro } from './prompts/log';
+export { cancel, default as log, intro, LogMessageOptions, outro } from './prompts/log';
 export { default as multiselect, MultiSelectOptions } from './prompts/multi-select';
 export { default as password, PasswordOptions } from './prompts/password';
 export { default as select } from './prompts/select';
@@ -25,7 +25,7 @@ export { default as selectKey } from './prompts/select-key';
 export { default as spinner } from './prompts/spinner';
 export { default as tasks, Task } from './prompts/tasks';
 export { default as text, TextOptions } from './prompts/text';
-export { Option, SelectOptions } from './utils/types';
+export { Option, SelectOptions } from './utils';
 
 export interface GroupMultiSelectOptions<Value> {
 	message: string;

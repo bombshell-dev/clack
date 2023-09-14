@@ -8,7 +8,7 @@ export interface PasswordOptions {
 	validate?: (value: string) => string | void;
 }
 
-export const password = (opts: PasswordOptions) => {
+const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
 		validate: opts.validate,
 		mask: opts.mask ?? S_PASSWORD_MASK,
