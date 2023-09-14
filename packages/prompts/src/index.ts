@@ -1,4 +1,4 @@
-import { GroupMultiSelectPrompt, isCancel } from '@clack/core';
+import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
 import {
 	symbol,
@@ -12,6 +12,12 @@ import { Option } from './utils/types';
 
 export { isCancel, mockPrompt, setGlobalAliases } from '@clack/core';
 export { ConfirmOptions, default as confirm } from './prompts/confirm';
+export {
+	default as group,
+	PromptGroup,
+	PromptGroupAwaitedReturn,
+	PromptGroupOptions
+} from './prompts/group';
 export { cancel, default as log, intro, LogMessageOptions, outro } from './prompts/log';
 export { default as multiselect, MultiSelectOptions } from './prompts/multi-select';
 export { default as note } from './prompts/note';
@@ -163,58 +169,4 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			}
 		},
 	}).prompt() as Promise<Value[] | symbol>;
-};
-
-export type PromptGroupAwaitedReturn<T> = {
-	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
-};
-
-export interface PromptGroupOptions<T> {
-	/**
-	 * Control how the group can be canceled
-	 * if one of the prompts is canceled.
-	 */
-	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
-}
-
-type Prettify<T> = {
-	[P in keyof T]: T[P];
-} & {};
-
-export type PromptGroup<T> = {
-	[P in keyof T]: (opts: {
-		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => void | Promise<T[P] | void>;
-};
-
-/**
- * Define a group of prompts to be displayed
- * and return a results of objects within the group
- */
-export const group = async <T>(
-	prompts: PromptGroup<T>,
-	opts?: PromptGroupOptions<T>
-): Promise<Prettify<PromptGroupAwaitedReturn<T>>> => {
-	const results = {} as any;
-	const promptNames = Object.keys(prompts);
-
-	for (const name of promptNames) {
-		const prompt = prompts[name as keyof T];
-		const result = await prompt({ results })?.catch((e) => {
-			throw e;
-		});
-
-		// Pass the results to the onCancel function
-		// so the user can decide what to do with the results
-		// TODO: Switch to callback within core to avoid isCancel Fn
-		if (typeof opts?.onCancel === 'function' && isCancel(result)) {
-			results[name] = 'canceled';
-			opts.onCancel({ results });
-			continue;
-		}
-
-		results[name] = result;
-	}
-
-	return results;
 };

@@ -10,3 +10,7 @@ export interface SelectOptions<TValue> {
 	initialValue?: TValue;
 	maxItems?: number;
 }
+
+export type Prettify<T> = {
+	[P in keyof T]: T[P];
+} & {};
