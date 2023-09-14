@@ -16,6 +16,7 @@ export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
 		this.options = opts.options;
 		const keys = this.options.map(({ value: [initial] }) => initial?.toLowerCase());
 		this.cursor = Math.max(keys.indexOf(opts.initialValue), 0);
+		this.value = this.options[this.cursor].value;
 
 		this.exposeTestUtils();
 
