@@ -19,7 +19,7 @@ export {
 	PromptGroupOptions
 } from './prompts/group';
 export { cancel, default as log, intro, LogMessageOptions, outro } from './prompts/log';
-export { default as multiselect, MultiSelectOptions } from './prompts/multi-select';
+export { default as multiselect, MultiSelectOptions } from './prompts/multiselect';
 export { default as note } from './prompts/note';
 export { default as password, PasswordOptions } from './prompts/password';
 export { default as select } from './prompts/select';

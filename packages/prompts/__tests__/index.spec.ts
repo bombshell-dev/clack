@@ -3,32 +3,63 @@ import { join } from 'node:path';
 import * as packageExports from '../src/index';
 
 function camelCase(input: string): string {
-	if (input === 'multi-select') {
-		return input.replace(/-/g, '');
-	}
 	return input.replace(/[-_]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''));
 }
 
+function pascalCase(input: string): string {
+	const words = input.split('-');
+	const pascalCaseWords = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+	return pascalCaseWords.join('');
+}
+
 describe('Package', () => {
+	const exportedKeys = Object.keys(packageExports);
+
 	it('should export all prompts', async () => {
-		const exportedPrompts = Object.keys(packageExports);
 		const promptsPath = join(__dirname, '../src/prompts');
 		const promptFiles = readdirSync(promptsPath);
 
 		for (const file of promptFiles) {
 			const prompt = await import(join(promptsPath, file));
-			expect(exportedPrompts).toContain(camelCase(prompt.default.name));
+			expect(exportedKeys).toContain(camelCase(prompt.default.name));
 		}
-		expect.assertions(promptFiles.length);
 	});
 
 	it('should export selected utils', async () => {
-		const exportedUtils = Object.keys(packageExports);
-		const utils: string[] = ['isCancel', 'mockPrompt', 'setGlobalAliases'];
-
+		const utils: (keyof typeof packageExports)[] = ['isCancel', 'mockPrompt', 'setGlobalAliases'];
 		for (const util of utils) {
-			expect(exportedUtils).toContain(util);
+			expect(exportedKeys).toContain(util);
 		}
-		expect.assertions(utils.length);
+	});
+
+	it('should export selected loggers', async () => {
+		const loggers: (keyof typeof packageExports)[] = ['cancel', 'intro', 'outro'];
+		for (const logger of loggers) {
+			expect(exportedKeys).toContain(logger);
+		}
+	});
+
+	it('should export all prompts options', async () => {
+		const excludeList: (keyof typeof packageExports)[] = [
+			'log',
+			'group',
+			'note',
+			'selectKey',
+			'spinner',
+			'tasks',
+		];
+		const promptsPath = join(__dirname, '../src/prompts');
+		const promptFiles = readdirSync(promptsPath);
+
+		for (const file of promptFiles) {
+			const prompt = await import(join(promptsPath, file));
+			const promptName = prompt.default.name;
+			if (excludeList.includes(promptName)) {
+				continue;
+			}
+			expect(exportedKeys).toContain(
+				pascalCase(promptName.replace('select', 'Select') + 'Options')
+			);
+		}
 	});
 });

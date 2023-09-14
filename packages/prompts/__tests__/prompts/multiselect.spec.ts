@@ -1,7 +1,7 @@
 import { mockPrompt, SelectPrompt } from '@clack/core';
 import color from 'picocolors';
 import { multiselect } from '../../src';
-import { opt } from '../../src/prompts/multi-select';
+import { opt } from '../../src/prompts/multiselect';
 import {
 	limitOptions,
 	Option,

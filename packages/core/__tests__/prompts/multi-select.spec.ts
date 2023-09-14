@@ -1,5 +1,5 @@
 import { mockPrompt, MultiSelectPrompt, setGlobalAliases } from '../../src';
-import { MultiSelectOptions } from '../../src/prompts/multi-select';
+import { MultiSelectOptions } from '../../src/prompts/multiselect';
 
 const makeSut = (opts?: Partial<MultiSelectOptions<any>>) => {
 	return new MultiSelectPrompt({
