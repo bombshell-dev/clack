@@ -1,6 +1,5 @@
 import { GroupMultiSelectPrompt, isCancel, SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
-import spinner from './prompts/spinner';
 import {
 	SelectOptions,
 	symbol,
@@ -13,7 +12,7 @@ import {
 	S_CONNECT_LEFT,
 	S_CORNER_BOTTOM_RIGHT,
 	S_CORNER_TOP_RIGHT,
-	S_STEP_SUBMIT
+	S_STEP_SUBMIT,
 } from './utils';
 import { Option } from './utils/types';
 
@@ -24,6 +23,7 @@ export { default as multiselect, MultiSelectOptions } from './prompts/multi-sele
 export { default as password, PasswordOptions } from './prompts/password';
 export { default as select } from './prompts/select';
 export { default as spinner } from './prompts/spinner';
+export { default as tasks, Task } from './prompts/tasks';
 export { default as text, TextOptions } from './prompts/text';
 export { Option, SelectOptions } from './utils/types';
 
@@ -305,34 +305,4 @@ export const group = async <T>(
 	}
 
 	return results;
-};
-
-export type Task = {
-	/**
-	 * Task title
-	 */
-	title: string;
-	/**
-	 * Task function
-	 */
-	task: (message: (string: string) => void) => string | Promise<string> | void | Promise<void>;
-
-	/**
-	 * If enabled === false the task will be skipped
-	 */
-	enabled?: boolean;
-};
-
-/**
- * Define a group of tasks to be executed
- */
-export const tasks = async (tasks: Task[]) => {
-	for (const task of tasks) {
-		if (task.enabled === false) continue;
-
-		const s = spinner();
-		s.start(task.title);
-		const result = await task.task(s.message);
-		s.stop(result || task.title);
-	}
 };
