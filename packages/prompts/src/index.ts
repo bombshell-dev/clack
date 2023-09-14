@@ -4,14 +4,9 @@ import {
 	symbol,
 	S_BAR,
 	S_BAR_END,
-	S_BAR_H,
 	S_CHECKBOX_ACTIVE,
 	S_CHECKBOX_INACTIVE,
-	S_CHECKBOX_SELECTED,
-	S_CONNECT_LEFT,
-	S_CORNER_BOTTOM_RIGHT,
-	S_CORNER_TOP_RIGHT,
-	S_STEP_SUBMIT
+	S_CHECKBOX_SELECTED
 } from './utils';
 import { Option } from './utils/types';
 
@@ -19,6 +14,7 @@ export { isCancel, mockPrompt, setGlobalAliases } from '@clack/core';
 export { ConfirmOptions, default as confirm } from './prompts/confirm';
 export { cancel, default as log, intro, LogMessageOptions, outro } from './prompts/log';
 export { default as multiselect, MultiSelectOptions } from './prompts/multi-select';
+export { default as note } from './prompts/note';
 export { default as password, PasswordOptions } from './prompts/password';
 export { default as select } from './prompts/select';
 export { default as selectKey } from './prompts/select-key';
@@ -168,44 +164,6 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		},
 	}).prompt() as Promise<Value[] | symbol>;
 };
-
-const strip = (str: string) => str.replace(ansiRegex(), '');
-export const note = (message = '', title = '') => {
-	const lines = `\n${message}\n`.split('\n');
-	const titleLen = strip(title).length;
-	const len =
-		Math.max(
-			lines.reduce((sum, ln) => {
-				ln = strip(ln);
-				return ln.length > sum ? ln.length : sum;
-			}, 0),
-			titleLen
-		) + 2;
-	const msg = lines
-		.map(
-			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
-					S_BAR
-				)}`
-		)
-		.join('\n');
-	process.stdout.write(
-		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
-		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
-	);
-};
-
-// Adapted from https://github.com/chalk/ansi-regex
-// @see LICENSE
-function ansiRegex() {
-	const pattern = [
-		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))',
-	].join('|');
-
-	return new RegExp(pattern, 'g');
-}
 
 export type PromptGroupAwaitedReturn<T> = {
 	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;

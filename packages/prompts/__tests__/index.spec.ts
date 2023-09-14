@@ -15,20 +15,20 @@ describe('Package', () => {
 		const promptsPath = join(__dirname, '../src/prompts');
 		const promptFiles = readdirSync(promptsPath);
 
-		expect.assertions(promptFiles.length);
 		for (const file of promptFiles) {
 			const prompt = await import(join(promptsPath, file));
 			expect(exportedPrompts).toContain(camelCase(prompt.default.name));
 		}
+		expect.assertions(promptFiles.length);
 	});
 
 	it('should export selected utils', async () => {
 		const exportedUtils = Object.keys(packageExports);
 		const utils: string[] = ['isCancel', 'mockPrompt', 'setGlobalAliases'];
 
-		expect.assertions(utils.length);
 		for (const util of utils) {
 			expect(exportedUtils).toContain(util);
 		}
+		expect.assertions(utils.length);
 	});
 });
