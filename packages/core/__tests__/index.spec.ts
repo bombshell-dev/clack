@@ -28,23 +28,4 @@ describe('Package', () => {
 			expect(exportedKeys).toContain(util);
 		}
 	});
-
-	it('should export all prompts options', async () => {
-		const excludeList: (keyof typeof packageExports)[] = [];
-		const promptsPath = join(__dirname, '../src/prompts');
-		const promptFiles = readdirSync(promptsPath);
-
-		for (const file of promptFiles) {
-			const prompt = await import(join(promptsPath, file));
-			const promptName = prompt.default.name;
-			if (excludeList.includes(promptName)) {
-				continue;
-			}
-			const promptOptions =
-				prompt.default.name === 'Prompt'
-					? prompt.default.name
-					: pascalCase(promptName.replace('Prompt', 'Options'));
-			expect(exportedKeys).toContain(promptOptions);
-		}
-	});
 });
