@@ -272,8 +272,10 @@ describe('groupMultiselect', () => {
 		);
 	});
 
+	// Implement when `groupMultiselect.validate` be exposed
 	it.todo('should render error with option selected');
 
+	// Implement when `groupMultiselect.validate` be exposed
 	it.todo('should render error with option active and selected');
 
 	it('should render cancel', () => {

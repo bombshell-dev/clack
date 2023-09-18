@@ -36,7 +36,14 @@ describe('SelectPrompt', () => {
 		expect(mock.value).toBe(1);
 	});
 
-	it('should change value on cursor', () => {
+	it('should change cursor position on cursor', () => {
+		makeSut();
+		mock.setCursor(1);
+
+		expect(mock.cursor).toBe(1);
+	});
+
+	it('should change value on emit cursor', () => {
 		makeSut();
 		const moves = [
 			['down', 1, 2],

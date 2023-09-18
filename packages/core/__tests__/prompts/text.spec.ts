@@ -60,17 +60,17 @@ describe('TextPrompt', () => {
 		expect(mock.valueWithCursor).toBe(value + cursor);
 	});
 
-	it('should submit default value is no value is provided', () => {
-		const value = randomUUID();
+	it('should submit default value if no value is provided', () => {
+		const defaultValue = randomUUID();
 
 		makeSut({
-			defaultValue: value,
+			defaultValue,
 			initialValue: '',
 		});
 		mock.submit();
 
 		expect(mock.state).toBe('submit');
-		expect(mock.value).toBe(value);
+		expect(mock.value).toBe(defaultValue);
 	});
 
 	it('should submit value', () => {
