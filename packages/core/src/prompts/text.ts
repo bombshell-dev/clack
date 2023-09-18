@@ -44,6 +44,10 @@ export default class TextPrompt extends Prompt {
 	}
 
 	private exposeTestUtils() {
-		exposeTestUtils<TextPrompt>({ value: this.value, valueWithCursor: this.valueWithCursor });
+		exposeTestUtils<TextPrompt>({
+			value: this.value,
+			valueWithCursor: this.valueWithCursor,
+			cursor: this.cursor,
+		});
 	}
 }

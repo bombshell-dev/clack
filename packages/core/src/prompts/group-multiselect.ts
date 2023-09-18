@@ -93,6 +93,8 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			options: this.options,
 			cursor: this.cursor,
 			value: this.value,
+			isGroupSelected: this.isGroupSelected.bind(this),
+			getGroupItems: this.getGroupItems.bind(this),
 		});
 	}
 }

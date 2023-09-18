@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { formatPlaceholder, limitOptions } from '../../src/utils';
 import color from 'picocolors';
+import { formatPlaceholder, limitOptions } from '../../src/utils';
 
 describe('format', () => {
 	describe('limitOptions()', () => {

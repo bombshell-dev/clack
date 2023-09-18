@@ -27,7 +27,7 @@ const text = (opts: TextOptions) => {
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
+					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${
 						this.value ? color.strikethrough(color.dim(this.value)) : ''

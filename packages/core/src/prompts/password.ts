@@ -48,6 +48,7 @@ export default class PasswordPrompt extends Prompt {
 
 	private exposeTestUtils() {
 		exposeTestUtils<PasswordPrompt>({
+			cursor: this.cursor,
 			maskedValue: this.maskedValue,
 			valueWithCursor: this.valueWithCursor,
 		});

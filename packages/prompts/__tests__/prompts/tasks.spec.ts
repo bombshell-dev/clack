@@ -27,6 +27,20 @@ describe('tasks', () => {
 		}
 	});
 
+	it('should skip disabled task', async () => {
+		const length = 3;
+		let data: Task[] = Array.from(Array(length).keys()).map((i) => ({
+			title: String(i),
+			enabled: !(i === 1),
+			async task(message) {},
+		}));
+
+		await tasks(data);
+
+		expect(startSpy).toHaveBeenNthCalledWith(1, String(0));
+		expect(startSpy).toHaveBeenNthCalledWith(2, String(2));
+	});
+
 	it('should stop tasks in sequence', async () => {
 		const length = 3;
 		let data: Task[] = Array.from(Array(length).keys()).map((i) => ({

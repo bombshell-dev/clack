@@ -2,7 +2,7 @@ import { stdin, stdout } from 'node:process';
 import * as readline from 'node:readline';
 import { cursor } from 'sisteransi';
 import { isCancel } from '../../src';
-import { block, CANCEL_SYMBOL, setRawMode } from '../../src/utils';
+import { block, CANCEL_SYMBOL, setGlobalAliases, setRawMode } from '../../src/utils';
 
 const rlSpy = {
 	terminal: true,
@@ -82,7 +82,7 @@ describe('Utils', () => {
 			expect(readline.emitKeypressEvents).toHaveBeenCalledTimes(1);
 		});
 
-		it('should set input raw mode', () => {
+		it('should set input on raw mode', () => {
 			stdin.isTTY = true;
 
 			block();
@@ -91,7 +91,7 @@ describe('Utils', () => {
 			expect(stdin.setRawMode).toHaveBeenCalledWith(true);
 		});
 
-		it('should not set input raw mode', () => {
+		it('should not set input on raw mode', () => {
 			stdin.isTTY = false;
 
 			block();
@@ -144,6 +144,65 @@ describe('Utils', () => {
 
 			expect(rlSpy.terminal).toBe(false);
 			expect(rlSpy.close).toHaveBeenCalledTimes(1);
+		});
+
+		it('should `clear` char on keypress', () => {
+			(stdin.once as jest.Mock).mockImplementationOnce((event, cb) => {
+				cb(Buffer.from('c'), { name: 'c', sequence: undefined });
+			});
+			(readline.moveCursor as jest.Mock).mockImplementationOnce((output, dx, dy, cb) => {
+				cb();
+			});
+			(readline.clearLine as jest.Mock).mockImplementationOnce((output, dir, cb) => {
+				cb();
+			});
+
+			block()();
+
+			expect(readline.moveCursor).toHaveBeenCalledWith(stdout, -1, 0, expect.any(Function));
+			expect(readline.clearLine).toHaveBeenCalledWith(stdout, 1, expect.any(Function));
+			expect(stdin.once).toHaveBeenCalledTimes(2);
+			expect(stdin.once).toHaveBeenCalledWith('keypress', expect.any(Function));
+		});
+
+		it('should not clear char on keypress if overwrite is false', () => {
+			(stdin.once as jest.Mock).mockImplementationOnce((event, cb) => {
+				cb(Buffer.from('c'), { name: 'c', sequence: undefined });
+			});
+			(readline.moveCursor as jest.Mock).mockImplementationOnce((output, dx, dy, cb) => {
+				cb();
+			});
+
+			block({
+				overwrite: false,
+			})();
+
+			expect(stdin.once).toHaveBeenCalledTimes(1);
+			expect(stdin.once).toHaveBeenCalledWith('keypress', expect.any(Function));
+			expect(readline.moveCursor).toHaveBeenCalledTimes(0);
+		});
+
+		it('should `clear` line on enter', () => {
+			(stdin.once as jest.Mock).mockImplementationOnce((event, cb) => {
+				cb(Buffer.from('c'), { name: 'return', sequence: undefined });
+			});
+
+			block()();
+
+			expect(readline.moveCursor).toHaveBeenCalledWith(stdout, 0, -1, expect.any(Function));
+			expect(readline.clearLine).toHaveBeenCalledWith(stdout, 1, expect.any(Function));
+		});
+
+		it('should exit on cancel alias', () => {
+			setGlobalAliases([['c', 'cancel']]);
+			(stdin.once as jest.Mock).mockImplementationOnce((event, cb) => {
+				cb(Buffer.from('c'), { name: 'c', sequence: undefined });
+			});
+			const exitSpy = jest.spyOn(process, 'exit').mockImplementation();
+
+			block()();
+
+			expect(exitSpy).toHaveBeenCalledTimes(1);
 		});
 	});
 });
