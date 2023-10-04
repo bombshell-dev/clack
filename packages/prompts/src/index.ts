@@ -8,7 +8,7 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt
+	TextPrompt,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -69,7 +69,8 @@ const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] =>
 	const { cursor, options, style } = params;
 
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
-	const maxItems = params.maxItems === undefined ? Infinity : Math.max(params.maxItems, 5);
+	const maxItems =
+		params.maxItems === undefined ? process.stdout.rows - 4 : Math.max(params.maxItems, 5);
 	let slidingWindowLocation = 0;
 
 	if (cursor >= slidingWindowLocation + maxItems - 3) {
