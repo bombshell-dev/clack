@@ -306,8 +306,12 @@ export const path = (opts: PathOptions) => {
 					return [
 						title,
 						`${color.cyan(S_BAR)}  ${this.value ? this.valueWithHint : placeholder}`,
+						this.hintOptions.length &&
+							`${color.cyan(S_BAR)} ${this.hintOptions.slice(0, 10).map(color.dim).join(' ')}`,
 						color.cyan(S_BAR_END),
-					].join('\n');
+					]
+						.filter(Boolean)
+						.join('\n');
 			}
 		},
 	}).prompt();

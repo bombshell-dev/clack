@@ -29,8 +29,10 @@ export default class PathPrompt extends Prompt {
 	public readonly onlyShowDir: boolean;
 	public root: PathNode;
 	public hint: string;
+	public hintOptions: string[];
 	public valueWithHint: string;
 
+	private _hintIndex: number;
 	private _cursorMap: number[];
 
 	public get option() {
@@ -77,7 +79,7 @@ export default class PathPrompt extends Prompt {
 		return options;
 	}
 
-	private get _selectValue(): string {
+	private get _selectedValue(): string {
 		const value: string[] = [];
 		let option: PathNode = this.root;
 		for (const index of this._cursorMap) {
@@ -90,51 +92,85 @@ export default class PathPrompt extends Prompt {
 	}
 
 	private _changeSelectValue(): void {
-		this.value = this._selectValue;
+		this.value = this._selectedValue;
 	}
 
-	private _changeHint(): void {
-		const root = resolve(this.value.replace(/^(.*\/).*/, '$1'));
-		const pathEnd = this.value.replace(/.*\/(.*)$/, '$1');
+	private get _valueDir(): string {
+		return this.value.replace(/^(.*)\/.*/, '$1').replace(/\s+$/, '');
+	}
 
-		let options: string[] = [];
-		if (statSync(root, { throwIfNoEntry: false })?.isDirectory()) {
-			options = this.mapDir(root).map((node) => node.name);
-		}
-		const option = options.find((opt) => opt.startsWith(pathEnd)) ?? '';
+	private get _valueEnd(): string {
+		return this.value.replace(/.*\/(.*)$/, '$1');
+	}
 
-		this.hint = option.replace(pathEnd, '');
+	private get _hintOptions(): string[] {
+		return statSync(this._valueDir, { throwIfNoEntry: false })?.isDirectory()
+			? this._mapDir(this._valueDir)
+					.filter((node) => node.name.startsWith(this._valueEnd))
+					.map((node) => node.name)
+			: [];
+	}
+
+	private _changeInputHint(): void {
+		const hintOption = this._hintOptions[0] ?? '';
+		this.hintOptions = [];
+		this.hint = hintOption.replace(this._valueEnd, '');
 	}
 
 	private _changeInputValue(): void {
-		this._changeHint();
+		let value: string;
+		let hint: string;
+		const cursor = color.inverse(color.hidden('_'));
 		if (this.cursor >= this.value.length) {
-			this.valueWithHint = `${this.value}${color.inverse(this.hint.charAt(0))}${color.dim(
-				this.hint.slice(1)
-			)}`;
+			value = this.value;
+			hint = this.hint
+				? `${color.inverse(this.hint.charAt(0))}${color.dim(this.hint.slice(1))}`
+				: cursor;
 		} else {
 			const s1 = this.value.slice(0, this.cursor);
 			const s2 = this.value.slice(this.cursor);
-			this.valueWithHint = `${s1}${color.inverse(s2[0])}${s2.slice(1)}${color.dim(this.hint)}`;
+			value = `${s1}${color.inverse(s2[0])}${s2.slice(1)}`;
+			hint = color.dim(this.hint);
 		}
-		if (!this.hint) {
-			this.valueWithHint += color.inverse(color.hidden('_'));
-		}
+		this.valueWithHint = value + hint;
 	}
 
 	private _changeValue(): void {
-		this.type === 'select' ? this._changeSelectValue() : this._changeInputValue();
+		if (this.type === 'select') {
+			this._changeSelectValue();
+		} else {
+			this._changeInputHint();
+			this._changeInputValue();
+		}
 	}
 
 	private _autocomplete(): void {
 		const complete = this.value ? this.hint : this.placeholder;
 		this.value += complete;
 		this._cursor = this.value.length;
+		this.hint = '';
+		this.hintOptions = [];
 		this.rl.write(complete);
 		this._changeInputValue();
 	}
 
-	private mapDir(path: string): PathNode[] {
+	private _suggestAutocomplete(): void {
+		const hintOptions = this._hintOptions;
+		if (hintOptions.length <= 1) {
+			this._autocomplete();
+		} else if (this.hintOptions.length) {
+			this.hint = this.hintOptions[this._hintIndex].replace(this._valueEnd, '');
+			this._changeInputValue();
+			if (++this._hintIndex >= this.hintOptions.length) {
+				this._hintIndex = 0;
+			}
+		} else {
+			this._hintIndex = 0;
+			this.hintOptions = hintOptions;
+		}
+	}
+
+	private _mapDir(path: string): PathNode[] {
 		return readdirSync(path, { withFileTypes: true })
 			.map((item) => ({
 				name: item.name,
@@ -158,12 +194,14 @@ export default class PathPrompt extends Prompt {
 		const cwd = opts.initialValue ?? process.cwd();
 		this.root = {
 			name: cwd,
-			children: this.mapDir(cwd),
+			children: this._mapDir(cwd),
 		};
 
 		// Text
 		this.placeholder = opts.placeholder ?? '';
 		this.hint = '';
+		this.hintOptions = [];
+		this._hintIndex = 0;
 		this.valueWithHint = '';
 
 		this._changeValue();
@@ -190,7 +228,7 @@ export default class PathPrompt extends Prompt {
 					break;
 				case 'right':
 					if (this.option.node.children) {
-						const children = this.mapDir(this._selectValue);
+						const children = this._mapDir(this._selectedValue);
 						this.option.node.children = children;
 						this._cursorMap = children.length ? [...this._cursorMap, 0] : this._cursorMap;
 					}
@@ -204,7 +242,7 @@ export default class PathPrompt extends Prompt {
 						const cwd = resolve(this.root.name, '..');
 						this.root = {
 							name: cwd,
-							children: this.mapDir(cwd),
+							children: this._mapDir(cwd),
 						};
 					}
 					break;
@@ -224,13 +262,11 @@ export default class PathPrompt extends Prompt {
 			if (this.type !== 'text') return;
 
 			if (key === '\t') {
-				this._autocomplete();
+				this._suggestAutocomplete();
+			} else {
+				this._changeInputHint();
+				this._changeInputValue();
 			}
-		});
-
-		this.on('value', () => {
-			if (this.type !== 'text') return;
-			this._changeInputValue();
 		});
 
 		this.on('finalize', () => {
