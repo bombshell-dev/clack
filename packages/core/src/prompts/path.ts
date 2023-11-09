@@ -1,5 +1,6 @@
 import { readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { Key } from 'node:readline';
 import color from 'picocolors';
 import Prompt, { PromptOptions } from './prompt';
 
@@ -157,13 +158,16 @@ export default class PathPrompt extends Prompt {
 		this._changeInputValue();
 	}
 
-	private _suggestAutocomplete(): void {
+	private _suggestAutocomplete(step: number): void {
 		const hintOptions = this._hintOptions;
 		if (hintOptions.length <= 1) {
 			this._autocomplete();
 		} else if (this.hintOptions.length) {
-			if (++this.hintIndex >= this.hintOptions.length) {
+			this.hintIndex += step;
+			if (this.hintIndex >= this.hintOptions.length) {
 				this.hintIndex = 0;
+			} else if (this.hintIndex < 0) {
+				this.hintIndex = this.hintOptions.length - 1;
 			}
 			this.hint = this.hintOptions[this.hintIndex].replace(this._valueEnd, '');
 			this._changeInputValue();
@@ -263,11 +267,11 @@ export default class PathPrompt extends Prompt {
 			}
 		});
 
-		this.on('key', (key) => {
+		this.on('key', (char: string, key: Key) => {
 			if (this.type !== 'text') return;
 
-			if (key === '\t') {
-				this._suggestAutocomplete();
+			if (key.name === 'tab') {
+				this._suggestAutocomplete(key.shift ? -1 : 1);
 			} else {
 				this._changeInputHint();
 				this._changeInputValue();
