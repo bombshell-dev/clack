@@ -9,7 +9,7 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt
+	TextPrompt,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -251,6 +251,7 @@ export const path = (opts: PathOptions) => {
 		type: opts.type,
 		initialValue: opts.initialValue,
 		onlyShowDir: opts.onlyShowDir,
+		maxHintOptions: 10,
 		placeholder: 'placeholder' in opts ? opts.placeholder : '',
 		validate: 'validate' in opts ? opts.validate : undefined,
 		render() {
@@ -303,9 +304,9 @@ export const path = (opts: PathOptions) => {
 						? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 						: color.inverse(color.hidden('_'));
 
-					const hintOptions = this.hintOptions
-						.slice(0, 10)
-						.map((hint, index) => (index === this.hintIndex ? color.cyan(hint) : color.dim(hint)));
+					const hintOptions = this.hintOptions.map((hint, index) =>
+						index === this.hintIndex ? color.cyan(hint) : color.dim(hint)
+					);
 
 					return [
 						title,

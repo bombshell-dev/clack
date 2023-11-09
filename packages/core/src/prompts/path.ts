@@ -20,6 +20,7 @@ type PathOptions = PromptOptions<PathPrompt> &
 		| {
 				type: 'select';
 				onlyShowDir?: boolean;
+				maxHintOptions?: number;
 		  }
 	);
 
@@ -34,6 +35,7 @@ export default class PathPrompt extends Prompt {
 	public hintIndex: number;
 
 	private _cursorMap: number[];
+	private _maxHintOptions: number;
 
 	public get option() {
 		let aux: PathNode = this.root;
@@ -107,6 +109,7 @@ export default class PathPrompt extends Prompt {
 		return statSync(this._valueDir, { throwIfNoEntry: false })?.isDirectory()
 			? this._mapDir(this._valueDir)
 					.filter((node) => node.name.startsWith(this._valueEnd))
+					.slice(0, this._maxHintOptions)
 					.map((node) => node.name)
 			: [];
 	}
@@ -202,6 +205,8 @@ export default class PathPrompt extends Prompt {
 		this.hint = '';
 		this.hintOptions = [];
 		this.hintIndex = -1;
+		this._maxHintOptions =
+			'maxHintOptions' in opts && opts.maxHintOptions ? opts.maxHintOptions : Infinity;
 		this.valueWithHint = '';
 
 		this._changeValue();
