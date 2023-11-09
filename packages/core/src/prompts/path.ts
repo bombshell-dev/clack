@@ -31,8 +31,8 @@ export default class PathPrompt extends Prompt {
 	public hint: string;
 	public hintOptions: string[];
 	public valueWithHint: string;
+	public hintIndex: number;
 
-	private _hintIndex: number;
 	private _cursorMap: number[];
 
 	public get option() {
@@ -159,13 +159,13 @@ export default class PathPrompt extends Prompt {
 		if (hintOptions.length <= 1) {
 			this._autocomplete();
 		} else if (this.hintOptions.length) {
-			this.hint = this.hintOptions[this._hintIndex].replace(this._valueEnd, '');
-			this._changeInputValue();
-			if (++this._hintIndex >= this.hintOptions.length) {
-				this._hintIndex = 0;
+			if (++this.hintIndex >= this.hintOptions.length) {
+				this.hintIndex = 0;
 			}
+			this.hint = this.hintOptions[this.hintIndex].replace(this._valueEnd, '');
+			this._changeInputValue();
 		} else {
-			this._hintIndex = 0;
+			this.hintIndex = -1;
 			this.hintOptions = hintOptions;
 		}
 	}
@@ -201,7 +201,7 @@ export default class PathPrompt extends Prompt {
 		this.placeholder = opts.placeholder ?? '';
 		this.hint = '';
 		this.hintOptions = [];
-		this._hintIndex = 0;
+		this.hintIndex = -1;
 		this.valueWithHint = '';
 
 		this._changeValue();

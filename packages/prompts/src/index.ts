@@ -303,11 +303,14 @@ export const path = (opts: PathOptions) => {
 						? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 						: color.inverse(color.hidden('_'));
 
+					const hintOptions = this.hintOptions
+						.slice(0, 10)
+						.map((hint, index) => (index === this.hintIndex ? color.cyan(hint) : color.dim(hint)));
+
 					return [
 						title,
 						`${color.cyan(S_BAR)}  ${this.value ? this.valueWithHint : placeholder}`,
-						this.hintOptions.length &&
-							`${color.cyan(S_BAR)} ${this.hintOptions.slice(0, 10).map(color.dim).join(' ')}`,
+						hintOptions.length ? `${color.cyan(S_BAR)} ${hintOptions.join(' ')}` : '',
 						color.cyan(S_BAR_END),
 					]
 						.filter(Boolean)
