@@ -111,7 +111,7 @@ export default class PathPrompt extends Prompt {
 			? this._mapDir(this._valueDir)
 					.filter((node) => node.name.startsWith(this._valueEnd))
 					.slice(0, this._maxHintOptions)
-					.map((node) => node.name)
+					.map((node) => node.name + (!!node.children ? '/' : ''))
 			: [];
 	}
 
