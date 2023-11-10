@@ -1,9 +1,10 @@
-import type Prompt from '../prompts/prompt';
-import type { ClackState } from '../types';
+import type { Key } from "node:readline";
+import type Prompt from "../prompts/prompt";
+import type { ClackState } from "../types";
 
 export type MockResult<TPrompt extends Prompt = Prompt> = TPrompt & {
 	frame: string;
-	pressKey: (char: string, key: { name: string }) => void;
+	pressKey: (char: string, key: Key) => void;
 	setCursor: (cursor: number) => void;
 	setState: (state: ClackState) => void;
 	setValue: (value: any) => void;
@@ -22,7 +23,9 @@ const _mockResult: Partial<MockResult> = {
 	},
 };
 
-export function mockPrompt<TPrompt extends Prompt = Prompt>(): MockResult<TPrompt> {
+export function mockPrompt<
+	TPrompt extends Prompt = Prompt
+>(): MockResult<TPrompt> {
 	isTestMode = true;
 	return _mockResult as MockResult<TPrompt>;
 }
