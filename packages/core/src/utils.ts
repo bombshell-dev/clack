@@ -4,6 +4,8 @@ import { stdin, stdout } from 'node:process';
 import * as readline from 'node:readline';
 import { cursor } from 'sisteransi';
 
+const isWindows = globalThis.process.platform.startsWith('win');
+
 export function block({
 	input = stdin,
 	output = stdout,
@@ -40,7 +42,9 @@ export function block({
 	return () => {
 		input.off('keypress', clear);
 		if (hideCursor) process.stdout.write(cursor.show);
-		if (input.isTTY) input.setRawMode(false);
+
+		// Prevent Windows specific issues: https://github.com/natemoo-re/clack/issues/176
+		if (input.isTTY && !isWindows) input.setRawMode(false);
 
 		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
 		rl.terminal = false;
