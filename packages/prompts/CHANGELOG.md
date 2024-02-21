@@ -1,5 +1,19 @@
 # @clack/prompts
 
+## 0.8.0
+
+### Minor Changes
+
+- 9acccde: Add tasks function for executing tasks in spinners
+
+### Patch Changes
+
+- b5c6b9b: Feat multiselect maxItems option
+- 50ed94a: fix: clear `spinner` hooks on `spinner.stop`
+- Updated dependencies [a04e418]
+- Updated dependencies [4f6fcf5]
+  - @clack/core@0.3.4
+
 ## 0.7.0
 
 ### Minor Changes

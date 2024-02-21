@@ -1,5 +1,12 @@
 # @clack/core
 
+## 0.3.4
+
+### Patch Changes
+
+- a04e418: fix(@clack/core): keyboard input not working after await in spinner
+- 4f6fcf5: feat(@clack/core): allow tab completion for placeholders
+
 ## 0.3.3
 
 ### Patch Changes
