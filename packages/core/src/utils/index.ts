@@ -1,11 +1,10 @@
+import { platform } from 'node:os';
 import { stdin, stdout } from 'node:process';
 import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import { Readable } from 'node:stream';
 import { cursor } from 'sisteransi';
 import { hasAliasKey } from './aliases';
-
-const isWindows = globalThis.process.platform.startsWith('win');
 
 export * from './aliases';
 export * from './mock';
@@ -21,6 +20,10 @@ export function setRawMode(input: Readable, value: boolean) {
 	const i = input as typeof stdin;
 
 	if (i.isTTY) i.setRawMode(value);
+}
+
+function isWindows(): boolean {
+	return platform().startsWith('win');
 }
 
 export function block({
@@ -61,7 +64,7 @@ export function block({
 		if (hideCursor) output.write(cursor.show);
 
 		// Prevent Windows specific issues: https://github.com/natemoo-re/clack/issues/176
-		if (input.isTTY && !isWindows) input.setRawMode(false);
+		if (input.isTTY && !isWindows()) input.setRawMode(false);
 
 		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
 		rl.terminal = false;
