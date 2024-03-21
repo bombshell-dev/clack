@@ -164,6 +164,8 @@ console.log(group.name, group.age, group.color);
 Execute multiple tasks in spinners.
 
 ```js
+import * as p from '@clack/prompts';
+
 await p.tasks([
   {
     title: 'Installing via npm',
@@ -189,3 +191,52 @@ log.message('Hello, World', { symbol: color.cyan('~') });
 ```
 
 [clack-log-prompts](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-logs.png)
+
+## How to Test
+
+```js
+import { mockPrompt } from '@clack/core';
+import * as p from '@clack/prompts';
+import { setTimeout as sleep } from 'node:timers/promises';
+
+const cli = async () => {
+  return p.group({
+    name: () => p.text({ message: 'What is your name?' }),
+    age: () => p.text({ message: 'What is your age?' }),
+    color: ({ results }) =>
+      p.multiselect({
+        message: `What is your favorite color ${results.name}?`,
+        options: [
+          { value: 'red', label: 'Red' },
+          { value: 'green', label: 'Green' },
+          { value: 'blue', label: 'Blue' },
+        ],
+      }),
+  });
+};
+
+describe('cli', () => {
+  const prompt = mockPrompt();
+
+  afterEach(() => {
+    prompt.close();
+  });
+
+  it('should simulate user interaction', async () => {
+    // Dot not use `await` or `.then()` before `prompt.submit()` or `prompt.cancel()`
+    const promise = cli();
+
+    prompt.submit('John');
+    await sleep(100);
+    prompt.submit('22');
+    await sleep(100);
+    prompt.submit(['green']);
+
+    await expect(promise).resolves.toStrictEqual({
+      name: 'John',
+      age: '22',
+      color: ['green'],
+    });
+  });
+});
+```
