@@ -46,6 +46,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 	constructor(opts: GroupMultiSelectOptions<T>) {
 		super(opts, false);
 		const { options } = opts;
+		this.#selectableGroups = opts.selectableGroups ?? true;
 		this.options = Object.entries(options).flatMap(([key, option]) => [
 			{ value: key, group: true, label: key },
 			...option.map((opt) => ({ ...opt, group: key })),
@@ -53,9 +54,8 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		this.value = [...(opts.initialValues ?? [])];
 		this.cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
-			0
+			this.#selectableGroups ? 0 : 1
 		);
-		this.#selectableGroups = opts.selectableGroups ?? true;
 
 		this.on('cursor', (key) => {
 			switch (key) {
