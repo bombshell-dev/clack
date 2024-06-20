@@ -478,7 +478,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		initialValues: opts.initialValues,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
-		selectableGroups: opts.selectableGroups,
+		selectableGroups: selectableGroups,
 		validate(selected: Value[]) {
 			if (this.required && selected.length === 0)
 				return `Please select at least one option.\n${color.reset(
