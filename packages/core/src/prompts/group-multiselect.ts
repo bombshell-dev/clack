@@ -6,10 +6,12 @@ interface GroupMultiSelectOptions<T extends { value: any }>
 	initialValues?: T['value'][];
 	required?: boolean;
 	cursorAt?: T['value'];
+	selectableGroups?: boolean;
 }
 export default class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt {
 	options: (T & { group: string | boolean })[];
 	cursor: number = 0;
+	#selectableGroups: boolean;
 
 	getGroupItems(group: string): T[] {
 		return this.options.filter((o) => o.group === group);
@@ -17,7 +19,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 
 	isGroupSelected(group: string) {
 		const items = this.getGroupItems(group);
-		return items.every((i) => this.value.includes(i.value));
+		return this.#selectableGroups && items.every((i) => this.value.includes(i.value));
 	}
 
 	private toggleValue() {
@@ -53,16 +55,23 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
 			0
 		);
+		this.#selectableGroups = opts.selectableGroups ?? true;
 
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'left':
 				case 'up':
 					this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+					if (!this.#selectableGroups && this.options[this.cursor].group === true) {
+						this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+					}
 					break;
 				case 'down':
 				case 'right':
-					this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
+					this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1; 
+					if (!this.#selectableGroups && this.options[this.cursor].group === true) {
+						this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1; 
+					}
 					break;
 				case 'space':
 					this.toggleValue();

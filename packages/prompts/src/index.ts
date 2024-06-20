@@ -428,8 +428,10 @@ export interface GroupMultiSelectOptions<Value> {
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
+	selectableGroups?: boolean;
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
+	const selectableGroups = opts.selectableGroups ?? true;
 	const opt = (
 		option: Option<Value>,
 		state:
@@ -468,7 +470,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		} else if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		return `${color.dim(prefix)}${isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : ""} ${color.dim(label)}`;
 	};
 
 	return new GroupMultiSelectPrompt({
@@ -476,6 +478,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		initialValues: opts.initialValues,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
+		selectableGroups: opts.selectableGroups,
 		validate(selected: Value[]) {
 			if (this.required && selected.length === 0)
 				return `Please select at least one option.\n${color.reset(
