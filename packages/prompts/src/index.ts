@@ -470,7 +470,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		} else if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		return `${color.dim(prefix)}${isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : ""} ${color.dim(label)}`;
+		return `${color.dim(prefix)}${
+			isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : ''
+		} ${color.dim(label)}`;
 	};
 
 	return new GroupMultiSelectPrompt({

@@ -68,9 +68,9 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 					break;
 				case 'down':
 				case 'right':
-					this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1; 
+					this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
 					if (!this.#selectableGroups && this.options[this.cursor].group === true) {
-						this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1; 
+						this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
 					}
 					break;
 				case 'space':
