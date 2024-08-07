@@ -1,0 +1,19 @@
+{
+  "name": "@example/basic",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@clack/core": "workspace:*",
+    "@clack/prompts": "workspace:*",
+    "picocolors": "^1.0.0"
+  },
+  "scripts": {
+    "start": "jiti ./index.ts",
+    "spinner": "jiti ./spinner.ts",
+    "workflow": "jiti ./workflow.ts"
+  },
+  "devDependencies": {
+    "jiti": "^1.17.0"
+  }
+}
