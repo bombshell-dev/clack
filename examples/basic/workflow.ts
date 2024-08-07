@@ -25,33 +25,32 @@ import * as p from '@clack/prompts';
 				initialValue: false,
 			})
 		)
-		.step('fork', ({ results }) => {
-			if (results.install === true) {
-				return p
-					.workflow()
-					.step('package', () =>
-						p.select({
-							message: 'Pick a package manager:',
-							initialValue: 'pnpm',
-							options: [
-								{
-									label: 'npm',
-									value: 'npm',
-								},
-								{
-									label: 'yarn',
-									value: 'yarn',
-								},
-								{
-									label: 'pnpm',
-									value: 'pnpm',
-								},
-							],
-						})
-					)
-					.run();
+		.forkStep(
+			'fork',
+			({ results }) => results.install,
+			({ results }) => {
+				return p.workflow().step('package', () =>
+					p.select({
+						message: 'Pick a package manager:',
+						initialValue: 'pnpm',
+						options: [
+							{
+								label: 'npm',
+								value: 'npm',
+							},
+							{
+								label: 'yarn',
+								value: 'yarn',
+							},
+							{
+								label: 'pnpm',
+								value: 'pnpm',
+							},
+						],
+					})
+				);
 			}
-		})
+		)
 		.run();
 
 	await p
