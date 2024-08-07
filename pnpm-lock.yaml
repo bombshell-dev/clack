@@ -27,14 +27,30 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(typescript@5.2.2)
 
-  examples:
+  examples/basic:
     dependencies:
       '@clack/core':
         specifier: workspace:*
-        version: link:../packages/core
+        version: link:../../packages/core
       '@clack/prompts':
         specifier: workspace:*
-        version: link:../packages/prompts
+        version: link:../../packages/prompts
+      picocolors:
+        specifier: ^1.0.0
+        version: 1.1.1
+    devDependencies:
+      jiti:
+        specifier: ^1.17.0
+        version: 1.21.6
+
+  examples/changesets:
+    dependencies:
+      '@clack/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@clack/prompts':
+        specifier: workspace:*
+        version: link:../../packages/prompts
       picocolors:
         specifier: ^1.0.0
         version: 1.1.1
