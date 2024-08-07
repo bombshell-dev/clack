@@ -734,13 +734,19 @@ type Prettify<T> = {
 	[P in keyof T]: T[P];
 } & {};
 
+export type PromptAwaitedReturn<T> = Exclude<Awaited<T>, symbol>;
+
 export type PromptGroupAwaitedReturn<T> = Prettify<{
-	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
+	[P in keyof T]: PromptAwaitedReturn<T[P]>;
 }>;
 
-export type PromptWithOptions<TResults, TReturn> = (opts: {
-	results: PromptGroupAwaitedReturn<TResults>;
-}) => TReturn;
+export type PromptWithOptions<TResults, TResult, TOptions extends Record<string, unknown> = {}> = (
+	opts: Prettify<
+		{
+			results: PromptGroupAwaitedReturn<TResults>;
+		} & TOptions
+	>
+) => TResult;
 
 export type PromptGroup<T> = {
 	[P in keyof T]: PromptWithOptions<Partial<Omit<T, P>>, void | Promise<T[P] | void>>;
@@ -821,24 +827,85 @@ type NextWorkflowBuilder<
 	TKey extends string,
 	TResult,
 > = WorkflowBuilder<
-	{
-		[Key in keyof TResults]: Key extends TKey ? TResult : TResults[Key];
-	} & {
-		[Key in TKey]: TResult;
-	}
+	Prettify<
+		{
+			[Key in keyof TResults]: Key extends TKey ? TResult : TResults[Key];
+		} & {
+			[Key in TKey as undefined extends TResult ? never : TKey]: TResult;
+		} & {
+			[Key in TKey as undefined extends TResult ? TKey : never]?: TResult;
+		}
+	>
 >;
+
+type WorkflowStep<TName extends string, TResults, TResult = unknown> = {
+	name: TName;
+	prompt: PromptWithOptions<TResults, TResult>;
+	setResult: boolean;
+	condition?: PromptWithOptions<TResults, boolean>;
+};
 
 class WorkflowBuilder<TResults extends Record<string, unknown> = {}> {
 	private results: TResults = {} as TResults;
-	private prompts: Record<string, PromptWithOptions<TResults, unknown>> = {};
+	private steps: WorkflowStep<string, TResults>[] = [];
 	private cancelCallback: PromptWithOptions<Partial<TResults>, void> | undefined;
 
-	public step<TKey extends string, TResult>(
-		key: TKey extends keyof TResults ? never : TKey,
+	public step<TName extends string, TResult>(
+		name: TName extends keyof TResults ? never : TName,
 		prompt: PromptWithOptions<TResults, TResult>
-	): NextWorkflowBuilder<TResults, TKey, TResult> {
-		this.prompts[key] = prompt;
-		return this as NextWorkflowBuilder<TResults, TKey, TResult>;
+	): NextWorkflowBuilder<TResults, TName, PromptAwaitedReturn<TResult>> {
+		this.steps.push({ name, prompt, setResult: true });
+		return this as any;
+	}
+
+	public conditionalStep<TName extends string, TResult>(
+		name: TName,
+		condition: PromptWithOptions<TResults, boolean>,
+		prompt: PromptWithOptions<TResults, TResult>
+	): NextWorkflowBuilder<
+		TResults,
+		TName,
+		| (TName extends keyof TResults ? TResults[TName] : never)
+		| PromptAwaitedReturn<TResult>
+		| undefined
+	> {
+		this.steps.push({ name, prompt, condition, setResult: true });
+		return this as any;
+	}
+
+	public forkStep<TName extends string, TResult extends Record<string, unknown>>(
+		name: TName,
+		condition: PromptWithOptions<TResults, boolean>,
+		subWorkflow: PromptWithOptions<TResults, WorkflowBuilder<TResult>>
+	): NextWorkflowBuilder<
+		TResults,
+		TName,
+		(TName extends keyof TResults ? TResults[TName] : never) | TResult | undefined
+	> {
+		this.steps.push({
+			name,
+			prompt: ({ results }) => {
+				return subWorkflow({ results }).run();
+			},
+			condition,
+			setResult: true,
+		});
+		return this as any;
+	}
+
+	public logStep(
+		name: string,
+		prompt: PromptWithOptions<TResults, void>
+	): WorkflowBuilder<TResults> {
+		this.steps.push({ name, prompt, setResult: false });
+		return this;
+	}
+
+	public customStep<TName extends string, TResult>(
+		step: WorkflowStep<TName, TResults, TResult>
+	): NextWorkflowBuilder<TResults, TName, PromptAwaitedReturn<TResult>> {
+		this.steps.push(step);
+		return this as any;
 	}
 
 	public onCancel(cb: PromptWithOptions<Partial<TResults>, void>): WorkflowBuilder<TResults> {
@@ -846,17 +913,22 @@ class WorkflowBuilder<TResults extends Record<string, unknown> = {}> {
 		return this;
 	}
 
-	public async run(): Promise<PromptGroupAwaitedReturn<TResults>> {
-		for (const [key, prompt] of Object.entries(this.prompts)) {
-			const result = await prompt({ results: this.results as any });
+	public async run(): Promise<TResults> {
+		for (const step of this.steps) {
+			if (step.condition && !step.condition({ results: this.results as any })) {
+				continue;
+			}
+			const result = await step.prompt({ results: this.results as any });
 			if (isCancel(result)) {
 				this.cancelCallback?.({ results: this.results as any });
 				continue;
 			}
-			//@ts-ignore
-			this.results[key] = result;
+			if (step.setResult) {
+				//@ts-ignore
+				this.results[step.name] = result;
+			}
 		}
-		return this.results as PromptGroupAwaitedReturn<TResults>;
+		return this.results;
 	}
 }
 
