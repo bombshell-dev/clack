@@ -1,5 +1,5 @@
-import Prompt, { PromptOptions } from './prompt';
 import fuzzy from 'fuzzy';
+import Prompt, { PromptOptions } from './prompt';
 interface SearchOptions<T extends { value: any; label?: string }>
 	extends PromptOptions<SearchPrompt<T>> {
 	options: T[];

@@ -5,17 +5,17 @@ import {
 	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
+	SearchPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt,
-	SearchPrompt,
-} from '@clack/core';
+	TextPrompt
+} from '@simon_he/clack-core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel } from '@clack/core';
+export { isCancel } from '@simon_he/clack-core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -321,10 +321,18 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value, MaxItems>) => {
 	const opt = (
 		option: Option<Value>,
-		state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled'
+		state:
+			| 'inactive'
+			| 'active'
+			| 'group-active'
+			| 'group-inactive'
+			| 'selected'
+			| 'active-selected'
+			| 'submitted'
+			| 'cancelled'
 	) => {
 		const label = option.label ?? String(option.value);
-		if (state === 'active') {
+		if (state === 'group-active') {
 			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
@@ -336,10 +344,16 @@ export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value
 			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
+		} else if (state === 'active') {
+			return `${color.green(S_RADIO_ACTIVE)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		} else if (state === 'group-inactive') {
+			return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
 		} else if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
 	};
 
 	return new SearchPrompt({
@@ -368,8 +382,9 @@ export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value
 					return `${title}${color.gray(S_BAR)}  ${opt(
 						{
 							label:
-								this.selected.map((item) => item.label).join(', ') ||
-								this.options[this.selectCursor].label,
+								this.selected.map((item) => item.label || item.value).join(', ') ||
+								this.options[this.selectCursor].label ||
+								this.options[this.selectCursor].value,
 						} as Option<Value>,
 						'selected'
 					)}`;
@@ -379,6 +394,18 @@ export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value
 					)}`;
 				default: {
 					let getStatus = (option: Option<Value>, i: number) => {
+						if (this.maxItems > 1) {
+							if (i === this.selectCursor) {
+								return this.selected.some((item) => item.value === option.value)
+									? 'active-selected'
+									: 'group-active';
+							}
+							return this.selected.some((item) => item.value === option.value)
+								? 'selected'
+								: i === this.selectCursor
+								? 'group-active'
+								: 'group-inactive';
+						}
 						if (i === this.selectCursor) {
 							return this.selected.some((item) => item.value === option.value)
 								? 'active-selected'
