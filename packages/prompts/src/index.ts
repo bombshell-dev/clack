@@ -403,8 +403,8 @@ export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value
 							return this.selected.some((item) => item.value === option.value)
 								? 'selected'
 								: i === this.selectCursor
-								? 'group-active'
-								: 'group-inactive';
+									? 'group-active'
+									: 'group-inactive';
 						}
 						if (i === this.selectCursor) {
 							return this.selected.some((item) => item.value === option.value)
@@ -414,8 +414,8 @@ export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value
 						return this.selected.some((item) => item.value === option.value)
 							? 'selected'
 							: i === this.selectCursor
-							? 'active'
-							: 'inactive';
+								? 'active'
+								: 'inactive';
 					};
 					return `${title}${color.cyan(S_BAR)}\n${color.cyan(S_INFO)}  ${value}\n${color.cyan(
 						S_BAR
@@ -425,7 +425,7 @@ export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value
 				}
 			}
 		},
-	}).prompt() as Promise<Value | symbol>;
+	}).prompt() as Promise<MaxItems extends 1 ? Value | symbol : (Value | symbol)[]>;
 };
 
 export interface MultiSelectOptions<Value> {
@@ -819,8 +819,8 @@ export const spinner = () => {
 			code === 0
 				? color.green(S_STEP_SUBMIT)
 				: code === 1
-				? color.red(S_STEP_CANCEL)
-				: color.red(S_STEP_ERROR);
+					? color.red(S_STEP_CANCEL)
+					: color.red(S_STEP_ERROR);
 		process.stdout.write(cursor.move(-999, 0));
 		process.stdout.write(erase.down(1));
 		process.stdout.write(`${step}  ${_message}\n`);
