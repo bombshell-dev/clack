@@ -100,7 +100,7 @@ export default class SearchPrompt<
 	}
 	fuzzyFilter(opts: SearchOptions<T>) {
 		const fuzzyOptions = fuzzy.filter(this.valueWithCursor, opts.options, {
-			extract: ({ label, value }) => label || value,
+			extract: ({ label, value }) => String(label || value),
 		});
 		fuzzyOptions.sort((a, b) => {
 			if (a.index === b.index) {
