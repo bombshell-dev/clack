@@ -54,11 +54,9 @@ export default class SearchPrompt<
 				const value = this.options[this.selectCursor];
 				if (this.selected.includes(value)) {
 					this.selected = this.selected.filter((v) => v !== value);
-				}
-				else if (this.selected.length >= this.maxItems) {
-					return
-				}
-				else {
+				} else if (this.selected.length >= this.maxItems) {
+					return;
+				} else {
 					this.selected.push(value);
 				}
 			} else {

@@ -318,7 +318,9 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 	}).prompt() as Promise<Value | symbol>;
 };
 
-export const search = <Value, MaxItems extends number>(opts: SearchOptions<Value, MaxItems>) => {
+export const search = <Value, MaxItems extends number = 1>(
+	opts: SearchOptions<Value, MaxItems>
+) => {
 	const opt = (
 		option: Option<Value>,
 		state:
