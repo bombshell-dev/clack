@@ -1,21 +1,20 @@
 import fuzzy from 'fuzzy';
 import Prompt, { PromptOptions } from './prompt';
-interface SearchOptions<T extends { value: any; label?: string }, MaxItems extends number>
-	extends PromptOptions<SearchPrompt<T, MaxItems>> {
+interface SearchOptions<T extends { value: any; label?: string }>
+	extends PromptOptions<SearchPrompt<T>> {
 	options: T[];
 	initialValue?: T['value'];
-	maxItems?: MaxItems;
+	maxItems?: number;
 }
 export default class SearchPrompt<
-	T extends { value: any; label?: string; isSelected?: boolean },
-	MaxItems extends number,
+	T extends { value: any; label?: string; hint?: string },
 > extends Prompt {
 	options: T[];
 	valueWithCursor = '';
 
 	selectCursor = 0;
 	inputCursor = 0;
-	maxItems: MaxItems;
+	maxItems: number;
 	selected: T[] = [];
 
 	value: T['value'] | T['value'][] = '';
@@ -27,7 +26,7 @@ export default class SearchPrompt<
 		this.value = this._value?.value;
 	}
 
-	constructor(opts: SearchOptions<T, any>) {
+	constructor(opts: SearchOptions<T>) {
 		super(opts, false);
 		this.options = opts.options;
 		this.maxItems = opts.maxItems || 1;
@@ -97,7 +96,7 @@ export default class SearchPrompt<
 			this.changeValue();
 		});
 	}
-	fuzzyFilter(opts: SearchOptions<T, MaxItems>) {
+	fuzzyFilter(opts: SearchOptions<T>) {
 		const fuzzyOptions = fuzzy.filter(this.valueWithCursor, opts.options, {
 			extract: ({ label, value }) => label || value,
 		});
