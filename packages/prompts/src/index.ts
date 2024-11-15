@@ -5,16 +5,17 @@ import {
 	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
+	SearchPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
 	TextPrompt
-} from '@clack/core';
+} from '@simon_he/clack-core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel } from '@clack/core';
+export { isCancel } from '@simon_he/clack-core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -218,6 +219,15 @@ export interface SelectOptions<Value> {
 	maxItems?: number;
 }
 
+export interface SearchOptions<Value, MaxItems> {
+	message?: string;
+	options: Option<Value>[];
+	initialValue?: Value;
+	placeholder?: string;
+	value?: MaxItems extends 1 ? string : string[];
+	maxItems?: MaxItems;
+}
+
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
 		const label = option.label ?? String(option.value);
@@ -306,6 +316,118 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 			}
 		},
 	}).prompt() as Promise<Value | symbol>;
+};
+
+export const search = <Value, MaxItems extends number = 1>(
+	opts: SearchOptions<Value, MaxItems>
+) => {
+	const opt = (
+		option: Option<Value>,
+		state:
+			| 'inactive'
+			| 'active'
+			| 'group-active'
+			| 'group-inactive'
+			| 'selected'
+			| 'active-selected'
+			| 'submitted'
+			| 'cancelled'
+	) => {
+		const label = option.label ?? String(option.value);
+		if (state === 'group-active') {
+			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		} else if (state === 'selected') {
+			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+		} else if (state === 'cancelled') {
+			return `${color.strikethrough(color.dim(label))}`;
+		} else if (state === 'active-selected') {
+			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		} else if (state === 'active') {
+			return `${color.green(S_RADIO_ACTIVE)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
+		} else if (state === 'group-inactive') {
+			return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		} else if (state === 'submitted') {
+			return `${color.dim(label)}`;
+		}
+		return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
+	};
+
+	return new SearchPrompt({
+		options: opts.options,
+		initialValue: opts.initialValue,
+		maxItems: opts.maxItems,
+		render() {
+			const title = opts.message
+				? `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`
+				: '';
+			const placeholder = opts.placeholder
+				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
+				: color.inverse(color.hidden('_'));
+			let value = '';
+			if (this.valueWithCursor) {
+				const pos = Math.min(Math.max(this.inputCursor - 1, 0));
+				value =
+					this.valueWithCursor.slice(0, pos) +
+						color.inverse(this.valueWithCursor[pos] || '') +
+						this.valueWithCursor.slice(pos + 1) || '';
+			} else {
+				value = placeholder;
+			}
+			switch (this.state) {
+				case 'submit':
+					return `${title}${color.gray(S_BAR)}  ${opt(
+						{
+							label:
+								this.selected.map((item) => item.label || item.value).join(', ') ||
+								this.options[this.selectCursor].label ||
+								this.options[this.selectCursor].value,
+						} as Option<Value>,
+						'selected'
+					)}`;
+				case 'cancel':
+					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
+						S_BAR
+					)}`;
+				default: {
+					let getStatus = (option: Option<Value>, i: number) => {
+						if (this.maxItems > 1) {
+							if (i === this.selectCursor) {
+								return this.selected.some((item) => item.value === option.value)
+									? 'active-selected'
+									: 'group-active';
+							}
+							return this.selected.some((item) => item.value === option.value)
+								? 'selected'
+								: i === this.selectCursor
+									? 'group-active'
+									: 'group-inactive';
+						}
+						if (i === this.selectCursor) {
+							return this.selected.some((item) => item.value === option.value)
+								? 'active-selected'
+								: 'active';
+						}
+						return this.selected.some((item) => item.value === option.value)
+							? 'selected'
+							: i === this.selectCursor
+								? 'active'
+								: 'inactive';
+					};
+					return `${title}${color.cyan(S_BAR)}\n${color.cyan(S_INFO)}  ${value}\n${color.cyan(
+						S_BAR
+					)}  ${this.options
+						.map((option, i) => opt(option, getStatus(option, i)))
+						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+				}
+			}
+		},
+	}).prompt() as Promise<MaxItems extends 1 ? Value | symbol : (Value | symbol)[]>;
 };
 
 export interface MultiSelectOptions<Value> {
@@ -699,8 +821,8 @@ export const spinner = () => {
 			code === 0
 				? color.green(S_STEP_SUBMIT)
 				: code === 1
-				? color.red(S_STEP_CANCEL)
-				: color.red(S_STEP_ERROR);
+					? color.red(S_STEP_CANCEL)
+					: color.red(S_STEP_ERROR);
 		process.stdout.write(cursor.move(-999, 0));
 		process.stdout.write(erase.down(1));
 		process.stdout.write(`${step}  ${_message}\n`);

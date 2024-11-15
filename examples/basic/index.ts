@@ -11,6 +11,11 @@ async function main() {
 
 	const project = await p.group(
 		{
+			search: () =>
+				p.search({
+					message: "What's your gender?",
+					options: [{ value: 'male' }, { value: 'female' }],
+				}),
 			path: () =>
 				p.text({
 					message: 'Where should we create your project?',
