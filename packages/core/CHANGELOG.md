@@ -1,5 +1,12 @@
 # @clack/core
 
+## 0.3.5
+
+### Patch Changes
+
+- 4845f4f: Fixes a bug which kept the terminal cursor hidden after a prompt is cancelled
+- d7b2fb9: Adds missing `LICENSE` file. Since the `package.json` file has always included `"license": "MIT"`, please consider this a licensing clarification rather than a licensing change.
+
 ## 0.3.4
 
 ### Patch Changes
