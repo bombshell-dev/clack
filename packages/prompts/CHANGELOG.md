@@ -1,5 +1,13 @@
 # @clack/prompts
 
+## 0.8.2
+
+### Patch Changes
+
+- Updated dependencies [4845f4f]
+- Updated dependencies [d7b2fb9]
+  - @clack/core@0.3.5
+
 ## 0.8.1
 
 ### Patch Changes
