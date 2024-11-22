@@ -1,7 +1,7 @@
-import { describe, expect, test, afterEach, vi } from 'vitest';
-import { block } from '../src/utils.js';
 import type { Key } from 'node:readline';
 import { cursor } from 'sisteransi';
+import { afterEach, describe, expect, test, vi } from 'vitest';
+import { block } from '../src/utils.js';
 import { MockReadable } from './mock-readable.js';
 import { MockWritable } from './mock-writable.js';
 
@@ -60,7 +60,7 @@ describe('utils', () => {
 			// purposely don't keep the callback since we would exit the process
 			block({ input, output });
 			const spy = vi.spyOn(process, 'exit').mockImplementation(() => {
-				return;
+				throw undefined;
 			});
 
 			const event: Key = {

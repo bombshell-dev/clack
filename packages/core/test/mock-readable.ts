@@ -1,7 +1,12 @@
-import { Readable } from 'node:stream';
+import { ReadStream } from 'node:tty';
 
-export class MockReadable extends Readable {
+export class MockReadable extends ReadStream {
 	protected _buffer: unknown[] | null = [];
+	fd = 0 as const;
+
+	constructor() {
+		super(0);
+	}
 
 	_read() {
 		if (this._buffer === null) {
@@ -17,7 +22,7 @@ export class MockReadable extends Readable {
 	}
 
 	pushValue(val: unknown): void {
-		this._buffer.push(val);
+		this._buffer?.push(val);
 	}
 
 	close(): void {
