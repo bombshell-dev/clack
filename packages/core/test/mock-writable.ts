@@ -1,12 +1,7 @@
-import { WriteStream } from 'node:tty';
+import { Writable } from 'node:stream';
 
-export class MockWritable extends WriteStream {
+export class MockWritable extends Writable {
 	public buffer: string[] = [];
-	fd = 1 as const;
-
-	constructor() {
-		super(1);
-	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: any is the official type
 	_write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void): void {
