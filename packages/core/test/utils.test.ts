@@ -65,7 +65,7 @@ describe('utils', () => {
 			block({ input, output });
 			// @ts-ignore
 			const spy = vi.spyOn(process, 'exit').mockImplementation(() => {
-				return
+				return;
 			});
 
 			const event: Key = {
