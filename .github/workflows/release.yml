@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+# Automatically cancel in-progress actions on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request_target' && github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+      - if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
+        run: pnpm install
+      # TODO: is this manual build step actually needed?
+      # `prepack` hook _should_ run but doesn't seem to.
+      - run: pnpm run type-check
+      - run: pnpm run build
+      - uses: changesets/action@v1
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          version: pnpm run ci:version
+          publish: pnpm run ci:publish
+          commit: "[ci] release"
+          title: "[ci] release"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
