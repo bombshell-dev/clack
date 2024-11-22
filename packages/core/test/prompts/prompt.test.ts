@@ -1,6 +1,6 @@
-import { describe, expect, test, afterEach, beforeEach, vi } from 'vitest';
-import { default as Prompt, isCancel } from '../../src/prompts/prompt.js';
 import { cursor } from 'sisteransi';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { default as Prompt, isCancel } from '../../src/prompts/prompt.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 
