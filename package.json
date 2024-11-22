@@ -13,6 +13,7 @@
     "format:code": "prettier -w . --cache",
     "format:imports": "organize-imports-cli ./packages/*/tsconfig.json",
     "type-check": "tsc",
+    "test": "pnpm -r run test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "changeset publish",
     "ci:format": "pnpm run format"
