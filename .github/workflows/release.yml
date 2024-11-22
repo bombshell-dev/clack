@@ -16,8 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build Packages
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +31,6 @@ jobs:
       # `prepack` hook _should_ run but doesn't seem to.
       - run: pnpm run build
       - uses: changesets/action@v1
-        if: ${{ github.event_name != 'pull_request' }}
         with:
           version: pnpm run ci:version
           publish: pnpm run ci:publish
