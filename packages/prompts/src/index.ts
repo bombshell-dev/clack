@@ -9,8 +9,8 @@ import {
 	SelectKeyPrompt,
 	SelectPrompt,
 	State,
-	TextPrompt,
 	strLength,
+	TextPrompt
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -138,7 +138,9 @@ function applyTheme(data: ThemeParams): string {
 						style: (line) => color.strikethrough(color.dim(line)),
 					},
 				}),
-			].join('\n');
+			]
+				.filter(Boolean)
+				.join('\n');
 
 		case 'error':
 			return [
@@ -311,17 +313,16 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					value = opt(this.options[this.cursor], 'selected');
 					break;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+					value = opt(this.options[this.cursor], 'cancelled');
+					break;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+					value = limitOptions({
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
 						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join('\n');
+					break;
 				}
 			}
 			return applyTheme({
@@ -362,26 +363,20 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S.BAR)}  ${opt(
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
 						this.options.find((opt) => opt.value === this.value)!,
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
-						S_BAR
-					)}`;
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
+						this.options[0],
+						'cancelled'
+					)}\n${color.gray(S_BAR)}`;
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 			}
-
-			return applyTheme({
-				ctx: this,
-				message: opts.message,
-				value,
-				valueWithCursor: undefined,
-			});
 		},
 	}).prompt() as Promise<Value | symbol>;
 };
@@ -465,34 +460,36 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							.join(color.dim(', ')) ?? '';
 				}
 				case 'error': {
-					const footer = this.error
-						.split('\n')
-						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
-						)
-						.join('\n');
-					return (
-						title +
-						color.yellow(S_BAR) +
-						'  ' +
-						limitOptions({
-							options: this.options,
-							cursor: this.cursor,
-							maxItems: opts.maxItems,
-							style: styleOption,
-						}).join(`\n${color.yellow(S_BAR)}  `) +
-						'\n' +
-						footer +
-						'\n'
+					error = format(
+						this.error
+							.split('\n')
+							.map((ln, i) => (i === 0 ? color.yellow(ln) : ln))
+							.join('\n'),
+						{
+							firstLine: {
+								start: color.yellow(S_BAR_END),
+							},
+							default: {
+								start: color.hidden('-'),
+							},
+						}
 					);
-				}
-				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
-						options: this.options,
+					value = limitOptions({
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						options: this.options,
 						style: styleOption,
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join('\n');
+					break;
+				}
+				default: {
+					value = limitOptions({
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						options: this.options,
+						style: styleOption,
+					}).join('\n');
+					break;
 				}
 			}
 			return applyTheme({
@@ -585,7 +582,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				}
 			};
 
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}`;
 
 			switch (this.state) {
 				case 'submit': {
@@ -868,9 +865,8 @@ export const spinner = () => {
 				: code === 1
 				? color.red(S_STEP_CANCEL)
 				: color.red(S_STEP_ERROR);
-		process.stdout.write(cursor.move(-999, 0));
-		process.stdout.write(erase.down(1));
-		process.stdout.write(`${step}  ${_message}\n`);
+		_message = formatMessage(step, msg || _message);
+		process.stdout.write(_message + '\n');
 		clearHooks();
 		unblock();
 	};
