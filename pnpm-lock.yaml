@@ -80,6 +80,9 @@ importers:
       '@clack/core':
         specifier: workspace:*
         version: link:../core
+      ci-info:
+        specifier: ^3.8.0
+        version: 3.8.0
       picocolors:
         specifier: ^1.0.0
         version: 1.0.0
