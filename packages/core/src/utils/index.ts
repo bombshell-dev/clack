@@ -10,8 +10,6 @@ export * from './aliases';
 export * from './mock';
 export * from './string';
 
-const isWindows = globalThis.process.platform.startsWith('win');
-
 export const CANCEL_SYMBOL = Symbol('clack:cancel');
 
 export function isCancel(value: unknown): value is symbol {

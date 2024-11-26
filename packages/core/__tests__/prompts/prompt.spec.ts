@@ -1,6 +1,8 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID } from 'crypto';
+import { cursor } from 'sisteransi';
 import { mockPrompt, setGlobalAliases } from '../../src';
-import Prompt, { type PromptOptions } from '../../src/prompts/prompt';
+import Prompt, { PromptOptions } from '../../src/prompts/prompt';
+import { MockReadable, MockWritable } from '../mocks';
 
 const outputSpy = jest.spyOn(process.stdout, 'write').mockImplementation();
 
@@ -17,7 +19,14 @@ const makeSut = (opts?: Omit<PromptOptions<Prompt>, 'render'>, trackValue?: bool
 };
 
 describe('Prompt', () => {
+	let input: MockReadable;
+	let output: MockWritable;
 	const mock = mockPrompt();
+
+	beforeEach(() => {
+		input = new MockReadable();
+		output = new MockWritable();
+	});
 
 	afterEach(() => {
 		mock.close();
@@ -139,15 +148,22 @@ describe('Prompt', () => {
 	});
 
 	it('should allow tab completion for placeholders', () => {
-		const placeholder = randomUUID();
-		makeSut({ initialValue: '', placeholder });
+		makeSut({ initialValue: '', placeholder: 'bar' });
 
 		mock.pressKey('\t', { name: 'tab' });
 
-		expect(mock.value).toBe(placeholder);
+		expect(mock.value).toBe('bar');
 	});
 
-	it('should render prompt', () => {
+	it('should not allow tab completion if value is set', () => {
+		makeSut({ initialValue: 'foo', placeholder: 'bar' });
+
+		mock.pressKey('\t', { name: 'tab' });
+
+		expect(mock.value).toBe('foo');
+	});
+
+	it('should render prompt on default output', () => {
 		mock.setIsTestMode(false);
 		const value = randomUUID();
 
@@ -156,6 +172,31 @@ describe('Prompt', () => {
 		});
 
 		expect(outputSpy).toHaveBeenCalledWith(value);
+	});
+
+	test('should render prompt on custom output', () => {
+		mock.setIsTestMode(false);
+		const value = 'foo';
+
+		makeSut({ input, output, initialValue: value });
+
+		expect(output.buffer).toStrictEqual([cursor.hide, 'foo']);
+	});
+
+	it('should re-render prompt on resize', () => {
+		const renderFn = jest.fn().mockImplementation(() => 'foo');
+		const instance = new Prompt({
+			input,
+			output,
+			render: renderFn,
+		});
+		instance.prompt();
+
+		expect(renderFn).toHaveBeenCalledTimes(1);
+
+		output.emit('resize');
+
+		expect(renderFn).toHaveBeenCalledTimes(2);
 	});
 
 	it('should update single line', () => {
@@ -187,5 +228,51 @@ describe('Prompt', () => {
 		expect(mock.frame).toBe(newValue);
 		expect(outputSpy).toHaveBeenCalledWith(value);
 		expect(outputSpy).toHaveBeenCalledWith(newValue);
+	});
+
+	it('should emit cursor events for movement keys', () => {
+		const keys = ['up', 'down', 'left', 'right'];
+		const eventSpy = jest.fn();
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+
+		instance.on('cursor', eventSpy);
+
+		instance.prompt();
+
+		for (const key of keys) {
+			input.emit('keypress', key, { name: key });
+			expect(eventSpy).toBeCalledWith(key);
+		}
+	});
+
+	it('should emit cursor events for movement key aliases when not tracking', () => {
+		const keys = [
+			['k', 'up'],
+			['j', 'down'],
+			['h', 'left'],
+			['l', 'right'],
+		];
+		const eventSpy = jest.fn();
+		const instance = new Prompt(
+			{
+				input,
+				output,
+				render: () => 'foo',
+			},
+			false
+		);
+
+		instance.on('cursor', eventSpy);
+
+		instance.prompt();
+
+		for (const [alias, key] of keys) {
+			input.emit('keypress', alias, { name: alias });
+			expect(eventSpy).toBeCalledWith(key);
+		}
 	});
 });
