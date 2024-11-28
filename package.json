@@ -11,11 +11,12 @@
     "dev": "pnpm --filter @example/changesets run start",
     "format": "pnpm run /^format:.*/",
     "format:code": "biome format --write",
-    "type-check": "tsc",
+    "lint:fix": "biome lint --write --unsafe",
+    "type-check": "biome lint && tsc",
     "test": "pnpm -r run test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "changeset publish",
-    "ci:format": "pnpm run format"
+    "ci:format": "biome ci"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
