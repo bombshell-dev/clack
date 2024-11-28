@@ -10,8 +10,7 @@
     "start": "pnpm --filter @example/basic run start",
     "dev": "pnpm --filter @example/changesets run start",
     "format": "pnpm run /^format:.*/",
-    "format:code": "prettier -w . --cache",
-    "format:imports": "organize-imports-cli ./packages/*/tsconfig.json",
+    "format:code": "biome -w . --cache",
     "type-check": "tsc",
     "test": "pnpm -r run test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
@@ -19,10 +18,9 @@
     "ci:format": "pnpm run format"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.26.2",
     "@types/node": "^18.16.0",
-    "organize-imports-cli": "^0.10.0",
-    "prettier": "^3.0.2",
     "typescript": "^5.2.2",
     "unbuild": "^2.0.0"
   },
