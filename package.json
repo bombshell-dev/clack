@@ -10,7 +10,7 @@
     "start": "pnpm --filter @example/basic run start",
     "dev": "pnpm --filter @example/changesets run start",
     "format": "pnpm run /^format:.*/",
-    "format:code": "biome -w . --cache",
+    "format:code": "biome format --write",
     "type-check": "tsc",
     "test": "pnpm -r run test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
