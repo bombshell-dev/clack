@@ -7,7 +7,7 @@ import {
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
-	State,
+	type State,
 	TextPrompt,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
@@ -68,7 +68,7 @@ interface LimitOptionsParams<TOption> {
 const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
 
-	const paramMaxItems = params.maxItems ?? Infinity;
+	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(process.stdout.rows - 4, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
 	const maxItems = Math.min(outputMaxItems, Math.max(paramMaxItems, 5));
@@ -356,7 +356,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
 				const selected = this.value.includes(option.value);
@@ -487,7 +487,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit': {
@@ -642,8 +642,8 @@ export const spinner = () => {
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
-	let isSpinnerActive: boolean = false;
-	let _message: string = '';
+	let isSpinnerActive = false;
+	let _message = '';
 
 	const handleExit = (code: number) => {
 		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
@@ -672,7 +672,7 @@ export const spinner = () => {
 		process.removeListener('exit', handleExit);
 	};
 
-	const start = (msg: string = ''): void => {
+	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
 		_message = msg.replace(/\.+$/, '');
@@ -691,7 +691,7 @@ export const spinner = () => {
 		}, delay);
 	};
 
-	const stop = (msg: string = '', code: number = 0): void => {
+	const stop = (msg = '', code = 0): void => {
 		_message = msg ?? _message;
 		isSpinnerActive = false;
 		clearInterval(loop);
@@ -708,7 +708,7 @@ export const spinner = () => {
 		unblock();
 	};
 
-	const message = (msg: string = ''): void => {
+	const message = (msg = ''): void => {
 		_message = msg ?? _message;
 	};
 
