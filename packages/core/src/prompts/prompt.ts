@@ -10,10 +10,10 @@ import { ALIASES, CANCEL_SYMBOL, diffLines, hasAliasKey, KEYS, setRawMode } from
 import type { ClackEvents, ClackState, InferSetType } from '../types';
 
 export interface PromptOptions<Self extends Prompt> {
-	render(this: Omit<Self, 'prompt'>): string | void;
+	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: any) => string | void) | undefined;
+	validate?: ((value: any) => string | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
@@ -241,7 +241,7 @@ export default class Prompt {
 				this.output.write(cursor.move(0, lines.length - diffLine - 1));
 				return;
 				// If many lines have changed, rerender everything past the first line
-			} else if (diff && diff?.length > 1) {
+			}if (diff && diff?.length > 1) {
 				const diffLine = diff[0];
 				this.output.write(cursor.move(0, diffLine));
 				this.output.write(erase.down());

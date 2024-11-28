@@ -1,14 +1,14 @@
 import {
-	block,
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
-	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
 	type State,
 	TextPrompt,
+	block,
+	isCancel,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -100,7 +100,7 @@ export interface TextOptions {
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
@@ -125,7 +125,7 @@ export const text = (opts: TextOptions) => {
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
 						color.dim(this.value ?? '')
-					)}${this.value?.trim() ? '\n' + color.gray(S_BAR) : ''}`;
+					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
@@ -136,7 +136,7 @@ export const text = (opts: TextOptions) => {
 export interface PasswordOptions {
 	message: string;
 	mask?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
@@ -156,7 +156,7 @@ export const password = (opts: PasswordOptions) => {
 					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked ?? ''))}${
-						masked ? '\n' + color.gray(S_BAR) : ''
+						masked ? `\n${color.gray(S_BAR)}` : ''
 					}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
@@ -270,9 +270,9 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
 			return `${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active') {
+		}if (state === 'active') {
 			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
@@ -291,7 +291,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 			switch (this.state) {
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options.find((opt) => opt.value === this.value)!,
+						this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
 						'selected'
 					)}`;
 				case 'cancel':
@@ -326,15 +326,15 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'selected') {
+		}if (state === 'selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active-selected') {
+		}if (state === 'active-selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'submitted') {
+		}if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -395,18 +395,13 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						)
 						.join('\n');
 					return (
-						title +
-						color.yellow(S_BAR) +
-						'  ' +
-						limitOptions({
+						`${title +
+						color.yellow(S_BAR)}  ${limitOptions({
 							options: this.options,
 							cursor: this.cursor,
 							maxItems: opts.maxItems,
 							style: styleOption,
-						}).join(`\n${color.yellow(S_BAR)}  `) +
-						'\n' +
-						footer +
-						'\n'
+						}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`
 					);
 				}
 				default: {
@@ -453,19 +448,19 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'group-active') {
+		}if (state === 'group-active') {
 			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
-		} else if (state === 'group-active-selected') {
+		}if (state === 'group-active-selected') {
 			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'selected') {
+		}if (state === 'selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active-selected') {
+		}if (state === 'active-selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'submitted') {
+		}if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -571,8 +566,8 @@ export const note = (message = '', title = '') => {
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
-				ln = strip(ln);
-				return ln.length > sum ? ln.length : sum;
+				const line = strip(ln);
+				return line.length > sum ? line.length : sum;
 			}, 0),
 			titleLen
 		) + 2;
@@ -749,7 +744,7 @@ type Prettify<T> = {
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
 		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => void | Promise<T[P] | void>;
+	}) => undefined | Promise<T[P] | undefined>;
 };
 
 /**
