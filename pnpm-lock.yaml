@@ -86,9 +86,6 @@ importers:
       sisteransi:
         specifier: ^1.0.5
         version: 1.0.5
-      std-env:
-        specifier: ^3.4.3
-        version: 3.8.0
     devDependencies:
       is-unicode-supported:
         specifier: ^1.3.0

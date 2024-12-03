@@ -13,7 +13,6 @@ import {
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
-import { isCI } from 'std-env';
 
 export { isCancel } from '@clack/core';
 
@@ -640,6 +639,7 @@ export const log = {
 export const spinner = () => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
+	const isCI = process.env.CI === 'true';
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
