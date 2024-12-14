@@ -1,20 +1,20 @@
 import {
-	block,
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
-	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
-	State,
-	TextPrompt
+	type State,
+	TextPrompt,
+	block,
+	isCancel,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel } from '@clack/core';
+export { isCancel, setGlobalAliases } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -68,7 +68,7 @@ interface LimitOptionsParams<TOption> {
 const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
 
-	const paramMaxItems = params.maxItems ?? Infinity;
+	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(process.stdout.rows - 4, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
 	const maxItems = Math.min(outputMaxItems, Math.max(paramMaxItems, 5));
@@ -100,7 +100,7 @@ export interface TextOptions {
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
@@ -125,7 +125,7 @@ export const text = (opts: TextOptions) => {
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
 						color.dim(this.value ?? '')
-					)}${this.value?.trim() ? '\n' + color.gray(S_BAR) : ''}`;
+					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
@@ -136,7 +136,7 @@ export const text = (opts: TextOptions) => {
 export interface PasswordOptions {
 	message: string;
 	mask?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
@@ -156,7 +156,7 @@ export const password = (opts: PasswordOptions) => {
 					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked ?? ''))}${
-						masked ? '\n' + color.gray(S_BAR) : ''
+						masked ? `\n${color.gray(S_BAR)}` : ''
 					}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
@@ -270,9 +270,11 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
 			return `${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active') {
+		}
+		if (state === 'active') {
 			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
@@ -291,7 +293,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 			switch (this.state) {
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options.find((opt) => opt.value === this.value)!,
+						this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
 						'selected'
 					)}`;
 				case 'cancel':
@@ -326,15 +328,19 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'selected') {
+		}
+		if (state === 'selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active-selected') {
+		}
+		if (state === 'active-selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'submitted') {
+		}
+		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -356,7 +362,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
 				const selected = this.value.includes(option.value);
@@ -394,20 +400,12 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return (
-						title +
-						color.yellow(S_BAR) +
-						'  ' +
-						limitOptions({
-							options: this.options,
-							cursor: this.cursor,
-							maxItems: opts.maxItems,
-							style: styleOption,
-						}).join(`\n${color.yellow(S_BAR)}  `) +
-						'\n' +
-						footer +
-						'\n'
-					);
+					return `${title + color.yellow(S_BAR)}  ${limitOptions({
+						options: this.options,
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						style: styleOption,
+					}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
@@ -453,19 +451,25 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'group-active') {
+		}
+		if (state === 'group-active') {
 			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
-		} else if (state === 'group-active-selected') {
+		}
+		if (state === 'group-active-selected') {
 			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'selected') {
+		}
+		if (state === 'selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active-selected') {
+		}
+		if (state === 'active-selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'submitted') {
+		}
+		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -487,7 +491,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit': {
@@ -571,8 +575,8 @@ export const note = (message = '', title = '') => {
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
-				ln = strip(ln);
-				return ln.length > sum ? ln.length : sum;
+				const line = strip(ln);
+				return line.length > sum ? line.length : sum;
 			}, 0),
 			titleLen
 		) + 2;
@@ -643,7 +647,7 @@ export const spinner = () => {
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
-	let isSpinnerActive: boolean = false;
+	let isSpinnerActive = false;
 	let _message: string = '';
 	let _prevMessage: string | undefined = undefined;
 
@@ -674,6 +678,7 @@ export const spinner = () => {
 		process.removeListener('exit', handleExit);
 	};
 
+
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
 		if (isCI) process.stdout.write('\n');
@@ -686,7 +691,7 @@ export const spinner = () => {
 		return msg.replace(/\.+$/, '');
 	};
 
-	const start = (msg: string = ''): void => {
+	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
 		_message = parseMessage(msg);
@@ -708,7 +713,7 @@ export const spinner = () => {
 		}, delay);
 	};
 
-	const stop = (msg: string = '', code: number = 0): void => {
+	const stop = (msg = '', code = 0): void => {
 		isSpinnerActive = false;
 		clearInterval(loop);
 		clearPrevMessage();
@@ -716,15 +721,15 @@ export const spinner = () => {
 			code === 0
 				? color.green(S_STEP_SUBMIT)
 				: code === 1
-				? color.red(S_STEP_CANCEL)
-				: color.red(S_STEP_ERROR);
+					? color.red(S_STEP_CANCEL)
+					: color.red(S_STEP_ERROR);
 		_message = parseMessage(msg ?? _message);
 		process.stdout.write(`${step}  ${_message}\n`);
 		clearHooks();
 		unblock();
 	};
 
-	const message = (msg: string = ''): void => {
+	const message = (msg = ''): void => {
 		_message = parseMessage(msg ?? _message);
 	};
 
@@ -765,7 +770,7 @@ type Prettify<T> = {
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
 		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => void | Promise<T[P] | void>;
+	}) => undefined | Promise<T[P] | undefined>;
 };
 
 /**

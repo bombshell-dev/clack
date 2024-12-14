@@ -1,11 +1,11 @@
-import Prompt, { PromptOptions } from './prompt';
+import Prompt, { type PromptOptions } from './prompt';
 
 interface SelectKeyOptions<T extends { value: any }> extends PromptOptions<SelectKeyPrompt<T>> {
 	options: T[];
 }
 export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
 	options: T[];
-	cursor: number = 0;
+	cursor = 0;
 
 	constructor(opts: SelectKeyOptions<T>) {
 		super(opts, false);

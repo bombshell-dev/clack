@@ -1,5 +1,5 @@
-import * as p from '@clack/prompts';
 import { setTimeout } from 'node:timers/promises';
+import * as p from '@clack/prompts';
 import color from 'picocolors';
 
 function onCancel() {
@@ -59,7 +59,7 @@ async function main() {
 					(pkg) => !major.includes(pkg) && !minor.includes(pkg)
 				);
 				if (possiblePackages.length === 0) return;
-				let note = possiblePackages.join(color.dim(', '));
+				const note = possiblePackages.join(color.dim(', '));
 
 				p.log.step(`These packages will have a ${color.green('patch')} bump.\n${color.dim(note)}`);
 				return possiblePackages;

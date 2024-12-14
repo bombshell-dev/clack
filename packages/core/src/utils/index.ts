@@ -1,10 +1,26 @@
-import type { Key } from 'node:readline';
-
 import { stdin, stdout } from 'node:process';
+import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
+import type { Readable } from 'node:stream';
 import { cursor } from 'sisteransi';
+import { hasAliasKey } from './aliases';
+
+export * from './aliases';
+export * from './string';
 
 const isWindows = globalThis.process.platform.startsWith('win');
+
+export const CANCEL_SYMBOL = Symbol('clack:cancel');
+
+export function isCancel(value: unknown): value is symbol {
+	return value === CANCEL_SYMBOL;
+}
+
+export function setRawMode(input: Readable, value: boolean) {
+	const i = input as typeof stdin;
+
+	if (i.isTTY) i.setRawMode(value);
+}
 
 export function block({
 	input = stdin,
@@ -21,16 +37,16 @@ export function block({
 	readline.emitKeypressEvents(input, rl);
 	if (input.isTTY) input.setRawMode(true);
 
-	const clear = (data: Buffer, { name }: Key) => {
+	const clear = (data: Buffer, { name, sequence }: Key) => {
 		const str = String(data);
-		if (str === '\x03') {
+		if (hasAliasKey([str, name, sequence], 'cancel')) {
 			if (hideCursor) output.write(cursor.show);
 			process.exit(0);
 			return;
 		}
 		if (!overwrite) return;
-		let dx = name === 'return' ? 0 : -1;
-		let dy = name === 'return' ? -1 : 0;
+		const dx = name === 'return' ? 0 : -1;
+		const dy = name === 'return' ? -1 : 0;
 
 		readline.moveCursor(output, dx, dy, () => {
 			readline.clearLine(output, 1, () => {

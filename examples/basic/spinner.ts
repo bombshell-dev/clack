@@ -17,6 +17,6 @@ new Promise((resolve) => {
 		spin.message(`Loading packages [${progress}/${total}]`); // <===
 	}, 100);
 }).then(() => {
-	spin.stop(`Done`);
+	spin.stop('Done');
 	p.outro('spinner stop...');
 });
