@@ -648,7 +648,7 @@ export const spinner = () => {
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
-	let _message: string = '';
+	let _message = '';
 	let _prevMessage: string | undefined = undefined;
 
 	const handleExit = (code: number) => {
