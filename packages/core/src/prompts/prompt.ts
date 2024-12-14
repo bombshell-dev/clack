@@ -110,37 +110,37 @@ export default class Prompt {
 	}
 
 	public prompt() {
-		const sink = new WriteStream(0);
-		sink._write = (chunk, encoding, done) => {
-			if (this._track) {
-				this.value = this.rl.line.replace(/\t/g, '');
-				this._cursor = this.rl.cursor;
-				this.emit('value', this.value);
-			}
-			done();
-		};
-		this.input.pipe(sink);
-
-		this.rl = readline.createInterface({
-			input: this.input,
-			output: sink,
-			tabSize: 2,
-			prompt: '',
-			escapeCodeTimeout: 50,
-		});
-		readline.emitKeypressEvents(this.input, this.rl);
-		this.rl.prompt();
-		if (this.opts.initialValue !== undefined && this._track) {
-			this.rl.write(this.opts.initialValue);
-		}
-
-		this.input.on('keypress', this.onKeypress);
-		setRawMode(this.input, true);
-		this.output.on('resize', this.render);
-
-		this.render();
-
 		return new Promise<string | symbol>((resolve, reject) => {
+			const sink = new WriteStream(0);
+			sink._write = (chunk, encoding, done) => {
+				if (this._track) {
+					this.value = this.rl.line.replace(/\t/g, '');
+					this._cursor = this.rl.cursor;
+					this.emit('value', this.value);
+				}
+				done();
+			};
+			this.input.pipe(sink);
+
+			this.rl = readline.createInterface({
+				input: this.input,
+				output: sink,
+				tabSize: 2,
+				prompt: '',
+				escapeCodeTimeout: 50,
+			});
+			readline.emitKeypressEvents(this.input, this.rl);
+			this.rl.prompt();
+			if (this.opts.initialValue !== undefined && this._track) {
+				this.rl.write(this.opts.initialValue);
+			}
+
+			this.input.on('keypress', this.onKeypress);
+			setRawMode(this.input, true);
+			this.output.on('resize', this.render);
+
+			this.render();
+
 			this.once('submit', () => {
 				this.output.write(cursor.show);
 				this.output.off('resize', this.render);
@@ -193,7 +193,7 @@ export default class Prompt {
 			}
 		}
 
-		if (hasAliasKey([key?.name, key?.sequence], 'cancel')) {
+		if (hasAliasKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
 		if (this.state === 'submit' || this.state === 'cancel') {
