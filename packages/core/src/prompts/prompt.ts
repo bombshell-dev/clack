@@ -5,7 +5,7 @@ import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { ALIASES, CANCEL_SYMBOL, diffLines, hasAliasKey, KEYS, setRawMode } from '../utils';
+import { ALIASES, CANCEL_SYMBOL, KEYS, diffLines, hasAliasKey, setRawMode } from '../utils';
 
 import type { ClackEvents, ClackState, InferSetType } from '../types';
 
