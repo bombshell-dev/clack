@@ -678,7 +678,6 @@ export const spinner = () => {
 		process.removeListener('exit', handleExit);
 	};
 
-
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
 		if (isCI) process.stdout.write('\n');
