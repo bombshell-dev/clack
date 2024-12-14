@@ -5,10 +5,10 @@ import type { Readable } from 'node:stream';
 import { cursor } from 'sisteransi';
 import { hasAliasKey } from './aliases';
 
-const isWindows = globalThis.process.platform.startsWith('win');
-
 export * from './aliases';
 export * from './string';
+
+const isWindows = globalThis.process.platform.startsWith('win');
 
 export const CANCEL_SYMBOL = Symbol('clack:cancel');
 
