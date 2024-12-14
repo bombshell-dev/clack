@@ -12,8 +12,7 @@
     "type-check": "biome lint && tsc",
     "test": "pnpm -r run test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:publish": "changeset publish",
-    "ci:format": "biome ci"
+    "ci:publish": "changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
