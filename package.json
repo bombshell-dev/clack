@@ -7,7 +7,7 @@
     "build": "pnpm --filter \"@clack/*\" run build",
     "start": "pnpm run dev",
     "dev": "pnpm --filter @example/changesets run start",
-    "format": "biome format --write",
+    "format": "biome check --write",
     "lint": "biome lint --write --unsafe",
     "type-check": "biome lint && tsc",
     "test": "pnpm -r run test",
