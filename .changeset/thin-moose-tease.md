@@ -2,4 +2,4 @@
 '@clack/prompts': patch
 ---
 
-Adapt `spinner` to CI environment
+Adapts `spinner` output for static CI environments
