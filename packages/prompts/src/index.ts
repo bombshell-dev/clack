@@ -270,9 +270,11 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
 			return `${color.dim(label)}`;
-		}if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		}if (state === 'active') {
+		}
+		if (state === 'active') {
 			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
@@ -326,15 +328,19 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		}if (state === 'selected') {
+		}
+		if (state === 'selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		}if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		}if (state === 'active-selected') {
+		}
+		if (state === 'active-selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		}if (state === 'submitted') {
+		}
+		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -394,15 +400,12 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return (
-						`${title +
-						color.yellow(S_BAR)}  ${limitOptions({
-							options: this.options,
-							cursor: this.cursor,
-							maxItems: opts.maxItems,
-							style: styleOption,
-						}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`
-					);
+					return `${title + color.yellow(S_BAR)}  ${limitOptions({
+						options: this.options,
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						style: styleOption,
+					}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
@@ -448,19 +451,25 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		}if (state === 'group-active') {
+		}
+		if (state === 'group-active') {
 			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
-		}if (state === 'group-active-selected') {
+		}
+		if (state === 'group-active-selected') {
 			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		}if (state === 'selected') {
+		}
+		if (state === 'selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		}if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		}if (state === 'active-selected') {
+		}
+		if (state === 'active-selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		}if (state === 'submitted') {
+		}
+		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;

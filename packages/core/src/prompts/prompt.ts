@@ -241,7 +241,8 @@ export default class Prompt {
 				this.output.write(cursor.move(0, lines.length - diffLine - 1));
 				return;
 				// If many lines have changed, rerender everything past the first line
-			}if (diff && diff?.length > 1) {
+			}
+			if (diff && diff?.length > 1) {
 				const diffLine = diff[0];
 				this.output.write(cursor.move(0, diffLine));
 				this.output.write(erase.down());
