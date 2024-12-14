@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.3.6
+
+### Patch Changes
+
+- 51e12bc: Improves types for events and interaction states.
+
 ## 0.3.5
 
 ### Patch Changes
