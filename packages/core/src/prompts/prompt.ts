@@ -25,7 +25,7 @@ export default class Prompt {
 
 	private rl!: ReadLine;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
-	private _render: (context: Omit<Prompt, 'prompt'>) => string | void;
+	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
 	private _track = false;
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
@@ -35,7 +35,7 @@ export default class Prompt {
 	public error = '';
 	public value: any;
 
-	constructor(options: PromptOptions<Prompt>, trackValue: boolean = true) {
+	constructor(options: PromptOptions<Prompt>, trackValue = true) {
 		const { input = stdin, output = stdout, render, ...opts } = options;
 
 		this.opts = opts;
