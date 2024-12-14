@@ -1,6 +1,6 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
-import { Readable, Writable } from 'node:stream';
+import type { Readable, Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
@@ -10,10 +10,10 @@ import { ALIASES, CANCEL_SYMBOL, diffLines, hasAliasKey, KEYS, setRawMode } from
 import type { ClackEvents, ClackState, InferSetType } from '../types';
 
 export interface PromptOptions<Self extends Prompt> {
-	render(this: Omit<Self, 'prompt'>): string | void;
+	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: any) => string | void) | undefined;
+	validate?: ((value: any) => string | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
@@ -25,7 +25,7 @@ export default class Prompt {
 
 	private rl!: ReadLine;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
-	private _render: (context: Omit<Prompt, 'prompt'>) => string | void;
+	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
 	private _track = false;
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
@@ -35,7 +35,7 @@ export default class Prompt {
 	public error = '';
 	public value: any;
 
-	constructor(options: PromptOptions<Prompt>, trackValue: boolean = true) {
+	constructor(options: PromptOptions<Prompt>, trackValue = true) {
 		const { input = stdin, output = stdout, render, ...opts } = options;
 
 		this.opts = opts;
@@ -110,37 +110,37 @@ export default class Prompt {
 	}
 
 	public prompt() {
-		const sink = new WriteStream(0);
-		sink._write = (chunk, encoding, done) => {
-			if (this._track) {
-				this.value = this.rl.line.replace(/\t/g, '');
-				this._cursor = this.rl.cursor;
-				this.emit('value', this.value);
-			}
-			done();
-		};
-		this.input.pipe(sink);
-
-		this.rl = readline.createInterface({
-			input: this.input,
-			output: sink,
-			tabSize: 2,
-			prompt: '',
-			escapeCodeTimeout: 50,
-		});
-		readline.emitKeypressEvents(this.input, this.rl);
-		this.rl.prompt();
-		if (this.opts.initialValue !== undefined && this._track) {
-			this.rl.write(this.opts.initialValue);
-		}
-
-		this.input.on('keypress', this.onKeypress);
-		setRawMode(this.input, true);
-		this.output.on('resize', this.render);
-
-		this.render();
-
 		return new Promise<string | symbol>((resolve, reject) => {
+			const sink = new WriteStream(0);
+			sink._write = (chunk, encoding, done) => {
+				if (this._track) {
+					this.value = this.rl.line.replace(/\t/g, '');
+					this._cursor = this.rl.cursor;
+					this.emit('value', this.value);
+				}
+				done();
+			};
+			this.input.pipe(sink);
+
+			this.rl = readline.createInterface({
+				input: this.input,
+				output: sink,
+				tabSize: 2,
+				prompt: '',
+				escapeCodeTimeout: 50,
+			});
+			readline.emitKeypressEvents(this.input, this.rl);
+			this.rl.prompt();
+			if (this.opts.initialValue !== undefined && this._track) {
+				this.rl.write(this.opts.initialValue);
+			}
+
+			this.input.on('keypress', this.onKeypress);
+			setRawMode(this.input, true);
+			this.output.on('resize', this.render);
+
+			this.render();
+
 			this.once('submit', () => {
 				this.output.write(cursor.show);
 				this.output.off('resize', this.render);
@@ -193,7 +193,7 @@ export default class Prompt {
 			}
 		}
 
-		if (hasAliasKey([key?.name, key?.sequence], 'cancel')) {
+		if (hasAliasKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
 		if (this.state === 'submit' || this.state === 'cancel') {
@@ -241,7 +241,8 @@ export default class Prompt {
 				this.output.write(cursor.move(0, lines.length - diffLine - 1));
 				return;
 				// If many lines have changed, rerender everything past the first line
-			} else if (diff && diff?.length > 1) {
+			}
+			if (diff && diff?.length > 1) {
 				const diffLine = diff[0];
 				this.output.write(cursor.move(0, diffLine));
 				this.output.write(erase.down());

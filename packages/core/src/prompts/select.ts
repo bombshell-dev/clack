@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt';
+import Prompt, { type PromptOptions } from './prompt';
 
 interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPrompt<T>> {
 	options: T[];
@@ -6,7 +6,7 @@ interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPr
 }
 export default class SelectPrompt<T extends { value: any }> extends Prompt {
 	options: T[];
-	cursor: number = 0;
+	cursor = 0;
 
 	private get _value() {
 		return this.options[this.cursor];

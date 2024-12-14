@@ -1,4 +1,4 @@
-import { KEYS } from './utils';
+import type { KEYS } from './utils';
 
 export type InferSetType<T> = T extends Set<infer U> ? U : never;
 

@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt';
+import Prompt, { type PromptOptions } from './prompt';
 
 interface GroupMultiSelectOptions<T extends { value: any }>
 	extends PromptOptions<GroupMultiSelectPrompt<T>> {
@@ -9,7 +9,7 @@ interface GroupMultiSelectOptions<T extends { value: any }>
 }
 export default class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt {
 	options: (T & { group: string | boolean })[];
-	cursor: number = 0;
+	cursor = 0;
 
 	getGroupItems(group: string): T[] {
 		return this.options.filter((o) => o.group === group);
