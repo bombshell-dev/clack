@@ -4,10 +4,8 @@
   "type": "module",
   "scripts": {
     "stub": "pnpm -r run build --stub",
-    "build": "pnpm run build:core && pnpm run build:prompts",
-    "build:core": "pnpm --filter @clack/core run build",
-    "build:prompts": "pnpm --filter @clack/prompts run build",
-    "start": "pnpm --filter @example/basic run start",
+    "build": "pnpm --filter \"@clack/*\" run build",
+    "start": "pnpm run dev",
     "dev": "pnpm --filter @example/changesets run start",
     "format": "biome format --write",
     "lint": "biome lint --write --unsafe",
