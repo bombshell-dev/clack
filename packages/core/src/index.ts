@@ -8,4 +8,3 @@ export { default as SelectKeyPrompt } from './prompts/select-key';
 export { default as TextPrompt } from './prompts/text';
 export type { ClackState as State } from './types';
 export { block, isCancel, setGlobalAliases } from './utils';
-
