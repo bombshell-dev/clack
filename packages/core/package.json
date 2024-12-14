@@ -1,6 +1,6 @@
 {
   "name": "@clack/core",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -22,7 +22,10 @@
     "url": "https://github.com/natemoo-re/clack/issues"
   },
   "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
-  "files": ["dist", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "ask",
     "clack",

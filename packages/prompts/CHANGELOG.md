@@ -1,5 +1,13 @@
 # @clack/prompts
 
+## 0.8.3
+
+### Patch Changes
+
+- f9f139d: Adapts `spinner` output for static CI environments
+- Updated dependencies [51e12bc]
+  - @clack/core@0.3.6
+
 ## 0.8.2
 
 ### Patch Changes
