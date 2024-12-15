@@ -1,8 +1,8 @@
-import { mockPrompt, SelectPrompt } from '@clack/core';
+import { type SelectPrompt, mockPrompt } from '@clack/core';
 import color from 'picocolors';
 import { selectKey } from '../../src';
 import { opt } from '../../src/prompts/select-key';
-import { Option, symbol, S_BAR } from '../../src/utils';
+import { type Option, S_BAR, symbol } from '../../src/utils';
 
 const options: Option<string>[] = [{ value: 'a' }, { value: 'b' }, { value: 'c' }];
 

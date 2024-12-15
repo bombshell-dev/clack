@@ -1,13 +1,13 @@
 import { TextPrompt } from '@clack/core';
 import color from 'picocolors';
-import { formatPlaceholder, symbol, S_BAR, S_BAR_END } from '../utils';
+import { S_BAR, S_BAR_END, formatPlaceholder, symbol } from '../utils';
 
 export interface TextOptions {
 	message: string;
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 
 const text = (opts: TextOptions) => {
@@ -31,7 +31,7 @@ const text = (opts: TextOptions) => {
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${
 						this.value ? color.strikethrough(color.dim(this.value)) : ''
-					}${this.value ? '\n' + color.gray(S_BAR) : ''}`;
+					}${this.value ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}

@@ -1,5 +1,5 @@
-import { mockPrompt, MultiSelectPrompt, setGlobalAliases } from "../../src";
-import type { MultiSelectOptions } from "../../src/prompts/multiselect";
+import { MultiSelectPrompt, mockPrompt, setGlobalAliases } from '../../src';
+import type { MultiSelectOptions } from '../../src/prompts/multiselect';
 
 const makeSut = (opts?: Partial<MultiSelectOptions<any>>) => {
 	return new MultiSelectPrompt({
@@ -11,33 +11,33 @@ const makeSut = (opts?: Partial<MultiSelectOptions<any>>) => {
 	}).prompt();
 };
 
-describe("MultiSelectPrompt", () => {
+describe('MultiSelectPrompt', () => {
 	const mock = mockPrompt<MultiSelectPrompt<any>>();
 
 	afterEach(() => {
 		mock.close();
 	});
 
-	it("should set initialValues", () => {
+	it('should set initialValues', () => {
 		makeSut({
 			cursorAt: 2,
 			initialValues: [1, 2],
 		});
 
-		expect(mock.state).toBe("initial");
+		expect(mock.state).toBe('initial');
 		expect(mock.cursor).toBe(1);
 		expect(mock.value).toStrictEqual([1, 2]);
 	});
 
-	it("should set first option as default", () => {
+	it('should set first option as default', () => {
 		makeSut();
 
-		expect(mock.state).toBe("initial");
+		expect(mock.state).toBe('initial');
 		expect(mock.cursor).toBe(0);
 		expect(mock.value).toStrictEqual([]);
 	});
 
-	it("should change cursor position on cursor", () => {
+	it('should change cursor position on cursor', () => {
 		makeSut();
 		mock.setCursor(1);
 
@@ -47,28 +47,28 @@ describe("MultiSelectPrompt", () => {
 	it('should change cursor position on emit cursor', () => {
 		makeSut();
 		const moves = [
-			["down", 1],
-			["right", 2],
-			["right", 0],
-			["left", 2],
-			["up", 1],
+			['down', 1],
+			['right', 2],
+			['right', 0],
+			['left', 2],
+			['up', 1],
 		] as const;
 
 		for (const [cursor, index] of moves) {
-			mock.emit("cursor", cursor);
+			mock.emit('cursor', cursor);
 			expect(mock.cursor).toBe(index);
 		}
 	});
 
-	it("should change cursor position on cursor alias", () => {
+	it('should change cursor position on cursor alias', () => {
 		setGlobalAliases([
-			["d", "down"],
-			["u", "up"],
+			['d', 'down'],
+			['u', 'up'],
 		]);
 		makeSut();
 		const moves = [
-			["d", 1],
-			["u", 0],
+			['d', 1],
+			['u', 0],
 		] as const;
 
 		for (const [cursor, index] of moves) {
@@ -77,58 +77,58 @@ describe("MultiSelectPrompt", () => {
 		}
 	});
 
-	it("should toggle option", () => {
+	it('should toggle option', () => {
 		makeSut();
 
-		mock.emit("cursor", "space");
+		mock.emit('cursor', 'space');
 
 		expect(mock.value).toStrictEqual([1]);
 	});
 
-	it("should untoggle option", () => {
+	it('should untoggle option', () => {
 		makeSut();
 
-		mock.emit("cursor", "space");
-		mock.emit("cursor", "space");
+		mock.emit('cursor', 'space');
+		mock.emit('cursor', 'space');
 
 		expect(mock.value).toStrictEqual([]);
 	});
 
-	it("should toggle multiple options", () => {
+	it('should toggle multiple options', () => {
 		makeSut();
 
-		mock.emit("cursor", "space");
-		mock.emit("cursor", "down");
-		mock.emit("cursor", "space");
+		mock.emit('cursor', 'space');
+		mock.emit('cursor', 'down');
+		mock.emit('cursor', 'space');
 
 		expect(mock.value).toStrictEqual([1, 2]);
 	});
 
-	it("should toggle all options", () => {
+	it('should toggle all options', () => {
 		makeSut();
 
-		mock.emit("key", "a");
+		mock.emit('key', 'a');
 
 		expect(mock.value).toStrictEqual([1, 2, 3]);
 	});
 
-	it("should untoggle all options", () => {
+	it('should untoggle all options', () => {
 		makeSut();
 
-		mock.emit("key", "a");
-		mock.emit("key", "a");
+		mock.emit('key', 'a');
+		mock.emit('key', 'a');
 
 		expect(mock.value).toStrictEqual([]);
 	});
 
-	it("should submit value", () => {
+	it('should submit value', () => {
 		makeSut({
 			initialValues: [1, 2],
 		});
 
 		mock.submit();
 
-		expect(mock.state).toBe("submit");
+		expect(mock.state).toBe('submit');
 		expect(mock.value).toStrictEqual([1, 2]);
 	});
 });

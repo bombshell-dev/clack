@@ -1,30 +1,22 @@
-import { block } from "@clack/core";
-import color from "picocolors";
-import { cursor, erase } from "sisteransi";
-import {
-	isUnicodeSupported,
-	S_BAR,
-	S_STEP_CANCEL,
-	S_STEP_ERROR,
-	S_STEP_SUBMIT,
-} from "../utils";
+import { block } from '@clack/core';
+import color from 'picocolors';
+import { cursor, erase } from 'sisteransi';
+import { S_BAR, S_STEP_CANCEL, S_STEP_ERROR, S_STEP_SUBMIT, isUnicodeSupported } from '../utils';
 
-export const frames = isUnicodeSupported
-	? ["◒", "◐", "◓", "◑"]
-	: ["•", "o", "O", "0"];
+export const frames = isUnicodeSupported ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 export const frameInterval = isUnicodeSupported ? 80 : 120;
 export const dotsInterval = 0.125;
-export const isCI = process.env.CI === "true";
+export const isCI = process.env.CI === 'true';
 
 const spinner = () => {
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
-	let _message = "";
+	let _message = '';
 	let _prevMessage: string | undefined = undefined;
 
 	const handleExit = (code: number) => {
-		const msg = code > 1 ? "Something went wrong" : "Canceled";
+		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
 		if (isSpinnerActive) stop(msg, code);
 	};
 
@@ -33,21 +25,21 @@ const spinner = () => {
 
 	const registerHooks = () => {
 		// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
-		process.on("uncaughtExceptionMonitor", errorEventHandler);
+		process.on('uncaughtExceptionMonitor', errorEventHandler);
 		// Reference: https://nodejs.org/api/process.html#event-unhandledrejection
-		process.on("unhandledRejection", errorEventHandler);
+		process.on('unhandledRejection', errorEventHandler);
 		// Reference Signal Events: https://nodejs.org/api/process.html#signal-events
-		process.on("SIGINT", signalEventHandler);
-		process.on("SIGTERM", signalEventHandler);
-		process.on("exit", handleExit);
+		process.on('SIGINT', signalEventHandler);
+		process.on('SIGTERM', signalEventHandler);
+		process.on('exit', handleExit);
 	};
 
 	const clearHooks = () => {
-		process.removeListener("uncaughtExceptionMonitor", errorEventHandler);
-		process.removeListener("unhandledRejection", errorEventHandler);
-		process.removeListener("SIGINT", signalEventHandler);
-		process.removeListener("SIGTERM", signalEventHandler);
-		process.removeListener("exit", handleExit);
+		process.removeListener('uncaughtExceptionMonitor', errorEventHandler);
+		process.removeListener('unhandledRejection', errorEventHandler);
+		process.removeListener('SIGINT', signalEventHandler);
+		process.removeListener('SIGTERM', signalEventHandler);
+		process.removeListener('exit', handleExit);
 	};
 
 	const clearPrevMessage = () => {
@@ -62,7 +54,7 @@ const spinner = () => {
 		return msg.replace(/\.+$/, '');
 	};
 
-	const start = (msg = ""): void => {
+	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
 		_message = parseMessage(msg);
@@ -84,7 +76,7 @@ const spinner = () => {
 		}, frameInterval);
 	};
 
-	const stop = (msg = "", code = 0): void => {
+	const stop = (msg = '', code = 0): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
@@ -101,7 +93,7 @@ const spinner = () => {
 		unblock();
 	};
 
-	const message = (msg = ""): void => {
+	const message = (msg = ''): void => {
 		_message = parseMessage(msg ?? _message);
 	};
 

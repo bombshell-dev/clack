@@ -3,7 +3,7 @@ import { stdin, stdout } from 'node:process';
 import * as readline from 'node:readline';
 import { cursor } from 'sisteransi';
 import { isCancel } from '../../src';
-import { block, CANCEL_SYMBOL, setGlobalAliases, setRawMode } from '../../src/utils';
+import { CANCEL_SYMBOL, block, setGlobalAliases, setRawMode } from '../../src/utils';
 
 const rlSpy = {
 	terminal: true,

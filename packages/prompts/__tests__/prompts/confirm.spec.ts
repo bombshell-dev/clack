@@ -1,7 +1,7 @@
-import { ConfirmPrompt, mockPrompt } from '@clack/core';
+import { type ConfirmPrompt, mockPrompt } from '@clack/core';
 import color from 'picocolors';
 import { confirm } from '../../src';
-import { symbol, S_BAR, S_BAR_END, S_RADIO_ACTIVE, S_RADIO_INACTIVE } from '../../src/utils';
+import { S_BAR, S_BAR_END, S_RADIO_ACTIVE, S_RADIO_INACTIVE, symbol } from '../../src/utils';
 
 const SLASH = color.dim('/');
 const ACTIVE_YES = `${color.green(S_RADIO_ACTIVE)} Yes ${SLASH} ${color.dim(

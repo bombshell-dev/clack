@@ -10,9 +10,9 @@ export interface LimitOptionsParams<TOption> {
 export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
 
-	const paramMaxItems = params.maxItems ?? Infinity;
+	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	// During test `process.stdout.rows` is `undefined`, and it brakes `limitOptions` function.
-	const outputMaxItems = Math.max((process.stdout.rows ?? Infinity) - 4, 0);
+	const outputMaxItems = Math.max((process.stdout.rows ?? Number.POSITIVE_INFINITY) - 4, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
 	const maxItems = Math.min(outputMaxItems, Math.max(paramMaxItems, 5));
 	let slidingWindowLocation = 0;

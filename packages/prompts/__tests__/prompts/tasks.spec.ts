@@ -1,5 +1,5 @@
-import { randomUUID } from 'crypto';
-import { Task, tasks } from '../../src';
+import { randomUUID } from 'node:crypto';
+import { type Task, tasks } from '../../src';
 
 const startSpy = jest.fn();
 const messageSpy = jest.fn();
@@ -14,7 +14,7 @@ jest.mock('../../src/prompts/spinner', () => () => ({
 describe('tasks', () => {
 	it('should start tasks in sequence', async () => {
 		const length = 3;
-		let data: Task[] = Array.from(Array(length).keys()).map((i) => ({
+		const data: Task[] = Array.from(Array(length).keys()).map((i) => ({
 			title: String(i),
 			async task(message) {},
 		}));
@@ -29,7 +29,7 @@ describe('tasks', () => {
 
 	it('should skip disabled task', async () => {
 		const length = 3;
-		let data: Task[] = Array.from(Array(length).keys()).map((i) => ({
+		const data: Task[] = Array.from(Array(length).keys()).map((i) => ({
 			title: String(i),
 			enabled: !(i === 1),
 			async task(message) {},
@@ -43,7 +43,7 @@ describe('tasks', () => {
 
 	it('should stop tasks in sequence', async () => {
 		const length = 3;
-		let data: Task[] = Array.from(Array(length).keys()).map((i) => ({
+		const data: Task[] = Array.from(Array(length).keys()).map((i) => ({
 			title: String(i),
 			async task(message) {},
 		}));

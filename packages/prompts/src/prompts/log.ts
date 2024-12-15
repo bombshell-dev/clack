@@ -7,7 +7,7 @@ import {
 	S_INFO,
 	S_STEP_SUBMIT,
 	S_SUCCESS,
-	S_WARN
+	S_WARN,
 } from '../utils';
 
 export const cancel = (message = '') => {

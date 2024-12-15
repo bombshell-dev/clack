@@ -1,6 +1,6 @@
 import { SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
-import { Option, SelectOptions, symbol, S_BAR, S_BAR_END } from '../utils';
+import { type Option, S_BAR, S_BAR_END, type SelectOptions, symbol } from '../utils';
 
 export const opt = <TValue>(
 	option: Option<TValue>,
@@ -9,16 +9,18 @@ export const opt = <TValue>(
 	const label = option.label ?? String(option.value);
 	if (state === 'selected') {
 		return `${color.dim(label)}`;
-	} else if (state === 'cancelled') {
+	}
+	if (state === 'cancelled') {
 		return `${color.strikethrough(color.dim(label))}`;
-	} else if (state === 'active') {
+	}
+	if (state === 'active') {
 		return `${color.bgCyan(color.gray(` ${option.value} `))} ${label}${
 			option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 		}`;
 	}
-	return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label}${
-		option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
-	}`;
+	return `${color.gray(
+		color.bgWhite(color.inverse(` ${option.value} `))
+	)} ${label}${option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''}`;
 };
 
 const selectKey = <TValue extends string>(opts: SelectOptions<TValue>) => {
@@ -31,13 +33,15 @@ const selectKey = <TValue extends string>(opts: SelectOptions<TValue>) => {
 			switch (this.state) {
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${opt(
+						// biome-ignore lint/style/noNonNullAssertion: <explanation>
 						this.options.find((opt) => opt.value === this.value)!,
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
-						S_BAR
-					)}`;
+					return `${title}${color.gray(S_BAR)}  ${opt(
+						this.options[0],
+						'cancelled'
+					)}\n${color.gray(S_BAR)}`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))

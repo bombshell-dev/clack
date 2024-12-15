@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import color from 'picocolors';
 import { cancel, intro, log, outro } from '../../src';
 import {
@@ -9,7 +9,7 @@ import {
 	S_INFO,
 	S_STEP_SUBMIT,
 	S_SUCCESS,
-	S_WARN
+	S_WARN,
 } from '../../src/utils';
 
 const outputSpy = jest.spyOn(process.stdout, 'write').mockImplementation();

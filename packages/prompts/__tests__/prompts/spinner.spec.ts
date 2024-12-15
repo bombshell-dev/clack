@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 import { spinner } from '../../src';
@@ -66,7 +66,7 @@ describe('spinner', () => {
 	it('should remove dots from message', () => {
 		const message = randomUUID();
 
-		s.start(message + '...');
+		s.start(`${message}...`);
 		jest.advanceTimersByTime(frameInterval);
 
 		expect(outputSpy).toHaveBeenCalledWith(`${color.magenta(frames[0])}  ${message}`);

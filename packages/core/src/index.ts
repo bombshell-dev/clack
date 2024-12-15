@@ -1,7 +1,7 @@
 export { default as ConfirmPrompt, type ConfirmOptions } from './prompts/confirm';
 export {
 	default as GroupMultiSelectPrompt,
-	type GroupMultiSelectOptions
+	type GroupMultiSelectOptions,
 } from './prompts/group-multiselect';
 export { default as MultiSelectPrompt, type MultiSelectOptions } from './prompts/multiselect';
 export { default as PasswordPrompt, type PasswordOptions } from './prompts/password';

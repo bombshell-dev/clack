@@ -1,6 +1,6 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import { symbol, S_BAR, S_BAR_END, S_RADIO_ACTIVE, S_RADIO_INACTIVE } from '../utils';
+import { S_BAR, S_BAR_END, S_RADIO_ACTIVE, S_RADIO_INACTIVE, symbol } from '../utils';
 
 export interface ConfirmOptions {
 	message: string;

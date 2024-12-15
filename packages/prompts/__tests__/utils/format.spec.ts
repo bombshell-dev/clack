@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import color from 'picocolors';
 import { formatPlaceholder, limitOptions } from '../../src/utils';
 

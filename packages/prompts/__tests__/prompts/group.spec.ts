@@ -11,7 +11,7 @@ describe('group', () => {
 			tee: async ({ results }) => {
 				results.foo === 'Foo' &&
 				results.bar === true &&
-				results.baz![0] === 1 &&
+				results.baz?.[0] === 1 &&
 				results.gee === undefined
 					? done()
 					: done(`invalid results: ${JSON.stringify(results, null, 2)}`);

@@ -1,12 +1,12 @@
 import color from 'picocolors';
 import {
-	strip,
 	S_BAR,
 	S_BAR_H,
 	S_CONNECT_LEFT,
 	S_CORNER_BOTTOM_RIGHT,
 	S_CORNER_TOP_RIGHT,
-	S_STEP_SUBMIT
+	S_STEP_SUBMIT,
+	strip,
 } from '../utils';
 
 const note = (message = '', title = '') => {
@@ -15,17 +15,17 @@ const note = (message = '', title = '') => {
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
-				ln = strip(ln);
-				return ln.length > sum ? ln.length : sum;
+				const stripedLine = strip(ln);
+				return stripedLine.length > sum ? stripedLine.length : sum;
 			}, 0),
 			titleLen
 		) + 2;
 	const msg = lines
 		.map(
 			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
-					S_BAR
-				)}`
+				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(
+					len - strip(ln).length
+				)}${color.gray(S_BAR)}`
 		)
 		.join('\n');
 	process.stdout.write(

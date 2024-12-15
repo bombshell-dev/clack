@@ -1,7 +1,7 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { cursor } from 'sisteransi';
 import { mockPrompt, setGlobalAliases } from '../../src';
-import Prompt, { PromptOptions } from '../../src/prompts/prompt';
+import Prompt, { type PromptOptions } from '../../src/prompts/prompt';
 import { MockReadable, MockWritable } from '../mocks';
 
 const outputSpy = jest.spyOn(process.stdout, 'write').mockImplementation();

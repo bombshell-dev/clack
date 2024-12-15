@@ -1,14 +1,14 @@
 import { SelectPrompt } from '@clack/core';
 import color from 'picocolors';
 import {
-	limitOptions,
-	Option,
-	SelectOptions,
-	symbol,
+	type Option,
 	S_BAR,
 	S_BAR_END,
 	S_RADIO_ACTIVE,
-	S_RADIO_INACTIVE
+	S_RADIO_INACTIVE,
+	type SelectOptions,
+	limitOptions,
+	symbol,
 } from '../utils';
 
 export const opt = <TValue>(

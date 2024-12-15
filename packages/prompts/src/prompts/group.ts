@@ -1,5 +1,5 @@
 import { isCancel } from '@clack/core';
-import { Prettify } from '../utils';
+import type { Prettify } from '../utils';
 
 export type PromptGroupAwaitedReturn<T> = {
 	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
@@ -16,7 +16,7 @@ export interface PromptGroupOptions<T> {
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
 		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => void | Promise<T[P] | void>;
+	}) => undefined | Promise<T[P] | undefined>;
 };
 
 /**

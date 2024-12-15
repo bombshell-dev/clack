@@ -1,11 +1,11 @@
 import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
-import { symbol, S_BAR, S_BAR_END, S_PASSWORD_MASK } from '../utils';
+import { S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from '../utils';
 
 export interface PasswordOptions {
 	message: string;
 	mask?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 
 const password = (opts: PasswordOptions) => {
@@ -26,7 +26,7 @@ const password = (opts: PasswordOptions) => {
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${
 						masked ? color.strikethrough(color.dim(masked)) : ''
-					}${masked ? '\n' + color.gray(S_BAR) : ''}`;
+					}${masked ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${masked}\n${color.cyan(S_BAR_END)}\n`;
 			}

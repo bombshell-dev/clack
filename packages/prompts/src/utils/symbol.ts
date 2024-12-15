@@ -1,4 +1,4 @@
-import { State } from '@clack/core';
+import type { State } from '@clack/core';
 import isUnicodeSupportedFn from 'is-unicode-supported';
 import color from 'picocolors';
 

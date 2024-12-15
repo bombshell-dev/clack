@@ -1,8 +1,8 @@
-import { mockPrompt, PasswordPrompt } from '@clack/core';
 import { randomUUID } from 'node:crypto';
+import { type PasswordPrompt, mockPrompt } from '@clack/core';
 import color from 'picocolors';
 import { password } from '../../src';
-import { symbol, S_BAR, S_BAR_END } from '../../src/utils';
+import { S_BAR, S_BAR_END, symbol } from '../../src/utils';
 
 describe('password', () => {
 	const mock = mockPrompt<PasswordPrompt>();

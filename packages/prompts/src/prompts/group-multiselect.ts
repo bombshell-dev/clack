@@ -1,13 +1,13 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
 import {
-	Option,
-	symbol,
+	type Option,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
 	S_CHECKBOX_INACTIVE,
-	S_CHECKBOX_SELECTED
+	S_CHECKBOX_SELECTED,
+	symbol,
 } from '../utils';
 
 export const opt = <TValue>(
@@ -31,21 +31,27 @@ export const opt = <TValue>(
 
 	if (state === 'group-active') {
 		return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
-	} else if (state === 'group-active-selected') {
+	}
+	if (state === 'group-active-selected') {
 		return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-	} else if (state === 'active') {
+	}
+	if (state === 'active') {
 		return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label}${
 			option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 		}`;
-	} else if (state === 'active-selected') {
+	}
+	if (state === 'active-selected') {
 		return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label}${
 			option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 		}`;
-	} else if (state === 'selected') {
+	}
+	if (state === 'selected') {
 		return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-	} else if (state === 'cancelled') {
+	}
+	if (state === 'cancelled') {
 		return `${color.strikethrough(color.dim(label))}`;
-	} else if (state === 'submitted') {
+	}
+	if (state === 'submitted') {
 		return `${color.dim(label)}`;
 	}
 	return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -76,7 +82,7 @@ const groupMultiselect = <TValue>(opts: GroupMultiSelectOptions<TValue>) => {
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit': {

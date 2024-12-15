@@ -1,15 +1,15 @@
-import { mockPrompt, SelectPrompt } from '@clack/core';
+import { type SelectPrompt, mockPrompt } from '@clack/core';
 import color from 'picocolors';
 import { groupMultiselect } from '../../src';
 import { opt } from '../../src/prompts/group-multiselect';
 import {
-	Option,
-	symbol,
+	type Option,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
 	S_CHECKBOX_INACTIVE,
-	S_CHECKBOX_SELECTED
+	S_CHECKBOX_SELECTED,
+	symbol,
 } from '../../src/utils';
 
 const options = {
