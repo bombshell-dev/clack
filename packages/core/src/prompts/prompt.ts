@@ -5,7 +5,16 @@ import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { ALIASES, CANCEL_SYMBOL, KEYS, diffLines, hasAliasKey, setRawMode } from '../utils';
+import {
+	ALIASES,
+	CANCEL_SYMBOL,
+	KEYS,
+	diffLines,
+	exposeTestUtils,
+	hasAliasKey,
+	isTestMode,
+	setRawMode,
+} from '../utils';
 
 import type { ClackEvents, ClackState, InferSetType } from '../types';
 
@@ -47,6 +56,33 @@ export default class Prompt {
 
 		this.input = input;
 		this.output = output;
+
+		exposeTestUtils({
+			...this,
+			on: this.on.bind(this),
+			once: this.once.bind(this),
+			emit: this.emit.bind(this),
+			pressKey: this.onKeypress.bind(this),
+			updateFrame: this.render.bind(this),
+			close: this.close.bind(this),
+			setState: (state) => {
+				this.state = state;
+			},
+			setCursor: (cursor) => {
+				this._cursor = cursor;
+			},
+			setValue: (value) => {
+				this.value = value;
+			},
+			cancel: (value) => {
+				this.value = value ?? this.value;
+				this.onKeypress('', { name: '\x03' });
+			},
+			submit: (value) => {
+				this.value = value ?? this.value;
+				this.onKeypress('', { name: 'return' });
+			},
+		});
 	}
 
 	/**
@@ -107,6 +143,8 @@ export default class Prompt {
 		for (const cb of cleanup) {
 			cb();
 		}
+
+		exposeTestUtils({ value: this.value });
 	}
 
 	public prompt() {
@@ -142,15 +180,13 @@ export default class Prompt {
 			this.render();
 
 			this.once('submit', () => {
+				if (!isTestMode) this.output.write('\n');
 				this.output.write(cursor.show);
-				this.output.off('resize', this.render);
-				setRawMode(this.input, false);
 				resolve(this.value);
 			});
 			this.once('cancel', () => {
+				if (!isTestMode) this.output.write('\n');
 				this.output.write(cursor.show);
-				this.output.off('resize', this.render);
-				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
 			});
 		});
@@ -208,7 +244,7 @@ export default class Prompt {
 	protected close() {
 		this.input.unpipe();
 		this.input.removeListener('keypress', this.onKeypress);
-		this.output.write('\n');
+		this.output.off('resize', this.render);
 		setRawMode(this.input, false);
 		this.rl.close();
 		this.emit(`${this.state}`, this.value);
@@ -223,7 +259,11 @@ export default class Prompt {
 
 	private render() {
 		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
-		if (frame === this._prevFrame) return;
+		exposeTestUtils({ frame, state: this.state, error: this.error });
+
+		if (isTestMode || frame === this._prevFrame) {
+			return;
+		}
 
 		if (this.state === 'initial') {
 			this.output.write(cursor.hide);

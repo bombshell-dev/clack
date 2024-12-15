@@ -1,3 +1,4 @@
+import { platform } from 'node:os';
 import { stdin, stdout } from 'node:process';
 import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
@@ -6,9 +7,8 @@ import { cursor } from 'sisteransi';
 import { hasAliasKey } from './aliases';
 
 export * from './aliases';
+export * from './mock';
 export * from './string';
-
-const isWindows = globalThis.process.platform.startsWith('win');
 
 export const CANCEL_SYMBOL = Symbol('clack:cancel');
 
@@ -20,6 +20,10 @@ export function setRawMode(input: Readable, value: boolean) {
 	const i = input as typeof stdin;
 
 	if (i.isTTY) i.setRawMode(value);
+}
+
+function isWindows(): boolean {
+	return platform().startsWith('win');
 }
 
 export function block({
@@ -42,7 +46,6 @@ export function block({
 		if (hasAliasKey([str, name, sequence], 'cancel')) {
 			if (hideCursor) output.write(cursor.show);
 			process.exit(0);
-			return;
 		}
 		if (!overwrite) return;
 		const dx = name === 'return' ? 0 : -1;
@@ -62,7 +65,7 @@ export function block({
 		if (hideCursor) output.write(cursor.show);
 
 		// Prevent Windows specific issues: https://github.com/natemoo-re/clack/issues/176
-		if (input.isTTY && !isWindows) input.setRawMode(false);
+		if (input.isTTY && !isWindows()) input.setRawMode(false);
 
 		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
 		rl.terminal = false;
