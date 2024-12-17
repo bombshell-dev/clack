@@ -115,6 +115,20 @@ export default class Prompt {
 	public prompt() {
 		return new Promise<string | symbol>((resolve, reject) => {
 			if (this.abortController) {
+				if (this.abortController.aborted) {
+					this.state = 'cancel';
+
+					this.input.unpipe();
+					this.input.removeListener('keypress', this.onKeypress);
+					this.output.write('\n');
+					setRawMode(this.input, false);
+					// this.rl.close(); // The readline interface is not set up yet
+					this.emit(`${this.state}`, this.value);
+					this.unsubscribe();
+					
+					return resolve(CANCEL_SYMBOL);
+				}
+
 				this.abortController.addEventListener('abort', () => {
 					this.state = 'cancel';
 					this.close();

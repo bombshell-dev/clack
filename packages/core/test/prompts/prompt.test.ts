@@ -248,4 +248,14 @@ describe('Prompt', () => {
 
 		expect(instance.state).to.equal('cancel');
 	});
+
+	test('returns immediately if signal is already aborted', () => {
+		const abortController = new AbortController();
+		abortController.abort();
+
+		const instance = new Prompt({ input, output, render: () => 'foo', signal: abortController.signal });
+		instance.prompt();
+
+		expect(instance.state).to.equal('cancel');
+	});
 });
