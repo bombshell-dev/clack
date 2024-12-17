@@ -21,4 +21,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpx pkg-pr-new publish
+      - run: pnpx pkg-pr-new publish --package ./packages/core
