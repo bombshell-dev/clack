@@ -20,7 +20,7 @@ export interface PromptOptions<Self extends Prompt> {
 	debug?: boolean;
 	signal?: AbortSignal;
 }
-
+// aaah
 export default class Prompt {
 	protected input: Readable;
 	protected output: Writable;
