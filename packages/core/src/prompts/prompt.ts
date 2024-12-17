@@ -115,10 +115,14 @@ export default class Prompt {
 	public prompt() {
 		return new Promise<string | symbol>((resolve, reject) => {
 			if (this.abortController) {
-				this.abortController.addEventListener('abort', () => {
-					this.state = 'cancel';
-					this.close();
-				}, { once: true });
+				this.abortController.addEventListener(
+					'abort',
+					() => {
+						this.state = 'cancel';
+						this.close();
+					},
+					{ once: true }
+				);
 			}
 
 			const sink = new WriteStream(0);
