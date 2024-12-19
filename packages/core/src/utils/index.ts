@@ -3,10 +3,10 @@ import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import type { Readable } from 'node:stream';
 import { cursor } from 'sisteransi';
-import { hasAliasKey } from './aliases';
+import { isActionKey } from './settings';
 
-export * from './aliases';
 export * from './string';
+export * from './settings';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 
@@ -39,7 +39,7 @@ export function block({
 
 	const clear = (data: Buffer, { name, sequence }: Key) => {
 		const str = String(data);
-		if (hasAliasKey([str, name, sequence], 'cancel')) {
+		if (isActionKey([str, name, sequence], 'cancel')) {
 			if (hideCursor) output.write(cursor.show);
 			process.exit(0);
 			return;
