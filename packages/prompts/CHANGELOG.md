@@ -1,5 +1,83 @@
 # @clack/prompts
 
+## 0.9.0
+
+### Minor Changes
+
+- a83d2f8: Adds a new `updateSettings()` function to support new global keybindings.
+
+  `updateSettings()` accepts an `aliases` object that maps custom keys to an action (`up | down | left | right | space | enter | cancel`).
+
+  ```ts
+  import { updateSettings } from "@clack/prompts";
+
+  // Support custom keybindings
+  updateSettings({
+    aliases: {
+      w: "up",
+      a: "left",
+      s: "down",
+      d: "right",
+    },
+  });
+  ```
+
+  > [!WARNING]
+  > In order to enforce consistent, user-friendly defaults across the ecosystem, `updateSettings` does not support disabling Clack's default keybindings.
+
+- 801246b: Adds a new `signal` option to support programmatic prompt cancellation with an [abort controller](https://kettanaito.com/blog/dont-sleep-on-abort-controller).
+
+  One example use case is automatically cancelling a prompt after a timeout.
+
+  ```ts
+  const shouldContinue = await confirm({
+    message: "This message will self destruct in 5 seconds",
+    signal: AbortSignal.timeout(5000),
+  });
+  ```
+
+  Another use case is racing a long running task with a manual prompt.
+
+  ```ts
+  const abortController = new AbortController();
+
+  const projectType = await Promise.race([
+    detectProjectType({
+      signal: abortController.signal,
+    }),
+    select({
+      message: "Pick a project type.",
+      options: [
+        { value: "ts", label: "TypeScript" },
+        { value: "js", label: "JavaScript" },
+        { value: "coffee", label: "CoffeeScript", hint: "oh no" },
+      ],
+      signal: abortController.signal,
+    }),
+  ]);
+
+  abortController.abort();
+  ```
+
+- a83d2f8: Updates default keybindings to support Vim motion shortcuts and map the `escape` key to cancel (`ctrl+c`).
+
+  | alias | action |
+  | ----- | ------ |
+  | `k`   | up     |
+  | `l`   | right  |
+  | `j`   | down   |
+  | `h`   | left   |
+  | `esc` | cancel |
+
+### Patch Changes
+
+- f9f139d: Adapts `spinner` output for static CI environments
+- Updated dependencies [a83d2f8]
+- Updated dependencies [801246b]
+- Updated dependencies [a83d2f8]
+- Updated dependencies [51e12bc]
+  - @clack/core@0.4.0
+
 ## 0.8.2
 
 ### Patch Changes
