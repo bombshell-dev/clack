@@ -122,10 +122,14 @@ export default class Prompt {
 					return resolve(CANCEL_SYMBOL);
 				}
 
-				this._abortSignal.addEventListener('abort', () => {
-					this.state = 'cancel';
-					this.close();
-				}, { once: true });
+				this._abortSignal.addEventListener(
+					'abort',
+					() => {
+						this.state = 'cancel';
+						this.close();
+					},
+					{ once: true }
+				);
 			}
 
 			const sink = new WriteStream(0);

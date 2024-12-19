@@ -253,7 +253,12 @@ describe('Prompt', () => {
 		const abortController = new AbortController();
 		abortController.abort();
 
-		const instance = new Prompt({ input, output, render: () => 'foo', signal: abortController.signal });
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			signal: abortController.signal,
+		});
 		instance.prompt();
 
 		expect(instance.state).to.equal('cancel');
