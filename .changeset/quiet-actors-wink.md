@@ -3,21 +3,24 @@
 "@clack/core": minor
 ---
 
-Adds a new `updateSettings()` export to support global Clack configuration.
+Adds a new `updateSettings()` function to support global customization.
 
-In this release, `updateSettings()` accepts an `aliases` object which maps custom keys to an action (one of `up | down | left | right | space | enter | cancel`). In the future, settings will support more options.
+`updateSettings()` accepts an `aliases` object that maps
+custom keys to an action (one of
+`up | down | left | right | space | enter | cancel`). In the future, `updateSettings()`
+will support more even more customization options.
 
 ```ts
-import { updateSettings } from '@clack/prompts'
+import { updateSettings } from "@clack/prompts";
 
-// Update Clack to recognize custom keybindings
+// Update Clack to recognize custom keys keybindings
 // before calling any prompts
 updateSettings({
-    aliases: {
-        w: 'up',
-        a: 'left',
-        s: 'down',
-        d: 'right'
-    }
-})
+  aliases: {
+    w: "up",
+    a: "left",
+    s: "down",
+    d: "right",
+  },
+});
 ```
