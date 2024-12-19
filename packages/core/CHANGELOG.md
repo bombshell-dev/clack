@@ -9,7 +9,7 @@
   `updateSettings()` accepts an `aliases` object that maps custom keys to an action (`up | down | left | right | space | enter | cancel`).
 
   ```ts
-  import { updateSettings } from "@clack/prompts";
+  import { updateSettings } from "@clack/core";
 
   // Support custom keybindings
   updateSettings({
