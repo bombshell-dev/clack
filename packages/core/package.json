@@ -22,10 +22,7 @@
     "url": "https://github.com/natemoo-re/clack/issues"
   },
   "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
-  "files": [
-    "dist",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist", "CHANGELOG.md"],
   "keywords": [
     "ask",
     "clack",
