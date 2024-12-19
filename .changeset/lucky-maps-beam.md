@@ -10,17 +10,17 @@ One example use case is automatically cancelling a prompt after a timeout.
 ```ts
 const shouldContinue = await confirm({
   message: 'This message will self destruct in 5 seconds',
-  signal: AbortSignal.timeout(3000),
+  signal: AbortSignal.timeout(5000),
 });
 ```
 
-Another use case is a long running task which can be cancelled if the user submits a response to the prompt.
+Another use case is racing a long running task with a manual prompt.
 
 ```ts
 const abortController = new AbortController()
 
 const projectType = await Promise.race([
-  detectSystemSettings({
+  detectProjectType({
     signal: abortController.signal
   }),
   select({
@@ -31,6 +31,8 @@ const projectType = await Promise.race([
       { value: 'coffee', label: 'CoffeeScript', hint: 'oh no'},
     ],
      signal: abortController.signal,
-  });
+  })
 ])
+
+abortController.abort()
 ```
