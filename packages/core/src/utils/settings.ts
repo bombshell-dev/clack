@@ -10,11 +10,14 @@ interface InternalClackSettings {
 export const settings: InternalClackSettings = {
 	actions: new Set(actions),
 	aliases: new Map<string, Action>([
+		// vim support
 		['k', 'up'],
 		['j', 'down'],
 		['h', 'left'],
 		['l', 'right'],
 		['\x03', 'cancel'],
+		// opinionated defaults!
+		['escape', 'cancel'],
 	]),
 };
 
@@ -24,7 +27,7 @@ export interface ClackSettings {
 	 * This will not overwrite existing aliases, it will only add new ones!
 	 *
 	 * @param aliases - An object that maps aliases to actions
-	 * @default { k: 'up', j: 'down', h: 'left', l: 'right', '\x03': 'cancel' }
+	 * @default { k: 'up', j: 'down', h: 'left', l: 'right', '\x03': 'cancel', 'escape': 'cancel' }
 	 */
 	aliases: Record<string, Action>;
 }
