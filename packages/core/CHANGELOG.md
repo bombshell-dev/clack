@@ -1,5 +1,47 @@
 # @clack/core
 
+## 0.4.0
+
+### Minor Changes
+
+- a83d2f8: Adds a new `updateSettings()` function to support new global keybindings.
+
+  `updateSettings()` accepts an `aliases` object that maps custom keys to an action (`up | down | left | right | space | enter | cancel`).
+
+  ```ts
+  import { updateSettings } from "@clack/core";
+
+  // Support custom keybindings
+  updateSettings({
+    aliases: {
+      w: "up",
+      a: "left",
+      s: "down",
+      d: "right",
+    },
+  });
+  ```
+
+> [!WARNING]
+> In order to enforce consistent, user-friendly defaults across the ecosystem, `updateSettings` does not support disabling Clack's default keybindings.
+
+- 801246b: Adds a new `signal` option to support programmatic prompt cancellation with an [abort controller](https://kettanaito.com/blog/dont-sleep-on-abort-controller).
+
+
+- a83d2f8: Updates default keybindings to support Vim motion shortcuts and map the `escape` key to cancel (`ctrl+c`).
+
+  | alias | action |
+  | ----- | ------ |
+  | `k`   | up     |
+  | `l`   | right  |
+  | `j`   | down   |
+  | `h`   | left   |
+  | `esc` | cancel |
+
+### Patch Changes
+
+- 51e12bc: Improves types for events and interaction states.
+
 ## 0.3.5
 
 ### Patch Changes
