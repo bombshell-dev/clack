@@ -9,7 +9,6 @@ import { ALIASES, CANCEL_SYMBOL, KEYS, diffLines, hasAliasKey, setRawMode } from
 
 import type { ClackEvents, ClackState, InferSetType } from '../types';
 
-// trigger build
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
