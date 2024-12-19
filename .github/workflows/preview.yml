@@ -22,4 +22,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpx pkg-pr-new publish './packages/*'
+      - run: pnpx pkg-pr-new publish './packages/*' --template './examples/*'
