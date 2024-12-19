@@ -24,7 +24,7 @@ export interface PromptOptions<Self extends Prompt> {
 export default class Prompt {
 	protected input: Readable;
 	protected output: Writable;
-	private abortController?: AbortSignal;
+	private _abortSignal?: AbortSignal;
 
 	private rl!: ReadLine;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
@@ -47,7 +47,7 @@ export default class Prompt {
 		this.render = this.render.bind(this);
 		this._render = render.bind(this);
 		this._track = trackValue;
-		this.abortController = signal;
+		this._abortSignal = signal;
 
 		this.input = input;
 		this.output = output;
@@ -115,8 +115,8 @@ export default class Prompt {
 
 	public prompt() {
 		return new Promise<string | symbol>((resolve, reject) => {
-			if (this.abortController) {
-				if (this.abortController.aborted) {
+			if (this._abortSignal) {
+				if (this._abortSignal.aborted) {
 					this.state = 'cancel';
 
 					this.input.unpipe();
@@ -130,7 +130,7 @@ export default class Prompt {
 					return resolve(CANCEL_SYMBOL);
 				}
 
-				this.abortController.addEventListener('abort', () => {
+				this._abortSignal.addEventListener('abort', () => {
 					this.state = 'cancel';
 					this.close();
 				}, { once: true });
