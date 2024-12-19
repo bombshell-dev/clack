@@ -26,7 +26,7 @@ export default class Prompt {
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;
 
-	private rl!: ReadLine;
+	private rl: ReadLine | undefined;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
 	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
 	private _track = false;
@@ -119,14 +119,7 @@ export default class Prompt {
 				if (this._abortSignal.aborted) {
 					this.state = 'cancel';
 
-					this.input.unpipe();
-					this.input.removeListener('keypress', this.onKeypress);
-					this.output.write('\n');
-					setRawMode(this.input, false);
-					// this.rl.close(); // The readline interface is not set up yet
-					this.emit(`${this.state}`, this.value);
-					this.unsubscribe();
-					
+					this.close();
 					return resolve(CANCEL_SYMBOL);
 				}
 
@@ -139,8 +132,8 @@ export default class Prompt {
 			const sink = new WriteStream(0);
 			sink._write = (chunk, encoding, done) => {
 				if (this._track) {
-					this.value = this.rl.line.replace(/\t/g, '');
-					this._cursor = this.rl.cursor;
+					this.value = this.rl?.line.replace(/\t/g, '');
+					this._cursor = this.rl?.cursor ?? 0;
 					this.emit('value', this.value);
 				}
 				done();
@@ -196,7 +189,7 @@ export default class Prompt {
 		}
 		if (char === '\t' && this.opts.placeholder) {
 			if (!this.value) {
-				this.rl.write(this.opts.placeholder);
+				this.rl?.write(this.opts.placeholder);
 				this.emit('value', this.opts.placeholder);
 			}
 		}
@@ -210,7 +203,7 @@ export default class Prompt {
 				if (problem) {
 					this.error = problem;
 					this.state = 'error';
-					this.rl.write(this.value);
+					this.rl?.write(this.value);
 				}
 			}
 			if (this.state !== 'error') {
@@ -235,7 +228,8 @@ export default class Prompt {
 		this.input.removeListener('keypress', this.onKeypress);
 		this.output.write('\n');
 		setRawMode(this.input, false);
-		this.rl.close();
+		this.rl?.close();
+		this.rl = undefined;
 		this.emit(`${this.state}`, this.value);
 		this.unsubscribe();
 	}
