@@ -5,9 +5,10 @@ import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { ALIASES, CANCEL_SYMBOL, KEYS, diffLines, hasAliasKey, setRawMode } from '../utils';
+import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils';
 
-import type { ClackEvents, ClackState, InferSetType } from '../types';
+import type { ClackEvents, ClackState } from '../types';
+import type { Action } from '../utils';
 
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
@@ -181,11 +182,13 @@ export default class Prompt {
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
-		if (key?.name && !this._track && ALIASES.has(key.name)) {
-			this.emit('cursor', ALIASES.get(key.name));
-		}
-		if (key?.name && KEYS.has(key.name as InferSetType<typeof KEYS>)) {
-			this.emit('cursor', key.name as InferSetType<typeof KEYS>);
+		if (key?.name) {
+			if (!this._track && settings.aliases.has(key.name)) {
+				this.emit('cursor', settings.aliases.get(key.name));
+			}
+			if (settings.actions.has(key.name as Action)) {
+				this.emit('cursor', key.name as Action);
+			}
 		}
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
@@ -214,7 +217,7 @@ export default class Prompt {
 			}
 		}
 
-		if (hasAliasKey([char, key?.name, key?.sequence], 'cancel')) {
+		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
 		if (this.state === 'submit' || this.state === 'cancel') {
