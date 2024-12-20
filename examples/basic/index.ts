@@ -12,8 +12,8 @@ async function main() {
 			w: 'up',
 			s: 'down',
 			a: 'left',
-			d: 'right'
-		}
+			d: 'right',
+		},
 	});
 
 	p.intro(`${color.bgCyan(color.black(' create-app '))}`);
