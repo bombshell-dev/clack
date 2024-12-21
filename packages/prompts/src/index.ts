@@ -1,12 +1,12 @@
+import type { NonEmptyArray, State } from '@clack/core';
+
 import {
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
 	MultiSelectPrompt,
-	NonEmptyArray,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
-	type State,
 	TextPrompt,
 	block,
 	isCancel,
