@@ -6,7 +6,7 @@ interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPr
 	initialValue?: T['value'];
 }
 export default class SelectPrompt<T extends { value: any }> extends Prompt {
-	options: NonEmptyArray<SelectOptions<T>['options']>;
+	options: NonEmptyArray<T>;
 	cursor = 0;
 
 	private get _value() {
