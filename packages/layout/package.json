@@ -1,0 +1,42 @@
+{
+  "name": "@clack/layout",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natemoo-re/clack",
+    "directory": "packages/layout"
+  },
+  "bugs": {
+    "url": "https://github.com/natemoo-re/clack/issues"
+  },
+  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/layout#readme",
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "author": {
+    "name": "Nate Moore",
+    "email": "nate@natemoo.re",
+    "url": "https://twitter.com/n_moore"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@8.6.12",
+  "scripts": {
+    "dev": "pnpx tsx src/index.ts"
+  },
+  "dependencies": {
+    "yoga-layout": "^3.2.1"
+  }
+}
