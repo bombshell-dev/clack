@@ -18,11 +18,14 @@ importers:
         specifier: ^18.16.0
         version: 18.16.0
       typescript:
-        specifier: ^5.2.2
-        version: 5.2.2
+        specifier: ^5.7.2
+        version: 5.7.2
       unbuild:
         specifier: ^2.0.0
-        version: 2.0.0(typescript@5.2.2)
+        version: 2.0.0(typescript@5.7.2)
+      unplugin-isolated-decl:
+        specifier: ^0.10.2
+        version: 0.10.2(rollup@4.27.3)(typescript@5.7.2)
 
   examples/basic:
     dependencies:
@@ -730,6 +733,49 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
+  '@oxc-parser/binding-darwin-arm64@0.39.0':
+    resolution: {integrity: sha512-IP7USw9mHYTyfT/nwQZvdS/Z1TqfzV6j6EtK60t5jfvl1CeSXOUyZzO9WFdW2c0F+DgcSjR9hJkwpCwJzzBjXw==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oxc-parser/binding-darwin-x64@0.39.0':
+    resolution: {integrity: sha512-0hZvJX5F6HIlLDs1VfVBHVHaY98tGmNpCr1eOcbz5A5rrtE/AF5c6Rf23jE763a+vQKTMyHmohjEsqw+jlXZfw==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.39.0':
+    resolution: {integrity: sha512-sECHgo55REvlL+sU1ITG7uXuERd1cZIlQbFf0E0Eqq47a3gMS9CUcsdc3OmRYTA6p7W45agktw/tRrHpJDBhNg==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-arm64-musl@0.39.0':
+    resolution: {integrity: sha512-YzLPmO8UYkTKSW7yDZB53S5HfM2SWKaqLSV7KcTdOZgash5Qd38QwyiE4T2aOzEBRiybpXZYapjBqFDvDfR1Lg==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-x64-gnu@0.39.0':
+    resolution: {integrity: sha512-h4F6M9H4gjRIjcMPbP+TItGjIIjbOFI22rOpX/FHM5VpiOrVun6nKlmu8Lub1Qzy6cI/2JAQlV17ETdjMmuDpA==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-x64-musl@0.39.0':
+    resolution: {integrity: sha512-7krHX7FfNTAJygFIUJa3xSmSfTpmb+E8rOUeqkE3jeFM2D1As7y5adoWi3vuHY3UMDy6w3Q1Umcyylxqzp4ujA==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oxc-parser/binding-win32-arm64-msvc@0.39.0':
+    resolution: {integrity: sha512-4Puf8gojVwG3nIGyi1B8oVl89dit+kcd3eTH8x9exz+KoihstJbWbyAkezB9W5K86FcZE8dbVcHWDifF6sSu/Q==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oxc-parser/binding-win32-x64-msvc@0.39.0':
+    resolution: {integrity: sha512-Qy5kvBUtscM2VJ0q/Y7N9546HiL/JrV1MvMf+Q4ORrApO3JfMSyoJdIaFz6SxytiQLRtOFnkjfACCl4qcvYRQg==}
+    cpu: [x64]
+    os: [win32]
+
+  '@oxc-project/types@0.39.0':
+    resolution: {integrity: sha512-S70sRLmlZA3NIQXp3gkBKOkFFpIaNtpLtSFp3Tejre2HsUthJ9dVTTGvJhkZOlIdJs8LGFZ5HTX4jLNcC2RxFg==}
+
   '@rollup/plugin-alias@5.1.1':
     resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
     engines: {node: '>=14.0.0'}
@@ -1196,6 +1242,15 @@ packages:
 
   debug@4.3.7:
     resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.0:
+    resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -1772,6 +1827,9 @@ packages:
   magic-string@0.30.13:
     resolution: {integrity: sha512-8rYBO+MsWkgjDSOvLomYnzhdwEG51olQ4zL5KXnNJWV5MNmrb4rTZdrtkhxjnD/QyZUqR/Z/XDsUs/4ej2nx0g==}
 
+  magic-string@0.30.17:
+    resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
+
   map-obj@1.0.1:
     resolution: {integrity: sha512-7N/q3lyZ+LVCp7PzuxrJr4KMbBE2hW7BT7YNia330OFxIf4d3r5zVpicP2650l7CPN6RM9zOJRl3NGpqSiw3Eg==}
     engines: {node: '>=0.10.0'}
@@ -1893,6 +1951,9 @@ packages:
 
   outdent@0.5.0:
     resolution: {integrity: sha512-/jHxFIzoMXdqPzTaCpFzAAWhpkSjZPF4Vsn6jAfNpmbH/ymsmd7Qc6VE9BGn0L6YMj6uwpQLxCECpus4ukKS9Q==}
+
+  oxc-parser@0.39.0:
+    resolution: {integrity: sha512-MnSAlAFyUvUMBEWna6y4wSu5lZzl1wcnvQul54uXaHinUlRjAeBd6wOAQqLKeNXRseVsXO9/2ALi327favfVkw==}
 
   p-filter@2.1.0:
     resolution: {integrity: sha512-ZBxxZ5sL2HghephhpGAQdoskxplTwr7ICaehZwLIlfL6acuVgZPm8yBNuRAFBGEqtD/hmUeq9eqLg2ys9Xr/yw==}
@@ -2507,8 +2568,8 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
-  typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+  typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2530,6 +2591,25 @@ packages:
   universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
+
+  unplugin-isolated-decl@0.10.2:
+    resolution: {integrity: sha512-XEOCqsJXbVm5KKWuPOK3Ik35TJH0VizAG5OorDa2igFs3IJnwd7IRGcexlPFFD2kvF7X82qi6VknChaSd2W0iA==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      '@swc/core': ^1.6.6
+      oxc-transform: '>=0.28.0'
+      typescript: ^5.5.2
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      oxc-transform:
+        optional: true
+      typescript:
+        optional: true
+
+  unplugin@2.1.0:
+    resolution: {integrity: sha512-us4j03/499KhbGP8BU7Hrzrgseo+KdfJYWcbcajCOqsAyb8Gk0Yn2kiUIcZISYCb1JFaZfIuG3b42HmguVOKCQ==}
+    engines: {node: '>=18.12.0'}
 
   untyped@1.5.1:
     resolution: {integrity: sha512-reBOnkJBFfBZ8pCKaeHgfZLcehXtM6UTxc+vqs1JvCps0c4amLNp3fhdGBZwYp+VLyoY9n3X5KOP7lCyWBUX9A==}
@@ -2610,6 +2690,9 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
+
+  webpack-virtual-modules@0.6.2:
+    resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
 
   which-boxed-primitive@1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}
@@ -3253,6 +3336,32 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
+  '@oxc-parser/binding-darwin-arm64@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-darwin-x64@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-musl@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-gnu@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-musl@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-arm64-msvc@0.39.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-x64-msvc@0.39.0':
+    optional: true
+
+  '@oxc-project/types@0.39.0': {}
+
   '@rollup/plugin-alias@5.1.1(rollup@3.29.5)':
     optionalDependencies:
       rollup: 3.29.5
@@ -3298,6 +3407,14 @@ snapshots:
       picomatch: 4.0.2
     optionalDependencies:
       rollup: 3.29.5
+
+  '@rollup/pluginutils@5.1.3(rollup@4.27.3)':
+    dependencies:
+      '@types/estree': 1.0.6
+      estree-walker: 2.0.2
+      picomatch: 4.0.2
+    optionalDependencies:
+      rollup: 4.27.3
 
   '@rollup/rollup-android-arm-eabi@4.27.3':
     optional: true
@@ -3720,6 +3837,10 @@ snapshots:
       is-data-view: 1.0.1
 
   debug@4.3.7:
+    dependencies:
+      ms: 2.1.3
+
+  debug@4.4.0:
     dependencies:
       ms: 2.1.3
 
@@ -4369,6 +4490,10 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  magic-string@0.30.17:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.0
+
   map-obj@1.0.1: {}
 
   map-obj@4.3.0: {}
@@ -4416,7 +4541,7 @@ snapshots:
 
   mixme@0.5.10: {}
 
-  mkdist@1.6.0(typescript@5.2.2):
+  mkdist@1.6.0(typescript@5.7.2):
     dependencies:
       autoprefixer: 10.4.20(postcss@8.4.49)
       citty: 0.1.6
@@ -4432,7 +4557,7 @@ snapshots:
       semver: 7.6.3
       tinyglobby: 0.2.10
     optionalDependencies:
-      typescript: 5.2.2
+      typescript: 5.7.2
 
   mlly@1.7.3:
     dependencies:
@@ -4488,6 +4613,19 @@ snapshots:
   os-tmpdir@1.0.2: {}
 
   outdent@0.5.0: {}
+
+  oxc-parser@0.39.0:
+    dependencies:
+      '@oxc-project/types': 0.39.0
+    optionalDependencies:
+      '@oxc-parser/binding-darwin-arm64': 0.39.0
+      '@oxc-parser/binding-darwin-x64': 0.39.0
+      '@oxc-parser/binding-linux-arm64-gnu': 0.39.0
+      '@oxc-parser/binding-linux-arm64-musl': 0.39.0
+      '@oxc-parser/binding-linux-x64-gnu': 0.39.0
+      '@oxc-parser/binding-linux-x64-musl': 0.39.0
+      '@oxc-parser/binding-win32-arm64-msvc': 0.39.0
+      '@oxc-parser/binding-win32-x64-msvc': 0.39.0
 
   p-filter@2.1.0:
     dependencies:
@@ -4810,11 +4948,11 @@ snapshots:
 
   reusify@1.0.4: {}
 
-  rollup-plugin-dts@6.1.1(rollup@3.29.5)(typescript@5.2.2):
+  rollup-plugin-dts@6.1.1(rollup@3.29.5)(typescript@5.7.2):
     dependencies:
       magic-string: 0.30.13
       rollup: 3.29.5
-      typescript: 5.2.2
+      typescript: 5.7.2
     optionalDependencies:
       '@babel/code-frame': 7.26.2
 
@@ -5113,7 +5251,7 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
 
-  typescript@5.2.2: {}
+  typescript@5.7.2: {}
 
   ufo@1.5.4: {}
 
@@ -5124,7 +5262,7 @@ snapshots:
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
 
-  unbuild@2.0.0(typescript@5.2.2):
+  unbuild@2.0.0(typescript@5.7.2):
     dependencies:
       '@rollup/plugin-alias': 5.1.1(rollup@3.29.5)
       '@rollup/plugin-commonjs': 25.0.8(rollup@3.29.5)
@@ -5141,23 +5279,41 @@ snapshots:
       hookable: 5.5.3
       jiti: 1.21.6
       magic-string: 0.30.13
-      mkdist: 1.6.0(typescript@5.2.2)
+      mkdist: 1.6.0(typescript@5.7.2)
       mlly: 1.7.3
       pathe: 1.1.2
       pkg-types: 1.2.1
       pretty-bytes: 6.1.1
       rollup: 3.29.5
-      rollup-plugin-dts: 6.1.1(rollup@3.29.5)(typescript@5.2.2)
+      rollup-plugin-dts: 6.1.1(rollup@3.29.5)(typescript@5.7.2)
       scule: 1.3.0
       untyped: 1.5.1
     optionalDependencies:
-      typescript: 5.2.2
+      typescript: 5.7.2
     transitivePeerDependencies:
       - sass
       - supports-color
       - vue-tsc
 
   universalify@0.1.2: {}
+
+  unplugin-isolated-decl@0.10.2(rollup@4.27.3)(typescript@5.7.2):
+    dependencies:
+      '@rollup/pluginutils': 5.1.3(rollup@4.27.3)
+      debug: 4.4.0
+      magic-string: 0.30.17
+      oxc-parser: 0.39.0
+      unplugin: 2.1.0
+    optionalDependencies:
+      typescript: 5.7.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+
+  unplugin@2.1.0:
+    dependencies:
+      acorn: 8.14.0
+      webpack-virtual-modules: 0.6.2
 
   untyped@1.5.1:
     dependencies:
@@ -5248,6 +5404,8 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  webpack-virtual-modules@0.6.2: {}
 
   which-boxed-primitive@1.0.2:
     dependencies:
@@ -5369,4 +5527,3 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.1.1: {}
-  

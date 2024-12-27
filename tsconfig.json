@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "noEmit": true,
+    "composite": true,
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",
+    "isolatedModules": true,
+    "isolatedDeclarations": true,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "paths": {
-      "@clack/core": ["./packages/core/src"]
-    }
   },
   "include": ["packages"]
 }

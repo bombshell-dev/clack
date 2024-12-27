@@ -18,8 +18,9 @@
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "^2.26.2",
     "@types/node": "^18.16.0",
-    "typescript": "^5.2.2",
-    "unbuild": "^2.0.0"
+    "typescript": "^5.7.2",
+    "unbuild": "^2.0.0",
+    "unplugin-isolated-decl": "^0.10.2"
   },
   "packageManager": "pnpm@9.14.2",
   "volta": {
