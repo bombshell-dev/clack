@@ -570,7 +570,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 };
 
 const strip = (str: string) => str.replace(ansiRegex(), '');
-export const note = (message = '', title = '') => {
+export const note = (message = '', title = ''): void => {
 	const lines = `\n${message}\n`.split('\n');
 	const titleLen = strip(title).length;
 	const len =
@@ -596,15 +596,15 @@ export const note = (message = '', title = '') => {
 	);
 };
 
-export const cancel = (message = '') => {
+export const cancel = (message = ''): void => {
 	process.stdout.write(`${color.gray(S_BAR_END)}  ${color.red(message)}\n\n`);
 };
 
-export const intro = (title = '') => {
+export const intro = (title = ''): void => {
 	process.stdout.write(`${color.gray(S_BAR_START)}  ${title}\n`);
 };
 
-export const outro = (message = '') => {
+export const outro = (message = ''): void => {
 	process.stdout.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
 };
 
@@ -612,7 +612,7 @@ export type LogMessageOptions = {
 	symbol?: string;
 };
 export const log = {
-	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
+	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}): void => {
 		const parts = [`${color.gray(S_BAR)}`];
 		if (message) {
 			const [firstLine, ...lines] = message.split('\n');
@@ -620,28 +620,34 @@ export const log = {
 		}
 		process.stdout.write(`${parts.join('\n')}\n`);
 	},
-	info: (message: string) => {
+	info: (message: string): void => {
 		log.message(message, { symbol: color.blue(S_INFO) });
 	},
-	success: (message: string) => {
+	success: (message: string): void => {
 		log.message(message, { symbol: color.green(S_SUCCESS) });
 	},
-	step: (message: string) => {
+	step: (message: string): void => {
 		log.message(message, { symbol: color.green(S_STEP_SUBMIT) });
 	},
-	warn: (message: string) => {
+	warn: (message: string): void => {
 		log.message(message, { symbol: color.yellow(S_WARN) });
 	},
 	/** alias for `log.warn()`. */
-	warning: (message: string) => {
+	warning: (message: string): void => {
 		log.warn(message);
 	},
-	error: (message: string) => {
+	error: (message: string): void => {
 		log.message(message, { symbol: color.red(S_ERROR) });
 	},
 };
 
-export const spinner = () => {
+interface Spinner {
+	start(msg?: string): void;
+	stop(msg?: string, code?: number): void;
+	message(msg?: string): void;
+}
+
+export const spinner = (): Spinner => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
@@ -824,7 +830,7 @@ export type Task = {
 /**
  * Define a group of tasks to be executed
  */
-export const tasks = async (tasks: Task[]) => {
+export const tasks = async (tasks: Task[]): Promise<void> => {
 	for (const task of tasks) {
 		if (task.enabled === false) continue;
 

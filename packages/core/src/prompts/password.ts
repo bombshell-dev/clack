@@ -7,10 +7,10 @@ interface PasswordOptions extends PromptOptions<PasswordPrompt> {
 export default class PasswordPrompt extends Prompt {
 	valueWithCursor = '';
 	private _mask = '•';
-	get cursor() {
+	get cursor(): number {
 		return this._cursor;
 	}
-	get masked() {
+	get masked(): string {
 		return this.value.replaceAll(/./g, this._mask);
 	}
 	constructor({ mask, ...opts }: PasswordOptions) {

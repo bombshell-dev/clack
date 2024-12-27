@@ -32,7 +32,7 @@ export interface ClackSettings {
 	aliases: Record<string, Action>;
 }
 
-export function updateSettings(updates: ClackSettings) {
+export function updateSettings(updates: ClackSettings): void {
 	for (const _key in updates) {
 		const key = _key as keyof ClackSettings;
 		if (!Object.hasOwn(updates, key)) continue;
@@ -58,7 +58,7 @@ export function updateSettings(updates: ClackSettings) {
  * @param action - The action to match
  * @returns boolean
  */
-export function isActionKey(key: string | Array<string | undefined>, action: Action) {
+export function isActionKey(key: string | Array<string | undefined>, action: Action): boolean {
 	if (typeof key === 'string') {
 		return settings.aliases.get(key) === action;
 	}

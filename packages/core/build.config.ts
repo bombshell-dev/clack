@@ -1,7 +1,9 @@
-import { defineBuildConfig } from 'unbuild';
+import { type BuildConfig, defineBuildConfig } from 'unbuild';
 
 // @see https://github.com/unjs/unbuild
-export default defineBuildConfig({
+const config: BuildConfig[] = defineBuildConfig({
 	preset: '../../build.preset',
 	entries: ['src/index'],
 });
+
+export default config;

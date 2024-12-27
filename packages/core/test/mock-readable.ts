@@ -3,7 +3,7 @@ import { Readable } from 'node:stream';
 export class MockReadable extends Readable {
 	protected _buffer: unknown[] | null = [];
 
-	_read() {
+	_read(): void {
 		if (this._buffer === null) {
 			this.push(null);
 			return;

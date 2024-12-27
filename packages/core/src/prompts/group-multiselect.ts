@@ -15,7 +15,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		return this.options.filter((o) => o.group === group);
 	}
 
-	isGroupSelected(group: string) {
+	isGroupSelected(group: string): boolean {
 		const items = this.getGroupItems(group);
 		return items.every((i) => this.value.includes(i.value));
 	}

@@ -1,4 +1,4 @@
-export function diffLines(a: string, b: string) {
+export function diffLines(a: string, b: string): number[] | undefined {
 	if (a === b) return;
 
 	const aLines = a.split('\n');

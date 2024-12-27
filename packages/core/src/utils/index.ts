@@ -10,13 +10,13 @@ export * from './settings';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 
-export const CANCEL_SYMBOL = Symbol('clack:cancel');
+export const CANCEL_SYMBOL: symbol = Symbol('clack:cancel');
 
 export function isCancel(value: unknown): value is symbol {
 	return value === CANCEL_SYMBOL;
 }
 
-export function setRawMode(input: Readable, value: boolean) {
+export function setRawMode(input: Readable, value: boolean): void {
 	const i = input as typeof stdin;
 
 	if (i.isTTY) i.setRawMode(value);
@@ -27,6 +27,11 @@ export function block({
 	output = stdout,
 	overwrite = true,
 	hideCursor = true,
+}: {
+	input?: NodeJS.ReadStream;
+	output?: NodeJS.WriteStream;
+	overwrite?: boolean;
+	hideCursor?: boolean;
 } = {}) {
 	const rl = readline.createInterface({
 		input,
@@ -57,7 +62,7 @@ export function block({
 	if (hideCursor) output.write(cursor.hide);
 	input.once('keypress', clear);
 
-	return () => {
+	return (): void => {
 		input.off('keypress', clear);
 		if (hideCursor) output.write(cursor.show);
 

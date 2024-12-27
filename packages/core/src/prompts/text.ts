@@ -8,7 +8,7 @@ export interface TextOptions extends PromptOptions<TextPrompt> {
 
 export default class TextPrompt extends Prompt {
 	valueWithCursor = '';
-	get cursor() {
+	get cursor(): number {
 		return this._cursor;
 	}
 	constructor(opts: TextOptions) {
