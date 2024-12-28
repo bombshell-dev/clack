@@ -1,3 +1,4 @@
+import readline from 'readline';
 import {
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
@@ -12,7 +13,6 @@ import {
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
-import readline from 'readline';
 import { cursor, erase } from 'sisteransi';
 
 export { isCancel } from '@clack/core';
@@ -31,6 +31,8 @@ const S_BAR_END = s('└', '—');
 
 const S_RADIO_ACTIVE = s('●', '>');
 const S_RADIO_INACTIVE = s('○', ' ');
+const S_SUBTASK_ACTIVE = s('▸', '>');
+const S_SUBTASK_INACTIVE = s('▹', ' ');
 const S_CHECKBOX_ACTIVE = s('◻', '[•]');
 const S_CHECKBOX_SELECTED = s('◼', '[+]');
 const S_CHECKBOX_INACTIVE = s('◻', '[ ]');
@@ -763,25 +765,25 @@ function ansiRegex() {
 export type SpinnerGroup = [message: string, run: () => Promise<void>];
 
 export const spinnerGroup = async (outerMessage: string, groups: SpinnerGroup[]) => {
-	process.stdout.write(`${color.gray(S_BAR)}\n   ${S_BAR_START} ${outerMessage}\n`);
+	process.stdout.write(`${color.gray(S_BAR)}\n   ${outerMessage}\n`);
 
 	const s = spinner();
 	let caught: [group: SpinnerGroup, error: unknown] | undefined;
 
 	for (const [message, run] of groups) {
-		const line = `${color.gray(S_BAR)} ${message}`;
 		readline.clearLine(process.stdout, -1);
 		readline.moveCursor(process.stdout, -999, -1);
 
-		s.start(line);
+		s.start(`${color.green(S_SUBTASK_ACTIVE)} ${message}`);
 		await run().catch((error) => {
 			caught = [[message, run], error];
 		});
-		s.stop(line);
 
 		if (caught) {
+			s.stop(`${color.red(S_SUBTASK_ACTIVE)} ${message}`);
 			break;
 		}
+		s.stop(`${color.gray(S_SUBTASK_INACTIVE)} ${message}`);
 	}
 
 	if (caught) {
