@@ -12,7 +12,7 @@ export default class TextPrompt extends Prompt {
 			return this.value;
 		}
 		if (this.cursor >= this.value.length) {
-			return `${this.value}${color.inverse(color.hidden('_'))}`;
+			return `${this.value}█`;
 		}
 		const s1 = this.value.slice(0, this.cursor);
 		const [s2, ...s3] = this.value.slice(this.cursor);
