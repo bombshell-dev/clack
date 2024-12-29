@@ -7,7 +7,7 @@ on:
       - opened
 
 jobs:
-  issue_opened:
+  add-issue-to-project:
     name: add issue to project
     uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@main
     secrets:
