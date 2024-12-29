@@ -1,0 +1,12 @@
+name: Issue opened
+
+on:
+  issues:
+    types:
+      - reopened
+      - opened
+
+jobs:
+  issue_opened:
+    name: congratsbot
+    uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@main
