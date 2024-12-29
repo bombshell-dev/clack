@@ -8,5 +8,5 @@ on:
 
 jobs:
   issue_opened:
-    name: congratsbot
+    name: add issue to project
     uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@main
