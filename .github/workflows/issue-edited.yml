@@ -4,6 +4,7 @@ on:
   issues:
     types:
       - edited
+      - labeled
 
 jobs:
   move-issue-to-backlog:
