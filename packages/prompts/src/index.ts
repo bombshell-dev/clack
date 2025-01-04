@@ -1,3 +1,4 @@
+import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
@@ -569,7 +570,6 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-const strip = (str: string) => str.replace(ansiRegex(), '');
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
 	const titleLen = strip(title).length;
@@ -739,17 +739,6 @@ export const spinner = () => {
 		message,
 	};
 };
-
-// Adapted from https://github.com/chalk/ansi-regex
-// @see LICENSE
-function ansiRegex() {
-	const pattern = [
-		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))',
-	].join('|');
-
-	return new RegExp(pattern, 'g');
-}
 
 export type PromptGroupAwaitedReturn<T> = {
 	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
