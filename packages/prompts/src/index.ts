@@ -1,21 +1,23 @@
+import readline from 'node:readline';
+import { stripVTControlCharacters as strip } from 'node:util';
 import {
-	block,
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
-	isCancel,
 	MultiSelectPrompt,
 	PasswordPrompt,
 	SelectKeyPrompt,
 	SelectPrompt,
-	State,
+	type State,
 	TextPrompt,
+	block,
+	isCancel,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
-import readline from 'readline';
 import { cursor, erase } from 'sisteransi';
 
 export { isCancel } from '@clack/core';
+export { updateSettings, type ClackSettings } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -69,8 +71,10 @@ interface LimitOptionsParams<TOption> {
 const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
 
+	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
+	const outputMaxItems = Math.max(process.stdout.rows - 4, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
-	const maxItems = params.maxItems === undefined ? Infinity : Math.max(params.maxItems, 5);
+	const maxItems = Math.min(outputMaxItems, Math.max(paramMaxItems, 5));
 	let slidingWindowLocation = 0;
 
 	if (cursor >= slidingWindowLocation + maxItems - 3) {
@@ -99,7 +103,7 @@ export interface TextOptions {
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
@@ -124,7 +128,7 @@ export const text = (opts: TextOptions) => {
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
 						color.dim(this.value ?? '')
-					)}${this.value?.trim() ? '\n' + color.gray(S_BAR) : ''}`;
+					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
@@ -135,7 +139,7 @@ export const text = (opts: TextOptions) => {
 export interface PasswordOptions {
 	message: string;
 	mask?: string;
-	validate?: (value: string) => string | void;
+	validate?: (value: string) => string | undefined;
 }
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
@@ -155,7 +159,7 @@ export const password = (opts: PasswordOptions) => {
 					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked ?? ''))}${
-						masked ? '\n' + color.gray(S_BAR) : ''
+						masked ? `\n${color.gray(S_BAR)}` : ''
 					}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
@@ -269,9 +273,11 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
 			return `${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active') {
+		}
+		if (state === 'active') {
 			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
@@ -290,7 +296,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 			switch (this.state) {
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options.find((opt) => opt.value === this.value)!,
+						this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
 						'selected'
 					)}`;
 				case 'cancel':
@@ -325,15 +331,19 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'selected') {
+		}
+		if (state === 'selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active-selected') {
+		}
+		if (state === 'active-selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'submitted') {
+		}
+		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -355,7 +365,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
 				const selected = this.value.includes(option.value);
@@ -393,20 +403,12 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return (
-						title +
-						color.yellow(S_BAR) +
-						'  ' +
-						limitOptions({
-							options: this.options,
-							cursor: this.cursor,
-							maxItems: opts.maxItems,
-							style: styleOption,
-						}).join(`\n${color.yellow(S_BAR)}  `) +
-						'\n' +
-						footer +
-						'\n'
-					);
+					return `${title + color.yellow(S_BAR)}  ${limitOptions({
+						options: this.options,
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						style: styleOption,
+					}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
@@ -452,19 +454,25 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'group-active') {
+		}
+		if (state === 'group-active') {
 			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
-		} else if (state === 'group-active-selected') {
+		}
+		if (state === 'group-active-selected') {
 			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'selected') {
+		}
+		if (state === 'selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
-		} else if (state === 'cancelled') {
+		}
+		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
-		} else if (state === 'active-selected') {
+		}
+		if (state === 'active-selected') {
 			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
-		} else if (state === 'submitted') {
+		}
+		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
 		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
@@ -486,7 +494,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			let title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit': {
@@ -563,15 +571,14 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-const strip = (str: string) => str.replace(ansiRegex(), '');
 export const note = (message = '', title = '') => {
 	const lines = `\n${message}\n`.split('\n');
 	const titleLen = strip(title).length;
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
-				ln = strip(ln);
-				return ln.length > sum ? ln.length : sum;
+				const line = strip(ln);
+				return line.length > sum ? line.length : sum;
 			}, 0),
 			titleLen
 		) + 2;
@@ -635,14 +642,20 @@ export const log = {
 	},
 };
 
+function getIsCI() {
+	return process.env.CI === 'true';
+}
+
 export const spinner = () => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
+	const isCI = getIsCI();
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
-	let isSpinnerActive: boolean = false;
-	let _message: string = '';
+	let isSpinnerActive = false;
+	let _message = '';
+	let _prevMessage: string | undefined = undefined;
 
 	const handleExit = (code: number) => {
 		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
@@ -671,38 +684,52 @@ export const spinner = () => {
 		process.removeListener('exit', handleExit);
 	};
 
-	const start = (msg: string = ''): void => {
+	const clearPrevMessage = () => {
+		if (_prevMessage === undefined) return;
+		if (isCI) process.stdout.write('\n');
+		const prevLines = _prevMessage.split('\n');
+		process.stdout.write(cursor.move(-999, prevLines.length - 1));
+		process.stdout.write(erase.down(prevLines.length));
+	};
+
+	const parseMessage = (msg: string): string => {
+		return msg.replace(/\.+$/, '');
+	};
+
+	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
-		_message = msg.replace(/\.+$/, '');
+		_message = parseMessage(msg);
 		process.stdout.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let dotsTimer = 0;
 		registerHooks();
 		loop = setInterval(() => {
+			if (isCI && _message === _prevMessage) {
+				return;
+			}
+			clearPrevMessage();
+			_prevMessage = _message;
 			const frame = color.magenta(frames[frameIndex]);
-			const loadingDots = '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
-			process.stdout.write(cursor.move(-999, 0));
-			process.stdout.write(erase.down(1));
+			const loadingDots = isCI ? '...' : '.'.repeat(Math.floor(dotsTimer)).slice(0, 3);
 			process.stdout.write(`${frame}  ${_message}${loadingDots}`);
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			dotsTimer = dotsTimer < frames.length ? dotsTimer + 0.125 : 0;
 		}, delay);
 	};
 
-	const stop = (msg: string = '', code: number = 0): void => {
-		_message = msg ?? _message;
+	const stop = (msg = '', code = 0): void => {
 		isSpinnerActive = false;
 		clearInterval(loop);
-		process.stdout.write(cursor.move(-999, 0));
-		process.stdout.write(erase.down(1));
+		clearPrevMessage();
+		_message = parseMessage(msg ?? _message);
 		process.stdout.write(`${stepForCode(code)}  ${_message}\n`);
 		clearHooks();
 		unblock();
 	};
 
-	const message = (msg: string = ''): void => {
-		_message = msg ?? _message;
+	const message = (msg = ''): void => {
+		_message = parseMessage(msg ?? _message);
 	};
 
 	return {
@@ -716,19 +743,8 @@ function stepForCode(code: number) {
 	return code === 0
 		? color.green(S_STEP_SUBMIT)
 		: code === 1
-		? color.red(S_STEP_CANCEL)
-		: color.red(S_STEP_ERROR);
-}
-
-// Adapted from https://github.com/chalk/ansi-regex
-// @see LICENSE
-function ansiRegex() {
-	const pattern = [
-		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))',
-	].join('|');
-
-	return new RegExp(pattern, 'g');
+			? color.red(S_STEP_CANCEL)
+			: color.red(S_STEP_ERROR);
 }
 
 export type SpinnerGroup = [message: string, run: () => Promise<void>];
@@ -736,13 +752,22 @@ export type SpinnerGroup = [message: string, run: () => Promise<void>];
 export const spinnerGroup = async (outerMessage: string, groups: SpinnerGroup[]) => {
 	process.stdout.write(`${color.gray(S_BAR)}\n   ${S_BAR_START} ${outerMessage}\n`);
 
+	const lines = getIsCI()
+		? {
+				clearLine: () => {},
+				clearScreenDown: () => {},
+				moveCursor: () => {},
+			}
+		: readline;
+
 	const s = spinner();
 	let caught: [group: SpinnerGroup, error: unknown] | undefined;
 
 	for (const [message, run] of groups) {
 		const line = `${color.gray(S_BAR)} ${message}`;
-		readline.clearLine(process.stdout, -1);
-		readline.moveCursor(process.stdout, -999, -1);
+
+		lines.clearLine(process.stdout, -1);
+		lines.moveCursor(process.stdout, -999, -1);
 
 		s.start(line);
 		await run().catch((error) => {
@@ -756,7 +781,7 @@ export const spinnerGroup = async (outerMessage: string, groups: SpinnerGroup[])
 	}
 
 	if (caught) {
-		readline.moveCursor(process.stdout, -999, -1);
+		lines.moveCursor(process.stdout, -999, -1);
 		process.stdout.write(
 			[
 				color.gray(S_BAR),
@@ -768,8 +793,8 @@ export const spinnerGroup = async (outerMessage: string, groups: SpinnerGroup[])
 			].join(' ')
 		);
 	} else {
-		readline.moveCursor(process.stdout, -999, -groups.length - 1);
-		readline.clearScreenDown(process.stdout);
+		lines.moveCursor(process.stdout, -999, -groups.length - 1);
+		lines.clearScreenDown(process.stdout);
 		process.stdout.write(`${stepForCode(0)}  ${outerMessage}`);
 	}
 
@@ -797,7 +822,7 @@ type Prettify<T> = {
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
 		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => void | Promise<T[P] | void>;
+	}) => undefined | Promise<T[P] | undefined>;
 };
 
 /**

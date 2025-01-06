@@ -1,0 +1,15 @@
+name: Issue opened
+
+on:
+  issues:
+    types:
+      - reopened
+      - opened
+
+jobs:
+  add-issue-to-project:
+    name: add issue to project
+    uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@main
+    secrets:
+        BOT_APP_ID: ${{ secrets.BOT_APP_ID }}
+        BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}

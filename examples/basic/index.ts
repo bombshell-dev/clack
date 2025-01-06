@@ -1,11 +1,20 @@
-import * as p from '@clack/prompts';
 import { setTimeout } from 'node:timers/promises';
+import * as p from '@clack/prompts';
 import color from 'picocolors';
 
 async function main() {
 	console.clear();
 
 	await setTimeout(1000);
+
+	p.updateSettings({
+		aliases: {
+			w: 'up',
+			s: 'down',
+			a: 'left',
+			d: 'right',
+		},
+	});
 
 	p.intro(`${color.bgCyan(color.black(' create-app '))}`);
 
@@ -74,7 +83,7 @@ async function main() {
 		s.stop('Installed via pnpm');
 	}
 
-	let nextSteps = `cd ${project.path}        \n${project.install ? '' : 'pnpm install\n'}pnpm dev`;
+	const nextSteps = `cd ${project.path}        \n${project.install ? '' : 'pnpm install\n'}pnpm dev`;
 
 	p.note(nextSteps, 'Next steps.');
 

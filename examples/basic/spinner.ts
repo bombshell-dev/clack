@@ -3,7 +3,7 @@ import * as p from '@clack/prompts';
 p.intro('spinner start...');
 
 const spin = p.spinner();
-const total = 10000;
+const total = 6000;
 let progress = 0;
 spin.start();
 
@@ -17,6 +17,6 @@ new Promise((resolve) => {
 		spin.message(`Loading packages [${progress}/${total}]`); // <===
 	}, 100);
 }).then(() => {
-	spin.stop(`Done`);
+	spin.stop('Done');
 	p.outro('spinner stop...');
 });

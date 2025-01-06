@@ -1,6 +1,6 @@
 {
   "name": "@clack/core",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -22,10 +22,7 @@
     "url": "https://github.com/natemoo-re/clack/issues"
   },
   "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
-  "files": [
-    "dist",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist", "CHANGELOG.md"],
   "keywords": [
     "ask",
     "clack",
@@ -50,13 +47,15 @@
   "packageManager": "pnpm@8.6.12",
   "scripts": {
     "build": "unbuild",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test": "vitest run"
   },
   "dependencies": {
     "picocolors": "^1.0.0",
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
+    "vitest": "^1.6.0",
     "wrap-ansi": "^8.1.0"
   }
 }

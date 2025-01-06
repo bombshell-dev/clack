@@ -11,13 +11,11 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: "pnpm"
-      - if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
-        run: pnpm install
-      - run: pnpm build
+      - run: pnpm install
       - run: pnpm type-check

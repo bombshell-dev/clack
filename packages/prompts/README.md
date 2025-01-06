@@ -34,7 +34,9 @@ The `isCancel` function is a guard that detects when a user cancels a question w
 ```js
 import { isCancel, cancel, text } from '@clack/prompts';
 
-const value = await text(/* TODO */);
+const value = await text({
+  message: 'What is the meaning of life?',
+});
 
 if (isCancel(value)) {
   cancel('Operation cancelled.');
@@ -172,3 +174,18 @@ await p.tasks([
   },
 ]);
 ```
+
+### Logs
+
+```js
+import { log } from '@clack/prompts';
+
+log.info('Info!');
+log.success('Success!');
+log.step('Step!');
+log.warn('Warn!');
+log.error('Error!');
+log.message('Hello, World', { symbol: color.cyan('~') });
+```
+
+[clack-log-prompts](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-logs.png)

@@ -1,4 +1,4 @@
-import Prompt, { PromptOptions } from './prompt';
+import Prompt, { type PromptOptions } from './prompt';
 
 interface MultiSelectOptions<T extends { value: any }> extends PromptOptions<MultiSelectPrompt<T>> {
 	options: T[];
@@ -8,7 +8,7 @@ interface MultiSelectOptions<T extends { value: any }> extends PromptOptions<Mul
 }
 export default class MultiSelectPrompt<T extends { value: any }> extends Prompt {
 	options: T[];
-	cursor: number = 0;
+	cursor = 0;
 
 	private get _value() {
 		return this.options[this.cursor].value;
