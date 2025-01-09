@@ -1,5 +1,17 @@
 # @clack/prompts
 
+## 0.9.1
+
+### Patch Changes
+
+- 8093f3c: Adds `Error` support to the `validate` function
+- 98925e3: Exports the `Option` type and improves JSDocannotations
+- 1904e57: Replace custom utility for stripping ANSI control sequences with Node's built-in [`stripVTControlCharacters`](https://nodejs.org/docs/latest/api/util.html#utilstripvtcontrolcharactersstr) utility.
+- Updated dependencies [8093f3c]
+- Updated dependencies [e5ba09a]
+- Updated dependencies [8cba8e3]
+  - @clack/core@0.4.1
+
 ## 0.9.0
 
 ### Minor Changes

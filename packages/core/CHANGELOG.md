@@ -1,5 +1,13 @@
 # @clack/core
 
+## 0.4.1
+
+### Patch Changes
+
+- 8093f3c: Adds `Error` support to the `validate` function
+- e5ba09a: Fixes a cursor display bug in terminals that do not support the "hidden" escape sequence. See [Issue #127](https://github.com/bombshell-dev/clack/issues/127).
+- 8cba8e3: Fixes a rendering bug with cursor positions for `TextPrompt`
+
 ## 0.4.0
 
 ### Minor Changes
@@ -26,7 +34,6 @@
 > In order to enforce consistent, user-friendly defaults across the ecosystem, `updateSettings` does not support disabling Clack's default keybindings.
 
 - 801246b: Adds a new `signal` option to support programmatic prompt cancellation with an [abort controller](https://kettanaito.com/blog/dont-sleep-on-abort-controller).
-
 
 - a83d2f8: Updates default keybindings to support Vim motion shortcuts and map the `escape` key to cancel (`ctrl+c`).
 
