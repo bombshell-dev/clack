@@ -209,9 +209,43 @@ export const confirm = (opts: ConfirmOptions) => {
 
 type Primitive = Readonly<string | boolean | number>;
 
-type Option<Value> = Value extends Primitive
-	? { value: Value; label?: string; hint?: string }
-	: { value: Value; label: string; hint?: string };
+export type Option<Value> = Value extends Primitive
+	? {
+			/**
+			 * Internal data for this option.
+			 */
+			value: Value;
+			/**
+			 * The optional, user-facing text for this option.
+			 *
+			 * By default, the `value` is converted to a string.
+			 */
+			label?: string;
+			/**
+			 * An optional hint to display to the user when
+			 * this option might be selected.
+			 *
+			 * By default, no `hint` is displayed.
+			 */
+			hint?: string;
+		}
+	: {
+			/**
+			 * Internal data for this option.
+			 */
+			value: Value;
+			/**
+			 * Required. The user-facing text for this option.
+			 */
+			label: string;
+			/**
+			 * An optional hint to display to the user when
+			 * this option might be selected.
+			 *
+			 * By default, no `hint` is displayed.
+			 */
+			hint?: string;
+		};
 
 export interface SelectOptions<Value> {
 	message: string;
