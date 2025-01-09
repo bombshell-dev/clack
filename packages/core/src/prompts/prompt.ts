@@ -14,7 +14,7 @@ export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: any) => string | undefined) | undefined;
+	validate?: ((value: any) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
@@ -207,7 +207,7 @@ export default class Prompt {
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {
-					this.error = problem;
+					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';
 					this.rl?.write(this.value);
 				}
