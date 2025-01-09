@@ -3,4 +3,4 @@
 '@clack/core': patch
 ---
 
-Add Error support for validate function
+Adds `Error` support to the `validate` function
