@@ -56,7 +56,7 @@ export default class Prompt {
 	/**
 	 * Unsubscribe all listeners
 	 */
-	protected unsubscribe() {
+	protected unsubscribe(): void {
 		this._subscribers.clear();
 	}
 
@@ -78,7 +78,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public on<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
+	public on<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]): void {
 		this.setSubscriber(event, { cb });
 	}
 
@@ -87,7 +87,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public once<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
+	public once<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]): void {
 		this.setSubscriber(event, { cb, once: true });
 	}
 
@@ -96,7 +96,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param data - The data to pass to the callback
 	 */
-	public emit<T extends keyof ClackEvents>(event: T, ...data: Parameters<ClackEvents[T]>) {
+	public emit<T extends keyof ClackEvents>(event: T, ...data: Parameters<ClackEvents[T]>): void {
 		const cbs = this._subscribers.get(event) ?? [];
 		const cleanup: (() => void)[] = [];
 
@@ -113,7 +113,7 @@ export default class Prompt {
 		}
 	}
 
-	public prompt() {
+	public prompt(): Promise<string | symbol> {
 		return new Promise<string | symbol>((resolve, reject) => {
 			if (this._abortSignal) {
 				if (this._abortSignal.aborted) {
@@ -229,7 +229,7 @@ export default class Prompt {
 		}
 	}
 
-	protected close() {
+	protected close(): void {
 		this.input.unpipe();
 		this.input.removeListener('keypress', this.onKeypress);
 		this.output.write('\n');
