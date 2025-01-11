@@ -9,5 +9,5 @@ export { default as Prompt } from './prompts/prompt';
 export { default as SelectPrompt } from './prompts/select';
 export { default as SelectKeyPrompt } from './prompts/select-key';
 export { default as TextPrompt } from './prompts/text';
-export { block, isCancel } from './utils';
+export { block, isCancel, strLength } from './utils';
 export { updateSettings } from './utils/settings';
