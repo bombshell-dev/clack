@@ -1,3 +1,4 @@
+import readline from 'node:readline';
 import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
@@ -675,10 +676,14 @@ export const log = {
 	},
 };
 
+function getIsCI() {
+	return process.env.CI === 'true';
+}
+
 export const spinner = () => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
-	const isCI = process.env.CI === 'true';
+	const isCI = getIsCI();
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
@@ -751,14 +756,8 @@ export const spinner = () => {
 		isSpinnerActive = false;
 		clearInterval(loop);
 		clearPrevMessage();
-		const step =
-			code === 0
-				? color.green(S_STEP_SUBMIT)
-				: code === 1
-					? color.red(S_STEP_CANCEL)
-					: color.red(S_STEP_ERROR);
 		_message = parseMessage(msg ?? _message);
-		process.stdout.write(`${step}  ${_message}\n`);
+		process.stdout.write(`${stepForCode(code)}  ${_message}\n`);
 		clearHooks();
 		unblock();
 	};
@@ -772,6 +771,70 @@ export const spinner = () => {
 		stop,
 		message,
 	};
+};
+
+function stepForCode(code: number) {
+	return code === 0
+		? color.green(S_STEP_SUBMIT)
+		: code === 1
+			? color.red(S_STEP_CANCEL)
+			: color.red(S_STEP_ERROR);
+}
+
+export type SpinnerGroup = [message: string, run: () => Promise<void>];
+
+export const spinnerGroup = async (outerMessage: string, groups: SpinnerGroup[]) => {
+	process.stdout.write(`${color.gray(S_BAR)}\n   ${S_BAR_START} ${outerMessage}\n`);
+
+	const lines = getIsCI()
+		? {
+				clearLine: () => {},
+				clearScreenDown: () => {},
+				moveCursor: () => {},
+			}
+		: readline;
+
+	const s = spinner();
+	let caught: [group: SpinnerGroup, error: unknown] | undefined;
+
+	for (const [message, run] of groups) {
+		const line = `${color.gray(S_BAR)} ${message}`;
+
+		lines.clearLine(process.stdout, -1);
+		lines.moveCursor(process.stdout, -999, -1);
+
+		s.start(line);
+		await run().catch((error) => {
+			caught = [[message, run], error];
+		});
+		s.stop(line);
+
+		if (caught) {
+			break;
+		}
+	}
+
+	if (caught) {
+		lines.moveCursor(process.stdout, -999, -1);
+		process.stdout.write(
+			[
+				color.gray(S_BAR),
+				'',
+				stepForCode(1),
+				caught[0][0],
+				color.gray('>'),
+				(caught[1] as any).message || caught[1],
+			].join(' ')
+		);
+	} else {
+		lines.moveCursor(process.stdout, -999, -groups.length - 1);
+		lines.clearScreenDown(process.stdout);
+		process.stdout.write(`${stepForCode(0)}  ${outerMessage}`);
+	}
+
+	process.stdout.write('\n');
+
+	return caught;
 };
 
 export type PromptGroupAwaitedReturn<T> = {
