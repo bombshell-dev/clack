@@ -2,10 +2,10 @@ import * as p from '@clack/prompts';
 
 p.intro('spinner start...');
 
-const spin = p.spinner();
+const spin = p.spinner({ indicator: 'timer' });
 const totalDuration = 10_000;
 
-spin.start('Loading', { indicator: 'timer' });
+spin.start('Loading');
 
 new Promise((resolve) => {
 	setTimeout(() => {

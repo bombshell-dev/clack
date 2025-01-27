@@ -730,10 +730,18 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 		return msg.replace(/\.+$/, '');
 	};
 
-	const start = (msg = '', { indicator = 'dots' }: SpinnerOptions = {}): void => {
+	const formatTimer = (origin: number): string => {
+		const duration = (performance.now() - origin) / 1000;
+		const min = Math.floor(duration / 60);
+		const secs = Math.floor(duration % 60);
+		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
+	};
+
+	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block();
 		_message = parseMessage(msg);
+		_origin = performance.now();
 		process.stdout.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let indicatorTimer = 0;
@@ -749,14 +757,7 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 			if (isCI) {
 				process.stdout.write(`${frame}  ${_message}...`);
 			} else if (indicator === 'timer') {
-				const duration = (performance.now() - _origin) / 1000;
-				const min = Math.floor(duration / 60);
-				const secs = Math.floor(duration % 60);
-				if (min > 0) {
-					process.stdout.write(`${frame}  ${_message} [${min}m ${secs}s]`);
-				} else {
-					process.stdout.write(`${frame}  ${_message} [${secs}s]`);
-				}
+				process.stdout.write(`${frame}  ${_message} ${formatTimer(_origin)}`);
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3);
 				process.stdout.write(`${frame}  ${_message}${loadingDots}`);
@@ -778,7 +779,11 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 					? color.red(S_STEP_CANCEL)
 					: color.red(S_STEP_ERROR);
 		_message = parseMessage(msg ?? _message);
-		process.stdout.write(`${step}  ${_message}\n`);
+		if (indicator === 'timer') {
+			process.stdout.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+		} else {
+			process.stdout.write(`${step}  ${_message}\n`);
+		}
 		clearHooks();
 		unblock();
 	};
