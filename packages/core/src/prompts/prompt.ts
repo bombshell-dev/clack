@@ -1,7 +1,7 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
-import type { Readable, Writable } from 'node:stream';
-import { WriteStream } from 'node:tty';
+import type { Readable } from 'node:stream';
+import { Writable } from 'node:stream';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
@@ -133,7 +133,7 @@ export default class Prompt {
 				);
 			}
 
-			const sink = new WriteStream(0);
+			const sink = new Writable();
 			sink._write = (chunk, encoding, done) => {
 				if (this._track) {
 					this.value = this.rl?.line.replace(/\t/g, '');
@@ -150,6 +150,7 @@ export default class Prompt {
 				tabSize: 2,
 				prompt: '',
 				escapeCodeTimeout: 50,
+				terminal: true,
 			});
 			readline.emitKeypressEvents(this.input, this.rl);
 			this.rl.prompt();
