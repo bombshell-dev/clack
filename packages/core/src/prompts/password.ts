@@ -1,9 +1,10 @@
 import color from 'picocolors';
 import Prompt, { type PromptOptions } from './prompt';
 
-interface PasswordOptions extends PromptOptions<PasswordPrompt> {
+export interface PasswordOptions extends PromptOptions<PasswordPrompt> {
 	mask?: string;
 }
+
 export default class PasswordPrompt extends Prompt {
 	valueWithCursor = '';
 	private _mask = '•';
