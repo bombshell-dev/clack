@@ -2,7 +2,7 @@
 
 Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stackblitz.com/edit/clack-prompts?file=index.js)
 
-![clack-prompt](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-demo.gif)
+![clack-prompt](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-demo.gif)
 
 ---
 
@@ -204,4 +204,4 @@ stream.error((function *() { yield 'Error!'; })());
 stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: color.cyan('~') });
 ```
 
-[clack-log-prompts](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-logs.png)
+[clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)

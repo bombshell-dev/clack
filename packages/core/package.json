@@ -15,13 +15,13 @@
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/natemoo-re/clack",
+    "url": "git+https://github.com/bombshell-dev/clack.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/natemoo-re/clack/issues"
+    "url": "https://github.com/bombshell-dev/clack/issues"
   },
-  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
+  "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/core#readme",
   "files": ["dist", "CHANGELOG.md"],
   "keywords": [
     "ask",

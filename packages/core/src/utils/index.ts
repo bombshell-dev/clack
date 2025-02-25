@@ -61,7 +61,7 @@ export function block({
 		input.off('keypress', clear);
 		if (hideCursor) output.write(cursor.show);
 
-		// Prevent Windows specific issues: https://github.com/natemoo-re/clack/issues/176
+		// Prevent Windows specific issues: https://github.com/bombshell-dev/clack/issues/176
 		if (input.isTTY && !isWindows) input.setRawMode(false);
 
 		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
