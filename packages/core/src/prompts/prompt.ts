@@ -5,7 +5,14 @@ import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
+import {
+	CANCEL_SYMBOL,
+	diffLines,
+	isActionKey,
+	isSameKey,
+	setRawMode,
+	settings,
+} from '../utils/index.js';
 
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
@@ -19,6 +26,7 @@ export interface PromptOptions<Self extends Prompt> {
 	output?: Writable;
 	debug?: boolean;
 	signal?: AbortSignal;
+	submitKey?: Key;
 }
 
 export default class Prompt {
@@ -33,6 +41,7 @@ export default class Prompt {
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
+	private _submitKey: Key;
 
 	public state: ClackState = 'initial';
 	public error = '';
@@ -48,6 +57,7 @@ export default class Prompt {
 		this._render = render.bind(this);
 		this._track = trackValue;
 		this._abortSignal = signal;
+		this._submitKey = options.submitKey ?? { name: 'return' };
 
 		this.input = input;
 		this.output = output;
@@ -202,8 +212,9 @@ export default class Prompt {
 		if (char) {
 			this.emit('key', char.toLowerCase());
 		}
+		this.emit('rawKey', char, key);
 
-		if (key?.name === 'return') {
+		if (isSameKey(key, this._submitKey)) {
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {
