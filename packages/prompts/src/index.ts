@@ -729,7 +729,7 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
 
-	let unblock: () => void;
+	let unblock: (() => void) | undefined;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
 	let _message = '';
@@ -830,7 +830,7 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 			process.stdout.write(`${step}  ${_message}\n`);
 		}
 		clearHooks();
-		unblock();
+		unblock?.();
 	};
 
 	const message = (msg = ''): void => {
