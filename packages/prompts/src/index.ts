@@ -27,6 +27,7 @@ const S_STEP_SUBMIT = s('◇', 'o');
 
 const S_BAR_START = s('┌', 'T');
 const S_BAR = s('│', '|');
+const S_BAR_DETAIL = s('│ⓘ', `|${color.italic('i')}`);
 const S_BAR_END = s('└', '—');
 
 const S_RADIO_ACTIVE = s('●', '>');
@@ -58,6 +59,11 @@ const symbol = (state: State) => {
 		case 'submit':
 			return color.green(S_STEP_SUBMIT);
 	}
+};
+
+const help = (text: string | undefined, style: (input: string) => string) => {
+	if (text === undefined) return '';
+	return `${style(S_BAR_DETAIL)} ${color.dim(color.italic(text))}\n`;
 };
 
 interface LimitOptionsParams<TOption> {
@@ -99,6 +105,7 @@ const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] =>
 
 export interface TextOptions {
 	message: string;
+	help?: string;
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
@@ -119,7 +126,7 @@ export const text = (opts: TextOptions) => {
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
+					return `${title.trim()}\n${help(opts.help, color.yellow)}${color.yellow(S_BAR)}  ${value}\n${color.yellow(
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
 				case 'submit':
@@ -129,7 +136,7 @@ export const text = (opts: TextOptions) => {
 						color.dim(this.value ?? '')
 					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
@@ -137,6 +144,7 @@ export const text = (opts: TextOptions) => {
 
 export interface PasswordOptions {
 	message: string;
+	help?: string;
 	mask?: string;
 	validate?: (value: string) => string | Error | undefined;
 }
@@ -151,7 +159,7 @@ export const password = (opts: PasswordOptions) => {
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
+					return `${title.trim()}\n${help(opts.help, color.yellow)}${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
 				case 'submit':
@@ -161,7 +169,7 @@ export const password = (opts: PasswordOptions) => {
 						masked ? `\n${color.gray(S_BAR)}` : ''
 					}`;
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
@@ -169,6 +177,7 @@ export const password = (opts: PasswordOptions) => {
 
 export interface ConfirmOptions {
 	message: string;
+	help?: string;
 	active?: string;
 	inactive?: string;
 	initialValue?: boolean;
@@ -192,7 +201,7 @@ export const confirm = (opts: ConfirmOptions) => {
 						color.dim(value)
 					)}\n${color.gray(S_BAR)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${
 						this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${active}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
@@ -249,6 +258,7 @@ export type Option<Value> = Value extends Primitive
 
 export interface SelectOptions<Value> {
 	message: string;
+	help?: string;
 	options: Option<Value>[];
 	initialValue?: Value;
 	maxItems?: number;
@@ -286,7 +296,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${limitOptions({
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
@@ -337,7 +347,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 						S_BAR
 					)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
@@ -348,6 +358,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 export interface MultiSelectOptions<Value> {
 	message: string;
+	help?: string;
 	options: Option<Value>[];
 	initialValues?: Value[];
 	maxItems?: number;
@@ -436,7 +447,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title + color.yellow(S_BAR)}  ${limitOptions({
+					return `${title + help(opts.help, color.yellow) + color.yellow(S_BAR)}  ${limitOptions({
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
@@ -444,7 +455,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${limitOptions({
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
@@ -458,6 +469,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 export interface GroupMultiSelectOptions<Value> {
 	message: string;
+	help?: string;
 	options: Record<string, Option<Value>[]>;
 	initialValues?: Value[];
 	required?: boolean;
@@ -552,7 +564,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
+					return `${title}${help(opts.help, color.yellow)}${color.yellow(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -576,7 +588,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}${help(opts.help, color.cyan)}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
