@@ -204,4 +204,4 @@ stream.error((function *() { yield 'Error!'; })());
 stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: color.cyan('~') });
 ```
 
-[clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)
+![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)
