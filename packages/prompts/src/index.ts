@@ -844,16 +844,12 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 	};
 };
 
-export type PromptGroupAwaitedReturn<T> = {
-	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
-};
-
 export interface PromptGroupOptions<T> {
 	/**
 	 * Control how the group can be canceled
 	 * if one of the prompts is canceled.
 	 */
-	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
+	onCancel?: (opts: { results: Prettify<Partial<T>> }) => void;
 }
 
 type Prettify<T> = {
@@ -862,7 +858,7 @@ type Prettify<T> = {
 
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
-		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
+		results: Record<PropertyKey, unknown>;
 	}) => undefined | Promise<T[P] | undefined>;
 };
 
@@ -873,7 +869,7 @@ export type PromptGroup<T> = {
 export const group = async <T>(
 	prompts: PromptGroup<T>,
 	opts?: PromptGroupOptions<T>
-): Promise<Prettify<PromptGroupAwaitedReturn<T>>> => {
+): Promise<Prettify<T>> => {
 	const results = {} as any;
 	const promptNames = Object.keys(prompts);
 
