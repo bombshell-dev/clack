@@ -13,7 +13,8 @@
     "stream": "jiti ./stream.ts",
     "spinner": "jiti ./spinner.ts",
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
-    "spinner-timer": "jiti ./spinner-timer.ts"
+    "spinner-timer": "jiti ./spinner-timer.ts",
+    "workflow": "jiti ./workflow.ts"
   },
   "devDependencies": {
     "jiti": "^1.17.0"
