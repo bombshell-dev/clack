@@ -2,13 +2,12 @@
   "name": "@clack/core",
   "version": "0.4.1",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
