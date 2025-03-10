@@ -4,12 +4,14 @@ import {
 	GroupMultiSelectPrompt,
 	MultiSelectPrompt,
 	PasswordPrompt,
+	Prompt,
 	SelectKeyPrompt,
 	SelectPrompt,
 	type State,
 	TextPrompt,
 	block,
 	isCancel,
+	strLength,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -20,6 +22,7 @@ export { updateSettings, type ClackSettings } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
+
 const S_STEP_ACTIVE = s('◆', '*');
 const S_STEP_CANCEL = s('■', 'x');
 const S_STEP_ERROR = s('▲', 'x');
@@ -60,6 +63,8 @@ const symbol = (state: State) => {
 	}
 };
 
+const format = Prompt.prototype.format;
+
 interface LimitOptionsParams<TOption> {
 	options: TOption[];
 	maxItems: number | undefined;
@@ -97,6 +102,102 @@ const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] =>
 		});
 };
 
+interface ThemeParams {
+	ctx: Omit<Prompt, 'prompt'>;
+	message: string;
+	value: string;
+	valueWithCursor: string | undefined;
+	placeholder?: string | undefined;
+	error?: string | undefined;
+}
+
+function applyTheme(data: ThemeParams): string {
+	const { ctx, message } = data;
+
+	const title = [
+		color.gray(S_BAR),
+		format(message, {
+			firstLine: {
+				start: symbol(ctx.state),
+			},
+			default: {
+				start: color.gray(S_BAR),
+			},
+		}),
+	].join('\n');
+
+	const placeholder = data.placeholder
+		? color.inverse(data.placeholder[0]) + color.dim(data.placeholder.slice(1))
+		: color.inverse(color.hidden('_'));
+
+	const value = data.value ?? '';
+
+	switch (ctx.state) {
+		case 'cancel':
+			return [
+				title,
+				format(value, {
+					default: {
+						start: color.gray(S_BAR),
+						style: (line) => color.strikethrough(color.dim(line)),
+					},
+				}),
+			]
+				.filter(Boolean)
+				.join('\n');
+
+		case 'error':
+			return [
+				title,
+				format(value, {
+					default: {
+						start: color.yellow(S_BAR),
+					},
+				}),
+				data.error ??
+					format(ctx.error, {
+						default: {
+							start: color.yellow(S_BAR),
+							style: color.yellow,
+						},
+						lastLine: {
+							start: color.yellow(S_BAR_END),
+						},
+					}),
+			].join('\n');
+
+		case 'submit':
+			return [
+				title,
+				format(value, {
+					default: {
+						start: color.gray(S_BAR),
+						style: color.dim,
+					},
+				}),
+			].join('\n');
+
+		default:
+			return [
+				color.gray(S_BAR),
+				format(message, {
+					firstLine: {
+						start: symbol(ctx.state),
+					},
+					default: {
+						start: color.cyan(S_BAR),
+					},
+				}),
+				format(data.placeholder && !data.value ? placeholder : (data.valueWithCursor ?? value), {
+					default: {
+						start: color.cyan(S_BAR),
+					},
+				}),
+				color.cyan(S_BAR_END),
+			].join('\n');
+	}
+}
+
 export interface TextOptions {
 	message: string;
 	placeholder?: string;
@@ -111,26 +212,13 @@ export const text = (opts: TextOptions) => {
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-			const placeholder = opts.placeholder
-				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
-				: color.inverse(color.hidden('_'));
-			const value = !this.value ? placeholder : this.valueWithCursor;
-
-			switch (this.state) {
-				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
-						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(this.value ?? '')
-					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
-				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
-			}
+			return applyTheme({
+				ctx: this,
+				message: opts.message,
+				value: this.value,
+				valueWithCursor: this.valueWithCursor,
+				placeholder: opts.placeholder,
+			});
 		},
 	}).prompt() as Promise<string | symbol>;
 };
@@ -145,24 +233,12 @@ export const password = (opts: PasswordOptions) => {
 		validate: opts.validate,
 		mask: opts.mask ?? S_PASSWORD_MASK,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-			const value = this.valueWithCursor;
-			const masked = this.masked;
-
-			switch (this.state) {
-				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
-						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked ?? ''))}${
-						masked ? `\n${color.gray(S_BAR)}` : ''
-					}`;
-				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
-			}
+			return applyTheme({
+				ctx: this,
+				message: opts.message,
+				value: this.valueWithCursor,
+				valueWithCursor: this.valueWithCursor,
+			});
 		},
 	}).prompt() as Promise<string | symbol>;
 };
@@ -181,28 +257,22 @@ export const confirm = (opts: ConfirmOptions) => {
 		inactive,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-			const value = this.value ? active : inactive;
-
-			switch (this.state) {
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(value)
-					)}\n${color.gray(S_BAR)}`;
-				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
-						this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${active}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
-					} ${color.dim('/')} ${
-						!this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
-					}\n${color.cyan(S_BAR_END)}\n`;
-				}
-			}
+			const opt = (state: boolean, message: string): string => {
+				return state
+					? `${color.green(S_RADIO_ACTIVE)} ${message}`
+					: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(message)}`;
+			};
+			return applyTheme({
+				ctx: this,
+				message: opts.message,
+				value:
+					this.state === 'submit' || this.state === 'cancel'
+						? this.value
+							? active
+							: inactive
+						: `${opt(!!this.value, active)} ${color.dim('/')} ${opt(!this.value, inactive)}`,
+				valueWithCursor: undefined,
+			});
 		},
 	}).prompt() as Promise<boolean | symbol>;
 };
@@ -275,25 +345,30 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-
+			let value: string;
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
+					value = opt(this.options[this.cursor], 'selected');
+					break;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+					value = opt(this.options[this.cursor], 'cancelled');
+					break;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+					value = limitOptions({
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
 						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join('\n');
+					break;
 				}
 			}
+			return applyTheme({
+				ctx: this,
+				message: opts.message,
+				value,
+				valueWithCursor: undefined,
+			});
 		},
 	}).prompt() as Promise<Value | symbol>;
 };
@@ -315,32 +390,33 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		}
-		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label} ${
-			option.hint ? color.dim(`(${option.hint})`) : ''
-		}`;
+		return `${color.gray(
+			color.bgWhite(color.inverse(` ${option.value} `))
+		)} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`;
 	};
 
 	return new SelectKeyPrompt({
 		options: opts.options,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)} ${opts.message}`;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
+						// biome-ignore lint/style/noNonNullAssertion: <explanation>
+						this.options.find((opt) => opt.value === this.value)!,
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
-						S_BAR
-					)}`;
-				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.gray(S_BAR)}  ${opt(
+						this.options[0],
+						'cancelled'
+					)}\n${color.gray(S_BAR)}`;
+				default:
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
 						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
-				}
 			}
 		},
 	}).prompt() as Promise<Value | symbol>;
@@ -398,7 +474,8 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			let value: string;
+			let error: string | undefined;
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
 				const selected = this.value.includes(option.value);
@@ -413,45 +490,61 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${
+					value =
 						this.options
 							.filter(({ value }) => this.value.includes(value))
 							.map((option) => opt(option, 'submitted'))
-							.join(color.dim(', ')) || color.dim('none')
-					}`;
+							.join(color.dim(', ')) || color.dim('none');
+					break;
 				}
 				case 'cancel': {
-					const label = this.options
-						.filter(({ value }) => this.value.includes(value))
-						.map((option) => opt(option, 'cancelled'))
-						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
-						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
-					}`;
+					value =
+						this.options
+							.filter(({ value }) => this.value.includes(value))
+							.map((option) => opt(option, 'cancelled'))
+							.join(color.dim(', ')) ?? '';
+					break;
 				}
 				case 'error': {
-					const footer = this.error
-						.split('\n')
-						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
-						)
-						.join('\n');
-					return `${title + color.yellow(S_BAR)}  ${limitOptions({
-						options: this.options,
+					error = format(
+						this.error
+							.split('\n')
+							.map((ln, i) => (i === 0 ? color.yellow(ln) : ln))
+							.join('\n'),
+						{
+							firstLine: {
+								start: color.yellow(S_BAR_END),
+							},
+							default: {
+								start: color.hidden('-'),
+							},
+						}
+					);
+					value = limitOptions({
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						options: this.options,
 						style: styleOption,
-					}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+					}).join('\n');
+					break;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
-						options: this.options,
+					value = limitOptions({
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						options: this.options,
 						style: styleOption,
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join('\n');
+					break;
 				}
 			}
+			return applyTheme({
+				ctx: this,
+				message: opts.message,
+				value,
+				error,
+				valueWithCursor: undefined,
+			});
 		},
 	}).prompt() as Promise<Value[] | symbol>;
 };
@@ -501,9 +594,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
-			}`;
+			return `${color.dim(prefix)}${color.green(
+				S_CHECKBOX_SELECTED
+			)} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`;
 		}
 		if (state === 'submitted') {
 			return `${color.dim(label)}`;
@@ -527,11 +620,25 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const symbol = (state: State) => {
+				switch (state) {
+					case 'initial':
+					case 'active':
+						return color.cyan(S_STEP_ACTIVE);
+					case 'cancel':
+						return color.red(S_STEP_CANCEL);
+					case 'error':
+						return color.yellow(S_STEP_ERROR);
+					case 'submit':
+						return color.green(S_STEP_SUBMIT);
+				}
+			};
+
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}`;
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${this.options
+					return `${title}\n${color.gray(S_BAR)}  ${this.options
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'submitted'))
 						.join(color.dim(', '))}`;
@@ -541,7 +648,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.filter(({ value }) => this.value.includes(value))
 						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
+					return `${title}\n${color.gray(S_BAR)}  ${
 						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
 					}`;
 				}
@@ -552,7 +659,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
+					return `${title}\n${color.yellow(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -576,7 +683,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}\n${color.cyan(S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								this.value.includes(option.value) ||
@@ -605,41 +712,83 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 };
 
 export const note = (message = '', title = '') => {
-	const lines = `\n${message}\n`.split('\n');
-	const titleLen = strip(title).length;
-	const len =
-		Math.max(
-			lines.reduce((sum, ln) => {
-				const line = strip(ln);
-				return line.length > sum ? line.length : sum;
-			}, 0),
-			titleLen
-		) + 2;
-	const msg = lines
-		.map(
-			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
-					S_BAR
-				)}`
-		)
-		.join('\n');
-	process.stdout.write(
-		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
-			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
-		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
-	);
+	const maxWidth = Math.floor((process.stdout.columns ?? 80) * 0.8);
+	const lines = format(message, {
+		default: {
+			start: color.gray(S_BAR),
+		},
+		maxWidth: maxWidth - 2,
+	}).split(/\n/g);
+	const titleLen = strLength(title);
+	const messageLen = lines.reduce((sum, line) => {
+		const length = strLength(line);
+		return length > sum ? length : sum;
+	}, 0);
+	const len = Math.min(Math.max(messageLen, titleLen) + 2, maxWidth);
+	const noteBox = [
+		color.gray(S_BAR),
+		`${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
+			S_BAR_H.repeat(Math.max(len - titleLen - 3, 0)) + S_CORNER_TOP_RIGHT
+		)}`,
+		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
+		lines
+			.map(
+				(line) =>
+					line +
+					' '.repeat(Math.max(len + (unicode ? 2 : 1) - strLength(line), 0)) +
+					color.gray(S_BAR)
+			)
+			.join('\n'),
+		color.gray(S_BAR + ' '.repeat(len) + S_BAR),
+		color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len) + S_CORNER_BOTTOM_RIGHT),
+		'',
+	].join('\n');
+	process.stdout.write(noteBox);
 };
 
 export const cancel = (message = '') => {
-	process.stdout.write(`${color.gray(S_BAR_END)}  ${color.red(message)}\n\n`);
+	process.stdout.write(
+		`${format(message, {
+			default: {
+				start: color.gray(S_BAR),
+				style: color.red,
+			},
+			lastLine: {
+				start: color.gray(S_BAR_END),
+			},
+		})}\n\n`
+	);
 };
 
 export const intro = (title = '') => {
-	process.stdout.write(`${color.gray(S_BAR_START)}  ${title}\n`);
+	process.stdout.write(
+		`${format(title, {
+			firstLine: {
+				start: color.gray(S_BAR_START),
+			},
+			default: {
+				start: color.gray(S_BAR),
+			},
+		})}\n`
+	);
 };
 
 export const outro = (message = '') => {
-	process.stdout.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
+	process.stdout.write(
+		[
+			color.gray(S_BAR),
+			format(message, {
+				default: {
+					start: color.gray(S_BAR),
+				},
+				lastLine: {
+					start: color.gray(S_BAR_END),
+				},
+			}),
+			'',
+			'',
+		].join('\n')
+	);
 };
 
 export type LogMessageOptions = {
@@ -647,31 +796,45 @@ export type LogMessageOptions = {
 };
 export const log = {
 	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
-		const parts = [`${color.gray(S_BAR)}`];
-		if (message) {
-			const [firstLine, ...lines] = message.split('\n');
-			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
-		}
-		process.stdout.write(`${parts.join('\n')}\n`);
+		process.stdout.write(
+			`${format(message, {
+				firstLine: {
+					start: symbol,
+				},
+				default: {
+					start: color.gray(S_BAR),
+				},
+			})}\n`
+		);
 	},
 	info: (message: string) => {
-		log.message(message, { symbol: color.blue(S_INFO) });
+		log.message(message, {
+			symbol: color.blue(S_INFO),
+		});
 	},
 	success: (message: string) => {
-		log.message(message, { symbol: color.green(S_SUCCESS) });
+		log.message(message, {
+			symbol: color.green(S_SUCCESS),
+		});
 	},
 	step: (message: string) => {
-		log.message(message, { symbol: color.green(S_STEP_SUBMIT) });
+		log.message(message, {
+			symbol: color.green(S_STEP_SUBMIT),
+		});
 	},
 	warn: (message: string) => {
-		log.message(message, { symbol: color.yellow(S_WARN) });
+		log.message(message, {
+			symbol: color.yellow(S_WARN),
+		});
 	},
 	/** alias for `log.warn()`. */
 	warning: (message: string) => {
 		log.warn(message);
 	},
 	error: (message: string) => {
-		log.message(message, { symbol: color.red(S_ERROR) });
+		log.message(message, {
+			symbol: color.red(S_ERROR),
+		});
 	},
 };
 
@@ -734,6 +897,7 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 	let isSpinnerActive = false;
 	let _message = '';
 	let _prevMessage: string | undefined = undefined;
+	let _prevFormattedMessage: string | undefined = undefined;
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
@@ -763,16 +927,19 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 		process.removeListener('exit', handleExit);
 	};
 
-	const clearPrevMessage = () => {
-		if (_prevMessage === undefined) return;
-		if (isCI) process.stdout.write('\n');
-		const prevLines = _prevMessage.split('\n');
-		process.stdout.write(cursor.move(-999, prevLines.length - 1));
-		process.stdout.write(erase.down(prevLines.length));
-	};
-
 	const parseMessage = (msg: string): string => {
 		return msg.replace(/\.+$/, '');
+	};
+
+	const formatMessage = (symbol: string, msg: string): string => {
+		return format(msg, {
+			firstLine: {
+				start: symbol,
+			},
+			default: {
+				start: color.gray(S_BAR),
+			},
+		});
 	};
 
 	const formatTimer = (origin: number): string => {
@@ -780,6 +947,14 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 		const min = Math.floor(duration / 60);
 		const secs = Math.floor(duration % 60);
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
+	};
+
+	const clearPrevMessage = (): void => {
+		if (_prevFormattedMessage === undefined) return;
+		if (isCI) process.stdout.write('\n');
+		const linesCounter = _prevFormattedMessage.split(/\n/g).length;
+		process.stdout.write(cursor.move(-999, (linesCounter - 1) * -1));
+		process.stdout.write(erase.down(linesCounter));
 	};
 
 	const start = (msg = ''): void => {
@@ -800,12 +975,15 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 			const frame = color.magenta(frames[frameIndex]);
 
 			if (isCI) {
-				process.stdout.write(`${frame}  ${_message}...`);
+				_prevFormattedMessage = formatMessage(frame, `${_message}...`);
+				process.stdout.write(_prevFormattedMessage);
 			} else if (indicator === 'timer') {
-				process.stdout.write(`${frame}  ${_message} ${formatTimer(_origin)}`);
+				_prevFormattedMessage = formatMessage(frame, `${_message} ${formatTimer(_origin)}`);
+				process.stdout.write(_prevFormattedMessage);
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3);
-				process.stdout.write(`${frame}  ${_message}${loadingDots}`);
+				_prevFormattedMessage = formatMessage(frame, `${_message}${loadingDots}`);
+				process.stdout.write(_prevFormattedMessage);
 			}
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
@@ -834,7 +1012,7 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 	};
 
 	const message = (msg = ''): void => {
-		_message = parseMessage(msg ?? _message);
+		_message = parseMessage(msg || _message);
 	};
 
 	return {
@@ -853,7 +1031,9 @@ export interface PromptGroupOptions<T> {
 	 * Control how the group can be canceled
 	 * if one of the prompts is canceled.
 	 */
-	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
+	onCancel?: (opts: {
+		results: Prettify<Partial<PromptGroupAwaitedReturn<T>>>;
+	}) => void;
 }
 
 type Prettify<T> = {
