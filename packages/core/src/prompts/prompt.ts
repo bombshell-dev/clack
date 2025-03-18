@@ -5,10 +5,10 @@ import { WriteStream } from 'node:tty';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils';
+import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
 
-import type { ClackEvents, ClackState } from '../types';
-import type { Action } from '../utils';
+import type { ClackEvents, ClackState } from '../types.js';
+import type { Action } from '../utils/index.js';
 
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;

@@ -3,10 +3,10 @@ import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import type { Readable } from 'node:stream';
 import { cursor } from 'sisteransi';
-import { isActionKey } from './settings';
+import { isActionKey } from './settings.js';
 
-export * from './string';
-export * from './settings';
+export * from './string.js';
+export * from './settings.js';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 

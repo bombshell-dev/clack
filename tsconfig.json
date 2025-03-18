@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "module": "ESNext",
+    "module": "node16",
     "target": "ESNext",
-    "moduleResolution": "Bundler",
-    "moduleDetection": "force",
+    "moduleResolution": "node16",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
