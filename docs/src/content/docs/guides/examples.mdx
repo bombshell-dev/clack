@@ -1,0 +1,308 @@
+---
+title: Examples
+description: Learn through practical examples of using Clack
+---
+
+This guide provides practical examples of using Clack in different scenarios.
+
+## Basic Examples
+
+### Simple Text Input
+
+```ts twoslash
+import { text } from '@clack/prompts';
+
+const name = await text({
+  message: 'What is your name?',
+  placeholder: 'John Doe',
+}) as string;
+
+console.log(`Hello, ${name}!`);
+```
+
+### Selection Menu
+
+```ts twoslash
+import { select, isCancel } from '@clack/prompts';
+
+const framework = await select({
+  message: 'Choose a framework:',
+  options: [
+    { value: 'react', label: 'React' },
+    { value: 'vue', label: 'Vue' },
+    { value: 'svelte', label: 'Svelte' },
+  ],
+});
+
+if (isCancel(framework)) {
+  console.log('Operation cancelled');
+  process.exit(0);
+}
+
+// Convert to string before using in template literal
+const frameworkStr = String(framework);
+console.log(`You selected ${frameworkStr}`);
+```
+
+### Confirmation Dialog
+
+```ts twoslash
+import { confirm } from '@clack/prompts';
+
+const shouldProceed = await confirm({
+  message: 'Do you want to continue?',
+});
+
+if (shouldProceed) {
+  console.log('Proceeding...');
+} else {
+  console.log('Operation cancelled');
+}
+```
+
+## Advanced Examples
+
+### Project Setup Wizard
+
+```ts twoslash
+// @errors: 2731 2322
+import { text, select, confirm, isCancel } from '@clack/prompts';
+
+async function setupProject() {
+  // Get project details
+  const name = await text({
+    message: 'Project name:',
+    validate: (value) => {
+      if (value.length === 0) return 'Name is required';
+      return undefined;
+    },
+  });
+
+  const type = await select({
+    message: 'Project type:',
+    options: [
+      { value: 'web', label: 'Web Application' },
+      { value: 'cli', label: 'CLI Tool' },
+      { value: 'api', label: 'API Server' },
+    ],
+  });
+
+  if (isCancel(type)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  // Get additional details based on project type
+  let framework;
+  if (String(type) === 'web') {
+    framework = await select({
+      message: 'Choose a framework:',
+      options: [
+        { value: 'react', label: 'React' },
+        { value: 'vue', label: 'Vue' },
+        { value: 'svelte', label: 'Svelte' },
+      ],
+    });
+
+    if (isCancel(framework)) {
+      console.log('Operation cancelled');
+      process.exit(0);
+    }
+  }
+
+  // Confirm setup
+  const shouldProceed = await confirm({
+    message: `Create ${String(type)} project "${name}"${framework ? ` with ${String(framework)}` : ''}?`,
+  });
+
+  if (shouldProceed) {
+    // Project creation logic here
+    console.log('Creating project...');
+  }
+}
+```
+
+### Configuration Setup
+
+```ts twoslash
+// @errors: 2731 2345 2322 2339
+import { text, select, confirm, isCancel } from '@clack/prompts';
+
+interface Config {
+  port: number;
+  host: string | symbol;
+  mode: 'development' | 'production';
+  features: string[];
+}
+
+async function setupConfig(): Promise<Config> {
+  const port = await text({
+    message: 'Enter port number:',
+    defaultValue: '3000',
+    validate: (value) => {
+      const num = parseInt(value);
+      if (isNaN(num)) return 'Please enter a valid number';
+      if (num < 1 || num > 65535) return 'Port must be between 1 and 65535';
+      return undefined;
+    },
+  });
+
+  const host = await text({
+    message: 'Enter host:',
+    defaultValue: 'localhost',
+  });
+
+  const mode = await select({
+    message: 'Select mode:',
+    options: [
+      { value: 'development', label: 'Development' },
+      { value: 'production', label: 'Production' },
+    ],
+  });
+
+  if (isCancel(mode)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  const features = await select({
+    message: 'Select features:',
+    options: [
+      { value: 'auth', label: 'Authentication' },
+      { value: 'logging', label: 'Logging' },
+      { value: 'metrics', label: 'Metrics' },
+    ],
+  });
+
+  if (isCancel(features)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  return {
+    port: Number(port),
+    host,
+    mode: String(mode) as 'development' | 'production',
+    features: [String(features)],
+  };
+}
+```
+
+### Interactive CLI Tool
+
+```ts twoslash
+// @errors: 2731 2322 7022 2448
+import { text, select, confirm as confirmPrompt, isCancel } from '@clack/prompts';
+
+async function cliTool() {
+  while (true) {
+    const action = await select({
+      message: 'What would you like to do?',
+      options: [
+        { value: 'create', label: 'Create new item' },
+        { value: 'list', label: 'List items' },
+        { value: 'delete', label: 'Delete item' },
+        { value: 'exit', label: 'Exit' },
+      ],
+    });
+
+    if (isCancel(action)) {
+      console.log('Operation cancelled');
+      process.exit(0);
+    }
+
+    if (String(action) === 'exit') break;
+
+    switch (String(action)) {
+      case 'create': {
+        const name = await text({
+          message: 'Enter item name:',
+        }) as string;
+        console.log(`Created item: ${name}`);
+        break;
+      }
+      case 'list': {
+        console.log('Listing items...');
+        break;
+      }
+      case 'delete': {
+        const item = await text({
+          message: 'Enter item to delete:',
+        }) as string;
+        const shouldDelete = await confirmPrompt({
+          message: `Delete ${item}?`,
+        });
+        if (shouldDelete) {
+          console.log(`Deleted ${item}`);
+        }
+        break;
+      }
+    }
+  }
+}
+```
+
+### Form Validation
+
+```ts twoslash
+// @errors: 2731 2322 2345
+import { text, select, isCancel } from '@clack/prompts';
+
+interface UserData {
+  name: string | symbol;
+  email: string | symbol;
+  age: number;
+  role: string;
+}
+
+async function collectUserData(): Promise<UserData> {
+  const name = await text({
+    message: 'Full name:',
+    validate: (value) => {
+      if (value.length < 2) return 'Name must be at least 2 characters';
+      if (!/^[a-zA-Z\s]*$/.test(value)) return 'Name can only contain letters and spaces';
+      return undefined;
+    },
+  });
+
+  const email = await text({
+    message: 'Email address:',
+    validate: (value) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) return 'Please enter a valid email address';
+      return undefined;
+    },
+  });
+
+  const age = await text({
+    message: 'Age:',
+    validate: (value) => {
+      const num = parseInt(value);
+      if (isNaN(num)) return 'Please enter a valid number';
+      if (num < 18 || num > 100) return 'Age must be between 18 and 100';
+      return undefined;
+    },
+  });
+
+  const role = await select({
+    message: 'Select role:',
+    options: [
+      { value: 'admin', label: 'Administrator' },
+      { value: 'user', label: 'User' },
+      { value: 'guest', label: 'Guest' },
+    ],
+  });
+
+  if (isCancel(role)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  return {
+    name,
+    email,
+    age: Number(age),
+    role: String(role),
+  };
+}
+``` 

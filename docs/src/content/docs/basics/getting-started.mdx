@@ -5,7 +5,18 @@ description: Learn how to get started with Clack
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-Clack is a modern, flexible and powerful CLI library. It provides a set of components that you can use to build beautiful command-line interfaces with ease.
+Clack is a modern, flexible and powerful CLI library that helps you build beautiful command-line interfaces with ease. It provides a set of high-level components and low-level primitives that make it simple to create interactive command-line applications.
+
+## Features
+
+- 🎨 Beautiful, modern UI components
+- 🎯 Type-safe with full TypeScript support
+- 🎭 Customizable styling and theming
+- 🎮 Interactive prompts and menus
+- 🎪 Progressive disclosure
+- 🎭 Form validation
+- 🎯 Error handling
+- 🎨 Consistent styling
 
 ## Installation
 
@@ -14,28 +25,78 @@ You can install Clack using npm, yarn, or pnpm:
 <Tabs>
 	<TabItem label="npm" icon="seti:npm">
 		```bash
-		npm install @clack/core
+		npm install @clack/prompts
 		```
 	</TabItem>
 	<TabItem label="pnpm" icon="pnpm">
 		```bash
-		pnpm add @clack/core
+		pnpm add @clack/prompts
 		```
 	</TabItem>
 	<TabItem label="Yarn" icon="seti:yarn">
 		```bash
-		yarn add @clack/core
+		yarn add @clack/prompts
 		```
 	</TabItem>
 </Tabs>
 
-## Basic Usage
+## Quick Start
 
-Clack contains low-level primitives for implementing your own command-line applications.
+Here's a simple example to get you started:
 
-Currently, `TextPrompt`, `SelectPrompt`, and `ConfirmPrompt` are exposed as well as the base `Prompt` class.
+```ts twoslash
+// @errors: 2731
+import { text, select, confirm, isCancel } from '@clack/prompts';
 
-Each `Prompt` accepts a `render` function.
+async function main() {
+  // Get user's name
+  const name = await text({
+    message: 'What is your name?',
+    placeholder: 'John Doe',
+  }) as string;
+
+  // Get user's preferred framework
+  const framework = await select({
+    message: 'Choose a framework:',
+    options: [
+      { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' },
+      { value: 'svelte', label: 'Svelte' },
+    ],
+  });
+
+  if (isCancel(framework)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  // Confirm the selection
+  const shouldProceed = await confirm({
+    message: `Create a ${framework} project for ${name}?`,
+  });
+
+  if (shouldProceed) {
+    console.log('Creating project...');
+  }
+}
+```
+
+## Core Concepts
+
+### High-Level Components
+
+Clack provides several high-level components that make it easy to build interactive CLIs:
+
+- `text()` - For text input with validation
+- `select()` - For selection menus
+- `confirm()` - For yes/no confirmations
+- `multiselect()` - For multiple selections
+- `note()` - For displaying information
+- `spinner()` - For loading states
+
+### Low-Level Primitives
+
+For more control, you can use the low-level primitives:
 
 ```ts twoslash
 import { TextPrompt, isCancel } from '@clack/core';
@@ -51,3 +112,33 @@ if (isCancel(name)) {
   process.exit(0);
 }
 ```
+
+## Next Steps
+
+1. Check out our [Examples](/guides/examples) for more practical use cases
+2. Learn about [Best Practices](/guides/best-practices) for building CLIs
+3. Explore the [API Reference](/api) for detailed documentation
+4. Join our [Discord community](https://bomb.sh/chat) for support and discussions
+
+## TypeScript Support
+
+Clack is built with TypeScript and provides full type safety. All components and primitives are properly typed, making it easy to catch errors at compile time.
+
+```ts twoslash
+import { text } from '@clack/prompts';
+
+// TypeScript will ensure the validation function returns the correct type
+const age = await text({
+  message: 'Enter your age:',
+  validate: (value: string) => {
+    const num = parseInt(value);
+    if (isNaN(num)) return 'Please enter a valid number';
+    if (num < 0 || num > 120) return 'Age must be between 0 and 120';
+    return undefined;
+  },
+});
+```
+
+## Contributing
+
+We welcome contributions! Please check out our [Contributing Guide](/contributing) for details on our code of conduct and the process for submitting pull requests.

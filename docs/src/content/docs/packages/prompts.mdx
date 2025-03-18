@@ -1,0 +1,66 @@
+---
+title: Prompts
+description: Learn about the prompts package and its capabilities
+---
+
+The `@clack/prompts` package provides a collection of pre-built, high-level prompts that make it easy to create interactive command-line interfaces. It builds on top of the core package to provide a more developer-friendly experience.
+
+## Key Features
+
+- **Pre-built prompts**: Ready-to-use prompt components
+- **Consistent styling**: Unified look and feel across all prompts
+- **Type-safe**: Full TypeScript support
+- **Customizable**: Easy to extend and modify
+
+## Available Prompts
+
+### Text Input
+```ts twoslash
+import { text } from '@clack/prompts';
+
+const name = await text({
+  message: 'What is your name?',
+  placeholder: 'John Doe',
+  validate: (value) => {
+    if (value.length < 2) return 'Name must be at least 2 characters';
+    return undefined;
+  },
+});
+```
+
+### Selection
+
+```ts twoslash
+import { select } from '@clack/prompts';
+
+const framework = await select({
+  message: 'Pick a framework',
+  options: [
+    { value: 'next', label: 'Next.js' },
+    { value: 'astro', label: 'Astro' },
+    { value: 'svelte', label: 'SvelteKit' },
+  ],
+});
+```
+
+### Confirmation
+
+```ts twoslash
+import { confirm } from '@clack/prompts';
+
+const shouldProceed = await confirm({
+  message: 'Do you want to continue?',
+});
+```
+
+## Installation
+
+```bash
+npm install @clack/prompts
+```
+
+## Usage
+
+The prompts package is designed to be intuitive and easy to use. Each prompt function returns a Promise that resolves to the user's input.
+
+For more detailed examples and advanced usage patterns, check out our [examples guide](/docs/guides/examples) and [best practices](/docs/guides/best-practices). 

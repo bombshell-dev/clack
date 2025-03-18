@@ -1,0 +1,53 @@
+---
+title: Core
+description: Learn about the core functionality of Clack
+---
+
+The `@clack/core` package provides the fundamental building blocks for creating interactive command-line interfaces. It's designed to be flexible, extensible, and easy to use.
+
+## Key Features
+
+- **Low-level primitives**: Base components for building custom prompts
+- **Type-safe**: Built with TypeScript for better developer experience
+- **Flexible rendering**: Customizable rendering system for prompts
+- **Cancel handling**: Built-in support for handling user cancellation
+
+## Package Structure
+
+The core package is organized into two main directories:
+
+- `prompts/`: Contains the base prompt implementations
+- `utils/`: Contains utility functions and helpers
+
+## Core Components
+
+### Base Prompt Class
+
+The `Prompt` class serves as the foundation for all prompt types. It provides:
+
+- Custom rendering capabilities
+- Input handling
+- State management
+- Event system
+
+### Available Prompts
+
+1. **TextPrompt**: For text input
+2. **SelectPrompt**: For selection from options
+3. **ConfirmPrompt**: For yes/no confirmations
+
+## Getting Started
+
+To start using the core package, first install it:
+
+```bash
+npm install @clack/core
+```
+
+Then import the components you need:
+
+```ts
+import { TextPrompt, SelectPrompt, ConfirmPrompt } from '@clack/core';
+```
+
+For detailed examples and usage patterns, check out our [examples guide](/docs/guides/examples). 

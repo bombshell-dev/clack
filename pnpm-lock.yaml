@@ -44,9 +44,6 @@ importers:
       sharp:
         specifier: ^0.33.5
         version: 0.33.5
-      starlight-sidebar-topics:
-        specifier: ^0.5.1
-        version: 0.5.1(@astrojs/starlight@0.32.2(astro@5.5.2(@types/node@18.16.0)(jiti@2.4.0)(rollup@4.35.0)(typescript@5.2.2)))
 
   examples/basic:
     dependencies:
@@ -3671,12 +3668,6 @@ packages:
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
-
-  starlight-sidebar-topics@0.5.1:
-    resolution: {integrity: sha512-jjdZVus2/NvAazMn8l0RxlnmjtIIg/7hcA91+tKhC8AtJ9kdYjWd5jPMnbj54HelZ305LwDp+Qo2S6vexfVSoA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@astrojs/starlight': '>=0.32.0'
 
   std-env@3.8.0:
     resolution: {integrity: sha512-Bc3YwwCB+OzldMxOXJIIvC6cPRWr/LxOp48CdQTOkPyk/t4JWWJbrilwBd7RJzKV8QW7tJkcgAmeuLLJugl5/w==}
@@ -8419,11 +8410,6 @@ snapshots:
   sprintf-js@1.0.3: {}
 
   stackback@0.0.2: {}
-
-  starlight-sidebar-topics@0.5.1(@astrojs/starlight@0.32.2(astro@5.5.2(@types/node@18.16.0)(jiti@2.4.0)(rollup@4.35.0)(typescript@5.2.2))):
-    dependencies:
-      '@astrojs/starlight': 0.32.2(astro@5.5.2(@types/node@18.16.0)(jiti@2.4.0)(rollup@4.35.0)(typescript@5.2.2))
-      picomatch: 4.0.2
 
   std-env@3.8.0: {}
 

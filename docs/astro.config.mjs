@@ -7,10 +7,10 @@ import ecTwoSlash from "expressive-code-twoslash";
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: "Bombshell",
+			title: "Clack",
 			logo: {
-				dark: "./src/assets/dark.svg",
-				light: "./src/assets/light.svg",
+				dark: "./src/assets/clack-dark.gif",
+				light: "./src/assets/clack-dark.gif",
 			},
 			expressiveCode: {
 				plugins: [ecTwoSlash()],
@@ -24,16 +24,17 @@ export default defineConfig({
 				github: "https://bomb.sh/on/github",
 			},
 			sidebar: [
-				// {
-				// 	label: "Guides",
-				// 	items: [
-				// 		// Each item here is one entry in the navigation menu.
-				// 		{ label: "Example Guide", slug: "guides/example" },
-				// 	],
-				// },
 				{
 					label: "Basics",
 					autogenerate: { directory: "basics" },
+				},
+				{
+					label: "Packages",
+					autogenerate: { directory: "packages" },
+				},
+				{
+					label: "Guides",
+					autogenerate: { directory: "guides" },
 				},
 			],
 		}),

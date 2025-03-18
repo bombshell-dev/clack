@@ -1,0 +1,280 @@
+---
+title: Best Practices
+description: Learn the best practices for using Clack effectively
+---
+
+This guide covers recommended practices and patterns for using Clack effectively in your applications.
+
+## General Guidelines
+
+### 1. Error Handling
+
+Always handle potential errors and cancellations:
+
+```ts twoslash
+import { text, isCancel } from '@clack/prompts';
+
+try {
+  const name = await text({
+    message: 'What is your name?',
+  });
+  
+  if (isCancel(name)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+  
+  // Use the name value
+} catch (error) {
+  console.error('An error occurred:', error);
+  process.exit(1);
+}
+```
+
+### 2. Input Validation
+
+Implement proper validation for user inputs:
+
+```ts twoslash
+import { text } from '@clack/prompts';
+
+// Define validation function outside for reusability
+function validateAge(value: string): string | undefined {
+  const num = parseInt(value);
+  if (isNaN(num)) return 'Please enter a valid number';
+  if (num < 0 || num > 120) return 'Age must be between 0 and 120';
+  return undefined;
+}
+
+const age = await text({
+  message: 'Enter your age:',
+  validate: validateAge,
+});
+```
+
+### 3. Consistent Messaging
+
+Use clear and consistent messaging across your prompts:
+
+```ts twoslash
+// @errors: 2322
+import { select, isCancel } from '@clack/prompts';
+
+// Good
+const userAction = await select({
+  message: 'What would you like to do?',
+  options: [
+    { value: 'create', label: 'Create new project' },
+    { value: 'update', label: 'Update existing project' },
+  ],
+});
+
+if (isCancel(userAction)) {
+  console.log('Operation cancelled');
+  process.exit(0);
+}
+
+// Avoid
+const quickAction = await select({
+  message: 'Action:', // Too vague
+  options: [
+    { value: 'c', label: 'Create' }, // Inconsistent formatting
+    { value: 'u', label: 'Update' },
+  ],
+});
+```
+
+### 4. Progressive Disclosure
+
+Break complex interactions into smaller, manageable steps:
+
+```ts twoslash
+// @errors: 2322
+import { select, isCancel } from '@clack/prompts';
+
+// First, get the project type
+const projectType = await select({
+  message: 'Select project type:',
+  options: [
+    { value: 'web', label: 'Web Application' },
+    { value: 'cli', label: 'CLI Tool' },
+  ],
+});
+
+if (isCancel(projectType)) {
+  console.log('Operation cancelled');
+  process.exit(0);
+}
+
+// Then, get specific details based on the type
+if (projectType === 'web') {
+  const framework = await select({
+    message: 'Choose a framework:',
+    options: [
+      { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' },
+    ],
+  });
+}
+```
+
+### 5. Default Values
+
+Provide sensible defaults when appropriate:
+
+```ts twoslash
+import { text } from '@clack/prompts';
+
+const configPath = await text({
+  message: 'Configuration file path:',
+  defaultValue: './config.json',
+  placeholder: 'Enter path to config file',
+});
+```
+
+### 6. Type Safety
+
+Leverage TypeScript for better type safety:
+
+```ts twoslash
+// @errors: 2322
+import { text, select, isCancel } from '@clack/prompts';
+
+// Define validation functions outside
+function validateProjectName(value: string): string | undefined {
+  if (value.length === 0) return 'Name is required';
+  if (!/^[a-z0-9-]+$/.test(value)) return 'Name can only contain lowercase letters, numbers, and hyphens';
+  return undefined;
+}
+
+// Define types for better type safety
+interface ProjectConfig {
+  name: string;
+  type: 'web' | 'cli';
+  framework?: string;
+}
+
+// Collect project configuration with type safety
+async function collectProjectConfig(): Promise<ProjectConfig> {
+  const name = await text({
+    message: 'Project name:',
+    validate: validateProjectName,
+  });
+
+  const type = await select({
+    message: 'Project type:',
+    options: [
+      { value: 'web', label: 'Web Application' },
+      { value: 'cli', label: 'CLI Tool' },
+    ],
+  });
+
+  if (isCancel(type)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  return {
+    name,
+    type: String(type) as 'web' | 'cli',
+  };
+}
+```
+
+## Performance Considerations
+
+### 1. Batch Operations
+
+When dealing with multiple prompts, consider using `Promise.all` for parallel execution:
+
+```ts twoslash
+import { text } from '@clack/prompts';
+
+const [userName, userEmail, userAge] = await Promise.all([
+  text({ message: 'Name:' }),
+  text({ message: 'Email:' }),
+  text({ message: 'Age:' }),
+]);
+```
+
+### 2. Lazy Loading
+
+Load prompts only when needed:
+
+```ts twoslash
+// @errors: 2307
+import { select, isCancel } from '@clack/prompts';
+
+async function setupProject() {
+  const projectType = await select({
+    message: 'Project type:',
+    options: [
+      { value: 'web', label: 'Web Application' },
+      { value: 'cli', label: 'CLI Tool' },
+    ],
+  });
+
+  if (isCancel(projectType)) {
+    console.log('Operation cancelled');
+    process.exit(0);
+  }
+
+  // Only load web-specific prompts if needed
+  if (projectType === 'web') {
+    const { setupWebProject } = await import('./web-setup');
+    await setupWebProject();
+  }
+}
+```
+
+## Accessibility
+
+### 1. Clear Labels
+
+Use descriptive labels for options:
+
+```ts twoslash
+// @errors: 2322
+import { select, isCancel } from '@clack/prompts';
+
+// Good
+const operationMode = await select({
+  message: 'Select operation mode:',
+  options: [
+    { value: 'dev', label: 'Development Mode' },
+    { value: 'prod', label: 'Production Mode' },
+  ],
+});
+
+if (isCancel(operationMode)) {
+  console.log('Operation cancelled');
+  process.exit(0);
+}
+
+// Avoid
+const mode = await select({
+  message: 'Mode:',
+  options: [
+    { value: 'd', label: 'Dev' },
+    { value: 'p', label: 'Prod' },
+  ],
+});
+```
+
+### 2. Helpful Error Messages
+
+Provide clear error messages that guide users to correct input:
+
+```ts twoslash
+import { text } from '@clack/prompts';
+
+const serverPort = await text({
+  message: 'Enter port number:',
+  validate: (value: string) => {
+    const num = parseInt(value);
+    if (isNaN(num)) return 'Please enter a valid number';
+    if (num < 1 || num > 65535) return 'Port must be between 1 and 65535';
+    return undefined;
+  },
+});
+``` 

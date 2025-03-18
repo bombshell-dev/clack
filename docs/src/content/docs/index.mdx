@@ -1,16 +1,16 @@
 ---
 i18nReady: true
 title: Clack
-description: A modern cli .
+description: A modern CLI library for building beautiful command-line interfaces
 template: splash
 editUrl: false
 lastUpdated: false
 hero:
   tagline: Effortlessly build beautiful command-line apps.
   image:
-    alt: Bombshell Logo
-    dark: "../../assets/dark.svg"
-    light: "../../assets/light.svg"
+    alt: Clack Logo
+    dark: "../../assets/clack-dark.gif"
+    light: "../../assets/clack-light.gif"
   actions:
     - text: Get started
       link: /basics/getting-started/
@@ -25,19 +25,32 @@ import { CardGrid, LinkButton, Card } from '@astrojs/starlight/components';
 
 <CardGrid>
 
-  <Card title="Quick Start" icon="rocket">
-    ```sh
-    # Create a new Astro project
-    pnpm create studiocms@latest
-
-    # Start the development server
-    cd my-studiocms-project
-    pnpm dev
-    ```
+  <Card title="Type-Safe" icon="rocket">
+    Built with TypeScript from the ground up. Get full type safety and autocompletion for all components and primitives.
   </Card>
 
-	<Card title="clack" icon="star">
-		Clack is a modern, flexible, and powerful CMS for Astro.
-	</Card>
+  <Card title="Beautiful UI" icon="seti:smarty">
+    Modern, consistent, and beautiful command-line interfaces with customizable styling and theming.
+  </Card>
+
+  <Card title="Interactive Prompts" icon="seti:smarty">
+    Rich set of interactive components including text input, selection menus, confirmations, and more.
+  </Card>
+
+  <Card title="Form Validation" icon="approve-check">
+    Built-in validation with custom error messages and type checking for all input fields.
+  </Card>
+
+  <Card title="Progressive Disclosure" icon="information">
+    Show relevant options based on user input, making complex workflows simple and intuitive.
+  </Card>
+
+  <Card title="Error Handling" icon="warning">
+    Graceful error handling with cancellation support and clear error messages.
+  </Card>
+
+  <Card title="Customizable" icon="sun">
+    Extend and customize every aspect of your CLI with low-level primitives and custom components.
+  </Card>
 
 </CardGrid>
