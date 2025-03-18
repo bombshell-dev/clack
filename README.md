@@ -3,8 +3,8 @@
 
 <div align="center">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="/.github/assets/clack-dark.gif?sanitize=true">
-      <img alt="Clack logo" src="/.github/assets/clack-light.gif?sanitize=true" width="320">
+      <source media="(prefers-color-scheme: dark)" srcset="/.github/assets/clack-dark.svg?raw=true">
+      <img alt="Clack logo" src="/.github/assets/clack-light.svg?raw=true" width="320">
     </picture>
 </div>
 <h2 align="center">Effortlessly build beautiful command-line apps 🪄</h3>
