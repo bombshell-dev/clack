@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@example/basic": "0.0.0",
+    "@example/changesets": "0.0.0",
+    "@clack/core": "0.4.1",
+    "@clack/prompts": "0.10.0"
+  },
+  "changesets": []
+}
