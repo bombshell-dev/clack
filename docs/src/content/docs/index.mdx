@@ -1,0 +1,43 @@
+---
+i18nReady: true
+title: Clack
+description: A modern cli .
+template: splash
+editUrl: false
+lastUpdated: false
+hero:
+  tagline: Effortlessly build beautiful command-line apps.
+  image:
+    alt: Bombshell Logo
+    dark: "../../assets/dark.svg"
+    light: "../../assets/light.svg"
+  actions:
+    - text: Get started
+      link: /basics/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub repository
+      link: https://github.com/bombshell-dev/clack
+      icon: github
+---
+
+import { CardGrid, LinkButton, Card } from '@astrojs/starlight/components';
+
+<CardGrid>
+
+  <Card title="Quick Start" icon="rocket">
+    ```sh
+    # Create a new Astro project
+    pnpm create studiocms@latest
+
+    # Start the development server
+    cd my-studiocms-project
+    pnpm dev
+    ```
+  </Card>
+
+	<Card title="clack" icon="star">
+		Clack is a modern, flexible, and powerful CMS for Astro.
+	</Card>
+
+</CardGrid>

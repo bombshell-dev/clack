@@ -1,0 +1,53 @@
+---
+title: Getting Started
+description: Learn how to get started with Clack
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Clack is a modern, flexible and powerful CLI library. It provides a set of components that you can use to build beautiful command-line interfaces with ease.
+
+## Installation
+
+You can install Clack using npm, yarn, or pnpm:
+
+<Tabs>
+	<TabItem label="npm" icon="seti:npm">
+		```bash
+		npm install @clack/core
+		```
+	</TabItem>
+	<TabItem label="pnpm" icon="pnpm">
+		```bash
+		pnpm add @clack/core
+		```
+	</TabItem>
+	<TabItem label="Yarn" icon="seti:yarn">
+		```bash
+		yarn add @clack/core
+		```
+	</TabItem>
+</Tabs>
+
+## Basic Usage
+
+Clack contains low-level primitives for implementing your own command-line applications.
+
+Currently, `TextPrompt`, `SelectPrompt`, and `ConfirmPrompt` are exposed as well as the base `Prompt` class.
+
+Each `Prompt` accepts a `render` function.
+
+```ts twoslash
+import { TextPrompt, isCancel } from '@clack/core';
+
+const p = new TextPrompt({
+  render() {
+    return `What's your name?\n${this.valueWithCursor}`;
+  },
+});
+
+const name = await p.prompt();
+if (isCancel(name)) {
+  process.exit(0);
+}
+```

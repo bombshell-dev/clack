@@ -1,0 +1,21 @@
+{
+  "name": "clack-docs",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.32.2",
+    "@clack/core": "workspace:*",
+    "@clack/prompts": "workspace:*",
+    "astro": "^5.1.5",
+    "expressive-code-twoslash": "^0.4.0",
+    "sharp": "^0.33.5",
+    "starlight-sidebar-topics": "^0.5.1"
+  }
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 256 256">
+	<style>
+        #asterisk {
+            transform-origin: 201px 131px;
+            animation: 2s spin infinite linear;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg)   }
+            to   { transform: rotate(360deg) }
+        }
+	</style>
+	<path id="circle" d="M20.4727 127.768C20.4727 163.48 49.5287 192.536 85.2407 192.536C120.953 192.536 150.009 163.48 150.009 127.768C150.009 92.056 120.953 63 85.2407 63C49.5287 63 20.4727 92.056 20.4727 127.768Z" fill="white" />
+	<path id="asterisk" d="M191.77 98.264H210.97L208.218 122.392L230.298 112.28L236.25 130.52L212.378 135.32L228.762 153.304L213.338 164.44L201.37 143.448L189.402 164.44L173.978 153.304L190.362 135.32L166.49 130.52L172.442 112.28L194.522 122.392L191.77 98.264Z" fill="white" />
+</svg>
