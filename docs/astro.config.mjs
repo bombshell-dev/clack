@@ -8,9 +8,16 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: "Clack",
+			customCss: [
+				// Relative path to your @font-face CSS file.
+				"./src/fonts/font-face.css",
+			],
 			logo: {
-				dark: "./src/assets/clack-dark.gif",
-				light: "./src/assets/clack-dark.gif",
+				dark: "./src/assets/clack-logo.png",
+				light: "./src/assets/clack-logo.png",
+			},
+			components: {
+				Head: "./src/starlightOverrides/Head.astro",
 			},
 			expressiveCode: {
 				plugins: [ecTwoSlash()],
