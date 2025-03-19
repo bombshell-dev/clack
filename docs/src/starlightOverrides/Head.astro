@@ -1,0 +1,22 @@
+---
+import Default from "@astrojs/starlight/components/Head.astro";
+import "../styles/starlight.css";
+---
+
+<Default><slot /></Default>
+<meta name="twitter:site" content="bombshell" />
+<meta name="twitter:creator" content="bombshell" />
+<style is:global>
+	/* Remove the general html font-family override to prevent it from overriding our specific rules */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.site-title,
+	.sl-doc-title,
+	.sl-nav-link {
+		font-family: var(--sl-font-heading);
+	}
+</style>

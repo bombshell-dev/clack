@@ -1,0 +1,8 @@
+@font-face {
+	font-family: "PlayMath Display";
+	/* Use a relative path to the local font file in `url()`. */
+	src: url("./Polymath-Disp-Semibold.otf") format("opentype");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
