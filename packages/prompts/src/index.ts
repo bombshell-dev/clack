@@ -844,8 +844,31 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 	};
 };
 
-export type PromptGroupAwaitedReturn<T> = {
-	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
+type Prettify<T> = {
+	[P in keyof T]: T[P];
+} & {};
+
+export type PromptAwaitedReturn<T> = Exclude<Awaited<T>, symbol>;
+
+export type PromptGroupAwaitedReturn<T> = Prettify<{
+	[P in keyof T]: PromptAwaitedReturn<T[P]>;
+}>;
+
+export type PromptWithOptions<
+	TResults,
+	TResult,
+	// biome-ignore lint/complexity/noBannedTypes: {} is initializing a empty object
+	TOptions extends Record<string, unknown> = {},
+> = (
+	opts: Prettify<
+		{
+			results: PromptGroupAwaitedReturn<TResults>;
+		} & TOptions
+	>
+) => TResult;
+
+export type PromptGroup<T> = {
+	[P in keyof T]: PromptWithOptions<Partial<Omit<T, P>>, undefined | Promise<T[P] | undefined>>;
 };
 
 export interface PromptGroupOptions<T> {
@@ -853,18 +876,8 @@ export interface PromptGroupOptions<T> {
 	 * Control how the group can be canceled
 	 * if one of the prompts is canceled.
 	 */
-	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
+	onCancel?: PromptWithOptions<Partial<T>, void>;
 }
-
-type Prettify<T> = {
-	[P in keyof T]: T[P];
-} & {};
-
-export type PromptGroup<T> = {
-	[P in keyof T]: (opts: {
-		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
-	}) => undefined | Promise<T[P] | undefined>;
-};
 
 /**
  * Define a group of prompts to be displayed
@@ -873,7 +886,7 @@ export type PromptGroup<T> = {
 export const group = async <T>(
 	prompts: PromptGroup<T>,
 	opts?: PromptGroupOptions<T>
-): Promise<Prettify<PromptGroupAwaitedReturn<T>>> => {
+): Promise<PromptGroupAwaitedReturn<T>> => {
 	const results = {} as any;
 	const promptNames = Object.keys(prompts);
 
@@ -896,6 +909,121 @@ export const group = async <T>(
 	}
 
 	return results;
+};
+
+type NextWorkflowBuilder<
+	TResults extends Record<string, unknown>,
+	TKey extends string,
+	TResult,
+> = WorkflowBuilder<
+	Prettify<
+		{
+			[Key in keyof TResults]: Key extends TKey ? TResult : TResults[Key];
+		} & {
+			[Key in TKey as undefined extends TResult ? never : TKey]: TResult;
+		} & {
+			[Key in TKey as undefined extends TResult ? TKey : never]?: TResult;
+		}
+	>
+>;
+
+type WorkflowStep<TName extends string, TResults, TResult = unknown> = {
+	name: TName;
+	prompt: PromptWithOptions<TResults, TResult>;
+	setResult: boolean;
+	condition?: PromptWithOptions<TResults, boolean>;
+};
+
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
+class WorkflowBuilder<TResults extends Record<string, unknown> = {}> {
+	private results: TResults = {} as TResults;
+	private steps: WorkflowStep<string, TResults>[] = [];
+	private cancelCallback: PromptWithOptions<Partial<TResults>, void> | undefined;
+
+	public step<TName extends string, TResult>(
+		name: TName extends keyof TResults ? never : TName,
+		prompt: PromptWithOptions<TResults, TResult>
+	): NextWorkflowBuilder<TResults, TName, PromptAwaitedReturn<TResult>> {
+		this.steps.push({ name, prompt, setResult: true });
+		return this as any;
+	}
+
+	public conditionalStep<TName extends string, TResult>(
+		name: TName,
+		condition: PromptWithOptions<TResults, boolean>,
+		prompt: PromptWithOptions<TResults, TResult>
+	): NextWorkflowBuilder<
+		TResults,
+		TName,
+		| (TName extends keyof TResults ? TResults[TName] : never)
+		| PromptAwaitedReturn<TResult>
+		| undefined
+	> {
+		this.steps.push({ name, prompt, condition, setResult: true });
+		return this as any;
+	}
+
+	public forkStep<TName extends string, TResult extends Record<string, unknown>>(
+		name: TName,
+		condition: PromptWithOptions<TResults, boolean>,
+		subWorkflow: PromptWithOptions<TResults, WorkflowBuilder<TResult>>
+	): NextWorkflowBuilder<
+		TResults,
+		TName,
+		(TName extends keyof TResults ? TResults[TName] : never) | TResult | undefined
+	> {
+		this.steps.push({
+			name,
+			prompt: ({ results }) => {
+				return subWorkflow({ results }).run();
+			},
+			condition,
+			setResult: true,
+		});
+		return this as any;
+	}
+
+	public logStep(
+		name: string,
+		prompt: PromptWithOptions<TResults, void>
+	): WorkflowBuilder<TResults> {
+		this.steps.push({ name, prompt, setResult: false });
+		return this;
+	}
+
+	public customStep<TName extends string, TResult>(
+		step: WorkflowStep<TName, TResults, TResult>
+	): NextWorkflowBuilder<TResults, TName, PromptAwaitedReturn<TResult>> {
+		this.steps.push(step);
+		return this as any;
+	}
+
+	public onCancel(cb: PromptWithOptions<Partial<TResults>, void>): WorkflowBuilder<TResults> {
+		this.cancelCallback = cb;
+		return this;
+	}
+
+	public async run(): Promise<TResults> {
+		for (const step of this.steps) {
+			if (step.condition && !step.condition({ results: this.results as any })) {
+				continue;
+			}
+			const result = await step.prompt({ results: this.results as any });
+			if (isCancel(result)) {
+				this.cancelCallback?.({ results: this.results as any });
+				continue;
+			}
+			if (step.setResult) {
+				//@ts-ignore
+				this.results[step.name] = result;
+			}
+		}
+		return this.results;
+	}
+}
+
+export const workflow = () => {
+	return new WorkflowBuilder();
 };
 
 export type Task = {
