@@ -70,7 +70,7 @@ async function main() {
 		}
 	);
 
-	const message = await p.text({
+	const message = await p.multiline({
 		placeholder: 'Summary',
 		message: 'Please enter a summary for this change',
 	});

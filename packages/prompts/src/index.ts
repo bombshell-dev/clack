@@ -1,7 +1,9 @@
+import type { Key } from 'node:readline';
 import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
 	GroupMultiSelectPrompt,
+	MultiLinePrompt,
 	MultiSelectPrompt,
 	PasswordPrompt,
 	SelectKeyPrompt,
@@ -135,6 +137,46 @@ export const text = (opts: TextOptions) => {
 	}).prompt() as Promise<string | symbol>;
 };
 
+export const multiline = (opts: TextOptions) => {
+	function wrap(
+		text: string,
+		barStyle: (v: string) => string,
+		textStyle: (v: string) => string
+	): string {
+		return `${barStyle(S_BAR)}  ${text
+			.split('\n')
+			.map(textStyle)
+			.join(`\n${barStyle(S_BAR)}  `)}`;
+	}
+	return new MultiLinePrompt({
+		validate: opts.validate,
+		placeholder: opts.placeholder,
+		defaultValue: opts.defaultValue,
+		initialValue: opts.initialValue,
+		submitKey: { name: 'd', ctrl: true },
+		render() {
+			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const placeholder = opts.placeholder
+				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
+				: color.inverse(color.hidden('_'));
+			const value: string = `${!this.value ? placeholder : this.valueWithCursor}`;
+			switch (this.state) {
+				case 'error':
+					return `${title.trim()}${wrap(value, color.yellow, color.yellow)}\n${color.yellow(
+						S_BAR_END
+					)}  ${color.yellow(this.error)}\n`;
+				case 'submit':
+					return `${title}${wrap(this.value || opts.placeholder, color.gray, color.dim)}`;
+				case 'cancel':
+					return `${title}${wrap(this.value ?? '', color.gray, (v) =>
+						color.strikethrough(color.dim(v))
+					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+				default:
+					return `${title}${wrap(value, color.cyan, (v) => v)}\n${color.cyan(S_BAR_END)}\n`;
+			}
+		},
+	}).prompt() as Promise<string | symbol>;
+};
 export interface PasswordOptions {
 	message: string;
 	mask?: string;

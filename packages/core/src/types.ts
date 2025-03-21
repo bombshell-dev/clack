@@ -16,6 +16,7 @@ export interface ClackEvents {
 	error: (value?: any) => void;
 	cursor: (key?: Action) => void;
 	key: (key?: string) => void;
+	rawKey: (char?: string, key?: any) => void;
 	value: (value?: string) => void;
 	confirm: (value?: boolean) => void;
 	finalize: () => void;
