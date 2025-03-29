@@ -7,5 +7,8 @@
     "@clack/core": "0.4.1",
     "@clack/prompts": "0.10.0"
   },
-  "changesets": []
+  "changesets": [
+    "legal-bags-tie",
+    "lemon-monkeys-help"
+  ]
 }
