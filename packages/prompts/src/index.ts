@@ -462,8 +462,10 @@ export interface GroupMultiSelectOptions<Value> {
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
+	groupSpacing?: number;
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
+	const { groupSpacing = 0 } = opts;
 	const opt = (
 		option: Option<Value>,
 		state:
@@ -482,33 +484,35 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
 		const isLast = isItem && (next as any).group === true;
 		const prefix = isItem ? `${isLast ? S_BAR_END : S_BAR} ` : '';
+		const spacingPrefix =
+			groupSpacing > 0 && !isItem ? `\n${color.cyan(S_BAR)}  `.repeat(groupSpacing) : '';
 
 		if (state === 'active') {
-			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
+			return `${spacingPrefix}${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		}
 		if (state === 'group-active') {
-			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
 		}
 		if (state === 'group-active-selected') {
-			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
 		}
 		if (state === 'selected') {
-			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${spacingPrefix}${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
 		}
 		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
+			return `${spacingPrefix}${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		}
 		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		return `${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		return `${spacingPrefix}${color.dim(prefix)}${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
 	};
 
 	return new GroupMultiSelectPrompt({
