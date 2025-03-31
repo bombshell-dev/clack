@@ -725,13 +725,19 @@ export const stream = {
 	},
 };
 
-export interface SpinnerOptions {
-	indicator?: 'dots' | 'timer';
+export interface CustomIndicator {
+	frames: string[];
+	speed?: number;
 }
 
-export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
-	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-	const delay = unicode ? 80 : 120;
+export interface SpinnerOptions {
+	indicator?: 'dots' | 'timer' | 'custom';
+	custom?: CustomIndicator
+}
+
+export const spinner = ({ indicator = 'dots', custom }: SpinnerOptions = {}) => {
+	const frames = custom?.frames ? custom.frames : unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
+	const delay = custom?.speed ? custom?.speed : unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
 
 	let unblock: () => void;
