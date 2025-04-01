@@ -108,7 +108,7 @@ export const text = (opts: TextOptions) => {
 	return new TextPrompt({
 		validate: opts.validate,
 		placeholder: opts.placeholder,
-		defaultValue: opts.defaultValue,
+		defaultValue: opts.defaultValue || opts.placeholder,
 		initialValue: opts.initialValue,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
