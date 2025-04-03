@@ -746,10 +746,12 @@ export const spinner = ({ indicator = 'dots', onCancel }: SpinnerOptions = {}) =
 	const handleExit = (code: number) => {
 		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
 		isCancelled = code === 1;
-		if (isCancelled && typeof onCancel === 'function') {
-			onCancel();
+		if (isSpinnerActive) {
+			stop(msg, code);
+			if (isCancelled && typeof onCancel === 'function') {
+				onCancel();
+			}
 		}
-		if (isSpinnerActive) stop(msg, code);
 	};
 
 	const errorEventHandler = () => handleExit(2);
