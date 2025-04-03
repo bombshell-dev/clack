@@ -26,7 +26,7 @@ export default class TextPrompt extends Prompt {
 
 		this.on('finalize', () => {
 			if (!this.value) {
-				this.value = opts.defaultValue ?? opts.placeholder ?? '';
+				this.value = opts.defaultValue;
 			}
 		});
 	}
