@@ -727,9 +727,10 @@ export const stream = {
 
 export interface SpinnerOptions {
 	indicator?: 'dots' | 'timer';
+	onCancel?: () => void;
 }
 
-export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
+export const spinner = ({ indicator = 'dots', onCancel }: SpinnerOptions = {}) => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
@@ -737,12 +738,17 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
+	let isCancelled = false;
 	let _message = '';
 	let _prevMessage: string | undefined = undefined;
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
 		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		isCancelled = code === 1;
+		if (isCancelled && typeof onCancel === 'function') {
+			onCancel();
+		}
 		if (isSpinnerActive) stop(msg, code);
 	};
 
@@ -846,6 +852,12 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 		start,
 		stop,
 		message,
+		/**
+		 * Returns true if the spinner was cancelled by the user
+		 */
+		get isCancelled() {
+			return isCancelled;
+		}
 	};
 };
 
