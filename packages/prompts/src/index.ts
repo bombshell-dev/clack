@@ -852,9 +852,6 @@ export const spinner = ({ indicator = 'dots', onCancel }: SpinnerOptions = {}) =
 		start,
 		stop,
 		message,
-		/**
-		 * Returns true if the spinner was cancelled by the user
-		 */
 		get isCancelled() {
 			return isCancelled;
 		}
