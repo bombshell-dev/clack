@@ -2,18 +2,13 @@ import * as p from '@clack/prompts';
 
 p.intro('Spinner with cancellation detection');
 
-// Define a type with the expected interface including isCancelled
-type SpinnerWithCancel = ReturnType<typeof p.spinner> & {
-  isCancelled?: boolean;
-}
-
 // Example 1: Using onCancel callback
 const spin1 = p.spinner({
   indicator: 'dots',
   onCancel: () => {
     p.note('You cancelled the spinner with CTRL-C!', 'Callback detected');
   }
-}) as SpinnerWithCancel;
+});
 
 spin1.start('Press CTRL-C to cancel this spinner (using callback)');
 
@@ -29,7 +24,7 @@ await sleep(10000)
 // Example 2: Checking the isCancelled property
 p.note('Starting second example...', 'Example 2');
 
-const spin2 = p.spinner({ indicator: 'timer' }) as SpinnerWithCancel;
+const spin2 = p.spinner({ indicator: 'timer' });
 spin2.start('Press CTRL-C to cancel this spinner (polling isCancelled)');
 
 await sleep(10000)

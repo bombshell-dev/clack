@@ -1,11 +1,6 @@
 import * as p from '@clack/prompts';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-// Define a type with the expected interface including isCancelled
-type SpinnerWithCancel = ReturnType<typeof p.spinner> & {
-  isCancelled?: boolean;
-}
-
 async function main() {
   p.intro('Advanced Spinner Cancellation Demo');
 
@@ -17,7 +12,7 @@ async function main() {
     onCancel: () => {
       p.note('Initial spinner was cancelled with CTRL+C', 'Demo Cancelled');
     }
-  }) as SpinnerWithCancel;
+  });
   
   demoSpinner.start('Loading demo resources');
   
@@ -64,7 +59,7 @@ async function main() {
           'Processing Cancelled'
         );
       }
-    }) as SpinnerWithCancel;
+    });
 
     processSpinner.start('Starting to process selected languages...');
     
@@ -119,7 +114,7 @@ async function main() {
           onCancel: () => {
             p.note('Final operation was cancelled, but processing results are still valid.', 'Final Stage Cancelled');
           }
-        }) as SpinnerWithCancel;
+        });
         
         finalSpinner.start(`Performing ${action} operation...`);
         
