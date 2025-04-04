@@ -14,6 +14,7 @@ export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
 	initialValue?: any;
+	defaultValue?: string;
 	validate?: ((value: any) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
@@ -194,10 +195,15 @@ export default class Prompt {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
-		if (char === '\t' && this.opts.placeholder) {
+		if ((char === '\t' || key?.name === 'return') && this.opts.placeholder) {
 			if (!this.value) {
-				this.rl?.write(this.opts.placeholder);
-				this.emit('value', this.opts.placeholder);
+				if (this.opts.defaultValue) {
+					this.value = this.opts.defaultValue;
+					this.emit('value', this.value);
+				} else {
+					this.rl?.write(this.opts.placeholder);
+					this.emit('value', this.opts.placeholder);
+				}
 			}
 		}
 		if (char) {
