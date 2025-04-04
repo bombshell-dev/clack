@@ -98,14 +98,17 @@ const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] =>
 		});
 };
 
-export interface TextOptions {
+export interface CommonOptions {
+	input?: Readable;
+	output?: Writable;
+}
+
+export interface TextOptions extends CommonOptions {
 	message: string;
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
 	validate?: (value: string) => string | Error | undefined;
-	input?: Readable;
-	output?: Writable;
 }
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
@@ -140,7 +143,7 @@ export const text = (opts: TextOptions) => {
 	}).prompt() as Promise<string | symbol>;
 };
 
-export interface PasswordOptions {
+export interface PasswordOptions extends CommonOptions {
 	message: string;
 	mask?: string;
 	validate?: (value: string) => string | Error | undefined;
@@ -149,6 +152,8 @@ export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
 		validate: opts.validate,
 		mask: opts.mask ?? S_PASSWORD_MASK,
+		input: opts.input,
+		output: opts.output,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.valueWithCursor;
@@ -172,7 +177,7 @@ export const password = (opts: PasswordOptions) => {
 	}).prompt() as Promise<string | symbol>;
 };
 
-export interface ConfirmOptions {
+export interface ConfirmOptions extends CommonOptions {
 	message: string;
 	active?: string;
 	inactive?: string;
@@ -184,6 +189,8 @@ export const confirm = (opts: ConfirmOptions) => {
 	return new ConfirmPrompt({
 		active,
 		inactive,
+		input: opts.input,
+		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
@@ -252,7 +259,7 @@ export type Option<Value> = Value extends Primitive
 			hint?: string;
 		};
 
-export interface SelectOptions<Value> {
+export interface SelectOptions<Value> extends CommonOptions {
 	message: string;
 	options: Option<Value>[];
 	initialValue?: Value;
@@ -278,6 +285,8 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 
 	return new SelectPrompt({
 		options: opts.options,
+		input: opts.input,
+		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
@@ -327,6 +336,8 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 	return new SelectKeyPrompt({
 		options: opts.options,
+		input: opts.input,
+		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
@@ -351,7 +362,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 	}).prompt() as Promise<Value | symbol>;
 };
 
-export interface MultiSelectOptions<Value> {
+export interface MultiSelectOptions<Value> extends CommonOptions {
 	message: string;
 	options: Option<Value>[];
 	initialValues?: Value[];
@@ -389,6 +400,8 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 	return new MultiSelectPrompt({
 		options: opts.options,
+		input: opts.input,
+		output: opts.output,
 		initialValues: opts.initialValues,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
@@ -461,7 +474,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-export interface GroupMultiSelectOptions<Value> {
+export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	message: string;
 	options: Record<string, Option<Value>[]>;
 	initialValues?: Value[];
@@ -522,6 +535,8 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 
 	return new GroupMultiSelectPrompt({
 		options: opts.options,
+		input: opts.input,
+		output: opts.output,
 		initialValues: opts.initialValues,
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
@@ -614,9 +629,10 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-export const note = (message = '', title = '') => {
+export const note = (message = '', title = '', opts?: CommonOptions) => {
 	const lines = `\n${message}\n`.split('\n');
 	const titleLen = strip(title).length;
+	const output: Writable = opts?.output ?? process.stdout;
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
@@ -633,59 +649,71 @@ export const note = (message = '', title = '') => {
 				)}`
 		)
 		.join('\n');
-	process.stdout.write(
+	output.write(
 		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
 			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
 		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
 	);
 };
 
-export const cancel = (message = '') => {
-	process.stdout.write(`${color.gray(S_BAR_END)}  ${color.red(message)}\n\n`);
+export const cancel = (message = '', opts?: CommonOptions) => {
+	const output: Writable = opts?.output ?? process.stdout;
+	output.write(`${color.gray(S_BAR_END)}  ${color.red(message)}\n\n`);
 };
 
-export const intro = (title = '') => {
-	process.stdout.write(`${color.gray(S_BAR_START)}  ${title}\n`);
+export const intro = (title = '', opts?: CommonOptions) => {
+	const output: Writable = opts?.output ?? process.stdout;
+	output.write(`${color.gray(S_BAR_START)}  ${title}\n`);
 };
 
-export const outro = (message = '') => {
-	process.stdout.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
+export const outro = (message = '', opts?: CommonOptions) => {
+	const output: Writable = opts?.output ?? process.stdout;
+	output.write(`${color.gray(S_BAR)}\n${color.gray(S_BAR_END)}  ${message}\n\n`);
 };
 
-export type LogMessageOptions = {
+export interface LogMessageOptions extends CommonOptions {
 	symbol?: string;
-};
+}
 export const log = {
-	message: (message = '', { symbol = color.gray(S_BAR) }: LogMessageOptions = {}) => {
+	message: (
+		message = '',
+		{ symbol = color.gray(S_BAR), output = process.stdout }: LogMessageOptions = {}
+	) => {
 		const parts = [`${color.gray(S_BAR)}`];
 		if (message) {
 			const [firstLine, ...lines] = message.split('\n');
 			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
 		}
-		process.stdout.write(`${parts.join('\n')}\n`);
+		output.write(`${parts.join('\n')}\n`);
 	},
-	info: (message: string) => {
-		log.message(message, { symbol: color.blue(S_INFO) });
+	info: (message: string, opts?: LogMessageOptions) => {
+		log.message(message, { ...opts, symbol: color.blue(S_INFO) });
 	},
-	success: (message: string) => {
-		log.message(message, { symbol: color.green(S_SUCCESS) });
+	success: (message: string, opts?: LogMessageOptions) => {
+		log.message(message, { ...opts, symbol: color.green(S_SUCCESS) });
 	},
-	step: (message: string) => {
-		log.message(message, { symbol: color.green(S_STEP_SUBMIT) });
+	step: (message: string, opts?: LogMessageOptions) => {
+		log.message(message, { ...opts, symbol: color.green(S_STEP_SUBMIT) });
 	},
-	warn: (message: string) => {
-		log.message(message, { symbol: color.yellow(S_WARN) });
+	warn: (message: string, opts?: LogMessageOptions) => {
+		log.message(message, { ...opts, symbol: color.yellow(S_WARN) });
 	},
 	/** alias for `log.warn()`. */
-	warning: (message: string) => {
-		log.warn(message);
+	warning: (message: string, opts?: LogMessageOptions) => {
+		log.warn(message, opts);
 	},
-	error: (message: string) => {
-		log.message(message, { symbol: color.red(S_ERROR) });
+	error: (message: string, opts?: LogMessageOptions) => {
+		log.message(message, { ...opts, symbol: color.red(S_ERROR) });
 	},
 };
 
 const prefix = `${color.gray(S_BAR)}  `;
+
+// TODO (43081j): this currently doesn't support custom `output` writables
+// because we rely on `columns` existing (i.e. `process.stdout.columns).
+//
+// If we want to support `output` being passed in, we will need to use
+// a condition like `if (output insance Writable)` to check if it has columns
 export const stream = {
 	message: async (
 		iterable: Iterable<string> | AsyncIterable<string>,
@@ -730,10 +758,9 @@ export const stream = {
 	},
 };
 
-export interface SpinnerOptions {
+export interface SpinnerOptions extends CommonOptions {
 	indicator?: 'dots' | 'timer';
 	onCancel?: () => void;
-	output?: Writable;
 }
 
 export interface SpinnerResult {
@@ -952,11 +979,11 @@ export type Task = {
 /**
  * Define a group of tasks to be executed
  */
-export const tasks = async (tasks: Task[]) => {
+export const tasks = async (tasks: Task[], opts?: CommonOptions) => {
 	for (const task of tasks) {
 		if (task.enabled === false) continue;
 
-		const s = spinner();
+		const s = spinner(opts);
 		s.start(task.title);
 		const result = await task.task(s.message);
 		s.stop(result || task.title);
