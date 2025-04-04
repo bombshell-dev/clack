@@ -1,3 +1,4 @@
+import type { Writable } from 'node:stream';
 import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
@@ -727,9 +728,19 @@ export const stream = {
 
 export interface SpinnerOptions {
 	indicator?: 'dots' | 'timer';
+	output?: Writable;
 }
 
-export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
+export interface SpinnerResult {
+	start(msg?: string): void;
+	stop(msg?: string, code?: number): void;
+	message(msg?: string): void;
+}
+
+export const spinner = ({
+	indicator = 'dots',
+	output = process.stdout,
+}: SpinnerOptions = {}): SpinnerResult => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
@@ -770,10 +781,10 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
-		if (isCI) process.stdout.write('\n');
+		if (isCI) output.write('\n');
 		const prevLines = _prevMessage.split('\n');
-		process.stdout.write(cursor.move(-999, prevLines.length - 1));
-		process.stdout.write(erase.down(prevLines.length));
+		output.write(cursor.move(-999, prevLines.length - 1));
+		output.write(erase.down(prevLines.length));
 	};
 
 	const parseMessage = (msg: string): string => {
@@ -789,10 +800,10 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
-		unblock = block();
+		unblock = block({ output });
 		_message = parseMessage(msg);
 		_origin = performance.now();
-		process.stdout.write(`${color.gray(S_BAR)}\n`);
+		output.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		registerHooks();
@@ -805,12 +816,12 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 			const frame = color.magenta(frames[frameIndex]);
 
 			if (isCI) {
-				process.stdout.write(`${frame}  ${_message}...`);
+				output.write(`${frame}  ${_message}...`);
 			} else if (indicator === 'timer') {
-				process.stdout.write(`${frame}  ${_message} ${formatTimer(_origin)}`);
+				output.write(`${frame}  ${_message} ${formatTimer(_origin)}`);
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3);
-				process.stdout.write(`${frame}  ${_message}${loadingDots}`);
+				output.write(`${frame}  ${_message}${loadingDots}`);
 			}
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
@@ -830,9 +841,9 @@ export const spinner = ({ indicator = 'dots' }: SpinnerOptions = {}) => {
 					: color.red(S_STEP_ERROR);
 		_message = parseMessage(msg ?? _message);
 		if (indicator === 'timer') {
-			process.stdout.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
 		} else {
-			process.stdout.write(`${step}  ${_message}\n`);
+			output.write(`${step}  ${_message}\n`);
 		}
 		clearHooks();
 		unblock();
