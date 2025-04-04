@@ -124,9 +124,9 @@ export const text = (opts: TextOptions) => {
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(
-						S_BAR
-					)}  ${value}\n${color.yellow(S_BAR_END)}  ${color.yellow(this.error)}\n`;
+					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
+						S_BAR_END
+					)}  ${color.yellow(this.error)}\n`;
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
 				case 'cancel':
@@ -156,15 +156,15 @@ export const password = (opts: PasswordOptions) => {
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(
-						S_BAR
-					)}  ${masked}\n${color.yellow(S_BAR_END)}  ${color.yellow(this.error)}\n`;
+					return `${title.trim()}\n${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
+						S_BAR_END
+					)}  ${color.yellow(this.error)}\n`;
 				case 'submit':
 					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(masked ?? '')
-					)}${masked ? `\n${color.gray(S_BAR)}` : ''}`;
+					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked ?? ''))}${
+						masked ? `\n${color.gray(S_BAR)}` : ''
+					}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
@@ -320,9 +320,9 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		}
-		return `${color.gray(
-			color.bgWhite(color.inverse(` ${option.value} `))
-		)} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`;
+		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label} ${
+			option.hint ? color.dim(`(${option.hint})`) : ''
+		}`;
 	};
 
 	return new SelectKeyPrompt({
@@ -338,10 +338,9 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[0],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
+						S_BAR
+					)}`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
@@ -510,9 +509,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${color.dim(prefix)}${color.green(
-				S_CHECKBOX_SELECTED
-			)} ${label} ${option.hint ? color.dim(`(${option.hint})`) : ''}`;
+			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
 		}
 		if (state === 'submitted') {
 			return `${color.dim(label)}`;
@@ -629,9 +628,9 @@ export const note = (message = '', title = '') => {
 	const msg = lines
 		.map(
 			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(
-					len - strip(ln).length
-				)}${color.gray(S_BAR)}`
+				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
+					S_BAR
+				)}`
 		)
 		.join('\n');
 	process.stdout.write(
