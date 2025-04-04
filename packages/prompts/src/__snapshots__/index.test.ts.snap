@@ -149,6 +149,148 @@ exports[`prompts (isCI = false) > confirm > right arrow moves to next choice 1`]
 ]
 `;
 
+exports[`prompts (isCI = false) > select > can cancel 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mopt0[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > select > down arrow selects next option 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m○[22m [2mopt0[22m
+[36m│[39m  [32m●[39m opt1
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt1[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > select > renders option hints 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0 [2m(Hint 0)[22m
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > select > renders option labels 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Option 0
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > select > renders options and message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > select > up arrow selects previous option 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m○[22m [2mopt0[22m
+[36m│[39m  [32m●[39m opt1
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > spinner > message > sets message for next frame 1`] = `
 [
   "[?25l",
@@ -607,6 +749,148 @@ exports[`prompts (isCI = true) > confirm > right arrow moves to next choice 1`] 
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mNo[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > select > can cancel 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mopt0[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > select > down arrow selects next option 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m○[22m [2mopt0[22m
+[36m│[39m  [32m●[39m opt1
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt1[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > select > renders option hints 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0 [2m(Hint 0)[22m
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > select > renders option labels 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Option 0
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > select > renders options and message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > select > up arrow selects previous option 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m○[22m [2mopt0[22m
+[36m│[39m  [32m●[39m opt1
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
   "
 ",
   "[?25h",

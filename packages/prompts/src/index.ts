@@ -1,4 +1,5 @@
 import type { Readable, Writable } from 'node:stream';
+import { WriteStream } from 'node:tty';
 import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
@@ -61,7 +62,7 @@ const symbol = (state: State) => {
 	}
 };
 
-interface LimitOptionsParams<TOption> {
+interface LimitOptionsParams<TOption> extends CommonOptions {
 	options: TOption[];
 	maxItems: number | undefined;
 	cursor: number;
@@ -70,9 +71,11 @@ interface LimitOptionsParams<TOption> {
 
 const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
+	const output: Writable = params.output ?? process.stdout;
+	const rows = output instanceof WriteStream && output.rows !== undefined ? output.rows : 10;
 
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
-	const outputMaxItems = Math.max(process.stdout.rows - 4, 0);
+	const outputMaxItems = Math.max(rows - 4, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
 	const maxItems = Math.min(outputMaxItems, Math.max(paramMaxItems, 5));
 	let slidingWindowLocation = 0;
@@ -301,6 +304,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					)}\n${color.gray(S_BAR)}`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+						output: opts.output,
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
