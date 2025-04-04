@@ -749,7 +749,7 @@ export const spinner = ({
 	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
 
-	let unblock: () => void;
+	let unblock: (() => void) | undefined;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
 	let _message = '';
@@ -850,7 +850,7 @@ export const spinner = ({
 			output.write(`${step}  ${_message}\n`);
 		}
 		clearHooks();
-		unblock();
+		unblock?.();
 	};
 
 	const message = (msg = ''): void => {
