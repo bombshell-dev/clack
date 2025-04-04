@@ -732,6 +732,7 @@ export const stream = {
 
 export interface SpinnerOptions {
 	indicator?: 'dots' | 'timer';
+	onCancel?: () => void;
 	output?: Writable;
 }
 
@@ -739,10 +740,12 @@ export interface SpinnerResult {
 	start(msg?: string): void;
 	stop(msg?: string, code?: number): void;
 	message(msg?: string): void;
+	readonly isCancelled: boolean;
 }
 
 export const spinner = ({
 	indicator = 'dots',
+	onCancel,
 	output = process.stdout,
 }: SpinnerOptions = {}): SpinnerResult => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
@@ -752,13 +755,20 @@ export const spinner = ({
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
+	let isCancelled = false;
 	let _message = '';
 	let _prevMessage: string | undefined = undefined;
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
 		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
-		if (isSpinnerActive) stop(msg, code);
+		isCancelled = code === 1;
+		if (isSpinnerActive) {
+			stop(msg, code);
+			if (isCancelled && typeof onCancel === 'function') {
+				onCancel();
+			}
+		}
 	};
 
 	const errorEventHandler = () => handleExit(2);
@@ -861,6 +871,9 @@ export const spinner = ({
 		start,
 		stop,
 		message,
+		get isCancelled() {
+			return isCancelled;
+		},
 	};
 };
 
@@ -873,7 +886,9 @@ export interface PromptGroupOptions<T> {
 	 * Control how the group can be canceled
 	 * if one of the prompts is canceled.
 	 */
-	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
+	onCancel?: (opts: {
+		results: Prettify<Partial<PromptGroupAwaitedReturn<T>>>;
+	}) => void;
 }
 
 type Prettify<T> = {
