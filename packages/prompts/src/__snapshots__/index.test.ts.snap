@@ -123,6 +123,25 @@ exports[`prompts (isCI = false) > text > can cancel 1`] = `
 ]
 `;
 
+exports[`prompts (isCI = false) > text > defaultValue sets the value but does not render 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbar[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > text > renders cancelled value if one set 1`] = `
 [
   "[?25l",
@@ -209,6 +228,82 @@ exports[`prompts (isCI = false) > text > renders submitted value 1`] = `
   "[2K[G",
   "[36m│[39m  xy█",
   "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > text > validation errors render and clear (using Error) 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[33m▲[39m  foo
+[33m│[39m  x█
+[33m└[39m  [33mshould be xy[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[36m◆[39m  foo
+[36m│[39m  xy█
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > text > validation errors render and clear 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[33m▲[39m  foo
+[33m│[39m  x█
+[33m└[39m  [33mshould be xy[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[36m◆[39m  foo
+[36m│[39m  xy█
+[36m└[39m
+",
   "[999D[4A",
   "[1B",
   "[J",
@@ -344,6 +439,25 @@ exports[`prompts (isCI = true) > text > can cancel 1`] = `
 ]
 `;
 
+exports[`prompts (isCI = true) > text > defaultValue sets the value but does not render 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbar[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = true) > text > renders cancelled value if one set 1`] = `
 [
   "[?25l",
@@ -430,6 +544,82 @@ exports[`prompts (isCI = true) > text > renders submitted value 1`] = `
   "[2K[G",
   "[36m│[39m  xy█",
   "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > validation errors render and clear (using Error) 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[33m▲[39m  foo
+[33m│[39m  x█
+[33m└[39m  [33mshould be xy[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[36m◆[39m  foo
+[36m│[39m  xy█
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > validation errors render and clear 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[33m▲[39m  foo
+[33m│[39m  x█
+[33m└[39m  [33mshould be xy[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[36m◆[39m  foo
+[36m│[39m  xy█
+[36m└[39m
+",
   "[999D[4A",
   "[1B",
   "[J",
