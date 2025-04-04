@@ -1,4 +1,4 @@
-import type { Writable } from 'node:stream';
+import type { Readable, Writable } from 'node:stream';
 import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
@@ -104,6 +104,8 @@ export interface TextOptions {
 	defaultValue?: string;
 	initialValue?: string;
 	validate?: (value: string) => string | Error | undefined;
+	input?: Readable;
+	output?: Writable;
 }
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
@@ -111,6 +113,8 @@ export const text = (opts: TextOptions) => {
 		placeholder: opts.placeholder,
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
+		output: opts.output,
+		input: opts.input,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const placeholder = opts.placeholder
