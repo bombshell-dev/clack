@@ -741,6 +741,7 @@ export interface SpinnerResult {
 	start(msg?: string): void;
 	stop(msg?: string, code?: number): void;
 	message(msg?: string): void;
+	readonly isCancelled: boolean;
 }
 
 export const spinner = ({
