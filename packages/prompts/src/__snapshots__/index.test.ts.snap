@@ -1,5 +1,145 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`prompts (isCI = false) > password > renders and clears validation errors 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[33m▲[39m  foo
+[33m│[39m  ▪
+[33m└[39m  [33mPassword must be at least 2 characters[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[36m◆[39m  foo
+[36m│[39m  ▪▪[7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2m▪▪[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > password > renders cancelled value 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m▪[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > password > renders custom mask 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  *[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  **[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2m**[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > password > renders masked value 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2m▪▪[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > password > renders message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m[2m[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > spinner > message > sets message for next frame 1`] = `
 [
   "[?25l",
@@ -214,6 +354,146 @@ exports[`prompts (isCI = false) > text > renders submitted value 1`] = `
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > password > renders and clears validation errors 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[33m▲[39m  foo
+[33m│[39m  ▪
+[33m└[39m  [33mPassword must be at least 2 characters[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[36m◆[39m  foo
+[36m│[39m  ▪▪[7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2m▪▪[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > password > renders cancelled value 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m▪[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > password > renders custom mask 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  *[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  **[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2m**[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > password > renders masked value 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  ▪▪[7m[8m_[28m[27m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2m▪▪[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > password > renders message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m[2m[22m",
   "
 ",
   "[?25h",
