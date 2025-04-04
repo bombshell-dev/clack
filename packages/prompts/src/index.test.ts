@@ -281,5 +281,59 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(value).toBe('xy');
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('defaultValue sets the value but does not render', async () => {
+			const result = prompts.text({
+				message: 'foo',
+				defaultValue: 'bar',
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe('bar');
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('validation errors render and clear', async () => {
+			const result = prompts.text({
+				message: 'foo',
+				validate: (val) => (val !== 'xy' ? 'should be xy' : undefined),
+				input,
+				output,
+			});
+
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe('xy');
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('validation errors render and clear (using Error)', async () => {
+			const result = prompts.text({
+				message: 'foo',
+				validate: (val) => (val !== 'xy' ? new Error('should be xy') : undefined),
+				input,
+				output,
+			});
+
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe('xy');
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 });
