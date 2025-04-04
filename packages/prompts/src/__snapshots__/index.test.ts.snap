@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`isCI = false > spinner > message > sets message for next frame 1`] = `
+exports[`prompts (isCI = false) > spinner > message > sets message for next frame 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -12,7 +12,7 @@ exports[`isCI = false > spinner > message > sets message for next frame 1`] = `
 ]
 `;
 
-exports[`isCI = false > spinner > start > renders frames at interval 1`] = `
+exports[`prompts (isCI = false) > spinner > start > renders frames at interval 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -30,7 +30,7 @@ exports[`isCI = false > spinner > start > renders frames at interval 1`] = `
 ]
 `;
 
-exports[`isCI = false > spinner > start > renders message 1`] = `
+exports[`prompts (isCI = false) > spinner > start > renders message 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -39,7 +39,7 @@ exports[`isCI = false > spinner > start > renders message 1`] = `
 ]
 `;
 
-exports[`isCI = false > spinner > start > renders timer when indicator is "timer" 1`] = `
+exports[`prompts (isCI = false) > spinner > start > renders timer when indicator is "timer" 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -48,7 +48,7 @@ exports[`isCI = false > spinner > start > renders timer when indicator is "timer
 ]
 `;
 
-exports[`isCI = false > spinner > stop > renders cancel symbol if code = 1 1`] = `
+exports[`prompts (isCI = false) > spinner > stop > renders cancel symbol if code = 1 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -62,7 +62,7 @@ exports[`isCI = false > spinner > stop > renders cancel symbol if code = 1 1`] =
 ]
 `;
 
-exports[`isCI = false > spinner > stop > renders error symbol if code > 1 1`] = `
+exports[`prompts (isCI = false) > spinner > stop > renders error symbol if code > 1 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -76,7 +76,7 @@ exports[`isCI = false > spinner > stop > renders error symbol if code > 1 1`] = 
 ]
 `;
 
-exports[`isCI = false > spinner > stop > renders message 1`] = `
+exports[`prompts (isCI = false) > spinner > stop > renders message 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -90,7 +90,7 @@ exports[`isCI = false > spinner > stop > renders message 1`] = `
 ]
 `;
 
-exports[`isCI = false > spinner > stop > renders submit symbol and stops spinner 1`] = `
+exports[`prompts (isCI = false) > spinner > stop > renders submit symbol and stops spinner 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -104,7 +104,123 @@ exports[`isCI = false > spinner > stop > renders submit symbol and stops spinner
 ]
 `;
 
-exports[`isCI = true > spinner > message > sets message for next frame 1`] = `
+exports[`prompts (isCI = false) > text > can cancel 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m[9m[2m[22m[29m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > text > renders cancelled value if one set 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  xy█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mxy[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > text > renders message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mundefined[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > text > renders placeholder if set 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7mb[27m[2mar[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbar[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > text > renders submitted value 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  xy█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > message > sets message for next frame 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -118,7 +234,7 @@ exports[`isCI = true > spinner > message > sets message for next frame 1`] = `
 ]
 `;
 
-exports[`isCI = true > spinner > start > renders frames at interval 1`] = `
+exports[`prompts (isCI = true) > spinner > start > renders frames at interval 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -127,7 +243,7 @@ exports[`isCI = true > spinner > start > renders frames at interval 1`] = `
 ]
 `;
 
-exports[`isCI = true > spinner > start > renders message 1`] = `
+exports[`prompts (isCI = true) > spinner > start > renders message 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -136,7 +252,7 @@ exports[`isCI = true > spinner > start > renders message 1`] = `
 ]
 `;
 
-exports[`isCI = true > spinner > start > renders timer when indicator is "timer" 1`] = `
+exports[`prompts (isCI = true) > spinner > start > renders timer when indicator is "timer" 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -145,7 +261,7 @@ exports[`isCI = true > spinner > start > renders timer when indicator is "timer"
 ]
 `;
 
-exports[`isCI = true > spinner > stop > renders cancel symbol if code = 1 1`] = `
+exports[`prompts (isCI = true) > spinner > stop > renders cancel symbol if code = 1 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -161,7 +277,7 @@ exports[`isCI = true > spinner > stop > renders cancel symbol if code = 1 1`] = 
 ]
 `;
 
-exports[`isCI = true > spinner > stop > renders error symbol if code > 1 1`] = `
+exports[`prompts (isCI = true) > spinner > stop > renders error symbol if code > 1 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -177,7 +293,7 @@ exports[`isCI = true > spinner > stop > renders error symbol if code > 1 1`] = `
 ]
 `;
 
-exports[`isCI = true > spinner > stop > renders message 1`] = `
+exports[`prompts (isCI = true) > spinner > stop > renders message 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -193,7 +309,7 @@ exports[`isCI = true > spinner > stop > renders message 1`] = `
 ]
 `;
 
-exports[`isCI = true > spinner > stop > renders submit symbol and stops spinner 1`] = `
+exports[`prompts (isCI = true) > spinner > stop > renders submit symbol and stops spinner 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -204,6 +320,122 @@ exports[`isCI = true > spinner > stop > renders submit symbol and stops spinner 
   "[999D",
   "[J",
   "[32m◇[39m  
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > can cancel 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m[9m[2m[22m[29m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > renders cancelled value if one set 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  xy█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mxy[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > renders message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mundefined[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > renders placeholder if set 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7mb[27m[2mar[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbar[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > text > renders submitted value 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  x█",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  xy█",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
 ",
   "[?25h",
 ]
