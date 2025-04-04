@@ -1,5 +1,154 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`prompts (isCI = false) > confirm > can cancel 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mNo[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > confirm > can set initialValue 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > confirm > left arrow moves to previous choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > confirm > renders custom active choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m bleep [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbleep[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > confirm > renders custom inactive choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mbleep[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > confirm > renders message with choices 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > confirm > right arrow moves to next choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > spinner > message > sets message for next frame 1`] = `
 [
   "[?25l",
@@ -309,6 +458,155 @@ exports[`prompts (isCI = false) > text > validation errors render and clear 1`] 
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mxy[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > can cancel 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mNo[22m[29m
+[90m│[39m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > can set initialValue 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > left arrow moves to previous choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "[2B",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > renders custom active choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m bleep [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbleep[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > renders custom inactive choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mbleep[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > renders message with choices 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > confirm > right arrow moves to next choice 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "[999D[4A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "[2B",
+  "[999D[4A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
   "
 ",
   "[?25h",

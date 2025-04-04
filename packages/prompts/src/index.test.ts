@@ -336,4 +336,117 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 	});
+
+	describe('confirm', () => {
+		test('renders message with choices', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe(true);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders custom active choice', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				active: 'bleep',
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe(true);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders custom inactive choice', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				inactive: 'bleep',
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe(true);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('right arrow moves to next choice', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				input,
+				output,
+			});
+
+			input.emit('keypress', 'right', { name: 'right' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe(false);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('left arrow moves to previous choice', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				input,
+				output,
+			});
+
+			input.emit('keypress', 'right', { name: 'right' });
+			input.emit('keypress', 'left', { name: 'left' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe(true);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('can cancel', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				input,
+				output,
+			});
+
+			input.emit('keypress', 'escape', { name: 'escape' });
+
+			const value = await result;
+
+			expect(prompts.isCancel(value)).toBe(true);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('can set initialValue', async () => {
+			const result = prompts.confirm({
+				message: 'foo',
+				initialValue: false,
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toBe(false);
+			expect(output.buffer).toMatchSnapshot();
+		});
+	});
 });
