@@ -1,5 +1,5 @@
 import { Writable } from 'node:stream';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from './index.js';
 
 // TODO (43081j): move this into a util?
@@ -16,127 +16,140 @@ class MockWritable extends Writable {
 	}
 }
 
-describe('spinner', () => {
-	let output: MockWritable;
+describe.each(['true', 'false'])('isCI = %s', (isCI) => {
+	let originalCI: string | undefined;
 
-	beforeEach(() => {
-		vi.useFakeTimers();
-		output = new MockWritable();
+	beforeAll(() => {
+		originalCI = process.env.CI;
+		process.env.CI = isCI;
 	});
 
-	afterEach(() => {
-		vi.restoreAllMocks();
-		vi.useRealTimers();
+	afterAll(() => {
+		process.env.CI = originalCI;
 	});
 
-	test('returns spinner API', () => {
-		const api = prompts.spinner({ output });
+	describe('spinner', () => {
+		let output: MockWritable;
 
-		expect(api.stop).toBeTypeOf('function');
-		expect(api.start).toBeTypeOf('function');
-		expect(api.message).toBeTypeOf('function');
-	});
+		beforeEach(() => {
+			vi.useFakeTimers();
+			output = new MockWritable();
+		});
 
-	describe('start', () => {
-		test('renders frames at interval', () => {
-			const result = prompts.spinner({ output });
+		afterEach(() => {
+			vi.restoreAllMocks();
+			vi.useRealTimers();
+		});
 
-			result.start();
+		test('returns spinner API', () => {
+			const api = prompts.spinner({ output });
 
-			// there are 4 frames
-			for (let i = 0; i < 4; i++) {
+			expect(api.stop).toBeTypeOf('function');
+			expect(api.start).toBeTypeOf('function');
+			expect(api.message).toBeTypeOf('function');
+		});
+
+		describe('start', () => {
+			test('renders frames at interval', () => {
+				const result = prompts.spinner({ output });
+
+				result.start();
+
+				// there are 4 frames
+				for (let i = 0; i < 4; i++) {
+					vi.advanceTimersByTime(80);
+				}
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('renders message', () => {
+				const result = prompts.spinner({ output });
+
+				result.start('foo');
+
 				vi.advanceTimersByTime(80);
-			}
 
-			expect(output.buffer).toMatchSnapshot();
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('renders timer when indicator is "timer"', () => {
+				const result = prompts.spinner({ output, indicator: 'timer' });
+
+				result.start();
+
+				vi.advanceTimersByTime(80);
+
+				expect(output.buffer).toMatchSnapshot();
+			});
 		});
 
-		test('renders message', () => {
-			const result = prompts.spinner({ output });
+		describe('stop', () => {
+			test('renders submit symbol and stops spinner', () => {
+				const result = prompts.spinner({ output });
 
-			result.start('foo');
+				result.start();
 
-			vi.advanceTimersByTime(80);
+				vi.advanceTimersByTime(80);
 
-			expect(output.buffer).toMatchSnapshot();
+				result.stop();
+
+				vi.advanceTimersByTime(80);
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('renders cancel symbol if code = 1', () => {
+				const result = prompts.spinner({ output });
+
+				result.start();
+
+				vi.advanceTimersByTime(80);
+
+				result.stop('', 1);
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('renders error symbol if code > 1', () => {
+				const result = prompts.spinner({ output });
+
+				result.start();
+
+				vi.advanceTimersByTime(80);
+
+				result.stop('', 2);
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('renders message', () => {
+				const result = prompts.spinner({ output });
+
+				result.start();
+
+				vi.advanceTimersByTime(80);
+
+				result.stop('foo');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
 		});
 
-		test('renders timer when indicator is "timer"', () => {
-			const result = prompts.spinner({ output, indicator: 'timer' });
+		describe('message', () => {
+			test('sets message for next frame', () => {
+				const result = prompts.spinner({ output });
 
-			result.start();
+				result.start();
 
-			vi.advanceTimersByTime(80);
+				vi.advanceTimersByTime(80);
 
-			expect(output.buffer).toMatchSnapshot();
-		});
-	});
+				result.message('foo');
 
-	describe('stop', () => {
-		test('renders submit symbol and stops spinner', () => {
-			const result = prompts.spinner({ output });
+				vi.advanceTimersByTime(80);
 
-			result.start();
-
-			vi.advanceTimersByTime(80);
-
-			result.stop();
-
-			vi.advanceTimersByTime(80);
-
-			expect(output.buffer).toMatchSnapshot();
-		});
-
-		test('renders cancel symbol if code = 1', () => {
-			const result = prompts.spinner({ output });
-
-			result.start();
-
-			vi.advanceTimersByTime(80);
-
-			result.stop('', 1);
-
-			expect(output.buffer).toMatchSnapshot();
-		});
-
-		test('renders error symbol if code > 1', () => {
-			const result = prompts.spinner({ output });
-
-			result.start();
-
-			vi.advanceTimersByTime(80);
-
-			result.stop('', 2);
-
-			expect(output.buffer).toMatchSnapshot();
-		});
-
-		test('renders message', () => {
-			const result = prompts.spinner({ output });
-
-			result.start();
-
-			vi.advanceTimersByTime(80);
-
-			result.stop('foo');
-
-			expect(output.buffer).toMatchSnapshot();
-		});
-	});
-
-	describe('message', () => {
-		test('sets message for next frame', () => {
-			const result = prompts.spinner({ output });
-
-			result.start();
-
-			vi.advanceTimersByTime(80);
-
-			result.message('foo');
-
-			vi.advanceTimersByTime(80);
-
-			expect(output.buffer).toMatchSnapshot();
+				expect(output.buffer).toMatchSnapshot();
+			});
 		});
 	});
 });

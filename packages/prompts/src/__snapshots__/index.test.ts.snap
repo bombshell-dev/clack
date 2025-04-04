@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`spinner > message > sets message for next frame 1`] = `
+exports[`isCI = false > spinner > message > sets message for next frame 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -12,7 +12,7 @@ exports[`spinner > message > sets message for next frame 1`] = `
 ]
 `;
 
-exports[`spinner > start > renders frames at interval 1`] = `
+exports[`isCI = false > spinner > start > renders frames at interval 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -30,7 +30,7 @@ exports[`spinner > start > renders frames at interval 1`] = `
 ]
 `;
 
-exports[`spinner > start > renders message 1`] = `
+exports[`isCI = false > spinner > start > renders message 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -39,7 +39,7 @@ exports[`spinner > start > renders message 1`] = `
 ]
 `;
 
-exports[`spinner > start > renders timer when indicator is "timer" 1`] = `
+exports[`isCI = false > spinner > start > renders timer when indicator is "timer" 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -48,7 +48,7 @@ exports[`spinner > start > renders timer when indicator is "timer" 1`] = `
 ]
 `;
 
-exports[`spinner > stop > renders cancel symbol if code = 1 1`] = `
+exports[`isCI = false > spinner > stop > renders cancel symbol if code = 1 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -62,7 +62,7 @@ exports[`spinner > stop > renders cancel symbol if code = 1 1`] = `
 ]
 `;
 
-exports[`spinner > stop > renders error symbol if code > 1 1`] = `
+exports[`isCI = false > spinner > stop > renders error symbol if code > 1 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -76,7 +76,7 @@ exports[`spinner > stop > renders error symbol if code > 1 1`] = `
 ]
 `;
 
-exports[`spinner > stop > renders message 1`] = `
+exports[`isCI = false > spinner > stop > renders message 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -90,12 +90,117 @@ exports[`spinner > stop > renders message 1`] = `
 ]
 `;
 
-exports[`spinner > stop > renders submit symbol and stops spinner 1`] = `
+exports[`isCI = false > spinner > stop > renders submit symbol and stops spinner 1`] = `
 [
   "[?25l",
   "[90m│[39m
 ",
   "[35m◒[39m  ",
+  "[999D",
+  "[J",
+  "[32m◇[39m  
+",
+  "[?25h",
+]
+`;
+
+exports[`isCI = true > spinner > message > sets message for next frame 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "[999D",
+  "[J",
+  "[35m◐[39m  foo...",
+]
+`;
+
+exports[`isCI = true > spinner > start > renders frames at interval 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+]
+`;
+
+exports[`isCI = true > spinner > start > renders message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  foo...",
+]
+`;
+
+exports[`isCI = true > spinner > start > renders timer when indicator is "timer" 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+]
+`;
+
+exports[`isCI = true > spinner > stop > renders cancel symbol if code = 1 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "[999D",
+  "[J",
+  "[31m■[39m  
+",
+  "[?25h",
+]
+`;
+
+exports[`isCI = true > spinner > stop > renders error symbol if code > 1 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "[999D",
+  "[J",
+  "[31m▲[39m  
+",
+  "[?25h",
+]
+`;
+
+exports[`isCI = true > spinner > stop > renders message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "[999D",
+  "[J",
+  "[32m◇[39m  foo
+",
+  "[?25h",
+]
+`;
+
+exports[`isCI = true > spinner > stop > renders submit symbol and stops spinner 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
   "[999D",
   "[J",
   "[32m◇[39m  
