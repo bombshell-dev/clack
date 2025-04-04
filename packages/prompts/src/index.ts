@@ -459,6 +459,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						)
 						.join('\n');
 					return `${title + color.yellow(S_BAR)}  ${limitOptions({
+						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
@@ -467,6 +468,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				}
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
