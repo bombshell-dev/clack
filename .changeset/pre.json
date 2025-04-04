@@ -7,5 +7,12 @@
     "@clack/core": "0.4.1",
     "@clack/prompts": "0.10.0"
   },
-  "changesets": []
+  "changesets": [
+    "dirty-papayas-happen",
+    "free-wasps-decide",
+    "healthy-candles-admire",
+    "legal-bags-tie",
+    "lemon-monkeys-help",
+    "orange-deers-battle"
+  ]
 }

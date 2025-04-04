@@ -1,5 +1,27 @@
 # @clack/prompts
 
+## 1.0.0-alpha.0
+
+### Major Changes
+
+- c713fd5: The package is now distributed as ESM-only. In `v0` releases, the package was dual-published as CJS and ESM.
+
+  For existing CJS projects using Node v20+, please see Node's guide on [Loading ECMAScript modules using `require()`](https://nodejs.org/docs/latest-v20.x/api/modules.html#loading-ecmascript-modules-using-require).
+
+### Minor Changes
+
+- c45b9fb: Adds support for detecting spinner cancellation via CTRL+C. This allows for graceful handling of user interruptions during long-running operations.
+
+### Patch Changes
+
+- 17342d2: Exposes a new `SpinnerResult` type to describe the return type of `spinner`
+- 6868c1c: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- 7a556ad: Updates all prompts to accept a custom `output` and `input` stream
+- Updated dependencies [6868c1c]
+- Updated dependencies [c713fd5]
+- Updated dependencies [a36292b]
+  - @clack/core@1.0.0-alpha.0
+
 ## 0.10.0
 
 ### Minor Changes
