@@ -749,5 +749,45 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(value).toEqual(['opt0']);
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('can set custom labels', async () => {
+			const result = prompts.multiselect({
+				message: 'foo',
+				options: [
+					{ value: 'opt0', label: 'Option 0' },
+					{ value: 'opt1', label: 'Option 1' },
+				],
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'space' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toEqual(['opt0']);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('can render option hints', async () => {
+			const result = prompts.multiselect({
+				message: 'foo',
+				options: [
+					{ value: 'opt0', hint: 'Hint 0' },
+					{ value: 'opt1', hint: 'Hint 1' },
+				],
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'space' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toEqual(['opt0']);
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 });

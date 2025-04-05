@@ -169,6 +169,31 @@ exports[`prompts (isCI = false) > multiselect > can cancel 1`] = `
 ]
 `;
 
+exports[`prompts (isCI = false) > multiselect > can render option hints 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m opt0 [2m(Hint 0)[22m
+[36m│[39m  [2m◻[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m",
+  "[3B",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > multiselect > can set cursorAt to preselect an option 1`] = `
 [
   "[?25l",
@@ -188,6 +213,31 @@ exports[`prompts (isCI = false) > multiselect > can set cursorAt to preselect an
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > multiselect > can set custom labels 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m Option 0
+[36m│[39m  [2m◻[22m [2mOption 1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [32m◼[39m Option 0",
+  "[3B",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 0[22m",
   "
 ",
   "[?25h",
@@ -1244,6 +1294,31 @@ exports[`prompts (isCI = true) > multiselect > can cancel 1`] = `
 ]
 `;
 
+exports[`prompts (isCI = true) > multiselect > can render option hints 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m opt0 [2m(Hint 0)[22m
+[36m│[39m  [2m◻[22m [2mopt1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m",
+  "[3B",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = true) > multiselect > can set cursorAt to preselect an option 1`] = `
 [
   "[?25l",
@@ -1263,6 +1338,31 @@ exports[`prompts (isCI = true) > multiselect > can set cursorAt to preselect an 
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > multiselect > can set custom labels 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m Option 0
+[36m│[39m  [2m◻[22m [2mOption 1[22m
+[36m└[39m
+",
+  "[999D[5A",
+  "[2B",
+  "[2K[G",
+  "[36m│[39m  [32m◼[39m Option 0",
+  "[3B",
+  "[999D[5A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 0[22m",
   "
 ",
   "[?25h",
