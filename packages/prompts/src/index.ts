@@ -995,3 +995,43 @@ export const tasks = async (tasks: Task[], opts?: CommonOptions) => {
 		s.stop(result || task.title);
 	}
 };
+
+export interface ColumnOptions extends CommonOptions {
+	message: string;
+	items: Array<{text: string}>;
+}
+
+export function columns({ message, items }: ColumnOptions) {
+	const termWidth = process.stdout.columns || 80;
+	const paddingWidth = 2;
+	const columnWidth = Math.floor(termWidth / (items.length + paddingWidth));
+
+	const lines: Array<string[]> = [];
+	let lineCount = 0;
+
+	for (const item of items) {
+		const parts: string[] = [];
+
+		for (let i = 0; i < item.text.length; i += columnWidth) {
+			parts.push(item.text.slice(i, i + columnWidth));
+		}
+
+		if (parts.length > lineCount) {
+			lineCount = parts.length;
+		}
+
+		lines.push(parts);
+	}
+
+	for (let i = 0; i < lineCount; i++) {
+		for (let j = 0; j < lines.length; j++) {
+			const part = lines[j][i] ?? '';
+			const paddedPart = part.padStart(columnWidth, ' ');
+			if (j > 0) {
+				process.stdout.write(' '.repeat(paddingWidth));
+			}
+			process.stdout.write(paddedPart);
+		}
+		process.stdout.write('\n');
+	}
+}
