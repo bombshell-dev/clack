@@ -1181,4 +1181,92 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 	});
+
+	describe('taskLog', () => {
+		test('writes message header', () => {
+			prompts.taskLog({
+				input,
+				output,
+				message: 'foo',
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		describe('message', () => {
+			test('can write line by line', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0');
+				log.message('line 1');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('can write multiple lines', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0\nline 1');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('enforces limit if set', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+					limit: 2,
+				});
+
+				log.message('line 0');
+				log.message('line 1');
+				log.message('line 2');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+
+		describe('error', () => {
+			test('maintains output but replaces message', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0');
+				log.message('line 1');
+
+				log.error('some error!');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+
+		describe('success', () => {
+			test('clears output and renders message', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0');
+				log.message('line 1');
+
+				log.success('success!');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+	});
 });

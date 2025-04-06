@@ -204,4 +204,26 @@ stream.error((function *() { yield 'Error!'; })());
 stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: color.cyan('~') });
 ```
 
+### Task Log
+
+When executing a sub-process or a similar sub-task, `taskLog` can be used to render the output continuously and clear it at the end if it was successful.
+
+```js
+import { taskLog } from '@clack/prompts';
+
+const log = taskLog({
+	message: 'Running npm install'
+});
+
+for await (const line of npmInstall()) {
+	log.message(line);
+}
+
+if (success) {
+	log.success('Done!');
+} else {
+	log.error('Failed!');
+}
+```
+
 ![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)

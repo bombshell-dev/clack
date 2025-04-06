@@ -1527,6 +1527,118 @@ exports[`prompts (isCI = false) > spinner > stop > renders submit symbol and sto
 ]
 `;
 
+exports[`prompts (isCI = false) > taskLog > error > maintains output but replaces message 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[31m■[39m  some error!
+",
+  "[90m│[39m
+[90m│[39m  line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > message > can write line by line 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > message > can write multiple lines 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > message > enforces limit if set 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[G",
+  "[90m│[39m  line 1
+[90m│[39m  line 2
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > success > clears output and renders message 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[32m◆[39m  success!
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > writes message header 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+]
+`;
+
 exports[`prompts (isCI = false) > text > can cancel 1`] = `
 [
   "[?25l",
@@ -3263,6 +3375,118 @@ exports[`prompts (isCI = true) > spinner > stop > renders submit symbol and stop
   "[32m◇[39m  
 ",
   "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > error > maintains output but replaces message 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[31m■[39m  some error!
+",
+  "[90m│[39m
+[90m│[39m  line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > message > can write line by line 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > message > can write multiple lines 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > message > enforces limit if set 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[G",
+  "[90m│[39m  line 1
+[90m│[39m  line 2
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > success > clears output and renders message 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[32m◆[39m  success!
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > writes message header 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
 ]
 `;
 

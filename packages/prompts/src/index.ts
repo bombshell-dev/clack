@@ -62,6 +62,13 @@ const symbol = (state: State) => {
 	}
 };
 
+const getColumns = (output: Writable): number => {
+	if (output instanceof WriteStream && output.columns) {
+		return output.columns;
+	}
+	return 80;
+};
+
 interface LimitOptionsParams<TOption> extends CommonOptions {
 	options: TOption[];
 	maxItems: number | undefined;
@@ -679,16 +686,24 @@ export const outro = (message = '', opts?: CommonOptions) => {
 
 export interface LogMessageOptions extends CommonOptions {
 	symbol?: string;
+	spacing?: number;
 }
 export const log = {
 	message: (
-		message = '',
-		{ symbol = color.gray(S_BAR), output = process.stdout }: LogMessageOptions = {}
+		message: string | string[] = [],
+		{ symbol = color.gray(S_BAR), output = process.stdout, spacing = 1 }: LogMessageOptions = {}
 	) => {
-		const parts = [`${color.gray(S_BAR)}`];
-		if (message) {
-			const [firstLine, ...lines] = message.split('\n');
-			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
+		const parts: string[] = [];
+		for (let i = 0; i < spacing; i++) {
+			parts.push(`${color.gray(S_BAR)}`);
+		}
+		const messageParts = Array.isArray(message) ? message : message.split('\n');
+		if (message && messageParts.length > 0) {
+			const [firstLine, ...lines] = messageParts;
+			parts.push(`${symbol}  ${firstLine}`);
+			for (const ln of lines) {
+				parts.push(`${color.gray(S_BAR)}  ${ln}`);
+			}
 		}
 		output.write(`${parts.join('\n')}\n`);
 	},
@@ -994,4 +1009,55 @@ export const tasks = async (tasks: Task[], opts?: CommonOptions) => {
 		const result = await task.task(s.message);
 		s.stop(result || task.title);
 	}
+};
+
+export interface TaskLogOptions extends CommonOptions {
+	message: string;
+	limit?: number;
+}
+
+/**
+ * Renders a log which clears on success and remains on failure
+ */
+export const taskLog = (opts: TaskLogOptions) => {
+	const output: Writable = opts.output ?? process.stdout;
+	const columns = getColumns(output);
+
+	output.write(`${color.dim(S_BAR)}\n`);
+	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.message}\n`);
+	output.write(`${color.dim(S_BAR)}\n`);
+
+	const buffer: string[] = [];
+
+	const clear = (clearTitle: boolean): void => {
+		const bufferHeight = buffer.reduce((count, line) => {
+			return count + Math.ceil(line.length / columns);
+		}, 0);
+		const lines = bufferHeight + 1 + (clearTitle ? 2 : 0);
+		output.write(erase.lines(lines));
+	};
+
+	return {
+		message(msg: string) {
+			clear(false);
+			const lines = msg.split('\n');
+			for (const line of lines) {
+				buffer.push(line);
+			}
+			const linesToRemove = opts.limit !== undefined ? buffer.length - opts.limit : 0;
+			if (linesToRemove > 0) {
+				buffer.splice(0, linesToRemove);
+			}
+			log.message(buffer, { output, spacing: 0 });
+		},
+		error(message: string): void {
+			clear(true);
+			log.error(message, { output, spacing: 0 });
+			log.message(buffer, { output });
+		},
+		success(message: string): void {
+			clear(true);
+			log.success(message, { output, spacing: 0 });
+		},
+	};
 };
