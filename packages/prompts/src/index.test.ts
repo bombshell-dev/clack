@@ -793,11 +793,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 		test('renders multiple cancelled values', async () => {
 			const result = prompts.multiselect({
 				message: 'foo',
-				options: [
-					{ value: 'opt0' },
-					{ value: 'opt1' },
-					{ value: 'opt2' }
-				],
+				options: [{ value: 'opt0' }, { value: 'opt1' }, { value: 'opt2' }],
 				input,
 				output,
 			});
