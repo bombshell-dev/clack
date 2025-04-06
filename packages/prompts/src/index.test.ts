@@ -1204,5 +1204,49 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(value).toEqual([value0]);
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		describe('groupSpacing', () => {
+			test('renders spaced groups', async () => {
+				const result = prompts.groupMultiselect({
+					message: 'foo',
+					input,
+					output,
+					options: {
+						group1: [{ value: 'group1value0' }],
+						group2: [{ value: 'group2value0' }],
+					},
+					groupSpacing: 2,
+				});
+
+				input.emit('keypress', '', { name: 'down' });
+				input.emit('keypress', '', { name: 'space' });
+				input.emit('keypress', '', { name: 'return' });
+
+				await result;
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('negative spacing is ignored', async () => {
+				const result = prompts.groupMultiselect({
+					message: 'foo',
+					input,
+					output,
+					options: {
+						group1: [{ value: 'group1value0' }],
+						group2: [{ value: 'group2value0' }],
+					},
+					groupSpacing: -2,
+				});
+
+				input.emit('keypress', '', { name: 'down' });
+				input.emit('keypress', '', { name: 'space' });
+				input.emit('keypress', '', { name: 'return' });
+
+				await result;
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+		});
 	});
 });

@@ -380,6 +380,94 @@ exports[`prompts (isCI = false) > groupMultiselect > cursorAt sets initial selec
 ]
 `;
 
+exports[`prompts (isCI = false) > groupMultiselect > groupSpacing > negative spacing is ignored 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  └ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[7A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[36m◻[39m group1value0
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[7A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m[22m[32m◼[39m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[32m◼[39m group1value0
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[7A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mgroup1value0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > groupMultiselect > groupSpacing > renders spaced groups 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  └ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[11A",
+  "[4B",
+  "[J",
+  "[36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[36m◻[39m group1value0
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[11A",
+  "[4B",
+  "[J",
+  "[36m│[39m  [2m[22m[32m◼[39m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[32m◼[39m group1value0
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[11A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mgroup1value0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > groupMultiselect > initial values can be set 1`] = `
 [
   "[?25l",
@@ -2148,6 +2236,94 @@ exports[`prompts (isCI = true) > groupMultiselect > cursorAt sets initial select
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mgroup1value1[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > groupMultiselect > groupSpacing > negative spacing is ignored 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  └ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[7A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[36m◻[39m group1value0
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[7A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [2m[22m[32m◼[39m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[32m◼[39m group1value0
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[7A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mgroup1value0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > groupMultiselect > groupSpacing > renders spaced groups 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  └ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[11A",
+  "[4B",
+  "[J",
+  "[36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[36m◻[39m group1value0
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[11A",
+  "[4B",
+  "[J",
+  "[36m│[39m  [2m[22m[32m◼[39m [2mgroup1[22m
+[36m│[39m  [2m└ [22m[32m◼[39m group1value0
+[36m│[39m
+[36m│[39m
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup2value0[22m
+[36m└[39m
+",
+  "[999D[11A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mgroup1value0[22m",
   "
 ",
   "[?25h",
