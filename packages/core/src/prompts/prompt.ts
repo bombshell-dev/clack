@@ -208,7 +208,7 @@ export default class Prompt {
 			if (!this.value && this.opts.placeholder) {
 				this.rl?.write(this.opts.placeholder);
 				this.emit('value', this.opts.placeholder);
-      }
+			}
 
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
