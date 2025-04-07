@@ -1031,11 +1031,11 @@ export const taskLog = (opts: TaskLogOptions) => {
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.message}\n`);
 	output.write(`${color.dim(S_BAR)}\n`);
 
-	const buffer: string[] = [];
+	let buffer = '';
 	let lastMessageWasRaw = false;
 
 	const clear = (clearTitle: boolean): void => {
-		const bufferHeight = buffer.reduce((count, line) => {
+		const bufferHeight = buffer.split('\n').reduce((count, line) => {
 			return count + Math.ceil(line.length / columns);
 		}, 0);
 		const lines = bufferHeight + 1 + (clearTitle ? 2 : 0);
@@ -1045,20 +1045,19 @@ export const taskLog = (opts: TaskLogOptions) => {
 	return {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
-			let lines: string[];
-			if (mopts?.raw && buffer.length > 0 && lastMessageWasRaw) {
-				const lastBuffer = buffer.pop();
-				lines = (lastBuffer + msg).split('\n');
+			if (buffer.length === 0 || (mopts?.raw && lastMessageWasRaw)) {
+				buffer += msg;
 			} else {
-				lines = msg.split('\n');
+				buffer += `\n${msg}`;
 			}
 			lastMessageWasRaw = mopts?.raw === true;
-			for (const line of lines) {
-				buffer.push(line);
-			}
-			const linesToRemove = opts.limit !== undefined ? buffer.length - opts.limit : 0;
-			if (linesToRemove > 0) {
-				buffer.splice(0, linesToRemove);
+			if (opts.limit !== undefined) {
+				const lines = buffer.split('\n');
+				const linesToRemove = lines.length - opts.limit;
+				if (linesToRemove > 0) {
+					lines.splice(0, linesToRemove);
+				}
+				buffer = lines.join('\n');
 			}
 			log.message(buffer, { output, spacing: 0 });
 		},
