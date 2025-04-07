@@ -65,12 +65,56 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 	});
 
 	describe('spinner', () => {
+		// NOTE: We're intentionally using `any` here since we're dealing with multiple event types (SignalsListener and ExitListener) that have different signatures
+		let processSignalEvents: Record<string, any> = {};
+		let originalProcessOn: any;
+		let originalProcessEmit: any;
+
 		beforeEach(() => {
 			vi.useFakeTimers();
+			
+			// Store original event listeners
+			processSignalEvents = {
+				'SIGINT': process.listeners('SIGINT'),
+				'SIGTERM': process.listeners('SIGTERM'),
+				'exit': process.listeners('exit')
+			};
+
+			// Mock process.on and process.emit
+			originalProcessOn = process.on;
+			originalProcessEmit = process.emit;
+			
+			// @ts-ignore - Mock to override type constraint
+			process.on = vi.fn((event, handler) => {
+				return originalProcessOn.call(process, event, handler);
+			});
+			
+			// @ts-ignore - Mock to override type constraint
+			process.emit = vi.fn((event, ...args) => {
+				return originalProcessEmit.call(process, event, ...args);
+			});
+
+			// Clear event listeners
+			const events = ['SIGINT', 'SIGTERM', 'exit'];
+			for (const event of events) {
+				process.removeAllListeners(event);
+			}
 		});
 
 		afterEach(() => {
 			vi.useRealTimers();
+
+			// Restore original event listeners
+			for (const [event, listeners] of Object.entries(processSignalEvents)) {
+				process.removeAllListeners(event);
+				for (const listener of (listeners as any[])) {
+					process.on(event as any, listener);
+				}
+			}
+
+			// Restore original process methods
+			process.on = originalProcessOn;
+			process.emit = originalProcessEmit;
 		});
 
 		test('returns spinner API', () => {
@@ -181,6 +225,125 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				vi.advanceTimersByTime(80);
 
 				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+
+		describe('process exit handling', () => {
+			test('uses default cancel message', () => {
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+				
+				process.emit('SIGINT');
+				
+				expect(output.buffer.join('')).toContain('Canceled');
+			});
+
+			test('uses custom cancel message when provided directly', () => {
+				const result = prompts.spinner({ 
+					output,
+					cancelMessage: 'Custom cancel message'
+				});
+				result.start('Test operation');
+				
+				process.emit('SIGINT');
+				
+				expect(output.buffer.join('')).toContain('Custom cancel message');
+			});
+
+			test('uses custom error message when provided directly', () => {
+				const result = prompts.spinner({ 
+					output,
+					errorMessage: 'Custom error message'
+				});
+				result.start('Test operation');
+				
+				process.emit('exit', 2);
+				
+				expect(output.buffer.join('')).toContain('Custom error message');
+			});
+
+			test('uses global custom cancel message from settings', () => {
+				prompts.updatePromptsSettings({
+					messages: {
+						cancel: 'Global cancel message'
+					}
+				});
+				
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+				
+				process.emit('SIGINT');
+				
+				expect(output.buffer.join('')).toContain('Global cancel message');
+				
+				// Reset to default
+				prompts.updatePromptsSettings({
+					messages: {
+						cancel: 'Canceled'
+					}
+				});
+			});
+
+			test('uses global custom error message from settings', () => {
+				prompts.updatePromptsSettings({
+					messages: {
+						error: 'Global error message'
+					}
+				});
+				
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+				
+				process.emit('exit', 2);
+				
+				expect(output.buffer.join('')).toContain('Global error message');
+				
+				// Reset to default
+				prompts.updatePromptsSettings({
+					messages: {
+						error: 'Something went wrong'
+					}
+				});
+			});
+
+			test('prioritizes direct options over global settings', () => {
+				prompts.updatePromptsSettings({
+					messages: {
+						cancel: 'Global cancel message',
+						error: 'Global error message'
+					}
+				});
+				
+				const result = prompts.spinner({ 
+					output,
+					cancelMessage: 'Spinner cancel message',
+					errorMessage: 'Spinner error message'
+				});
+				result.start('Test operation');
+				
+				process.emit('SIGINT');
+				expect(output.buffer.join('')).toContain('Spinner cancel message');
+				
+				// Reset buffer
+				output.buffer = [];
+				
+				const result2 = prompts.spinner({ 
+					output,
+					cancelMessage: 'Spinner cancel message',
+					errorMessage: 'Spinner error message'
+				});
+				result2.start('Test operation');
+				
+				process.emit('exit', 2);
+				expect(output.buffer.join('')).toContain('Spinner error message');
+				
+				// Reset to defaults
+				prompts.updatePromptsSettings({
+					messages: {
+						cancel: 'Canceled',
+						error: 'Something went wrong'
+					}
+				});
 			});
 		});
 	});
