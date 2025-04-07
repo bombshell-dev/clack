@@ -210,11 +210,11 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 			input.emit('keypress', '', { name: 'return' });
 
-			await result;
+			const value = await result;
 
 			expect(output.buffer).toMatchSnapshot();
 			// TODO (43081j): uncomment this when #263 is fixed
-			// expect(value).toBe('bar');
+			expect(value).toBe('bar');
 		});
 
 		test('<tab> applies placeholder', async () => {
