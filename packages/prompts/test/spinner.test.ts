@@ -35,9 +35,10 @@ describe('spinner', () => {
     });
 
     // Clear event listeners
-    ['SIGINT', 'SIGTERM', 'exit'].forEach(event => {
+    const events = ['SIGINT', 'SIGTERM', 'exit'];
+    for (const event of events) {
       process.removeAllListeners(event);
-    });
+    }
 
     // Mock process.exit
     vi.spyOn(process, 'exit').mockImplementation(processExitSpy as any);
@@ -45,12 +46,12 @@ describe('spinner', () => {
 
   afterEach(() => {
     // Restore original event listeners
-    Object.entries(processSignalEvents).forEach(([event, listeners]) => {
+    for (const [event, listeners] of Object.entries(processSignalEvents)) {
       process.removeAllListeners(event);
-      (listeners as any[]).forEach((listener) => {
+      for (const listener of (listeners as any[])) {
         process.on(event as any, listener);
-      });
-    });
+      }
+    }
 
     // Restore original process methods
     process.on = originalProcessOn;
