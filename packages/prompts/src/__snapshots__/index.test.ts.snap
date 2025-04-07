@@ -1607,6 +1607,70 @@ exports[`prompts (isCI = false) > taskLog > message > enforces limit if set 1`] 
 ]
 `;
 
+exports[`prompts (isCI = false) > taskLog > message > raw = true appends message text until newline 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > message > raw = true works when mixed with non-raw messages 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = false) > taskLog > message > raw = true works when started with non-raw messages 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1still line 1
+",
+]
+`;
+
 exports[`prompts (isCI = false) > taskLog > success > clears output and renders message 1`] = `
 [
   "[2m│[22m
@@ -3454,6 +3518,70 @@ exports[`prompts (isCI = true) > taskLog > message > enforces limit if set 1`] =
   "[2K[1A[2K[1A[2K[G",
   "[90m│[39m  line 1
 [90m│[39m  line 2
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > message > raw = true appends message text until newline 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > message > raw = true works when mixed with non-raw messages 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0still line 0
+[90m│[39m  line 1
+",
+]
+`;
+
+exports[`prompts (isCI = true) > taskLog > message > raw = true works when started with non-raw messages 1`] = `
+[
+  "[2m│[22m
+",
+  "[32m◇[39m  foo
+",
+  "[2m│[22m
+",
+  "[2K[G",
+  "[90m│[39m  line 0
+",
+  "[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1
+",
+  "[2K[1A[2K[1A[2K[G",
+  "[90m│[39m  line 0
+[90m│[39m  line 1still line 1
 ",
 ]
 `;

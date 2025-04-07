@@ -1233,6 +1233,48 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 			});
+
+			test('raw = true appends message text until newline', async () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0', { raw: true });
+				log.message('still line 0', { raw: true });
+				log.message('\nline 1', { raw: true });
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('raw = true works when mixed with non-raw messages', async () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0', { raw: true });
+				log.message('still line 0', { raw: true });
+				log.message('line 1');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('raw = true works when started with non-raw messages', async () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('line 0');
+				log.message('line 1', { raw: true });
+				log.message('still line 1', { raw: true });
+
+				expect(output.buffer).toMatchSnapshot();
+			});
 		});
 
 		describe('error', () => {

@@ -1016,6 +1016,10 @@ export interface TaskLogOptions extends CommonOptions {
 	limit?: number;
 }
 
+export interface TaskLogMessageOptions {
+	raw?: boolean;
+}
+
 /**
  * Renders a log which clears on success and remains on failure
  */
@@ -1028,6 +1032,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	output.write(`${color.dim(S_BAR)}\n`);
 
 	const buffer: string[] = [];
+	let lastMessageWasRaw = false;
 
 	const clear = (clearTitle: boolean): void => {
 		const bufferHeight = buffer.reduce((count, line) => {
@@ -1038,9 +1043,16 @@ export const taskLog = (opts: TaskLogOptions) => {
 	};
 
 	return {
-		message(msg: string) {
+		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
-			const lines = msg.split('\n');
+			let lines: string[];
+			if (mopts?.raw && buffer.length > 0 && lastMessageWasRaw) {
+				const lastBuffer = buffer.pop();
+				lines = (lastBuffer + msg).split('\n');
+			} else {
+				lines = msg.split('\n');
+			}
+			lastMessageWasRaw = mopts?.raw === true;
 			for (const line of lines) {
 				buffer.push(line);
 			}
