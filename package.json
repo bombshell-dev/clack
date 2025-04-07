@@ -10,7 +10,7 @@
     "format": "biome check --write",
     "lint": "biome lint --write --unsafe",
     "type-check": "biome lint && tsc",
-    "test": "pnpm -r run test",
+    "test": "pnpm --color -r run test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "changeset publish"
   },
