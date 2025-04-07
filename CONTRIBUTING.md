@@ -367,3 +367,7 @@ We follow conventional commits for commit messages:
 By contributing, you agree that your contributions will be licensed under the project's MIT License.
 
 Thank you for taking the time to contribute to Clack! Feel free to join our community Discord at [bomb.sh/chat](https://bomb.sh/chat). It's a great place to connect with other project contributors—we're chill!
+
+## Acknowledgments
+
+This contributing guide was inspired by and adapted from the [Astro Contributing Manual](https://github.com/withastro/astro/blob/main/CONTRIBUTING.md). We appreciate their excellent documentation and open source practices.
