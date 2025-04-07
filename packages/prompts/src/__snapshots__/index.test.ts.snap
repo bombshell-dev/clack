@@ -955,6 +955,42 @@ exports[`prompts (isCI = false) > multiselect > renders validation errors 1`] = 
 ]
 `;
 
+exports[`prompts (isCI = false) > multiselect > shows hints for all selected options 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m
+[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
+[36m│[39m  [2m◻[22m [2mopt2[22m
+[36m└[39m
+",
+  "[999D[6A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [32m◼[39m [2mopt0[22m [2m(Hint 0)[22m
+[36m│[39m  [32m◼[39m opt1 [2m(Hint 1)[22m
+[36m│[39m  [2m◻[22m [2mopt2[22m
+[36m└[39m
+",
+  "[999D[6A",
+  "[3B",
+  "[J",
+  "[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
+[36m│[39m  [36m◻[39m opt2 [2m(Hint 2)[22m
+[36m└[39m
+",
+  "[999D[6A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m[2m, [22m[2mopt1[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1`] = `
 [
   "[?25l",
@@ -2687,6 +2723,42 @@ exports[`prompts (isCI = true) > multiselect > renders validation errors 1`] = `
   "[J",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
+  "
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > multiselect > shows hints for all selected options 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m
+[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
+[36m│[39m  [2m◻[22m [2mopt2[22m
+[36m└[39m
+",
+  "[999D[6A",
+  "[2B",
+  "[J",
+  "[36m│[39m  [32m◼[39m [2mopt0[22m [2m(Hint 0)[22m
+[36m│[39m  [32m◼[39m opt1 [2m(Hint 1)[22m
+[36m│[39m  [2m◻[22m [2mopt2[22m
+[36m└[39m
+",
+  "[999D[6A",
+  "[3B",
+  "[J",
+  "[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
+[36m│[39m  [36m◻[39m opt2 [2m(Hint 2)[22m
+[36m└[39m
+",
+  "[999D[6A",
+  "[1B",
+  "[J",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m[2m, [22m[2mopt1[22m",
   "
 ",
   "[?25h",
