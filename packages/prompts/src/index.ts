@@ -767,6 +767,8 @@ export const stream = {
 export interface SpinnerOptions extends CommonOptions {
 	indicator?: 'dots' | 'timer';
 	onCancel?: () => void;
+	cancelMessage?: string;
+	errorMessage?: string;
 }
 
 export interface SpinnerResult {
@@ -776,10 +778,41 @@ export interface SpinnerResult {
 	readonly isCancelled: boolean;
 }
 
+/**
+ * Global settings for default messages 
+ */
+const promptsSettings = {
+	messages: {
+		cancel: 'Canceled',
+		error: 'Something went wrong',
+	}
+};
+
+/**
+ * Update global message settings
+ */
+export function updatePromptsSettings(settings: {
+	messages?: {
+		cancel?: string;
+		error?: string;
+	}
+}) {
+	if (settings.messages) {
+		if (settings.messages.cancel) {
+			promptsSettings.messages.cancel = settings.messages.cancel;
+		}
+		if (settings.messages.error) {
+			promptsSettings.messages.error = settings.messages.error;
+		}
+	}
+}
+
 export const spinner = ({
 	indicator = 'dots',
 	onCancel,
 	output = process.stdout,
+	cancelMessage,
+	errorMessage,
 }: SpinnerOptions = {}): SpinnerResult => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
@@ -794,7 +827,9 @@ export const spinner = ({
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
-		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		const msg = code > 1 
+			? (errorMessage ?? promptsSettings.messages.error) 
+			: (cancelMessage ?? promptsSettings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
 			stop(msg, code);
