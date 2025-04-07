@@ -235,7 +235,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				
 				process.emit('SIGINT');
 				
-				expect(output.buffer.join('')).toContain('Canceled');
+				expect(output.buffer).toMatchSnapshot();
 			});
 
 			test('uses custom cancel message when provided directly', () => {
@@ -247,7 +247,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				
 				process.emit('SIGINT');
 				
-				expect(output.buffer.join('')).toContain('Custom cancel message');
+				expect(output.buffer).toMatchSnapshot();
 			});
 
 			test('uses custom error message when provided directly', () => {
@@ -259,7 +259,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				
 				process.emit('exit', 2);
 				
-				expect(output.buffer.join('')).toContain('Custom error message');
+				expect(output.buffer).toMatchSnapshot();
 			});
 
 			test('uses global custom cancel message from settings', () => {
@@ -274,7 +274,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				
 				process.emit('SIGINT');
 				
-				expect(output.buffer.join('')).toContain('Global cancel message');
+				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset to default
 				prompts.updatePromptsSettings({
@@ -296,7 +296,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				
 				process.emit('exit', 2);
 				
-				expect(output.buffer.join('')).toContain('Global error message');
+				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset to default
 				prompts.updatePromptsSettings({
@@ -322,7 +322,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				result.start('Test operation');
 				
 				process.emit('SIGINT');
-				expect(output.buffer.join('')).toContain('Spinner cancel message');
+				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset buffer
 				output.buffer = [];
@@ -335,7 +335,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				result2.start('Test operation');
 				
 				process.emit('exit', 2);
-				expect(output.buffer.join('')).toContain('Spinner error message');
+				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset to defaults
 				prompts.updatePromptsSettings({
