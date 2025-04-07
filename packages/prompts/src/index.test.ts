@@ -213,7 +213,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			const value = await result;
 
 			expect(output.buffer).toMatchSnapshot();
-			// TODO (43081j): uncomment this when #263 is fixed
+
 			expect(value).toBe('bar');
 		});
 
