@@ -269,7 +269,9 @@ When encountering issues during development:
 
 ### PR Previews
 
-If you want to create a preview build of your PR for others to test, add the label `pr preview` to your PR. This will trigger a workflow that builds a preview version and adds instructions for installation as a comment on your PR.
+Clack uses [pkg.pr.new](https://pkg.pr.new) (provided by [bolt.new](https://bolt.new)) to create continuous preview releases of all PRs. This simplifies testing and makes verifying bug fixes easier for our dependents. 
+
+The workflow that builds a preview version and adds instructions for installation as a comment on your PR should run automatically if you have contributed to Clack before. First-time contributors may need to wait until a maintainer manually approves GitHub Actions running on your PR.
 
 ## Release Process
 
@@ -364,4 +366,4 @@ We follow conventional commits for commit messages:
 
 By contributing, you agree that your contributions will be licensed under the project's MIT License.
 
-Thank you for taking the time to contribute to Clack! 
+Thank you for taking the time to contribute to Clack! Feel free to join our community Discord at [bomb.sh/chat](https://bomb.sh/chat). It's a great place to connect with other project contributors—we're chill!
