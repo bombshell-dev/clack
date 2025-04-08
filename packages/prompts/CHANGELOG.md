@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 0.10.1
+
+### Patch Changes
+
+- 11a5dc1: Fixes multiselect only shows hints on the first item in the options list. Now correctly shows hints for all selected options with hint property.
+- 30aa7ed: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- Updated dependencies [30aa7ed]
+- Updated dependencies [5dfce8a]
+- Updated dependencies [f574297]
+  - @clack/core@0.4.2
+
 ## 0.10.0
 
 ### Minor Changes
