@@ -790,6 +790,30 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('shows hints for all selected options', async () => {
+			const result = prompts.multiselect({
+				message: 'foo',
+				options: [
+					{ value: 'opt0', hint: 'Hint 0' },
+					{ value: 'opt1', hint: 'Hint 1' },
+					{ value: 'opt2', hint: 'Hint 2' },
+				],
+				initialValues: ['opt0', 'opt1'],
+				input,
+				output,
+			});
+
+			// Check that both selected options show their hints
+			input.emit('keypress', '', { name: 'down' });
+			input.emit('keypress', '', { name: 'down' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toEqual(['opt0', 'opt1']);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('renders multiple cancelled values', async () => {
 			const result = prompts.multiselect({
 				message: 'foo',

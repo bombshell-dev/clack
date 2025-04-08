@@ -386,7 +386,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			}`;
 		}
 		if (state === 'selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
 		}
 		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
@@ -522,7 +524,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		}
 		if (state === 'selected') {
 			const selectedCheckbox = isItem || selectableGroups ? color.green(S_CHECKBOX_SELECTED) : '';
-			return `${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)}`;
+			return `${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
 		}
 		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
