@@ -1275,6 +1275,21 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 			});
+
+			test('handles empty lines', async () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					message: 'foo',
+				});
+
+				log.message('');
+				log.message('line 1');
+				log.message('');
+				log.message('line 3');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
 		});
 
 		describe('error', () => {

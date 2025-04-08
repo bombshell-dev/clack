@@ -687,22 +687,36 @@ export const outro = (message = '', opts?: CommonOptions) => {
 export interface LogMessageOptions extends CommonOptions {
 	symbol?: string;
 	spacing?: number;
+	secondarySymbol?: string;
 }
 export const log = {
 	message: (
 		message: string | string[] = [],
-		{ symbol = color.gray(S_BAR), output = process.stdout, spacing = 1 }: LogMessageOptions = {}
+		{
+			symbol = color.gray(S_BAR),
+			secondarySymbol = color.gray(S_BAR),
+			output = process.stdout,
+			spacing = 1,
+		}: LogMessageOptions = {}
 	) => {
 		const parts: string[] = [];
 		for (let i = 0; i < spacing; i++) {
-			parts.push(`${color.gray(S_BAR)}`);
+			parts.push(`${secondarySymbol}`);
 		}
 		const messageParts = Array.isArray(message) ? message : message.split('\n');
 		if (message && messageParts.length > 0) {
 			const [firstLine, ...lines] = messageParts;
-			parts.push(`${symbol}  ${firstLine}`);
+			if (firstLine.length > 0) {
+				parts.push(`${symbol}  ${firstLine}`);
+			} else {
+				parts.push(symbol);
+			}
 			for (const ln of lines) {
-				parts.push(`${color.gray(S_BAR)}  ${ln}`);
+				if (ln.length > 0) {
+					parts.push(`${secondarySymbol}  ${ln}`);
+				} else {
+					parts.push(secondarySymbol);
+				}
 			}
 		}
 		output.write(`${parts.join('\n')}\n`);
@@ -1026,52 +1040,64 @@ export interface TaskLogMessageOptions {
 export const taskLog = (opts: TaskLogOptions) => {
 	const output: Writable = opts.output ?? process.stdout;
 	const columns = getColumns(output);
+	const secondarySymbol = color.dim(S_BAR);
 
-	output.write(`${color.dim(S_BAR)}\n`);
+	output.write(`${secondarySymbol}\n`);
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.message}\n`);
-	output.write(`${color.dim(S_BAR)}\n`);
+	output.write(`${secondarySymbol}\n`);
 
 	let buffer = '';
 	let lastMessageWasRaw = false;
 
 	const clear = (clearTitle: boolean): void => {
+		if (buffer.length === 0) {
+			return;
+		}
 		const bufferHeight = buffer.split('\n').reduce((count, line) => {
 			if (line === '') {
 				return count + 1;
 			}
 			return count + Math.ceil(line.length / columns);
 		}, 0);
-		const lines = bufferHeight + 1 + (clearTitle ? 2 : 0);
+		const lines = bufferHeight + 1 + (lastMessageWasRaw ? 1 : 0) + (clearTitle ? 3 : 0);
 		output.write(erase.lines(lines));
 	};
 
 	return {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
-			if (buffer.length === 0 || (mopts?.raw && lastMessageWasRaw)) {
+			if (mopts?.raw) {
 				buffer += msg;
 			} else {
-				buffer += `\n${msg}`;
+				if (lastMessageWasRaw) {
+					buffer += '\n';
+				}
+				buffer += `${msg}\n`;
 			}
 			lastMessageWasRaw = mopts?.raw === true;
 			if (opts.limit !== undefined) {
 				const lines = buffer.split('\n');
-				const linesToRemove = lines.length - opts.limit;
+				const linesToRemove = lines.length - opts.limit - (lastMessageWasRaw ? 0 : 1);
 				if (linesToRemove > 0) {
 					lines.splice(0, linesToRemove);
 				}
 				buffer = lines.join('\n');
 			}
-			log.message(buffer, { output, spacing: 0 });
+			log.message(lastMessageWasRaw ? `${buffer}\n` : buffer, {
+				output,
+				secondarySymbol,
+				symbol: secondarySymbol,
+				spacing: 0,
+			});
 		},
 		error(message: string): void {
 			clear(true);
-			log.error(message, { output, spacing: 0 });
-			log.message(buffer, { output });
+			log.error(message, { output, secondarySymbol, spacing: 1 });
+			log.message(buffer, { output, secondarySymbol, symbol: secondarySymbol, spacing: 1 });
 		},
 		success(message: string): void {
 			clear(true);
-			log.success(message, { output, spacing: 0 });
+			log.success(message, { output, secondarySymbol, spacing: 1 });
 		},
 	};
 };
