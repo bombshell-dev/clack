@@ -1,5 +1,13 @@
 # @clack/core
 
+## 0.4.2
+
+### Patch Changes
+
+- 30aa7ed: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- 5dfce8a: Fixes an edge case for placeholder values. Previously, when pressing `enter` on an empty prompt, placeholder values would be ignored. Now, placeholder values are treated as the prompt value.
+- f574297: Fix "TTY initialization failed: uv_tty_init returned EBADF (bad file descriptor)" error happening on Windows for non-tty terminals.
+
 ## 0.4.1
 
 ### Patch Changes
