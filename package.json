@@ -12,7 +12,7 @@
     "type-check": "biome lint && tsc",
     "test": "pnpm --color -r run test",
     "ci:install": "pnpm install --no-frozen-lockfile",
-    "ci:version": "changeset version && pnpx @qingshaner/jsr-release --allowDirty version --sync",
+    "ci:version": "changeset version && pnpm add -D @pnpm/logger@^5.1.0 @pnpm/worker@^1000.1.3 && pnpx @qingshaner/jsr-release --allowDirty version --sync",
     "ci:publish": "changeset publish",
     "ci:prepublish": "pnpm build",
     "jsr:test": "pnpm --filter \"@clack/*\" jsr --dry-run",

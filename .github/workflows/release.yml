@@ -41,7 +41,12 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      - name: Validate peer dependencies
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          pnpm dlx dependency-check --peer-deps-only
+        env:
+          NODE_ENV: production
       - name: Publish to jsr.io
         if: steps.changesets.outputs.published == 'true'
         run: pnpx @qingshaner/jsr-release publish --changesetReleases='${{ steps.changesets.outputs.publishedPackages }}'
