@@ -1036,6 +1036,9 @@ export const taskLog = (opts: TaskLogOptions) => {
 
 	const clear = (clearTitle: boolean): void => {
 		const bufferHeight = buffer.split('\n').reduce((count, line) => {
+			if (line === '') {
+				return count + 1;
+			}
 			return count + Math.ceil(line.length / columns);
 		}, 0);
 		const lines = bufferHeight + 1 + (clearTitle ? 2 : 0);
