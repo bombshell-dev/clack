@@ -44,7 +44,7 @@ jobs:
       - name: Validate dependencies
         if: steps.changesets.outputs.published == 'true'
         run: |
-          pnpm dlx knip --production --no-exit-code --reporter=md
+          pnpm run deps:check
         env:
           NODE_ENV: production
       - name: Publish to jsr.io
