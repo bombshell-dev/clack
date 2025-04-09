@@ -1187,7 +1187,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			prompts.taskLog({
 				input,
 				output,
-				message: 'foo',
+				title: 'foo',
 			});
 
 			expect(output.buffer).toMatchSnapshot();
@@ -1198,7 +1198,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0');
@@ -1211,7 +1211,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0\nline 1');
@@ -1223,7 +1223,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 					limit: 2,
 				});
 
@@ -1238,7 +1238,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0', { raw: true });
@@ -1252,7 +1252,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0', { raw: true });
@@ -1266,7 +1266,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0');
@@ -1280,7 +1280,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('');
@@ -1297,7 +1297,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0');
@@ -1314,7 +1314,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const log = prompts.taskLog({
 					input,
 					output,
-					message: 'foo',
+					title: 'foo',
 				});
 
 				log.message('line 0');

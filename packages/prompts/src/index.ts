@@ -1026,7 +1026,7 @@ export const tasks = async (tasks: Task[], opts?: CommonOptions) => {
 };
 
 export interface TaskLogOptions extends CommonOptions {
-	message: string;
+	title: string;
 	limit?: number;
 	spacing?: number;
 }
@@ -1046,7 +1046,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const barSize = 3;
 
 	output.write(`${secondarySymbol}\n`);
-	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.message}\n`);
+	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
 	for (let i = 0; i < spacing; i++) {
 		output.write(`${secondarySymbol}\n`);
 	}
