@@ -1029,10 +1029,15 @@ export interface TaskLogOptions extends CommonOptions {
 	title: string;
 	limit?: number;
 	spacing?: number;
+	retainLog?: boolean;
 }
 
 export interface TaskLogMessageOptions {
 	raw?: boolean;
+}
+
+export interface TaskLogCompletionOptions {
+	renderLog?: boolean;
 }
 
 /**
@@ -1044,6 +1049,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const secondarySymbol = color.dim(S_BAR);
 	const spacing = opts.spacing ?? 1;
 	const barSize = 3;
+	const retainLog = opts.retainLog === true;
 
 	output.write(`${secondarySymbol}\n`);
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
@@ -1052,6 +1058,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	}
 
 	let buffer = '';
+	let fullBuffer = '';
 	let lastMessageWasRaw = false;
 
 	const clear = (clearTitle: boolean): void => {
@@ -1067,24 +1074,36 @@ export const taskLog = (opts: TaskLogOptions) => {
 		const lines = bufferHeight + 1 + (clearTitle ? spacing + 2 : 0);
 		output.write(erase.lines(lines));
 	};
+	const renderBuffer = (): void => {
+		if (retainLog === true && fullBuffer.length > 0) {
+			log.message(`${fullBuffer}\n${buffer}`, {
+				output,
+				secondarySymbol,
+				symbol: secondarySymbol,
+				spacing,
+			});
+		} else {
+			log.message(buffer, { output, secondarySymbol, symbol: secondarySymbol, spacing });
+		}
+	};
 
 	return {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
-			if (mopts?.raw && lastMessageWasRaw) {
-				buffer += color.dim(msg);
-			} else {
-				if (buffer !== '') {
-					buffer += '\n';
-				}
-				buffer += color.dim(msg);
+			const dimMessage = color.dim(msg);
+			if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer !== '') {
+				buffer += '\n';
 			}
+			buffer += dimMessage;
 			lastMessageWasRaw = mopts?.raw === true;
 			if (opts.limit !== undefined) {
 				const lines = buffer.split('\n');
 				const linesToRemove = lines.length - opts.limit;
 				if (linesToRemove > 0) {
-					lines.splice(0, linesToRemove);
+					const removedLines = lines.splice(0, linesToRemove);
+					if (retainLog) {
+						fullBuffer += (fullBuffer === '' ? '' : '\n') + removedLines.join('\n');
+					}
 				}
 				buffer = lines.join('\n');
 			}
@@ -1095,14 +1114,23 @@ export const taskLog = (opts: TaskLogOptions) => {
 				spacing: 0,
 			});
 		},
-		error(message: string): void {
+		error(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);
 			log.error(message, { output, secondarySymbol, spacing: 1 });
-			log.message(buffer, { output, secondarySymbol, symbol: secondarySymbol, spacing });
+			if (opts?.renderLog !== false) {
+				renderBuffer();
+			}
+			// clear buffer since error is an end state
+			buffer = fullBuffer = '';
 		},
-		success(message: string): void {
+		success(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);
 			log.success(message, { output, secondarySymbol, spacing: 1 });
+			if (opts?.renderLog === true) {
+				renderBuffer();
+			}
+			// clear buffer since success is an end state
+			buffer = fullBuffer = '';
 		},
 	};
 };

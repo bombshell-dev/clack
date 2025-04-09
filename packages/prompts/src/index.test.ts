@@ -1293,7 +1293,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 		});
 
 		describe('error', () => {
-			test('maintains output but replaces message', () => {
+			test('renders output with message', () => {
 				const log = prompts.taskLog({
 					input,
 					output,
@@ -1304,6 +1304,21 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				log.message('line 1');
 
 				log.error('some error!');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('clears output if renderLog = false', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					title: 'foo',
+				});
+
+				log.message('line 0');
+				log.message('line 1');
+
+				log.error('some error!', { renderLog: false });
 
 				expect(output.buffer).toMatchSnapshot();
 			});
@@ -1323,6 +1338,112 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				log.success('success!');
 
 				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('renders output if renderLog = true', () => {
+				const log = prompts.taskLog({
+					input,
+					output,
+					title: 'foo',
+				});
+
+				log.message('line 0');
+				log.message('line 1');
+
+				log.success('success!', { renderLog: true });
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+
+		describe('retainLog', () => {
+			describe.each(['error', 'success'] as const)('%s', (method) => {
+				test('retainLog = true outputs full log', () => {
+					const log = prompts.taskLog({
+						input,
+						output,
+						title: 'foo',
+						retainLog: true,
+					});
+
+					for (let i = 0; i < 4; i++) {
+						log.message(`line ${i}`);
+					}
+
+					log[method]('woo!', { renderLog: true });
+
+					expect(output.buffer).toMatchSnapshot();
+				});
+
+				test('retainLog = true outputs full log with limit', () => {
+					const log = prompts.taskLog({
+						input,
+						output,
+						title: 'foo',
+						retainLog: true,
+						limit: 2,
+					});
+
+					for (let i = 0; i < 4; i++) {
+						log.message(`line ${i}`);
+					}
+
+					log[method]('woo!', { renderLog: true });
+
+					expect(output.buffer).toMatchSnapshot();
+				});
+
+				test('retainLog = false outputs full log without limit', () => {
+					const log = prompts.taskLog({
+						input,
+						output,
+						title: 'foo',
+						retainLog: false,
+					});
+
+					for (let i = 0; i < 4; i++) {
+						log.message(`line ${i}`);
+					}
+
+					log[method]('woo!', { renderLog: true });
+
+					expect(output.buffer).toMatchSnapshot();
+				});
+
+				test('retainLog = false outputs limited log with limit', () => {
+					const log = prompts.taskLog({
+						input,
+						output,
+						title: 'foo',
+						retainLog: false,
+						limit: 2,
+					});
+
+					for (let i = 0; i < 4; i++) {
+						log.message(`line ${i}`);
+					}
+
+					log[method]('woo!', { renderLog: true });
+
+					expect(output.buffer).toMatchSnapshot();
+				});
+
+				test('outputs limited log with limit by default', () => {
+					const log = prompts.taskLog({
+						input,
+						output,
+						title: 'foo',
+						limit: 2,
+					});
+
+					for (let i = 0; i < 4; i++) {
+						log.message(`line ${i}`);
+					}
+
+					log[method]('woo!', { renderLog: true });
+
+					expect(output.buffer).toMatchSnapshot();
+				});
 			});
 		});
 	});
