@@ -1,5 +1,6 @@
 import { Readable, Writable } from 'node:stream';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import type { MockInstance } from 'vitest';
 import * as prompts from './index.js';
 
 // TODO (43081j): move this into a util?
@@ -65,56 +66,20 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 	});
 
 	describe('spinner', () => {
-		// NOTE: We're intentionally using `any` here since we're dealing with multiple event types (SignalsListener and ExitListener) that have different signatures
-		let processSignalEvents: Record<string, any> = {};
-		let originalProcessOn: any;
-		let originalProcessEmit: any;
+		let processOnSpy: MockInstance;
+		let processEmitSpy: MockInstance;
 
 		beforeEach(() => {
 			vi.useFakeTimers();
 			
-			// Store original event listeners
-			processSignalEvents = {
-				'SIGINT': process.listeners('SIGINT'),
-				'SIGTERM': process.listeners('SIGTERM'),
-				'exit': process.listeners('exit')
-			};
-
-			// Mock process.on and process.emit
-			originalProcessOn = process.on;
-			originalProcessEmit = process.emit;
-			
-			// @ts-ignore - Mock to override type constraint
-			process.on = vi.fn((event, handler) => {
-				return originalProcessOn.call(process, event, handler);
-			});
-			
-			// @ts-ignore - Mock to override type constraint
-			process.emit = vi.fn((event, ...args) => {
-				return originalProcessEmit.call(process, event, ...args);
-			});
-
-			// Clear event listeners
-			const events = ['SIGINT', 'SIGTERM', 'exit'];
-			for (const event of events) {
-				process.removeAllListeners(event);
-			}
+			// Spy on process methods
+			processOnSpy = vi.spyOn(process, 'on');
+			processEmitSpy = vi.spyOn(process, 'emit');
 		});
 
 		afterEach(() => {
 			vi.useRealTimers();
-
-			// Restore original event listeners
-			for (const [event, listeners] of Object.entries(processSignalEvents)) {
-				process.removeAllListeners(event);
-				for (const listener of (listeners as any[])) {
-					process.on(event as any, listener);
-				}
-			}
-
-			// Restore original process methods
-			process.on = originalProcessOn;
-			process.emit = originalProcessEmit;
+			vi.restoreAllMocks();
 		});
 
 		test('returns spinner API', () => {
