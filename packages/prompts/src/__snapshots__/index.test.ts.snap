@@ -1536,21 +1536,18 @@ exports[`prompts (isCI = false) > taskLog > error > maintains output but replace
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  some error!
 ",
   "[2m│[22m
 [2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -1564,12 +1561,10 @@ exports[`prompts (isCI = false) > taskLog > message > can write line by line 1`]
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -1584,7 +1579,6 @@ exports[`prompts (isCI = false) > taskLog > message > can write multiple lines 1
 ",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -1598,17 +1592,14 @@ exports[`prompts (isCI = false) > taskLog > message > enforces limit if set 1`] 
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[1A[2K[G",
   "[2m│[22m  line 1
 [2m│[22m  line 2
-[2m│[22m
 ",
 ]
 `;
@@ -1621,26 +1612,18 @@ exports[`prompts (isCI = false) > taskLog > message > handles empty lines 1`] = 
 ",
   "[2m│[22m
 ",
-  "[2m│[22m
+  "
+",
+  "[2m│[22m  line 1
+",
+  "[2K[1A[2K[G",
+  "[2m│[22m  line 1
 [2m│[22m
 ",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m
-[2m│[22m  line 1
-[2m│[22m
-",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m
-[2m│[22m  line 1
-[2m│[22m
-[2m│[22m
-",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m
-[2m│[22m  line 1
+  "[2m│[22m  line 1
 [2m│[22m
 [2m│[22m  line 3
-[2m│[22m
 ",
 ]
 `;
@@ -1654,16 +1637,13 @@ exports[`prompts (isCI = false) > taskLog > message > raw = true appends message
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -1677,16 +1657,13 @@ exports[`prompts (isCI = false) > taskLog > message > raw = true works when mixe
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -1700,17 +1677,14 @@ exports[`prompts (isCI = false) > taskLog > message > raw = true works when star
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
+",
+  "[2K[1A[2K[G",
+  "[2m│[22m  line 0
+[2m│[22m  line 1
 ",
   "[2K[1A[2K[1A[2K[G",
   "[2m│[22m  line 0
-[2m│[22m  line 1
-[2m│[22m
-",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  line 0
 [2m│[22m  line 1still line 1
-[2m│[22m
 ",
 ]
 `;
@@ -1724,14 +1698,12 @@ exports[`prompts (isCI = false) > taskLog > success > clears output and renders 
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  success!
 ",
@@ -3497,21 +3469,18 @@ exports[`prompts (isCI = true) > taskLog > error > maintains output but replaces
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  some error!
 ",
   "[2m│[22m
 [2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -3525,12 +3494,10 @@ exports[`prompts (isCI = true) > taskLog > message > can write line by line 1`] 
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -3545,7 +3512,6 @@ exports[`prompts (isCI = true) > taskLog > message > can write multiple lines 1`
 ",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -3559,17 +3525,14 @@ exports[`prompts (isCI = true) > taskLog > message > enforces limit if set 1`] =
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[1A[2K[G",
   "[2m│[22m  line 1
 [2m│[22m  line 2
-[2m│[22m
 ",
 ]
 `;
@@ -3582,26 +3545,18 @@ exports[`prompts (isCI = true) > taskLog > message > handles empty lines 1`] = `
 ",
   "[2m│[22m
 ",
-  "[2m│[22m
+  "
+",
+  "[2m│[22m  line 1
+",
+  "[2K[1A[2K[G",
+  "[2m│[22m  line 1
 [2m│[22m
 ",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m
-[2m│[22m  line 1
-[2m│[22m
-",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m
-[2m│[22m  line 1
-[2m│[22m
-[2m│[22m
-",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m
-[2m│[22m  line 1
+  "[2m│[22m  line 1
 [2m│[22m
 [2m│[22m  line 3
-[2m│[22m
 ",
 ]
 `;
@@ -3615,16 +3570,13 @@ exports[`prompts (isCI = true) > taskLog > message > raw = true appends message 
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -3638,16 +3590,13 @@ exports[`prompts (isCI = true) > taskLog > message > raw = true works when mixed
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0still line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
 ]
 `;
@@ -3661,17 +3610,14 @@ exports[`prompts (isCI = true) > taskLog > message > raw = true works when start
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
+",
+  "[2K[1A[2K[G",
+  "[2m│[22m  line 0
+[2m│[22m  line 1
 ",
   "[2K[1A[2K[1A[2K[G",
   "[2m│[22m  line 0
-[2m│[22m  line 1
-[2m│[22m
-",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  line 0
 [2m│[22m  line 1still line 1
-[2m│[22m
 ",
 ]
 `;
@@ -3685,14 +3631,12 @@ exports[`prompts (isCI = true) > taskLog > success > clears output and renders m
   "[2m│[22m
 ",
   "[2m│[22m  line 0
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[G",
   "[2m│[22m  line 0
 [2m│[22m  line 1
-[2m│[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  success!
 ",

@@ -1028,6 +1028,7 @@ export const tasks = async (tasks: Task[], opts?: CommonOptions) => {
 export interface TaskLogOptions extends CommonOptions {
 	message: string;
 	limit?: number;
+	spacing?: number;
 }
 
 export interface TaskLogMessageOptions {
@@ -1041,10 +1042,14 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const output: Writable = opts.output ?? process.stdout;
 	const columns = getColumns(output);
 	const secondarySymbol = color.dim(S_BAR);
+	const spacing = opts.spacing ?? 1;
+	const barSize = 3;
 
 	output.write(`${secondarySymbol}\n`);
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.message}\n`);
-	output.write(`${secondarySymbol}\n`);
+	for (let i = 0; i < spacing; i++) {
+		output.write(`${secondarySymbol}\n`);
+	}
 
 	let buffer = '';
 	let lastMessageWasRaw = false;
@@ -1057,33 +1062,33 @@ export const taskLog = (opts: TaskLogOptions) => {
 			if (line === '') {
 				return count + 1;
 			}
-			return count + Math.ceil(line.length / columns);
+			return count + Math.ceil((line.length + barSize) / columns);
 		}, 0);
-		const lines = bufferHeight + 1 + (lastMessageWasRaw ? 1 : 0) + (clearTitle ? 3 : 0);
+		const lines = bufferHeight + 1 + (clearTitle ? spacing + 2 : 0);
 		output.write(erase.lines(lines));
 	};
 
 	return {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
-			if (mopts?.raw) {
+			if (mopts?.raw && lastMessageWasRaw) {
 				buffer += msg;
 			} else {
-				if (lastMessageWasRaw) {
+				if (buffer !== '') {
 					buffer += '\n';
 				}
-				buffer += `${msg}\n`;
+				buffer += msg;
 			}
 			lastMessageWasRaw = mopts?.raw === true;
 			if (opts.limit !== undefined) {
 				const lines = buffer.split('\n');
-				const linesToRemove = lines.length - opts.limit - (lastMessageWasRaw ? 0 : 1);
+				const linesToRemove = lines.length - opts.limit;
 				if (linesToRemove > 0) {
 					lines.splice(0, linesToRemove);
 				}
 				buffer = lines.join('\n');
 			}
-			log.message(lastMessageWasRaw ? `${buffer}\n` : buffer, {
+			log.message(buffer, {
 				output,
 				secondarySymbol,
 				symbol: secondarySymbol,
@@ -1093,7 +1098,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 		error(message: string): void {
 			clear(true);
 			log.error(message, { output, secondarySymbol, spacing: 1 });
-			log.message(buffer, { output, secondarySymbol, symbol: secondarySymbol, spacing: 1 });
+			log.message(buffer, { output, secondarySymbol, symbol: secondarySymbol, spacing });
 		},
 		success(message: string): void {
 			clear(true);
