@@ -12,13 +12,14 @@ import {
 	TextPrompt,
 	block,
 	isCancel,
+	updateSettings as coreUpdateSettings,
+	type ClackSettings as CoreClackSettings,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
 export { isCancel } from '@clack/core';
-export { updateSettings, type ClackSettings } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -778,6 +779,25 @@ export interface SpinnerResult {
 	readonly isCancelled: boolean;
 }
 
+// Extend the core settings interface
+export interface ClackSettings extends CoreClackSettings {
+	/**
+	 * Custom messages for prompts
+	 */
+	messages?: {
+		/**
+		 * Custom message to display when a spinner is cancelled
+		 * @default "Canceled"
+		 */
+		cancel?: string;
+		/**
+		 * Custom message to display when a spinner encounters an error
+		 * @default "Something went wrong"
+		 */
+		error?: string;
+	};
+}
+
 /**
  * Global settings for default messages 
  */
@@ -789,14 +809,15 @@ const promptsSettings = {
 };
 
 /**
- * Update global message settings
+ * Update global settings for prompts including core settings
  */
-export function updatePromptsSettings(settings: {
-	messages?: {
-		cancel?: string;
-		error?: string;
+export function updateSettings(settings: Partial<ClackSettings>) {
+	// Handle aliases property for core if provided
+	if (settings.aliases) {
+		// Only pass the aliases property to core
+		coreUpdateSettings({ aliases: settings.aliases });
 	}
-}) {
+	// Update prompt-specific settings
 	if (settings.messages) {
 		if (settings.messages.cancel) {
 			promptsSettings.messages.cancel = settings.messages.cancel;

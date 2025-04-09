@@ -263,7 +263,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			});
 
 			test('uses global custom cancel message from settings', () => {
-				prompts.updatePromptsSettings({
+				prompts.updateSettings({
 					messages: {
 						cancel: 'Global cancel message'
 					}
@@ -277,7 +277,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset to default
-				prompts.updatePromptsSettings({
+				prompts.updateSettings({
 					messages: {
 						cancel: 'Canceled'
 					}
@@ -285,7 +285,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			});
 
 			test('uses global custom error message from settings', () => {
-				prompts.updatePromptsSettings({
+				prompts.updateSettings({
 					messages: {
 						error: 'Global error message'
 					}
@@ -299,7 +299,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset to default
-				prompts.updatePromptsSettings({
+				prompts.updateSettings({
 					messages: {
 						error: 'Something went wrong'
 					}
@@ -307,7 +307,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			});
 
 			test('prioritizes direct options over global settings', () => {
-				prompts.updatePromptsSettings({
+				prompts.updateSettings({
 					messages: {
 						cancel: 'Global cancel message',
 						error: 'Global error message'
@@ -338,7 +338,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 				
 				// Reset to defaults
-				prompts.updatePromptsSettings({
+				prompts.updateSettings({
 					messages: {
 						cancel: 'Canceled',
 						error: 'Something went wrong'
