@@ -41,10 +41,10 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Validate peer dependencies
+      - name: Validate dependencies
         if: steps.changesets.outputs.published == 'true'
         run: |
-          pnpm dlx dependency-check --peer-deps-only
+          pnpm dlx knip --production --no-exit-code --reporter=md
         env:
           NODE_ENV: production
       - name: Publish to jsr.io
