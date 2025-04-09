@@ -1072,12 +1072,12 @@ export const taskLog = (opts: TaskLogOptions) => {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
 			if (mopts?.raw && lastMessageWasRaw) {
-				buffer += msg;
+				buffer += color.dim(msg);
 			} else {
 				if (buffer !== '') {
 					buffer += '\n';
 				}
-				buffer += msg;
+				buffer += color.dim(msg);
 			}
 			lastMessageWasRaw = mopts?.raw === true;
 			if (opts.limit !== undefined) {
