@@ -71,7 +71,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 		beforeEach(() => {
 			vi.useFakeTimers();
-			
+
 			// Spy on process methods
 			processOnSpy = vi.spyOn(process, 'on');
 			processEmitSpy = vi.spyOn(process, 'emit');
@@ -197,77 +197,77 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			test('uses default cancel message', () => {
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
-				
+
 				process.emit('SIGINT');
-				
+
 				expect(output.buffer).toMatchSnapshot();
 			});
 
 			test('uses custom cancel message when provided directly', () => {
-				const result = prompts.spinner({ 
+				const result = prompts.spinner({
 					output,
-					cancelMessage: 'Custom cancel message'
+					cancelMessage: 'Custom cancel message',
 				});
 				result.start('Test operation');
-				
+
 				process.emit('SIGINT');
-				
+
 				expect(output.buffer).toMatchSnapshot();
 			});
 
 			test('uses custom error message when provided directly', () => {
-				const result = prompts.spinner({ 
+				const result = prompts.spinner({
 					output,
-					errorMessage: 'Custom error message'
+					errorMessage: 'Custom error message',
 				});
 				result.start('Test operation');
-				
+
 				process.emit('exit', 2);
-				
+
 				expect(output.buffer).toMatchSnapshot();
 			});
 
 			test('uses global custom cancel message from settings', () => {
 				prompts.updateSettings({
 					messages: {
-						cancel: 'Global cancel message'
-					}
+						cancel: 'Global cancel message',
+					},
 				});
-				
+
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
-				
+
 				process.emit('SIGINT');
-				
+
 				expect(output.buffer).toMatchSnapshot();
-				
+
 				// Reset to default
 				prompts.updateSettings({
 					messages: {
-						cancel: 'Canceled'
-					}
+						cancel: 'Canceled',
+					},
 				});
 			});
 
 			test('uses global custom error message from settings', () => {
 				prompts.updateSettings({
 					messages: {
-						error: 'Global error message'
-					}
+						error: 'Global error message',
+					},
 				});
-				
+
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
-				
+
 				process.emit('exit', 2);
-				
+
 				expect(output.buffer).toMatchSnapshot();
-				
+
 				// Reset to default
 				prompts.updateSettings({
 					messages: {
-						error: 'Something went wrong'
-					}
+						error: 'Something went wrong',
+					},
 				});
 			});
 
@@ -275,39 +275,39 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				prompts.updateSettings({
 					messages: {
 						cancel: 'Global cancel message',
-						error: 'Global error message'
-					}
+						error: 'Global error message',
+					},
 				});
-				
-				const result = prompts.spinner({ 
+
+				const result = prompts.spinner({
 					output,
 					cancelMessage: 'Spinner cancel message',
-					errorMessage: 'Spinner error message'
+					errorMessage: 'Spinner error message',
 				});
 				result.start('Test operation');
-				
+
 				process.emit('SIGINT');
 				expect(output.buffer).toMatchSnapshot();
-				
+
 				// Reset buffer
 				output.buffer = [];
-				
-				const result2 = prompts.spinner({ 
+
+				const result2 = prompts.spinner({
 					output,
 					cancelMessage: 'Spinner cancel message',
-					errorMessage: 'Spinner error message'
+					errorMessage: 'Spinner error message',
 				});
 				result2.start('Test operation');
-				
+
 				process.emit('exit', 2);
 				expect(output.buffer).toMatchSnapshot();
-				
+
 				// Reset to defaults
 				prompts.updateSettings({
 					messages: {
 						cancel: 'Canceled',
-						error: 'Something went wrong'
-					}
+						error: 'Something went wrong',
+					},
 				});
 			});
 		});

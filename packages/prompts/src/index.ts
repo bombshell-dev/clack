@@ -3,6 +3,7 @@ import { WriteStream } from 'node:tty';
 import { stripVTControlCharacters as strip } from 'node:util';
 import {
 	ConfirmPrompt,
+	type ClackSettings as CoreClackSettings,
 	GroupMultiSelectPrompt,
 	MultiSelectPrompt,
 	PasswordPrompt,
@@ -11,9 +12,8 @@ import {
 	type State,
 	TextPrompt,
 	block,
-	isCancel,
 	updateSettings as coreUpdateSettings,
-	type ClackSettings as CoreClackSettings,
+	isCancel,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -799,13 +799,13 @@ export interface ClackSettings extends CoreClackSettings {
 }
 
 /**
- * Global settings for default messages 
+ * Global settings for default messages
  */
 const promptsSettings = {
 	messages: {
 		cancel: 'Canceled',
 		error: 'Something went wrong',
-	}
+	},
 };
 
 /**
@@ -848,9 +848,10 @@ export const spinner = ({
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
-		const msg = code > 1 
-			? (errorMessage ?? promptsSettings.messages.error) 
-			: (cancelMessage ?? promptsSettings.messages.cancel);
+		const msg =
+			code > 1
+				? (errorMessage ?? promptsSettings.messages.error)
+				: (cancelMessage ?? promptsSettings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
 			stop(msg, code);
