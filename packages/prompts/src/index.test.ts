@@ -1,6 +1,5 @@
-import { Readable, Writable } from 'node:stream';
+import { EventEmitter, Readable, Writable } from 'node:stream';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import type { MockInstance } from 'vitest';
 import * as prompts from './index.js';
 
 // TODO (43081j): move this into a util?
@@ -66,20 +65,12 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 	});
 
 	describe('spinner', () => {
-		let processOnSpy: MockInstance;
-		let processEmitSpy: MockInstance;
-
 		beforeEach(() => {
 			vi.useFakeTimers();
-
-			// Spy on process methods
-			processOnSpy = vi.spyOn(process, 'on');
-			processEmitSpy = vi.spyOn(process, 'emit');
 		});
 
 		afterEach(() => {
 			vi.useRealTimers();
-			vi.restoreAllMocks();
 		});
 
 		test('returns spinner API', () => {
@@ -194,11 +185,31 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 		});
 
 		describe('process exit handling', () => {
+			let processEmitter: EventEmitter;
+
+			beforeEach(() => {
+				processEmitter = new EventEmitter();
+
+				// Spy on process methods
+				vi.spyOn(process, 'on').mockImplementation((ev, listener) => {
+					processEmitter.on(ev, listener);
+					return process;
+				});
+				vi.spyOn(process, 'removeListener').mockImplementation((ev, listener) => {
+					processEmitter.removeListener(ev, listener);
+					return process;
+				});
+			});
+
+			afterEach(() => {
+				processEmitter.removeAllListeners();
+			});
+
 			test('uses default cancel message', () => {
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
 
-				process.emit('SIGINT');
+				processEmitter.emit('SIGINT');
 
 				expect(output.buffer).toMatchSnapshot();
 			});
@@ -210,7 +221,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				});
 				result.start('Test operation');
 
-				process.emit('SIGINT');
+				processEmitter.emit('SIGINT');
 
 				expect(output.buffer).toMatchSnapshot();
 			});
@@ -222,7 +233,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				});
 				result.start('Test operation');
 
-				process.emit('exit', 2);
+				processEmitter.emit('exit', 2);
 
 				expect(output.buffer).toMatchSnapshot();
 			});
@@ -237,7 +248,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
 
-				process.emit('SIGINT');
+				processEmitter.emit('SIGINT');
 
 				expect(output.buffer).toMatchSnapshot();
 
@@ -259,7 +270,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
 
-				process.emit('exit', 2);
+				processEmitter.emit('exit', 2);
 
 				expect(output.buffer).toMatchSnapshot();
 
@@ -286,7 +297,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				});
 				result.start('Test operation');
 
-				process.emit('SIGINT');
+				processEmitter.emit('SIGINT');
 				expect(output.buffer).toMatchSnapshot();
 
 				// Reset buffer
@@ -299,7 +310,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				});
 				result2.start('Test operation');
 
-				process.emit('exit', 2);
+				processEmitter.emit('exit', 2);
 				expect(output.buffer).toMatchSnapshot();
 
 				// Reset to defaults
