@@ -239,11 +239,10 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			});
 
 			test('uses global custom cancel message from settings', () => {
-				prompts.updateSettings({
-					messages: {
-						cancel: 'Global cancel message',
-					},
-				});
+				// Store original message
+				const originalCancelMessage = prompts.settings.messages.cancel;
+				// Set custom message
+				prompts.settings.messages.cancel = 'Global cancel message';
 
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
@@ -252,20 +251,15 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 
-				// Reset to default
-				prompts.updateSettings({
-					messages: {
-						cancel: 'Canceled',
-					},
-				});
+				// Reset to original
+				prompts.settings.messages.cancel = originalCancelMessage;
 			});
 
 			test('uses global custom error message from settings', () => {
-				prompts.updateSettings({
-					messages: {
-						error: 'Global error message',
-					},
-				});
+				// Store original message
+				const originalErrorMessage = prompts.settings.messages.error;
+				// Set custom message
+				prompts.settings.messages.error = 'Global error message';
 
 				const result = prompts.spinner({ output });
 				result.start('Test operation');
@@ -274,21 +268,18 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 
-				// Reset to default
-				prompts.updateSettings({
-					messages: {
-						error: 'Something went wrong',
-					},
-				});
+				// Reset to original
+				prompts.settings.messages.error = originalErrorMessage;
 			});
 
 			test('prioritizes direct options over global settings', () => {
-				prompts.updateSettings({
-					messages: {
-						cancel: 'Global cancel message',
-						error: 'Global error message',
-					},
-				});
+				// Store original messages
+				const originalCancelMessage = prompts.settings.messages.cancel;
+				const originalErrorMessage = prompts.settings.messages.error;
+				
+				// Set custom global messages
+				prompts.settings.messages.cancel = 'Global cancel message';
+				prompts.settings.messages.error = 'Global error message';
 
 				const result = prompts.spinner({
 					output,
@@ -313,13 +304,9 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				processEmitter.emit('exit', 2);
 				expect(output.buffer).toMatchSnapshot();
 
-				// Reset to defaults
-				prompts.updateSettings({
-					messages: {
-						cancel: 'Canceled',
-						error: 'Something went wrong',
-					},
-				});
+				// Reset to original values
+				prompts.settings.messages.cancel = originalCancelMessage;
+				prompts.settings.messages.error = originalErrorMessage;
 			});
 		});
 	});
