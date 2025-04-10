@@ -1037,7 +1037,7 @@ export interface TaskLogMessageOptions {
 }
 
 export interface TaskLogCompletionOptions {
-	renderLog?: boolean;
+	showLog?: boolean;
 }
 
 /**
@@ -1117,7 +1117,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 		error(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);
 			log.error(message, { output, secondarySymbol, spacing: 1 });
-			if (opts?.renderLog !== false) {
+			if (opts?.showLog !== false) {
 				renderBuffer();
 			}
 			// clear buffer since error is an end state
@@ -1126,7 +1126,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 		success(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);
 			log.success(message, { output, secondarySymbol, spacing: 1 });
-			if (opts?.renderLog === true) {
+			if (opts?.showLog === true) {
 				renderBuffer();
 			}
 			// clear buffer since success is an end state

@@ -1308,7 +1308,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 			});
 
-			test('clears output if renderLog = false', () => {
+			test('clears output if showLog = false', () => {
 				const log = prompts.taskLog({
 					input,
 					output,
@@ -1318,7 +1318,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				log.message('line 0');
 				log.message('line 1');
 
-				log.error('some error!', { renderLog: false });
+				log.error('some error!', { showLog: false });
 
 				expect(output.buffer).toMatchSnapshot();
 			});
@@ -1340,7 +1340,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 			});
 
-			test('renders output if renderLog = true', () => {
+			test('renders output if showLog = true', () => {
 				const log = prompts.taskLog({
 					input,
 					output,
@@ -1350,7 +1350,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				log.message('line 0');
 				log.message('line 1');
 
-				log.success('success!', { renderLog: true });
+				log.success('success!', { showLog: true });
 
 				expect(output.buffer).toMatchSnapshot();
 			});
@@ -1370,7 +1370,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 						log.message(`line ${i}`);
 					}
 
-					log[method]('woo!', { renderLog: true });
+					log[method]('woo!', { showLog: true });
 
 					expect(output.buffer).toMatchSnapshot();
 				});
@@ -1388,7 +1388,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 						log.message(`line ${i}`);
 					}
 
-					log[method]('woo!', { renderLog: true });
+					log[method]('woo!', { showLog: true });
 
 					expect(output.buffer).toMatchSnapshot();
 				});
@@ -1405,7 +1405,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 						log.message(`line ${i}`);
 					}
 
-					log[method]('woo!', { renderLog: true });
+					log[method]('woo!', { showLog: true });
 
 					expect(output.buffer).toMatchSnapshot();
 				});
@@ -1423,7 +1423,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 						log.message(`line ${i}`);
 					}
 
-					log[method]('woo!', { renderLog: true });
+					log[method]('woo!', { showLog: true });
 
 					expect(output.buffer).toMatchSnapshot();
 				});
@@ -1440,7 +1440,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 						log.message(`line ${i}`);
 					}
 
-					log[method]('woo!', { renderLog: true });
+					log[method]('woo!', { showLog: true });
 
 					expect(output.buffer).toMatchSnapshot();
 				});

@@ -1527,7 +1527,7 @@ exports[`prompts (isCI = false) > spinner > stop > renders submit symbol and sto
 ]
 `;
 
-exports[`prompts (isCI = false) > taskLog > error > clears output if renderLog = false 1`] = `
+exports[`prompts (isCI = false) > taskLog > error > clears output if showLog = false 1`] = `
 [
   "[2m│[22m
 ",
@@ -2089,7 +2089,7 @@ exports[`prompts (isCI = false) > taskLog > success > clears output and renders 
 ]
 `;
 
-exports[`prompts (isCI = false) > taskLog > success > renders output if renderLog = true 1`] = `
+exports[`prompts (isCI = false) > taskLog > success > renders output if showLog = true 1`] = `
 [
   "[2m│[22m
 ",
@@ -3864,7 +3864,7 @@ exports[`prompts (isCI = true) > spinner > stop > renders submit symbol and stop
 ]
 `;
 
-exports[`prompts (isCI = true) > taskLog > error > clears output if renderLog = false 1`] = `
+exports[`prompts (isCI = true) > taskLog > error > clears output if showLog = false 1`] = `
 [
   "[2m│[22m
 ",
@@ -4426,7 +4426,7 @@ exports[`prompts (isCI = true) > taskLog > success > clears output and renders m
 ]
 `;
 
-exports[`prompts (isCI = true) > taskLog > success > renders output if renderLog = true 1`] = `
+exports[`prompts (isCI = true) > taskLog > success > renders output if showLog = true 1`] = `
 [
   "[2m│[22m
 ",
