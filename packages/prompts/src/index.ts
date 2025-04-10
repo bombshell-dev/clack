@@ -704,7 +704,7 @@ export const log = {
 			parts.push(`${secondarySymbol}`);
 		}
 		const messageParts = Array.isArray(message) ? message : message.split('\n');
-		if (message && messageParts.length > 0) {
+		if (messageParts.length > 0) {
 			const [firstLine, ...lines] = messageParts;
 			if (firstLine.length > 0) {
 				parts.push(`${symbol}  ${firstLine}`);
@@ -1074,27 +1074,29 @@ export const taskLog = (opts: TaskLogOptions) => {
 		const lines = bufferHeight + 1 + (clearTitle ? spacing + 2 : 0);
 		output.write(erase.lines(lines));
 	};
+	const printBuffer = (buf: string, messageSpacing?: number): void => {
+		log.message(buf.split('\n').map(color.dim), {
+			output,
+			secondarySymbol,
+			symbol: secondarySymbol,
+			spacing: messageSpacing ?? spacing,
+		});
+	};
 	const renderBuffer = (): void => {
 		if (retainLog === true && fullBuffer.length > 0) {
-			log.message(`${fullBuffer}\n${buffer}`, {
-				output,
-				secondarySymbol,
-				symbol: secondarySymbol,
-				spacing,
-			});
+			printBuffer(`${fullBuffer}\n${buffer}`);
 		} else {
-			log.message(buffer, { output, secondarySymbol, symbol: secondarySymbol, spacing });
+			printBuffer(buffer);
 		}
 	};
 
 	return {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
 			clear(false);
-			const dimMessage = color.dim(msg);
 			if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer !== '') {
 				buffer += '\n';
 			}
-			buffer += dimMessage;
+			buffer += msg;
 			lastMessageWasRaw = mopts?.raw === true;
 			if (opts.limit !== undefined) {
 				const lines = buffer.split('\n');
@@ -1107,12 +1109,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 				}
 				buffer = lines.join('\n');
 			}
-			log.message(buffer, {
-				output,
-				secondarySymbol,
-				symbol: secondarySymbol,
-				spacing: 0,
-			});
+			printBuffer(buffer, 0);
 		},
 		error(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);

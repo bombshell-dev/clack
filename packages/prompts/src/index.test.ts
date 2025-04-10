@@ -1276,7 +1276,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 			});
 
-			test('handles empty lines', async () => {
+			test('prints empty lines', async () => {
 				const log = prompts.taskLog({
 					input,
 					output,
