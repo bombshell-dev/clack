@@ -5,6 +5,10 @@ export type Action = (typeof actions)[number];
 interface InternalClackSettings {
 	actions: Set<Action>;
 	aliases: Map<string, Action>;
+	messages: {
+		cancel: string;
+		error: string;
+	};
 }
 
 export const settings: InternalClackSettings = {
@@ -19,6 +23,10 @@ export const settings: InternalClackSettings = {
 		// opinionated defaults!
 		['escape', 'cancel'],
 	]),
+	messages: {
+		cancel: 'Canceled',
+		error: 'Something went wrong',
+	},
 };
 
 export interface ClackSettings {
@@ -29,25 +37,48 @@ export interface ClackSettings {
 	 * @param aliases - An object that maps aliases to actions
 	 * @default { k: 'up', j: 'down', h: 'left', l: 'right', '\x03': 'cancel', 'escape': 'cancel' }
 	 */
-	aliases: Record<string, Action>;
+	aliases?: Record<string, Action>;
+
+	/**
+	 * Custom messages for prompts
+	 */
+	messages?: {
+		/**
+		 * Custom message to display when a spinner is cancelled
+		 * @default "Canceled"
+		 */
+		cancel?: string;
+		/**
+		 * Custom message to display when a spinner encounters an error
+		 * @default "Something went wrong"
+		 */
+		error?: string;
+	};
 }
 
 export function updateSettings(updates: ClackSettings) {
-	for (const _key in updates) {
-		const key = _key as keyof ClackSettings;
-		if (!Object.hasOwn(updates, key)) continue;
-		const value = updates[key];
-
-		switch (key) {
-			case 'aliases': {
-				for (const alias in value) {
-					if (!Object.hasOwn(value, alias)) continue;
-					if (!settings.aliases.has(alias)) {
-						settings.aliases.set(alias, value[alias]);
-					}
-				}
-				break;
+	// Handle each property in the updates
+	if (updates.aliases !== undefined) {
+		const aliases = updates.aliases;
+		for (const alias in aliases) {
+			if (!Object.hasOwn(aliases, alias)) continue;
+			
+			const action = aliases[alias];
+			if (!settings.actions.has(action)) continue;
+			
+			if (!settings.aliases.has(alias)) {
+				settings.aliases.set(alias, action);
 			}
+		}
+	}
+
+	if (updates.messages !== undefined) {
+		const messages = updates.messages;
+		if (messages.cancel !== undefined) {
+			settings.messages.cancel = messages.cancel;
+		}
+		if (messages.error !== undefined) {
+			settings.messages.error = messages.error;
 		}
 	}
 }
