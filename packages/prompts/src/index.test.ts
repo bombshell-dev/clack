@@ -1,4 +1,5 @@
 import { Readable, Writable } from 'node:stream';
+import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from './index.js';
 
@@ -1247,6 +1248,46 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 			});
+		});
+	});
+
+	describe('note', () => {
+		test('renders message with title', () => {
+			prompts.note('message', 'title', {
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders as wide as longest line', () => {
+			prompts.note('short\nsomewhat questionably long line', 'title', {
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('formatter which adds length works', () => {
+			prompts.note('line 0\nline 1\nline 2', 'title', {
+				formatter: (line) => `* ${line} *`,
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('formatter which adds colors works', () => {
+			prompts.note('line 0\nline 1\nline 2', 'title', {
+				formatter: (line) => colors.red(line),
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
 		});
 	});
 });

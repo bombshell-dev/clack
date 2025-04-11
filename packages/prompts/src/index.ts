@@ -642,8 +642,15 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-export const note = (message = '', title = '', opts?: CommonOptions) => {
-	const lines = `\n${message}\n`.split('\n');
+export interface NoteOptions extends CommonOptions {
+	formatter?: (line: string) => string;
+}
+
+const defaultNoteFormatter = (line: string): string => color.dim(line);
+
+export const note = (message = '', title = '', opts?: NoteOptions) => {
+	const formatter = opts?.formatter ?? defaultNoteFormatter;
+	const lines = ['', ...message.split('\n').map(formatter), ''];
 	const titleLen = strip(title).length;
 	const output: Writable = opts?.output ?? process.stdout;
 	const len =
@@ -656,10 +663,7 @@ export const note = (message = '', title = '', opts?: CommonOptions) => {
 		) + 2;
 	const msg = lines
 		.map(
-			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
-					S_BAR
-				)}`
+			(ln) => `${color.gray(S_BAR)}  ${ln}${' '.repeat(len - strip(ln).length)}${color.gray(S_BAR)}`
 		)
 		.join('\n');
 	output.write(
