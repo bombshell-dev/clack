@@ -57,32 +57,28 @@ export interface ClackSettings {
 }
 
 export function updateSettings(updates: ClackSettings) {
-	for (const _key in updates) {
-		const key = _key as keyof ClackSettings;
-		if (!Object.hasOwn(updates, key)) continue;
-		const value = updates[key];
+	// Handle each property in the updates
+	if (updates.aliases !== undefined) {
+		const aliases = updates.aliases;
+		for (const alias in aliases) {
+			if (!Object.hasOwn(aliases, alias)) continue;
+			
+			const action = aliases[alias];
+			if (!settings.actions.has(action)) continue;
+			
+			if (!settings.aliases.has(alias)) {
+				settings.aliases.set(alias, action);
+			}
+		}
+	}
 
-		switch (key) {
-			case 'aliases': {
-				const aliases = value as Record<string, Action>;
-				for (const alias in aliases) {
-					if (!Object.hasOwn(aliases, alias)) continue;
-					if (!settings.aliases.has(alias)) {
-						settings.aliases.set(alias, aliases[alias]);
-					}
-				}
-				break;
-			}
-			case 'messages': {
-				const messages = value as ClackSettings['messages'];
-				if (messages?.cancel) {
-					settings.messages.cancel = messages.cancel;
-				}
-				if (messages?.error) {
-					settings.messages.error = messages.error;
-				}
-				break;
-			}
+	if (updates.messages !== undefined) {
+		const messages = updates.messages;
+		if (messages.cancel !== undefined) {
+			settings.messages.cancel = messages.cancel;
+		}
+		if (messages.error !== undefined) {
+			settings.messages.error = messages.error;
 		}
 	}
 }
