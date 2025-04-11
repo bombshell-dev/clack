@@ -1265,6 +1265,59 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops upwards 1`]
 ]
 `;
 
+exports[`prompts (isCI = false) > note > formatter which adds colors works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──╮[39m
+[90m│[39m          [90m│[39m
+[90m│[39m  [31mline 0[39m  [90m│[39m
+[90m│[39m  [31mline 1[39m  [90m│[39m
+[90m│[39m  [31mline 2[39m  [90m│[39m
+[90m│[39m          [90m│[39m
+[90m├──────────╯[39m
+",
+]
+`;
+
+exports[`prompts (isCI = false) > note > formatter which adds length works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──────╮[39m
+[90m│[39m              [90m│[39m
+[90m│[39m  * line 0 *  [90m│[39m
+[90m│[39m  * line 1 *  [90m│[39m
+[90m│[39m  * line 2 *  [90m│[39m
+[90m│[39m              [90m│[39m
+[90m├──────────────╯[39m
+",
+]
+`;
+
+exports[`prompts (isCI = false) > note > renders as wide as longest line 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
+[90m│[39m                                   [90m│[39m
+[90m│[39m  [2mshort[22m                            [90m│[39m
+[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
+[90m│[39m                                   [90m│[39m
+[90m├───────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`prompts (isCI = false) > note > renders message with title 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m├───────────╯[39m
+",
+]
+`;
+
 exports[`prompts (isCI = false) > password > renders and clears validation errors 1`] = `
 [
   "[?25l",
@@ -3124,6 +3177,59 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops upwards 1`] 
   "
 ",
   "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > note > formatter which adds colors works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──╮[39m
+[90m│[39m          [90m│[39m
+[90m│[39m  [31mline 0[39m  [90m│[39m
+[90m│[39m  [31mline 1[39m  [90m│[39m
+[90m│[39m  [31mline 2[39m  [90m│[39m
+[90m│[39m          [90m│[39m
+[90m├──────────╯[39m
+",
+]
+`;
+
+exports[`prompts (isCI = true) > note > formatter which adds length works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──────╮[39m
+[90m│[39m              [90m│[39m
+[90m│[39m  * line 0 *  [90m│[39m
+[90m│[39m  * line 1 *  [90m│[39m
+[90m│[39m  * line 2 *  [90m│[39m
+[90m│[39m              [90m│[39m
+[90m├──────────────╯[39m
+",
+]
+`;
+
+exports[`prompts (isCI = true) > note > renders as wide as longest line 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
+[90m│[39m                                   [90m│[39m
+[90m│[39m  [2mshort[22m                            [90m│[39m
+[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
+[90m│[39m                                   [90m│[39m
+[90m├───────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`prompts (isCI = true) > note > renders message with title 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m├───────────╯[39m
+",
 ]
 `;
 
