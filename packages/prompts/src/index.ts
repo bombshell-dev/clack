@@ -813,10 +813,21 @@ export const spinner = ({
 				onCancel();
 			}
 		}
+		process.exit(code);
 	};
 
 	const errorEventHandler = () => handleExit(2);
-	const signalEventHandler = () => handleExit(1);
+	const signalEventHandler = (signal: string) => {
+		if (signal === 'SIGTERM') {
+			handleExit(15 + 128);
+			return;
+		}
+		if (signal === 'SIGINT') {
+			handleExit(2 + 128);
+			return;
+		}
+		handleExit(1);
+	};
 
 	const registerHooks = () => {
 		// Reference: https://nodejs.org/api/process.html#event-uncaughtexception
