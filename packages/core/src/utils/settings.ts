@@ -62,10 +62,10 @@ export function updateSettings(updates: ClackSettings) {
 		const aliases = updates.aliases;
 		for (const alias in aliases) {
 			if (!Object.hasOwn(aliases, alias)) continue;
-			
+
 			const action = aliases[alias];
 			if (!settings.actions.has(action)) continue;
-			
+
 			if (!settings.aliases.has(alias)) {
 				settings.aliases.set(alias, action);
 			}

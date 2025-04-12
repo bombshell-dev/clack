@@ -277,7 +277,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				// Store original messages
 				const originalCancelMessage = prompts.settings.messages.cancel;
 				const originalErrorMessage = prompts.settings.messages.error;
-				
+
 				// Set custom global messages
 				prompts.settings.messages.cancel = 'Global cancel message';
 				prompts.settings.messages.error = 'Global error message';

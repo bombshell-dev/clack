@@ -12,8 +12,8 @@ import {
 	TextPrompt,
 	block,
 	isCancel,
+	settings,
 	updateSettings,
-	settings
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
@@ -810,9 +810,10 @@ export const spinner = ({
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
-		const msg = code > 1 
-			? (errorMessage ?? settings.messages.error) 
-			: (cancelMessage ?? settings.messages.cancel);
+		const msg =
+			code > 1
+				? (errorMessage ?? settings.messages.error)
+				: (cancelMessage ?? settings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
 			stop(msg, code);
