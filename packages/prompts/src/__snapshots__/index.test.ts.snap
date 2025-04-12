@@ -1612,6 +1612,83 @@ exports[`prompts (isCI = false) > spinner > message > sets message for next fram
 ]
 `;
 
+exports[`prompts (isCI = false) > spinner > process exit handling > prioritizes direct options over global settings 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Spinner cancel message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > spinner > process exit handling > prioritizes direct options over global settings 2`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m▲[39m  Spinner error message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > spinner > process exit handling > uses custom cancel message when provided directly 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Custom cancel message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > spinner > process exit handling > uses custom error message when provided directly 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m▲[39m  Custom error message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > spinner > process exit handling > uses default cancel message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Canceled
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > spinner > process exit handling > uses global custom cancel message from settings 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Global cancel message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = false) > spinner > process exit handling > uses global custom error message from settings 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m▲[39m  Global error message
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > spinner > start > renders frames at interval 1`] = `
 [
   "[?25l",
@@ -3526,6 +3603,83 @@ exports[`prompts (isCI = true) > spinner > message > sets message for next frame
   "[999D",
   "[J",
   "[35m◐[39m  foo...",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > prioritizes direct options over global settings 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Spinner cancel message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > prioritizes direct options over global settings 2`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m▲[39m  Spinner error message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > uses custom cancel message when provided directly 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Custom cancel message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > uses custom error message when provided directly 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m▲[39m  Custom error message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > uses default cancel message 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Canceled
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > uses global custom cancel message from settings 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m■[39m  Global cancel message
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > process exit handling > uses global custom error message from settings 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[31m▲[39m  Global error message
+",
+  "[?25h",
 ]
 `;
 

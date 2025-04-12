@@ -1,4 +1,4 @@
-import { Readable, Writable } from 'node:stream';
+import { EventEmitter, Readable, Writable } from 'node:stream';
 import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from './index.js';
@@ -182,6 +182,132 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				vi.advanceTimersByTime(80);
 
 				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+
+		describe('process exit handling', () => {
+			let processEmitter: EventEmitter;
+
+			beforeEach(() => {
+				processEmitter = new EventEmitter();
+
+				// Spy on process methods
+				vi.spyOn(process, 'on').mockImplementation((ev, listener) => {
+					processEmitter.on(ev, listener);
+					return process;
+				});
+				vi.spyOn(process, 'removeListener').mockImplementation((ev, listener) => {
+					processEmitter.removeListener(ev, listener);
+					return process;
+				});
+			});
+
+			afterEach(() => {
+				processEmitter.removeAllListeners();
+			});
+
+			test('uses default cancel message', () => {
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('uses custom cancel message when provided directly', () => {
+				const result = prompts.spinner({
+					output,
+					cancelMessage: 'Custom cancel message',
+				});
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('uses custom error message when provided directly', () => {
+				const result = prompts.spinner({
+					output,
+					errorMessage: 'Custom error message',
+				});
+				result.start('Test operation');
+
+				processEmitter.emit('exit', 2);
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('uses global custom cancel message from settings', () => {
+				// Store original message
+				const originalCancelMessage = prompts.settings.messages.cancel;
+				// Set custom message
+				prompts.settings.messages.cancel = 'Global cancel message';
+
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset to original
+				prompts.settings.messages.cancel = originalCancelMessage;
+			});
+
+			test('uses global custom error message from settings', () => {
+				// Store original message
+				const originalErrorMessage = prompts.settings.messages.error;
+				// Set custom message
+				prompts.settings.messages.error = 'Global error message';
+
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+
+				processEmitter.emit('exit', 2);
+
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset to original
+				prompts.settings.messages.error = originalErrorMessage;
+			});
+
+			test('prioritizes direct options over global settings', () => {
+				// Store original messages
+				const originalCancelMessage = prompts.settings.messages.cancel;
+				const originalErrorMessage = prompts.settings.messages.error;
+				
+				// Set custom global messages
+				prompts.settings.messages.cancel = 'Global cancel message';
+				prompts.settings.messages.error = 'Global error message';
+
+				const result = prompts.spinner({
+					output,
+					cancelMessage: 'Spinner cancel message',
+					errorMessage: 'Spinner error message',
+				});
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset buffer
+				output.buffer = [];
+
+				const result2 = prompts.spinner({
+					output,
+					cancelMessage: 'Spinner cancel message',
+					errorMessage: 'Spinner error message',
+				});
+				result2.start('Test operation');
+
+				processEmitter.emit('exit', 2);
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset to original values
+				prompts.settings.messages.cancel = originalCancelMessage;
+				prompts.settings.messages.error = originalErrorMessage;
 			});
 		});
 	});

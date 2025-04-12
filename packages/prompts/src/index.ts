@@ -12,13 +12,14 @@ import {
 	TextPrompt,
 	block,
 	isCancel,
+	updateSettings,
+	settings
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel } from '@clack/core';
-export { updateSettings, type ClackSettings } from '@clack/core';
+export { isCancel, updateSettings, settings, type ClackSettings } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -778,6 +779,8 @@ export const stream = {
 export interface SpinnerOptions extends CommonOptions {
 	indicator?: 'dots' | 'timer';
 	onCancel?: () => void;
+	cancelMessage?: string;
+	errorMessage?: string;
 }
 
 export interface SpinnerResult {
@@ -791,6 +794,8 @@ export const spinner = ({
 	indicator = 'dots',
 	onCancel,
 	output = process.stdout,
+	cancelMessage,
+	errorMessage,
 }: SpinnerOptions = {}): SpinnerResult => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
@@ -805,7 +810,9 @@ export const spinner = ({
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
-		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		const msg = code > 1 
+			? (errorMessage ?? settings.messages.error) 
+			: (cancelMessage ?? settings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
 			stop(msg, code);
