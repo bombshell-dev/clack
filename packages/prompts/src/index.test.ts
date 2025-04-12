@@ -1272,7 +1272,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 		test('formatter which adds length works', () => {
 			prompts.note('line 0\nline 1\nline 2', 'title', {
-				formatter: (line) => `* ${line} *`,
+				format: (line) => `* ${line} *`,
 				input,
 				output,
 			});
@@ -1282,7 +1282,7 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 		test('formatter which adds colors works', () => {
 			prompts.note('line 0\nline 1\nline 2', 'title', {
-				formatter: (line) => colors.red(line),
+				format: (line) => colors.red(line),
 				input,
 				output,
 			});

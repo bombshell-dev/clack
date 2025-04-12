@@ -643,14 +643,14 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 };
 
 export interface NoteOptions extends CommonOptions {
-	formatter?: (line: string) => string;
+	format?: (line: string) => string;
 }
 
 const defaultNoteFormatter = (line: string): string => color.dim(line);
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
-	const formatter = opts?.formatter ?? defaultNoteFormatter;
-	const lines = ['', ...message.split('\n').map(formatter), ''];
+	const format = opts?.format ?? defaultNoteFormatter;
+	const lines = ['', ...message.split('\n').map(format), ''];
 	const titleLen = strip(title).length;
 	const output: Writable = opts?.output ?? process.stdout;
 	const len =
