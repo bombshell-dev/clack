@@ -19,7 +19,7 @@ import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel, updateSettings, settings } from '@clack/core';
+export { isCancel, updateSettings, settings, type ClackSettings } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
