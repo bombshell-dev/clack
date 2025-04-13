@@ -1050,6 +1050,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const spacing = opts.spacing ?? 1;
 	const barSize = 3;
 	const retainLog = opts.retainLog === true;
+	const isCI = process.env.CI === 'true';
 
 	output.write(`${secondarySymbol}\n`);
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
@@ -1109,7 +1110,9 @@ export const taskLog = (opts: TaskLogOptions) => {
 				}
 				buffer = lines.join('\n');
 			}
-			printBuffer(buffer, 0);
+			if (!isCI) {
+				printBuffer(buffer, 0);
+			}
 		},
 		error(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);

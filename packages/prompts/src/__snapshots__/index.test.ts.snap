@@ -3868,12 +3868,7 @@ exports[`prompts (isCI = true) > taskLog > error > clears output if showLog = fa
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  some error!
@@ -3889,12 +3884,7 @@ exports[`prompts (isCI = true) > taskLog > error > renders output with message 1
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  some error!
@@ -3914,12 +3904,7 @@ exports[`prompts (isCI = true) > taskLog > message > can write line by line 1`] 
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
 ]
 `;
 
@@ -3930,9 +3915,6 @@ exports[`prompts (isCI = true) > taskLog > message > can write multiple lines 1`
   "[32m◇[39m  foo
 ",
   "[2m│[22m
-",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
 ",
 ]
 `;
@@ -3945,16 +3927,8 @@ exports[`prompts (isCI = true) > taskLog > message > enforces limit if set 1`] =
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
 ]
 `;
 
@@ -3966,19 +3940,8 @@ exports[`prompts (isCI = true) > taskLog > message > prints empty lines 1`] = `
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2m[22m
-",
-  "[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2m[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2m[22m
-[2m│[22m  [2mline 3[22m
-",
 ]
 `;
 
@@ -3990,15 +3953,8 @@ exports[`prompts (isCI = true) > taskLog > message > raw = true appends message 
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0still line 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0still line 0[22m
-[2m│[22m  [2mline 1[22m
-",
 ]
 `;
 
@@ -4010,15 +3966,8 @@ exports[`prompts (isCI = true) > taskLog > message > raw = true works when mixed
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0still line 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0still line 0[22m
-[2m│[22m  [2mline 1[22m
-",
 ]
 `;
 
@@ -4030,16 +3979,8 @@ exports[`prompts (isCI = true) > taskLog > message > raw = true works when start
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1still line 1[22m
-",
 ]
 `;
 
@@ -4051,20 +3992,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > error > outputs limited l
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  woo!
@@ -4084,23 +4014,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > error > retainLog = false
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  woo!
@@ -4122,20 +4038,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > error > retainLog = false
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  woo!
@@ -4155,23 +4060,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > error > retainLog = true 
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  woo!
@@ -4193,20 +4084,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > error > retainLog = true 
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [31m■[39m  woo!
@@ -4228,20 +4108,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > success > outputs limited
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  woo!
@@ -4261,23 +4130,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > success > retainLog = fal
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  woo!
@@ -4299,20 +4154,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > success > retainLog = fal
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  woo!
@@ -4332,23 +4176,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > success > retainLog = tru
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  woo!
@@ -4370,20 +4200,9 @@ exports[`prompts (isCI = true) > taskLog > retainLog > success > retainLog = tru
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 1[22m
-[2m│[22m  [2mline 2[22m
-",
   "[2K[1A[2K[1A[2K[G",
-  "[2m│[22m  [2mline 2[22m
-[2m│[22m  [2mline 3[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  woo!
@@ -4405,12 +4224,7 @@ exports[`prompts (isCI = true) > taskLog > success > clears output and renders m
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  success!
@@ -4426,12 +4240,7 @@ exports[`prompts (isCI = true) > taskLog > success > renders output if showLog =
 ",
   "[2m│[22m
 ",
-  "[2m│[22m  [2mline 0[22m
-",
   "[2K[1A[2K[G",
-  "[2m│[22m  [2mline 0[22m
-[2m│[22m  [2mline 1[22m
-",
   "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
   "[2m│[22m
 [32m◆[39m  success!
