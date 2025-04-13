@@ -12,13 +12,14 @@ import {
 	TextPrompt,
 	block,
 	isCancel,
+	settings,
+	updateSettings,
 } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 
-export { isCancel } from '@clack/core';
-export { updateSettings, type ClackSettings } from '@clack/core';
+export { isCancel, updateSettings, settings, type ClackSettings } from '@clack/core';
 
 const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -393,7 +394,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			}`;
 		}
 		if (state === 'selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
 		}
 		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
@@ -494,9 +497,10 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	required?: boolean;
 	cursorAt?: Value;
 	selectableGroups?: boolean;
+	groupSpacing?: number;
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
-	const { selectableGroups = true } = opts;
+	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
 		option: Option<Value>,
 		state:
@@ -515,27 +519,31 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
 		const isLast = isItem && (next as any).group === true;
 		const prefix = isItem ? (selectableGroups ? `${isLast ? S_BAR_END : S_BAR} ` : '  ') : '';
+		const spacingPrefix =
+			groupSpacing > 0 && !isItem ? `\n${color.cyan(S_BAR)}  `.repeat(groupSpacing) : '';
 
 		if (state === 'active') {
-			return `${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
+			return `${spacingPrefix}${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		}
 		if (state === 'group-active') {
-			return `${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
 		}
 		if (state === 'group-active-selected') {
-			return `${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
 		}
 		if (state === 'selected') {
 			const selectedCheckbox = isItem || selectableGroups ? color.green(S_CHECKBOX_SELECTED) : '';
-			return `${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)}`;
+			return `${spacingPrefix}${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)} ${
+				option.hint ? color.dim(`(${option.hint})`) : ''
+			}`;
 		}
 		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
+			return `${spacingPrefix}${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
 				option.hint ? color.dim(`(${option.hint})`) : ''
 			}`;
 		}
@@ -543,7 +551,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.dim(label)}`;
 		}
 		const unselectedCheckbox = isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : '';
-		return `${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
+		return `${spacingPrefix}${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
 	};
 
 	return new GroupMultiSelectPrompt({
@@ -642,8 +650,15 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 	}).prompt() as Promise<Value[] | symbol>;
 };
 
-export const note = (message = '', title = '', opts?: CommonOptions) => {
-	const lines = `\n${message}\n`.split('\n');
+export interface NoteOptions extends CommonOptions {
+	format?: (line: string) => string;
+}
+
+const defaultNoteFormatter = (line: string): string => color.dim(line);
+
+export const note = (message = '', title = '', opts?: NoteOptions) => {
+	const format = opts?.format ?? defaultNoteFormatter;
+	const lines = ['', ...message.split('\n').map(format), ''];
 	const titleLen = strip(title).length;
 	const output: Writable = opts?.output ?? process.stdout;
 	const len =
@@ -656,10 +671,7 @@ export const note = (message = '', title = '', opts?: CommonOptions) => {
 		) + 2;
 	const msg = lines
 		.map(
-			(ln) =>
-				`${color.gray(S_BAR)}  ${color.dim(ln)}${' '.repeat(len - strip(ln).length)}${color.gray(
-					S_BAR
-				)}`
+			(ln) => `${color.gray(S_BAR)}  ${ln}${' '.repeat(len - strip(ln).length)}${color.gray(S_BAR)}`
 		)
 		.join('\n');
 	output.write(
@@ -796,6 +808,8 @@ export const stream = {
 export interface SpinnerOptions extends CommonOptions {
 	indicator?: 'dots' | 'timer';
 	onCancel?: () => void;
+	cancelMessage?: string;
+	errorMessage?: string;
 }
 
 export interface SpinnerResult {
@@ -809,6 +823,8 @@ export const spinner = ({
 	indicator = 'dots',
 	onCancel,
 	output = process.stdout,
+	cancelMessage,
+	errorMessage,
 }: SpinnerOptions = {}): SpinnerResult => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
@@ -823,7 +839,10 @@ export const spinner = ({
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
-		const msg = code > 1 ? 'Something went wrong' : 'Canceled';
+		const msg =
+			code > 1
+				? (errorMessage ?? settings.messages.error)
+				: (cancelMessage ?? settings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
 			stop(msg, code);

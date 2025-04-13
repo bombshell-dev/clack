@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "workspaces": {
+    "packages/*": {
+      "entry": ["dist/index.mjs"],
+      "project": "**/*.{js,ts,mjs,mts}",
+      "ignoreDependencies": ["unbuild"]
+    }
+  },
+  "ignore": ["**/node_modules/**"],
+  "ignoreExportsUsedInFile": true,
+  "rules": {
+    "dependencies": "error",
+    "devDependencies": "warn",
+    "peerDependencies": "error"
+  }
+}

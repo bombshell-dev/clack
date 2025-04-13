@@ -1,4 +1,5 @@
-import { Readable, Writable } from 'node:stream';
+import { EventEmitter, Readable, Writable } from 'node:stream';
+import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from './index.js';
 
@@ -183,6 +184,132 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				expect(output.buffer).toMatchSnapshot();
 			});
 		});
+
+		describe('process exit handling', () => {
+			let processEmitter: EventEmitter;
+
+			beforeEach(() => {
+				processEmitter = new EventEmitter();
+
+				// Spy on process methods
+				vi.spyOn(process, 'on').mockImplementation((ev, listener) => {
+					processEmitter.on(ev, listener);
+					return process;
+				});
+				vi.spyOn(process, 'removeListener').mockImplementation((ev, listener) => {
+					processEmitter.removeListener(ev, listener);
+					return process;
+				});
+			});
+
+			afterEach(() => {
+				processEmitter.removeAllListeners();
+			});
+
+			test('uses default cancel message', () => {
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('uses custom cancel message when provided directly', () => {
+				const result = prompts.spinner({
+					output,
+					cancelMessage: 'Custom cancel message',
+				});
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('uses custom error message when provided directly', () => {
+				const result = prompts.spinner({
+					output,
+					errorMessage: 'Custom error message',
+				});
+				result.start('Test operation');
+
+				processEmitter.emit('exit', 2);
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('uses global custom cancel message from settings', () => {
+				// Store original message
+				const originalCancelMessage = prompts.settings.messages.cancel;
+				// Set custom message
+				prompts.settings.messages.cancel = 'Global cancel message';
+
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset to original
+				prompts.settings.messages.cancel = originalCancelMessage;
+			});
+
+			test('uses global custom error message from settings', () => {
+				// Store original message
+				const originalErrorMessage = prompts.settings.messages.error;
+				// Set custom message
+				prompts.settings.messages.error = 'Global error message';
+
+				const result = prompts.spinner({ output });
+				result.start('Test operation');
+
+				processEmitter.emit('exit', 2);
+
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset to original
+				prompts.settings.messages.error = originalErrorMessage;
+			});
+
+			test('prioritizes direct options over global settings', () => {
+				// Store original messages
+				const originalCancelMessage = prompts.settings.messages.cancel;
+				const originalErrorMessage = prompts.settings.messages.error;
+
+				// Set custom global messages
+				prompts.settings.messages.cancel = 'Global cancel message';
+				prompts.settings.messages.error = 'Global error message';
+
+				const result = prompts.spinner({
+					output,
+					cancelMessage: 'Spinner cancel message',
+					errorMessage: 'Spinner error message',
+				});
+				result.start('Test operation');
+
+				processEmitter.emit('SIGINT');
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset buffer
+				output.buffer = [];
+
+				const result2 = prompts.spinner({
+					output,
+					cancelMessage: 'Spinner cancel message',
+					errorMessage: 'Spinner error message',
+				});
+				result2.start('Test operation');
+
+				processEmitter.emit('exit', 2);
+				expect(output.buffer).toMatchSnapshot();
+
+				// Reset to original values
+				prompts.settings.messages.cancel = originalCancelMessage;
+				prompts.settings.messages.error = originalErrorMessage;
+			});
+		});
 	});
 
 	describe('text', () => {
@@ -210,11 +337,11 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 			input.emit('keypress', '', { name: 'return' });
 
-			await result;
+			const value = await result;
 
 			expect(output.buffer).toMatchSnapshot();
-			// TODO (43081j): uncomment this when #263 is fixed
-			// expect(value).toBe('bar');
+
+			expect(value).toBe('bar');
 		});
 
 		test('<tab> applies placeholder', async () => {
@@ -790,6 +917,30 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('shows hints for all selected options', async () => {
+			const result = prompts.multiselect({
+				message: 'foo',
+				options: [
+					{ value: 'opt0', hint: 'Hint 0' },
+					{ value: 'opt1', hint: 'Hint 1' },
+					{ value: 'opt2', hint: 'Hint 2' },
+				],
+				initialValues: ['opt0', 'opt1'],
+				input,
+				output,
+			});
+
+			// Check that both selected options show their hints
+			input.emit('keypress', '', { name: 'down' });
+			input.emit('keypress', '', { name: 'down' });
+			input.emit('keypress', '', { name: 'return' });
+
+			const value = await result;
+
+			expect(value).toEqual(['opt0', 'opt1']);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('renders multiple cancelled values', async () => {
 			const result = prompts.multiselect({
 				message: 'foo',
@@ -1178,6 +1329,90 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 			const value = await result;
 
 			expect(value).toEqual([value0]);
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		describe('groupSpacing', () => {
+			test('renders spaced groups', async () => {
+				const result = prompts.groupMultiselect({
+					message: 'foo',
+					input,
+					output,
+					options: {
+						group1: [{ value: 'group1value0' }],
+						group2: [{ value: 'group2value0' }],
+					},
+					groupSpacing: 2,
+				});
+
+				input.emit('keypress', '', { name: 'down' });
+				input.emit('keypress', '', { name: 'space' });
+				input.emit('keypress', '', { name: 'return' });
+
+				await result;
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+
+			test('negative spacing is ignored', async () => {
+				const result = prompts.groupMultiselect({
+					message: 'foo',
+					input,
+					output,
+					options: {
+						group1: [{ value: 'group1value0' }],
+						group2: [{ value: 'group2value0' }],
+					},
+					groupSpacing: -2,
+				});
+
+				input.emit('keypress', '', { name: 'down' });
+				input.emit('keypress', '', { name: 'space' });
+				input.emit('keypress', '', { name: 'return' });
+
+				await result;
+
+				expect(output.buffer).toMatchSnapshot();
+			});
+		});
+	});
+
+	describe('note', () => {
+		test('renders message with title', () => {
+			prompts.note('message', 'title', {
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders as wide as longest line', () => {
+			prompts.note('short\nsomewhat questionably long line', 'title', {
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('formatter which adds length works', () => {
+			prompts.note('line 0\nline 1\nline 2', 'title', {
+				format: (line) => `* ${line} *`,
+				input,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('formatter which adds colors works', () => {
+			prompts.note('line 0\nline 1\nline 2', 'title', {
+				format: (line) => colors.red(line),
+				input,
+				output,
+			});
+
 			expect(output.buffer).toMatchSnapshot();
 		});
 	});
