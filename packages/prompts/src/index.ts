@@ -109,6 +109,7 @@ export interface CommonOptions {
 
 export interface TextOptions extends CommonOptions {
 	message: string;
+	autocomplete?: string[] | ((input: string) => Promise<string[]>);
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
@@ -117,6 +118,7 @@ export interface TextOptions extends CommonOptions {
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
 		validate: opts.validate,
+		autocomplete: opts.autocomplete,
 		placeholder: opts.placeholder,
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,

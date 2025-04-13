@@ -12,6 +12,7 @@ import type { Action } from '../utils/index.js';
 
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
+	autocomplete?: string[] | ((input: string) => Promise<string[]>);
 	placeholder?: string;
 	initialValue?: any;
 	validate?: ((value: any) => string | Error | undefined) | undefined;
@@ -194,10 +195,32 @@ export default class Prompt {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
-		if (char === '\t' && this.opts.placeholder) {
-			if (!this.value) {
+		if (char === '\t' && (this.opts.placeholder || this.opts.autocomplete)) {
+			// Prevent tab character from being processed
+			this.rl?.write(null as any, { name: 'backspace' });
+
+			if (!this.value && this.opts.placeholder) {
 				this.rl?.write(this.opts.placeholder);
 				this.emit('value', this.opts.placeholder);
+			}
+
+			if (this.opts.autocomplete) {
+				(async () => {
+					const suggestions =
+						typeof this.opts.autocomplete === 'function'
+							? await this.opts.autocomplete(this.value)
+							: this.opts.autocomplete;
+
+					const matchedOption = suggestions?.find((option) => option.startsWith(this.value));
+
+					if (matchedOption) {
+						this.rl?.write('', { ctrl: true, name: 'u' });
+						this.rl?.write(matchedOption);
+						this.emit('value', matchedOption);
+						this.render();
+					}
+				})();
+				return;
 			}
 		}
 		if (char) {
