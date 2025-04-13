@@ -120,13 +120,13 @@ const basket = await groupMultiselect({
   options: {
     fruits: [
       { value: 'apple', label: 'apple' },
-			{ value: 'banana', label: 'banana' },
-			{ value: 'cherry', label: 'cherry' },
+      { value: 'banana', label: 'banana' },
+      { value: 'cherry', label: 'cherry' },
     ],
     vegetables: [
       { value: 'carrot', label: 'carrot' },
-			{ value: 'spinach', label: 'spinach' },
-			{ value: 'potato', label: 'potato' },
+      { value: 'spinach', label: 'spinach' },
+      { value: 'potato', label: 'potato' },
     ]
   }
 });
