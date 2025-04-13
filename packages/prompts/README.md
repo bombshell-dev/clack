@@ -110,6 +110,28 @@ const additionalTools = await multiselect({
 });
 ```
 
+It is also possible to select multiple items arranged into hierarchy by using `groupMultiselect`:
+
+```js
+import { groupMultiselect } from '@clack/prompts';
+
+const basket = await groupMultiselect({
+  message: 'Select your favorite fruits and vegetables:',
+  options: {
+    fruits: [
+      { value: 'apple', label: 'apple' },
+      { value: 'banana', label: 'banana' },
+      { value: 'cherry', label: 'cherry' },
+    ],
+    vegetables: [
+      { value: 'carrot', label: 'carrot' },
+      { value: 'spinach', label: 'spinach' },
+      { value: 'potato', label: 'potato' },
+    ]
+  }
+});
+```
+
 ### Spinner
 
 The spinner component surfaces a pending action, such as a long-running download or dependency installation.
