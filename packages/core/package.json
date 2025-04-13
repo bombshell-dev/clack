@@ -1,27 +1,26 @@
 {
   "name": "@clack/core",
-  "version": "0.3.5",
+  "version": "0.4.1",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/natemoo-re/clack",
+    "url": "git+https://github.com/bombshell-dev/clack.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/natemoo-re/clack/issues"
+    "url": "https://github.com/bombshell-dev/clack/issues"
   },
-  "homepage": "https://github.com/natemoo-re/clack/tree/main/packages/core#readme",
+  "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/core#readme",
   "files": ["dist", "CHANGELOG.md"],
   "keywords": [
     "ask",

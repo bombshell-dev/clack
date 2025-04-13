@@ -1,12 +1,13 @@
 import { stdin, stdout } from 'node:process';
 import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
-import type { Readable } from 'node:stream';
+import type { Readable, Writable } from 'node:stream';
+import { ReadStream } from 'node:tty';
 import { cursor } from 'sisteransi';
-import { hasAliasKey } from './aliases';
+import { isActionKey } from './settings.js';
 
-export * from './aliases';
-export * from './string';
+export * from './string.js';
+export * from './settings.js';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 
@@ -22,12 +23,19 @@ export function setRawMode(input: Readable, value: boolean) {
 	if (i.isTTY) i.setRawMode(value);
 }
 
+export interface BlockOptions {
+	input?: Readable;
+	output?: Writable;
+	overwrite?: boolean;
+	hideCursor?: boolean;
+}
+
 export function block({
 	input = stdin,
 	output = stdout,
 	overwrite = true,
 	hideCursor = true,
-} = {}) {
+}: BlockOptions = {}) {
 	const rl = readline.createInterface({
 		input,
 		output,
@@ -35,11 +43,14 @@ export function block({
 		tabSize: 1,
 	});
 	readline.emitKeypressEvents(input, rl);
-	if (input.isTTY) input.setRawMode(true);
+
+	if (input instanceof ReadStream && input.isTTY) {
+		input.setRawMode(true);
+	}
 
 	const clear = (data: Buffer, { name, sequence }: Key) => {
 		const str = String(data);
-		if (hasAliasKey([str, name, sequence], 'cancel')) {
+		if (isActionKey([str, name, sequence], 'cancel')) {
 			if (hideCursor) output.write(cursor.show);
 			process.exit(0);
 			return;
@@ -61,8 +72,10 @@ export function block({
 		input.off('keypress', clear);
 		if (hideCursor) output.write(cursor.show);
 
-		// Prevent Windows specific issues: https://github.com/natemoo-re/clack/issues/176
-		if (input.isTTY && !isWindows) input.setRawMode(false);
+		// Prevent Windows specific issues: https://github.com/bombshell-dev/clack/issues/176
+		if (input instanceof ReadStream && input.isTTY && !isWindows) {
+			input.setRawMode(false);
+		}
 
 		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
 		rl.terminal = false;

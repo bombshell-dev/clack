@@ -7,13 +7,14 @@ async function main() {
 
 	await setTimeout(1000);
 
-	p.setGlobalAliases([
-		['w', 'up'],
-		['s', 'down'],
-		['a', 'left'],
-		['d', 'right'],
-		['escape', 'cancel'],
-	]);
+	p.updateSettings({
+		aliases: {
+			w: 'up',
+			s: 'down',
+			a: 'left',
+			d: 'right',
+		},
+	});
 
 	p.intro(`${color.bgCyan(color.black(' create-app '))}`);
 

@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "module": "ESNext",
+    "module": "node16",
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "lib": ["ES2022"],
     "paths": {
       "@clack/core": ["./packages/core/src"]
     }

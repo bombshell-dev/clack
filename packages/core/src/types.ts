@@ -1,6 +1,4 @@
-import type { KEYS } from './utils';
-
-export type InferSetType<T> = T extends Set<infer U> ? U : never;
+import type { Action } from './utils/settings.js';
 
 /**
  * The state of the prompt
@@ -16,7 +14,7 @@ export interface ClackEvents {
 	cancel: (value?: any) => void;
 	submit: (value?: any) => void;
 	error: (value?: any) => void;
-	cursor: (key?: InferSetType<typeof KEYS>) => void;
+	cursor: (key?: Action) => void;
 	key: (key?: string) => void;
 	value: (value?: string) => void;
 	confirm: (value?: boolean) => void;

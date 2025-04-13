@@ -2,7 +2,7 @@
 
 Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stackblitz.com/edit/clack-prompts?file=index.js)
 
-![clack-prompt](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-demo.gif)
+![clack-prompt](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-demo.gif)
 
 ---
 
@@ -210,4 +210,20 @@ log.error('Error!');
 log.message('Hello, World', { symbol: color.cyan('~') });
 ```
 
-[clack-log-prompts](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-logs.png)
+
+### Stream
+
+When interacting with dynamic LLMs or other streaming message providers, use the `stream` APIs to log messages from an iterable, even an async one.
+
+```js
+import { stream } from '@clack/prompts';
+
+stream.info((function *() { yield 'Info!'; })());
+stream.success((function *() { yield 'Success!'; })());
+stream.step((function *() { yield 'Step!'; })());
+stream.warn((function *() { yield 'Warn!'; })());
+stream.error((function *() { yield 'Error!'; })());
+stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: color.cyan('~') });
+```
+
+![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)

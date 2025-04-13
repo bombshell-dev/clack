@@ -229,4 +229,38 @@ describe('Prompt', () => {
 			expect(eventSpy).toBeCalledWith(key);
 		}
 	});
+
+	test('aborts on abort signal', () => {
+		const abortController = new AbortController();
+
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			signal: abortController.signal,
+		});
+
+		instance.prompt();
+
+		expect(instance.state).to.equal('active');
+
+		abortController.abort();
+
+		expect(instance.state).to.equal('cancel');
+	});
+
+	test('returns immediately if signal is already aborted', () => {
+		const abortController = new AbortController();
+		abortController.abort();
+
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			signal: abortController.signal,
+		});
+		instance.prompt();
+
+		expect(instance.state).to.equal('cancel');
+	});
 });

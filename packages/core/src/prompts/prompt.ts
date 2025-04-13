@@ -1,29 +1,32 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
-import type { Readable, Writable } from 'node:stream';
-import { WriteStream } from 'node:tty';
+import type { Readable } from 'node:stream';
+import { Writable } from 'node:stream';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { ALIASES, CANCEL_SYMBOL, KEYS, diffLines, hasAliasKey, setRawMode } from '../utils';
+import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
 
-import type { ClackEvents, ClackState, InferSetType } from '../types';
+import type { ClackEvents, ClackState } from '../types.js';
+import type { Action } from '../utils/index.js';
 
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: any) => string | undefined) | undefined;
+	validate?: ((value: any) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
+	signal?: AbortSignal;
 }
 
 export default class Prompt {
 	protected input: Readable;
 	protected output: Writable;
+	private _abortSignal?: AbortSignal;
 
-	private rl!: ReadLine;
+	private rl: ReadLine | undefined;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
 	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
 	private _track = false;
@@ -36,7 +39,7 @@ export default class Prompt {
 	public value: any;
 
 	constructor(options: PromptOptions<Prompt>, trackValue = true) {
-		const { input = stdin, output = stdout, render, ...opts } = options;
+		const { input = stdin, output = stdout, render, signal, ...opts } = options;
 
 		this.opts = opts;
 		this.onKeypress = this.onKeypress.bind(this);
@@ -44,6 +47,7 @@ export default class Prompt {
 		this.render = this.render.bind(this);
 		this._render = render.bind(this);
 		this._track = trackValue;
+		this._abortSignal = signal;
 
 		this.input = input;
 		this.output = output;
@@ -111,11 +115,29 @@ export default class Prompt {
 
 	public prompt() {
 		return new Promise<string | symbol>((resolve, reject) => {
-			const sink = new WriteStream(0);
+			if (this._abortSignal) {
+				if (this._abortSignal.aborted) {
+					this.state = 'cancel';
+
+					this.close();
+					return resolve(CANCEL_SYMBOL);
+				}
+
+				this._abortSignal.addEventListener(
+					'abort',
+					() => {
+						this.state = 'cancel';
+						this.close();
+					},
+					{ once: true }
+				);
+			}
+
+			const sink = new Writable();
 			sink._write = (chunk, encoding, done) => {
 				if (this._track) {
-					this.value = this.rl.line.replace(/\t/g, '');
-					this._cursor = this.rl.cursor;
+					this.value = this.rl?.line.replace(/\t/g, '');
+					this._cursor = this.rl?.cursor ?? 0;
 					this.emit('value', this.value);
 				}
 				done();
@@ -128,6 +150,7 @@ export default class Prompt {
 				tabSize: 2,
 				prompt: '',
 				escapeCodeTimeout: 50,
+				terminal: true,
 			});
 			readline.emitKeypressEvents(this.input, this.rl);
 			this.rl.prompt();
@@ -160,18 +183,20 @@ export default class Prompt {
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
-		if (key?.name && !this._track && ALIASES.has(key.name)) {
-			this.emit('cursor', ALIASES.get(key.name));
-		}
-		if (key?.name && KEYS.has(key.name as InferSetType<typeof KEYS>)) {
-			this.emit('cursor', key.name as InferSetType<typeof KEYS>);
+		if (key?.name) {
+			if (!this._track && settings.aliases.has(key.name)) {
+				this.emit('cursor', settings.aliases.get(key.name));
+			}
+			if (settings.actions.has(key.name as Action)) {
+				this.emit('cursor', key.name as Action);
+			}
 		}
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
 		if (char === '\t' && this.opts.placeholder) {
 			if (!this.value) {
-				this.rl.write(this.opts.placeholder);
+				this.rl?.write(this.opts.placeholder);
 				this.emit('value', this.opts.placeholder);
 			}
 		}
@@ -180,12 +205,17 @@ export default class Prompt {
 		}
 
 		if (key?.name === 'return') {
+			if (!this.value && this.opts.placeholder) {
+				this.rl?.write(this.opts.placeholder);
+				this.emit('value', this.opts.placeholder);
+			}
+
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {
-					this.error = problem;
+					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';
-					this.rl.write(this.value);
+					this.rl?.write(this.value);
 				}
 			}
 			if (this.state !== 'error') {
@@ -193,7 +223,7 @@ export default class Prompt {
 			}
 		}
 
-		if (hasAliasKey([char, key?.name, key?.sequence], 'cancel')) {
+		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
 		if (this.state === 'submit' || this.state === 'cancel') {
@@ -210,7 +240,8 @@ export default class Prompt {
 		this.input.removeListener('keypress', this.onKeypress);
 		this.output.write('\n');
 		setRawMode(this.input, false);
-		this.rl.close();
+		this.rl?.close();
+		this.rl = undefined;
 		this.emit(`${this.state}`, this.value);
 		this.unsubscribe();
 	}
