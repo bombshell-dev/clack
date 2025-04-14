@@ -2,6 +2,7 @@ import type { Readable, Writable } from 'node:stream';
 import type { State } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
+import type { ProgressOptions } from './progress-bar.js';
 
 export const unicode = isUnicodeSupported();
 const s = (c: string, fallback: string) => (unicode ? c : fallback);
@@ -30,6 +31,12 @@ export const S_INFO = s('●', '•');
 export const S_SUCCESS = s('◆', '*');
 export const S_WARN = s('▲', '!');
 export const S_ERROR = s('■', 'x');
+
+export const S_PROGRESS_CHAR: Record<NonNullable<ProgressOptions['style']>, string> = {
+	light: s('─', '-'),
+	heavy: s('━', '='),
+	block: s('█', '#'),
+};
 
 export const symbol = (state: State) => {
 	switch (state) {

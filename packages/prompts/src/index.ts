@@ -10,6 +10,7 @@ export * from './messages.js';
 export * from './multi-select.js';
 export * from './note.js';
 export * from './password.js';
+export * from './progress-bar.js';
 export * from './select-key.js';
 export * from './select.js';
 export * from './spinner.js';
