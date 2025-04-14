@@ -853,8 +853,8 @@ export const spinner = ({
 		output.write(erase.down(prevLines.length));
 	};
 
-	const parseMessage = (msg: string, noStrip = false): string => {
-		return noStrip ? msg : msg.replace(/\.+$/, '');
+	const removeTrailingDots = (msg: string): string => {
+		return msg.replace(/\.+$/, '');
 	};
 
 	const formatTimer = (origin: number): string => {
@@ -867,7 +867,7 @@ export const spinner = ({
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block({ output });
-		_message = parseMessage(msg);
+		_message = removeTrailingDots(msg);
 		_origin = performance.now();
 		output.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
@@ -905,7 +905,7 @@ export const spinner = ({
 				: code === 1
 					? color.red(S_STEP_CANCEL)
 					: color.red(S_STEP_ERROR);
-		_message = parseMessage(msg ?? _message, true);
+		_message = msg ?? _message;
 		if (indicator === 'timer') {
 			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
 		} else {
@@ -916,7 +916,7 @@ export const spinner = ({
 	};
 
 	const message = (msg = ''): void => {
-		_message = parseMessage(msg ?? _message);
+		_message = removeTrailingDots(msg ?? _message);
 	};
 
 	return {
