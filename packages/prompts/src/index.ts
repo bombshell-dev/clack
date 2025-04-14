@@ -244,6 +244,12 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * If true, this option will be disabled.
+			 *
+			 * By default, no option is disabled.
+			 */
+			disabled?: boolean;
 		}
 	: {
 			/**
@@ -261,6 +267,12 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * If true, this option will be disabled.
+			 *
+			 * By default, no option is disabled.
+			 */
+			disabled?: boolean;
 		};
 
 export interface SelectOptions<Value> extends CommonOptions {
@@ -292,6 +304,11 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		input: opts.input,
 		output: opts.output,
 		initialValue: opts.initialValue,
+		validate(value) {
+			if (this.options.find((o) => o.value === value)?.disabled) {
+				return 'Selected option is disabled.';
+			}
+		},
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
@@ -303,6 +320,15 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						this.options[this.cursor],
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
+				case 'error':
+					return `${title}${color.yellow(S_BAR)}  ${limitOptions({
+						cursor: this.cursor,
+						options: this.options,
+						maxItems: opts.maxItems,
+						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
+					}).join(
+						`\n${color.yellow(S_BAR)}  `
+					)}\n${color.yellow(S_BAR_END)}  ${color.yellow(this.error)}\n`;
 				default: {
 					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
 						output: opts.output,
@@ -413,7 +439,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
 		validate(selected: Value[]) {
-			if (this.required && selected.length === 0)
+			if (this.required && selected.length === 0) {
 				return `Please select at least one option.\n${color.reset(
 					color.dim(
 						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
@@ -421,6 +447,20 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						)} to submit`
 					)
 				)}`;
+			}
+			const disabledOptions = opts.options
+				.map((option) => {
+					if (selected.includes(option.value) && option.disabled) {
+						return option.label ?? option.value;
+					}
+					return undefined;
+				})
+				.filter(Boolean);
+			if (disabledOptions.length) {
+				return `${disabledOptions.join(', ')} ${
+					disabledOptions.length > 1 ? 'options are' : 'option is'
+				} disabled.`;
+			}
 		},
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
