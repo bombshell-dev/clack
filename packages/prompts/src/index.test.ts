@@ -167,6 +167,18 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 			});
+
+			test('renders message without removing dots', () => {
+				const result = prompts.spinner({ output });
+
+				result.start();
+
+				vi.advanceTimersByTime(80);
+
+				result.stop('foo.');
+
+				expect(output.buffer).toMatchSnapshot();
+			});
 		});
 
 		describe('message', () => {
