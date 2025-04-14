@@ -109,7 +109,7 @@ export interface CommonOptions {
 
 export interface TextOptions extends CommonOptions {
 	message: string;
-	autocomplete?: string[] | ((input: string) => Promise<string[]>);
+	autocomplete?: string[] | ((input: string) => Promise<string | undefined>);
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;

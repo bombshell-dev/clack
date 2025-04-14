@@ -12,7 +12,7 @@ import type { Action } from '../utils/index.js';
 
 export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
-	autocomplete?: string[] | ((input: string) => Promise<string[]>);
+	autocomplete?: string[] | ((input: string) => Promise<string | undefined>);
 	placeholder?: string;
 	initialValue?: any;
 	validate?: ((value: any) => string | Error | undefined) | undefined;
@@ -199,19 +199,19 @@ export default class Prompt {
 			// Prevent tab character from being processed
 			this.rl?.write(null as any, { name: 'backspace' });
 
-			if (!this.value && this.opts.placeholder) {
-				this.rl?.write(this.opts.placeholder);
-				this.emit('value', this.opts.placeholder);
+			const { placeholder, autocomplete } = this.opts;
+
+			if (!this.value && placeholder) {
+				this.rl?.write(placeholder);
+				this.emit('value', placeholder);
 			}
 
-			if (this.opts.autocomplete) {
+			if (this.value && autocomplete) {
 				(async () => {
-					const suggestions =
-						typeof this.opts.autocomplete === 'function'
-							? await this.opts.autocomplete(this.value)
-							: this.opts.autocomplete;
-
-					const matchedOption = suggestions?.find((option) => option.startsWith(this.value));
+					const matchedOption =
+						typeof autocomplete === 'function'
+							? await autocomplete(this.value)
+							: autocomplete.find((option) => option.startsWith(this.value));
 
 					if (matchedOption) {
 						this.rl?.write('', { ctrl: true, name: 'u' });
