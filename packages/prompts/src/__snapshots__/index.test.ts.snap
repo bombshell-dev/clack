@@ -1767,6 +1767,20 @@ exports[`prompts (isCI = false) > spinner > stop > renders message 1`] = `
 ]
 `;
 
+exports[`prompts (isCI = false) > spinner > stop > renders message without removing dots 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ",
+  "[999D",
+  "[J",
+  "[32m◇[39m  foo.
+",
+  "[?25h",
+]
+`;
+
 exports[`prompts (isCI = false) > spinner > stop > renders submit symbol and stops spinner 1`] = `
 [
   "[?25l",
@@ -3753,6 +3767,22 @@ exports[`prompts (isCI = true) > spinner > stop > renders message 1`] = `
   "[999D",
   "[J",
   "[32m◇[39m  foo
+",
+  "[?25h",
+]
+`;
+
+exports[`prompts (isCI = true) > spinner > stop > renders message without removing dots 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "[999D",
+  "[J",
+  "[32m◇[39m  foo.
 ",
   "[?25h",
 ]

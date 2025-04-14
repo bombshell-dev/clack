@@ -853,8 +853,8 @@ export const spinner = ({
 		output.write(erase.down(prevLines.length));
 	};
 
-	const parseMessage = (msg: string): string => {
-		return msg.replace(/\.+$/, '');
+	const parseMessage = (msg: string, noStrip = false): string => {
+		return noStrip ? msg : msg.replace(/\.+$/, '');
 	};
 
 	const formatTimer = (origin: number): string => {
@@ -905,7 +905,7 @@ export const spinner = ({
 				: code === 1
 					? color.red(S_STEP_CANCEL)
 					: color.red(S_STEP_ERROR);
-		_message = parseMessage(msg ?? _message);
+		_message = parseMessage(msg ?? _message, true);
 		if (indicator === 'timer') {
 			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
 		} else {
