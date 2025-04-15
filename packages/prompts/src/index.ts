@@ -63,6 +63,13 @@ const symbol = (state: State) => {
 	}
 };
 
+const getColumns = (output: Writable): number => {
+	if (output instanceof WriteStream && output.columns) {
+		return output.columns;
+	}
+	return 80;
+};
+
 interface LimitOptionsParams<TOption> extends CommonOptions {
 	options: TOption[];
 	maxItems: number | undefined;
@@ -691,16 +698,38 @@ export const outro = (message = '', opts?: CommonOptions) => {
 
 export interface LogMessageOptions extends CommonOptions {
 	symbol?: string;
+	spacing?: number;
+	secondarySymbol?: string;
 }
 export const log = {
 	message: (
-		message = '',
-		{ symbol = color.gray(S_BAR), output = process.stdout }: LogMessageOptions = {}
+		message: string | string[] = [],
+		{
+			symbol = color.gray(S_BAR),
+			secondarySymbol = color.gray(S_BAR),
+			output = process.stdout,
+			spacing = 1,
+		}: LogMessageOptions = {}
 	) => {
-		const parts = [`${color.gray(S_BAR)}`];
-		if (message) {
-			const [firstLine, ...lines] = message.split('\n');
-			parts.push(`${symbol}  ${firstLine}`, ...lines.map((ln) => `${color.gray(S_BAR)}  ${ln}`));
+		const parts: string[] = [];
+		for (let i = 0; i < spacing; i++) {
+			parts.push(`${secondarySymbol}`);
+		}
+		const messageParts = Array.isArray(message) ? message : message.split('\n');
+		if (messageParts.length > 0) {
+			const [firstLine, ...lines] = messageParts;
+			if (firstLine.length > 0) {
+				parts.push(`${symbol}  ${firstLine}`);
+			} else {
+				parts.push(symbol);
+			}
+			for (const ln of lines) {
+				if (ln.length > 0) {
+					parts.push(`${secondarySymbol}  ${ln}`);
+				} else {
+					parts.push(secondarySymbol);
+				}
+			}
 		}
 		output.write(`${parts.join('\n')}\n`);
 	},
@@ -1013,4 +1042,114 @@ export const tasks = async (tasks: Task[], opts?: CommonOptions) => {
 		const result = await task.task(s.message);
 		s.stop(result || task.title);
 	}
+};
+
+export interface TaskLogOptions extends CommonOptions {
+	title: string;
+	limit?: number;
+	spacing?: number;
+	retainLog?: boolean;
+}
+
+export interface TaskLogMessageOptions {
+	raw?: boolean;
+}
+
+export interface TaskLogCompletionOptions {
+	showLog?: boolean;
+}
+
+/**
+ * Renders a log which clears on success and remains on failure
+ */
+export const taskLog = (opts: TaskLogOptions) => {
+	const output: Writable = opts.output ?? process.stdout;
+	const columns = getColumns(output);
+	const secondarySymbol = color.dim(S_BAR);
+	const spacing = opts.spacing ?? 1;
+	const barSize = 3;
+	const retainLog = opts.retainLog === true;
+	const isCI = process.env.CI === 'true';
+
+	output.write(`${secondarySymbol}\n`);
+	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
+	for (let i = 0; i < spacing; i++) {
+		output.write(`${secondarySymbol}\n`);
+	}
+
+	let buffer = '';
+	let fullBuffer = '';
+	let lastMessageWasRaw = false;
+
+	const clear = (clearTitle: boolean): void => {
+		if (buffer.length === 0) {
+			return;
+		}
+		const bufferHeight = buffer.split('\n').reduce((count, line) => {
+			if (line === '') {
+				return count + 1;
+			}
+			return count + Math.ceil((line.length + barSize) / columns);
+		}, 0);
+		const lines = bufferHeight + 1 + (clearTitle ? spacing + 2 : 0);
+		output.write(erase.lines(lines));
+	};
+	const printBuffer = (buf: string, messageSpacing?: number): void => {
+		log.message(buf.split('\n').map(color.dim), {
+			output,
+			secondarySymbol,
+			symbol: secondarySymbol,
+			spacing: messageSpacing ?? spacing,
+		});
+	};
+	const renderBuffer = (): void => {
+		if (retainLog === true && fullBuffer.length > 0) {
+			printBuffer(`${fullBuffer}\n${buffer}`);
+		} else {
+			printBuffer(buffer);
+		}
+	};
+
+	return {
+		message(msg: string, mopts?: TaskLogMessageOptions) {
+			clear(false);
+			if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer !== '') {
+				buffer += '\n';
+			}
+			buffer += msg;
+			lastMessageWasRaw = mopts?.raw === true;
+			if (opts.limit !== undefined) {
+				const lines = buffer.split('\n');
+				const linesToRemove = lines.length - opts.limit;
+				if (linesToRemove > 0) {
+					const removedLines = lines.splice(0, linesToRemove);
+					if (retainLog) {
+						fullBuffer += (fullBuffer === '' ? '' : '\n') + removedLines.join('\n');
+					}
+				}
+				buffer = lines.join('\n');
+			}
+			if (!isCI) {
+				printBuffer(buffer, 0);
+			}
+		},
+		error(message: string, opts?: TaskLogCompletionOptions): void {
+			clear(true);
+			log.error(message, { output, secondarySymbol, spacing: 1 });
+			if (opts?.showLog !== false) {
+				renderBuffer();
+			}
+			// clear buffer since error is an end state
+			buffer = fullBuffer = '';
+		},
+		success(message: string, opts?: TaskLogCompletionOptions): void {
+			clear(true);
+			log.success(message, { output, secondarySymbol, spacing: 1 });
+			if (opts?.showLog === true) {
+				renderBuffer();
+			}
+			// clear buffer since success is an end state
+			buffer = fullBuffer = '';
+		},
+	};
 };
