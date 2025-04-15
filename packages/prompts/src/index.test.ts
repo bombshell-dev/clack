@@ -284,42 +284,6 @@ describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 				prompts.settings.messages.error = originalErrorMessage;
 			});
 		});
-
-		describe('progress', () => {
-			describe('style', () => {
-				test('renders block progressbar', () => {
-					const result = prompts.progress({ output, style: 'block', max: 2, size: 10 });
-					result.start();
-					vi.advanceTimersByTime(160);
-					result.advance();
-					vi.advanceTimersByTime(160);
-					result.stop();
-
-					expect(output.buffer).toMatchSnapshot();
-				});
-				test('renders heavy line progressbar', () => {
-					const result = prompts.progress({ output, style: 'heavy', max: 2, size: 10 });
-					result.start();
-					vi.advanceTimersByTime(160);
-					result.advance();
-					vi.advanceTimersByTime(160);
-					result.stop();
-
-					expect(output.buffer).toMatchSnapshot();
-				});
-
-				test('renders light line progressbar', () => {
-					const result = prompts.progress({ output, style: 'light', max: 2, size: 10 });
-					result.start();
-					vi.advanceTimersByTime(160);
-					result.advance();
-					vi.advanceTimersByTime(160);
-					result.stop();
-
-					expect(output.buffer).toMatchSnapshot();
-				});
-			});
-		});
 	});
 
 	describe('text', () => {

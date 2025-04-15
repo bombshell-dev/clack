@@ -1,6 +1,13 @@
 import type { State } from '@clack/core';
 import color from 'picocolors';
-import { S_PROGRESS_CHAR, type SpinnerOptions, type SpinnerResult, spinner } from './index.js';
+import { unicodeOr } from './common.js';
+import { type SpinnerOptions, type SpinnerResult, spinner } from './spinner.js';
+
+const S_PROGRESS_CHAR: Record<NonNullable<ProgressOptions['style']>, string> = {
+	light: unicodeOr('─', '-'),
+	heavy: unicodeOr('━', '='),
+	block: unicodeOr('█', '#'),
+};
 
 export interface ProgressOptions extends SpinnerOptions {
 	style?: 'light' | 'heavy' | 'block';
@@ -14,16 +21,16 @@ export interface ProgressResult extends SpinnerResult {
 
 export function progress({
 	style = 'heavy',
-	max = 100,
-	size = 40,
+	max: userMax = 100,
+	size: userSize = 40,
 	...spinnerOptions
 }: ProgressOptions = {}): ProgressResult {
 	const spin = spinner(spinnerOptions);
 	let value = 0;
 	let previousMessage = '';
 
-	const _max = Math.max(1, max);
-	const _size = Math.max(1, size);
+	const max = Math.max(1, userMax);
+	const size = Math.max(1, userSize);
 
 	const activeStyle = (state: State) => {
 		switch (state) {
@@ -40,8 +47,8 @@ export function progress({
 		}
 	};
 	const drawProgress = (state: State, msg: string) => {
-		const active = Math.floor((value / _max) * _size);
-		return `${activeStyle(state)(S_PROGRESS_CHAR[style].repeat(active))}${color.dim(S_PROGRESS_CHAR[style].repeat(_size - active))} ${msg}`;
+		const active = Math.floor((value / max) * size);
+		return `${activeStyle(state)(S_PROGRESS_CHAR[style].repeat(active))}${color.dim(S_PROGRESS_CHAR[style].repeat(size - active))} ${msg}`;
 	};
 
 	const start = (msg = '') => {
@@ -49,7 +56,7 @@ export function progress({
 		return spin.start(drawProgress('initial', msg));
 	};
 	const advance = (step = 1, msg?: string): void => {
-		value = Math.min(_max, step + value);
+		value = Math.min(max, step + value);
 		spin.message(drawProgress('active', msg ?? previousMessage));
 		previousMessage = msg ?? previousMessage;
 	};
