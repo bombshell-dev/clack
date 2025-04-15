@@ -4,8 +4,6 @@ export * from './common.js';
 export * from './confirm.js';
 export * from './group-multi-select.js';
 export * from './group.js';
-export * from './index.test.js';
-export * from './index.js';
 export * from './limit-options.js';
 export * from './log.js';
 export * from './messages.js';
