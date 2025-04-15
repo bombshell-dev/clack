@@ -24,7 +24,7 @@
     "@changesets/cli": "^2.26.2",
     "@types/node": "^18.16.0",
     "knip": "^3.8.4",
-    "typescript": "^5.2.2",
+    "typescript": "^5.8.3",
     "unbuild": "^2.0.0"
   },
   "packageManager": "pnpm@9.14.2",
