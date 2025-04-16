@@ -1,46 +1,8 @@
-import { EventEmitter, Readable, Writable } from 'node:stream';
+import { EventEmitter } from 'node:stream';
 import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from './index.js';
-
-// TODO (43081j): move this into a util?
-class MockWritable extends Writable {
-	public buffer: string[] = [];
-
-	_write(
-		chunk: any,
-		_encoding: BufferEncoding,
-		callback: (error?: Error | null | undefined) => void
-	): void {
-		this.buffer.push(chunk.toString());
-		callback();
-	}
-}
-
-class MockReadable extends Readable {
-	protected _buffer: unknown[] | null = [];
-
-	_read() {
-		if (this._buffer === null) {
-			this.push(null);
-			return;
-		}
-
-		for (const val of this._buffer) {
-			this.push(val);
-		}
-
-		this._buffer = [];
-	}
-
-	pushValue(val: unknown): void {
-		this._buffer?.push(val);
-	}
-
-	close(): void {
-		this._buffer = null;
-	}
-}
+import { MockReadable, MockWritable } from './test-utils.js';
 
 describe.each(['true', 'false'])('prompts (isCI = %s)', (isCI) => {
 	let originalCI: string | undefined;
