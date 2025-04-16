@@ -4,32 +4,32 @@ import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 
 export const unicode = isUnicodeSupported();
-const s = (c: string, fallback: string) => (unicode ? c : fallback);
-export const S_STEP_ACTIVE = s('◆', '*');
-export const S_STEP_CANCEL = s('■', 'x');
-export const S_STEP_ERROR = s('▲', 'x');
-export const S_STEP_SUBMIT = s('◇', 'o');
+export const unicodeOr = (c: string, fallback: string) => (unicode ? c : fallback);
+export const S_STEP_ACTIVE = unicodeOr('◆', '*');
+export const S_STEP_CANCEL = unicodeOr('■', 'x');
+export const S_STEP_ERROR = unicodeOr('▲', 'x');
+export const S_STEP_SUBMIT = unicodeOr('◇', 'o');
 
-export const S_BAR_START = s('┌', 'T');
-export const S_BAR = s('│', '|');
-export const S_BAR_END = s('└', '—');
+export const S_BAR_START = unicodeOr('┌', 'T');
+export const S_BAR = unicodeOr('│', '|');
+export const S_BAR_END = unicodeOr('└', '—');
 
-export const S_RADIO_ACTIVE = s('●', '>');
-export const S_RADIO_INACTIVE = s('○', ' ');
-export const S_CHECKBOX_ACTIVE = s('◻', '[•]');
-export const S_CHECKBOX_SELECTED = s('◼', '[+]');
-export const S_CHECKBOX_INACTIVE = s('◻', '[ ]');
-export const S_PASSWORD_MASK = s('▪', '•');
+export const S_RADIO_ACTIVE = unicodeOr('●', '>');
+export const S_RADIO_INACTIVE = unicodeOr('○', ' ');
+export const S_CHECKBOX_ACTIVE = unicodeOr('◻', '[•]');
+export const S_CHECKBOX_SELECTED = unicodeOr('◼', '[+]');
+export const S_CHECKBOX_INACTIVE = unicodeOr('◻', '[ ]');
+export const S_PASSWORD_MASK = unicodeOr('▪', '•');
 
-export const S_BAR_H = s('─', '-');
-export const S_CORNER_TOP_RIGHT = s('╮', '+');
-export const S_CONNECT_LEFT = s('├', '+');
-export const S_CORNER_BOTTOM_RIGHT = s('╯', '+');
+export const S_BAR_H = unicodeOr('─', '-');
+export const S_CORNER_TOP_RIGHT = unicodeOr('╮', '+');
+export const S_CONNECT_LEFT = unicodeOr('├', '+');
+export const S_CORNER_BOTTOM_RIGHT = unicodeOr('╯', '+');
 
-export const S_INFO = s('●', '•');
-export const S_SUCCESS = s('◆', '*');
-export const S_WARN = s('▲', '!');
-export const S_ERROR = s('■', 'x');
+export const S_INFO = unicodeOr('●', '•');
+export const S_SUCCESS = unicodeOr('◆', '*');
+export const S_WARN = unicodeOr('▲', '!');
+export const S_ERROR = unicodeOr('■', 'x');
 
 export const symbol = (state: State) => {
 	switch (state) {
