@@ -145,6 +145,23 @@ s.start('Installing via npm');
 s.stop('Installed via npm');
 ```
 
+### Progress
+
+The progress component extends the spinner component to add a progress bar to visualize the progression of an action.
+
+```js
+import { progress } from '@clack/prompts';
+
+const p = progress({ max: 10 });
+p.start('Downloading archive');
+// Do download here
+p.advance(3, 'Downloading (30%)');
+// ...
+p.advance(8, 'Downloading (80%)');
+// ...
+p.stop('Archive downloaded');
+```
+
 ## Utilities
 
 ### Grouping
@@ -226,6 +243,8 @@ stream.error((function *() { yield 'Error!'; })());
 stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: color.cyan('~') });
 ```
 
+![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)
+
 ### Task Log
 
 When executing a sub-process or a similar sub-task, `taskLog` can be used to render the output continuously and clear it at the end if it was successful.
@@ -247,5 +266,3 @@ if (success) {
 	log.error('Failed!');
 }
 ```
-
-![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)
