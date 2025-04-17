@@ -1,7 +1,7 @@
 import color from 'picocolors';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-export interface TextOptions extends PromptOptions<TextPrompt> {
+interface TextOptions extends PromptOptions<TextPrompt> {
 	placeholder?: string;
 	defaultValue?: string;
 }
