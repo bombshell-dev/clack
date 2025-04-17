@@ -253,7 +253,7 @@ When executing a sub-process or a similar sub-task, `taskLog` can be used to ren
 import { taskLog } from '@clack/prompts';
 
 const log = taskLog({
-	message: 'Running npm install'
+	title: 'Running npm install'
 });
 
 for await (const line of npmInstall()) {
