@@ -8,6 +8,7 @@ import { isActionKey } from './settings.js';
 
 export * from './string.js';
 export * from './settings.js';
+export * from './display.js';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 

@@ -5,7 +5,14 @@ import { Writable } from 'node:stream';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
-import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
+import {
+	CANCEL_SYMBOL,
+	diffLines,
+	frameRenderer,
+	isActionKey,
+	setRawMode,
+	settings,
+} from '../utils/index.js';
 
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
@@ -28,9 +35,9 @@ export default class Prompt {
 
 	private rl: ReadLine | undefined;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
+	private renderer: (frame: string) => void;
 	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
 	private _track = false;
-	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
 
@@ -51,6 +58,7 @@ export default class Prompt {
 
 		this.input = input;
 		this.output = output;
+		this.renderer = frameRenderer(output);
 	}
 
 	/**
@@ -246,51 +254,15 @@ export default class Prompt {
 		this.unsubscribe();
 	}
 
-	private restoreCursor() {
-		const lines =
-			wrap(this._prevFrame, process.stdout.columns, { hard: true }).split('\n').length - 1;
-		this.output.write(cursor.move(-999, lines * -1));
-	}
-
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
-		if (frame === this._prevFrame) return;
-
 		if (this.state === 'initial') {
 			this.output.write(cursor.hide);
-		} else {
-			const diff = diffLines(this._prevFrame, frame);
-			this.restoreCursor();
-			// If a single line has changed, only update that line
-			if (diff && diff?.length === 1) {
-				const diffLine = diff[0];
-				this.output.write(cursor.move(0, diffLine));
-				this.output.write(erase.lines(1));
-				const lines = frame.split('\n');
-				this.output.write(lines[diffLine]);
-				this._prevFrame = frame;
-				this.output.write(cursor.move(0, lines.length - diffLine - 1));
-				return;
-				// If many lines have changed, rerender everything past the first line
-			}
-			if (diff && diff?.length > 1) {
-				const diffLine = diff[0];
-				this.output.write(cursor.move(0, diffLine));
-				this.output.write(erase.down());
-				const lines = frame.split('\n');
-				const newLines = lines.slice(diffLine);
-				this.output.write(newLines.join('\n'));
-				this._prevFrame = frame;
-				return;
-			}
-
-			this.output.write(erase.down());
 		}
 
-		this.output.write(frame);
+		this.renderer(this._render(this) ?? '');
+
 		if (this.state === 'initial') {
 			this.state = 'active';
 		}
-		this._prevFrame = frame;
 	}
 }

@@ -5,10 +5,12 @@ exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
+  "",
+  "[2K[G",
   "[35m◐[39m  foo",
+  "",
 ]
 `;
 
@@ -17,7 +19,8 @@ exports[`spinner (isCI = false) > process exit handling > prioritizes direct opt
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Spinner cancel message
+  "[31m■[39m  Spinner cancel message",
+  "
 ",
   "[?25h",
 ]
@@ -28,7 +31,8 @@ exports[`spinner (isCI = false) > process exit handling > prioritizes direct opt
   "[?25l",
   "[90m│[39m
 ",
-  "[31m▲[39m  Spinner error message
+  "[31m▲[39m  Spinner error message",
+  "
 ",
   "[?25h",
 ]
@@ -39,7 +43,8 @@ exports[`spinner (isCI = false) > process exit handling > uses custom cancel mes
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Custom cancel message
+  "[31m■[39m  Custom cancel message",
+  "
 ",
   "[?25h",
 ]
@@ -50,7 +55,8 @@ exports[`spinner (isCI = false) > process exit handling > uses custom error mess
   "[?25l",
   "[90m│[39m
 ",
-  "[31m▲[39m  Custom error message
+  "[31m▲[39m  Custom error message",
+  "
 ",
   "[?25h",
 ]
@@ -61,7 +67,8 @@ exports[`spinner (isCI = false) > process exit handling > uses default cancel me
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Canceled",
+  "
 ",
   "[?25h",
 ]
@@ -72,7 +79,8 @@ exports[`spinner (isCI = false) > process exit handling > uses global custom can
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Global cancel message
+  "[31m■[39m  Global cancel message",
+  "
 ",
   "[?25h",
 ]
@@ -83,7 +91,8 @@ exports[`spinner (isCI = false) > process exit handling > uses global custom err
   "[?25l",
   "[90m│[39m
 ",
-  "[31m▲[39m  Global error message
+  "[31m▲[39m  Global error message",
+  "
 ",
   "[?25h",
 ]
@@ -94,16 +103,22 @@ exports[`spinner (isCI = false) > start > renders frames at interval 1`] = `
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
-  "[35m◐[39m  ",
+  "",
+  "[2K[G",
+  "[35m◐[39m",
+  "",
   "[999D",
-  "[J",
-  "[35m◓[39m  ",
+  "",
+  "[2K[G",
+  "[35m◓[39m",
+  "",
   "[999D",
-  "[J",
-  "[35m◑[39m  ",
+  "",
+  "[2K[G",
+  "[35m◑[39m",
+  "",
 ]
 `;
 
@@ -130,10 +145,13 @@ exports[`spinner (isCI = false) > stop > renders cancel symbol if code = 1 1`] =
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
-  "[31m■[39m  
+  "",
+  "[2K[G",
+  "[31m■[39m",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -144,10 +162,13 @@ exports[`spinner (isCI = false) > stop > renders error symbol if code > 1 1`] = 
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
-  "[31m▲[39m  
+  "",
+  "[2K[G",
+  "[31m▲[39m",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -158,10 +179,13 @@ exports[`spinner (isCI = false) > stop > renders message 1`] = `
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
-  "[32m◇[39m  foo
+  "",
+  "[2K[G",
+  "[32m◇[39m  foo",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -172,10 +196,13 @@ exports[`spinner (isCI = false) > stop > renders message without removing dots 1
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
-  "[32m◇[39m  foo.
+  "",
+  "[2K[G",
+  "[32m◇[39m  foo.",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -186,10 +213,13 @@ exports[`spinner (isCI = false) > stop > renders submit symbol and stops spinner
   "[?25l",
   "[90m│[39m
 ",
-  "[35m◒[39m  ",
+  "[35m◒[39m",
   "[999D",
-  "[J",
-  "[32m◇[39m  
+  "",
+  "[2K[G",
+  "[32m◇[39m",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -201,11 +231,11 @@ exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
-  "
-",
   "[999D",
-  "[J",
+  "",
+  "[2K[G",
   "[35m◐[39m  foo...",
+  "",
 ]
 `;
 
@@ -214,7 +244,8 @@ exports[`spinner (isCI = true) > process exit handling > prioritizes direct opti
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Spinner cancel message
+  "[31m■[39m  Spinner cancel message",
+  "
 ",
   "[?25h",
 ]
@@ -225,7 +256,8 @@ exports[`spinner (isCI = true) > process exit handling > prioritizes direct opti
   "[?25l",
   "[90m│[39m
 ",
-  "[31m▲[39m  Spinner error message
+  "[31m▲[39m  Spinner error message",
+  "
 ",
   "[?25h",
 ]
@@ -236,7 +268,8 @@ exports[`spinner (isCI = true) > process exit handling > uses custom cancel mess
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Custom cancel message
+  "[31m■[39m  Custom cancel message",
+  "
 ",
   "[?25h",
 ]
@@ -247,7 +280,8 @@ exports[`spinner (isCI = true) > process exit handling > uses custom error messa
   "[?25l",
   "[90m│[39m
 ",
-  "[31m▲[39m  Custom error message
+  "[31m▲[39m  Custom error message",
+  "
 ",
   "[?25h",
 ]
@@ -258,7 +292,8 @@ exports[`spinner (isCI = true) > process exit handling > uses default cancel mes
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Canceled",
+  "
 ",
   "[?25h",
 ]
@@ -269,7 +304,8 @@ exports[`spinner (isCI = true) > process exit handling > uses global custom canc
   "[?25l",
   "[90m│[39m
 ",
-  "[31m■[39m  Global cancel message
+  "[31m■[39m  Global cancel message",
+  "
 ",
   "[?25h",
 ]
@@ -280,7 +316,8 @@ exports[`spinner (isCI = true) > process exit handling > uses global custom erro
   "[?25l",
   "[90m│[39m
 ",
-  "[31m▲[39m  Global error message
+  "[31m▲[39m  Global error message",
+  "
 ",
   "[?25h",
 ]
@@ -292,6 +329,21 @@ exports[`spinner (isCI = true) > start > renders frames at interval 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
+  "[999D",
+  "",
+  "[2K[G",
+  "[35m◐[39m  ...",
+  "",
+  "[999D",
+  "",
+  "[2K[G",
+  "[35m◓[39m  ...",
+  "",
+  "[999D",
+  "",
+  "[2K[G",
+  "[35m◑[39m  ...",
+  "",
 ]
 `;
 
@@ -319,11 +371,12 @@ exports[`spinner (isCI = true) > stop > renders cancel symbol if code = 1 1`] = 
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
-  "
-",
   "[999D",
-  "[J",
-  "[31m■[39m  
+  "",
+  "[2K[G",
+  "[31m■[39m",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -335,11 +388,12 @@ exports[`spinner (isCI = true) > stop > renders error symbol if code > 1 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
-  "
-",
   "[999D",
-  "[J",
-  "[31m▲[39m  
+  "",
+  "[2K[G",
+  "[31m▲[39m",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -351,11 +405,12 @@ exports[`spinner (isCI = true) > stop > renders message 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
-  "
-",
   "[999D",
-  "[J",
-  "[32m◇[39m  foo
+  "",
+  "[2K[G",
+  "[32m◇[39m  foo",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -367,11 +422,12 @@ exports[`spinner (isCI = true) > stop > renders message without removing dots 1`
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
-  "
-",
   "[999D",
-  "[J",
-  "[32m◇[39m  foo.
+  "",
+  "[2K[G",
+  "[32m◇[39m  foo.",
+  "",
+  "
 ",
   "[?25h",
 ]
@@ -383,11 +439,12 @@ exports[`spinner (isCI = true) > stop > renders submit symbol and stops spinner 
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
-  "
-",
   "[999D",
-  "[J",
-  "[32m◇[39m  
+  "",
+  "[2K[G",
+  "[32m◇[39m",
+  "",
+  "
 ",
   "[?25h",
 ]
