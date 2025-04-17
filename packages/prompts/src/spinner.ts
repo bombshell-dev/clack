@@ -7,7 +7,7 @@ import {
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
-	unicode,
+	env,
 } from './common.js';
 
 export interface SpinnerOptions extends CommonOptions {
@@ -31,9 +31,9 @@ export const spinner = ({
 	cancelMessage,
 	errorMessage,
 }: SpinnerOptions = {}): SpinnerResult => {
-	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-	const delay = unicode ? 80 : 120;
-	const isCI = process.env.CI === 'true';
+	const frames = env.unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
+	const delay = env.unicode ? 80 : 120;
+	const isCI = env.isCI;
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;

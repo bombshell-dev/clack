@@ -14,7 +14,8 @@
     "progress": "jiti ./progress.ts",
     "spinner": "jiti ./spinner.ts",
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
-    "spinner-timer": "jiti ./spinner-timer.ts"
+    "spinner-timer": "jiti ./spinner-timer.ts",
+    "task-log": "jiti ./task-log.ts"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"
