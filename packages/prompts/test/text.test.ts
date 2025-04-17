@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from './index.js';
+import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
