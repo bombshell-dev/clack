@@ -7,6 +7,7 @@ import {
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
+	isCI as isCIFn,
 	unicode,
 } from './common.js';
 
@@ -33,7 +34,7 @@ export const spinner = ({
 }: SpinnerOptions = {}): SpinnerResult => {
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
-	const isCI = process.env.CI === 'true';
+	const isCI = isCIFn();
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
