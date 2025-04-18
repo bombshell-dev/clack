@@ -110,6 +110,28 @@ const additionalTools = await multiselect({
 });
 ```
 
+It is also possible to select multiple items arranged into hierarchy by using `groupMultiselect`:
+
+```js
+import { groupMultiselect } from '@clack/prompts';
+
+const basket = await groupMultiselect({
+  message: 'Select your favorite fruits and vegetables:',
+  options: {
+    fruits: [
+      { value: 'apple', label: 'apple' },
+      { value: 'banana', label: 'banana' },
+      { value: 'cherry', label: 'cherry' },
+    ],
+    vegetables: [
+      { value: 'carrot', label: 'carrot' },
+      { value: 'spinach', label: 'spinach' },
+      { value: 'potato', label: 'potato' },
+    ]
+  }
+});
+```
+
 ### Spinner
 
 The spinner component surfaces a pending action, such as a long-running download or dependency installation.
@@ -121,6 +143,23 @@ const s = spinner();
 s.start('Installing via npm');
 // Do installation here
 s.stop('Installed via npm');
+```
+
+### Progress
+
+The progress component extends the spinner component to add a progress bar to visualize the progression of an action.
+
+```js
+import { progress } from '@clack/prompts';
+
+const p = progress({ max: 10 });
+p.start('Downloading archive');
+// Do download here
+p.advance(3, 'Downloading (30%)');
+// ...
+p.advance(8, 'Downloading (80%)');
+// ...
+p.stop('Archive downloaded');
 ```
 
 ## Utilities
@@ -205,3 +244,25 @@ stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: co
 ```
 
 ![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)
+
+### Task Log
+
+When executing a sub-process or a similar sub-task, `taskLog` can be used to render the output continuously and clear it at the end if it was successful.
+
+```js
+import { taskLog } from '@clack/prompts';
+
+const log = taskLog({
+	message: 'Running npm install'
+});
+
+for await (const line of npmInstall()) {
+	log.message(line);
+}
+
+if (success) {
+	log.success('Done!');
+} else {
+	log.error('Failed!');
+}
+```

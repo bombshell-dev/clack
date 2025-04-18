@@ -2,7 +2,7 @@ import { stdin, stdout } from 'node:process';
 import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
-import { ReadStream } from 'node:tty';
+import { ReadStream, WriteStream } from 'node:tty';
 import { cursor } from 'sisteransi';
 import { isActionKey } from './settings.js';
 
@@ -23,7 +23,7 @@ export function setRawMode(input: Readable, value: boolean) {
 	if (i.isTTY) i.setRawMode(value);
 }
 
-export interface BlockOptions {
+interface BlockOptions {
 	input?: Readable;
 	output?: Writable;
 	overwrite?: boolean;
@@ -82,3 +82,10 @@ export function block({
 		rl.close();
 	};
 }
+
+export const getColumns = (output: Writable): number => {
+	if (output instanceof WriteStream && output.columns) {
+		return output.columns;
+	}
+	return 80;
+};
