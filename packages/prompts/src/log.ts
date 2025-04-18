@@ -1,4 +1,7 @@
+import { getColumns } from '@clack/core';
+import { wrap } from '@macfja/ansi';
 import color from 'picocolors';
+import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -13,57 +16,70 @@ export interface LogMessageOptions extends CommonOptions {
 	symbol?: string;
 	spacing?: number;
 	secondarySymbol?: string;
+	removeLeadingSpace?: boolean;
 }
 
 export const log = {
-	message: (
-		message: string | string[] = [],
+	message: async (
+		message: string | Iterable<string> | AsyncIterable<string> = [],
 		{
 			symbol = color.gray(S_BAR),
+			spacing = 0,
 			secondarySymbol = color.gray(S_BAR),
 			output = process.stdout,
-			spacing = 1,
+			removeLeadingSpace = true,
 		}: LogMessageOptions = {}
 	) => {
-		const parts: string[] = [];
-		for (let i = 0; i < spacing; i++) {
-			parts.push(`${secondarySymbol}`);
-		}
-		const messageParts = Array.isArray(message) ? message : message.split('\n');
-		if (messageParts.length > 0) {
-			const [firstLine, ...lines] = messageParts;
-			if (firstLine.length > 0) {
-				parts.push(`${symbol}  ${firstLine}`);
-			} else {
-				parts.push(symbol);
+		output.write(`${color.gray(S_BAR)}\n`);
+		let first = true;
+		let lastLine = '';
+		const iterable = typeof message === 'string' ? [message] : message;
+		const isAsync = Symbol.asyncIterator in iterable;
+		for await (let chunk of iterable) {
+			const width = getColumns(output);
+			if (first) {
+				lastLine = `${symbol}  `;
+				chunk = '\n'.repeat(spacing) + chunk;
+				first = false;
 			}
-			for (const ln of lines) {
-				if (ln.length > 0) {
-					parts.push(`${secondarySymbol}  ${ln}`);
-				} else {
-					parts.push(secondarySymbol);
-				}
+			const newLineRE = removeLeadingSpace ? /\n */g : /\n/g;
+			const lines =
+				lastLine.substring(0, 3) +
+				wrap(`${lastLine.substring(3)}${chunk}`, width).replace(
+					newLineRE,
+					`\n${secondarySymbol}  `
+				);
+			output?.write(cursor.move(-999, 0) + erase.lines(1));
+			output?.write(lines);
+			lastLine = lines.substring(Math.max(0, lines.lastIndexOf('\n') + 1));
+			if (!isAsync) {
+				lastLine = `${secondarySymbol}  `;
+				output?.write('\n');
 			}
 		}
-		output.write(`${parts.join('\n')}\n`);
+		if (isAsync) {
+			output.write('\n');
+		}
 	},
-	info: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.blue(S_INFO) });
+	info: async (message: string, opts?: LogMessageOptions) => {
+		await log.message(message, { ...opts, symbol: color.blue(S_INFO) });
 	},
-	success: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.green(S_SUCCESS) });
+	success: async (message: string, opts?: LogMessageOptions) => {
+		await log.message(message, { ...opts, symbol: color.green(S_SUCCESS) });
 	},
-	step: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.green(S_STEP_SUBMIT) });
+	step: async (message: string, opts?: LogMessageOptions) => {
+		await log.message(message, { ...opts, symbol: color.green(S_STEP_SUBMIT) });
 	},
-	warn: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.yellow(S_WARN) });
+	warn: async (message: string, opts?: LogMessageOptions) => {
+		await log.message(message, { ...opts, symbol: color.yellow(S_WARN) });
 	},
 	/** alias for `log.warn()`. */
-	warning: (message: string, opts?: LogMessageOptions) => {
-		log.warn(message, opts);
+	warning: async (message: string, opts?: LogMessageOptions) => {
+		await log.warn(message, opts);
 	},
-	error: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.red(S_ERROR) });
+	error: async (message: string, opts?: LogMessageOptions) => {
+		await log.message(message, { ...opts, symbol: color.red(S_ERROR) });
 	},
 };
+
+export const stream = log;

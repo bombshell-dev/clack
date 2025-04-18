@@ -9,6 +9,7 @@
     "jiti": "^1.17.0"
   },
   "scripts": {
+    "log": "jiti ./log.ts",
     "start": "jiti ./index.ts",
     "stream": "jiti ./stream.ts",
     "progress": "jiti ./progress.ts",
