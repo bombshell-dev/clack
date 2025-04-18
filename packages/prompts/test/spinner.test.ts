@@ -46,6 +46,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			}
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 
 		test('renders message', () => {
@@ -56,6 +58,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 
 		test('renders timer when indicator is "timer"', () => {
@@ -66,6 +70,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 	});
 
@@ -145,9 +151,9 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			vi.advanceTimersByTime(80);
 
-			result.stop();
-			
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 	});
 
@@ -162,9 +168,9 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				vi.advanceTimersByTime(80);
 			}
 
-			result.stop();
-
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 
 		test('custom delay', () => {
@@ -177,9 +183,9 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				vi.advanceTimersByTime(200);
 			}
 			
-			result.stop();
-
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 	});
 
