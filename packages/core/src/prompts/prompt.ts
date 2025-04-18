@@ -180,6 +180,17 @@ export default class Prompt {
 	}
 
 	private onKeypress(char: string, key?: Key) {
+		// First check for ESC key
+		// Only relevant for ESC in navigation mode scenarios
+		let keyHandled = false;
+		if (char === '\x1b' || key?.name === 'escape') {
+			// We won't do any special handling for ESC in navigation mode for now
+			// Just let it propagate to the cancel handler below
+			keyHandled = false;
+			// Reset any existing flag
+			(this as any)._keyHandled = false;
+		}
+
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
@@ -200,8 +211,16 @@ export default class Prompt {
 				this.emit('value', this.opts.placeholder);
 			}
 		}
+		
+		// Call the key event handler and emit the key event
 		if (char) {
 			this.emit('key', char.toLowerCase());
+			// Check if the key handler set the prevented flag
+			if ((this as any)._keyHandled) {
+				keyHandled = true;
+				// Reset the flag
+				(this as any)._keyHandled = false;
+			}
 		}
 
 		if (key?.name === 'return') {
@@ -223,9 +242,11 @@ export default class Prompt {
 			}
 		}
 
-		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
+		// Only process as cancel if the key wasn't already handled
+		if (!keyHandled && isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
+		
 		if (this.state === 'submit' || this.state === 'cancel') {
 			this.emit('finalize');
 		}

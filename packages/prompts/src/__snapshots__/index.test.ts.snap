@@ -815,7 +815,7 @@ exports[`prompts (isCI = false) > multiselect > maxItems renders a sliding windo
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -826,7 +826,7 @@ exports[`prompts (isCI = false) > multiselect > maxItems renders a sliding windo
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -836,7 +836,7 @@ exports[`prompts (isCI = false) > multiselect > maxItems renders a sliding windo
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -845,18 +845,18 @@ exports[`prompts (isCI = false) > multiselect > maxItems renders a sliding windo
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
   "[2B",
   "[J",
-  "[36m│[39m  [2m...[22m
+  "[36m│[39m  [2m  ...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -866,7 +866,7 @@ exports[`prompts (isCI = false) > multiselect > maxItems renders a sliding windo
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -876,7 +876,7 @@ exports[`prompts (isCI = false) > multiselect > maxItems renders a sliding windo
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1089,7 +1089,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1100,7 +1100,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1110,7 +1110,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1119,18 +1119,18 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
   "[2B",
   "[J",
-  "[36m│[39m  [2m...[22m
+  "[36m│[39m  [2m  ...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1140,7 +1140,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1150,7 +1150,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1160,7 +1160,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [36m◻[39m opt7
 [36m│[39m  [2m◻[22m [2mopt8[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1170,7 +1170,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [36m◻[39m opt8
 [36m│[39m  [2m◻[22m [2mopt9[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1206,7 +1206,7 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops downwards 1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -1235,13 +1235,13 @@ exports[`prompts (isCI = false) > multiselect > sliding window loops upwards 1`]
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
   "[2B",
   "[J",
-  "[36m│[39m  [2m...[22m
+  "[36m│[39m  [2m  ...[22m
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m◻[22m [2mopt8[22m
 [36m│[39m  [2m◻[22m [2mopt9[22m
@@ -2807,7 +2807,7 @@ exports[`prompts (isCI = true) > multiselect > maxItems renders a sliding window
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -2818,7 +2818,7 @@ exports[`prompts (isCI = true) > multiselect > maxItems renders a sliding window
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -2828,7 +2828,7 @@ exports[`prompts (isCI = true) > multiselect > maxItems renders a sliding window
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -2837,18 +2837,18 @@ exports[`prompts (isCI = true) > multiselect > maxItems renders a sliding window
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
   "[2B",
   "[J",
-  "[36m│[39m  [2m...[22m
+  "[36m│[39m  [2m  ...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -2858,7 +2858,7 @@ exports[`prompts (isCI = true) > multiselect > maxItems renders a sliding window
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -2868,7 +2868,7 @@ exports[`prompts (isCI = true) > multiselect > maxItems renders a sliding window
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3081,7 +3081,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3092,7 +3092,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3102,7 +3102,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3111,18 +3111,18 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
   "[2B",
   "[J",
-  "[36m│[39m  [2m...[22m
+  "[36m│[39m  [2m  ...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3132,7 +3132,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3142,7 +3142,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3152,7 +3152,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [36m◻[39m opt7
 [36m│[39m  [2m◻[22m [2mopt8[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3162,7 +3162,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [36m◻[39m opt8
 [36m│[39m  [2m◻[22m [2mopt9[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3198,7 +3198,7 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops downwards 1`
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
@@ -3227,13 +3227,13 @@ exports[`prompts (isCI = true) > multiselect > sliding window loops upwards 1`] 
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
-[36m│[39m  [2m...[22m
+[36m│[39m  [2m  ...[22m
 [36m└[39m
 ",
   "[999D[9A",
   "[2B",
   "[J",
-  "[36m│[39m  [2m...[22m
+  "[36m│[39m  [2m  ...[22m
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m◻[22m [2mopt8[22m
 [36m│[39m  [2m◻[22m [2mopt9[22m

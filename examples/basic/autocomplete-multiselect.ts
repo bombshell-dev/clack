@@ -16,6 +16,7 @@ ${color.cyan('Filter and select multiple items in a single interface:')}
 - ${color.yellow('Type')} to filter the list in real-time
 - Use ${color.yellow('up/down arrows')} to navigate with improved stability
 - Press ${color.yellow('Space')} to select/deselect the highlighted item ${color.green('(multiple selections allowed)')}
+- Use ${color.yellow('Backspace')} to modify your filter text when searching for different options
 - Press ${color.yellow('Enter')} when done selecting all items
 - Press ${color.yellow('Ctrl+C')} to cancel
   `, 'Instructions');

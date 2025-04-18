@@ -68,12 +68,18 @@ interface LimitOptionsParams<TOption> extends CommonOptions {
 	maxItems: number | undefined;
 	cursor: number;
 	style: (option: TOption, active: boolean) => string;
+	/**
+	 * Custom format for overflow indicators.
+	 * Defaults to '    ...' if not provided.
+	 */
+	overflowFormat?: string;
 }
 
 const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
 	const output: Writable = params.output ?? process.stdout;
 	const rows = output instanceof WriteStream && output.rows !== undefined ? output.rows : 10;
+	const overflowFormat = params.overflowFormat ?? color.dim('    ...');
 
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - 4, 0);
@@ -97,7 +103,7 @@ const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] =>
 			const isTopLimit = i === 0 && shouldRenderTopEllipsis;
 			const isBottomLimit = i === arr.length - 1 && shouldRenderBottomEllipsis;
 			return isTopLimit || isBottomLimit
-				? color.dim('...')
+				? overflowFormat
 				: style(option, i + slidingWindowLocation === cursor);
 		});
 };
@@ -309,6 +315,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
+						overflowFormat: color.dim('  ...'),
 						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
 					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
@@ -475,6 +482,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						overflowFormat: color.dim('  ...'),
 						style: styleOption,
 					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
@@ -1109,6 +1117,26 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 						isNavigating = true;
 					}
 					
+					// Handle space in navigation mode
+					if (key === ' ' && isNavigating) {
+						// Space is often used for selection in navigation mode
+						// Important: completely prevent space from being added to input
+						(this as any)._ignoreNextSpace = true;
+						// Directly modify the input value to prevent space addition
+						if (this.value?.endsWith(' ')) {
+							this.value = this.value.slice(0, -1);
+						}
+						return false; // Prevent the space from being added
+					}
+					
+					// Exit navigation mode when pressing escape
+					if (key === 'escape' && isNavigating) {
+						isNavigating = false;
+						// Set flag on prompt instance to prevent global cancel
+						(this as any)._keyHandled = true;
+						return false; // Prevent propagation of the escape key
+					}
+					
 					// Allow typing again when user presses any other key
 					if (key !== 'up' && key !== 'down' && key !== 'return') {
 						isNavigating = false;
@@ -1136,13 +1164,28 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				
 				// Register input change handler to update filtering
 				this.on('value', () => {
-					// Only update input when not in navigation mode
-					if (!isNavigating) {
-						const newInput = this.value || '';
-						if (newInput !== input) {
-							input = newInput;
-							filterOptions(input);
+					// Handle spaces in navigation mode
+					if (isNavigating) {
+						// Remove any spaces when in navigation mode
+						if (this.value?.includes(' ')) {
+							this.value = this.value.replace(/\s+/g, '');
 						}
+						return;
+					}
+					
+					// Handle ignoring spaces from key handler
+					if ((this as any)._ignoreNextSpace && this.value?.endsWith(' ')) {
+						// Remove the space and reset the flag
+						this.value = this.value.replace(/\s+$/, '');
+						(this as any)._ignoreNextSpace = false;
+						return;
+					}
+					
+					// Normal filtering mode
+					const newInput = this.value || '';
+					if (newInput !== input) {
+						input = newInput;
+						filterOptions(input);
 					}
 				});
 				
@@ -1215,13 +1258,14 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 									: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}${hint}`;
 							},
 							maxItems: opts.maxItems,
-							output: opts.output
+							output: opts.output,
+							overflowFormat: color.dim('  ...')
 						});
 					
-					// Show instructions
+					// Instructions
 					const instructions = isNavigating
-						? [`${color.dim('↑/↓')} to select, ${color.dim('Enter:')} confirm, ${color.dim('Type:')} to search`]
-						: [`${color.dim('Type')} to filter, ${color.dim('↑/↓')} to navigate`];
+						? [`${color.white('↑/↓:')} navigate, ${color.dim('Space:')} select, ${color.dim('Enter:')} confirm, ${color.dim('Type:')} filter`]
+						: [`${color.dim('↑/↓:')} navigate, ${color.white('Type')} to filter, ${color.dim('Enter:')} confirm`];
 					
 					// No matches message
 					const noResults = filtered.length === 0 && input
@@ -1294,7 +1338,8 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	const formatOption = (option: Option<Value>, active: boolean) => {
 		const isSelected = selectedValues.includes(option.value);
 		const label = option.label ?? String(option.value ?? '');
-		const hint = option.hint ? color.dim(` (${option.hint})`) : '';
+		// Only show hint when the item is active
+		const hint = active && option.hint ? color.dim(` (${option.hint})`) : '';
 		const checkbox = isSelected 
 			? color.green(S_CHECKBOX_SELECTED) 
 			: color.dim(S_CHECKBOX_INACTIVE);
@@ -1302,7 +1347,10 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		if (active) {
 			return `${color.green('›')} ${checkbox} ${label}${hint}`;
 		}
-		return `${color.dim(' ')} ${checkbox} ${color.dim(label)}${hint}`;
+		if (isSelected) {
+			return `${color.dim(' ')} ${checkbox} ${color.dim(label)}`;
+		}
+		return `${color.dim(' ')} ${checkbox} ${color.dim(label)}`;
 	};
 	
 	// Filter options based on search input
@@ -1374,7 +1422,18 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					if (key === ' ' && isNavigating && filtered.length > 0) {
 						toggleSelected();
 						// Important: prevent the space from being added to the input
+						// Set a flag to ignore any space input for filtering
+						(this as any)._ignoreNextSpace = true;
+						// Directly modify the input value to prevent space addition
+						if (this.value?.endsWith(' ')) {
+							this.value = this.value.slice(0, -1);
+						}
 						return false;
+					}
+					
+					// Also toggle when Enter is pressed in navigation mode
+					if (key === 'return' && isNavigating && filtered.length > 0) {
+						toggleSelected();
 					}
 					
 					// Allow typing again when user presses any other key
@@ -1402,13 +1461,28 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				
 				// Register input change handler to update filtering
 				this.on('value', () => {
-					// Only update input when not in navigation mode
-					if (!isNavigating) {
-						const newInput = this.value || '';
-						if (newInput !== input) {
-							input = newInput;
-							filterOptions(input);
+					// Handle spaces in navigation mode
+					if (isNavigating) {
+						// Remove any spaces when in navigation mode
+						if (this.value?.includes(' ')) {
+							this.value = this.value.replace(/\s+/g, '');
 						}
+						return;
+					}
+					
+					// Handle ignoring spaces from key handler
+					if ((this as any)._ignoreNextSpace && this.value?.endsWith(' ')) {
+						// Remove the space and reset the flag
+						this.value = this.value.replace(/\s+$/, '');
+						(this as any)._ignoreNextSpace = false;
+						return;
+					}
+					
+					// Normal filtering mode
+					const newInput = this.value || '';
+					if (newInput !== input) {
+						input = newInput;
+						filterOptions(input);
 					}
 				});
 				
@@ -1459,8 +1533,8 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				default: {
 					// Instructions
 					const instructions = isNavigating
-						? [`${color.dim('Space:')} select, ${color.dim('Enter:')} confirm, ${color.dim('Type:')} exit navigation`]
-						: [`${color.dim('Type')} to filter, ${color.dim('↑/↓')} to navigate`];
+						? [`${color.white('↑/↓:')} navigate, ${color.dim('Space:')} select, ${color.dim('Enter:')} confirm, ${color.dim('Type:')} filter`]
+						: [`${color.dim('↑/↓:')} navigate, ${color.white('Type')} to filter, ${color.dim('Enter:')} confirm`];
 					
 					// No results message
 					const noResults = filtered.length === 0 && input
@@ -1473,12 +1547,13 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						options: filtered,
 						style: (option, active) => formatOption(option, active),
 						maxItems: opts.maxItems,
-						output: opts.output
+						output: opts.output,
+						overflowFormat: color.dim('  ...')
 					});
 					
 					// Build the prompt display
 					return [
-						title,
+						title.replace(/\n$/, ''),
 						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}${modeIndicator}`,
 						...noResults,
 						...displayOptions.map(option => `${color.cyan(S_BAR)}  ${option}`),
