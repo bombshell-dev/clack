@@ -12,7 +12,7 @@ import {
 } from './common.js';
 
 export interface SpinnerOptions extends CommonOptions {
-	indicator?: 'dots' | 'timer' | "custom";
+	indicator?: 'dots' | 'timer';
 	onCancel?: () => void;
 	cancelMessage?: string;
 	errorMessage?: string;
@@ -33,10 +33,10 @@ export const spinner = ({
 	output = process.stdout,
 	cancelMessage,
 	errorMessage,
-	...props
+	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
+	delay = unicode ? 80 : 120,
 }: SpinnerOptions = {}): SpinnerResult => {
-	const frames = props.frames ? props.frames : unicode ?  ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-	const delay = props.delay ? props.delay : unicode ? 80 : 120;
+
 	const isCI = isCIFn();
 
 	let unblock: () => void;

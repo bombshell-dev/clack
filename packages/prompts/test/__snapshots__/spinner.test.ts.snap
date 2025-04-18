@@ -1,5 +1,32 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`spinner (isCI = false) > indicator customization > custom delay 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ",
+  "[999D",
+  "[J",
+  "[35m◐[39m  ",
+  "[999D",
+  "[J",
+  "[35m◓[39m  ",
+  "[999D",
+  "[J",
+  "[35m◑[39m  ",
+]
+`;
+
+exports[`spinner (isCI = false) > indicator customization > custom frames 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m🐴[39m  ",
+]
+`;
+
 exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
 [
   "<cursor.hide>",
@@ -192,6 +219,24 @@ exports[`spinner (isCI = false) > stop > renders submit symbol and stops spinner
   "[32m◇[39m  
 ",
   "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > indicator customization > custom delay 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+]
+`;
+
+exports[`spinner (isCI = true) > indicator customization > custom frames 1`] = `
+[
+  "[?25l",
+  "[90m│[39m
+",
+  "[35m🐴[39m  ...",
 ]
 `;
 
