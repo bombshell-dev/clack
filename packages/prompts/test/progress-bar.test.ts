@@ -209,72 +209,83 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 		test('uses global custom cancel message from settings', () => {
 			// Store original message
 			const originalCancelMessage = prompts.settings.messages.cancel;
-			// Set custom message
-			prompts.settings.messages.cancel = 'Global cancel message';
+			try {
+				// Set custom message
+				prompts.settings.messages.cancel = 'Global cancel message';
 
-			const result = prompts.progress({ output });
-			result.start('Test operation');
+				const result = prompts.progress({ output });
+				result.start('Test operation');
 
-			processEmitter.emit('SIGINT');
+				processEmitter.emit('SIGINT');
 
-			expect(output.buffer).toMatchSnapshot();
-
-			// Reset to original
-			prompts.settings.messages.cancel = originalCancelMessage;
+				expect(output.buffer).toMatchSnapshot();
+			} finally {
+				// Reset to original
+				prompts.settings.messages.cancel = originalCancelMessage;
+			}
 		});
 
 		test('uses global custom error message from settings', () => {
 			// Store original message
 			const originalErrorMessage = prompts.settings.messages.error;
-			// Set custom message
-			prompts.settings.messages.error = 'Global error message';
+			try {
+				// Set custom message
+				prompts.settings.messages.error = 'Global error message';
 
-			const result = prompts.progress({ output });
-			result.start('Test operation');
+				const result = prompts.progress({ output });
+				result.start('Test operation');
 
-			processEmitter.emit('exit', 2);
+				processEmitter.emit('exit', 2);
 
-			expect(output.buffer).toMatchSnapshot();
-
-			// Reset to original
-			prompts.settings.messages.error = originalErrorMessage;
+				expect(output.buffer).toMatchSnapshot();
+			} finally {
+				// Reset to original
+				prompts.settings.messages.error = originalErrorMessage;
+			}
 		});
 
-		test('prioritizes direct options over global settings', () => {
+		test('prioritizes error option over global setting', () => {
 			// Store original messages
-			const originalCancelMessage = prompts.settings.messages.cancel;
 			const originalErrorMessage = prompts.settings.messages.error;
 
-			// Set custom global messages
-			prompts.settings.messages.cancel = 'Global cancel message';
-			prompts.settings.messages.error = 'Global error message';
+			try {
+				// Set custom global messages
+				prompts.settings.messages.error = 'Global error message';
 
-			const result = prompts.progress({
-				output,
-				cancelMessage: 'Progress cancel message',
-				errorMessage: 'Progress error message',
-			});
-			result.start('Test operation');
+				const result = prompts.progress({
+					output,
+					errorMessage: 'Progress error message',
+				});
+				result.start('Test operation');
 
-			processEmitter.emit('SIGINT');
-			expect(output.buffer).toMatchSnapshot();
+				processEmitter.emit('exit', 2);
+				expect(output.buffer).toMatchSnapshot();
+			} finally {
+				// Reset to original values
+				prompts.settings.messages.error = originalErrorMessage;
+			}
+		});
 
-			// Reset buffer
-			output.buffer = [];
+		test('prioritizes cancel option over global setting', () => {
+			// Store original messages
+			const originalCancelMessage = prompts.settings.messages.cancel;
 
-			const result2 = prompts.progress({
-				output,
-				cancelMessage: 'Progress cancel message',
-				errorMessage: 'Progress error message',
-			});
-			result2.start('Test operation');
+			try {
+				// Set custom global messages
+				prompts.settings.messages.cancel = 'Global cancel message';
 
-			processEmitter.emit('exit', 2);
-			expect(output.buffer).toMatchSnapshot();
+				const result = prompts.progress({
+					output,
+					cancelMessage: 'Progress cancel message',
+				});
+				result.start('Test operation');
 
-			// Reset to original values
-			prompts.settings.messages.cancel = originalCancelMessage;
-			prompts.settings.messages.error = originalErrorMessage;
+				processEmitter.emit('SIGINT');
+				expect(output.buffer).toMatchSnapshot();
+			} finally {
+				// Reset to original values
+				prompts.settings.messages.cancel = originalCancelMessage;
+			}
 		});
 	});
 
