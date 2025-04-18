@@ -33,6 +33,11 @@ exports[`spinner (isCI = false) > indicator customization > custom frames 1`] = 
   "[999D",
   "[J",
   "[35m🐶[39m  ",
+  "[999D",
+  "[J",
+  "[32m◇[39m  
+",
+  "[?25h",
 ]
 `;
 
@@ -45,6 +50,11 @@ exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
   "<cursor.backward count=999>",
   "<erase.down>",
   "[35m◐[39m  foo",
+  "[999D",
+  "[J",
+  "[32m◇[39m  
+",
+  "[?25h",
 ]
 `;
 
@@ -246,6 +256,13 @@ exports[`spinner (isCI = true) > indicator customization > custom frames 1`] = `
   "[90m│[39m
 ",
   "[35m🐴[39m  ...",
+  "
+",
+  "[999D",
+  "[J",
+  "[32m◇[39m  
+",
+  "[?25h",
 ]
 `;
 
@@ -260,6 +277,13 @@ exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
   "<cursor.backward count=999>",
   "<erase.down>",
   "[35m◐[39m  foo...",
+  "
+",
+  "[999D",
+  "[J",
+  "[32m◇[39m  
+",
+  "[?25h",
 ]
 `;
 
