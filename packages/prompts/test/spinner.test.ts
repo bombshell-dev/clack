@@ -176,6 +176,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			for (let i = 0; i < 4; i++) {
 				vi.advanceTimersByTime(200);
 			}
+			
+			result.stop();
 
 			expect(output.buffer).toMatchSnapshot();
 		});
