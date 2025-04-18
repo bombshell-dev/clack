@@ -10,11 +10,11 @@ exports[`taskLog (isCI = false) > error > clears output if showLog = false 1`] =
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  some error!
 ",
@@ -31,11 +31,11 @@ exports[`taskLog (isCI = false) > error > renders output with message 1`] = `
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  some error!
 ",
@@ -56,7 +56,7 @@ exports[`taskLog (isCI = false) > message > can write line by line 1`] = `
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
@@ -87,11 +87,11 @@ exports[`taskLog (isCI = false) > message > enforces limit if set 1`] = `
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
@@ -110,11 +110,11 @@ exports[`taskLog (isCI = false) > message > prints empty lines 1`] = `
 ",
   "[2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2m[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2m[22m
 [2m│[22m  [2mline 3[22m
@@ -132,10 +132,10 @@ exports[`taskLog (isCI = false) > message > raw = true appends message text unti
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0still line 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0still line 0[22m
 [2m│[22m  [2mline 1[22m
 ",
@@ -152,10 +152,10 @@ exports[`taskLog (isCI = false) > message > raw = true works when mixed with non
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0still line 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0still line 0[22m
 [2m│[22m  [2mline 1[22m
 ",
@@ -172,11 +172,11 @@ exports[`taskLog (isCI = false) > message > raw = true works when started with n
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1still line 1[22m
 ",
@@ -193,19 +193,19 @@ exports[`taskLog (isCI = false) > retainLog > error > outputs limited log with l
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -226,22 +226,22 @@ exports[`taskLog (isCI = false) > retainLog > error > retainLog = false outputs 
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -264,19 +264,19 @@ exports[`taskLog (isCI = false) > retainLog > error > retainLog = false outputs 
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -297,22 +297,22 @@ exports[`taskLog (isCI = false) > retainLog > error > retainLog = true outputs f
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -335,19 +335,19 @@ exports[`taskLog (isCI = false) > retainLog > error > retainLog = true outputs f
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -370,19 +370,19 @@ exports[`taskLog (isCI = false) > retainLog > success > outputs limited log with
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -403,22 +403,22 @@ exports[`taskLog (isCI = false) > retainLog > success > retainLog = false output
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -441,19 +441,19 @@ exports[`taskLog (isCI = false) > retainLog > success > retainLog = false output
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -474,22 +474,22 @@ exports[`taskLog (isCI = false) > retainLog > success > retainLog = true outputs
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -512,19 +512,19 @@ exports[`taskLog (isCI = false) > retainLog > success > retainLog = true outputs
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 1[22m
 [2m│[22m  [2mline 2[22m
 ",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 2[22m
 [2m│[22m  [2mline 3[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -547,11 +547,11 @@ exports[`taskLog (isCI = false) > success > clears output and renders message 1`
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  success!
 ",
@@ -568,11 +568,11 @@ exports[`taskLog (isCI = false) > success > renders output if showLog = true 1`]
 ",
   "[2m│[22m  [2mline 0[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m  [2mline 0[22m
 [2m│[22m  [2mline 1[22m
 ",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  success!
 ",
@@ -602,8 +602,8 @@ exports[`taskLog (isCI = true) > error > clears output if showLog = false 1`] = 
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  some error!
 ",
@@ -618,8 +618,8 @@ exports[`taskLog (isCI = true) > error > renders output with message 1`] = `
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  some error!
 ",
@@ -638,7 +638,7 @@ exports[`taskLog (isCI = true) > message > can write line by line 1`] = `
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
@@ -661,8 +661,8 @@ exports[`taskLog (isCI = true) > message > enforces limit if set 1`] = `
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
@@ -674,8 +674,8 @@ exports[`taskLog (isCI = true) > message > prints empty lines 1`] = `
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
@@ -687,8 +687,8 @@ exports[`taskLog (isCI = true) > message > raw = true appends message text until
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
@@ -700,8 +700,8 @@ exports[`taskLog (isCI = true) > message > raw = true works when mixed with non-
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
@@ -713,8 +713,8 @@ exports[`taskLog (isCI = true) > message > raw = true works when started with no
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
@@ -726,10 +726,10 @@ exports[`taskLog (isCI = true) > retainLog > error > outputs limited log with li
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -748,10 +748,10 @@ exports[`taskLog (isCI = true) > retainLog > error > retainLog = false outputs f
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -772,10 +772,10 @@ exports[`taskLog (isCI = true) > retainLog > error > retainLog = false outputs l
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -794,10 +794,10 @@ exports[`taskLog (isCI = true) > retainLog > error > retainLog = true outputs fu
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -818,10 +818,10 @@ exports[`taskLog (isCI = true) > retainLog > error > retainLog = true outputs fu
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [31m■[39m  woo!
 ",
@@ -842,10 +842,10 @@ exports[`taskLog (isCI = true) > retainLog > success > outputs limited log with 
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -864,10 +864,10 @@ exports[`taskLog (isCI = true) > retainLog > success > retainLog = false outputs
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -888,10 +888,10 @@ exports[`taskLog (isCI = true) > retainLog > success > retainLog = false outputs
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -910,10 +910,10 @@ exports[`taskLog (isCI = true) > retainLog > success > retainLog = true outputs 
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -934,10 +934,10 @@ exports[`taskLog (isCI = true) > retainLog > success > retainLog = true outputs 
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  woo!
 ",
@@ -958,8 +958,8 @@ exports[`taskLog (isCI = true) > success > clears output and renders message 1`]
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  success!
 ",
@@ -974,8 +974,8 @@ exports[`taskLog (isCI = true) > success > renders output if showLog = true 1`] 
 ",
   "[2m│[22m
 ",
-  "[2K[1A[2K[G",
-  "[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[2m│[22m
 [32m◆[39m  success!
 ",

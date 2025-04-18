@@ -2,142 +2,142 @@
 
 exports[`multiselect (isCI = false) > can cancel 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[31m■[39m  foo
 [90m│[39m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > can render option hints 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m",
-  "[3B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > can set cursorAt to preselect an option 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m└[39m
 ",
-  "[999D[5A",
-  "[3B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "[2B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > can set custom labels 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m Option 0
 [36m│[39m  [2m◻[22m [2mOption 1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0",
-  "[3B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mOption 0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > can set initial values 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [32m◼[39m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > can submit without selection when required = false 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mnone[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -148,9 +148,9 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
@@ -159,9 +159,9 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -169,18 +169,18 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[4B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -189,9 +189,9 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
@@ -199,9 +199,9 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
@@ -209,50 +209,50 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[5B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt6",
-  "[4B",
-  "[999D[9A",
-  "[1B",
-  "[J",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt6[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > renders message 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[3B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > renders multiple cancelled values 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -260,39 +260,39 @@ exports[`multiselect (isCI = false) > renders multiple cancelled values 1`] = `
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[4B",
-  "[999D[6A",
-  "[2B",
-  "[J",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[3B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "[3B",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[31m■[39m  foo
 [90m│[39m  [9m[2mopt0[22m[29m[2m, [22m[9m[2mopt1[22m[29m
 [90m│[39m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > renders multiple selected options 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -300,82 +300,82 @@ exports[`multiselect (isCI = false) > renders multiple selected options 1`] = `
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[4B",
-  "[999D[6A",
-  "[2B",
-  "[J",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[3B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "[3B",
-  "[999D[6A",
-  "[3B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
 [36m└[39m
 ",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m[2m, [22m[2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > renders validation errors 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[33m▲[39m  foo
 [33m│[39m  [36m◻[39m opt0
 [33m│[39m  [2m◻[22m [2mopt1[22m
 [33m└[39m  [33mPlease select at least one option.[39m
 [0m[2mPress [90m[47m[7m space [27m[49m[39m to select, [90m[47m[7m enter [27m[49m[39m to submit[22m[0m
 ",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[36m◆[39m  foo
 [36m│[39m  [32m◼[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > shows hints for all selected options 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m
@@ -383,35 +383,35 @@ exports[`multiselect (isCI = false) > shows hints for all selected options 1`] =
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m [2m(Hint 0)[22m
 [36m│[39m  [32m◼[39m opt1 [2m(Hint 1)[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
 [36m│[39m  [36m◻[39m opt2 [2m(Hint 2)[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m[2m, [22m[2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -422,9 +422,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
@@ -433,9 +433,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -443,18 +443,18 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[4B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -463,9 +463,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
@@ -473,9 +473,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
@@ -483,9 +483,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [36m◻[39m opt7
@@ -493,9 +493,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [36m◻[39m opt8
@@ -503,9 +503,9 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m◻[22m [2mopt8[22m
 [36m│[39m  [36m◻[39m opt9
@@ -513,24 +513,24 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt11[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[5B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [36m◻[39m opt10
 [36m│[39m  [2m◻[22m [2mopt11[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[6B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=6>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [36m◻[39m opt11
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
@@ -539,25 +539,25 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[7B",
-  "[999D[9A",
-  "[1B",
-  "[J",
+  "<cursor.down count=7>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -568,9 +568,9 @@ exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m◻[22m [2mopt8[22m
@@ -579,160 +579,160 @@ exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 [36m│[39m  [36m◻[39m opt11
 [36m└[39m
 ",
-  "[999D[9A",
-  "[7B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=7>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt11",
-  "[2B",
-  "[999D[9A",
-  "[1B",
-  "[J",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt11[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > can cancel 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[31m■[39m  foo
 [90m│[39m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > can render option hints 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m",
-  "[3B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > can set cursorAt to preselect an option 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m└[39m
 ",
-  "[999D[5A",
-  "[3B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "[2B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > can set custom labels 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m Option 0
 [36m│[39m  [2m◻[22m [2mOption 1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0",
-  "[3B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mOption 0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > can set initial values 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [32m◼[39m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > can submit without selection when required = false 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mnone[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -743,9 +743,9 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
@@ -754,9 +754,9 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -764,18 +764,18 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[4B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -784,9 +784,9 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
@@ -794,9 +794,9 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
@@ -804,50 +804,50 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[5B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt6",
-  "[4B",
-  "[999D[9A",
-  "[1B",
-  "[J",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt6[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > renders message 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[3B",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > renders multiple cancelled values 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -855,39 +855,39 @@ exports[`multiselect (isCI = true) > renders multiple cancelled values 1`] = `
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[4B",
-  "[999D[6A",
-  "[2B",
-  "[J",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[3B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "[3B",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[31m■[39m  foo
 [90m│[39m  [9m[2mopt0[22m[29m[2m, [22m[9m[2mopt1[22m[29m
 [90m│[39m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > renders multiple selected options 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -895,82 +895,82 @@ exports[`multiselect (isCI = true) > renders multiple selected options 1`] = `
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[4B",
-  "[999D[6A",
-  "[2B",
-  "[J",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[3B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "[3B",
-  "[999D[6A",
-  "[3B",
-  "[J",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
 [36m└[39m
 ",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m[2m, [22m[2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > renders validation errors 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[33m▲[39m  foo
 [33m│[39m  [36m◻[39m opt0
 [33m│[39m  [2m◻[22m [2mopt1[22m
 [33m└[39m  [33mPlease select at least one option.[39m
 [0m[2mPress [90m[47m[7m space [27m[49m[39m to select, [90m[47m[7m enter [27m[49m[39m to submit[22m[0m
 ",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[36m◆[39m  foo
 [36m│[39m  [32m◼[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m└[39m
 ",
-  "[999D[5A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > shows hints for all selected options 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m
@@ -978,35 +978,35 @@ exports[`multiselect (isCI = true) > shows hints for all selected options 1`] = 
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m [2m(Hint 0)[22m
 [36m│[39m  [32m◼[39m opt1 [2m(Hint 1)[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
 [36m│[39m  [36m◻[39m opt2 [2m(Hint 2)[22m
 [36m└[39m
 ",
-  "[999D[6A",
-  "[1B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m[2m, [22m[2mopt1[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -1017,9 +1017,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
@@ -1028,9 +1028,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -1038,18 +1038,18 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[4B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [2m◻[22m [2mopt3[22m
@@ -1058,9 +1058,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [36m◻[39m opt5
@@ -1068,9 +1068,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [36m◻[39m opt6
@@ -1078,9 +1078,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [36m◻[39m opt7
@@ -1088,9 +1088,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [36m◻[39m opt8
@@ -1098,9 +1098,9 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[3B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m◻[22m [2mopt8[22m
 [36m│[39m  [36m◻[39m opt9
@@ -1108,24 +1108,24 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt11[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[5B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [36m◻[39m opt10
 [36m│[39m  [2m◻[22m [2mopt11[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[6B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=6>",
+  "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [36m◻[39m opt11
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
@@ -1134,25 +1134,25 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "[7B",
-  "[999D[9A",
-  "[1B",
-  "[J",
+  "<cursor.down count=7>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
 exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
@@ -1163,9 +1163,9 @@ exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
 [36m│[39m  [2m...[22m
 [36m└[39m
 ",
-  "[999D[9A",
-  "[2B",
-  "[J",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m◻[22m [2mopt8[22m
@@ -1174,18 +1174,18 @@ exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
 [36m│[39m  [36m◻[39m opt11
 [36m└[39m
 ",
-  "[999D[9A",
-  "[7B",
-  "[2K[G",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=7>",
+  "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt11",
-  "[2B",
-  "[999D[9A",
-  "[1B",
-  "[J",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt11[22m",
   "
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
