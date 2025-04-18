@@ -92,6 +92,9 @@ importers:
       vitest:
         specifier: ^3.1.1
         version: 3.1.1(@types/node@18.16.0)
+      vitest-ansi-serializer:
+        specifier: ^0.1.2
+        version: 0.1.2(vitest@3.1.1(@types/node@18.16.0))
 
 packages:
 
@@ -2616,6 +2619,11 @@ packages:
         optional: true
       terser:
         optional: true
+
+  vitest-ansi-serializer@0.1.2:
+    resolution: {integrity: sha512-9GHM76QixD3bwEPvbuZXWSJfTZKiTml5WuFxk41MlB/ZrSdsIyePaZoG6kA+xDmQepVbzmW1ozg2s0iSpEOp+Q==}
+    peerDependencies:
+      vitest: ^3.1.1
 
   vitest@3.1.1:
     resolution: {integrity: sha512-kiZc/IYmKICeBAZr9DQ5rT7/6bD9G7uqQEki4fxazi1jdVl2mWGzedtBs5s6llz59yQhVb7FFY2MbHzHCnT79Q==}
@@ -5272,6 +5280,10 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.16.0
       fsevents: 2.3.3
+
+  vitest-ansi-serializer@0.1.2(vitest@3.1.1(@types/node@18.16.0)):
+    dependencies:
+      vitest: 3.1.1(@types/node@18.16.0)
 
   vitest@3.1.1(@types/node@18.16.0):
     dependencies:
