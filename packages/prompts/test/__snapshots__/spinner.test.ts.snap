@@ -24,6 +24,15 @@ exports[`spinner (isCI = false) > indicator customization > custom frames 1`] = 
   "[90m│[39m
 ",
   "[35m🐴[39m  ",
+  "[999D",
+  "[J",
+  "[35m🦋[39m  ",
+  "[999D",
+  "[J",
+  "[35m🐙[39m  ",
+  "[999D",
+  "[J",
+  "[35m🐶[39m  ",
 ]
 `;
 
