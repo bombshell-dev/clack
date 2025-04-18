@@ -46,6 +46,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			}
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 
 		test('renders message', () => {
@@ -56,6 +58,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 
 		test('renders timer when indicator is "timer"', () => {
@@ -66,6 +70,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 	});
 
@@ -146,6 +152,40 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
+		});
+	});
+
+	describe('indicator customization', () => {
+		test('custom frames', () => {
+			const result = prompts.spinner({ output, frames: ['🐴', '🦋', '🐙', '🐶'] });
+
+			result.start();
+
+			// there are 4 frames
+			for (let i = 0; i < 4; i++) {
+				vi.advanceTimersByTime(80);
+			}
+
+			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
+		});
+
+		test('custom delay', () => {
+			const result = prompts.spinner({ output, delay: 200 });
+
+			result.start();
+
+			// there are 4 frames
+			for (let i = 0; i < 4; i++) {
+				vi.advanceTimersByTime(200);
+			}
+			
+			expect(output.buffer).toMatchSnapshot();
+
+			result.stop();
 		});
 	});
 

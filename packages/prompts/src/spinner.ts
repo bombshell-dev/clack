@@ -15,6 +15,8 @@ export interface SpinnerOptions extends CommonOptions {
 	onCancel?: () => void;
 	cancelMessage?: string;
 	errorMessage?: string;
+	frames?: string[];
+	delay?: number;
 }
 
 export interface SpinnerResult {
@@ -30,9 +32,9 @@ export const spinner = ({
 	output = process.stdout,
 	cancelMessage,
 	errorMessage,
+	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
+	delay = unicode ? 80 : 120,
 }: SpinnerOptions = {}): SpinnerResult => {
-	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
-	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
 
 	let unblock: () => void;
