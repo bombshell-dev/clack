@@ -155,7 +155,10 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.start();
 
-			vi.advanceTimersByTime(80);
+			// there are 4 frames
+			for (let i = 0; i < 4; i++) {
+				vi.advanceTimersByTime(80);
+			}
 
 			expect(output.buffer).toMatchSnapshot();
 		});
