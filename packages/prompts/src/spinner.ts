@@ -1,6 +1,5 @@
-import { block, settings } from '@clack/core';
+import { block, frameRenderer, settings } from '@clack/core';
 import color from 'picocolors';
-import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -34,13 +33,13 @@ export const spinner = ({
 	const frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 	const delay = unicode ? 80 : 120;
 	const isCI = process.env.CI === 'true';
+	const renderer = frameRenderer(output);
 
 	let unblock: () => void;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
 	let isCancelled = false;
 	let _message = '';
-	let _prevMessage: string | undefined = undefined;
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {
@@ -79,14 +78,6 @@ export const spinner = ({
 		process.removeListener('exit', handleExit);
 	};
 
-	const clearPrevMessage = () => {
-		if (_prevMessage === undefined) return;
-		if (isCI) output.write('\n');
-		const prevLines = _prevMessage.split('\n');
-		output.write(cursor.move(-999, prevLines.length - 1));
-		output.write(erase.down(prevLines.length));
-	};
-
 	const removeTrailingDots = (msg: string): string => {
 		return msg.replace(/\.+$/, '');
 	};
@@ -108,20 +99,15 @@ export const spinner = ({
 		let indicatorTimer = 0;
 		registerHooks();
 		loop = setInterval(() => {
-			if (isCI && _message === _prevMessage) {
-				return;
-			}
-			clearPrevMessage();
-			_prevMessage = _message;
 			const frame = color.magenta(frames[frameIndex]);
 
 			if (isCI) {
-				output.write(`${frame}  ${_message}...`);
+				renderer(`${frame}  ${_message}...`);
 			} else if (indicator === 'timer') {
-				output.write(`${frame}  ${_message} ${formatTimer(_origin)}`);
+				renderer(`${frame}  ${_message} ${formatTimer(_origin)}`);
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3);
-				output.write(`${frame}  ${_message}${loadingDots}`);
+				renderer(`${frame}  ${_message}${loadingDots}`);
 			}
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
@@ -132,7 +118,6 @@ export const spinner = ({
 	const stop = (msg = '', code = 0): void => {
 		isSpinnerActive = false;
 		clearInterval(loop);
-		clearPrevMessage();
 		const step =
 			code === 0
 				? color.green(S_STEP_SUBMIT)
@@ -141,10 +126,11 @@ export const spinner = ({
 					: color.red(S_STEP_ERROR);
 		_message = msg ?? _message;
 		if (indicator === 'timer') {
-			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+			renderer(`${step}  ${_message} ${formatTimer(_origin)}`);
 		} else {
-			output.write(`${step}  ${_message}\n`);
+			renderer(`${step}  ${_message}`);
 		}
+		output?.write('\n');
 		clearHooks();
 		unblock();
 	};
