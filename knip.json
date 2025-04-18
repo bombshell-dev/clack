@@ -1,0 +1,15 @@
+{
+  "workspaces": {
+    ".": {
+      "ignore": ["build.preset.ts"]
+    },
+    "examples/*": {
+      "entry": "*.ts!",
+      "project": "*.ts"
+    },
+    "packages/*": {
+      "entry": "src/index.ts!",
+      "project": ["src/**/*.ts!", "test/**/*.ts"]
+    }
+  }
+}

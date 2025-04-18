@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@clack/core": "workspace:*",
     "@clack/prompts": "workspace:*",
-    "picocolors": "^1.0.0"
+    "picocolors": "^1.0.0",
+    "jiti": "^1.17.0"
   },
   "scripts": {
     "start": "jiti ./index.ts",
@@ -17,6 +17,6 @@
     "spinner-timer": "jiti ./spinner-timer.ts"
   },
   "devDependencies": {
-    "jiti": "^1.17.0"
+    "cross-env": "^7.0.3"
   }
 }

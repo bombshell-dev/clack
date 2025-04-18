@@ -12,7 +12,7 @@ exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
 ]
 `;
 
-exports[`spinner (isCI = false) > process exit handling > prioritizes direct options over global settings 1`] = `
+exports[`spinner (isCI = false) > process exit handling > prioritizes cancel option over global setting 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -23,7 +23,7 @@ exports[`spinner (isCI = false) > process exit handling > prioritizes direct opt
 ]
 `;
 
-exports[`spinner (isCI = false) > process exit handling > prioritizes direct options over global settings 2`] = `
+exports[`spinner (isCI = false) > process exit handling > prioritizes error option over global setting 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -209,7 +209,7 @@ exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
 ]
 `;
 
-exports[`spinner (isCI = true) > process exit handling > prioritizes direct options over global settings 1`] = `
+exports[`spinner (isCI = true) > process exit handling > prioritizes cancel option over global setting 1`] = `
 [
   "[?25l",
   "[90m│[39m
@@ -220,7 +220,7 @@ exports[`spinner (isCI = true) > process exit handling > prioritizes direct opti
 ]
 `;
 
-exports[`spinner (isCI = true) > process exit handling > prioritizes direct options over global settings 2`] = `
+exports[`spinner (isCI = true) > process exit handling > prioritizes error option over global setting 1`] = `
 [
   "[?25l",
   "[90m│[39m

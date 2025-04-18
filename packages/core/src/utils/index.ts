@@ -23,7 +23,7 @@ export function setRawMode(input: Readable, value: boolean) {
 	if (i.isTTY) i.setRawMode(value);
 }
 
-export interface BlockOptions {
+interface BlockOptions {
 	input?: Readable;
 	output?: Writable;
 	overwrite?: boolean;
