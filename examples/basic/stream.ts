@@ -9,7 +9,7 @@ async function main() {
 
 	p.intro(`${color.bgCyan(color.black(' create-app '))}`);
 
-	await p.stream.step(
+	await p.log.step(
 		(async function* () {
 			for (const line of lorem) {
 				for (const word of line.split(' ')) {
