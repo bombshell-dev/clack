@@ -2,42 +2,42 @@
 
 exports[`spinner (isCI = false) > indicator customization > custom delay 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 ",
   "[35m◒[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[35m◐[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[35m◓[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[35m◑[39m  ",
 ]
 `;
 
 exports[`spinner (isCI = false) > indicator customization > custom frames 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 ",
   "[35m🐴[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[35m🦋[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[35m🐙[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[35m🐶[39m  ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[32m◇[39m  
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
@@ -50,11 +50,11 @@ exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
   "<cursor.backward count=999>",
   "<erase.down>",
   "[35m◐[39m  foo",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[32m◇[39m  
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
@@ -243,7 +243,7 @@ exports[`spinner (isCI = false) > stop > renders submit symbol and stops spinner
 
 exports[`spinner (isCI = true) > indicator customization > custom delay 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
@@ -252,17 +252,17 @@ exports[`spinner (isCI = true) > indicator customization > custom delay 1`] = `
 
 exports[`spinner (isCI = true) > indicator customization > custom frames 1`] = `
 [
-  "[?25l",
+  "<cursor.hide>",
   "[90m│[39m
 ",
   "[35m🐴[39m  ...",
   "
 ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[32m◇[39m  
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
@@ -279,11 +279,11 @@ exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
   "[35m◐[39m  foo...",
   "
 ",
-  "[999D",
-  "[J",
+  "<cursor.backward count=999>",
+  "<erase.down>",
   "[32m◇[39m  
 ",
-  "[?25h",
+  "<cursor.show>",
 ]
 `;
 
