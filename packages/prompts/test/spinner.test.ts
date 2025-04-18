@@ -145,6 +145,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			vi.advanceTimersByTime(80);
 
+			result.stop();
+			
 			expect(output.buffer).toMatchSnapshot();
 		});
 	});
@@ -159,6 +161,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			for (let i = 0; i < 4; i++) {
 				vi.advanceTimersByTime(80);
 			}
+
+			result.stop();
 
 			expect(output.buffer).toMatchSnapshot();
 		});
