@@ -120,6 +120,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						overflowFormat: color.dim('  ...'),
 						style: styleOption,
 					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
