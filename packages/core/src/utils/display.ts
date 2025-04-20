@@ -1,4 +1,5 @@
 import type { Writable } from 'node:stream';
+import { stripAnsi, wrap as wrapAnsi } from '@macfja/ansi';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 import { getColumns } from './index.js';
@@ -47,9 +48,47 @@ function renderFrame(newFrame: string, prevFrame: string, output: Writable): str
 	return frame;
 }
 
+/**
+ * Create a function to render a frame base on the previous call (don't redraw lines that didn't change between 2 calls).
+ *
+ * @param output The Writable where to render
+ * @return The rendering function to call with the new frame to display
+ */
 export function frameRenderer(output: Writable): (frame: string) => void {
 	let prevFrame = '';
 	return (frame: string) => {
 		prevFrame = renderFrame(frame, prevFrame, output);
+	};
+}
+
+/**
+ * Create a function to render the next part of a sentence.
+ * It will automatically wrap (without, if possible, breaking word).
+ *
+ * @param output The Writable where to render
+ * @param joiner The prefix to put in front of each lines
+ * @param removeLeadingSpace if `true` leading space of new lines will be removed
+ * @return The rendering function to call with the next part of the content
+ */
+export function appendRenderer(
+	output: Writable,
+	joiner: string,
+	removeLeadingSpace = true
+): (next: string) => void {
+	let lastLine = joiner;
+	const joinerLength = stripAnsi(joiner).length + 1;
+	const newLineRE = removeLeadingSpace ? /\n */g : /\n/g;
+
+	return (next: string) => {
+		const width = getColumns(output) - joinerLength;
+		const lines =
+			lastLine.substring(0, joiner.length) +
+			wrapAnsi(`${lastLine.substring(joiner.length)}${next}`, width).replace(
+				newLineRE,
+				`\n${joiner}`
+			);
+		output?.write(cursor.move(-999, 0) + erase.lines(1));
+		output?.write(lines);
+		lastLine = lines.substring(Math.max(0, lines.lastIndexOf('\n') + 1));
 	};
 }
