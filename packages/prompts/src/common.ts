@@ -4,6 +4,7 @@ import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 
 export const unicode = isUnicodeSupported();
+export const isCI = (): boolean => process.env.CI === 'true';
 export const unicodeOr = (c: string, fallback: string) => (unicode ? c : fallback);
 export const S_STEP_ACTIVE = unicodeOr('◆', '*');
 export const S_STEP_CANCEL = unicodeOr('■', 'x');
