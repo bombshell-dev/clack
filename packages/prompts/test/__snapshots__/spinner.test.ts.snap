@@ -1,5 +1,51 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`spinner (isCI = false) > indicator customization > custom delay 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[35m◐[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[35m◓[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[35m◑[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = false) > indicator customization > custom frames 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m🐴[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[35m🦋[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[35m🐙[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[35m🐶[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
 [
   "<cursor.hide>",
@@ -9,6 +55,11 @@ exports[`spinner (isCI = false) > message > sets message for next frame 1`] = `
   "<cursor.backward count=999>",
   "<erase.down>",
   "[35m◐[39m  foo",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -104,6 +155,11 @@ exports[`spinner (isCI = false) > start > renders frames at interval 1`] = `
   "<cursor.backward count=999>",
   "<erase.down>",
   "[35m◑[39m  ",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -113,6 +169,11 @@ exports[`spinner (isCI = false) > start > renders message 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  foo",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -122,6 +183,11 @@ exports[`spinner (isCI = false) > start > renders timer when indicator is "timer
   "[90m│[39m
 ",
   "[35m◒[39m   [0s]",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m   [0s]
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -195,6 +261,38 @@ exports[`spinner (isCI = false) > stop > renders submit symbol and stops spinner
 ]
 `;
 
+exports[`spinner (isCI = true) > indicator customization > custom delay 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > indicator customization > custom frames 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m🐴[39m  ...",
+  "
+",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
 [
   "<cursor.hide>",
@@ -206,6 +304,13 @@ exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
   "<cursor.backward count=999>",
   "<erase.down>",
   "[35m◐[39m  foo...",
+  "
+",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -292,6 +397,13 @@ exports[`spinner (isCI = true) > start > renders frames at interval 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
+  "
+",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -301,6 +413,13 @@ exports[`spinner (isCI = true) > start > renders message 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  foo...",
+  "
+",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
 ]
 `;
 
@@ -310,6 +429,13 @@ exports[`spinner (isCI = true) > start > renders timer when indicator is "timer"
   "[90m│[39m
 ",
   "[35m◒[39m  ...",
+  "
+",
+  "<cursor.backward count=999>",
+  "<erase.down>",
+  "[32m◇[39m   [0s]
+",
+  "<cursor.show>",
 ]
 `;
 
