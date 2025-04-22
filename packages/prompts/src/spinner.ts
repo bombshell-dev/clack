@@ -36,7 +36,6 @@ export const spinner = ({
 	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
 	delay = unicode ? 80 : 120,
 }: SpinnerOptions = {}): SpinnerResult => {
-
 	const isCI = isCIFn();
 
 	let unblock: () => void;
