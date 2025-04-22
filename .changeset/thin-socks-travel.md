@@ -2,4 +2,4 @@
 "@clack/prompts": minor
 ---
 
-Support for custom spinner
+Added support for custom frames in spinner prompt
