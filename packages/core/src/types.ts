@@ -1,3 +1,4 @@
+import type { Key } from 'node:readline';
 import type { Action } from './utils/settings.js';
 
 /**
@@ -15,7 +16,7 @@ export interface ClackEvents {
 	submit: (value?: any) => void;
 	error: (value?: any) => void;
 	cursor: (key?: Action) => void;
-	key: (key?: string) => void;
+	key: (key: string | undefined, info: Key) => void;
 	value: (value?: string) => void;
 	confirm: (value?: boolean) => void;
 	finalize: () => void;
