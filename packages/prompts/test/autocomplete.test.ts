@@ -64,13 +64,13 @@ describe('AutocompletePrompt', () => {
 		expect(instance.cursor).to.equal(0);
 
 		// Directly trigger the cursor event with 'down'
-		instance.emit('cursor', 'down');
+		instance.emit('key', '', { name: 'down' });
 
 		// After down event, cursor should be 1
 		expect(instance.cursor).to.equal(1);
 
 		// Trigger cursor event with 'up'
-		instance.emit('cursor', 'up');
+		instance.emit('key', '', { name: 'up' });
 
 		// After up event, cursor should be back to 0
 		expect(instance.cursor).to.equal(0);
@@ -82,7 +82,7 @@ describe('AutocompletePrompt', () => {
 			output,
 			render: () => 'foo',
 			options: testOptions,
-			initialValue: 'cherry',
+			initialValue: ['cherry'],
 		});
 
 		// The cursor should be initialized to the cherry index
@@ -90,34 +90,7 @@ describe('AutocompletePrompt', () => {
 		expect(instance.cursor).to.equal(cherryIndex);
 
 		// The selectedValue should be cherry
-		expect(instance.selectedValue).to.equal('cherry');
-	});
-
-	test('maxItems limits the number of options displayed', () => {
-		// Create more test options
-		const manyOptions = [
-			...testOptions,
-			{ value: 'kiwi', label: 'Kiwi' },
-			{ value: 'lemon', label: 'Lemon' },
-			{ value: 'mango', label: 'Mango' },
-			{ value: 'peach', label: 'Peach' },
-		];
-
-		const instance = new AutocompletePrompt({
-			input,
-			output,
-			render: () => 'foo',
-			options: manyOptions,
-			maxItems: 3,
-		});
-
-		instance.prompt();
-
-		// There should still be all options in the filteredOptions array
-		expect(instance.filteredOptions.length).to.equal(manyOptions.length);
-
-		// The maxItems property should be set correctly
-		expect(instance.maxItems).to.equal(3);
+		expect(instance.selectedValues).to.deep.equal(['cherry']);
 	});
 
 	test('filtering through value event', () => {
@@ -152,21 +125,15 @@ describe('AutocompletePrompt', () => {
 			options: testOptions,
 		});
 
-		// Create a test function that uses the private method
-		const testFilter = (input: string, option: any) => {
-			// @ts-ignore - Access private method for testing
-			return instance.defaultFilterFn(input, option);
-		};
+		instance.emit('value', 'ap');
 
-		// Call the test filter with an input
-		const sampleOption = testOptions[0]; // 'apple'
-		const result = testFilter('ap', sampleOption);
+		expect(instance.filteredOptions).toEqual([
+			{ value: 'apple', label: 'Apple' },
+			{ value: 'grape', label: 'Grape' },
+		]);
 
-		// The filter should match 'apple' with 'ap'
-		expect(result).to.equal(true);
+		instance.emit('value', 'z');
 
-		// Should not match with a non-existing substring
-		const noMatch = testFilter('z', sampleOption);
-		expect(noMatch).to.equal(false);
+		expect(instance.filteredOptions).toEqual([]);
 	});
 });

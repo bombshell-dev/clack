@@ -1,124 +1,193 @@
+import type { Key } from 'node:readline';
+import color from 'picocolors';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-export interface AutocompleteOptions<T extends { value: any }>
-	extends PromptOptions<AutocompletePrompt<T>> {
-	options: T[];
-	initialValue?: T['value'];
-	maxItems?: number;
-	filterFn?: (input: string, option: T) => boolean;
+interface OptionLike {
+	value: unknown;
+	label?: string;
 }
 
-export default class AutocompletePrompt<T extends { value: any; label?: string }> extends Prompt {
-	options: T[];
-	filteredOptions: T[];
-	cursor = 0;
-	maxItems: number;
-	filterFn: (input: string, option: T) => boolean;
-	isNavigationMode = false; // Track if we're in navigation mode
-	ignoreNextSpace = false; // Track if we should ignore the next space
+type FilterFunction<T extends OptionLike> = (search: string, opt: T) => boolean;
 
-	private filterOptions() {
-		const input = this.value?.toLowerCase() ?? '';
-		// Remember the currently selected value before filtering
-		const previousSelectedValue = this.filteredOptions[this.cursor]?.value;
-
-		// Filter options based on the current input
-		this.filteredOptions = input
-			? this.options.filter((option) => this.filterFn(input, option))
-			: this.options;
-
-		// Reset cursor to 0 by default when filtering changes
-		this.cursor = 0;
-
-		// Try to maintain the previously selected item if it still exists in filtered results
-		if (previousSelectedValue !== undefined && this.filteredOptions.length > 0) {
-			const newIndex = this.filteredOptions.findIndex((opt) => opt.value === previousSelectedValue);
-			if (newIndex !== -1) {
-				// Found the same item in new filtered results, keep it selected
-				this.cursor = newIndex;
-			}
-		}
+function getCursorForValue<T extends OptionLike>(
+	selected: T['value'] | undefined,
+	items: T[]
+): number {
+	if (selected === undefined) {
+		return 0;
 	}
 
-	// Store both the search input and the selected value
-	public get selectedValue(): T['value'] | undefined {
-		return this.filteredOptions[this.cursor]?.value;
+	const currLength = items.length;
+
+	// If filtering changed the available options, update cursor
+	if (currLength === 0) {
+		return 0;
+	}
+
+	// Try to maintain the same selected item
+	const index = items.findIndex((item) => item.value === selected);
+	return index !== -1 ? index : 0;
+}
+
+function defaultFilter<T extends OptionLike>(input: string, option: T): boolean {
+	const label = option.label ?? String(option.value);
+	return label.toLowerCase().includes(input.toLowerCase());
+}
+
+function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[] | undefined {
+	if (!values) {
+		return undefined;
+	}
+	if (multiple) {
+		return values;
+	}
+	return values[0];
+}
+
+export interface AutocompleteOptions<T extends OptionLike>
+	extends PromptOptions<AutocompletePrompt<T>> {
+	options: T[];
+	filter?: FilterFunction<T>;
+	multiple?: boolean;
+}
+
+export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
+	options: T[];
+	filteredOptions: T[];
+	multiple: boolean;
+	isNavigating = false;
+	selectedValues: Array<T['value']> = [];
+
+	#focusedValue: T['value'] | undefined;
+	#cursor = 0;
+	#lastValue: T['value'] | undefined;
+	#filterFn: FilterFunction<T>;
+
+	get cursor(): number {
+		return this.#cursor;
+	}
+
+	get valueWithCursor() {
+		if (!this.value) {
+			return color.inverse(color.hidden('_'));
+		}
+		if (this._cursor >= this.value.length) {
+			return `${this.value}█`;
+		}
+		const s1 = this.value.slice(0, this._cursor);
+		const [s2, ...s3] = this.value.slice(this._cursor);
+		return `${s1}${color.inverse(s2)}${s3.join('')}`;
 	}
 
 	constructor(opts: AutocompleteOptions<T>) {
-		super(opts, true);
+		super(opts);
 
 		this.options = opts.options;
 		this.filteredOptions = [...this.options];
-		this.maxItems = opts.maxItems ?? 10;
-		this.filterFn = opts.filterFn ?? this.defaultFilterFn;
-
-		// Set initial value if provided
-		if (opts.initialValue !== undefined) {
-			const initialIndex = this.options.findIndex(({ value }) => value === opts.initialValue);
-			if (initialIndex !== -1) {
-				this.cursor = initialIndex;
+		this.multiple = opts.multiple === true;
+		this._usePlaceholderAsValue = false;
+		this.#filterFn = opts.filter ?? defaultFilter;
+		let initialValues: unknown[] | undefined;
+		if (opts.initialValue && Array.isArray(opts.initialValue)) {
+			if (this.multiple) {
+				initialValues = opts.initialValue;
+			} else {
+				initialValues = opts.initialValue.slice(0, 1);
 			}
 		}
 
-		// Handle keyboard key presses
-		this.on('key', (key) => {
-			// Enter navigation mode with arrow keys
-			if (key === 'up' || key === 'down') {
-				this.isNavigationMode = true;
+		if (initialValues) {
+			this.selectedValues = initialValues;
+			for (const selectedValue of initialValues) {
+				const selectedIndex = this.options.findIndex((opt) => opt.value === selectedValue);
+				if (selectedIndex !== -1) {
+					this.toggleSelected(selectedValue);
+					this.#cursor = selectedIndex;
+					this.#focusedValue = this.options[this.#cursor]?.value;
+				}
+			}
+		}
+
+		this.on('finalize', () => {
+			if (!this.value) {
+				this.value = normalisedValue(this.multiple, initialValues);
 			}
 
-			// Space key in navigation mode should be ignored for input
-			if (key === ' ' && this.isNavigationMode) {
-				this.ignoreNextSpace = true;
-				return false; // Prevent propagation
-			}
-
-			// Exit navigation mode with non-navigation keys
-			if (key !== 'up' && key !== 'down' && key !== 'return') {
-				this.isNavigationMode = false;
-			}
-		});
-
-		// Handle cursor movement
-		this.on('cursor', (key) => {
-			switch (key) {
-				case 'up':
-					this.isNavigationMode = true;
-					this.cursor = this.cursor === 0 ? this.filteredOptions.length - 1 : this.cursor - 1;
-					break;
-				case 'down':
-					this.isNavigationMode = true;
-					this.cursor = this.cursor === this.filteredOptions.length - 1 ? 0 : this.cursor + 1;
-					break;
+			if (this.state === 'submit') {
+				this.value = normalisedValue(this.multiple, this.selectedValues);
 			}
 		});
 
-		// Update filtered options when input changes
-		this.on('value', (value) => {
-			// Check if we need to ignore a space
-			if (this.ignoreNextSpace && value?.endsWith(' ')) {
-				// Remove the space and reset the flag
-				this.value = value.replace(/\s+$/, '');
-				this.ignoreNextSpace = false;
-				return;
-			}
-
-			// In navigation mode, strip out any spaces
-			if (this.isNavigationMode && value?.includes(' ')) {
-				this.value = value.replace(/\s+/g, '');
-				return;
-			}
-
-			// Normal filtering when not in navigation mode
-			this.value = value;
-			this.filterOptions();
-		});
+		this.on('key', (char, key) => this.#onKey(char, key));
+		this.on('value', (value) => this.#onValueChanged(value));
 	}
 
-	// Default filtering function
-	private defaultFilterFn(input: string, option: T): boolean {
-		const label = option.label ?? String(option.value);
-		return label.toLowerCase().includes(input.toLowerCase());
+	protected override _isActionKey(char: string | undefined, key: Key): boolean {
+		return (
+			char === '\t' ||
+			(this.multiple &&
+				this.isNavigating &&
+				key.name === 'space' &&
+				char !== undefined &&
+				char !== '')
+		);
+	}
+
+	#onKey(_char: string | undefined, key: Key): void {
+		const isUpKey = key.name === 'up';
+		const isDownKey = key.name === 'down';
+
+		// Start navigation mode with up/down arrows
+		if (isUpKey || isDownKey) {
+			this.#cursor = Math.max(
+				0,
+				Math.min(this.#cursor + (isUpKey ? -1 : 1), this.filteredOptions.length - 1)
+			);
+			this.#focusedValue = this.filteredOptions[this.#cursor]?.value;
+			if (!this.multiple) {
+				this.selectedValues = [this.#focusedValue];
+			}
+			this.isNavigating = true;
+		} else {
+			if (
+				this.multiple &&
+				this.#focusedValue !== undefined &&
+				(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
+			) {
+				this.toggleSelected(this.#focusedValue);
+			} else {
+				this.isNavigating = false;
+			}
+		}
+	}
+
+	toggleSelected(value: T['value']) {
+		if (this.filteredOptions.length === 0) {
+			return;
+		}
+
+		if (this.multiple) {
+			if (this.selectedValues.includes(value)) {
+				this.selectedValues = this.selectedValues.filter((v) => v !== value);
+			} else {
+				this.selectedValues = [...this.selectedValues, value];
+			}
+		} else {
+			this.selectedValues = [value];
+		}
+	}
+
+	#onValueChanged(value: string | undefined): void {
+		if (value !== this.#lastValue) {
+			this.#lastValue = value;
+
+			if (value) {
+				this.filteredOptions = this.options.filter((opt) => this.#filterFn(value, opt));
+			} else {
+				this.filteredOptions = [...this.options];
+			}
+			this.#cursor = getCursorForValue(this.#focusedValue, this.filteredOptions);
+			this.#focusedValue = this.filteredOptions[this.#cursor]?.value;
+		}
 	}
 }
