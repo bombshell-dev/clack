@@ -128,7 +128,8 @@ export const spinner = ({
 			}
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
-			indicatorTimer = indicatorTimer < frames.length ? indicatorTimer + 0.125 : 0;
+			// indicator increase by 1 every 8 frames
+			indicatorTimer = indicatorTimer < 4 ? indicatorTimer + 0.125 : 0;
 		}, delay);
 	};
 

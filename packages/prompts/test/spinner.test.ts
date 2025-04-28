@@ -173,6 +173,20 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('custom frames with lots of frame have consistent ellipsis display', () => {
+			const result = prompts.spinner({ output, frames: Object.keys(Array(10).fill(0)) });
+
+			result.start();
+
+			for (let i = 0; i < 64; i++) {
+				vi.advanceTimersByTime(80);
+			}
+
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('custom delay', () => {
 			const result = prompts.spinner({ output, delay: 200 });
 
