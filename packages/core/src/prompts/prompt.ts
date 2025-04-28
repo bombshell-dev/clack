@@ -142,8 +142,10 @@ export default class Prompt {
 				terminal: true,
 			});
 			this.rl.prompt();
-			if (this.opts.initialValue !== undefined && this._track) {
-				this.rl.write(this.opts.initialValue);
+			if (this.opts.initialValue !== undefined) {
+				if (this._track) {
+					this.rl.write(this.opts.initialValue);
+				}
 				this._setValue(this.opts.initialValue);
 			}
 

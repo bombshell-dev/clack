@@ -64,13 +64,13 @@ describe('AutocompletePrompt', () => {
 		expect(instance.cursor).to.equal(0);
 
 		// Directly trigger the cursor event with 'down'
-		instance.emit('key', '', {name: 'down'});
+		instance.emit('key', '', { name: 'down' });
 
 		// After down event, cursor should be 1
 		expect(instance.cursor).to.equal(1);
 
 		// Trigger cursor event with 'up'
-		instance.emit('key', '', {name: 'up'});
+		instance.emit('key', '', { name: 'up' });
 
 		// After up event, cursor should be back to 0
 		expect(instance.cursor).to.equal(0);

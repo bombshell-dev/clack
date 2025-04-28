@@ -87,17 +87,15 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		this.multiple = opts.multiple === true;
 		this._usePlaceholderAsValue = false;
 		this.#filterFn = opts.filter ?? defaultFilter;
-		const initialValues = opts.initialValue &&
-			Array.isArray(opts.initialValue) ?
-				opts.initialValue :
-				undefined;
+		const initialValues =
+			opts.initialValue && Array.isArray(opts.initialValue) ? opts.initialValue : undefined;
 
 		if (initialValues) {
 			this.selectedValues = initialValues;
 			for (const selectedValue of initialValues) {
 				const selectedIndex = this.options.findIndex((opt) => opt.value === selectedValue);
 				if (selectedIndex !== -1) {
-					this.toggleSelected(selectedValue)
+					this.toggleSelected(selectedValue);
 					this.#cursor = selectedIndex;
 					this.#focusedValue = this.options[this.#cursor]?.value;
 				}
