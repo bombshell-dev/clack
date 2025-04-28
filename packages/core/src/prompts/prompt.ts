@@ -211,7 +211,7 @@ export default class Prompt {
 				this.emit('value', this.opts.placeholder);
 			}
 		}
-		
+
 		// Call the key event handler and emit the key event
 		if (char) {
 			this.emit('key', char.toLowerCase());
@@ -246,7 +246,7 @@ export default class Prompt {
 		if (!keyHandled && isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
-		
+
 		if (this.state === 'submit' || this.state === 'cancel') {
 			this.emit('finalize');
 		}
