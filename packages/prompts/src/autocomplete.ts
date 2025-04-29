@@ -65,10 +65,10 @@ export interface AutocompleteOptions<Value> extends CommonOptions {
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const prompt = new AutocompletePrompt<Option<Value>>({
+	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		placeholder: opts.placeholder,
-		initialValue: opts.initialValue ? [{ value: opts.initialValue }] : undefined,
+		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		filter: (search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
 		},
@@ -83,10 +83,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			switch (this.state) {
 				case 'submit': {
 					// Show selected value
-					const selected = getSelectedOptions(
-						this.selectedValues.map((v) => v),
-						this.options
-					);
+					const selected = getSelectedOptions(this.selectedValues, this.options);
 					const label = selected.length > 0 ? selected.map(getLabel).join(', ') : '';
 					return `${title}${color.gray(S_BAR)}  ${color.dim(label)}`;
 				}
@@ -208,11 +205,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const formatOption = (option: Option<Value>, active: boolean, selectedValues: Value[]) => {
+			const formatOption = (option: Option<Value>, active: boolean, selectedValues: Value[], focusedValue: Value | undefined) => {
 				const isSelected = selectedValues.includes(option.value);
 				const label = option.label ?? String(option.value ?? '');
 				const hint =
-					option.hint && this.focusedValue !== undefined && option.value === this.focusedValue
+					option.hint && focusedValue !== undefined && option.value === focusedValue
 						? color.dim(` (${option.hint})`)
 						: '';
 				const checkbox = isSelected
@@ -274,7 +271,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					const displayOptions = limitOptions({
 						cursor: this.cursor,
 						options: this.filteredOptions,
-						style: (option, active) => formatOption(option, active, this.selectedValues),
+						style: (option, active) => formatOption(option, active, this.selectedValues, this.focusedValue),
 						maxItems: opts.maxItems,
 						output: opts.output,
 					});
