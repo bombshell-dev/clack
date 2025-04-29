@@ -65,11 +65,11 @@ export interface AutocompleteOptions<Value> extends CommonOptions {
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const prompt = new AutocompletePrompt({
+	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
 		placeholder: opts.placeholder,
-		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
-		filter: (search, opt) => {
+		initialValue: opts.initialValue ? [{ value: opts.initialValue }] : undefined,
+		filter: (search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
 		},
 		input: opts.input,
@@ -83,7 +83,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			switch (this.state) {
 				case 'submit': {
 					// Show selected value
-					const selected = getSelectedOptions(this.selectedValues, this.options);
+					const selected = getSelectedOptions(
+						this.selectedValues.map((v) => v),
+						this.options
+					);
 					const label = selected.length > 0 ? selected.map(getLabel).join(', ') : '';
 					return `${title}${color.gray(S_BAR)}  ${color.dim(label)}`;
 				}
@@ -113,7 +116,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 									options: this.filteredOptions,
 									style: (option, active) => {
 										const label = getLabel(option);
-										const hint = option.hint ? color.dim(` (${option.hint})`) : '';
+										const hint =
+											option.hint && option.value === this.focusedValue
+												? color.dim(` (${option.hint})`)
+												: '';
 
 										return active
 											? `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`
@@ -190,18 +196,6 @@ export interface AutocompleteMultiSelectOptions<Value> {
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
-	const formatOption = (option: Option<Value>, active: boolean, selectedValues: Value[]) => {
-		const isSelected = selectedValues.includes(option.value);
-		const label = option.label ?? String(option.value ?? '');
-		const hint = option.hint ? color.dim(` (${option.hint})`) : '';
-		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
-
-		if (active) {
-			return `${color.green('›')} ${checkbox} ${label}${hint}`;
-		}
-		return `${color.dim(' ')} ${checkbox} ${color.dim(label)}${hint}`;
-	};
-
 	// Create text prompt which we'll use as foundation
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
@@ -214,6 +208,23 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
+			const formatOption = (option: Option<Value>, active: boolean, selectedValues: Value[]) => {
+				const isSelected = selectedValues.includes(option.value);
+				const label = option.label ?? String(option.value ?? '');
+				const hint =
+					option.hint && this.focusedValue !== undefined && option.value === this.focusedValue
+						? color.dim(` (${option.hint})`)
+						: '';
+				const checkbox = isSelected
+					? color.green(S_CHECKBOX_SELECTED)
+					: color.dim(S_CHECKBOX_INACTIVE);
+
+				if (active) {
+					return `${checkbox} ${label}${hint}`;
+				}
+				return `${checkbox} ${color.dim(label)}`;
+			};
+
 			// Title and symbol
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 

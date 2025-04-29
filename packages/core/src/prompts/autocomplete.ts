@@ -58,7 +58,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 	isNavigating = false;
 	selectedValues: Array<T['value']> = [];
 
-	#focusedValue: T['value'] | undefined;
+	focusedValue: T['value'] | undefined;
 	#cursor = 0;
 	#lastValue: T['value'] | undefined;
 	#filterFn: FilterFunction<T>;
@@ -103,7 +103,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 				if (selectedIndex !== -1) {
 					this.toggleSelected(selectedValue);
 					this.#cursor = selectedIndex;
-					this.#focusedValue = this.options[this.#cursor]?.value;
+					this.focusedValue = this.options[this.#cursor]?.value;
 				}
 			}
 		}
@@ -143,18 +143,18 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 				0,
 				Math.min(this.#cursor + (isUpKey ? -1 : 1), this.filteredOptions.length - 1)
 			);
-			this.#focusedValue = this.filteredOptions[this.#cursor]?.value;
+			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
 			if (!this.multiple) {
-				this.selectedValues = [this.#focusedValue];
+				this.selectedValues = [this.focusedValue];
 			}
 			this.isNavigating = true;
 		} else {
 			if (
 				this.multiple &&
-				this.#focusedValue !== undefined &&
+				this.focusedValue !== undefined &&
 				(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
 			) {
-				this.toggleSelected(this.#focusedValue);
+				this.toggleSelected(this.focusedValue);
 			} else {
 				this.isNavigating = false;
 			}
@@ -186,8 +186,8 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 			} else {
 				this.filteredOptions = [...this.options];
 			}
-			this.#cursor = getCursorForValue(this.#focusedValue, this.filteredOptions);
-			this.#focusedValue = this.filteredOptions[this.#cursor]?.value;
+			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
+			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
 		}
 	}
 }
