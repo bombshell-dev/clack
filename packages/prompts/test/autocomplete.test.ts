@@ -1,10 +1,8 @@
-import { AutocompletePrompt } from '@clack/core';
-import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { MockReadable } from './test-utils.js';
-import { MockWritable } from './test-utils.js';
+import { MockReadable, MockWritable } from './test-utils.js';
+import { autocomplete } from '../src/autocomplete.js';
 
-describe('AutocompletePrompt', () => {
+describe('autocomplete', () => {
 	let input: MockReadable;
 	let output: MockWritable;
 	const testOptions = [
@@ -24,116 +22,106 @@ describe('AutocompletePrompt', () => {
 		vi.restoreAllMocks();
 	});
 
-	test('renders render() result', () => {
-		const instance = new AutocompletePrompt({
+	test('renders initial UI with message and instructions', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
 			input,
 			output,
-			render: () => 'foo',
-			options: testOptions,
 		});
-		instance.prompt();
-		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
+
+		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('initial options match provided options', () => {
-		const instance = new AutocompletePrompt({
+	test('shows placeholder when provided', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			placeholder: 'Type to search...',
 			input,
 			output,
-			render: () => 'foo',
-			options: testOptions,
 		});
 
-		instance.prompt();
-
-		// Initial state should have all options
-		expect(instance.filteredOptions.length).to.equal(testOptions.length);
-		expect(instance.cursor).to.equal(0);
+		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('cursor navigation with event emitter', () => {
-		const instance = new AutocompletePrompt({
+	test('limits displayed options when maxItems is set', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			maxItems: 2,
 			input,
 			output,
-			render: () => 'foo',
-			options: testOptions,
 		});
 
-		instance.prompt();
-
-		// Initial cursor should be at 0
-		expect(instance.cursor).to.equal(0);
-
-		// Directly trigger the cursor event with 'down'
-		instance.emit('key', '', { name: 'down' });
-
-		// After down event, cursor should be 1
-		expect(instance.cursor).to.equal(1);
-
-		// Trigger cursor event with 'up'
-		instance.emit('key', '', { name: 'up' });
-
-		// After up event, cursor should be back to 0
-		expect(instance.cursor).to.equal(0);
+		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('initialValue selects correct option', () => {
-		const instance = new AutocompletePrompt({
+	test('shows no matches message when search has no results', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
 			input,
 			output,
-			render: () => 'foo',
-			options: testOptions,
-			initialValue: ['cherry'],
 		});
 
-		// The cursor should be initialized to the cherry index
-		const cherryIndex = testOptions.findIndex((opt) => opt.value === 'cherry');
-		expect(instance.cursor).to.equal(cherryIndex);
+		// Type something that won't match
+		input.emit('keypress', 'z', { name: 'z' });
 
-		// The selectedValue should be cherry
-		expect(instance.selectedValues).to.deep.equal(['cherry']);
+		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('filtering through value event', () => {
-		const instance = new AutocompletePrompt({
+	test('shows hint when option has hint and is focused', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: [
+				...testOptions,
+				{ value: 'kiwi', label: 'Kiwi', hint: 'New Zealand' },
+			],
 			input,
 			output,
-			render: () => 'foo',
-			options: testOptions,
 		});
 
-		instance.prompt();
+		// Navigate to the option with hint
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
 
-		// Initial state should have all options
-		expect(instance.filteredOptions.length).to.equal(testOptions.length);
-
-		// Simulate typing 'a' by emitting value event
-		instance.emit('value', 'a');
-
-		// Check that filtered options are updated to include options with 'a'
-		expect(instance.filteredOptions.length).to.be.lessThan(testOptions.length);
-
-		// Check that 'apple' is in the filtered options
-		const hasApple = instance.filteredOptions.some((opt) => opt.value === 'apple');
-		expect(hasApple).to.equal(true);
+		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('default filter function works correctly', () => {
-		const instance = new AutocompletePrompt({
+	test('shows selected value in submit state', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
 			input,
 			output,
-			render: () => 'foo',
-			options: testOptions,
 		});
 
-		instance.emit('value', 'ap');
+		// Select an option and submit
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'return' });
 
-		expect(instance.filteredOptions).toEqual([
-			{ value: 'apple', label: 'Apple' },
-			{ value: 'grape', label: 'Grape' },
-		]);
+		const value = await result;
+		expect(value).toBe('banana');
+		expect(output.buffer).toMatchSnapshot();
+	});
 
-		instance.emit('value', 'z');
+	test('shows strikethrough in cancel state', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
 
-		expect(instance.filteredOptions).toEqual([]);
+		// Cancel with Ctrl+C
+		input.emit('keypress', '\x03', { name: 'c' });
+
+		const value = await result;
+		expect(typeof value === 'symbol').toBe(true);
+		expect(output.buffer).toMatchSnapshot();
 	});
 });
