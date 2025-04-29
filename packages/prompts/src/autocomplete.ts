@@ -205,7 +205,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const formatOption = (option: Option<Value>, active: boolean, selectedValues: Value[], focusedValue: Value | undefined) => {
+			const formatOption = (
+				option: Option<Value>,
+				active: boolean,
+				selectedValues: Value[],
+				focusedValue: Value | undefined
+			) => {
 				const isSelected = selectedValues.includes(option.value);
 				const label = option.label ?? String(option.value ?? '');
 				const hint =
@@ -271,7 +276,8 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					const displayOptions = limitOptions({
 						cursor: this.cursor,
 						options: this.filteredOptions,
-						style: (option, active) => formatOption(option, active, this.selectedValues, this.focusedValue),
+						style: (option, active) =>
+							formatOption(option, active, this.selectedValues, this.focusedValue),
 						maxItems: opts.maxItems,
 						output: opts.output,
 					});

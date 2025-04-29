@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { MockReadable, MockWritable } from './test-utils.js';
 import { autocomplete } from '../src/autocomplete.js';
+import { MockReadable, MockWritable } from './test-utils.js';
 
 describe('autocomplete', () => {
 	let input: MockReadable;
@@ -74,10 +74,7 @@ describe('autocomplete', () => {
 	test('shows hint when option has hint and is focused', async () => {
 		const result = autocomplete({
 			message: 'Select a fruit',
-			options: [
-				...testOptions,
-				{ value: 'kiwi', label: 'Kiwi', hint: 'New Zealand' },
-			],
+			options: [...testOptions, { value: 'kiwi', label: 'Kiwi', hint: 'New Zealand' }],
 			input,
 			output,
 		});
