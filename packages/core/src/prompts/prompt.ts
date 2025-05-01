@@ -231,7 +231,6 @@ export default class Prompt {
 			}
 		}
 
-		// Only process as cancel if the key wasn't already handled
 		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}

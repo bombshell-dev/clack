@@ -193,6 +193,28 @@ export interface AutocompleteMultiSelectOptions<Value> {
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
+	const formatOption = (
+		option: Option<Value>,
+		active: boolean,
+		selectedValues: Value[],
+		focusedValue: Value | undefined
+	) => {
+		const isSelected = selectedValues.includes(option.value);
+		const label = option.label ?? String(option.value ?? '');
+		const hint =
+			option.hint && focusedValue !== undefined && option.value === focusedValue
+				? color.dim(` (${option.hint})`)
+				: '';
+		const checkbox = isSelected
+			? color.green(S_CHECKBOX_SELECTED)
+			: color.dim(S_CHECKBOX_INACTIVE);
+
+		if (active) {
+			return `${checkbox} ${label}${hint}`;
+		}
+		return `${checkbox} ${color.dim(label)}`;
+	};
+	
 	// Create text prompt which we'll use as foundation
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
@@ -205,28 +227,6 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const formatOption = (
-				option: Option<Value>,
-				active: boolean,
-				selectedValues: Value[],
-				focusedValue: Value | undefined
-			) => {
-				const isSelected = selectedValues.includes(option.value);
-				const label = option.label ?? String(option.value ?? '');
-				const hint =
-					option.hint && focusedValue !== undefined && option.value === focusedValue
-						? color.dim(` (${option.hint})`)
-						: '';
-				const checkbox = isSelected
-					? color.green(S_CHECKBOX_SELECTED)
-					: color.dim(S_CHECKBOX_INACTIVE);
-
-				if (active) {
-					return `${checkbox} ${label}${hint}`;
-				}
-				return `${checkbox} ${color.dim(label)}`;
-			};
-
 			// Title and symbol
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
