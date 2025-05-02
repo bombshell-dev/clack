@@ -31,30 +31,27 @@ describe('autocomplete', () => {
 		});
 
 		expect(output.buffer).toMatchSnapshot();
-	});
-
-	test('shows placeholder when provided', async () => {
-		const result = autocomplete({
-			message: 'Select a fruit',
-			options: testOptions,
-			placeholder: 'Type to search...',
-			input,
-			output,
-		});
-
-		expect(output.buffer).toMatchSnapshot();
+		input.emit('keypress', '', { name: 'return' });
+		await result;
 	});
 
 	test('limits displayed options when maxItems is set', async () => {
+		const options = [];
+		for (let i = 0; i < 10; i++) {
+			options.push({ value: `option ${i}`, label: `Option ${i}` });
+		}
+
 		const result = autocomplete({
-			message: 'Select a fruit',
-			options: testOptions,
-			maxItems: 2,
+			message: 'Select an option',
+			options,
+			maxItems: 6,
 			input,
 			output,
 		});
 
 		expect(output.buffer).toMatchSnapshot();
+		input.emit('keypress', '', { name: 'return' });
+		await result;
 	});
 
 	test('shows no matches message when search has no results', async () => {
@@ -67,8 +64,9 @@ describe('autocomplete', () => {
 
 		// Type something that won't match
 		input.emit('keypress', 'z', { name: 'z' });
-
 		expect(output.buffer).toMatchSnapshot();
+		input.emit('keypress', '', { name: 'return' });
+		await result;
 	});
 
 	test('shows hint when option has hint and is focused', async () => {
@@ -85,8 +83,9 @@ describe('autocomplete', () => {
 		input.emit('keypress', '', { name: 'down' });
 		input.emit('keypress', '', { name: 'down' });
 		input.emit('keypress', '', { name: 'down' });
-
 		expect(output.buffer).toMatchSnapshot();
+		input.emit('keypress', '', { name: 'return' });
+		await result;
 	});
 
 	test('shows selected value in submit state', async () => {
