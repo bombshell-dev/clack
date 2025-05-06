@@ -1,5 +1,6 @@
 export { isCancel, updateSettings, settings, type ClackSettings } from '@clack/core';
 
+export * from './autocomplete.js';
 export * from './common.js';
 export * from './confirm.js';
 export * from './group-multi-select.js';

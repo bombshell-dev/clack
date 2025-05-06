@@ -1,7 +1,7 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable } from 'node:stream';
-import { Writable } from 'node:stream';
+import type { Writable } from 'node:stream';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
@@ -33,6 +33,7 @@ export default class Prompt {
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
+	protected _usePlaceholderAsValue = true;
 
 	public state: ClackState = 'initial';
 	public error = '';
@@ -133,29 +134,19 @@ export default class Prompt {
 				);
 			}
 
-			const sink = new Writable();
-			sink._write = (chunk, encoding, done) => {
-				if (this._track) {
-					this.value = this.rl?.line.replace(/\t/g, '');
-					this._cursor = this.rl?.cursor ?? 0;
-					this.emit('value', this.value);
-				}
-				done();
-			};
-			this.input.pipe(sink);
-
 			this.rl = readline.createInterface({
 				input: this.input,
-				output: sink,
 				tabSize: 2,
 				prompt: '',
 				escapeCodeTimeout: 50,
 				terminal: true,
 			});
-			readline.emitKeypressEvents(this.input, this.rl);
 			this.rl.prompt();
-			if (this.opts.initialValue !== undefined && this._track) {
-				this.rl.write(this.opts.initialValue);
+			if (this.opts.initialValue !== undefined) {
+				if (this._track) {
+					this.rl.write(this.opts.initialValue);
+				}
+				this._setValue(this.opts.initialValue);
 			}
 
 			this.input.on('keypress', this.onKeypress);
@@ -179,7 +170,24 @@ export default class Prompt {
 		});
 	}
 
-	private onKeypress(char: string, key?: Key) {
+	protected _isActionKey(char: string | undefined, _key: Key): boolean {
+		return char === '\t';
+	}
+
+	protected _setValue(value: unknown): void {
+		this.value = value;
+		this.emit('value', this.value);
+	}
+
+	private onKeypress(char: string | undefined, key: Key) {
+		if (this._track && key.name !== 'return') {
+			if (key.name && this._isActionKey(char, key)) {
+				this.rl?.write(null, { ctrl: true, name: 'h' });
+			}
+			this._cursor = this.rl?.cursor ?? 0;
+			this._setValue(this.rl?.line);
+		}
+
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
@@ -194,20 +202,20 @@ export default class Prompt {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
-		if (char === '\t' && this.opts.placeholder) {
+		if (this._usePlaceholderAsValue && char === '\t' && this.opts.placeholder) {
 			if (!this.value) {
 				this.rl?.write(this.opts.placeholder);
-				this.emit('value', this.opts.placeholder);
+				this._setValue(this.opts.placeholder);
 			}
 		}
-		if (char) {
-			this.emit('key', char.toLowerCase());
-		}
+
+		// Call the key event handler and emit the key event
+		this.emit('key', char?.toLowerCase(), key);
 
 		if (key?.name === 'return') {
 			if (!this.value && this.opts.placeholder) {
 				this.rl?.write(this.opts.placeholder);
-				this.emit('value', this.opts.placeholder);
+				this._setValue(this.opts.placeholder);
 			}
 
 			if (this.opts.validate) {
@@ -226,6 +234,7 @@ export default class Prompt {
 		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
+
 		if (this.state === 'submit' || this.state === 'cancel') {
 			this.emit('finalize');
 		}
