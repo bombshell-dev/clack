@@ -8,18 +8,13 @@ export interface LimitOptionsParams<TOption> extends CommonOptions {
 	maxItems: number | undefined;
 	cursor: number;
 	style: (option: TOption, active: boolean) => string;
-	/**
-	 * Custom format for overflow indicators.
-	 * Defaults to '    ...' if not provided.
-	 */
-	overflowFormat?: string;
 }
 
 export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
 	const { cursor, options, style } = params;
 	const output: Writable = params.output ?? process.stdout;
 	const rows = output instanceof WriteStream && output.rows !== undefined ? output.rows : 10;
-	const overflowFormat = params.overflowFormat ?? color.dim('    ...');
+	const overflowFormat = color.dim('...');
 
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - 4, 0);

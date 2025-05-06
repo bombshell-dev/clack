@@ -96,7 +96,6 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
-						overflowFormat: color.dim('  ...'),
 						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
 					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
