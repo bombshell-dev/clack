@@ -205,16 +205,14 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			option.hint && focusedValue !== undefined && option.value === focusedValue
 				? color.dim(` (${option.hint})`)
 				: '';
-		const checkbox = isSelected
-			? color.green(S_CHECKBOX_SELECTED)
-			: color.dim(S_CHECKBOX_INACTIVE);
+		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
 
 		if (active) {
 			return `${checkbox} ${label}${hint}`;
 		}
 		return `${checkbox} ${color.dim(label)}`;
 	};
-	
+
 	// Create text prompt which we'll use as foundation
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
