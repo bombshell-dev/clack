@@ -7,5 +7,23 @@
     "@clack/core": "0.4.1",
     "@clack/prompts": "0.10.0"
   },
-  "changesets": []
+  "changesets": [
+    "afraid-socks-deny",
+    "dirty-papayas-happen",
+    "empty-buses-wonder",
+    "famous-turkeys-burn",
+    "five-chairs-poke",
+    "free-wasps-decide",
+    "happy-parents-explain",
+    "healthy-candles-admire",
+    "honest-singers-cough",
+    "hot-turkeys-knock",
+    "legal-bags-tie",
+    "lemon-monkeys-help",
+    "nasty-parrots-laugh",
+    "orange-deers-battle",
+    "slimy-roses-own",
+    "tall-cows-fold",
+    "thin-socks-travel"
+  ]
 }
