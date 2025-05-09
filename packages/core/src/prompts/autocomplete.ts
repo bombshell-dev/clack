@@ -44,7 +44,7 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-export interface AutocompleteOptions<T extends OptionLike>
+interface AutocompleteOptions<T extends OptionLike>
 	extends PromptOptions<AutocompletePrompt<T>> {
 	options: T[];
 	filter?: FilterFunction<T>;
