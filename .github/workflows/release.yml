@@ -25,10 +25,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-      # Run prepublish to ensure everything is built properly
-      # TODO: is this manual build step actually needed?
       - run: pnpm run ci:install
-      # `prepack` hook _should_ run but doesn't seem to.
       - run: pnpm run ci:prepublish
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -47,6 +44,3 @@ jobs:
           pnpm run deps:check
         env:
           NODE_ENV: production
-      - name: Publish to jsr.io
-        if: steps.changesets.outputs.published == 'true'
-        run: pnpx @qingshaner/jsr-release publish --changesetReleases='${{ steps.changesets.outputs.publishedPackages }}'
