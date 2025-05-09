@@ -9,15 +9,13 @@
     "dev": "pnpm --filter @example/changesets run start",
     "format": "biome check --write",
     "lint": "biome lint --write --unsafe",
-    "type-check": "biome lint && tsc",
+    "types": "biome lint --write --unsafe",
+    "deps": "pnpm exec knip --production",
     "test": "pnpm --color -r run test",
     "ci:install": "pnpm install --no-frozen-lockfile",
     "ci:version": "changeset version",
     "ci:publish": "changeset publish",
-    "ci:prepublish": "pnpm build",
-    "deps:check": "pnpm exec knip --production",
-    "jsr:test": "pnpm --filter \"@clack/*\" jsr --dry-run",
-    "jsr:run": "pnpm --filter \"@clack/*\" jsr"
+    "ci:prepublish": "pnpm build"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

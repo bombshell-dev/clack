@@ -169,7 +169,7 @@ The `examples/` directory contains sample projects that demonstrate how to use C
 
 - **Type check**:
   ```bash
-  pnpm type-check
+  pnpm run types
   ```
 
 - **Build stubbed packages** (for faster development):
