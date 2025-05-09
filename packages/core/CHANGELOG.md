@@ -1,5 +1,51 @@
 # @clack/core
 
+## 1.0.0-alpha.0
+
+### Major Changes
+
+- c713fd5: The package is now distributed as ESM-only. In `v0` releases, the package was dual-published as CJS and ESM.
+
+  For existing CJS projects using Node v20+, please see Node's guide on [Loading ECMAScript modules using `require()`](https://nodejs.org/docs/latest-v20.x/api/modules.html#loading-ecmascript-modules-using-require).
+
+### Minor Changes
+
+- 729bbb6: Add support for customizable spinner cancel and error messages. Users can now customize these messages either per spinner instance or globally via the `updateSettings` function to support multilingual CLIs.
+
+  This update also improves the architecture by exposing the core settings to the prompts package, enabling more consistent default message handling across the codebase.
+
+  ```ts
+  // Per-instance customization
+  const spinner = prompts.spinner({
+    cancelMessage: "Operación cancelada", // "Operation cancelled" in Spanish
+    errorMessage: "Se produjo un error", // "An error occurred" in Spanish
+  });
+
+  // Global customization via updateSettings
+  prompts.updateSettings({
+    messages: {
+      cancel: "Operación cancelada", // "Operation cancelled" in Spanish
+      error: "Se produjo un error", // "An error occurred" in Spanish
+    },
+  });
+
+  // Settings can now be accessed directly
+  console.log(prompts.settings.messages.cancel); // "Operación cancelada"
+
+  // Direct options take priority over global settings
+  const spinner = prompts.spinner({
+    cancelMessage: "Cancelled", // This will be used instead of the global setting
+  });
+  ```
+
+- f2c2b89: Adds `AutocompletePrompt` to core with comprehensive tests and implement both `autocomplete` and `autocomplete-multiselect` components in prompts package.
+
+### Patch Changes
+
+- 6868c1c: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- a4f5034: Fixes an edge case for placeholder values. Previously, when pressing `enter` on an empty prompt, placeholder values would be ignored. Now, placeholder values are treated as the prompt value.
+- a36292b: Fix "TTY initialization failed: uv_tty_init returned EBADF (bad file descriptor)" error happening on Windows for non-tty terminals.
+
 ## 0.4.1
 
 ### Patch Changes

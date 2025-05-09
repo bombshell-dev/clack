@@ -1,5 +1,67 @@
 # @clack/prompts
 
+## 1.0.0-alpha.0
+
+### Major Changes
+
+- c713fd5: The package is now distributed as ESM-only. In `v0` releases, the package was dual-published as CJS and ESM.
+
+  For existing CJS projects using Node v20+, please see Node's guide on [Loading ECMAScript modules using `require()`](https://nodejs.org/docs/latest-v20.x/api/modules.html#loading-ecmascript-modules-using-require).
+
+### Minor Changes
+
+- 99c3530: Adds `format` option to the note prompt to allow formatting of individual lines
+- 0aaee4c: Added new `taskLog` prompt for log output which is cleared on success
+- 729bbb6: Add support for customizable spinner cancel and error messages. Users can now customize these messages either per spinner instance or globally via the `updateSettings` function to support multilingual CLIs.
+
+  This update also improves the architecture by exposing the core settings to the prompts package, enabling more consistent default message handling across the codebase.
+
+  ```ts
+  // Per-instance customization
+  const spinner = prompts.spinner({
+    cancelMessage: "Operación cancelada", // "Operation cancelled" in Spanish
+    errorMessage: "Se produjo un error", // "An error occurred" in Spanish
+  });
+
+  // Global customization via updateSettings
+  prompts.updateSettings({
+    messages: {
+      cancel: "Operación cancelada", // "Operation cancelled" in Spanish
+      error: "Se produjo un error", // "An error occurred" in Spanish
+    },
+  });
+
+  // Settings can now be accessed directly
+  console.log(prompts.settings.messages.cancel); // "Operación cancelada"
+
+  // Direct options take priority over global settings
+  const spinner = prompts.spinner({
+    cancelMessage: "Cancelled", // This will be used instead of the global setting
+  });
+  ```
+
+- 44df9af: Adds a new `groupSpacing` option to grouped multi-select prompts. If set to an integer greater than 0, it will add that number of new lines between each group.
+- f2c2b89: Adds `AutocompletePrompt` to core with comprehensive tests and implement both `autocomplete` and `autocomplete-multiselect` components in prompts package.
+- c45b9fb: Adds support for detecting spinner cancellation via CTRL+C. This allows for graceful handling of user interruptions during long-running operations.
+- 9a09318: Adds new `progress` prompt to display a progess-bar
+- 19558b9: Added support for custom frames in spinner prompt
+
+### Patch Changes
+
+- 46dc0a4: Fixes multiselect only shows hints on the first item in the options list. Now correctly shows hints for all selected options with hint property.
+- 17342d2: Exposes a new `SpinnerResult` type to describe the return type of `spinner`
+- 6868c1c: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- 7a556ad: Updates all prompts to accept a custom `output` and `input` stream
+- 7cc8a55: Messages passed to the `stop` method of a spinner no longer have dots stripped.
+- 2048eb1: Fix spinner's dots behavior with custom frames
+- Updated dependencies [729bbb6]
+- Updated dependencies [6868c1c]
+- Updated dependencies [a4f5034]
+- Updated dependencies [c713fd5]
+- Updated dependencies [a36292b]
+- Updated dependencies [f2c2b89]
+  - @clack/core@1.0.0-alpha.0
+
 ## 0.10.0
 
 ### Minor Changes
