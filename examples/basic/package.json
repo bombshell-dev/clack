@@ -13,6 +13,7 @@
     "stream": "jiti ./stream.ts",
     "progress": "jiti ./progress.ts",
     "spinner": "jiti ./spinner.ts",
+    "path": "jiti ./path.ts",
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
     "spinner-timer": "jiti ./spinner-timer.ts",
     "task-log": "jiti ./task-log.ts"

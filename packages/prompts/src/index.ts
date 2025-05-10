@@ -19,3 +19,4 @@ export * from './stream.js';
 export * from './task.js';
 export * from './task-log.js';
 export * from './text.js';
+export * from './path.js';
