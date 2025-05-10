@@ -26,7 +26,7 @@ export default class Prompt {
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;
 
-	private rl: ReadLine | undefined;
+	protected rl: ReadLine | undefined;
 	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
 	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
 	private _track = false;
