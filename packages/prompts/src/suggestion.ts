@@ -6,7 +6,7 @@ export interface SuggestionOptions extends CommonOptions {
 	initialValue?: string;
 	message: string;
 	validate?: (value: string) => string | Error | undefined;
-	suggest?: (value: string) => Array<string>;
+	suggest: (value: string) => Array<string>;
 }
 
 export const suggestion = (opts: SuggestionOptions) => {

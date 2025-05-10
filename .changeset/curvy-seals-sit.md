@@ -3,4 +3,4 @@
 "@clack/core": minor
 ---
 
-Add suggestion prompt and path prompt
+Adds suggestion and path prompts

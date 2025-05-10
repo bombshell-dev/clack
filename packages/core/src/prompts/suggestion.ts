@@ -8,9 +8,9 @@ interface SuggestionOptions extends PromptOptions<SuggestionPrompt> {
 
 export default class SuggestionPrompt extends Prompt {
 	value: string;
-	suggest: (value: string) => Array<string>;
-	cursor = 0;
-	nextItems: Array<string> = [];
+	protected suggest: (value: string) => Array<string>;
+	private selectionIndex = 0;
+	private nextItems: Array<string> = [];
 
 	constructor(opts: SuggestionOptions) {
 		super(opts);
@@ -18,29 +18,30 @@ export default class SuggestionPrompt extends Prompt {
 		this.value = opts.initialValue;
 		this.suggest = opts.suggest;
 		this.getNextItems();
-		this.cursor = 0;
+		this.selectionIndex = 0;
 		this._cursor = this.value.length;
 
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'up':
-					this.cursor = Math.max(
+					this.selectionIndex = Math.max(
 						0,
-						this.cursor === 0 ? this.nextItems.length - 1 : this.cursor - 1
+						this.selectionIndex === 0 ? this.nextItems.length - 1 : this.selectionIndex - 1
 					);
 					break;
 				case 'down':
-					this.cursor = this.nextItems.length === 0 ? 0 : (this.cursor + 1) % this.nextItems.length;
+					this.selectionIndex =
+						this.nextItems.length === 0 ? 0 : (this.selectionIndex + 1) % this.nextItems.length;
 					break;
 			}
 		});
 		this.on('key', (key, info) => {
 			if (info.name === 'tab' && this.nextItems.length > 0) {
-				const delta = this.nextItems[this.cursor].substring(this.value.length);
-				this.value = this.nextItems[this.cursor];
+				const delta = this.nextItems[this.selectionIndex].substring(this.value.length);
+				this.value = this.nextItems[this.selectionIndex];
 				this.rl?.write(delta);
 				this._cursor = this.value.length;
-				this.cursor = 0;
+				this.selectionIndex = 0;
 				this.getNextItems();
 			}
 		});
@@ -50,12 +51,13 @@ export default class SuggestionPrompt extends Prompt {
 	}
 
 	get displayValue(): Array<ValueWithCursorPart> {
-		const result: Array<ValueWithCursorPart> = [
-			{
+		const result: Array<ValueWithCursorPart> = [];
+		if (this._cursor > 0) {
+			result.push({
 				text: this.value.substring(0, this._cursor),
 				type: 'value',
-			},
-		];
+			});
+		}
 		if (this._cursor < this.value.length) {
 			result.push({
 				text: this.value.substring(this._cursor, this._cursor + 1),
@@ -97,13 +99,15 @@ export default class SuggestionPrompt extends Prompt {
 	}
 
 	get suggestion(): string {
-		return this.nextItems[this.cursor]?.substring(this.value.length) ?? '';
+		return this.nextItems[this.selectionIndex]?.substring(this.value.length) ?? '';
 	}
 
 	private getNextItems(): void {
-		this.nextItems = this.suggest(this.value);
-		if (this.cursor > this.nextItems.length) {
-			this.cursor = 0;
+		this.nextItems = this.suggest(this.value).filter((item) => {
+			return item.startsWith(this.value) && item !== this.value;
+		});
+		if (this.selectionIndex > this.nextItems.length) {
+			this.selectionIndex = 0;
 		}
 	}
 }
