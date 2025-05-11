@@ -11,7 +11,7 @@ export interface SuggestionOptions extends CommonOptions {
 
 export const suggestion = (opts: SuggestionOptions) => {
 	return new SuggestionPrompt({
-		initialValue: opts.initialValue,
+		initialValue: opts.initialValue ?? '',
 		output: opts.output,
 		input: opts.input,
 		validate: opts.validate,

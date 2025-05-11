@@ -4,6 +4,7 @@ import Prompt, { type PromptOptions } from './prompt.js';
 
 interface SuggestionOptions extends PromptOptions<SuggestionPrompt> {
 	suggest: (value: string) => Array<string>;
+	initialValue: string;
 }
 
 export default class SuggestionPrompt extends Prompt {
@@ -80,7 +81,7 @@ export default class SuggestionPrompt extends Prompt {
 		}
 		if (this.suggestion.length === 0) {
 			result.push({
-				text: color.hidden('_'),
+				text: '\u00A0',
 				type: 'cursor_on_value',
 			});
 			return result;

@@ -32,7 +32,7 @@ describe(SuggestionPrompt.name, () => {
 			instance.prompt();
 			expect(instance.displayValue).to.deep.equal([
 				{ text: 'Lorem ipsum', type: 'value' },
-				{ text: color.hidden('_'), type: 'cursor_on_value' },
+				{ text: '\u00a0', type: 'cursor_on_value' },
 			]);
 		});
 
@@ -69,7 +69,7 @@ describe(SuggestionPrompt.name, () => {
 				{ text: 'em', type: 'value' },
 			]);
 		});
-		test('no suggestion, cursor on the letter', () => {
+		test('no suggestion, cursor on the last letter', () => {
 			const instance = new SuggestionPrompt({
 				input,
 				output,

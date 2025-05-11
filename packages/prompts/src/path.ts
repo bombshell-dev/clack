@@ -17,24 +17,28 @@ export const path = (opts: PathOptions) => {
 		...opts,
 		initialValue: opts.initialValue ?? opts.root ?? process.cwd(),
 		suggest: (value: string) => {
-			const searchPath = !existsSync(value) ? dirname(value) : value;
-			if (!lstatSync(searchPath).isDirectory()) {
+			try {
+				const searchPath = !existsSync(value) ? dirname(value) : value;
+				if (!lstatSync(searchPath).isDirectory()) {
+					return [];
+				}
+				const items = readdirSync(searchPath)
+					.map((item) => {
+						const path = join(searchPath, item);
+						const stats = lstatSync(path);
+						return {
+							name: item,
+							path,
+							isDirectory: stats.isDirectory(),
+						};
+					})
+					.filter(({ path }) => path.startsWith(value));
+				return ((opts.directory ?? false) ? items.filter((item) => item.isDirectory) : items).map(
+					({ path }) => path
+				);
+			} catch (e) {
 				return [];
 			}
-			const items = readdirSync(searchPath)
-				.map((item) => {
-					const path = join(searchPath, item);
-					const stats = lstatSync(path);
-					return {
-						name: item,
-						path,
-						isDirectory: stats.isDirectory(),
-					};
-				})
-				.filter(({ path }) => path.startsWith(value));
-			return ((opts.directory ?? false) ? items.filter((item) => item.isDirectory) : items).map(
-				({ path }) => path
-			);
 		},
 	});
 };
