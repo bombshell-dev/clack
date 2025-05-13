@@ -270,7 +270,7 @@ describe('Prompt', () => {
 			output,
 			render: () => 'foo',
 			initialValue: 'invalid',
-			validate: (value) => value === 'valid' ? undefined : 'must be valid',
+			validate: (value) => (value === 'valid' ? undefined : 'must be valid'),
 		});
 		instance.prompt();
 
@@ -284,7 +284,7 @@ describe('Prompt', () => {
 			output,
 			render: () => 'foo',
 			initialValue: 'valid',
-			validate: (value) => value === 'valid' ? undefined : 'must be valid',
+			validate: (value) => (value === 'valid' ? undefined : 'must be valid'),
 		});
 		instance.prompt();
 
@@ -298,7 +298,7 @@ describe('Prompt', () => {
 			output,
 			render: () => 'foo',
 			initialValue: 'invalid',
-			validate: (value) => value === 'valid' ? undefined : new Error('must be valid'),
+			validate: (value) => (value === 'valid' ? undefined : new Error('must be valid')),
 		});
 		instance.prompt();
 
@@ -312,7 +312,7 @@ describe('Prompt', () => {
 			output,
 			render: () => 'foo',
 			initialValue: 'Invalid Value $$$',
-			validate: (value) => /^[A-Z]+$/.test(value) ? undefined : 'Invalid value',
+			validate: (value) => (/^[A-Z]+$/.test(value) ? undefined : 'Invalid value'),
 		});
 		instance.prompt();
 
@@ -326,7 +326,7 @@ describe('Prompt', () => {
 			output,
 			render: () => 'foo',
 			initialValue: 'VALID',
-			validate: (value) => /^[A-Z]+$/.test(value) ? undefined : 'Invalid value',
+			validate: (value) => (/^[A-Z]+$/.test(value) ? undefined : 'Invalid value'),
 		});
 		instance.prompt();
 

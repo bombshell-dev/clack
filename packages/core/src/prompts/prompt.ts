@@ -147,7 +147,7 @@ export default class Prompt {
 					this.rl.write(this.opts.initialValue);
 				}
 				this._setValue(this.opts.initialValue);
-				
+
 				// Validate initial value if validator exists
 				if (this.opts.validate) {
 					const problem = this.opts.validate(this.opts.initialValue);
