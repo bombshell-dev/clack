@@ -263,4 +263,74 @@ describe('Prompt', () => {
 
 		expect(instance.state).to.equal('cancel');
 	});
+
+	test('validates initial value on prompt start', () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'invalid',
+			validate: (value) => value === 'valid' ? undefined : 'must be valid',
+		});
+		instance.prompt();
+
+		expect(instance.state).to.equal('error');
+		expect(instance.error).to.equal('must be valid');
+	});
+
+	test('accepts valid initial value', () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'valid',
+			validate: (value) => value === 'valid' ? undefined : 'must be valid',
+		});
+		instance.prompt();
+
+		expect(instance.state).to.equal('active');
+		expect(instance.error).to.equal('');
+	});
+
+	test('validates initial value with Error object', () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'invalid',
+			validate: (value) => value === 'valid' ? undefined : new Error('must be valid'),
+		});
+		instance.prompt();
+
+		expect(instance.state).to.equal('error');
+		expect(instance.error).to.equal('must be valid');
+	});
+
+	test('validates initial value with regex validation', () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'Invalid Value $$$',
+			validate: (value) => /^[A-Z]+$/.test(value) ? undefined : 'Invalid value',
+		});
+		instance.prompt();
+
+		expect(instance.state).to.equal('error');
+		expect(instance.error).to.equal('Invalid value');
+	});
+
+	test('accepts valid initial value with regex validation', () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'VALID',
+			validate: (value) => /^[A-Z]+$/.test(value) ? undefined : 'Invalid value',
+		});
+		instance.prompt();
+
+		expect(instance.state).to.equal('active');
+		expect(instance.error).to.equal('');
+	});
 });
