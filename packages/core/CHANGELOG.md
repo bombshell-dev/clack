@@ -1,5 +1,15 @@
 # @clack/core
 
+## 1.0.0-alpha.1
+
+### Minor Changes
+
+- 2837845: Adds suggestion and path prompts
+
+### Patch Changes
+
+- 34f52fe: Validates initial values immediately when using text prompts with initialValue and validate props.
+
 ## 1.0.0-alpha.0
 
 ### Major Changes

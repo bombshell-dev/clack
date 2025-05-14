@@ -1,5 +1,17 @@
 # @clack/prompts
 
+## 1.0.0-alpha.1
+
+### Minor Changes
+
+- 2837845: Adds suggestion and path prompts
+
+### Patch Changes
+
+- Updated dependencies [2837845]
+- Updated dependencies [34f52fe]
+  - @clack/core@1.0.0-alpha.1
+
 ## 1.0.0-alpha.0
 
 ### Major Changes
