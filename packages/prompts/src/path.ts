@@ -1,8 +1,8 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { dirname } from 'knip/dist/util/path.js';
-import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
-import { suggestion } from './suggestion.js';
+import { autocomplete } from './autocomplete.js';
+import type { CommonOptions } from './common.js';
 
 export interface PathOptions extends CommonOptions {
 	root?: string;
@@ -13,12 +13,20 @@ export interface PathOptions extends CommonOptions {
 }
 
 export const path = (opts: PathOptions) => {
-	return suggestion({
+	return autocomplete({
 		...opts,
 		initialValue: opts.initialValue ?? opts.root ?? process.cwd(),
-		suggest: (value: string) => {
+		maxItems: 5,
+		options() {
+			const value = this.value;
+			const normalisedValue = Array.isArray(value) ? value[0] : value;
+			if (typeof normalisedValue !== 'string') {
+				return [];
+			}
 			try {
-				const searchPath = !existsSync(value) ? dirname(value) : value;
+				const searchPath = !existsSync(normalisedValue)
+					? dirname(normalisedValue)
+					: normalisedValue;
 				if (!lstatSync(searchPath).isDirectory()) {
 					return [];
 				}
@@ -32,10 +40,13 @@ export const path = (opts: PathOptions) => {
 							isDirectory: stats.isDirectory(),
 						};
 					})
-					.filter(({ path }) => path.startsWith(value));
-				return ((opts.directory ?? false) ? items.filter((item) => item.isDirectory) : items).map(
-					({ path }) => path
-				);
+					.filter(
+						({ path, isDirectory }) =>
+							path.startsWith(normalisedValue) && (opts.directory || !isDirectory)
+					);
+				return items.map((item) => ({
+					value: item.path,
+				}));
 			} catch (e) {
 				return [];
 			}

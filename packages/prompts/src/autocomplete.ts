@@ -49,7 +49,7 @@ export interface AutocompleteOptions<Value> extends CommonOptions {
 	/**
 	 * Available options for the autocomplete prompt.
 	 */
-	options: Option<Value>[];
+	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 	/**
 	 * The initial selected value.
 	 */
@@ -68,7 +68,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		placeholder: opts.placeholder,
-		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
+		initialValue: opts.initialValue,
 		filter: (search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
 		},
@@ -78,12 +78,13 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			// Title and message display
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const valueAsString = String(this.value ?? '');
+			const options = this.options;
 
 			// Handle different states
 			switch (this.state) {
 				case 'submit': {
 					// Show selected value
-					const selected = getSelectedOptions(this.selectedValues, this.options);
+					const selected = getSelectedOptions(this.selectedValues, options);
 					const label = selected.length > 0 ? selected.map(getLabel).join(', ') : '';
 					return `${title}${color.gray(S_BAR)}  ${color.dim(label)}`;
 				}
@@ -98,7 +99,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// Show match count if filtered
 					const matches =
-						this.filteredOptions.length !== this.options.length
+						this.filteredOptions.length !== options.length
 							? color.dim(
 									` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 								)
@@ -166,7 +167,7 @@ export interface AutocompleteMultiSelectOptions<Value> {
 	/**
 	 * The options for the user to choose from
 	 */
-	options: Option<Value>[];
+	options: Option<Value>[] | (() => Option<Value>[]);
 	/**
 	 * The initial selected values
 	 */
@@ -229,10 +230,6 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
-			const counter =
-				this.selectedValues.length > 0
-					? color.cyan(` (${this.selectedValues.length} selected)`)
-					: '';
 			const value = String(this.value ?? '');
 
 			// Search input display
@@ -240,8 +237,10 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				? color.dim(value) // Just show plain text when in navigation mode
 				: this.valueWithCursor;
 
+			const options = this.options;
+
 			const matches =
-				this.filteredOptions.length !== opts.options.length
+				this.filteredOptions.length !== options.length
 					? color.dim(
 							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 						)

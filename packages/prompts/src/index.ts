@@ -17,7 +17,6 @@ export * from './select-key.js';
 export * from './select.js';
 export * from './spinner.js';
 export * from './stream.js';
-export * from './suggestion.js';
 export * from './task.js';
 export * from './task-log.js';
 export * from './text.js';

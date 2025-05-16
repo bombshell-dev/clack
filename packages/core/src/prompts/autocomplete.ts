@@ -45,13 +45,12 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 }
 
 interface AutocompleteOptions<T extends OptionLike> extends PromptOptions<AutocompletePrompt<T>> {
-	options: T[];
+	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
 }
 
 export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
-	options: T[];
 	filteredOptions: T[];
 	multiple: boolean;
 	isNavigating = false;
@@ -61,6 +60,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 	#cursor = 0;
 	#lastValue: T['value'] | undefined;
 	#filterFn: FilterFunction<T>;
+	#options: T[] | (() => T[]);
 
 	get cursor(): number {
 		return this.#cursor;
@@ -78,11 +78,19 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		return `${s1}${color.inverse(s2)}${s3.join('')}`;
 	}
 
+	get options(): T[] {
+		if (typeof this.#options === 'function') {
+			return this.#options();
+		}
+		return this.#options;
+	}
+
 	constructor(opts: AutocompleteOptions<T>) {
 		super(opts);
 
-		this.options = opts.options;
-		this.filteredOptions = [...this.options];
+		this.#options = opts.options;
+		const options = this.options;
+		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
 		this._usePlaceholderAsValue = false;
 		this.#filterFn = opts.filter ?? defaultFilter;
@@ -96,13 +104,12 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		}
 
 		if (initialValues) {
-			this.selectedValues = initialValues;
 			for (const selectedValue of initialValues) {
-				const selectedIndex = this.options.findIndex((opt) => opt.value === selectedValue);
+				const selectedIndex = options.findIndex((opt) => opt.value === selectedValue);
 				if (selectedIndex !== -1) {
 					this.toggleSelected(selectedValue);
 					this.#cursor = selectedIndex;
-					this.focusedValue = this.options[this.#cursor]?.value;
+					this.focusedValue = options[this.#cursor]?.value;
 				}
 			}
 		}
@@ -176,14 +183,18 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		}
 	}
 
-	#onValueChanged(value: string | undefined): void {
+	#onValueChanged(value: unknown): void {
+		if (typeof value !== 'string') {
+			return;
+		}
+		const options = this.options;
 		if (value !== this.#lastValue) {
 			this.#lastValue = value;
 
 			if (value) {
-				this.filteredOptions = this.options.filter((opt) => this.#filterFn(value, opt));
+				this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
 			} else {
-				this.filteredOptions = [...this.options];
+				this.filteredOptions = [...options];
 			}
 			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;

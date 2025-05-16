@@ -143,10 +143,7 @@ export default class Prompt {
 			});
 			this.rl.prompt();
 			if (this.opts.initialValue !== undefined) {
-				if (this._track) {
-					this.rl.write(this.opts.initialValue);
-				}
-				this._setValue(this.opts.initialValue);
+				this._setValue(this.opts.initialValue, true);
 
 				// Validate initial value if validator exists
 				if (this.opts.validate) {
@@ -183,9 +180,15 @@ export default class Prompt {
 		return char === '\t';
 	}
 
-	protected _setValue(value: unknown): void {
+	protected _setValue(value: unknown, writeToBuffer?: boolean, triggerRender?: boolean): void {
 		this.value = value;
 		this.emit('value', this.value);
+		if (writeToBuffer && this.rl && this._track) {
+			this.rl.write(String(value));
+		}
+		if (triggerRender) {
+			this.render();
+		}
 	}
 
 	private onKeypress(char: string | undefined, key: Key) {
@@ -213,8 +216,7 @@ export default class Prompt {
 		}
 		if (this._usePlaceholderAsValue && char === '\t' && this.opts.placeholder) {
 			if (!this.value) {
-				this.rl?.write(this.opts.placeholder);
-				this._setValue(this.opts.placeholder);
+				this._setValue(this.opts.placeholder, true);
 			}
 		}
 
@@ -223,8 +225,7 @@ export default class Prompt {
 
 		if (key?.name === 'return') {
 			if (!this.value && this.opts.placeholder) {
-				this.rl?.write(this.opts.placeholder);
-				this._setValue(this.opts.placeholder);
+				this._setValue(this.opts.placeholder, true);
 			}
 
 			if (this.opts.validate) {
