@@ -117,7 +117,7 @@ describe('TextPrompt', () => {
 				output,
 				render: () => 'foo',
 				placeholder: '  (hit Enter to use default)',
-				defaultValue: 'default-value'
+				defaultValue: 'default-value',
 			});
 			const resultPromise = instance.prompt();
 			input.emit('keypress', '', { name: 'return' });
@@ -130,7 +130,7 @@ describe('TextPrompt', () => {
 				input,
 				output,
 				render: () => 'foo',
-				placeholder: '  (hit Enter to use default)'
+				placeholder: '  (hit Enter to use default)',
 			});
 			const resultPromise = instance.prompt();
 			input.emit('keypress', '', { name: 'return' });
