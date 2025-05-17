@@ -38,6 +38,44 @@ exports[`text (isCI = false) > defaultValue sets the value but does not render 1
 ]
 `;
 
+exports[`text (isCI = false) > empty string when no value and no default 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m[2m[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > placeholder is not used as value when pressing enter 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mdefault-value[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
 [
   "<cursor.hide>",
@@ -80,7 +118,7 @@ exports[`text (isCI = false) > renders message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m  [2mundefined[22m",
+[90m│[39m[2m[22m",
   "
 ",
   "<cursor.show>",
@@ -99,7 +137,7 @@ exports[`text (isCI = false) > renders placeholder if set 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m  [2mbar[22m",
+[90m│[39m[2m[22m",
   "
 ",
   "<cursor.show>",
@@ -249,6 +287,44 @@ exports[`text (isCI = true) > defaultValue sets the value but does not render 1`
 ]
 `;
 
+exports[`text (isCI = true) > empty string when no value and no default 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m[2m[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > placeholder is not used as value when pressing enter 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mdefault-value[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
 [
   "<cursor.hide>",
@@ -291,7 +367,7 @@ exports[`text (isCI = true) > renders message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m  [2mundefined[22m",
+[90m│[39m[2m[22m",
   "
 ",
   "<cursor.show>",
@@ -310,7 +386,7 @@ exports[`text (isCI = true) > renders placeholder if set 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m  [2mbar[22m",
+[90m│[39m[2m[22m",
   "
 ",
   "<cursor.show>",

@@ -110,5 +110,32 @@ describe('TextPrompt', () => {
 			input.emit('keypress', 'right', { name: 'right' });
 			expect(instance.valueWithCursor).to.equal('foo█');
 		});
+
+		test('does not use placeholder as value when pressing enter', async () => {
+			const instance = new TextPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				placeholder: '  (hit Enter to use default)',
+				defaultValue: 'default-value'
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('default-value');
+		});
+
+		test('returns empty string when no value and no default', async () => {
+			const instance = new TextPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				placeholder: '  (hit Enter to use default)'
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('');
+		});
 	});
 });
