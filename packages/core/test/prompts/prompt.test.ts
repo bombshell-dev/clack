@@ -38,7 +38,7 @@ describe('Prompt', () => {
 		const resultPromise = instance.prompt();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await resultPromise;
-		expect(result).to.equal('');
+		expect(result).to.equal(undefined);
 		expect(isCancel(result)).to.equal(false);
 		expect(instance.state).to.equal('submit');
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo', '\n', cursor.show]);
@@ -134,37 +134,6 @@ describe('Prompt', () => {
 		input.emit('keypress', 'n', { name: 'n' });
 
 		expect(eventFn).toBeCalledWith(false);
-	});
-
-	test('sets value as placeholder on tab if one is set', () => {
-		const instance = new Prompt({
-			input,
-			output,
-			render: () => 'foo',
-			placeholder: 'piwa',
-		});
-
-		instance.prompt();
-
-		input.emit('keypress', '\t', { name: 'tab' });
-
-		expect(instance.value).to.equal('piwa');
-	});
-
-	test('does not set placeholder value on tab if value already set', () => {
-		const instance = new Prompt({
-			input,
-			output,
-			render: () => 'foo',
-			placeholder: 'piwa',
-			initialValue: 'trzy',
-		});
-
-		instance.prompt();
-
-		input.emit('keypress', '\t', { name: 'tab' });
-
-		expect(instance.value).to.equal('trzy');
 	});
 
 	test('emits key event for unknown chars', () => {

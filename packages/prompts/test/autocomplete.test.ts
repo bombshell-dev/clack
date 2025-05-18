@@ -120,4 +120,20 @@ describe('autocomplete', () => {
 		expect(typeof value === 'symbol').toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('renders placeholder if set', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'Type to search...',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+
+		expect(output.buffer).toMatchSnapshot();
+		expect(value).toBe('apple');
+	});
 });
