@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 0.11.0
+
+### Minor Changes
+
+- 07ca32d: Reverted a change where placeholders were being set as values on return.
+
+### Patch Changes
+
+- Updated dependencies [07ca32d]
+  - @clack/core@0.5.0
+
 ## 0.10.1
 
 ### Patch Changes
