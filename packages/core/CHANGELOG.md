@@ -1,5 +1,11 @@
 # @clack/core
 
+## 0.5.0
+
+### Minor Changes
+
+- 07ca32d: Reverted a change where placeholders were being set as values on return.
+
 ## 0.4.2
 
 ### Patch Changes
