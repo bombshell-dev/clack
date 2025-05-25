@@ -44,13 +44,13 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-interface AutocompleteOptions<T extends OptionLike> extends PromptOptions<AutocompletePrompt<T>> {
+interface AutocompleteOptions<T extends OptionLike> extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
 	options: T[];
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
 }
 
-export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
+export default class AutocompletePrompt<T extends OptionLike> extends Prompt<T['value'] | T['value'][]> {
 	options: T[];
 	filteredOptions: T[];
 	multiple: boolean;
@@ -59,22 +59,22 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 
 	focusedValue: T['value'] | undefined;
 	#cursor = 0;
-	#lastValue: T['value'] | undefined;
+	#lastUserInput: string = '';
 	#filterFn: FilterFunction<T>;
 
 	get cursor(): number {
 		return this.#cursor;
 	}
 
-	get valueWithCursor() {
-		if (!this.value) {
+	get userInputWithCursor() {
+		if (!this.userInput) {
 			return color.inverse(color.hidden('_'));
 		}
-		if (this._cursor >= this.value.length) {
-			return `${this.value}█`;
+		if (this._cursor >= this.userInput.length) {
+			return `${this.userInput}█`;
 		}
-		const s1 = this.value.slice(0, this._cursor);
-		const [s2, ...s3] = this.value.slice(this._cursor);
+		const s1 = this.userInput.slice(0, this._cursor);
+		const [s2, ...s3] = this.userInput.slice(this._cursor);
 		return `${s1}${color.inverse(s2)}${s3.join('')}`;
 	}
 
@@ -118,7 +118,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		});
 
 		this.on('key', (char, key) => this.#onKey(char, key));
-		this.on('value', (value) => this.#onValueChanged(value));
+		this.on('userInput', (value) => this.#onUserInputChanged(value));
 	}
 
 	protected override _isActionKey(char: string | undefined, key: Key): boolean {
@@ -176,9 +176,9 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		}
 	}
 
-	#onValueChanged(value: string | undefined): void {
-		if (value !== this.#lastValue) {
-			this.#lastValue = value;
+	#onUserInputChanged(value: string): void {
+		if (value !== this.#lastUserInput) {
+			this.#lastUserInput = value;
 
 			if (value) {
 				this.filteredOptions = this.options.filter((opt) => this.#filterFn(value, opt));

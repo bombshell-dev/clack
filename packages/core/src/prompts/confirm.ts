@@ -1,12 +1,12 @@
 import { cursor } from 'sisteransi';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface ConfirmOptions extends PromptOptions<ConfirmPrompt> {
+interface ConfirmOptions extends PromptOptions<boolean, ConfirmPrompt> {
 	active: string;
 	inactive: string;
 	initialValue?: boolean;
 }
-export default class ConfirmPrompt extends Prompt {
+export default class ConfirmPrompt extends Prompt<boolean> {
 	get cursor() {
 		return this.value ? 0 : 1;
 	}
@@ -19,7 +19,7 @@ export default class ConfirmPrompt extends Prompt {
 		super(opts, false);
 		this.value = !!opts.initialValue;
 
-		this.on('value', () => {
+		this.on('userInput', () => {
 			this.value = this._value;
 		});
 

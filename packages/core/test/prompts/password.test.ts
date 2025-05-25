@@ -41,7 +41,7 @@ describe('PasswordPrompt', () => {
 		});
 	});
 
-	describe('valueWithCursor', () => {
+	describe('userInputWithCursor', () => {
 		test('returns masked value on submit', () => {
 			const instance = new PasswordPrompt({
 				input,
@@ -54,7 +54,7 @@ describe('PasswordPrompt', () => {
 				input.emit('keypress', keys[i], { name: keys[i] });
 			}
 			input.emit('keypress', '', { name: 'return' });
-			expect(instance.valueWithCursor).to.equal('•••');
+			expect(instance.userInputWithCursor).to.equal('•••');
 		});
 
 		test('renders marker at end', () => {
@@ -65,7 +65,7 @@ describe('PasswordPrompt', () => {
 			});
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
-			expect(instance.valueWithCursor).to.equal(`•${color.inverse(color.hidden('_'))}`);
+			expect(instance.userInputWithCursor).to.equal(`•${color.inverse(color.hidden('_'))}`);
 		});
 
 		test('renders cursor inside value', () => {
@@ -80,7 +80,7 @@ describe('PasswordPrompt', () => {
 			input.emit('keypress', 'z', { name: 'z' });
 			input.emit('keypress', 'left', { name: 'left' });
 			input.emit('keypress', 'left', { name: 'left' });
-			expect(instance.valueWithCursor).to.equal(`•${color.inverse('•')}•`);
+			expect(instance.userInputWithCursor).to.equal(`•${color.inverse('•')}•`);
 		});
 
 		test('renders custom mask', () => {
@@ -92,7 +92,7 @@ describe('PasswordPrompt', () => {
 			});
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
-			expect(instance.valueWithCursor).to.equal(`X${color.inverse(color.hidden('_'))}`);
+			expect(instance.userInputWithCursor).to.equal(`X${color.inverse(color.hidden('_'))}`);
 		});
 	});
 });

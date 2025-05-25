@@ -1,14 +1,12 @@
-import color from 'picocolors';
 import type { ValueWithCursorPart } from '../types.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface SuggestionOptions extends PromptOptions<SuggestionPrompt> {
+interface SuggestionOptions extends PromptOptions<string, SuggestionPrompt> {
 	suggest: (value: string) => Array<string>;
 	initialValue: string;
 }
 
-export default class SuggestionPrompt extends Prompt {
-	value: string;
+export default class SuggestionPrompt extends Prompt<string> {
 	protected suggest: (value: string) => Array<string>;
 	private selectionIndex = 0;
 	private nextItems: Array<string> = [];
@@ -36,9 +34,9 @@ export default class SuggestionPrompt extends Prompt {
 					break;
 			}
 		});
-		this.on('key', (key, info) => {
+		this.on('key', (_key, info) => {
 			if (info.name === 'tab' && this.nextItems.length > 0) {
-				const delta = this.nextItems[this.selectionIndex].substring(this.value.length);
+				const delta = this.nextItems[this.selectionIndex].substring(this.userInput.length);
 				this.value = this.nextItems[this.selectionIndex];
 				this.rl?.write(delta);
 				this._cursor = this.value.length;
@@ -55,16 +53,16 @@ export default class SuggestionPrompt extends Prompt {
 		const result: Array<ValueWithCursorPart> = [];
 		if (this._cursor > 0) {
 			result.push({
-				text: this.value.substring(0, this._cursor),
+				text: this.userInput.substring(0, this._cursor),
 				type: 'value',
 			});
 		}
-		if (this._cursor < this.value.length) {
+		if (this._cursor < this.userInput.length) {
 			result.push({
-				text: this.value.substring(this._cursor, this._cursor + 1),
+				text: this.userInput.substring(this._cursor, this._cursor + 1),
 				type: 'cursor_on_value',
 			});
-			const left = this.value.substring(this._cursor + 1);
+			const left = this.userInput.substring(this._cursor + 1);
 			if (left.length > 0) {
 				result.push({
 					text: left,
@@ -100,12 +98,12 @@ export default class SuggestionPrompt extends Prompt {
 	}
 
 	get suggestion(): string {
-		return this.nextItems[this.selectionIndex]?.substring(this.value.length) ?? '';
+		return this.nextItems[this.selectionIndex]?.substring(this.userInput.length) ?? '';
 	}
 
 	private getNextItems(): void {
-		this.nextItems = this.suggest(this.value).filter((item) => {
-			return item.startsWith(this.value) && item !== this.value;
+		this.nextItems = this.suggest(this.userInput).filter((item) => {
+			return item.startsWith(this.userInput) && item !== this.value;
 		});
 		if (this.selectionIndex > this.nextItems.length) {
 			this.selectionIndex = 0;

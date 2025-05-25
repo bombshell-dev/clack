@@ -77,7 +77,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		render() {
 			// Title and message display
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
-			const valueAsString = String(this.value ?? '');
+			const userInput = this.userInput;
 
 			// Handle different states
 			switch (this.state) {
@@ -89,12 +89,12 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				}
 
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(this.value ?? ''))}`;
+					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 
 				default: {
 					// Display cursor position - show plain text in navigation mode
-					const searchText = this.isNavigating ? color.dim(valueAsString) : this.valueWithCursor;
+					const searchText = this.isNavigating ? color.dim(userInput) : this.userInputWithCursor;
 
 					// Show match count if filtered
 					const matches =
@@ -135,7 +135,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// No matches message
 					const noResults =
-						this.filteredOptions.length === 0 && valueAsString
+						this.filteredOptions.length === 0 && userInput
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
@@ -229,16 +229,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
-			const counter =
-				this.selectedValues.length > 0
-					? color.cyan(` (${this.selectedValues.length} selected)`)
-					: '';
 			const value = String(this.value ?? '');
 
 			// Search input display
 			const searchText = this.isNavigating
 				? color.dim(value) // Just show plain text when in navigation mode
-				: this.valueWithCursor;
+				: this.userInputWithCursor;
 
 			const matches =
 				this.filteredOptions.length !== opts.options.length

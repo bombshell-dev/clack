@@ -7,7 +7,7 @@ export interface TextOptions extends CommonOptions {
 	placeholder?: string;
 	defaultValue?: string;
 	initialValue?: string;
-	validate?: (value: string) => string | Error | undefined;
+	validate?: (value: string | undefined) => string | Error | undefined;
 }
 
 export const text = (opts: TextOptions) => {
@@ -23,7 +23,7 @@ export const text = (opts: TextOptions) => {
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 				: color.inverse(color.hidden('_'));
-			const value = !this.value ? placeholder : this.valueWithCursor;
+			const value = !this.userInput ? placeholder : this.userInputWithCursor;
 
 			switch (this.state) {
 				case 'error':
@@ -31,13 +31,13 @@ export const text = (opts: TextOptions) => {
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
 				case 'submit': {
-					const displayValue = typeof this.value === 'undefined' ? '' : this.value;
+					const displayValue = this.userInput === undefined ? '' : this.userInput;
 					return `${title}${color.gray(S_BAR)}  ${color.dim(displayValue)}`;
 				}
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(this.value ?? '')
-					)}${this.value?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+						color.dim(this.userInput ?? '')
+					)}${this.userInput?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
 			}
