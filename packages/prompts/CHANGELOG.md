@@ -1,5 +1,24 @@
 # @clack/prompts
 
+## 1.0.0-alpha.1
+
+### Minor Changes
+
+- 2837845: Adds suggestion and path prompts
+- 9bd8072: Add a `required` option to autocomplete multiselect.
+
+### Patch Changes
+
+- bfe0dd3: Prevents placeholder from being used as input value in text prompts
+- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
+- Updated dependencies [bfe0dd3]
+- Updated dependencies [2837845]
+- Updated dependencies [34f52fe]
+- Updated dependencies [94fee2a]
+- Updated dependencies [4f6b3c2]
+- Updated dependencies [8ead5d3]
+  - @clack/core@1.0.0-alpha.1
+
 ## 1.0.0-alpha.0
 
 ### Major Changes
