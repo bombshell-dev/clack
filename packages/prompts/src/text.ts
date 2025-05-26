@@ -31,7 +31,7 @@ export const text = (opts: TextOptions) => {
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
 				case 'submit': {
-					const displayValue = typeof this.value === 'undefined' ? '' : this.value;
+					const displayValue = this.value === undefined ? '' : this.value;
 					return `${title}${color.gray(S_BAR)}  ${color.dim(displayValue)}`;
 				}
 				case 'cancel':

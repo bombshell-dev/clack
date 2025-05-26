@@ -70,7 +70,6 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
-		placeholder: opts.placeholder,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		filter: (search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
@@ -81,6 +80,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			// Title and message display
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const valueAsString = String(this.value ?? '');
+			const placeholder = opts.placeholder;
+			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
 
 			// Handle different states
 			switch (this.state) {
@@ -97,7 +98,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 				default: {
 					// Display cursor position - show plain text in navigation mode
-					const searchText = this.isNavigating ? color.dim(valueAsString) : this.valueWithCursor;
+					const searchText =
+						this.isNavigating || showPlaceholder
+							? color.dim(showPlaceholder ? placeholder : valueAsString)
+							: this.valueWithCursor;
 
 					// Show match count if filtered
 					const matches =
@@ -209,7 +213,6 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			}
 			return undefined;
 		},
-		placeholder: opts.placeholder,
 		initialValue: opts.initialValues,
 		input: opts.input,
 		output: opts.output,
@@ -219,11 +222,14 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 
 			// Selection counter
 			const value = String(this.value ?? '');
+			const placeholder = opts.placeholder;
+			const showPlaceholder = value === '' && placeholder !== undefined;
 
 			// Search input display
-			const searchText = this.isNavigating
-				? color.dim(value) // Just show plain text when in navigation mode
-				: this.valueWithCursor;
+			const searchText =
+				this.isNavigating || showPlaceholder
+					? color.dim(showPlaceholder ? placeholder : value) // Just show plain text when in navigation mode
+					: this.valueWithCursor;
 
 			const matches =
 				this.filteredOptions.length !== opts.options.length

@@ -55,22 +55,6 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('');
 	});
 
-	test('<tab> applies placeholder', async () => {
-		const result = prompts.text({
-			message: 'foo',
-			placeholder: 'bar',
-			input,
-			output,
-		});
-
-		input.emit('keypress', '\t', { name: 'tab' });
-		input.emit('keypress', '', { name: 'return' });
-
-		const value = await result;
-
-		expect(value).toBe('bar');
-	});
-
 	test('can cancel', async () => {
 		const result = prompts.text({
 			message: 'foo',

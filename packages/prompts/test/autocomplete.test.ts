@@ -121,6 +121,21 @@ describe('autocomplete', () => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('renders placeholder if set', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'Type to search...',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(value).toBe('apple');
+	});
+
 	test('supports initialValue', async () => {
 		const result = autocomplete({
 			message: 'Select a fruit',
@@ -132,6 +147,7 @@ describe('autocomplete', () => {
 
 		input.emit('keypress', '', { name: 'return' });
 		const value = await result;
+
 		expect(value).toBe('cherry');
 		expect(output.buffer).toMatchSnapshot();
 	});

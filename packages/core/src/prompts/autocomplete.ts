@@ -87,7 +87,6 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 		this.options = opts.options;
 		this.filteredOptions = [...this.options];
 		this.multiple = opts.multiple === true;
-		this._usePlaceholderAsValue = false;
 		this.#filterFn = opts.filter ?? defaultFilter;
 		let initialValues: unknown[] | undefined;
 		if (opts.initialValue && Array.isArray(opts.initialValue)) {
