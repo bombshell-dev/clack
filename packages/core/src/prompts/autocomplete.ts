@@ -95,8 +95,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 			} else {
 				initialValues = opts.initialValue.slice(0, 1);
 			}
-		} else if (!this.multiple && this.options.length > 0) {
-			initialValues = [this.options[0].value];
+		} else {
+			if (!this.multiple && this.options.length > 0) {
+				initialValues = [this.options[0].value];
+			}
 		}
 
 		if (initialValues) {
@@ -152,14 +154,19 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 			}
 			this.isNavigating = true;
 		} else {
-			if (
-				this.multiple &&
-				this.focusedValue !== undefined &&
-				(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
-			) {
-				this.toggleSelected(this.focusedValue);
+			if (this.multiple) {
+				if (
+					this.focusedValue !== undefined &&
+					(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
+				) {
+					this.toggleSelected(this.focusedValue);
+				} else {
+					this.isNavigating = false;
+				}
 			} else {
-				this.isNavigating = false;
+				if (this.focusedValue) {
+					this.selectedValues = [this.focusedValue];
+				}
 			}
 		}
 	}

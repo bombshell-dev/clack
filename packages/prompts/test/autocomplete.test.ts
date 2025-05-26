@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { autocomplete } from '../src/autocomplete.js';
+import { autocomplete, autocompleteMultiselect } from '../src/autocomplete.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 describe('autocomplete', () => {
@@ -30,9 +30,9 @@ describe('autocomplete', () => {
 			output,
 		});
 
-		expect(output.buffer).toMatchSnapshot();
 		input.emit('keypress', '', { name: 'return' });
 		await result;
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('limits displayed options when maxItems is set', async () => {
@@ -49,9 +49,9 @@ describe('autocomplete', () => {
 			output,
 		});
 
-		expect(output.buffer).toMatchSnapshot();
 		input.emit('keypress', '', { name: 'return' });
 		await result;
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('shows no matches message when search has no results', async () => {
@@ -64,9 +64,9 @@ describe('autocomplete', () => {
 
 		// Type something that won't match
 		input.emit('keypress', 'z', { name: 'z' });
-		expect(output.buffer).toMatchSnapshot();
 		input.emit('keypress', '', { name: 'return' });
 		await result;
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('shows hint when option has hint and is focused', async () => {
@@ -83,9 +83,9 @@ describe('autocomplete', () => {
 		input.emit('keypress', '', { name: 'down' });
 		input.emit('keypress', '', { name: 'down' });
 		input.emit('keypress', '', { name: 'down' });
-		expect(output.buffer).toMatchSnapshot();
 		input.emit('keypress', '', { name: 'return' });
 		await result;
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('shows selected value in submit state', async () => {
@@ -149,6 +149,43 @@ describe('autocomplete', () => {
 		const value = await result;
 
 		expect(value).toBe('cherry');
+		expect(output.buffer).toMatchSnapshot();
+	});
+});
+
+describe('autocompleteMultiselect', () => {
+	let input: MockReadable;
+	let output: MockWritable;
+	const testOptions = [
+		{ value: 'apple', label: 'Apple' },
+		{ value: 'banana', label: 'Banana' },
+		{ value: 'cherry', label: 'Cherry' },
+		{ value: 'grape', label: 'Grape' },
+		{ value: 'orange', label: 'Orange' },
+	];
+
+	beforeEach(() => {
+		input = new MockReadable();
+		output = new MockWritable();
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
+	test('renders error when empty selection & required is true', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: testOptions,
+			required: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
 		expect(output.buffer).toMatchSnapshot();
 	});
 });
