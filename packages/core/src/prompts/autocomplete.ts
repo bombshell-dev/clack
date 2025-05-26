@@ -79,12 +79,14 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<T['
 	}
 
 	constructor(opts: AutocompleteOptions<T>) {
-		super(opts);
+		super({
+			...opts,
+			initialValue: undefined,
+		});
 
 		this.options = opts.options;
 		this.filteredOptions = [...this.options];
 		this.multiple = opts.multiple === true;
-		this._usePlaceholderAsValue = false;
 		this.#filterFn = opts.filter ?? defaultFilter;
 		let initialValues: unknown[] | undefined;
 		if (opts.initialValue && Array.isArray(opts.initialValue)) {
@@ -92,6 +94,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<T['
 				initialValues = opts.initialValue;
 			} else {
 				initialValues = opts.initialValue.slice(0, 1);
+			}
+		} else {
+			if (!this.multiple && this.options.length > 0) {
+				initialValues = [this.options[0].value];
 			}
 		}
 
@@ -148,14 +154,19 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<T['
 			}
 			this.isNavigating = true;
 		} else {
-			if (
-				this.multiple &&
-				this.focusedValue !== undefined &&
-				(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
-			) {
-				this.toggleSelected(this.focusedValue);
+			if (this.multiple) {
+				if (
+					this.focusedValue !== undefined &&
+					(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
+				) {
+					this.toggleSelected(this.focusedValue);
+				} else {
+					this.isNavigating = false;
+				}
 			} else {
-				this.isNavigating = false;
+				if (this.focusedValue) {
+					this.selectedValues = [this.focusedValue];
+				}
 			}
 		}
 	}

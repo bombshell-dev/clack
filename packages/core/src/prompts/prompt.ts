@@ -12,9 +12,7 @@ import type { Action } from '../utils/index.js';
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
-	placeholder?: string;
 	initialValue?: any;
-	defaultValue?: any;
 	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
@@ -34,7 +32,6 @@ export default class Prompt<TValue> {
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
-	protected _usePlaceholderAsValue = true;
 
 	public state: ClackState = 'initial';
 	public error = '';
@@ -226,25 +223,11 @@ export default class Prompt<TValue> {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
-		if (this._usePlaceholderAsValue && char === '\t' && this.opts.placeholder) {
-			if (!this.value) {
-				this.rl?.write(this.opts.placeholder);
-				this._setUserInput(this.opts.placeholder);
-			}
-		}
 
 		// Call the key event handler and emit the key event
 		this.emit('key', char?.toLowerCase(), key);
 
 		if (key?.name === 'return') {
-			if (!this.value) {
-				if (this.opts.defaultValue) {
-					this._setValue(this.opts.defaultValue);
-				} else {
-					this._setValue(undefined);
-				}
-			}
-
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {

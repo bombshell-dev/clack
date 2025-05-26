@@ -93,6 +93,31 @@ describe('AutocompletePrompt', () => {
 		expect(instance.selectedValues).to.deep.equal(['cherry']);
 	});
 
+	test('initialValue defaults to first option when non-multiple', () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		expect(instance.cursor).to.equal(0);
+		expect(instance.selectedValues).to.deep.equal(['apple']);
+	});
+
+	test('initialValue is empty when multiple', () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			multiple: true,
+		});
+
+		expect(instance.cursor).to.equal(0);
+		expect(instance.selectedValues).to.deep.equal([]);
+	});
+
 	test('filtering through value event', () => {
 		const instance = new AutocompletePrompt({
 			input,
@@ -135,5 +160,38 @@ describe('AutocompletePrompt', () => {
 		instance.emit('value', 'z');
 
 		expect(instance.filteredOptions).toEqual([]);
+	});
+
+	test('submit without nav resolves to first option in non-multiple', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', '', { name: 'return' });
+		const result = await promise;
+
+		expect(instance.selectedValues).to.deep.equal(['apple']);
+		expect(result).to.equal('apple');
+	});
+
+	test('submit without nav resolves to [] in multiple', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			multiple: true,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', '', { name: 'return' });
+		const result = await promise;
+
+		expect(instance.selectedValues).to.deep.equal([]);
+		expect(result).to.deep.equal([]);
 	});
 });
