@@ -79,7 +79,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt {
 	}
 
 	constructor(opts: AutocompleteOptions<T>) {
-		super(opts);
+		super({
+			...opts,
+			initialValue: undefined,
+		});
 
 		this.options = opts.options;
 		this.filteredOptions = [...this.options];

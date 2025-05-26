@@ -132,8 +132,23 @@ describe('autocomplete', () => {
 
 		input.emit('keypress', '', { name: 'return' });
 		const value = await result;
-
 		expect(output.buffer).toMatchSnapshot();
 		expect(value).toBe('apple');
+	});
+
+	test('supports initialValue', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			initialValue: 'cherry',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+
+		expect(value).toBe('cherry');
+		expect(output.buffer).toMatchSnapshot();
 	});
 });
