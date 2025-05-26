@@ -1,6 +1,7 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface MultiSelectOptions<T extends { value: any }> extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
+interface MultiSelectOptions<T extends { value: any }>
+	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
 	options: T[];
 	initialValues?: T['value'][];
 	required?: boolean;
@@ -15,8 +16,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 	}
 
 	private toggleAll() {
-		const allSelected = this.value !== undefined &&
-			this.value.length === this.options.length;
+		const allSelected = this.value !== undefined && this.value.length === this.options.length;
 		this.value = allSelected ? [] : this.options.map((v) => v.value);
 	}
 

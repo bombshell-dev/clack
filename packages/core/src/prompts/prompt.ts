@@ -36,7 +36,7 @@ export default class Prompt<TValue> {
 	public state: ClackState = 'initial';
 	public error = '';
 	public value: TValue | undefined;
-	public userInput: string = '';
+	public userInput = '';
 
 	constructor(options: PromptOptions<TValue, Prompt<TValue>>, trackValue = true) {
 		const { input = stdin, output = stdout, render, signal, ...opts } = options;
@@ -96,7 +96,10 @@ export default class Prompt<TValue> {
 	 * @param event - The event name
 	 * @param data - The data to pass to the callback
 	 */
-	public emit<T extends keyof ClackEvents<TValue>>(event: T, ...data: Parameters<ClackEvents<TValue>[T]>) {
+	public emit<T extends keyof ClackEvents<TValue>>(
+		event: T,
+		...data: Parameters<ClackEvents<TValue>[T]>
+	) {
 		const cbs = this._subscribers.get(event) ?? [];
 		const cleanup: (() => void)[] = [];
 
@@ -144,24 +147,6 @@ export default class Prompt<TValue> {
 
 			this.emit('beforePrompt');
 
-			if (this.opts.initialValue !== undefined) {
-				// TODO: this will go in the bin if we figure out the TODO in
-				// text prompt (L29)
-				if (this._track) {
-					this.rl.write(this.opts.initialValue);
-				}
-				this._setValue(this.opts.initialValue);
-
-				// Validate initial value if validator exists
-				if (this.opts.validate) {
-					const problem = this.opts.validate(this.value);
-					if (problem) {
-						this.error = problem instanceof Error ? problem.message : problem;
-						this.state = 'error';
-					}
-				}
-			}
-
 			this.input.on('keypress', this.onKeypress);
 			setRawMode(this.input, true);
 			this.output.on('resize', this.render);
@@ -197,6 +182,7 @@ export default class Prompt<TValue> {
 		this.emit('userInput', this.userInput);
 		if (write && this._track && this.rl) {
 			this.rl.write(this.userInput);
+			this._cursor = this.rl.cursor;
 		}
 	}
 

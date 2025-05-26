@@ -44,13 +44,16 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-interface AutocompleteOptions<T extends OptionLike> extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
+interface AutocompleteOptions<T extends OptionLike>
+	extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
 	options: T[];
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
 }
 
-export default class AutocompletePrompt<T extends OptionLike> extends Prompt<T['value'] | T['value'][]> {
+export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
+	T['value'] | T['value'][]
+> {
 	options: T[];
 	filteredOptions: T[];
 	multiple: boolean;
@@ -59,7 +62,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<T['
 
 	focusedValue: T['value'] | undefined;
 	#cursor = 0;
-	#lastUserInput: string = '';
+	#lastUserInput = '';
 	#filterFn: FilterFunction<T>;
 
 	get cursor(): number {

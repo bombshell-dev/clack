@@ -25,11 +25,13 @@ export default class TextPrompt extends Prompt<string> {
 	constructor(opts: TextOptions) {
 		super(opts);
 
-		// TODO: you were trying to move the logic to set the initial value
-		// as the user input into each individual prompt
-		// figure it out future james!
 		this.on('beforePrompt', () => {
-			this._setUserInput(this.value, true);
+			if (opts.initialValue !== undefined) {
+				this._setUserInput(opts.initialValue, true);
+			}
+		});
+		this.on('userInput', (input) => {
+			this._setValue(input);
 		});
 		this.on('finalize', () => {
 			if (!this.value) {

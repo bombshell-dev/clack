@@ -222,7 +222,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
-			const userInput = this.userInput
+			const userInput = this.userInput;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = userInput === '' && placeholder !== undefined;
 

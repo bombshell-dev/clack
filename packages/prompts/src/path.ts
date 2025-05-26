@@ -1,7 +1,7 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { dirname } from 'knip/dist/util/path.js';
-import { type CommonOptions } from './common.js';
+import type { CommonOptions } from './common.js';
 import { suggestion } from './suggestion.js';
 
 export interface PathOptions extends CommonOptions {

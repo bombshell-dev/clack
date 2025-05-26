@@ -5,7 +5,7 @@ import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from '.
 export interface PasswordOptions extends CommonOptions {
 	message: string;
 	mask?: string;
-	validate?: (value: string|undefined) => string | Error | undefined;
+	validate?: (value: string | undefined) => string | Error | undefined;
 }
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({

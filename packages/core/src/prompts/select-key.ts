@@ -1,6 +1,7 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface SelectKeyOptions<T extends { value: any }> extends PromptOptions<T['value'], SelectKeyPrompt<T>> {
+interface SelectKeyOptions<T extends { value: any }>
+	extends PromptOptions<T['value'], SelectKeyPrompt<T>> {
 	options: T[];
 }
 export default class SelectKeyPrompt<T extends { value: any }> extends Prompt<T['value']> {
