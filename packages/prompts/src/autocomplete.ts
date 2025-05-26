@@ -41,7 +41,7 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
-export interface AutocompleteOptions<Value> extends CommonOptions {
+interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	/**
 	 * The message to display to the user.
 	 */
@@ -51,10 +51,6 @@ export interface AutocompleteOptions<Value> extends CommonOptions {
 	 */
 	options: Option<Value>[];
 	/**
-	 * The initial selected value.
-	 */
-	initialValue?: Value;
-	/**
 	 * Maximum number of items to display at once.
 	 */
 	maxItems?: number;
@@ -62,6 +58,13 @@ export interface AutocompleteOptions<Value> extends CommonOptions {
 	 * Placeholder text to display when no input is provided.
 	 */
 	placeholder?: string;
+}
+
+export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
+	/**
+	 * The initial selected value.
+	 */
+	initialValue?: Value;
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
@@ -158,35 +161,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 };
 
 // Type definition for the autocompleteMultiselect component
-export interface AutocompleteMultiSelectOptions<Value> {
-	/**
-	 * The message to display to the user
-	 */
-	message: string;
-	/**
-	 * The options for the user to choose from
-	 */
-	options: Option<Value>[];
+export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
 	/**
 	 * The initial selected values
 	 */
 	initialValues?: Value[];
 	/**
-	 * The maximum number of items that can be selected
+	 * If true, at least one option must be selected
 	 */
-	maxItems?: number;
-	/**
-	 * The placeholder to display in the input
-	 */
-	placeholder?: string;
-	/**
-	 * The stream to read from
-	 */
-	input?: NodeJS.ReadStream;
-	/**
-	 * The stream to write to
-	 */
-	output?: NodeJS.WriteStream;
+	required?: boolean;
 }
 
 /**
@@ -220,6 +203,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		filter: (search, opt) => {
 			return getFilteredOption(search, opt);
 		},
+		validate: () => {
+			if (opts.required && prompt.selectedValues.length === 0) {
+				return 'Please select at least one item';
+			}
+			return undefined;
+		},
 		placeholder: opts.placeholder,
 		initialValue: opts.initialValues,
 		input: opts.input,
@@ -229,10 +218,6 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
-			const counter =
-				this.selectedValues.length > 0
-					? color.cyan(` (${this.selectedValues.length} selected)`)
-					: '';
 			const value = String(this.value ?? '');
 
 			// Search input display
@@ -270,6 +255,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
+					const errorMessage =
+						this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
+
 					// Get limited options for display
 					const displayOptions = limitOptions({
 						cursor: this.cursor,
@@ -285,6 +273,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						title,
 						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
+						...errorMessage,
 						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
 						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
 						`${color.cyan(S_BAR_END)}`,
