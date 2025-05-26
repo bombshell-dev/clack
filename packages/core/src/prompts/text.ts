@@ -29,6 +29,9 @@ export default class TextPrompt extends Prompt {
 			if (!this.value) {
 				this.value = opts.defaultValue;
 			}
+			if (this.value === undefined) {
+				this.value = '';
+			}
 		});
 	}
 }

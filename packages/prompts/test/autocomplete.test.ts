@@ -120,4 +120,19 @@ describe('autocomplete', () => {
 		expect(typeof value === 'symbol').toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('supports initialValue', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			initialValue: 'cherry',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(value).toBe('cherry');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

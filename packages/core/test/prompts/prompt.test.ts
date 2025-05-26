@@ -38,7 +38,7 @@ describe('Prompt', () => {
 		const resultPromise = instance.prompt();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await resultPromise;
-		expect(result).to.equal(undefined);
+		expect(result).to.equal('');
 		expect(isCancel(result)).to.equal(false);
 		expect(instance.state).to.equal('submit');
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo', '\n', cursor.show]);

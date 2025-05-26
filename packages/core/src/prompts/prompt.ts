@@ -14,6 +14,7 @@ export interface PromptOptions<Self extends Prompt> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	placeholder?: string;
 	initialValue?: any;
+	defaultValue?: any;
 	validate?: ((value: any) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
@@ -224,8 +225,12 @@ export default class Prompt {
 		this.emit('key', char?.toLowerCase(), key);
 
 		if (key?.name === 'return') {
-			if (!this.value && this.opts.placeholder) {
-				this._setValue(this.opts.placeholder, true);
+			if (!this.value) {
+				if (this.opts.defaultValue) {
+					this._setValue(this.opts.defaultValue);
+				} else {
+					this._setValue('');
+				}
 			}
 
 			if (this.opts.validate) {

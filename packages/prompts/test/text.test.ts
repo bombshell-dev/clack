@@ -52,8 +52,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		const value = await result;
 
 		expect(output.buffer).toMatchSnapshot();
-
-		expect(value).toBe('bar');
+		expect(value).toBe('');
 	});
 
 	test('<tab> applies placeholder', async () => {
@@ -172,6 +171,39 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		const value = await result;
 
 		expect(value).toBe('xy');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('placeholder is not used as value when pressing enter', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			placeholder: '  (hit Enter to use default)',
+			defaultValue: 'default-value',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('default-value');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('empty string when no value and no default', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			placeholder: '  (hit Enter to use default)',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('');
 		expect(output.buffer).toMatchSnapshot();
 	});
 });

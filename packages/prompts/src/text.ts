@@ -30,8 +30,10 @@ export const text = (opts: TextOptions) => {
 					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(this.value || opts.placeholder)}`;
+				case 'submit': {
+					const displayValue = typeof this.value === 'undefined' ? '' : this.value;
+					return `${title}${color.gray(S_BAR)}  ${color.dim(displayValue)}`;
+				}
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
 						color.dim(this.value ?? '')
