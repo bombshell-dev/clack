@@ -1,3 +1,4 @@
+import type { Key } from 'node:readline';
 import type { ValueWithCursorPart } from '../types.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
@@ -14,12 +15,15 @@ export default class SuggestionPrompt extends Prompt<string> {
 	constructor(opts: SuggestionOptions) {
 		super(opts);
 
-		this.value = opts.initialValue;
 		this.suggest = opts.suggest;
 		this.getNextItems();
 		this.selectionIndex = 0;
-		this._cursor = this.value.length;
 
+		this.on('beforePrompt', () => {
+			if (opts.initialValue !== undefined) {
+				this._setUserInput(opts.initialValue, true);
+			}
+		});
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'up':
@@ -27,24 +31,34 @@ export default class SuggestionPrompt extends Prompt<string> {
 						0,
 						this.selectionIndex === 0 ? this.nextItems.length - 1 : this.selectionIndex - 1
 					);
+					this.value = this.nextItems[this.selectionIndex];
 					break;
 				case 'down':
 					this.selectionIndex =
 						this.nextItems.length === 0 ? 0 : (this.selectionIndex + 1) % this.nextItems.length;
+					this.value = this.nextItems[this.selectionIndex];
 					break;
 			}
 		});
 		this.on('key', (_key, info) => {
-			if (info.name === 'tab' && this.nextItems.length > 0) {
-				const delta = this.nextItems[this.selectionIndex].substring(this.userInput.length);
-				this.value = this.nextItems[this.selectionIndex];
+			const nextItem = this.nextItems[this.selectionIndex];
+			if (info.name === 'tab' && nextItem !== undefined) {
+				const delta = nextItem.substring(this.userInput.length);
+				// TODO (43081j): this means the selected value won't show up until we
+				// later choose another value. probably shouldn't set `value` until
+				// finalize tbh
+				this.value = nextItem;
 				this.rl?.write(delta);
-				this._cursor = this.value.length;
+				this._cursor = this.rl?.cursor ?? 0;
 				this.selectionIndex = 0;
-				this.getNextItems();
+				this._setUserInput(this.userInput + delta);
 			}
 		});
-		this.on('value', () => {
+		this.on('userInput', () => {
+			if (this.value !== this.userInput) {
+				this.value = this.userInput;
+			}
+
 			this.getNextItems();
 		});
 	}
