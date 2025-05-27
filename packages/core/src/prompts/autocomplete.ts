@@ -82,10 +82,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	}
 
 	constructor(opts: AutocompleteOptions<T>) {
-		super({
-			...opts,
-			initialValue: undefined,
-		});
+		super(opts);
 
 		this.options = opts.options;
 		this.filteredOptions = [...this.options];
@@ -105,16 +102,16 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		}
 
 		if (initialValues) {
-			this.selectedValues = initialValues;
 			for (const selectedValue of initialValues) {
 				const selectedIndex = this.options.findIndex((opt) => opt.value === selectedValue);
 				if (selectedIndex !== -1) {
 					this.toggleSelected(selectedValue);
 					this.#cursor = selectedIndex;
-					this.focusedValue = this.options[this.#cursor]?.value;
 				}
 			}
 		}
+
+		this.focusedValue = this.options[this.#cursor]?.value;
 
 		this.on('finalize', () => {
 			if (!this.value) {

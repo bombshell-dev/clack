@@ -132,7 +132,7 @@ describe('AutocompletePrompt', () => {
 		expect(instance.filteredOptions.length).to.equal(testOptions.length);
 
 		// Simulate typing 'a' by emitting value event
-		instance.emit('value', 'a');
+		input.emit('keypress', 'a', { name: 'a' });
 
 		// Check that filtered options are updated to include options with 'a'
 		expect(instance.filteredOptions.length).to.be.lessThan(testOptions.length);
@@ -150,14 +150,17 @@ describe('AutocompletePrompt', () => {
 			options: testOptions,
 		});
 
-		instance.emit('value', 'ap');
+		instance.prompt();
+
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', 'p', { name: 'p' });
 
 		expect(instance.filteredOptions).toEqual([
 			{ value: 'apple', label: 'Apple' },
 			{ value: 'grape', label: 'Grape' },
 		]);
 
-		instance.emit('value', 'z');
+		input.emit('keypress', 'z', { name: 'z' });
 
 		expect(instance.filteredOptions).toEqual([]);
 	});
