@@ -23,23 +23,23 @@ export const text = (opts: TextOptions) => {
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 				: color.inverse(color.hidden('_'));
-			const value = !this.userInput ? placeholder : this.userInputWithCursor;
+			const userInput = !this.userInput ? placeholder : this.userInputWithCursor;
+			const value = this.value ?? '';
 
 			switch (this.state) {
 				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${value}\n${color.yellow(
+					return `${title.trim()}\n${color.yellow(S_BAR)}  ${userInput}\n${color.yellow(
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
 				case 'submit': {
-					const displayValue = this.userInput === undefined ? '' : this.userInput;
-					return `${title}${color.gray(S_BAR)}  ${color.dim(displayValue)}`;
+					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
 				}
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(this.userInput ?? '')
-					)}${this.userInput?.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+						color.dim(value)
+					)}${value.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${value}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
