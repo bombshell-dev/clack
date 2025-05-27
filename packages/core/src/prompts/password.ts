@@ -28,5 +28,8 @@ export default class PasswordPrompt extends Prompt<string> {
 	constructor({ mask, ...opts }: PasswordOptions) {
 		super(opts);
 		this._mask = mask ?? '•';
+		this.on('userInput', (input) => {
+			this._setValue(input);
+		});
 	}
 }
