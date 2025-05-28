@@ -1,14 +1,14 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface GroupMultiSelectOptions<T extends { value: any }>
-	extends PromptOptions<GroupMultiSelectPrompt<T>> {
+	extends PromptOptions<T['value'][], GroupMultiSelectPrompt<T>> {
 	options: Record<string, T[]>;
 	initialValues?: T['value'][];
 	required?: boolean;
 	cursorAt?: T['value'];
 	selectableGroups?: boolean;
 }
-export default class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt {
+export default class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt<T['value'][]> {
 	options: (T & { group: string | boolean })[];
 	cursor = 0;
 	#selectableGroups: boolean;
@@ -19,11 +19,18 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 
 	isGroupSelected(group: string) {
 		const items = this.getGroupItems(group);
-		return items.every((i) => this.value.includes(i.value));
+		const value = this.value;
+		if (value === undefined) {
+			return false;
+		}
+		return items.every((i) => value.includes(i.value));
 	}
 
 	private toggleValue() {
 		const item = this.options[this.cursor];
+		if (this.value === undefined) {
+			this.value = [];
+		}
 		if (item.group === true) {
 			const group = item.value;
 			const groupedItems = this.getGroupItems(group);

@@ -1,19 +1,20 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface SelectOptions<T extends { value: any }> extends PromptOptions<SelectPrompt<T>> {
+interface SelectOptions<T extends { value: any }>
+	extends PromptOptions<T['value'], SelectPrompt<T>> {
 	options: T[];
 	initialValue?: T['value'];
 }
-export default class SelectPrompt<T extends { value: any }> extends Prompt {
+export default class SelectPrompt<T extends { value: any }> extends Prompt<T['value']> {
 	options: T[];
 	cursor = 0;
 
-	private get _value() {
+	private get _selectedValue() {
 		return this.options[this.cursor];
 	}
 
 	private changeValue() {
-		this.value = this._value.value;
+		this.value = this._selectedValue.value;
 	}
 
 	constructor(opts: SelectOptions<T>) {

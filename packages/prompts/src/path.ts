@@ -1,7 +1,7 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { dirname } from 'knip/dist/util/path.js';
-import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
+import type { CommonOptions } from './common.js';
 import { suggestion } from './suggestion.js';
 
 export interface PathOptions extends CommonOptions {
@@ -9,7 +9,7 @@ export interface PathOptions extends CommonOptions {
 	directory?: boolean;
 	initialValue?: string;
 	message: string;
-	validate?: (value: string) => string | Error | undefined;
+	validate?: (value: string | undefined) => string | Error | undefined;
 }
 
 export const path = (opts: PathOptions) => {

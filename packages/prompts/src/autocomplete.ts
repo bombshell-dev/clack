@@ -79,6 +79,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		render() {
 			// Title and message display
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
 			const placeholder = opts.placeholder;
 			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
@@ -93,15 +94,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				}
 
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(this.value ?? ''))}`;
+					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 
 				default: {
 					// Display cursor position - show plain text in navigation mode
 					const searchText =
 						this.isNavigating || showPlaceholder
-							? color.dim(showPlaceholder ? placeholder : valueAsString)
-							: this.valueWithCursor;
+							? color.dim(showPlaceholder ? placeholder : userInput)
+							: this.userInputWithCursor;
 
 					// Show match count if filtered
 					const matches =
@@ -142,7 +143,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// No matches message
 					const noResults =
-						this.filteredOptions.length === 0 && valueAsString
+						this.filteredOptions.length === 0 && userInput
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
@@ -221,15 +222,15 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
-			const value = String(this.value ?? '');
+			const userInput = this.userInput;
 			const placeholder = opts.placeholder;
-			const showPlaceholder = value === '' && placeholder !== undefined;
+			const showPlaceholder = userInput === '' && placeholder !== undefined;
 
 			// Search input display
 			const searchText =
 				this.isNavigating || showPlaceholder
-					? color.dim(showPlaceholder ? placeholder : value) // Just show plain text when in navigation mode
-					: this.valueWithCursor;
+					? color.dim(showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
+					: this.userInputWithCursor;
 
 			const matches =
 				this.filteredOptions.length !== opts.options.length
@@ -244,7 +245,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					return `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(value))}`;
+					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 				default: {
 					// Instructions
@@ -257,7 +258,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 
 					// No results message
 					const noResults =
-						this.filteredOptions.length === 0 && value
+						this.filteredOptions.length === 0 && userInput
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 

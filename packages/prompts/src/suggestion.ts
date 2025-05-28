@@ -5,7 +5,7 @@ import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 export interface SuggestionOptions extends CommonOptions {
 	initialValue?: string;
 	message: string;
-	validate?: (value: string) => string | Error | undefined;
+	validate?: (value: string | undefined) => string | Error | undefined;
 	suggest: (value: string) => Array<string>;
 }
 

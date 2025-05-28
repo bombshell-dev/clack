@@ -68,7 +68,7 @@ describe('TextPrompt', () => {
 		});
 	});
 
-	describe('valueWithCursor', () => {
+	describe('userInputWithCursor', () => {
 		test('returns value on submit', () => {
 			const instance = new TextPrompt({
 				input,
@@ -78,7 +78,7 @@ describe('TextPrompt', () => {
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
 			input.emit('keypress', '', { name: 'return' });
-			expect(instance.valueWithCursor).to.equal('x');
+			expect(instance.userInputWithCursor).to.equal('x');
 		});
 
 		test('highlights cursor position', () => {
@@ -93,7 +93,7 @@ describe('TextPrompt', () => {
 				input.emit('keypress', keys[i], { name: keys[i] });
 			}
 			input.emit('keypress', 'left', { name: 'left' });
-			expect(instance.valueWithCursor).to.equal(`fo${color.inverse('o')}`);
+			expect(instance.userInputWithCursor).to.equal(`fo${color.inverse('o')}`);
 		});
 
 		test('shows cursor at end if beyond value', () => {
@@ -108,7 +108,7 @@ describe('TextPrompt', () => {
 				input.emit('keypress', keys[i], { name: keys[i] });
 			}
 			input.emit('keypress', 'right', { name: 'right' });
-			expect(instance.valueWithCursor).to.equal('foo█');
+			expect(instance.userInputWithCursor).to.equal('foo█');
 		});
 
 		test('does not use placeholder as value when pressing enter', async () => {
