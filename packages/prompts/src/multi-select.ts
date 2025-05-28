@@ -58,7 +58,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		required: opts.required ?? true,
 		cursorAt: opts.cursorAt,
 		validate(selected: Value[] | undefined) {
-			if (this.required && (selected === undefined || selected.length === 0))
+			if (opts.required && (selected === undefined || selected.length === 0))
 				return `Please select at least one option.\n${color.reset(
 					color.dim(
 						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(

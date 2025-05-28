@@ -13,6 +13,7 @@ import type { Action } from '../utils/index.js';
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	initialValue?: any;
+	initialUserInput?: string;
 	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
@@ -145,7 +146,9 @@ export default class Prompt<TValue> {
 			});
 			this.rl.prompt();
 
-			this.emit('beforePrompt');
+			if (this.opts.initialUserInput !== undefined) {
+				this._setUserInput(this.opts.initialUserInput, true);
+			}
 
 			this.input.on('keypress', this.onKeypress);
 			setRawMode(this.input, true);

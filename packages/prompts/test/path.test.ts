@@ -31,6 +31,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				'./hello/john.jpg': '4',
 				'./hello/jeanne.png': '5',
 				'./root.zip': '6',
+				'./bar': '7',
 			},
 			'/tmp'
 		);
@@ -50,27 +51,10 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 
 		input.emit('keypress', '', { name: 'return' });
 
-		await result;
-
-		expect(output.buffer).toMatchSnapshot();
-	});
-
-	test('renders and apply (<tab>) suggestion', async () => {
-		const result = prompts.path({
-			message: 'foo',
-			root: '/tmp',
-			input,
-			output,
-		});
-
-		input.emit('keypress', '\t', { name: 'tab' });
-		input.emit('keypress', '', { name: 'return' });
-
 		const value = await result;
 
 		expect(output.buffer).toMatchSnapshot();
-
-		expect(value).toBe('/tmp/foo');
+		expect(value).toBe('/tmp/bar');
 	});
 
 	test('can cancel', async () => {
@@ -115,13 +99,33 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', 'y', { name: 'y' });
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
-		expect(value).toBe('/tmp/xy');
+		expect(value).toBe('/tmp/bar');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('cannot submit unknown value', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '_', { name: '_' });
+		input.emit('keypress', '', { name: 'return' });
+		input.emit('keypress', '', { name: 'h', ctrl: true });
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/bar');
 		expect(output.buffer).toMatchSnapshot();
 	});
 
@@ -151,10 +155,12 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
-		input.emit('keypress', 'b', { name: 'b' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', 'a', { name: 'a' });
+		// to match `root.zip`
 		input.emit('keypress', 'r', { name: 'r' });
+		input.emit('keypress', '', { name: 'return' });
+		// delete what we had
+		input.emit('keypress', '', { name: 'h', ctrl: true });
+		input.emit('keypress', 'b', { name: 'b' });
 		input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
@@ -172,10 +178,12 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
-		input.emit('keypress', 'b', { name: 'b' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', 'a', { name: 'a' });
+		// to match `root.zip`
 		input.emit('keypress', 'r', { name: 'r' });
+		input.emit('keypress', '', { name: 'return' });
+		// delete what we had
+		input.emit('keypress', '', { name: 'h', ctrl: true });
+		input.emit('keypress', 'b', { name: 'b' });
 		input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
