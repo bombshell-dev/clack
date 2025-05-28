@@ -1,9 +1,10 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface SelectKeyOptions<T extends { value: any }> extends PromptOptions<SelectKeyPrompt<T>> {
+interface SelectKeyOptions<T extends { value: string }>
+	extends PromptOptions<T['value'], SelectKeyPrompt<T>> {
 	options: T[];
 }
-export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
+export default class SelectKeyPrompt<T extends { value: string }> extends Prompt<T['value']> {
 	options: T[];
 	cursor = 0;
 
@@ -15,7 +16,7 @@ export default class SelectKeyPrompt<T extends { value: any }> extends Prompt {
 		this.cursor = Math.max(keys.indexOf(opts.initialValue), 0);
 
 		this.on('key', (key) => {
-			if (!keys.includes(key)) return;
+			if (!key || !keys.includes(key)) return;
 			const value = this.options.find(({ value: [initial] }) => initial?.toLowerCase() === key);
 			if (value) {
 				this.value = value.value;

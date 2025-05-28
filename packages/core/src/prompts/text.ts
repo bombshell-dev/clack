@@ -1,30 +1,36 @@
 import color from 'picocolors';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface TextOptions extends PromptOptions<TextPrompt> {
+interface TextOptions extends PromptOptions<string, TextPrompt> {
 	placeholder?: string;
 	defaultValue?: string;
 }
 
-export default class TextPrompt extends Prompt {
-	get valueWithCursor() {
+export default class TextPrompt extends Prompt<string> {
+	get userInputWithCursor() {
 		if (this.state === 'submit') {
-			return this.value;
+			return this.userInput;
 		}
-		const value = this.value ?? '';
-		if (this.cursor >= value.length) {
-			return `${this.value}█`;
+		const userInput = this.userInput;
+		if (this.cursor >= userInput.length) {
+			return `${this.userInput}█`;
 		}
-		const s1 = value.slice(0, this.cursor);
-		const [s2, ...s3] = value.slice(this.cursor);
+		const s1 = userInput.slice(0, this.cursor);
+		const [s2, ...s3] = userInput.slice(this.cursor);
 		return `${s1}${color.inverse(s2)}${s3.join('')}`;
 	}
 	get cursor() {
 		return this._cursor;
 	}
 	constructor(opts: TextOptions) {
-		super(opts);
+		super({
+			...opts,
+			initialUserInput: opts.initialUserInput ?? opts.initialValue,
+		});
 
+		this.on('userInput', (input) => {
+			this._setValue(input);
+		});
 		this.on('finalize', () => {
 			if (!this.value) {
 				this.value = opts.defaultValue;

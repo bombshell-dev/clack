@@ -10,37 +10,36 @@ import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
 
-export interface PromptOptions<Self extends Prompt> {
+export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
-	placeholder?: string;
 	initialValue?: any;
-	defaultValue?: any;
-	validate?: ((value: any) => string | Error | undefined) | undefined;
+	initialUserInput?: string;
+	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
 	signal?: AbortSignal;
 }
 
-export default class Prompt {
+export default class Prompt<TValue> {
 	protected input: Readable;
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;
 
 	protected rl: ReadLine | undefined;
-	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
-	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
+	private opts: Omit<PromptOptions<TValue, Prompt<TValue>>, 'render' | 'input' | 'output'>;
+	private _render: (context: Omit<Prompt<TValue>, 'prompt'>) => string | undefined;
 	private _track = false;
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
-	protected _usePlaceholderAsValue = true;
 
 	public state: ClackState = 'initial';
 	public error = '';
-	public value: any;
+	public value: TValue | undefined;
+	public userInput = '';
 
-	constructor(options: PromptOptions<Prompt>, trackValue = true) {
+	constructor(options: PromptOptions<TValue, Prompt<TValue>>, trackValue = true) {
 		const { input = stdin, output = stdout, render, signal, ...opts } = options;
 
 		this.opts = opts;
@@ -66,9 +65,9 @@ export default class Prompt {
 	 * Set a subscriber with opts
 	 * @param event - The event name
 	 */
-	private setSubscriber<T extends keyof ClackEvents>(
+	private setSubscriber<T extends keyof ClackEvents<TValue>>(
 		event: T,
-		opts: { cb: ClackEvents[T]; once?: boolean }
+		opts: { cb: ClackEvents<TValue>[T]; once?: boolean }
 	) {
 		const params = this._subscribers.get(event) ?? [];
 		params.push(opts);
@@ -80,7 +79,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public on<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
+	public on<T extends keyof ClackEvents<TValue>>(event: T, cb: ClackEvents<TValue>[T]) {
 		this.setSubscriber(event, { cb });
 	}
 
@@ -89,7 +88,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public once<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
+	public once<T extends keyof ClackEvents<TValue>>(event: T, cb: ClackEvents<TValue>[T]) {
 		this.setSubscriber(event, { cb, once: true });
 	}
 
@@ -98,7 +97,10 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param data - The data to pass to the callback
 	 */
-	public emit<T extends keyof ClackEvents>(event: T, ...data: Parameters<ClackEvents[T]>) {
+	public emit<T extends keyof ClackEvents<TValue>>(
+		event: T,
+		...data: Parameters<ClackEvents<TValue>[T]>
+	) {
 		const cbs = this._subscribers.get(event) ?? [];
 		const cleanup: (() => void)[] = [];
 
@@ -116,7 +118,7 @@ export default class Prompt {
 	}
 
 	public prompt() {
-		return new Promise<string | symbol>((resolve, reject) => {
+		return new Promise<TValue | symbol | undefined>((resolve) => {
 			if (this._abortSignal) {
 				if (this._abortSignal.aborted) {
 					this.state = 'cancel';
@@ -143,17 +145,9 @@ export default class Prompt {
 				terminal: true,
 			});
 			this.rl.prompt();
-			if (this.opts.initialValue !== undefined) {
-				this._setValue(this.opts.initialValue, true);
 
-				// Validate initial value if validator exists
-				if (this.opts.validate) {
-					const problem = this.opts.validate(this.opts.initialValue);
-					if (problem) {
-						this.error = problem instanceof Error ? problem.message : problem;
-						this.state = 'error';
-					}
-				}
+			if (this.opts.initialUserInput !== undefined) {
+				this._setUserInput(this.opts.initialUserInput, true);
 			}
 
 			this.input.on('keypress', this.onKeypress);
@@ -181,14 +175,17 @@ export default class Prompt {
 		return char === '\t';
 	}
 
-	protected _setValue(value: unknown, writeToBuffer?: boolean, triggerRender?: boolean): void {
+	protected _setValue(value: TValue | undefined): void {
 		this.value = value;
 		this.emit('value', this.value);
-		if (writeToBuffer && this.rl && this._track) {
-			this.rl.write(String(value));
-		}
-		if (triggerRender) {
-			this.render();
+	}
+
+	protected _setUserInput(value: string | undefined, write?: boolean): void {
+		this.userInput = value ?? '';
+		this.emit('userInput', this.userInput);
+		if (write && this._track && this.rl) {
+			this.rl.write(this.userInput);
+			this._cursor = this.rl.cursor;
 		}
 	}
 
@@ -198,7 +195,7 @@ export default class Prompt {
 				this.rl?.write(null, { ctrl: true, name: 'h' });
 			}
 			this._cursor = this.rl?.cursor ?? 0;
-			this._setValue(this.rl?.line);
+			this._setUserInput(this.rl?.line);
 		}
 
 		if (this.state === 'error') {
@@ -215,30 +212,17 @@ export default class Prompt {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
-		if (this._usePlaceholderAsValue && char === '\t' && this.opts.placeholder) {
-			if (!this.value) {
-				this._setValue(this.opts.placeholder, true);
-			}
-		}
 
 		// Call the key event handler and emit the key event
 		this.emit('key', char?.toLowerCase(), key);
 
 		if (key?.name === 'return') {
-			if (!this.value) {
-				if (this.opts.defaultValue) {
-					this._setValue(this.opts.defaultValue);
-				} else {
-					this._setValue('');
-				}
-			}
-
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {
 					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';
-					this.rl?.write(this.value);
+					this.rl?.write(this.userInput);
 				}
 			}
 			if (this.state !== 'error') {

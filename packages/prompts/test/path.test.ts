@@ -1,4 +1,4 @@
-import { fs, vol } from 'memfs';
+import { vol } from 'memfs';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -31,6 +31,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				'./hello/john.jpg': '4',
 				'./hello/jeanne.png': '5',
 				'./root.zip': '6',
+				'./bar': '7',
 			},
 			'/tmp'
 		);

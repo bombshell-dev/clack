@@ -9,24 +9,29 @@ export interface PathOptions extends CommonOptions {
 	directory?: boolean;
 	initialValue?: string;
 	message: string;
-	validate?: (value: string) => string | Error | undefined;
+	validate?: (value: string | undefined) => string | Error | undefined;
 }
 
 export const path = (opts: PathOptions) => {
+	const validate = opts.validate;
+
 	return autocomplete({
 		...opts,
-		initialValue: opts.initialValue ?? opts.root ?? process.cwd(),
+		initialUserInput: opts.initialValue ?? opts.root ?? process.cwd(),
 		maxItems: 5,
+		validate: validate
+			? (value) => {
+					if (Array.isArray(value)) {
+						// Shouldn't ever happen since we don't enable `multiple: true`
+						return undefined;
+					}
+					return validate(value);
+				}
+			: undefined,
 		options() {
-			const value = this.value;
-			const normalisedValue = Array.isArray(value) ? value[0] : value;
-			if (typeof normalisedValue !== 'string') {
-				return [];
-			}
+			const userInput = this.userInput;
 			try {
-				const searchPath = !existsSync(normalisedValue)
-					? dirname(normalisedValue)
-					: normalisedValue;
+				const searchPath = !existsSync(userInput) ? dirname(userInput) : userInput;
 				if (!lstatSync(searchPath).isDirectory()) {
 					return [];
 				}
@@ -42,7 +47,7 @@ export const path = (opts: PathOptions) => {
 					})
 					.filter(
 						({ path, isDirectory }) =>
-							path.startsWith(normalisedValue) && (opts.directory || !isDirectory)
+							path.startsWith(userInput) && (opts.directory || !isDirectory)
 					);
 				return items.map((item) => ({
 					value: item.path,
