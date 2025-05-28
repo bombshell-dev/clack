@@ -158,11 +158,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
+					const validationError =
+						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+
 					// Return the formatted prompt
 					return [
 						title,
 						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
+						...validationError,
 						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
 						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
 						`${color.cyan(S_BAR_END)}`,

@@ -121,16 +121,6 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 		this.focusedValue = this.options[this.#cursor]?.value;
 
-		this.on('finalize', () => {
-			if (!this.value) {
-				this.value = normalisedValue(this.multiple, initialValues);
-			}
-
-			if (this.state === 'submit') {
-				this.value = normalisedValue(this.multiple, this.selectedValues);
-			}
-		});
-
 		this.on('key', (char, key) => this.#onKey(char, key));
 		this.on('userInput', (value) => this.#onUserInputChanged(value));
 	}
@@ -149,6 +139,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	#onKey(_char: string | undefined, key: Key): void {
 		const isUpKey = key.name === 'up';
 		const isDownKey = key.name === 'down';
+		const isReturnKey = key.name === 'return';
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
@@ -161,6 +152,8 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				this.selectedValues = [this.focusedValue];
 			}
 			this.isNavigating = true;
+		} else if (isReturnKey) {
+			this.value = normalisedValue(this.multiple, this.selectedValues);
 		} else {
 			if (this.multiple) {
 				if (
@@ -208,6 +201,9 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			}
 			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
+			if (!this.multiple && this.focusedValue !== undefined) {
+				this.toggleSelected(this.focusedValue);
+			}
 		}
 	}
 }

@@ -19,22 +19,36 @@ export const path = (opts: PathOptions) => {
 		...opts,
 		initialUserInput: opts.initialValue ?? opts.root ?? process.cwd(),
 		maxItems: 5,
-		validate: validate
-			? (value) => {
-					if (Array.isArray(value)) {
-						// Shouldn't ever happen since we don't enable `multiple: true`
-						return undefined;
-					}
-					return validate(value);
-				}
-			: undefined,
+		validate(value) {
+			if (!validate) {
+				return undefined;
+			}
+			if (Array.isArray(value)) {
+				// Shouldn't ever happen since we don't enable `multiple: true`
+				return undefined;
+			}
+			return validate(value);
+		},
 		options() {
 			const userInput = this.userInput;
+			if (userInput === '') {
+				return [];
+			}
+
 			try {
-				const searchPath = !existsSync(userInput) ? dirname(userInput) : userInput;
-				if (!lstatSync(searchPath).isDirectory()) {
-					return [];
+				let searchPath: string;
+
+				if (!existsSync(userInput)) {
+					searchPath = dirname(userInput);
+				} else {
+					const stat = lstatSync(userInput);
+					if (stat.isDirectory()) {
+						searchPath = userInput;
+					} else {
+						searchPath = dirname(userInput);
+					}
 				}
+
 				const items = readdirSync(searchPath)
 					.map((item) => {
 						const path = join(searchPath, item);
