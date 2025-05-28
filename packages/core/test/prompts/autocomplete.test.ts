@@ -118,7 +118,7 @@ describe('AutocompletePrompt', () => {
 		expect(instance.selectedValues).to.deep.equal([]);
 	});
 
-	test('filtering through value event', () => {
+	test('filtering through user input', () => {
 		const instance = new AutocompletePrompt({
 			input,
 			output,
@@ -131,7 +131,7 @@ describe('AutocompletePrompt', () => {
 		// Initial state should have all options
 		expect(instance.filteredOptions.length).to.equal(testOptions.length);
 
-		// Simulate typing 'a' by emitting value event
+		// Simulate typing 'a' by emitting keypress event
 		input.emit('keypress', 'a', { name: 'a' });
 
 		// Check that filtered options are updated to include options with 'a'
