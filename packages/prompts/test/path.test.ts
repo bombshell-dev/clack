@@ -109,6 +109,26 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('cannot submit unknown value', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '_', { name: '_' });
+		input.emit('keypress', '', { name: 'return' });
+		input.emit('keypress', '', { name: 'h', ctrl: true });
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/bar');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('initialValue sets the value', async () => {
 		const result = prompts.path({
 			message: 'foo',

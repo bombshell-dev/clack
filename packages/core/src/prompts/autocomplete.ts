@@ -172,6 +172,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		}
 	}
 
+	deselectAll() {
+		this.selectedValues = [];
+	}
+
 	toggleSelected(value: T['value']) {
 		if (this.filteredOptions.length === 0) {
 			return;
@@ -201,8 +205,12 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			}
 			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
-			if (!this.multiple && this.focusedValue !== undefined) {
-				this.toggleSelected(this.focusedValue);
+			if (!this.multiple) {
+				if (this.focusedValue !== undefined) {
+					this.toggleSelected(this.focusedValue);
+				} else {
+					this.deselectAll();
+				}
 			}
 		}
 	}

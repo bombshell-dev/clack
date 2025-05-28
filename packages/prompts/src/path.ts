@@ -20,14 +20,17 @@ export const path = (opts: PathOptions) => {
 		initialUserInput: opts.initialValue ?? opts.root ?? process.cwd(),
 		maxItems: 5,
 		validate(value) {
-			if (!validate) {
-				return undefined;
-			}
 			if (Array.isArray(value)) {
 				// Shouldn't ever happen since we don't enable `multiple: true`
 				return undefined;
 			}
-			return validate(value);
+			if (!value) {
+				return 'Please select a path';
+			}
+			if (validate) {
+				return validate(value);
+			}
+			return undefined;
 		},
 		options() {
 			const userInput = this.userInput;
