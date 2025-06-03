@@ -258,7 +258,7 @@ describe('Prompt', () => {
 
 		instance.value = 'invalid';
 
-		input.emit('keypress', '', {name: 'return'});
+		input.emit('keypress', '', { name: 'return' });
 
 		expect(instance.state).to.equal('error');
 		expect(instance.error).to.equal('must be valid');
@@ -274,7 +274,7 @@ describe('Prompt', () => {
 		instance.prompt();
 
 		instance.value = 'invalid';
-		input.emit('keypress', '', {name: 'return'});
+		input.emit('keypress', '', { name: 'return' });
 
 		expect(instance.state).to.equal('error');
 		expect(instance.error).to.equal('must be valid');
@@ -290,7 +290,7 @@ describe('Prompt', () => {
 		instance.prompt();
 
 		instance.value = 'Invalid Value $$$';
-		input.emit('keypress', '', {name: 'return'});
+		input.emit('keypress', '', { name: 'return' });
 
 		expect(instance.state).to.equal('error');
 		expect(instance.error).to.equal('Invalid value');
@@ -306,7 +306,7 @@ describe('Prompt', () => {
 		instance.prompt();
 
 		instance.value = 'VALID';
-		input.emit('keypress', '', {name: 'return'});
+		input.emit('keypress', '', { name: 'return' });
 
 		expect(instance.state).to.equal('submit');
 		expect(instance.error).to.equal('');
