@@ -49,7 +49,7 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	/**
 	 * Available options for the autocomplete prompt.
 	 */
-	options: Option<Value>[];
+	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 	/**
 	 * Maximum number of items to display at once.
 	 */
@@ -58,6 +58,10 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * Placeholder text to display when no input is provided.
 	 */
 	placeholder?: string;
+	/**
+	 * Validates the value
+	 */
+	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
 }
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
@@ -65,22 +69,29 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 	 * The initial selected value.
 	 */
 	initialValue?: Value;
+	/**
+	 * The initial user input
+	 */
+	initialUserInput?: string;
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
+		initialUserInput: opts.initialUserInput,
 		filter: (search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
 		},
 		input: opts.input,
 		output: opts.output,
+		validate: opts.validate,
 		render() {
 			// Title and message display
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
+			const options = this.options;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
 
@@ -88,7 +99,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			switch (this.state) {
 				case 'submit': {
 					// Show selected value
-					const selected = getSelectedOptions(this.selectedValues, this.options);
+					const selected = getSelectedOptions(this.selectedValues, options);
 					const label = selected.length > 0 ? selected.map(getLabel).join(', ') : '';
 					return `${title}${color.gray(S_BAR)}  ${color.dim(label)}`;
 				}
@@ -106,7 +117,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// Show match count if filtered
 					const matches =
-						this.filteredOptions.length !== this.options.length
+						this.filteredOptions.length !== options.length
 							? color.dim(
 									` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 								)
@@ -147,11 +158,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
+					const validationError =
+						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+
 					// Return the formatted prompt
 					return [
 						title,
 						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
+						...validationError,
 						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
 						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
 						`${color.cyan(S_BAR_END)}`,
@@ -232,8 +247,10 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					? color.dim(showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
 					: this.userInputWithCursor;
 
+			const options = this.options;
+
 			const matches =
-				this.filteredOptions.length !== opts.options.length
+				this.filteredOptions.length !== options.length
 					? color.dim(
 							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 						)

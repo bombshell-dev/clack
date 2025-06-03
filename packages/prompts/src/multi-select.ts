@@ -49,16 +49,17 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		}
 		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
 	};
+	const required = opts.required ?? true;
 
 	return new MultiSelectPrompt({
 		options: opts.options,
 		input: opts.input,
 		output: opts.output,
 		initialValues: opts.initialValues,
-		required: opts.required ?? true,
+		required,
 		cursorAt: opts.cursorAt,
 		validate(selected: Value[] | undefined) {
-			if (this.required && (selected === undefined || selected.length === 0))
+			if (required && (selected === undefined || selected.length === 0))
 				return `Please select at least one option.\n${color.reset(
 					color.dim(
 						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(

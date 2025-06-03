@@ -23,13 +23,11 @@ export default class TextPrompt extends Prompt<string> {
 		return this._cursor;
 	}
 	constructor(opts: TextOptions) {
-		super(opts);
-
-		this.on('beforePrompt', () => {
-			if (opts.initialValue !== undefined) {
-				this._setUserInput(opts.initialValue, true);
-			}
+		super({
+			...opts,
+			initialUserInput: opts.initialUserInput ?? opts.initialValue,
 		});
+
 		this.on('userInput', (input) => {
 			this._setValue(input);
 		});

@@ -1,8 +1,7 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { dirname } from 'knip/dist/util/path.js';
+import { dirname, join } from 'node:path';
+import { autocomplete } from './autocomplete.js';
 import type { CommonOptions } from './common.js';
-import { suggestion } from './suggestion.js';
 
 export interface PathOptions extends CommonOptions {
 	root?: string;
@@ -13,15 +12,45 @@ export interface PathOptions extends CommonOptions {
 }
 
 export const path = (opts: PathOptions) => {
-	return suggestion({
+	const validate = opts.validate;
+
+	return autocomplete({
 		...opts,
-		initialValue: opts.initialValue ?? opts.root ?? process.cwd(),
-		suggest: (value: string) => {
+		initialUserInput: opts.initialValue ?? opts.root ?? process.cwd(),
+		maxItems: 5,
+		validate(value) {
+			if (Array.isArray(value)) {
+				// Shouldn't ever happen since we don't enable `multiple: true`
+				return undefined;
+			}
+			if (!value) {
+				return 'Please select a path';
+			}
+			if (validate) {
+				return validate(value);
+			}
+			return undefined;
+		},
+		options() {
+			const userInput = this.userInput;
+			if (userInput === '') {
+				return [];
+			}
+
 			try {
-				const searchPath = !existsSync(value) ? dirname(value) : value;
-				if (!lstatSync(searchPath).isDirectory()) {
-					return [];
+				let searchPath: string;
+
+				if (!existsSync(userInput)) {
+					searchPath = dirname(userInput);
+				} else {
+					const stat = lstatSync(userInput);
+					if (stat.isDirectory()) {
+						searchPath = userInput;
+					} else {
+						searchPath = dirname(userInput);
+					}
 				}
+
 				const items = readdirSync(searchPath)
 					.map((item) => {
 						const path = join(searchPath, item);
@@ -32,10 +61,13 @@ export const path = (opts: PathOptions) => {
 							isDirectory: stats.isDirectory(),
 						};
 					})
-					.filter(({ path }) => path.startsWith(value));
-				return ((opts.directory ?? false) ? items.filter((item) => item.isDirectory) : items).map(
-					({ path }) => path
-				);
+					.filter(
+						({ path, isDirectory }) =>
+							path.startsWith(userInput) && (opts.directory || !isDirectory)
+					);
+				return items.map((item) => ({
+					value: item.path,
+				}));
 			} catch (e) {
 				return [];
 			}

@@ -46,7 +46,7 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 
 interface AutocompleteOptions<T extends OptionLike>
 	extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
-	options: T[];
+	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
 }
@@ -54,7 +54,6 @@ interface AutocompleteOptions<T extends OptionLike>
 export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	T['value'] | T['value'][]
 > {
-	options: T[];
 	filteredOptions: T[];
 	multiple: boolean;
 	isNavigating = false;
@@ -64,6 +63,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	#cursor = 0;
 	#lastUserInput = '';
 	#filterFn: FilterFunction<T>;
+	#options: T[] | (() => T[]);
 
 	get cursor(): number {
 		return this.#cursor;
@@ -81,11 +81,19 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		return `${s1}${color.inverse(s2)}${s3.join('')}`;
 	}
 
+	get options(): T[] {
+		if (typeof this.#options === 'function') {
+			return this.#options();
+		}
+		return this.#options;
+	}
+
 	constructor(opts: AutocompleteOptions<T>) {
 		super(opts);
 
-		this.options = opts.options;
-		this.filteredOptions = [...this.options];
+		this.#options = opts.options;
+		const options = this.options;
+		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
 		this.#filterFn = opts.filter ?? defaultFilter;
 		let initialValues: unknown[] | undefined;
@@ -103,7 +111,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 		if (initialValues) {
 			for (const selectedValue of initialValues) {
-				const selectedIndex = this.options.findIndex((opt) => opt.value === selectedValue);
+				const selectedIndex = options.findIndex((opt) => opt.value === selectedValue);
 				if (selectedIndex !== -1) {
 					this.toggleSelected(selectedValue);
 					this.#cursor = selectedIndex;
@@ -112,16 +120,6 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		}
 
 		this.focusedValue = this.options[this.#cursor]?.value;
-
-		this.on('finalize', () => {
-			if (!this.value) {
-				this.value = normalisedValue(this.multiple, initialValues);
-			}
-
-			if (this.state === 'submit') {
-				this.value = normalisedValue(this.multiple, this.selectedValues);
-			}
-		});
 
 		this.on('key', (char, key) => this.#onKey(char, key));
 		this.on('userInput', (value) => this.#onUserInputChanged(value));
@@ -141,6 +139,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	#onKey(_char: string | undefined, key: Key): void {
 		const isUpKey = key.name === 'up';
 		const isDownKey = key.name === 'down';
+		const isReturnKey = key.name === 'return';
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
@@ -153,6 +152,8 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				this.selectedValues = [this.focusedValue];
 			}
 			this.isNavigating = true;
+		} else if (isReturnKey) {
+			this.value = normalisedValue(this.multiple, this.selectedValues);
 		} else {
 			if (this.multiple) {
 				if (
@@ -169,6 +170,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				}
 			}
 		}
+	}
+
+	deselectAll() {
+		this.selectedValues = [];
 	}
 
 	toggleSelected(value: T['value']) {
@@ -191,13 +196,22 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		if (value !== this.#lastUserInput) {
 			this.#lastUserInput = value;
 
+			const options = this.options;
+
 			if (value) {
-				this.filteredOptions = this.options.filter((opt) => this.#filterFn(value, opt));
+				this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
 			} else {
-				this.filteredOptions = [...this.options];
+				this.filteredOptions = [...options];
 			}
 			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
+			if (!this.multiple) {
+				if (this.focusedValue !== undefined) {
+					this.toggleSelected(this.focusedValue);
+				} else {
+					this.deselectAll();
+				}
+			}
 		}
 	}
 }
