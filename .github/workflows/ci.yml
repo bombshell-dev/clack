@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request_target:
-    types: [assigned, opened, synchronize, reopened]
-    branches:
-      - main
+  pull_request:
 
 # Automatically cancel in-progress actions on the same branch
 concurrency:
