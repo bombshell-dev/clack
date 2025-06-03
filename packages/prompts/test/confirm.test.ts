@@ -135,4 +135,19 @@ describe.each(['true', 'false'])('confirm (isCI = %s)', (isCI) => {
 		expect(value).toBe(false);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = prompts.confirm({
+			message: 'yes?',
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		controller.abort();
+		const value = await result;
+		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

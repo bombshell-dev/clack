@@ -348,4 +348,23 @@ describe.each(['true', 'false'])('groupMultiselect (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = prompts.groupMultiselect({
+			message: 'Select a fruit',
+			options: {
+				group1: [{ value: 'group1value0' }],
+				group2: [{ value: 'group2value0' }],
+			},
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		controller.abort();
+		const value = await result;
+		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

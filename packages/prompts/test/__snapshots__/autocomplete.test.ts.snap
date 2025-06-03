@@ -1,5 +1,25 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`autocomplete > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
 [
   "<cursor.hide>",
@@ -260,6 +280,26 @@ exports[`autocomplete > supports initialValue 1`] = `
   "<erase.down>",
   "[32m◇[39m  Select a fruit
 [90m│[39m  [2mCherry[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
   "
 ",
   "<cursor.show>",

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { autocomplete, autocompleteMultiselect } from '../src/autocomplete.js';
+import { isCancel } from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 describe('autocomplete', () => {
@@ -151,6 +152,22 @@ describe('autocomplete', () => {
 		expect(value).toBe('cherry');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = autocomplete({
+			message: 'foo',
+			options: testOptions,
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		controller.abort();
+		const value = await result;
+		expect(isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
 
 describe('autocompleteMultiselect', () => {
@@ -186,6 +203,22 @@ describe('autocompleteMultiselect', () => {
 		input.emit('keypress', '', { name: 'tab' });
 		input.emit('keypress', '', { name: 'return' });
 		await result;
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = autocompleteMultiselect({
+			message: 'foo',
+			options: testOptions,
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		controller.abort();
+		const value = await result;
+		expect(isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
 });

@@ -49,4 +49,5 @@ export const symbol = (state: State) => {
 export interface CommonOptions {
 	input?: Readable;
 	output?: Writable;
+	signal?: AbortSignal;
 }
