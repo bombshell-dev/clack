@@ -76,6 +76,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 
 	return new SelectPrompt({
 		options: opts.options,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		initialValue: opts.initialValue,

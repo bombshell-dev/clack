@@ -53,6 +53,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 	return new MultiSelectPrompt({
 		options: opts.options,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		initialValues: opts.initialValues,

@@ -1,5 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`confirm (isCI = false) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  yes?
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`confirm (isCI = false) > can cancel 1`] = `
 [
   "<cursor.hide>",
@@ -143,6 +157,20 @@ exports[`confirm (isCI = false) > right arrow moves to next choice 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mNo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  yes?
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
   "
 ",
   "<cursor.show>",

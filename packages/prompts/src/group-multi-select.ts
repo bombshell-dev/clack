@@ -78,6 +78,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 
 	return new GroupMultiSelectPrompt({
 		options: opts.options,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		initialValues: opts.initialValues,

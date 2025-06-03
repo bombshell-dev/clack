@@ -27,6 +27,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 	return new SelectKeyPrompt({
 		options: opts.options,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		initialValue: opts.initialValue,

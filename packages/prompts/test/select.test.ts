@@ -129,4 +129,20 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		expect(value).toBe('opt0');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = prompts.select({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		controller.abort();
+		const value = await result;
+		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

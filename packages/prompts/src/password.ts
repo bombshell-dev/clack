@@ -11,6 +11,7 @@ export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
 		validate: opts.validate,
 		mask: opts.mask ?? S_PASSWORD_MASK,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		render() {

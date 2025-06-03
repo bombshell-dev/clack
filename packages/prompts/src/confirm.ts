@@ -21,6 +21,7 @@ export const confirm = (opts: ConfirmOptions) => {
 	return new ConfirmPrompt({
 		active,
 		inactive,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,

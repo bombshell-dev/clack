@@ -190,4 +190,19 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = prompts.text({
+			message: 'foo',
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		controller.abort();
+		const value = await result;
+		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

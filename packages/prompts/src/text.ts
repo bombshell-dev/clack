@@ -17,6 +17,7 @@ export const text = (opts: TextOptions) => {
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
 		output: opts.output,
+		signal: opts.signal,
 		input: opts.input,
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;

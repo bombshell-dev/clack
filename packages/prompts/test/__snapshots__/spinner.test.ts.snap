@@ -1,5 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`spinner (isCI = false) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Canceled
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`spinner (isCI = false) > indicator customization > custom delay 1`] = `
 [
   "<cursor.hide>",
@@ -459,6 +470,17 @@ exports[`spinner (isCI = false) > stop > renders submit symbol and stops spinner
   "<cursor.backward count=999>",
   "<erase.down>",
   "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Canceled
 ",
   "<cursor.show>",
 ]

@@ -340,4 +340,18 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			}
 		});
 	});
+
+	test('can be aborted by a signal', async () => {
+		const controller = new AbortController();
+		const result = prompts.spinner({
+			output,
+			signal: controller.signal,
+		});
+
+		result.start('Testing');
+
+		controller.abort();
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

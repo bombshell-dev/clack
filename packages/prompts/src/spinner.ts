@@ -35,6 +35,7 @@ export const spinner = ({
 	errorMessage,
 	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
 	delay = unicode ? 80 : 120,
+	signal,
 }: SpinnerOptions = {}): SpinnerResult => {
 	const isCI = isCIFn();
 
@@ -72,6 +73,10 @@ export const spinner = ({
 		process.on('SIGINT', signalEventHandler);
 		process.on('SIGTERM', signalEventHandler);
 		process.on('exit', handleExit);
+
+		if (signal) {
+			signal.addEventListener('abort', signalEventHandler);
+		}
 	};
 
 	const clearHooks = () => {
@@ -80,6 +85,10 @@ export const spinner = ({
 		process.removeListener('SIGINT', signalEventHandler);
 		process.removeListener('SIGTERM', signalEventHandler);
 		process.removeListener('exit', handleExit);
+
+		if (signal) {
+			signal.removeEventListener('abort', signalEventHandler);
+		}
 	};
 
 	const clearPrevMessage = () => {

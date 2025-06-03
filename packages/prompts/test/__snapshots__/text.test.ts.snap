@@ -1,5 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`text (isCI = false) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = false) > can cancel 1`] = `
 [
   "<cursor.hide>",
@@ -243,6 +257,20 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mxy[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
   "
 ",
   "<cursor.show>",

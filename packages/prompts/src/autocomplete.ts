@@ -83,6 +83,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		filter: (search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
 		},
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		validate: opts.validate,
@@ -230,6 +231,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			return undefined;
 		},
 		initialValue: opts.initialValues,
+		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		render() {
