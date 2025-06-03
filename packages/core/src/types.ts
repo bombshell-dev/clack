@@ -23,11 +23,3 @@ export interface ClackEvents<TValue> {
 	finalize: () => void;
 	beforePrompt: () => void;
 }
-
-/**
- * Display a value
- */
-export interface ValueWithCursorPart {
-	text: string;
-	type: 'value' | 'cursor_on_value' | 'suggestion' | 'cursor_on_suggestion';
-}

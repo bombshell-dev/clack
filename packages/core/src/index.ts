@@ -1,4 +1,4 @@
-export type { ClackState as State, ValueWithCursorPart } from './types.js';
+export type { ClackState as State } from './types.js';
 export type { ClackSettings } from './utils/settings.js';
 
 export { default as ConfirmPrompt } from './prompts/confirm.js';

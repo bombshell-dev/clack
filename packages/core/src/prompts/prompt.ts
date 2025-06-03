@@ -26,7 +26,7 @@ export default class Prompt<TValue> {
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;
 
-	protected rl: ReadLine | undefined;
+	private rl: ReadLine | undefined;
 	private opts: Omit<PromptOptions<TValue, Prompt<TValue>>, 'render' | 'input' | 'output'>;
 	private _render: (context: Omit<Prompt<TValue>, 'prompt'>) => string | undefined;
 	private _track = false;
