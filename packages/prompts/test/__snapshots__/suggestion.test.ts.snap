@@ -142,21 +142,17 @@ exports[`text (isCI = false) > renders submitted value 1`] = `
 
 exports[`text (isCI = false) > validation errors render and clear (using Error) 1`] = `
 [
-  "<cursor.backward count=999>",
-  "",
-  "<erase.down>",
+  "<cursor.hide>",
   "[90m│[39m
-[33m▲[39m  foo
-[33m│[39m  [7m[90mx[39m[27m[90myz[39m
-[33m└[39m  [33mshould be xy[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[36m◆[39m  foo
-[36m│[39m  x[7m[90my[39m[27m[90mz[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[90mx[39m[27m[90myz[39m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x[7m[90my[39m[27m[90mz[39m",
+  "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
@@ -184,21 +180,17 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
 
 exports[`text (isCI = false) > validation errors render and clear 1`] = `
 [
-  "<cursor.backward count=999>",
-  "",
-  "<erase.down>",
+  "<cursor.hide>",
   "[90m│[39m
-[33m▲[39m  foo
-[33m│[39m  [7m[90mx[39m[27m[90myz[39m
-[33m└[39m  [33mshould be xy[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[36m◆[39m  foo
-[36m│[39m  x[7m[90my[39m[27m[90mz[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[90mx[39m[27m[90myz[39m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x[7m[90my[39m[27m[90mz[39m",
+  "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
@@ -366,21 +358,17 @@ exports[`text (isCI = true) > renders submitted value 1`] = `
 
 exports[`text (isCI = true) > validation errors render and clear (using Error) 1`] = `
 [
-  "<cursor.backward count=999>",
-  "",
-  "<erase.down>",
+  "<cursor.hide>",
   "[90m│[39m
-[33m▲[39m  foo
-[33m│[39m  [7m[90mx[39m[27m[90myz[39m
-[33m└[39m  [33mshould be xy[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[36m◆[39m  foo
-[36m│[39m  x[7m[90my[39m[27m[90mz[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[90mx[39m[27m[90myz[39m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x[7m[90my[39m[27m[90mz[39m",
+  "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
@@ -408,21 +396,17 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
 
 exports[`text (isCI = true) > validation errors render and clear 1`] = `
 [
-  "<cursor.backward count=999>",
-  "",
-  "<erase.down>",
+  "<cursor.hide>",
   "[90m│[39m
-[33m▲[39m  foo
-[33m│[39m  [7m[90mx[39m[27m[90myz[39m
-[33m└[39m  [33mshould be xy[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[36m◆[39m  foo
-[36m│[39m  x[7m[90my[39m[27m[90mz[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[90mx[39m[27m[90myz[39m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x[7m[90my[39m[27m[90mz[39m",
+  "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
