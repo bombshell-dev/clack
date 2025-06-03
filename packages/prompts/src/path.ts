@@ -1,5 +1,5 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { autocomplete } from './autocomplete.js';
 import type { CommonOptions } from './common.js';
 

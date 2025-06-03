@@ -173,7 +173,7 @@ exports[`autocomplete > shows no matches message when search has no results 1`] 
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select a fruit
-[90m│[39m  [2mApple[22m",
+[90m│[39m[2m[22m",
   "
 ",
   "<cursor.show>",

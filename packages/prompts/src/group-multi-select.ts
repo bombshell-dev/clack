@@ -74,17 +74,18 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const unselectedCheckbox = isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : '';
 		return `${spacingPrefix}${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
 	};
+	const required = opts.required ?? true;
 
 	return new GroupMultiSelectPrompt({
 		options: opts.options,
 		input: opts.input,
 		output: opts.output,
 		initialValues: opts.initialValues,
-		required: opts.required ?? true,
+		required,
 		cursorAt: opts.cursorAt,
 		selectableGroups,
 		validate(selected: Value[] | undefined) {
-			if (opts.required && (selected === undefined || selected.length === 0))
+			if (required && (selected === undefined || selected.length === 0))
 				return `Please select at least one option.\n${color.reset(
 					color.dim(
 						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
