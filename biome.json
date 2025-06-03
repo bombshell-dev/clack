@@ -12,7 +12,7 @@
     "lineWidth": 100,
     "attributePosition": "auto",
     "bracketSpacing": true,
-    "ignore": [".github/workflows/**/*.yml", ".changeset/**/*.md", "**/pnpm-lock.yaml"]
+    "ignore": [".github/workflows/**/*.yml", ".changeset/**/*.md", "**/pnpm-lock.yaml", "**/package.json"]
   },
   "organizeImports": { "enabled": true },
   "linter": {
