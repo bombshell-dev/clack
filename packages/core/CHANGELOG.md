@@ -1,5 +1,21 @@
 # @clack/core
 
+## 1.0.0-alpha.1
+
+### Minor Changes
+
+- 7bc3301: Prompts now have a `userInput` stored separately from their `value`.
+- 2837845: Adds suggestion and path prompts
+- df4eea1: Remove `suggestion` prompt and change `path` prompt to be an autocomplete prompt.
+
+### Patch Changes
+
+- bfe0dd3: Prevents placeholder from being used as input value in text prompts
+- 34f52fe: Validates initial values immediately when using text prompts with initialValue and validate props.
+- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
+- 4f6b3c2: Set initial values of auto complete prompt to first option when multiple is false.
+- 8ead5d3: Avoid passing initial values to core when using auto complete prompt
+
 ## 1.0.0-alpha.0
 
 ### Major Changes
