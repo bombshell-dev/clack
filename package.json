@@ -11,11 +11,7 @@
     "lint": "biome lint --write --unsafe",
     "types": "biome lint --write --unsafe",
     "deps": "pnpm exec knip --production",
-    "test": "pnpm --color -r run test",
-    "ci:install": "pnpm install --no-frozen-lockfile",
-    "ci:version": "changeset version",
-    "ci:publish": "changeset publish",
-    "ci:prepublish": "pnpm build"
+    "test": "pnpm --color -r run test"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
