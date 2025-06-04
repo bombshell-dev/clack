@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  format:
+  preview:
     if: github.repository_owner == 'bombshell-dev'
     uses: bombshell-dev/automation/.github/workflows/preview.yml@main
     secrets: inherit
