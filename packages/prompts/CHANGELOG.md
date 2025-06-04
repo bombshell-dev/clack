@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 1.0.0-alpha.2
+
+### Patch Changes
+
+- 17d3650: Use a default import for picocolors to avoid run time errors in some environments.
+
 ## 1.0.0-alpha.1
 
 ### Minor Changes
