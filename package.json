@@ -11,7 +11,8 @@
     "lint": "biome lint --write --unsafe",
     "types": "biome lint --write --unsafe",
     "deps": "pnpm exec knip --production",
-    "test": "pnpm --color -r run test"
+    "test": "pnpm --color -r run test",
+    "pretest": "pnpm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
