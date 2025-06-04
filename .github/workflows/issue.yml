@@ -1,0 +1,16 @@
+name: issue
+
+on:
+  issues:
+    types: [opened, edited, labeled, reopened]
+
+jobs:
+  backlog:
+    if: github.event.action == 'edited' || github.event.action == 'labeled'
+    uses: bombshell-dev/automation/.github/workflows/move-issue-to-backlog.yml@main
+    secrets: inherit
+
+  project:
+    if: github.event.action == 'opened' || github.event.action == 'reopened'
+    uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@main
+    secrets: inherit

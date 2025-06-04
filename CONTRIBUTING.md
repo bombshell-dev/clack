@@ -283,14 +283,7 @@ Clack uses [Changesets](https://github.com/changesets/changesets) to manage vers
 
 2. **For maintainers**:
    - Merging PRs with changesets will queue them for the next release
-   - When ready to release:
-     ```bash
-     # Update versions based on changesets
-     pnpm ci:version
-     
-     # Publish to npm
-     pnpm ci:publish
-     ```
+   - When ready to release, merge the `[ci] release` PR
 
 ### Backporting to v0 Branch
 

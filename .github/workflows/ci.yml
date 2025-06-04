@@ -8,21 +8,19 @@ on:
 
 # Automatically cancel in-progress actions on the same branch
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request_target' && github.head_ref || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  build:
-    name: Build Packages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "pnpm"
-      - run: pnpm install
-      - run: pnpm run build
-      - run: pnpm run types
-      - run: pnpm run test
+  scripts:
+    if: github.repository_owner == 'bombshell-dev'
+    uses: bombshell-dev/automation/.github/workflows/run.yml@main
+    secrets: inherit
+    with:
+      commands: >
+        [
+          "build",
+          "types",
+          "test",
+          "deps"
+        ]
