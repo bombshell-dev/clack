@@ -15,7 +15,6 @@ export interface NoteOptions extends CommonOptions {
 	format?: (line: string) => string;
 }
 
-// const defaultNoteFormatter = (line: string): string => color.dim(line);
 const defaultNoteFormatter = (line: string): string => styleText('dim', line);
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
@@ -34,13 +33,13 @@ export const note = (message = '', title = '', opts?: NoteOptions) => {
 	const msg = lines
 		.map(
 			(ln) =>
-				`${styleText('gray', S_BAR)}  ${ln}${' '.repeat(len - strip(ln).length)}${styleText('gray', S_BAR)}`
+				`${styleText('gray', S_BAR)}  ${ln || ''}${' '.repeat(len - strip(ln || '').length)}${styleText('gray', S_BAR)}`
 		)
 		.join('\n');
 	output.write(
-		`${styleText('gray', S_BAR)}\n${styleText('green', S_STEP_SUBMIT)}  ${styleText('reset', title)} ${styleText(
+		`${styleText('gray', S_BAR)}\n${styleText('green', S_STEP_SUBMIT)}  ${styleText('reset', title || '')} ${styleText(
 			'gray',
 			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
-		)})\n${msg}\n${styleText('gray', S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
+		)}\n${msg}\n${styleText('gray', S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
 	);
 };

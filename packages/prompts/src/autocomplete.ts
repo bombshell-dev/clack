@@ -89,7 +89,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		validate: opts.validate,
 		render() {
 			// Title and message display
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n)}`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}`;
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
 			const options = this.options;
@@ -173,6 +173,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						title,
+						'',
 						`${styleText('cyan', S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
 						...noResults,
 						...validationError,
@@ -318,6 +319,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						title,
+						'',
 						`${styleText('cyan', S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
