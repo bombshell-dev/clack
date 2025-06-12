@@ -1,6 +1,6 @@
 import type { Writable } from 'node:stream';
+import { styleText } from 'node:util';
 import { getColumns } from '@clack/core';
-import color from 'picocolors';
 import { erase } from 'sisteransi';
 import { type CommonOptions, S_BAR, S_STEP_SUBMIT, isCI as isCIFn } from './common.js';
 import { log } from './log.js';
@@ -26,14 +26,14 @@ export interface TaskLogCompletionOptions {
 export const taskLog = (opts: TaskLogOptions) => {
 	const output: Writable = opts.output ?? process.stdout;
 	const columns = getColumns(output);
-	const secondarySymbol = color.gray(S_BAR);
+	const secondarySymbol = styleText('gray', S_BAR);
 	const spacing = opts.spacing ?? 1;
 	const barSize = 3;
 	const retainLog = opts.retainLog === true;
 	const isCI = isCIFn();
 
 	output.write(`${secondarySymbol}\n`);
-	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
+	output.write(`${styleText('green', S_STEP_SUBMIT)}  ${opts.title}\n`);
 	for (let i = 0; i < spacing; i++) {
 		output.write(`${secondarySymbol}\n`);
 	}
@@ -56,12 +56,15 @@ export const taskLog = (opts: TaskLogOptions) => {
 		output.write(erase.lines(lines));
 	};
 	const printBuffer = (buf: string, messageSpacing?: number): void => {
-		log.message(buf.split('\n').map(color.dim), {
-			output,
-			secondarySymbol,
-			symbol: secondarySymbol,
-			spacing: messageSpacing ?? spacing,
-		});
+		log.message(
+			buf.split('\n').map((line) => styleText('dim', line)),
+			{
+				output,
+				secondarySymbol,
+				symbol: secondarySymbol,
+				spacing: messageSpacing ?? spacing,
+			}
+		);
 	};
 	const renderBuffer = (): void => {
 		if (retainLog === true && fullBuffer.length > 0) {

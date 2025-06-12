@@ -1,6 +1,6 @@
 import type { Writable } from 'node:stream';
 import { WriteStream } from 'node:tty';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import type { CommonOptions } from './common.js';
 
 export interface LimitOptionsParams<TOption> extends CommonOptions {
@@ -14,7 +14,7 @@ export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): stri
 	const { cursor, options, style } = params;
 	const output: Writable = params.output ?? process.stdout;
 	const rows = output instanceof WriteStream && output.rows !== undefined ? output.rows : 10;
-	const overflowFormat = color.dim('...');
+	const overflowFormat = styleText('dim', '...');
 
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - 4, 0);

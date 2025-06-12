@@ -14,7 +14,7 @@ import * as p from '@clack/prompts';
 const s = p.spinner();
 let progress = 0;
 let counter = 0;
-let loop: NodeJS.Timer;
+let loop: NodeJS.Timeout;
 
 p.intro('Running spinner in CI environment');
 s.start('spinner.start');

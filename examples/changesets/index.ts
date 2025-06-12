@@ -1,6 +1,6 @@
 import { setTimeout } from 'node:timers/promises';
 import * as p from '@clack/prompts';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
 function onCancel() {
 	p.cancel('Operation cancelled.');
@@ -12,7 +12,7 @@ async function main() {
 
 	await setTimeout(1000);
 
-	p.intro(`${color.bgCyan(color.black(' changesets '))}`);
+	p.intro(`${styleText('bgCyan', styleText('black', ' changesets '))}`);
 
 	const changeset = await p.group(
 		{
@@ -35,7 +35,7 @@ async function main() {
 			major: ({ results }) => {
 				const packages = results.packages ?? [];
 				return p.multiselect({
-					message: `Which packages should have a ${color.red('major')} bump?`,
+					message: `Which packages should have a ${styleText('red', 'major')} bump?`,
 					options: packages.map((value) => ({ value })),
 					required: false,
 				});
@@ -46,7 +46,7 @@ async function main() {
 				const possiblePackages = packages.filter((pkg) => !major.includes(pkg));
 				if (possiblePackages.length === 0) return;
 				return p.multiselect({
-					message: `Which packages should have a ${color.yellow('minor')} bump?`,
+					message: `Which packages should have a ${styleText('yellow', 'minor')} bump?`,
 					options: possiblePackages.map((value) => ({ value })),
 					required: false,
 				});
@@ -59,9 +59,9 @@ async function main() {
 					(pkg) => !major.includes(pkg) && !minor.includes(pkg)
 				);
 				if (possiblePackages.length === 0) return;
-				const note = possiblePackages.join(color.dim(', '));
+				const note = possiblePackages.join(styleText('dim', ', '));
 
-				p.log.step(`These packages will have a ${color.green('patch')} bump.\n${color.dim(note)}`);
+				p.log.step(`These packages will have a ${styleText('green', 'patch')} bump.\n${styleText('dim', note)}`);
 				return possiblePackages;
 			},
 		},
@@ -79,7 +79,7 @@ async function main() {
 		return onCancel();
 	}
 
-	p.outro(`Changeset added! ${color.underline(color.cyan('.changeset/orange-crabs-sing.md'))}`);
+	p.outro(`Changeset added! ${styleText('underline', styleText('cyan', '.changeset/orange-crabs-sing.md'))}`);
 }
 
 main().catch(console.error);

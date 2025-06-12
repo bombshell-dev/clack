@@ -1,4 +1,4 @@
-import color from 'picocolors';
+import { styleText } from "node:util"
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as TextPrompt } from '../../src/prompts/text.js';
@@ -93,7 +93,7 @@ describe('TextPrompt', () => {
 				input.emit('keypress', keys[i], { name: keys[i] });
 			}
 			input.emit('keypress', 'left', { name: 'left' });
-			expect(instance.userInputWithCursor).to.equal(`fo${color.inverse('o')}`);
+			expect(instance.userInputWithCursor).to.equal(`fo${styleText('inverse', 'o')}`);
 		});
 
 		test('shows cursor at end if beyond value', () => {

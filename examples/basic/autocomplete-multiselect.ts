@@ -1,5 +1,5 @@
 import * as p from '@clack/prompts';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
 /**
  * Example demonstrating the integrated autocomplete multiselect component
@@ -9,17 +9,17 @@ import color from 'picocolors';
 async function main() {
 	console.clear();
 
-	p.intro(`${color.bgCyan(color.black(' Integrated Autocomplete Multiselect Example '))}`);
+	p.intro(`${styleText('bgCyan', styleText('black', ' Integrated Autocomplete Multiselect Example '))}`);
 
 	p.note(
 		`
-${color.cyan('Filter and select multiple items in a single interface:')}
-- ${color.yellow('Type')} to filter the list in real-time
-- Use ${color.yellow('up/down arrows')} to navigate with improved stability
-- Press ${color.yellow('Space')} to select/deselect the highlighted item ${color.green('(multiple selections allowed)')}
-- Use ${color.yellow('Backspace')} to modify your filter text when searching for different options
-- Press ${color.yellow('Enter')} when done selecting all items
-- Press ${color.yellow('Ctrl+C')} to cancel
+${styleText('cyan', 'Filter and select multiple items in a single interface:')}
+- ${styleText('yellow', 'Type')} to filter the list in real-time
+- Use ${styleText('yellow', 'up/down arrows')} to navigate with improved stability
+- Press ${styleText('yellow', 'Space')} to select/deselect the highlighted item ${styleText('green', '(multiple selections allowed)')}
+- Use ${styleText('yellow', 'Backspace')} to modify your filter text when searching for different options
+- Press ${styleText('yellow', 'Enter')} when done selecting all items
+- Press ${styleText('yellow', 'Ctrl+C')} to cancel
   `,
 		'Instructions'
 	);
@@ -79,7 +79,7 @@ ${color.cyan('Filter and select multiple items in a single interface:')}
 
 	// Display selected frameworks with detailed information
 	p.note(
-		`You selected ${color.green(selectedFrameworks.length)} frameworks:`,
+		`You selected ${styleText('green', `${selectedFrameworks.length}`)} frameworks:`,
 		'Selection Complete'
 	);
 
@@ -88,13 +88,13 @@ ${color.cyan('Filter and select multiple items in a single interface:')}
 		.map((value) => {
 			const framework = frameworks.find((f) => f.value === value);
 			return framework
-				? `${color.cyan(framework.label)} ${color.dim(`- ${framework.hint}`)}`
+				? `${styleText('cyan', framework.label)} ${styleText('dim', `- ${framework.hint}`)}`
 				: value;
 		})
 		.join('\n');
 
 	p.log.message(selectedDetails);
-	p.outro(`Successfully selected ${color.green(selectedFrameworks.length)} frameworks.`);
+	p.outro(`Successfully selected ${styleText('green', `${selectedFrameworks.length}`)} frameworks.`);
 }
 
 main().catch(console.error);

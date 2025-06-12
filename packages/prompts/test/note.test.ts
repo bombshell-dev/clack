@@ -1,7 +1,7 @@
-import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
+import { styleText } from 'node:util';
 
 describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 	let originalCI: string | undefined;
@@ -56,7 +56,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 	test('formatter which adds colors works', () => {
 		prompts.note('line 0\nline 1\nline 2', 'title', {
-			format: (line) => colors.red(line),
+			format: (line) => styleText('red', line),
 			input,
 			output,
 		});
