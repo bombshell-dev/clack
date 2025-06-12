@@ -1,6 +1,6 @@
 import { setTimeout } from 'node:timers/promises';
 import * as p from '@clack/prompts';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
 async function main() {
 	console.clear();
@@ -16,7 +16,7 @@ async function main() {
 		},
 	});
 
-	p.intro(`${color.bgCyan(color.black(' create-app '))}`);
+	p.intro(`${styleText('bgCyan', styleText('black', ' create-app '))}`);
 
 	const project = await p.group(
 		{
@@ -87,7 +87,7 @@ async function main() {
 
 	p.note(nextSteps, 'Next steps.');
 
-	p.outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);
+	p.outro(`Problems? ${styleText('underline', styleText('cyan', 'https://example.com/issues'))}`);
 }
 
 main().catch(console.error);

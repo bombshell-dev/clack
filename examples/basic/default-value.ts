@@ -1,5 +1,5 @@
 import * as p from '@clack/prompts';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
 async function main() {
 	const defaultPath = 'my-project';
@@ -24,7 +24,7 @@ async function main() {
 		process.exit(0);
 	}
 
-	p.outro(`Let's bootstrap the project in ${color.cyan(result)}`);
+	p.outro(`Let's bootstrap the project in ${styleText('cyan', result)}`);
 }
 
 main().catch(console.error);

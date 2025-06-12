@@ -1,18 +1,18 @@
 import * as p from '@clack/prompts';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
 async function main() {
 	console.clear();
 
-	p.intro(`${color.bgCyan(color.black(' Autocomplete Example '))}`);
+	p.intro(`${styleText('bgCyan', styleText('black', ' Autocomplete Example '))}`);
 
 	p.note(
 		`
-${color.cyan('This example demonstrates the type-ahead autocomplete feature:')}
-- ${color.yellow('Type')} to filter the list in real-time
-- Use ${color.yellow('up/down arrows')} to navigate the filtered results
-- Press ${color.yellow('Enter')} to select the highlighted option
-- Press ${color.yellow('Ctrl+C')} to cancel
+${styleText('cyan', 'This example demonstrates the type-ahead autocomplete feature:')}
+- ${styleText('yellow', 'Type')} to filter the list in real-time
+- Use ${styleText('yellow', 'up/down arrows')} to navigate the filtered results
+- Press ${styleText('yellow', 'Enter')} to select the highlighted option
+- Press ${styleText('yellow', 'Ctrl+C')} to cancel
   `,
 		'Instructions'
 	);
@@ -53,7 +53,13 @@ ${color.cyan('This example demonstrates the type-ahead autocomplete feature:')}
 	}
 
 	const selected = countries.find((c) => c.value === result);
-	p.outro(`You selected: ${color.cyan(selected?.label)} (${color.yellow(selected?.hint)})`);
+
+	if (!selected) {
+		p.outro('No country selected.');
+		process.exit(1);
+	}
+	
+	p.outro(`You selected: ${styleText('cyan', selected?.label)} (${styleText('yellow', selected?.hint)})`);
 }
 
 main().catch(console.error);

@@ -5,8 +5,7 @@
   "type": "module",
   "dependencies": {
     "jiti": "^1.17.0",
-    "@clack/prompts": "workspace:*",
-    "picocolors": "^1.0.0"
+    "@clack/prompts": "workspace:*"
   },
   "scripts": {
     "start": "jiti ./index.ts"

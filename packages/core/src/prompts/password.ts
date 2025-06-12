@@ -1,4 +1,4 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface PasswordOptions extends PromptOptions<string, PasswordPrompt> {
@@ -18,12 +18,12 @@ export default class PasswordPrompt extends Prompt<string> {
 		}
 		const userInput = this.userInput;
 		if (this.cursor >= userInput.length) {
-			return `${this.masked}${color.inverse(color.hidden('_'))}`;
+			return `${this.masked}${styleText(['inverse', 'hidden'], '_')}`;
 		}
 		const masked = this.masked;
 		const s1 = masked.slice(0, this.cursor);
 		const s2 = masked.slice(this.cursor);
-		return `${s1}${color.inverse(s2[0])}${s2.slice(1)}`;
+		return `${s1}${styleText(['inverse'], s2[0])}${s2.slice(1)}`;
 	}
 	constructor({ mask, ...opts }: PasswordOptions) {
 		super(opts);

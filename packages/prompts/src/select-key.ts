@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { SelectKeyPrompt } from '@clack/core';
-import color from 'picocolors';
 import { S_BAR, S_BAR_END, symbol } from './common.js';
 import type { Option, SelectOptions } from './select.js';
 
@@ -10,18 +10,18 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
-			return `${color.dim(label)}`;
+			return `${styleText('dim', label)}`;
 		}
 		if (state === 'cancelled') {
-			return `${color.strikethrough(color.dim(label))}`;
+			return `${styleText('strikethrough', styleText('dim', label))}`;
 		}
 		if (state === 'active') {
-			return `${color.bgCyan(color.gray(` ${option.value} `))} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			return `${styleText('bgCyan', styleText('gray', ` ${option.value} `))} ${label} ${
+				option.hint ? styleText('dim', `(${option.hint})`) : ''
 			}`;
 		}
-		return `${color.gray(color.bgWhite(color.inverse(` ${option.value} `)))} ${label} ${
-			option.hint ? color.dim(`(${option.hint})`) : ''
+		return `${styleText('gray', styleText('bgWhite', styleText('inverse', ` ${option.value} `)))} ${label} ${
+			option.hint ? styleText('dim', `(${option.hint})`) : ''
 		}`;
 	};
 
@@ -32,22 +32,23 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(
+					return `${title}${styleText('gray', S_BAR)}  ${opt(
 						this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
 						'selected'
 					)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
+					return `${title}${styleText('gray', S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${styleText(
+						'gray',
 						S_BAR
 					)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}${styleText('cyan', S_BAR)}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
-						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+						.join(`\n${styleText('cyan', S_BAR)}  `)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}
 			}
 		},

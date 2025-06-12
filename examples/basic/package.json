@@ -5,10 +5,14 @@
   "type": "module",
   "dependencies": {
     "@clack/prompts": "workspace:*",
-    "picocolors": "^1.0.0",
     "jiti": "^1.17.0"
   },
   "scripts": {
+		"autocomplete": "jiti ./autocomplete.ts",
+		"autocomplete-multiselect": "jiti ./autocomplete-multiselect.ts",
+		"default-value": "jiti ./default-value.ts",
+		"spinner-cancel": "jiti ./spinner-cancel.ts",
+		"spinner-cancel-advanced": "jiti ./spinner-cancel-advanced.ts",
     "start": "jiti ./index.ts",
     "stream": "jiti ./stream.ts",
     "progress": "jiti ./progress.ts",
@@ -16,7 +20,8 @@
     "path": "jiti ./path.ts",
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
     "spinner-timer": "jiti ./spinner-timer.ts",
-    "task-log": "jiti ./task-log.ts"
+    "task-log": "jiti ./task-log.ts",
+		"text-validation": "jiti ./text-validation.ts"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"

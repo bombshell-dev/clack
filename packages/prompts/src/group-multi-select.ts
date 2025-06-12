@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { GroupMultiSelectPrompt } from '@clack/core';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -41,38 +41,41 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const isLast = isItem && (next as any).group === true;
 		const prefix = isItem ? (selectableGroups ? `${isLast ? S_BAR_END : S_BAR} ` : '  ') : '';
 		const spacingPrefix =
-			groupSpacing > 0 && !isItem ? `\n${color.cyan(S_BAR)}  `.repeat(groupSpacing) : '';
+			// groupSpacing > 0 && !isItem ? `\n${color.cyan(S_BAR)}  `.repeat(groupSpacing) : '';
+			groupSpacing > 0 && !isItem ? `\n${styleText('cyan', S_BAR)}  `.repeat(groupSpacing) : '';
 
 		if (state === 'active') {
-			return `${spacingPrefix}${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('cyan', S_CHECKBOX_ACTIVE)} ${label} ${
+				option.hint ? styleText('dim', `(${option.hint})`) : ''
 			}`;
 		}
 		if (state === 'group-active') {
-			return `${spacingPrefix}${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
+			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('cyan', S_CHECKBOX_ACTIVE)} ${styleText('dim', label)}`;
 		}
 		if (state === 'group-active-selected') {
-			return `${spacingPrefix}${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('green', S_CHECKBOX_SELECTED)} ${styleText('dim', label)}`;
 		}
 		if (state === 'selected') {
-			const selectedCheckbox = isItem || selectableGroups ? color.green(S_CHECKBOX_SELECTED) : '';
-			return `${spacingPrefix}${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			const selectedCheckbox =
+				isItem || selectableGroups ? styleText('green', S_CHECKBOX_SELECTED) : '';
+			return `${spacingPrefix}${styleText('dim', prefix)}${selectedCheckbox} ${styleText('dim', label)} ${
+				option.hint ? styleText('dim', `(${option.hint})`) : ''
 			}`;
 		}
 		if (state === 'cancelled') {
-			return `${color.strikethrough(color.dim(label))}`;
+			return `${styleText('strikethrough', styleText('dim', label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${spacingPrefix}${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('green', S_CHECKBOX_SELECTED)} ${label} ${
+				option.hint ? styleText('dim', `(${option.hint})`) : ''
 			}`;
 		}
 		if (state === 'submitted') {
-			return `${color.dim(label)}`;
+			return `${styleText('dim', label)}`;
 		}
-		const unselectedCheckbox = isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : '';
-		return `${spacingPrefix}${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
+		const unselectedCheckbox =
+			isItem || selectableGroups ? styleText('dim', S_CHECKBOX_INACTIVE) : '';
+		return `${spacingPrefix}${styleText('dim', prefix)}${unselectedCheckbox} ${styleText('dim', label)}`;
 	};
 	const required = opts.required ?? true;
 
@@ -87,42 +90,45 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		selectableGroups,
 		validate(selected: Value[] | undefined) {
 			if (required && (selected === undefined || selected.length === 0))
-				return `Please select at least one option.\n${color.reset(
-					color.dim(
-						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
-							color.bgWhite(color.inverse(' enter '))
+				return `Please select at least one option.\n${styleText(
+					'reset',
+					styleText(
+						'dim',
+						`Press ${styleText('gray', styleText('bgWhite', styleText('inverse', ' space ')))} to select, ${styleText(
+							'gray',
+							styleText('bgWhite', styleText('inverse', ' enter '))
 						)} to submit`
 					)
 				)}`;
 		},
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.value ?? [];
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${this.options
+					return `${title}${styleText('gray', S_BAR)}  ${this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'submitted'))
-						.join(color.dim(', '))}`;
+						.join(styleText('dim', ', '))}`;
 				}
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'))
-						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
-						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
+						.join(styleText('dim', ', '));
+					return `${title}${styleText('gray', S_BAR)}  ${
+						label.trim() ? `${label}\n${styleText('gray', S_BAR)}` : ''
 					}`;
 				}
 				case 'error': {
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
+							i === 0 ? `${styleText('yellow', S_BAR_END)}  ${styleText('yellow', ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
+					return `${title}${styleText('yellow', S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								value.includes(option.value) ||
@@ -143,10 +149,10 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							}
 							return opt(option, active ? 'active' : 'inactive', options);
 						})
-						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+						.join(`\n${styleText('yellow', S_BAR)}  `)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${this.options
+					return `${title}${styleText('cyan', S_BAR)}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								value.includes(option.value) ||
@@ -167,7 +173,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							}
 							return opt(option, active ? 'active' : 'inactive', options);
 						})
-						.join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+						.join(`\n${styleText('cyan', S_BAR)}  `)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}
 			}
 		},

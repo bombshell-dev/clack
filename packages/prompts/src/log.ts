@@ -1,4 +1,4 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -19,8 +19,8 @@ export const log = {
 	message: (
 		message: string | string[] = [],
 		{
-			symbol = color.gray(S_BAR),
-			secondarySymbol = color.gray(S_BAR),
+			symbol = styleText('gray', S_BAR),
+			secondarySymbol = styleText('gray', S_BAR),
 			output = process.stdout,
 			spacing = 1,
 		}: LogMessageOptions = {}
@@ -48,22 +48,22 @@ export const log = {
 		output.write(`${parts.join('\n')}\n`);
 	},
 	info: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.blue(S_INFO) });
+		log.message(message, { ...opts, symbol: styleText('blue', S_INFO) });
 	},
 	success: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.green(S_SUCCESS) });
+		log.message(message, { ...opts, symbol: styleText('green', S_SUCCESS) });
 	},
 	step: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.green(S_STEP_SUBMIT) });
+		log.message(message, { ...opts, symbol: styleText('green', S_STEP_SUBMIT) });
 	},
 	warn: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.yellow(S_WARN) });
+		log.message(message, { ...opts, symbol: styleText('yellow', S_WARN) });
 	},
 	/** alias for `log.warn()`. */
 	warning: (message: string, opts?: LogMessageOptions) => {
 		log.warn(message, opts);
 	},
 	error: (message: string, opts?: LogMessageOptions) => {
-		log.message(message, { ...opts, symbol: color.red(S_ERROR) });
+		log.message(message, { ...opts, symbol: styleText('red', S_ERROR) });
 	},
 };
