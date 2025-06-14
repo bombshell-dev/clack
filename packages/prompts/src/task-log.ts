@@ -2,7 +2,7 @@ import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
 import color from 'picocolors';
 import { erase } from 'sisteransi';
-import { type CommonOptions, S_BAR, S_STEP_SUBMIT, isCI as isCIFn } from './common.js';
+import { type CommonOptions, S_BAR, S_STEP_SUBMIT, isTTY as isTTYFn } from './common.js';
 import { log } from './log.js';
 
 export interface TaskLogOptions extends CommonOptions {
@@ -30,7 +30,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const spacing = opts.spacing ?? 1;
 	const barSize = 3;
 	const retainLog = opts.retainLog === true;
-	const isCI = isCIFn();
+	const isTTY = isTTYFn(output);
 
 	output.write(`${secondarySymbol}\n`);
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
@@ -70,29 +70,41 @@ export const taskLog = (opts: TaskLogOptions) => {
 			printBuffer(buffer);
 		}
 	};
+	const message = (msg: string, mopts?: TaskLogMessageOptions) => {
+		clear(false);
+		if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer !== '') {
+			buffer += '\n';
+		}
+		buffer += msg;
+		lastMessageWasRaw = mopts?.raw === true;
+		if (opts.limit !== undefined) {
+			const lines = buffer.split('\n');
+			const linesToRemove = lines.length - opts.limit;
+			if (linesToRemove > 0) {
+				const removedLines = lines.splice(0, linesToRemove);
+				if (retainLog) {
+					fullBuffer += (fullBuffer === '' ? '' : '\n') + removedLines.join('\n');
+				}
+			}
+			buffer = lines.join('\n');
+		}
+		if (isTTY) {
+			printBuffer(buffer, 0);
+		}
+	};
 
 	return {
-		message(msg: string, mopts?: TaskLogMessageOptions) {
-			clear(false);
-			if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer !== '') {
-				buffer += '\n';
-			}
-			buffer += msg;
-			lastMessageWasRaw = mopts?.raw === true;
-			if (opts.limit !== undefined) {
-				const lines = buffer.split('\n');
-				const linesToRemove = lines.length - opts.limit;
-				if (linesToRemove > 0) {
-					const removedLines = lines.splice(0, linesToRemove);
-					if (retainLog) {
-						fullBuffer += (fullBuffer === '' ? '' : '\n') + removedLines.join('\n');
-					}
+		message,
+		group(name: string) {
+			message(`Group ${name}...`);
+			return {
+				message(msg: string, mopts?: TaskLogMessageOptions) {
+				},
+				error(message: string, opts?: TaskLogCompletionOptions) {
+				},
+				success(message: string, opts?: TaskLogCompletionOptions) {
 				}
-				buffer = lines.join('\n');
-			}
-			if (!isCI) {
-				printBuffer(buffer, 0);
-			}
+			};
 		},
 		error(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);
