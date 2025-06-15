@@ -20,6 +20,11 @@ export interface TaskLogCompletionOptions {
 	showLog?: boolean;
 }
 
+interface BufferEntry {
+	value: string;
+	full: string;
+}
+
 /**
  * Renders a log which clears on success and remains on failure
  */
@@ -38,21 +43,36 @@ export const taskLog = (opts: TaskLogOptions) => {
 		output.write(`${secondarySymbol}\n`);
 	}
 
-	let buffer = '';
-	let fullBuffer = '';
+	const buffers: BufferEntry[] = [{
+		value: '',
+		full: ''
+	}];
 	let lastMessageWasRaw = false;
 
 	const clear = (clearTitle: boolean): void => {
-		if (buffer.length === 0) {
+		if (buffers.length === 0) {
 			return;
 		}
-		const bufferHeight = buffer.split('\n').reduce((count, line) => {
-			if (line === '') {
-				return count + 1;
+
+		let lines = 0;
+
+		if (clearTitle) {
+			lines += spacing + 2;
+		}
+
+		for (const {value} of buffers) {
+			if (value.length === 0) {
+				continue;
 			}
-			return count + Math.ceil((line.length + barSize) / columns);
-		}, 0);
-		const lines = bufferHeight + 1 + (clearTitle ? spacing + 2 : 0);
+			const bufferHeight = value.split('\n').reduce((count, line) => {
+				if (line === '') {
+					return count + 1;
+				}
+				return count + Math.ceil((line.length + barSize) / columns);
+			}, 0);
+			lines += bufferHeight + 1;
+		}
+
 		output.write(erase.lines(lines));
 	};
 	const printBuffer = (buf: string, messageSpacing?: number): void => {
@@ -64,41 +84,51 @@ export const taskLog = (opts: TaskLogOptions) => {
 		});
 	};
 	const renderBuffer = (): void => {
-		if (retainLog === true && fullBuffer.length > 0) {
-			printBuffer(`${fullBuffer}\n${buffer}`);
-		} else {
-			printBuffer(buffer);
+		for (const {value, full} of buffers) {
+			if (retainLog === true && full.length > 0) {
+				printBuffer(`${full}\n${value}`);
+			} else {
+				printBuffer(value);
+			}
 		}
 	};
-	const message = (msg: string, mopts?: TaskLogMessageOptions) => {
+	const message = (buffer: BufferEntry = buffers[0], msg: string, mopts?: TaskLogMessageOptions) => {
 		clear(false);
-		if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer !== '') {
-			buffer += '\n';
+		if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer.value !== '') {
+			buffer.value += '\n';
 		}
-		buffer += msg;
+		buffer.value += msg;
 		lastMessageWasRaw = mopts?.raw === true;
 		if (opts.limit !== undefined) {
-			const lines = buffer.split('\n');
+			const lines = buffer.value.split('\n');
 			const linesToRemove = lines.length - opts.limit;
 			if (linesToRemove > 0) {
 				const removedLines = lines.splice(0, linesToRemove);
 				if (retainLog) {
-					fullBuffer += (fullBuffer === '' ? '' : '\n') + removedLines.join('\n');
+					buffer.full += (buffer.full === '' ? '' : '\n') + removedLines.join('\n');
 				}
 			}
-			buffer = lines.join('\n');
+			buffer.value = lines.join('\n');
 		}
 		if (isTTY) {
-			printBuffer(buffer, 0);
+			printBuffer(buffer.value, 0);
 		}
 	};
 
 	return {
-		message,
+		message(msg: string, mopts?: TaskLogMessageOptions) {
+			message(undefined, msg, mopts);
+		},
 		group(name: string) {
-			message(`Group ${name}...`);
+			const buffer: BufferEntry = {
+				value: '',
+				full: ''
+			};
+			buffers.push(buffer);
+			message(buffer, name);
 			return {
 				message(msg: string, mopts?: TaskLogMessageOptions) {
+					message(buffer, msg, mopts);
 				},
 				error(message: string, opts?: TaskLogCompletionOptions) {
 				},
@@ -113,7 +143,9 @@ export const taskLog = (opts: TaskLogOptions) => {
 				renderBuffer();
 			}
 			// clear buffer since error is an end state
-			buffer = fullBuffer = '';
+			buffers.splice(1, buffers.length - 1);
+			buffers[0].value = '';
+			buffers[1].full = '';
 		},
 		success(message: string, opts?: TaskLogCompletionOptions): void {
 			clear(true);
@@ -122,7 +154,9 @@ export const taskLog = (opts: TaskLogOptions) => {
 				renderBuffer();
 			}
 			// clear buffer since success is an end state
-			buffer = fullBuffer = '';
+			buffers.splice(1, buffers.length - 1);
+			buffers[0].value = '';
+			buffers[1].full = '';
 		},
 	};
 };
