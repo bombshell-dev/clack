@@ -1,13 +1,13 @@
 import type { Readable, Writable } from 'node:stream';
+import { WriteStream } from 'node:tty';
 import type { State } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
-import {WriteStream} from 'node:tty';
 
 export const unicode = isUnicodeSupported();
 export const isCI = (): boolean => process.env.CI === 'true';
 export const isTTY = (output: Writable): boolean => {
-	return (output instanceof WriteStream) && output.isTTY === true;
+	return output instanceof WriteStream && output.isTTY === true;
 };
 export const unicodeOr = (c: string, fallback: string) => (unicode ? c : fallback);
 export const S_STEP_ACTIVE = unicodeOr('◆', '*');
