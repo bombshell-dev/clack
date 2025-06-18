@@ -68,16 +68,21 @@ export const taskLog = (opts: TaskLogOptions) => {
 			lines += spacing + 2;
 		}
 
-		for (const { value } of buffers) {
-			if (value.length === 0) {
+		for (const buffer of buffers) {
+			const { value, result } = buffer;
+			const text = result?.message ?? value;
+
+			if (text.length === 0) {
 				continue;
 			}
-			const bufferHeight = value.split('\n').reduce((count, line) => {
+
+			const bufferHeight = text.split('\n').reduce((count, line) => {
 				if (line === '') {
 					return count + 1;
 				}
 				return count + Math.ceil((line.length + barSize) / columns);
 			}, 0);
+
 			lines += bufferHeight;
 		}
 
@@ -129,9 +134,9 @@ export const taskLog = (opts: TaskLogOptions) => {
 		for (const buffer of buffers) {
 			if (buffer.result) {
 				if (buffer.result.status === 'error') {
-					log.error(buffer.result.message, { output, secondarySymbol, spacing: 1 });
+					log.error(buffer.result.message, { output, secondarySymbol, spacing: 0 });
 				} else {
-					log.success(buffer.result.message, { output, secondarySymbol, spacing: 1 });
+					log.success(buffer.result.message, { output, secondarySymbol, spacing: 0 });
 				}
 			} else if (buffer.value !== '') {
 				printBuffer(buffer.value, 0);
