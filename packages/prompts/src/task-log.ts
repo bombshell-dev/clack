@@ -78,8 +78,10 @@ export const taskLog = (opts: TaskLogOptions) => {
 				}
 				return count + Math.ceil((line.length + barSize) / columns);
 			}, 0);
-			lines += bufferHeight + 1;
+			lines += bufferHeight;
 		}
+
+		lines += 1;
 
 		output.write(erase.lines(lines));
 	};
