@@ -18,6 +18,7 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 
 	beforeEach(() => {
 		output = new MockWritable();
+		output.isTTY = isCI === 'false';
 		input = new MockReadable();
 	});
 
@@ -125,7 +126,6 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 				title: 'foo',
 			});
 
-			log.message('');
 			log.message('line 1');
 			log.message('');
 			log.message('line 3');
