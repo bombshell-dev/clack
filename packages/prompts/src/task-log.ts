@@ -2,7 +2,13 @@ import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
 import color from 'picocolors';
 import { erase } from 'sisteransi';
-import { type CommonOptions, S_BAR, S_STEP_SUBMIT, isTTY as isTTYFn } from './common.js';
+import {
+	type CommonOptions,
+	S_BAR,
+	S_STEP_SUBMIT,
+	isCI as isCIFn,
+	isTTY as isTTYFn,
+} from './common.js';
 import { log } from './log.js';
 
 export interface TaskLogOptions extends CommonOptions {
@@ -40,7 +46,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const spacing = opts.spacing ?? 1;
 	const barSize = 3;
 	const retainLog = opts.retainLog === true;
-	const isTTY = isTTYFn(output);
+	const isTTY = !isCIFn() && isTTYFn(output);
 
 	output.write(`${secondarySymbol}\n`);
 	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
