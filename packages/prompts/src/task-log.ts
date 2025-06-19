@@ -101,7 +101,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 				output,
 				secondarySymbol,
 				symbol: secondarySymbol,
-				spacing: messageSpacing ?? spacing,
+				spacing: 0,
 			});
 		}
 		log.message(messages.split('\n').map(color.dim), {
