@@ -126,7 +126,6 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 				title: 'foo',
 			});
 
-			log.message('');
 			log.message('line 1');
 			log.message('');
 			log.message('line 3');

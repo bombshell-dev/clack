@@ -106,8 +106,6 @@ exports[`taskLog (isCI = false) > message > prints empty lines 1`] = `
 ",
   "[90m│[39m
 ",
-  "[90m│[39m  [2m[22m
-",
   "[90m│[39m  [2mline 1[22m
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
