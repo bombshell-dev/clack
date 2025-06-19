@@ -21,7 +21,7 @@ export interface TaskLogCompletionOptions {
 }
 
 interface BufferEntry {
-	primary: boolean;
+	header?: string;
 	value: string;
 	full: string;
 	result?: {
@@ -50,7 +50,6 @@ export const taskLog = (opts: TaskLogOptions) => {
 
 	const buffers: BufferEntry[] = [
 		{
-			primary: true,
 			value: '',
 			full: '',
 		},
@@ -70,10 +69,14 @@ export const taskLog = (opts: TaskLogOptions) => {
 
 		for (const buffer of buffers) {
 			const { value, result } = buffer;
-			const text = result?.message ?? value;
+			let text = result?.message ?? value;
 
 			if (text.length === 0) {
 				continue;
+			}
+
+			if (result === undefined && buffer.header !== undefined && buffer.header !== '') {
+				text += `\n${buffer.header}`;
 			}
 
 			const bufferHeight = text.split('\n').reduce((count, line) => {
@@ -86,12 +89,22 @@ export const taskLog = (opts: TaskLogOptions) => {
 			lines += bufferHeight;
 		}
 
-		lines += 1;
-
-		output.write(erase.lines(lines));
+		if (lines > 0) {
+			lines += 1;
+			output.write(erase.lines(lines));
+		}
 	};
-	const printBuffer = (buf: string, messageSpacing?: number): void => {
-		log.message(buf.split('\n').map(color.dim), {
+	const printBuffer = (buffer: BufferEntry, messageSpacing?: number, full?: boolean): void => {
+		const messages = full ? `${buffer.full}\n${buffer.value}` : buffer.value;
+		if (buffer.header !== undefined && buffer.header !== '') {
+			log.message(buffer.header.split('\n').map(color.bold), {
+				output,
+				secondarySymbol,
+				symbol: secondarySymbol,
+				spacing: messageSpacing ?? spacing,
+			});
+		}
+		log.message(messages.split('\n').map(color.dim), {
 			output,
 			secondarySymbol,
 			symbol: secondarySymbol,
@@ -99,12 +112,12 @@ export const taskLog = (opts: TaskLogOptions) => {
 		});
 	};
 	const renderBuffer = (): void => {
-		for (const { value, full } of buffers) {
-			if (retainLog === true && full.length > 0) {
-				printBuffer(`${full}\n${value}`);
-			} else {
-				printBuffer(value);
+		for (const buffer of buffers) {
+			const { header, value, full } = buffer;
+			if ((header === undefined || header.length === 0) && value.length === 0) {
+				continue;
 			}
+			printBuffer(buffer, undefined, retainLog === true && full.length > 0);
 		}
 	};
 	const message = (buffer: BufferEntry, msg: string, mopts?: TaskLogMessageOptions) => {
@@ -116,10 +129,9 @@ export const taskLog = (opts: TaskLogOptions) => {
 		lastMessageWasRaw = mopts?.raw === true;
 		if (opts.limit !== undefined) {
 			const lines = buffer.value.split('\n');
-			const bufferHeaderHeight = buffer.primary ? 0 : 1;
-			const linesToRemove = lines.length - opts.limit - bufferHeaderHeight;
+			const linesToRemove = lines.length - opts.limit;
 			if (linesToRemove > 0) {
-				const removedLines = lines.splice(bufferHeaderHeight, linesToRemove);
+				const removedLines = lines.splice(0, linesToRemove);
 				if (retainLog) {
 					buffer.full += (buffer.full === '' ? '' : '\n') + removedLines.join('\n');
 				}
@@ -139,7 +151,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 					log.success(buffer.result.message, { output, secondarySymbol, spacing: 0 });
 				}
 			} else if (buffer.value !== '') {
-				printBuffer(buffer.value, 0);
+				printBuffer(buffer, 0);
 			}
 		}
 	};
@@ -147,7 +159,6 @@ export const taskLog = (opts: TaskLogOptions) => {
 		clear(false);
 
 		buffer.result = result;
-		buffer.value = '';
 
 		if (isTTY) {
 			printBuffers();
@@ -160,12 +171,11 @@ export const taskLog = (opts: TaskLogOptions) => {
 		},
 		group(name: string) {
 			const buffer: BufferEntry = {
-				primary: false,
+				header: name,
 				value: '',
 				full: '',
 			};
 			buffers.push(buffer);
-			message(buffer, name);
 			return {
 				message(msg: string, mopts?: TaskLogMessageOptions) {
 					message(buffer, msg, mopts);
