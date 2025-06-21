@@ -1,7 +1,6 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
-import type { Readable } from 'node:stream';
-import type { Writable } from 'node:stream';
+import type { Readable, Writable } from 'node:stream';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
 
