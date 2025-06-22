@@ -261,7 +261,7 @@ export default class Prompt<TValue> {
 	}
 
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
+		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true, trim: this.state === 'cancel' ? false : undefined });
 		if (frame === this._prevFrame) return;
 
 		if (this.state === 'initial') {
