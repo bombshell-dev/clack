@@ -26,7 +26,7 @@ exports[`text (isCI = false) > can cancel 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
-[90m│[39m[9m[2m[22m[29m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -64,7 +64,7 @@ exports[`text (isCI = false) > empty string when no value and no default 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -132,7 +132,7 @@ exports[`text (isCI = false) > renders message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -151,7 +151,7 @@ exports[`text (isCI = false) > renders placeholder if set 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -289,7 +289,7 @@ exports[`text (isCI = true) > can cancel 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
-[90m│[39m[9m[2m[22m[29m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -327,7 +327,7 @@ exports[`text (isCI = true) > empty string when no value and no default 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -395,7 +395,7 @@ exports[`text (isCI = true) > renders message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -414,7 +414,7 @@ exports[`text (isCI = true) > renders placeholder if set 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",

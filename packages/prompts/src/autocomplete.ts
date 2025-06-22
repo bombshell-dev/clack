@@ -101,20 +101,25 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				case 'submit': {
 					// Show selected value
 					const selected = getSelectedOptions(this.selectedValues, options);
-					const label = selected.length > 0 ? selected.map(getLabel).join(', ') : '';
-					return `${title}${color.gray(S_BAR)}  ${color.dim(label)}`;
+					const label =
+						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
+					return `${title}${color.gray(S_BAR)}${label}`;
 				}
 
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
+					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
+					return `${title}${color.gray(S_BAR)}${userInputText}`;
 				}
 
 				default: {
 					// Display cursor position - show plain text in navigation mode
-					const searchText =
-						this.isNavigating || showPlaceholder
-							? color.dim(showPlaceholder ? placeholder : userInput)
-							: this.userInputWithCursor;
+					let searchText = '';
+					if (this.isNavigating || showPlaceholder) {
+						const searchTextValue = showPlaceholder ? placeholder : userInput;
+						searchText = searchTextValue !== '' ? ` ${color.dim(searchTextValue)}` : '';
+					} else {
+						searchText = ` ${this.userInputWithCursor}`;
+					}
 
 					// Show match count if filtered
 					const matches =
@@ -164,8 +169,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// Return the formatted prompt
 					return [
-						title,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+						`${title}${color.cyan(S_BAR)}`,
+						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError,
 						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
