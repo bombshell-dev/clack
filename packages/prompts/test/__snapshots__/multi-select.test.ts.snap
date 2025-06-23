@@ -367,7 +367,7 @@ exports[`multiselect (isCI = false) > renders validation errors 1`] = `
 [33m│[39m  [36m◻[39m opt0
 [33m│[39m  [2m◻[22m [2mopt1[22m
 [33m└[39m  [33mPlease select at least one option.[39m
-[0m[2mPress [90m[47m[7m space [27m[49m[39m to select, [90m[47m[7m enter [27m[49m[39m to submit[22m[0m
+   [0m[2mPress [90m[47m[7m space [27m[49m[39m to select, [90m[47m[7m enter [27m[49m[39m to submit[22m[0m
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -977,7 +977,7 @@ exports[`multiselect (isCI = true) > renders validation errors 1`] = `
 [33m│[39m  [36m◻[39m opt0
 [33m│[39m  [2m◻[22m [2mopt1[22m
 [33m└[39m  [33mPlease select at least one option.[39m
-[0m[2mPress [90m[47m[7m space [27m[49m[39m to select, [90m[47m[7m enter [27m[49m[39m to submit[22m[0m
+   [0m[2mPress [90m[47m[7m space [27m[49m[39m to select, [90m[47m[7m enter [27m[49m[39m to submit[22m[0m
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",

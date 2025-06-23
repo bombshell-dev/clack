@@ -20,16 +20,22 @@ export const password = (opts: PasswordOptions) => {
 			const masked = this.masked;
 
 			switch (this.state) {
-				case 'error':
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${masked}\n${color.yellow(
+				case 'error': {
+					const maskedText = masked ? `  ${masked}` : '';
+					return `${title.trim()}\n${color.yellow(S_BAR)}${maskedText}\n${color.yellow(
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(masked)}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(masked))}${
+				}
+				case 'submit': {
+					const maskedText = masked ? `  ${color.dim(masked)}` : '';
+					return `${title}${color.gray(S_BAR)}${maskedText}`;
+				}
+				case 'cancel': {
+					const maskedText = masked ? `  ${color.strikethrough(color.dim(masked))}` : '';
+					return `${title}${color.gray(S_BAR)}${maskedText}${
 						masked ? `\n${color.gray(S_BAR)}` : ''
 					}`;
+				}
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
 			}
