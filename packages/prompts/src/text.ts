@@ -28,17 +28,20 @@ export const text = (opts: TextOptions) => {
 			const value = this.value ?? '';
 
 			switch (this.state) {
-				case 'error':
+				case 'error': {
+					const errorText = this.error ? `  ${color.yellow(this.error)}` : '';
 					return `${title.trim()}\n${color.yellow(S_BAR)}  ${userInput}\n${color.yellow(
 						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
-				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
+					)}${errorText}\n`;
 				}
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(value)
-					)}${value.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+				case 'submit': {
+					const valueText = value ? `  ${color.dim(value)}` : '';
+					return `${title}${color.gray(S_BAR)}${valueText}`;
+				}
+				case 'cancel': {
+					const valueText = value ? `  ${color.strikethrough(color.dim(value))}` : '';
+					return `${title}${color.gray(S_BAR)}${valueText}${value.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+				}
 				default:
 					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
 			}

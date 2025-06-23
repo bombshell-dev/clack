@@ -115,7 +115,7 @@ describe('autocomplete', () => {
 		});
 
 		// Cancel with Ctrl+C
-		input.emit('keypress', '\x03', { name: 'c' });
+		input.emit('keypress', '\x03', { name: 'c', ctrl: true });
 
 		const value = await result;
 		expect(typeof value === 'symbol').toBe(true);

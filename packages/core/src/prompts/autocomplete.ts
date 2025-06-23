@@ -168,6 +168,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				if (this.focusedValue) {
 					this.selectedValues = [this.focusedValue];
 				}
+				this.isNavigating = false;
 			}
 		}
 	}

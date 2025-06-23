@@ -255,12 +255,16 @@ export default class Prompt<TValue> {
 
 	private restoreCursor() {
 		const lines =
-			wrap(this._prevFrame, process.stdout.columns, { hard: true }).split('\n').length - 1;
+			wrap(this._prevFrame, process.stdout.columns, { hard: true, trim: false }).split('\n')
+				.length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
+		const frame = wrap(this._render(this) ?? '', process.stdout.columns, {
+			hard: true,
+			trim: false,
+		});
 		if (frame === this._prevFrame) return;
 
 		if (this.state === 'initial') {

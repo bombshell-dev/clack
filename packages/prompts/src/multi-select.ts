@@ -27,21 +27,21 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'active') {
-			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label}${
+				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}${
+				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'cancelled') {
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${label} ${
-				option.hint ? color.dim(`(${option.hint})`) : ''
+			return `${color.green(S_CHECKBOX_SELECTED)} ${label}${
+				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'submitted') {
@@ -98,8 +98,8 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
-						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
+					return `${title}${color.gray(S_BAR)}${
+						label.trim() ? `  ${label}\n${color.gray(S_BAR)}` : ''
 					}`;
 				}
 				case 'error': {
