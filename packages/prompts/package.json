@@ -1,6 +1,6 @@
 {
   "name": "@clack/prompts",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -21,7 +21,10 @@
     "url": "https://github.com/bombshell-dev/clack/issues"
   },
   "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/prompts#readme",
-  "files": ["dist", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "author": {
     "name": "Nate Moore",
     "email": "nate@natemoo.re",
