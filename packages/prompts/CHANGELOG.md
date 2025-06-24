@@ -1,5 +1,14 @@
 # @clack/prompts
 
+## 1.0.0-alpha.2
+
+### Patch Changes
+
+- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
+- 17d3650: Use a default import for picocolors to avoid run time errors in some environments.
+- Updated dependencies [7df841d]
+  - @clack/core@1.0.0-alpha.2
+
 ## 1.0.0-alpha.1
 
 ### Minor Changes
