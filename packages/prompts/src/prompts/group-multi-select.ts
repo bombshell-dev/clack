@@ -10,6 +10,7 @@ import {
 	symbol,
 } from '../common.js';
 import type { Option } from './select.js';
+import { wrapTitle } from '../wrap.js';
 
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	message: string;
@@ -99,7 +100,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${wrapTitle(opts.message, this.state)}\n`;
 			const value = this.value ?? [];
 
 			switch (this.state) {

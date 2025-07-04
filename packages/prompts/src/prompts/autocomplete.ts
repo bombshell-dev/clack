@@ -12,6 +12,7 @@ import {
 } from '../common.js';
 import { limitOptions } from '../limit-options.js';
 import type { Option } from './select.js';
+import { wrapTitle } from '../wrap.js';
 
 function getLabel<T>(option: Option<T>) {
 	return option.label ?? String(option.value ?? '');

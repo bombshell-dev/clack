@@ -19,6 +19,10 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 		const allSelected = this.value !== undefined && this.value.length === this.options.length;
 		this.value = allSelected ? [] : this.options.map((v) => v.value);
 	}
+	
+	private toggleInvert() {
+		this.value = this.options.filter((v) => !this.value.includes(v.value)).map((v) => v.value);
+	}
 
 	private toggleValue() {
 		if (this.value === undefined) {
@@ -39,9 +43,13 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
 			0
 		);
+		
 		this.on('key', (char) => {
 			if (char === 'a') {
 				this.toggleAll();
+			}
+			if (char === 'i') {
+				this.toggleInvert();
 			}
 		});
 

@@ -8,6 +8,7 @@ import {
 	S_RADIO_INACTIVE,
 	symbol,
 } from '../common.js';
+import { wrapTitle } from '../wrap.js';
 
 export interface ConfirmOptions extends CommonOptions {
 	message: string;
@@ -26,7 +27,7 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${wrapTitle(opts.message, this.state)}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {

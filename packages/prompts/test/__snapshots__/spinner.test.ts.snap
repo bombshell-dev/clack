@@ -5,7 +5,7 @@ exports[`spinner (isCI = false) > can be aborted by a signal 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Cancelled
 ",
   "<cursor.show>",
 ]
@@ -326,7 +326,7 @@ exports[`spinner (isCI = false) > process exit handling > uses default cancel me
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Cancelled
 ",
   "<cursor.show>",
 ]
@@ -480,7 +480,7 @@ exports[`spinner (isCI = true) > can be aborted by a signal 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Cancelled
 ",
   "<cursor.show>",
 ]
@@ -604,7 +604,7 @@ exports[`spinner (isCI = true) > process exit handling > uses default cancel mes
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Cancelled
 ",
   "<cursor.show>",
 ]

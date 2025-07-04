@@ -61,7 +61,7 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses defaul
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Cancelled
 ",
   "<cursor.show>",
 ]
@@ -327,7 +327,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses default
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Cancelled
 ",
   "<cursor.show>",
 ]

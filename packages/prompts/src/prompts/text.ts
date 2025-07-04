@@ -1,6 +1,7 @@
 import { TextPrompt } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from '../common.js';
+import { wrapTitle } from '../wrap.js';
 
 export interface TextOptions extends CommonOptions {
 	message: string;
@@ -20,7 +21,7 @@ export const text = (opts: TextOptions) => {
 		signal: opts.signal,
 		input: opts.input,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${wrapTitle(opts.message, this.state)}\n`;
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 				: color.inverse(color.hidden('_'));

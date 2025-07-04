@@ -2,6 +2,7 @@ import { SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
 import { S_BAR, S_BAR_END, symbol } from '../common.js';
 import type { Option, SelectOptions } from './select.js';
+import { wrapTitle } from '../wrap.js';
 
 export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 	const opt = (
@@ -32,7 +33,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${wrapTitle(opts.message, this.state)}\n`;
 
 			switch (this.state) {
 				case 'submit':
