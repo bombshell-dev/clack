@@ -33,7 +33,7 @@
     "interface",
     "menu",
     "prompt",
-    "prompts",
+    "prompmts",
     "stdin",
     "ui"
   ],
@@ -44,16 +44,17 @@
   },
   "license": "MIT",
   "packageManager": "pnpm@8.6.12",
+  "engines": {
+    "node": ">=20.18.1"
+  },
   "scripts": {
     "build": "unbuild",
     "prepack": "pnpm build",
     "test": "vitest run"
   },
-  "dependencies": {
-    "picocolors": "^1.0.0",
-    "sisteransi": "^1.0.5"
-  },
   "devDependencies": {
+    "picocolors": "^1.0.0",
+    "sisteransi": "^1.0.5",
     "vitest": "^3.1.1",
     "wrap-ansi": "^8.1.0"
   }
