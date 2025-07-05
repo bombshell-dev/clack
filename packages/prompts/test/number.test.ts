@@ -191,16 +191,18 @@ describe.each(['true', 'false'])('number (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 	
-	test('warn when use invalid number value', async () => {
+	test('validate when use invalid number value', async () => {
 		const result = prompts.number({
 			message: 'foo',
 			placeholder: 1,
 			input,
 			output,
 		});
-
+    
+    // Try submit the invalud value
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', '', { name: 'return' });
+    // Try submit the valid value
 		input.emit('keypress', '', { name: 'backspace' });
 		input.emit('keypress', '1', { name: '1' });
 		input.emit('keypress', '', { name: 'return' });

@@ -4,7 +4,7 @@ exports[`text (isCI = false) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -18,14 +18,14 @@ exports[`text (isCI = false) > can cancel 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
+  "[31m■[39m  
 [90m│[39m",
   "
 ",
@@ -37,14 +37,14 @@ exports[`text (isCI = false) > defaultValue sets the value but does not render 1
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mbar[22m",
   "
 ",
@@ -56,14 +56,14 @@ exports[`text (isCI = false) > empty string when no value and no default 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -75,14 +75,14 @@ exports[`text (isCI = false) > placeholder is not used as value when pressing en
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mdefault-value[22m",
   "
 ",
@@ -94,7 +94,7 @@ exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -111,7 +111,7 @@ exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
+  "[31m■[39m  
 [90m│[39m  [9m[2mxy[22m[29m
 [90m│[39m",
   "
@@ -124,14 +124,14 @@ exports[`text (isCI = false) > renders message 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -143,14 +143,14 @@ exports[`text (isCI = false) > renders placeholder if set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7mb[27m[2mar[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -162,7 +162,7 @@ exports[`text (isCI = false) > renders submitted value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -179,7 +179,7 @@ exports[`text (isCI = false) > renders submitted value 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mxy[22m",
   "
 ",
@@ -191,7 +191,7 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -203,21 +203,21 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  foo
+  "[33m▲[39m
 [33m│[39m  x█
 [33m└[39m  [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  foo
+  "[36m◆[39m  
 [36m│[39m  xy█
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mxy[22m",
   "
 ",
@@ -229,7 +229,7 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -241,21 +241,21 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  foo
+  "[33m▲[39m
 [33m│[39m  x█
 [33m└[39m  [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  foo
+  "[36m◆[39m  
 [36m│[39m  xy█
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mxy[22m",
   "
 ",
@@ -267,7 +267,7 @@ exports[`text (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -281,14 +281,14 @@ exports[`text (isCI = true) > can cancel 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
+  "[31m■[39m  
 [90m│[39m",
   "
 ",
@@ -300,14 +300,14 @@ exports[`text (isCI = true) > defaultValue sets the value but does not render 1`
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mbar[22m",
   "
 ",
@@ -319,14 +319,14 @@ exports[`text (isCI = true) > empty string when no value and no default 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -338,14 +338,14 @@ exports[`text (isCI = true) > placeholder is not used as value when pressing ent
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mdefault-value[22m",
   "
 ",
@@ -357,7 +357,7 @@ exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -374,7 +374,7 @@ exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
+  "[31m■[39m  
 [90m│[39m  [9m[2mxy[22m[29m
 [90m│[39m",
   "
@@ -387,14 +387,14 @@ exports[`text (isCI = true) > renders message 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -406,14 +406,14 @@ exports[`text (isCI = true) > renders placeholder if set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7mb[27m[2mar[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -425,7 +425,7 @@ exports[`text (isCI = true) > renders submitted value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -442,7 +442,7 @@ exports[`text (isCI = true) > renders submitted value 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mxy[22m",
   "
 ",
@@ -454,7 +454,7 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -466,21 +466,21 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  foo
+  "[33m▲[39m
 [33m│[39m  x█
 [33m└[39m  [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  foo
+  "[36m◆[39m  
 [36m│[39m  xy█
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mxy[22m",
   "
 ",
@@ -492,7 +492,7 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
@@ -504,21 +504,21 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  foo
+  "[33m▲[39m
 [33m│[39m  x█
 [33m└[39m  [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  foo
+  "[36m◆[39m  
 [36m│[39m  xy█
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mxy[22m",
   "
 ",
