@@ -7,7 +7,7 @@ import color from 'picocolors';
 // 6 => vertical padding = 3
 const termWidth: number = stdout.columns - 6;
 
-const wrap = (text: string, width: number): string => {
+export const wrap = (text: string, width: number): string => {
 	if (text.indexOf(' ') === -1) {
 		const re = new RegExp(`.{1,${width}}`, 'g');
 		const lines = strip(text).match(re) || [];
