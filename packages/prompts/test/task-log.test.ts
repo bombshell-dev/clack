@@ -419,5 +419,18 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('handles empty groups', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group = log.group('Group 0');
+
+			group.success('Group success!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 });

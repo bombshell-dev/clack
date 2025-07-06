@@ -382,6 +382,19 @@ exports[`taskLog (isCI = false) > group > can render multiple groups of equal si
 ]
 `;
 
+exports[`taskLog (isCI = false) > group > handles empty groups 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[32m◆[39m  Group success!
+",
+]
+`;
+
 exports[`taskLog (isCI = false) > group > renders error state 1`] = `
 [
   "[90m│[39m
@@ -1220,6 +1233,17 @@ exports[`taskLog (isCI = true) > group > can render multiple groups of equal siz
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > handles empty groups 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
 ]
 `;
 
