@@ -5,7 +5,7 @@ exports[`autocomplete > can be aborted by a signal 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -25,7 +25,7 @@ exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
@@ -51,7 +51,7 @@ exports[`autocomplete > renders initial UI with message and instructions 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -76,7 +76,7 @@ exports[`autocomplete > renders placeholder if set 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [2mType to search...[22m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -101,7 +101,7 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -114,7 +114,7 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m[2m[22m
+  "[36m│[39m  [2mSearch:[22m
 [36m│[39m  [2m○[22m [2mApple[22m
 [36m│[39m  [32m●[39m Banana
 [36m│[39m  [2m○[22m [2mCherry[22m
@@ -173,7 +173,7 @@ exports[`autocomplete > shows no matches message when search has no results 1`] 
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -193,7 +193,7 @@ exports[`autocomplete > shows no matches message when search has no results 1`] 
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select a fruit
-[90m│[39m[2m[22m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -205,7 +205,7 @@ exports[`autocomplete > shows selected value in submit state 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -217,7 +217,7 @@ exports[`autocomplete > shows selected value in submit state 1`] = `
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m[2m[22m
+  "[36m│[39m  [2mSearch:[22m
 [36m│[39m  [2m○[22m [2mApple[22m
 [36m│[39m  [32m●[39m Banana
 [36m│[39m  [2m○[22m [2mCherry[22m
@@ -241,7 +241,7 @@ exports[`autocomplete > shows strikethrough in cancel state 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
@@ -254,7 +254,7 @@ exports[`autocomplete > shows strikethrough in cancel state 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  Select a fruit
-[90m│[39m[9m[2m[22m[29m",
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -266,7 +266,7 @@ exports[`autocomplete > supports initialValue 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [2m○[22m [2mApple[22m
 [36m│[39m  [2m○[22m [2mBanana[22m
