@@ -73,7 +73,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		render() {
 			const title = `${color.gray(S_BAR)}\n${wrapTitle(opts.message, this.state)}\n`;
 			const value = this.value ?? [];
-			
+
 			const styleOption = (option: Option<Value>, active: boolean) => {
 				const selected = value.includes(option.value);
 				if (active && selected) {

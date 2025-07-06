@@ -25,27 +25,30 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		}
 		return items.every((i) => value.includes(i.value));
 	}
-	
+
 	private toggleAll() {
-	  const item = this.options[this.cursor];
+		const item = this.options[this.cursor];
 		if (this.value === undefined) {
 			this.value = [];
 		}
 		if (item.group === true) {
 			const groupedItems = this.options.filter((i) => i.group !== true);
-			const allSelected = this.value.length === [...new Set(groupedItems.map((v) => v.value))].length;
+			const allSelected =
+				this.value.length === [...new Set(groupedItems.map((v) => v.value))].length;
 			this.value = allSelected ? [] : groupedItems.map((v) => v.value);
 		} else {
 			const groupedItems = this.getGroupItems(item.group);
 			const groupedItemsValues = groupedItems.map((i) => i.value);
 			const allSelected = groupedItemsValues.every((i) => this.value.includes(i));
-			this.value = allSelected ? this.value.filter((i) => !groupedItemsValues.includes(i)) : [...this.value, ...groupedItemsValues];
+			this.value = allSelected
+				? this.value.filter((i) => !groupedItemsValues.includes(i))
+				: [...this.value, ...groupedItemsValues];
 		}
 		this.value = Array.from(new Set(this.value));
 	}
-	
+
 	private toggleInvert() {
-	  const item = this.options[this.cursor];
+		const item = this.options[this.cursor];
 		if (this.value === undefined) {
 			this.value = [];
 		}
@@ -58,7 +61,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		}
 		this.value = Array.from(new Set(this.value));
 	}
-	
+
 	private toggleValue() {
 		const item = this.options[this.cursor];
 		if (this.value === undefined) {
@@ -96,7 +99,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
 			this.#selectableGroups ? 0 : 1
 		);
-		
+
 		this.on('key', (char) => {
 			if (char === 'a') {
 				this.toggleAll();
