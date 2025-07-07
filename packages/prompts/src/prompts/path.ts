@@ -1,7 +1,7 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { autocomplete } from './autocomplete.js';
-import type { CommonOptions } from './common.js';
+import type { CommonOptions } from '../common.js';
 
 export interface PathOptions extends CommonOptions {
 	root?: string;

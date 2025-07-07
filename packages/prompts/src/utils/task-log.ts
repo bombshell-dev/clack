@@ -2,8 +2,8 @@ import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
 import color from 'picocolors';
 import { erase } from 'sisteransi';
-import { type CommonOptions, S_BAR, S_STEP_SUBMIT, isCI as isCIFn } from './common.js';
-import { log } from './log.js';
+import { type CommonOptions, S_BAR, S_STEP_SUBMIT, isCI as isCIFn } from '../common.js';
+import { log } from '../components/log.js';
 
 export interface TaskLogOptions extends CommonOptions {
 	title: string;

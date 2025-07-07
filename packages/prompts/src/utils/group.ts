@@ -13,9 +13,7 @@ export interface PromptGroupOptions<T> {
 	 * Control how the group can be canceled
 	 * if one of the prompts is canceled.
 	 */
-	onCancel?: (opts: {
-		results: Prettify<Partial<PromptGroupAwaitedReturn<T>>>;
-	}) => void;
+	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
 }
 
 export type PromptGroup<T> = {

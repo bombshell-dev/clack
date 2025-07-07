@@ -1,6 +1,25 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`text (isCI = false) > can be aborted by a signal 1`] = `
+exports[`number (isCI = false) > 0 when no value and no default 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`number (isCI = false) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -14,7 +33,7 @@ exports[`text (isCI = false) > can be aborted by a signal 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > can cancel 1`] = `
+exports[`number (isCI = false) > can cancel 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -33,7 +52,7 @@ exports[`text (isCI = false) > can cancel 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > defaultValue sets the value but does not render 1`] = `
+exports[`number (isCI = false) > defaultValue sets the value but does not render 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -45,52 +64,33 @@ exports[`text (isCI = false) > defaultValue sets the value but does not render 1
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mbar[22m",
+[90m│[39m  [2m10[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = false) > empty string when no value and no default 1`] = `
+exports[`number (isCI = false) > placeholder is not used as value when pressing enter 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  
-[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
+[36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m",
+[90m│[39m  [2m7[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = false) > placeholder is not used as value when pressing enter 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  
-[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
-[90m│[39m  [2mdefault-value[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
+exports[`number (isCI = false) > renders cancelled value if one set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -101,18 +101,18 @@ exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  1█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  xy█",
+  "[36m│[39m  12█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  
-[90m│[39m  [9m[2mxy[22m[29m
+[90m│[39m  [9m[2m12[22m[29m
 [90m│[39m",
   "
 ",
@@ -120,7 +120,7 @@ exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > renders message 1`] = `
+exports[`number (isCI = false) > renders message 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -139,12 +139,12 @@ exports[`text (isCI = false) > renders message 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > renders placeholder if set 1`] = `
+exports[`number (isCI = false) > renders placeholder if set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  
-[36m│[39m  [7mb[27m[2mar[22m
+[36m│[39m  [7m5[27m[2m[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
@@ -158,7 +158,7 @@ exports[`text (isCI = false) > renders placeholder if set 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > renders submitted value 1`] = `
+exports[`number (isCI = false) > renders submitted value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -169,63 +169,68 @@ exports[`text (isCI = false) > renders submitted value 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  1█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  xy█",
+  "[36m│[39m  12█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mxy[22m",
+[90m│[39m  [2m12[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = false) > validation errors render and clear (using Error) 1`] = `
+exports[`number (isCI = false) > validate when use invalid number value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  
-[36m│[39m  [7m[8m_[28m[27m
+[36m│[39m  [7m1[27m[2m[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  a█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m
-[33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m│[39m  a█
+[33m└[39m  [33mPlease input a valid number value[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[36m◆[39m  
-[36m│[39m  xy█
+[36m│[39m  [7m1[27m[2m[22m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  1█",
+  "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mxy[22m",
+[90m│[39m  [2m1[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = false) > validation errors render and clear 1`] = `
+exports[`number (isCI = false) > validation errors render and clear (using Error) 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -236,34 +241,91 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  1█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m
-[33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m│[39m  1█
+[33m└[39m  [33mshould be greater than 3[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[36m◆[39m  
-[36m│[39m  xy█
+[36m│[39m  10█
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mxy[22m",
+[90m│[39m  [2m10[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = true) > can be aborted by a signal 1`] = `
+exports[`number (isCI = false) > validation errors render and clear 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  1█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m
+[33m│[39m  1█
+[33m└[39m  [33mshould be greater than 3[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  
+[36m│[39m  10█
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+[90m│[39m  [2m10[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`number (isCI = true) > 0 when no value and no default 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`number (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -277,7 +339,7 @@ exports[`text (isCI = true) > can be aborted by a signal 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > can cancel 1`] = `
+exports[`number (isCI = true) > can cancel 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -296,7 +358,7 @@ exports[`text (isCI = true) > can cancel 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > defaultValue sets the value but does not render 1`] = `
+exports[`number (isCI = true) > defaultValue sets the value but does not render 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -308,52 +370,33 @@ exports[`text (isCI = true) > defaultValue sets the value but does not render 1`
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mbar[22m",
+[90m│[39m  [2m10[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = true) > empty string when no value and no default 1`] = `
+exports[`number (isCI = true) > placeholder is not used as value when pressing enter 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  
-[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
+[36m│[39m  [7m[8m_[28m[27m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m",
+[90m│[39m  [2m7[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = true) > placeholder is not used as value when pressing enter 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  
-[36m│[39m  [7m [27m[2m (hit Enter to use default)[22m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
-[90m│[39m  [2mdefault-value[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
+exports[`number (isCI = true) > renders cancelled value if one set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -364,18 +407,18 @@ exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  1█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  xy█",
+  "[36m│[39m  12█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  
-[90m│[39m  [9m[2mxy[22m[29m
+[90m│[39m  [9m[2m12[22m[29m
 [90m│[39m",
   "
 ",
@@ -383,7 +426,7 @@ exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > renders message 1`] = `
+exports[`number (isCI = true) > renders message 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -402,12 +445,12 @@ exports[`text (isCI = true) > renders message 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > renders placeholder if set 1`] = `
+exports[`number (isCI = true) > renders placeholder if set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  
-[36m│[39m  [7mb[27m[2mar[22m
+[36m│[39m  [7m5[27m[2m[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
@@ -421,7 +464,7 @@ exports[`text (isCI = true) > renders placeholder if set 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > renders submitted value 1`] = `
+exports[`number (isCI = true) > renders submitted value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -432,63 +475,68 @@ exports[`text (isCI = true) > renders submitted value 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  1█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  xy█",
+  "[36m│[39m  12█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mxy[22m",
+[90m│[39m  [2m12[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = true) > validation errors render and clear (using Error) 1`] = `
+exports[`number (isCI = true) > validate when use invalid number value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  
-[36m│[39m  [7m[8m_[28m[27m
+[36m│[39m  [7m1[27m[2m[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  a█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m
-[33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m│[39m  a█
+[33m└[39m  [33mPlease input a valid number value[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[36m◆[39m  
-[36m│[39m  xy█
+[36m│[39m  [7m1[27m[2m[22m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  1█",
+  "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mxy[22m",
+[90m│[39m  [2m1[22m",
   "
 ",
   "<cursor.show>",
 ]
 `;
 
-exports[`text (isCI = true) > validation errors render and clear 1`] = `
+exports[`number (isCI = true) > validation errors render and clear (using Error) 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -499,27 +547,65 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
+  "[36m│[39m  1█",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m
-[33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m│[39m  1█
+[33m└[39m  [33mshould be greater than 3[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[36m◆[39m  
-[36m│[39m  xy█
+[36m│[39m  10█
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  
-[90m│[39m  [2mxy[22m",
+[90m│[39m  [2m10[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`number (isCI = true) > validation errors render and clear 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  1█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m
+[33m│[39m  1█
+[33m└[39m  [33mshould be greater than 3[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  
+[36m│[39m  10█
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+[90m│[39m  [2m10[22m",
   "
 ",
   "<cursor.show>",

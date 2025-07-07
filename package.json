@@ -24,6 +24,9 @@
     "jsr": "^0.13.4"
   },
   "packageManager": "pnpm@9.14.2",
+  "engines": {
+    "node": ">=20.18.1"
+  },
   "volta": {
     "node": "20.18.1"
   }

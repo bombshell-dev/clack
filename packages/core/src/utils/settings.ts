@@ -24,7 +24,7 @@ export const settings: InternalClackSettings = {
 		['escape', 'cancel'],
 	]),
 	messages: {
-		cancel: 'Canceled',
+		cancel: 'Cancelled',
 		error: 'Something went wrong',
 	},
 };

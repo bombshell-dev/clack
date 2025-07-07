@@ -7,8 +7,9 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
-} from './common.js';
-import { limitOptions } from './limit-options.js';
+} from '../common.js';
+import { limitOptions } from '../limit-options.js';
+import { wrapTitle } from '../wrap.js';
 
 type Primitive = Readonly<string | boolean | number>;
 
@@ -81,7 +82,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${wrapTitle(opts.message, this.state)}\n`;
 
 			switch (this.state) {
 				case 'submit':

@@ -21,7 +21,7 @@ exports[`groupMultiselect (isCI = false) > can deselect an option 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -66,7 +66,7 @@ exports[`groupMultiselect (isCI = false) > can deselect an option 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -78,7 +78,7 @@ exports[`groupMultiselect (isCI = false) > can select a group 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -95,7 +95,7 @@ exports[`groupMultiselect (isCI = false) > can select a group 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -107,7 +107,7 @@ exports[`groupMultiselect (isCI = false) > can select a group by selecting all m
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -144,7 +144,7 @@ exports[`groupMultiselect (isCI = false) > can select a group by selecting all m
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -156,7 +156,7 @@ exports[`groupMultiselect (isCI = false) > can select multiple options 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  │ [36m◻[39m [2mgroup1value1[22m
@@ -193,7 +193,7 @@ exports[`groupMultiselect (isCI = false) > can select multiple options 1`] = `
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -205,7 +205,7 @@ exports[`groupMultiselect (isCI = false) > can submit empty selection when requi
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -214,7 +214,7 @@ exports[`groupMultiselect (isCI = false) > can submit empty selection when requi
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -226,7 +226,7 @@ exports[`groupMultiselect (isCI = false) > cursorAt sets initial selection 1`] =
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
 [36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value0[22m
 [36m│[39m  [2m└ [22m[36m◻[39m group1value1
@@ -240,7 +240,7 @@ exports[`groupMultiselect (isCI = false) > cursorAt sets initial selection 1`] =
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value1[22m",
   "
 ",
@@ -252,7 +252,7 @@ exports[`groupMultiselect (isCI = false) > groupSpacing > negative spacing is ig
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  └ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
@@ -280,7 +280,7 @@ exports[`groupMultiselect (isCI = false) > groupSpacing > negative spacing is ig
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -292,7 +292,7 @@ exports[`groupMultiselect (isCI = false) > groupSpacing > renders spaced groups 
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m
 [36m│[39m
 [36m│[39m  [2m[22m[36m◻[39m group1
@@ -328,7 +328,7 @@ exports[`groupMultiselect (isCI = false) > groupSpacing > renders spaced groups 
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -340,7 +340,7 @@ exports[`groupMultiselect (isCI = false) > initial values can be set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [32m◼[39m [2mgroup1value1[22m
@@ -349,7 +349,7 @@ exports[`groupMultiselect (isCI = false) > initial values can be set 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value1[22m",
   "
 ",
@@ -361,7 +361,7 @@ exports[`groupMultiselect (isCI = false) > renders error when nothing selected 1
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -370,7 +370,7 @@ exports[`groupMultiselect (isCI = false) > renders error when nothing selected 1
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  foo
+  "[33m▲[39m  
 [33m│[39m  [2m[22m[36m◻[39m group1
 [33m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [33m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -380,7 +380,7 @@ exports[`groupMultiselect (isCI = false) > renders error when nothing selected 1
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  foo
+  "[36m◆[39m  
 [36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
 [36m│[39m  [2m│ [22m[36m◻[39m group1value0
 [36m│[39m  [2m└ [22m[2m◻[22m [2mgroup1value1[22m
@@ -394,7 +394,7 @@ exports[`groupMultiselect (isCI = false) > renders error when nothing selected 1
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -406,7 +406,7 @@ exports[`groupMultiselect (isCI = false) > renders message with options 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -432,7 +432,7 @@ exports[`groupMultiselect (isCI = false) > renders message with options 1`] = `
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -444,7 +444,7 @@ exports[`groupMultiselect (isCI = false) > selectableGroups = false > cannot sel
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m [2mgroup1[22m
 [36m│[39m  [2m  [22m[36m◻[39m group1value0
 [36m│[39m  [2m  [22m[2m◻[22m [2mgroup1value1[22m
@@ -458,7 +458,7 @@ exports[`groupMultiselect (isCI = false) > selectableGroups = false > cannot sel
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -470,7 +470,7 @@ exports[`groupMultiselect (isCI = false) > selectableGroups = false > selecting 
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m [2mgroup1[22m
 [36m│[39m  [2m  [22m[36m◻[39m group1value0
 [36m│[39m  [2m  [22m[2m◻[22m [2mgroup1value1[22m
@@ -496,7 +496,7 @@ exports[`groupMultiselect (isCI = false) > selectableGroups = false > selecting 
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -508,7 +508,7 @@ exports[`groupMultiselect (isCI = false) > values can be non-primitive 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mvalue0[22m
 [36m│[39m  └ [36m◻[39m [2mvalue1[22m
@@ -530,7 +530,7 @@ exports[`groupMultiselect (isCI = false) > values can be non-primitive 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mvalue0[22m",
   "
 ",
@@ -559,7 +559,7 @@ exports[`groupMultiselect (isCI = true) > can deselect an option 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -604,7 +604,7 @@ exports[`groupMultiselect (isCI = true) > can deselect an option 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -616,7 +616,7 @@ exports[`groupMultiselect (isCI = true) > can select a group 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -633,7 +633,7 @@ exports[`groupMultiselect (isCI = true) > can select a group 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -645,7 +645,7 @@ exports[`groupMultiselect (isCI = true) > can select a group by selecting all me
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -682,7 +682,7 @@ exports[`groupMultiselect (isCI = true) > can select a group by selecting all me
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -694,7 +694,7 @@ exports[`groupMultiselect (isCI = true) > can select multiple options 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  │ [36m◻[39m [2mgroup1value1[22m
@@ -731,7 +731,7 @@ exports[`groupMultiselect (isCI = true) > can select multiple options 1`] = `
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -743,7 +743,7 @@ exports[`groupMultiselect (isCI = true) > can submit empty selection when requir
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -752,7 +752,7 @@ exports[`groupMultiselect (isCI = true) > can submit empty selection when requir
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m",
   "
 ",
@@ -764,7 +764,7 @@ exports[`groupMultiselect (isCI = true) > cursorAt sets initial selection 1`] = 
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
 [36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value0[22m
 [36m│[39m  [2m└ [22m[36m◻[39m group1value1
@@ -778,7 +778,7 @@ exports[`groupMultiselect (isCI = true) > cursorAt sets initial selection 1`] = 
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value1[22m",
   "
 ",
@@ -790,7 +790,7 @@ exports[`groupMultiselect (isCI = true) > groupSpacing > negative spacing is ign
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  └ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
@@ -818,7 +818,7 @@ exports[`groupMultiselect (isCI = true) > groupSpacing > negative spacing is ign
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -830,7 +830,7 @@ exports[`groupMultiselect (isCI = true) > groupSpacing > renders spaced groups 1
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m
 [36m│[39m
 [36m│[39m  [2m[22m[36m◻[39m group1
@@ -866,7 +866,7 @@ exports[`groupMultiselect (isCI = true) > groupSpacing > renders spaced groups 1
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -878,7 +878,7 @@ exports[`groupMultiselect (isCI = true) > initial values can be set 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [32m◼[39m [2mgroup1value1[22m
@@ -887,7 +887,7 @@ exports[`groupMultiselect (isCI = true) > initial values can be set 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value1[22m",
   "
 ",
@@ -899,7 +899,7 @@ exports[`groupMultiselect (isCI = true) > renders error when nothing selected 1`
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -908,7 +908,7 @@ exports[`groupMultiselect (isCI = true) > renders error when nothing selected 1`
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  foo
+  "[33m▲[39m  
 [33m│[39m  [2m[22m[36m◻[39m group1
 [33m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [33m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -918,7 +918,7 @@ exports[`groupMultiselect (isCI = true) > renders error when nothing selected 1`
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  foo
+  "[36m◆[39m  
 [36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
 [36m│[39m  [2m│ [22m[36m◻[39m group1value0
 [36m│[39m  [2m└ [22m[2m◻[22m [2mgroup1value1[22m
@@ -932,7 +932,7 @@ exports[`groupMultiselect (isCI = true) > renders error when nothing selected 1`
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -944,7 +944,7 @@ exports[`groupMultiselect (isCI = true) > renders message with options 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
 [36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
@@ -970,7 +970,7 @@ exports[`groupMultiselect (isCI = true) > renders message with options 1`] = `
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -982,7 +982,7 @@ exports[`groupMultiselect (isCI = true) > selectableGroups = false > cannot sele
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m [2mgroup1[22m
 [36m│[39m  [2m  [22m[36m◻[39m group1value0
 [36m│[39m  [2m  [22m[2m◻[22m [2mgroup1value1[22m
@@ -996,7 +996,7 @@ exports[`groupMultiselect (isCI = true) > selectableGroups = false > cannot sele
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m",
   "
 ",
@@ -1008,7 +1008,7 @@ exports[`groupMultiselect (isCI = true) > selectableGroups = false > selecting a
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m [2mgroup1[22m
 [36m│[39m  [2m  [22m[36m◻[39m group1value0
 [36m│[39m  [2m  [22m[2m◻[22m [2mgroup1value1[22m
@@ -1034,7 +1034,7 @@ exports[`groupMultiselect (isCI = true) > selectableGroups = false > selecting a
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mgroup1value0[22m[2m, [22m[2mgroup1value1[22m",
   "
 ",
@@ -1046,7 +1046,7 @@ exports[`groupMultiselect (isCI = true) > values can be non-primitive 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [2m[22m[36m◻[39m group1
 [36m│[39m  │ [36m◻[39m [2mvalue0[22m
 [36m│[39m  └ [36m◻[39m [2mvalue1[22m
@@ -1068,7 +1068,7 @@ exports[`groupMultiselect (isCI = true) > values can be non-primitive 1`] = `
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mvalue0[22m",
   "
 ",

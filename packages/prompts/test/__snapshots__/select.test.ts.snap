@@ -4,7 +4,7 @@ exports[`select (isCI = false) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -19,7 +19,7 @@ exports[`select (isCI = false) > can cancel 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -27,7 +27,7 @@ exports[`select (isCI = false) > can cancel 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
+  "[31m■[39m  
 [90m│[39m  [9m[2mopt0[22m[29m
 [90m│[39m",
   "
@@ -40,7 +40,7 @@ exports[`select (isCI = false) > down arrow selects next option 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -55,7 +55,7 @@ exports[`select (isCI = false) > down arrow selects next option 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt1[22m",
   "
 ",
@@ -67,7 +67,7 @@ exports[`select (isCI = false) > renders option hints 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -75,7 +75,7 @@ exports[`select (isCI = false) > renders option hints 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -87,7 +87,7 @@ exports[`select (isCI = false) > renders option labels 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m└[39m
@@ -95,7 +95,7 @@ exports[`select (isCI = false) > renders option labels 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mOption 0[22m",
   "
 ",
@@ -107,7 +107,7 @@ exports[`select (isCI = false) > renders options and message 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -115,7 +115,7 @@ exports[`select (isCI = false) > renders options and message 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -127,7 +127,7 @@ exports[`select (isCI = false) > up arrow selects previous option 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -149,7 +149,7 @@ exports[`select (isCI = false) > up arrow selects previous option 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -161,7 +161,7 @@ exports[`select (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -176,7 +176,7 @@ exports[`select (isCI = true) > can cancel 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -184,7 +184,7 @@ exports[`select (isCI = true) > can cancel 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
+  "[31m■[39m  
 [90m│[39m  [9m[2mopt0[22m[29m
 [90m│[39m",
   "
@@ -197,7 +197,7 @@ exports[`select (isCI = true) > down arrow selects next option 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -212,7 +212,7 @@ exports[`select (isCI = true) > down arrow selects next option 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt1[22m",
   "
 ",
@@ -224,7 +224,7 @@ exports[`select (isCI = true) > renders option hints 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -232,7 +232,7 @@ exports[`select (isCI = true) > renders option hints 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -244,7 +244,7 @@ exports[`select (isCI = true) > renders option labels 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m└[39m
@@ -252,7 +252,7 @@ exports[`select (isCI = true) > renders option labels 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mOption 0[22m",
   "
 ",
@@ -264,7 +264,7 @@ exports[`select (isCI = true) > renders options and message 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -272,7 +272,7 @@ exports[`select (isCI = true) > renders options and message 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -284,7 +284,7 @@ exports[`select (isCI = true) > up arrow selects previous option 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo
+[36m◆[39m  
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m└[39m
@@ -306,7 +306,7 @@ exports[`select (isCI = true) > up arrow selects previous option 1`] = `
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "[32m◇[39m  
 [90m│[39m  [2mopt0[22m",
   "
 ",

@@ -1,7 +1,7 @@
 import { stripVTControlCharacters as strip } from 'node:util';
 import color from 'picocolors';
-import { S_BAR, S_ERROR, S_INFO, S_STEP_SUBMIT, S_SUCCESS, S_WARN } from './common.js';
-import type { LogMessageOptions } from './log.js';
+import { S_BAR, S_ERROR, S_INFO, S_STEP_SUBMIT, S_SUCCESS, S_WARN } from '../common.js';
+import type { LogMessageOptions } from '../components/log.js';
 
 const prefix = `${color.gray(S_BAR)}  `;
 

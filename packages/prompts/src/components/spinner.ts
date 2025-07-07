@@ -9,7 +9,7 @@ import {
 	S_STEP_SUBMIT,
 	isCI as isCIFn,
 	unicode,
-} from './common.js';
+} from '../common.js';
 
 export interface SpinnerOptions extends CommonOptions {
 	indicator?: 'dots' | 'timer';

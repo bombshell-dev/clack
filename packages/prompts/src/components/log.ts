@@ -7,7 +7,7 @@ import {
 	S_STEP_SUBMIT,
 	S_SUCCESS,
 	S_WARN,
-} from './common.js';
+} from '../common.js';
 
 export interface LogMessageOptions extends CommonOptions {
 	symbol?: string;
