@@ -1,5 +1,5 @@
 namespace JSX {
-	export type IntrinsicElements = {};
+	export type IntrinsicElements = never;
 
 	export type Element = Promise<unknown>;
 }

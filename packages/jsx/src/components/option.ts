@@ -1,31 +1,32 @@
-import { type Option, isCancel } from '@clack/prompts';
+import { type Option as PromptOption, isCancel } from '@clack/prompts';
 import type { JSX } from '../types.js';
 import { resolveChildren } from '../utils.js';
 
-export interface OptionProps {
-	value: unknown;
+export interface OptionProps<T> {
+	value: T;
+	hint?: string;
 	children?: JSX.Element | JSX.Element[] | string;
 }
 
-export async function Option(props: OptionProps): Promise<Option<unknown>> {
-	let label = '';
-	if (props.children) {
-		const children = await resolveChildren(props.children);
+export async function Option<T>(props: OptionProps<T>): Promise<PromptOption<T>> {
+	const { children, ...opts } = props;
+
+	if (children) {
+		const resolvedChildren = await resolveChildren(children);
 		const childStrings: string[] = [];
 
-		for (const child of children) {
+		for (const child of resolvedChildren) {
 			if (isCancel(child)) {
 				continue;
 			}
 			childStrings.push(String(child));
 		}
 
-		label = childStrings.join('\n');
-	} else {
-		label = String(props.value);
+		return {
+			...opts,
+			label: childStrings.join('\n'),
+		} as PromptOption<T>;
 	}
-	return {
-		value: props.value,
-		label,
-	};
+
+	return opts as PromptOption<T>;
 }

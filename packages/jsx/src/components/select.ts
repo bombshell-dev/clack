@@ -4,17 +4,11 @@ import type { JSX } from '../types.js';
 import { resolveChildren } from '../utils.js';
 
 export interface SelectProps extends Omit<SelectOptions<unknown>, 'options'> {
-	children: JSX.Element[] | JSX.Element;
+	children: JSX.Element[] | JSX.Element | string;
 }
 
 const isOptionLike = (obj: unknown): obj is Option<unknown> => {
-	return (
-		obj !== null &&
-		typeof obj === 'object' &&
-		Object.hasOwnProperty.call(obj, 'label') &&
-		Object.hasOwnProperty.call(obj, 'value') &&
-		typeof (obj as { label: string }).label === 'string'
-	);
+	return obj !== null && typeof obj === 'object' && Object.hasOwnProperty.call(obj, 'value');
 };
 
 export async function Select(props: SelectProps): ReturnType<typeof select> {

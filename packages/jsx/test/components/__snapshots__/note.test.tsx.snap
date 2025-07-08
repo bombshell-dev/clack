@@ -1,0 +1,92 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Note > can render children as message 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0m[0m [90m──────────╮[39m
+[90m│[39m             [90m│[39m
+[90m│[39m  [2ma message[22m  [90m│[39m
+[90m│[39m             [90m│[39m
+[90m├─────────────╯[39m
+",
+]
+`;
+
+exports[`Note > can render complex results as message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  say yes
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  say yes
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+  "[90m│[39m
+[32m◇[39m  [0m[0m [90m─────╮[39m
+[90m│[39m        [90m│[39m
+[90m│[39m  [2mtrue[22m  [90m│[39m
+[90m│[39m        [90m│[39m
+[90m├────────╯[39m
+",
+]
+`;
+
+exports[`Note > can render multiple children as message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  say yes
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  say yes again
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  say yes
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  say yes again
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+  "[90m│[39m
+[32m◇[39m  [0m[0m [90m─────╮[39m
+[90m│[39m        [90m│[39m
+[90m│[39m  [2mtrue[22m  [90m│[39m
+[90m│[39m  [2mtrue[22m  [90m│[39m
+[90m│[39m        [90m│[39m
+[90m├────────╯[39m
+",
+]
+`;
+
+exports[`Note > can render string message 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0m[0m [90m────╮[39m
+[90m│[39m       [90m│[39m
+[90m│[39m  [2mfoo[22m  [90m│[39m
+[90m│[39m       [90m│[39m
+[90m├───────╯[39m
+",
+]
+`;
