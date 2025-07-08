@@ -86,6 +86,9 @@ importers:
       vitest:
         specifier: ^3.1.1
         version: 3.1.1(@types/node@18.16.0)
+      vitest-ansi-serializer:
+        specifier: ^0.1.2
+        version: 0.1.2(vitest@3.1.1(@types/node@18.16.0))
 
   packages/prompts:
     dependencies:
