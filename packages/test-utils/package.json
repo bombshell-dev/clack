@@ -1,0 +1,40 @@
+{
+  "name": "@clack/test-utils",
+  "private": true,
+  "version": "1.0.0-alpha.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bombshell-dev/clack.git",
+    "directory": "packages/test-utils"
+  },
+  "bugs": {
+    "url": "https://github.com/bombshell-dev/clack/issues"
+  },
+  "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/test-utils#readme",
+  "files": ["dist", "CHANGELOG.md"],
+  "author": {
+    "name": "James Garbutt",
+    "url": "https://github.com/43081j"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@9.14.2",
+  "scripts": {
+    "build": "tsc",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

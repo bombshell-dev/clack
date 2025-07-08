@@ -9,7 +9,7 @@ async function main() {
 		message: 'Enter your name (letters and spaces only)',
 		initialValue: 'John123', // Invalid initial value with numbers
 		validate: (value) => {
-			if (!/^[a-zA-Z\s]+$/.test(value)) return 'Name can only contain letters and spaces';
+			if (!value || !/^[a-zA-Z\s]+$/.test(value)) return 'Name can only contain letters and spaces';
 			return undefined;
 		},
 	});
@@ -25,7 +25,7 @@ async function main() {
 		message: 'Enter another name (letters and spaces only)',
 		initialValue: 'John Doe', // Valid initial value
 		validate: (value) => {
-			if (!/^[a-zA-Z\s]+$/.test(value)) return 'Name can only contain letters and spaces';
+			if (!value || !/^[a-zA-Z\s]+$/.test(value)) return 'Name can only contain letters and spaces';
 			return undefined;
 		},
 	});
