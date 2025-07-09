@@ -9,23 +9,25 @@ export interface NoteProps extends NoteOptions {
 	title?: string;
 }
 
-export async function Note(props: NoteProps): Promise<void> {
-	let message = '';
+export function Note(props: NoteProps): () => Promise<void> {
+	return async () => {
+		let message = '';
 
-	if (props.children) {
-		const messages: string[] = [];
-		const children = await resolveChildren(props.children);
-		for (const child of children) {
-			// TODO (43081j): handle cancelling of children
-			if (isCancel(child)) {
-				continue;
+		if (props.children) {
+			const messages: string[] = [];
+			const children = await resolveChildren(props.children);
+			for (const child of children) {
+				// TODO (43081j): handle cancelling of children
+				if (isCancel(child)) {
+					continue;
+				}
+				messages.push(String(child));
 			}
-			messages.push(String(child));
+			message = messages.join('\n');
+		} else if (props.message) {
+			message = props.message;
 		}
-		message = messages.join('\n');
-	} else if (props.message) {
-		message = props.message;
-	}
 
-	note(message, props.title, props);
+		note(message, props.title, props);
+	};
 }

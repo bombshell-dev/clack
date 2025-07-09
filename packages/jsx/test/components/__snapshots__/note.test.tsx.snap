@@ -46,12 +46,6 @@ exports[`Note > can render multiple children as message 1`] = `
 [36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
 [36m└[39m
 ",
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  say yes again
-[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
-[36m└[39m
-",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",
@@ -60,6 +54,12 @@ exports[`Note > can render multiple children as message 1`] = `
   "
 ",
   "<cursor.show>",
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  say yes again
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
   "<erase.down>",

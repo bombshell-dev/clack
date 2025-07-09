@@ -7,7 +7,7 @@ export async function resolveChildren(
 	const results: unknown[] = [];
 
 	for (const child of arr) {
-		const result = await child;
+		const result = typeof child === 'string' ? child : await child();
 
 		results.push(result);
 	}

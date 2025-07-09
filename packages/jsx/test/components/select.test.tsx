@@ -1,4 +1,4 @@
-import { MockReadable, MockWritable } from '@clack/test-utils';
+import { MockReadable, MockWritable, nextTick } from '@clack/test-utils';
 import { beforeEach, describe, expect, test } from 'vitest';
 import { Option, Select } from '../../src/index.js';
 
@@ -17,11 +17,9 @@ describe('Select', () => {
 				<Option value={'opt0'} />
 				<Option value={'opt1'} />
 			</Select>
-		);
+		)();
 
-		// wait a tick... sad times
-		await new Promise((res) => setTimeout(res, 0));
-
+		await nextTick();
 		input.emit('keypress', '', { name: 'return' });
 
 		const result = await task;
@@ -36,11 +34,9 @@ describe('Select', () => {
 				<Option value={303}>Three o three</Option>
 				<Option value={808}>Eight o eight</Option>
 			</Select>
-		);
+		)();
 
-		// wait a tick... sad times
-		await new Promise((res) => setTimeout(res, 0));
-
+		await nextTick();
 		input.emit('keypress', '', { name: 'return' });
 
 		const result = await task;
@@ -59,11 +55,9 @@ describe('Select', () => {
 					Eight o eight
 				</Option>
 			</Select>
-		);
+		)();
 
-		// wait a tick... sad times
-		await new Promise((res) => setTimeout(res, 0));
-
+		await nextTick();
 		input.emit('keypress', '', { name: 'return' });
 
 		const result = await task;

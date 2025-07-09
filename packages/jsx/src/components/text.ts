@@ -3,6 +3,6 @@ import { text } from '@clack/prompts';
 
 export type TextProps = TextOptions;
 
-export function Text(props: TextProps): ReturnType<typeof text> {
-	return text(props);
+export function Text(props: TextProps): () => ReturnType<typeof text> {
+	return () => text(props);
 }

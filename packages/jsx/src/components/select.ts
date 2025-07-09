@@ -11,19 +11,21 @@ const isOptionLike = (obj: unknown): obj is Option<unknown> => {
 	return obj !== null && typeof obj === 'object' && Object.hasOwnProperty.call(obj, 'value');
 };
 
-export async function Select(props: SelectProps): ReturnType<typeof select> {
-	const { children, ...opts } = props;
-	const options: Option<unknown>[] = [];
-	const resolvedChildren = await resolveChildren(props.children);
+export function Select(props: SelectProps): () => ReturnType<typeof select> {
+	return async () => {
+		const { children, ...opts } = props;
+		const options: Option<unknown>[] = [];
+		const resolvedChildren = await resolveChildren(props.children);
 
-	for (const child of resolvedChildren) {
-		if (isOptionLike(child)) {
-			options.push(child);
+		for (const child of resolvedChildren) {
+			if (isOptionLike(child)) {
+				options.push(child);
+			}
 		}
-	}
 
-	return select({
-		...opts,
-		options,
-	});
+		return select({
+			...opts,
+			options,
+		});
+	};
 }

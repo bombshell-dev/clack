@@ -1,0 +1,73 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Field > renders and resolves children 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  enter some text
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  a█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  ab█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  enter some text
+[90m│[39m  [2mab[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`Field > resolves multiple children into array 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  enter some text
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  a█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  enter some text
+[90m│[39m  [2ma[22m",
+  "
+",
+  "<cursor.show>",
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  enter some more text
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  b█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  enter some more text
+[90m│[39m  [2mb[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;

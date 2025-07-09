@@ -16,14 +16,14 @@ describe('jsx', () => {
 			message: 'foo?',
 			input,
 			output,
-		});
+		})();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await task;
 		expect(result).to.equal(true);
 	});
 
 	test('can render JSX', async () => {
-		const task = <Confirm message="foo?" input={input} output={output} />;
+		const task = (<Confirm message="foo?" input={input} output={output} />)();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await task;
 		expect(result).to.equal(true);
@@ -31,7 +31,7 @@ describe('jsx', () => {
 
 	test('unknown elements are null', async () => {
 		const task = jsx('unknown-nonsense' as never, {} as never);
-		const result = await task;
+		const result = await task();
 		expect(result).to.equal(null);
 	});
 });

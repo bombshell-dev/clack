@@ -8,25 +8,27 @@ export interface OptionProps<T> {
 	children?: JSX.Element | JSX.Element[] | string;
 }
 
-export async function Option<T>(props: OptionProps<T>): Promise<PromptOption<T>> {
-	const { children, ...opts } = props;
+export function Option<T>(props: OptionProps<T>): () => Promise<PromptOption<T>> {
+	return async () => {
+		const { children, ...opts } = props;
 
-	if (children) {
-		const resolvedChildren = await resolveChildren(children);
-		const childStrings: string[] = [];
+		if (children) {
+			const resolvedChildren = await resolveChildren(children);
+			const childStrings: string[] = [];
 
-		for (const child of resolvedChildren) {
-			if (isCancel(child)) {
-				continue;
+			for (const child of resolvedChildren) {
+				if (isCancel(child)) {
+					continue;
+				}
+				childStrings.push(String(child));
 			}
-			childStrings.push(String(child));
+
+			return {
+				...opts,
+				label: childStrings.join('\n'),
+			} as PromptOption<T>;
 		}
 
-		return {
-			...opts,
-			label: childStrings.join('\n'),
-		} as PromptOption<T>;
-	}
-
-	return opts as PromptOption<T>;
+		return opts as PromptOption<T>;
+	};
 }

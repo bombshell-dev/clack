@@ -12,7 +12,7 @@ describe('Confirm', () => {
 	});
 
 	test('can set message', async () => {
-		const task = <Confirm message="foo?" input={input} output={output} />;
+		const task = (<Confirm message="foo?" input={input} output={output} />)();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await task;
 		expect(result).to.equal(true);
@@ -20,7 +20,7 @@ describe('Confirm', () => {
 	});
 
 	test('can set active text', async () => {
-		const task = <Confirm message="foo?" active="DO IT" input={input} output={output} />;
+		const task = (<Confirm message="foo?" active="DO IT" input={input} output={output} />)();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await task;
 		expect(result).to.equal(true);
@@ -28,7 +28,7 @@ describe('Confirm', () => {
 	});
 
 	test('can set inactive text', async () => {
-		const task = <Confirm message="foo?" inactive="DONT DO IT" input={input} output={output} />;
+		const task = (<Confirm message="foo?" inactive="DONT DO IT" input={input} output={output} />)();
 		input.emit('keypress', '', { name: 'return' });
 		const result = await task;
 		expect(result).to.equal(true);
