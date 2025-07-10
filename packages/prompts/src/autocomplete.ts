@@ -96,7 +96,6 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			const placeholder = opts.placeholder;
 			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
 
-			console.log(this.state);
 			// Handle different states
 			switch (this.state) {
 				case 'submit': {
@@ -276,7 +275,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Instructions
 					const instructions = [
 						`${color.dim('↑/↓')} to navigate`,
-						`${color.dim('←/→')} select all/inverse`,
+						`${color.dim('Ctrl+↑/↓')} select all/inverse`,
 						`${color.dim('Space:')} select`,
 						`${color.dim('Enter:')} confirm`,
 						`${color.dim('Type:')} to search`,

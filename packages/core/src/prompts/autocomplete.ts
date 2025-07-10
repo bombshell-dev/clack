@@ -140,11 +140,15 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		const isUpKey = key.name === 'up';
 		const isDownKey = key.name === 'down';
 		const isReturnKey = key.name === 'return';
-		const isLeft = key.name === 'left';
-		const isRight = key.name === 'right';
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
+			// shift up/down behavior
+			if (key.shift) {
+				this.#handleShiftNavigation(isUpKey);
+				return;
+			}
+
 			this.#cursor = Math.max(
 				0,
 				Math.min(this.#cursor + (isUpKey ? -1 : 1), this.filteredOptions.length - 1)
@@ -163,15 +167,6 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 					(key.name === 'tab' || (this.isNavigating && key.name === 'space'))
 				) {
 					this.toggleSelected(this.focusedValue);
-				} else if (isLeft) {
-					// set to none if all are selected
-					if (this.selectedValues.length === this.filteredOptions.length) {
-						this.deselectAll();
-					} else {
-						this.selectAll();
-					}
-				} else if (isRight) {
-					this.invertSelected();
 				} else {
 					this.isNavigating = false;
 				}
@@ -184,18 +179,41 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		}
 	}
 
-	selectAll() {
+	#handleShiftNavigation(isUpKey: boolean) {
+		// invert if Shift + Down
+		if (!isUpKey) {
+			this.invertSelectedFiltered();
+			return;
+		}
+
+		// set to none if all are selected
+		if (this.selectedValues.length === this.filteredOptions.length) {
+			this.deselectAllFiltered();
+			return;
+		}
+
+		this.selectAllFiltered();
+		return;
+	}
+
+	selectAllFiltered() {
 		this.selectedValues = this.filteredOptions.map((opt) => opt.value);
+	}
+
+	deselectAllFiltered() {
+		this.selectedValues = this.filteredOptions
+			.filter((opt) => !this.selectedValues.includes(opt.value))
+			.map((opt) => opt.value);
+	}
+
+	invertSelectedFiltered() {
+		this.selectedValues = this.filteredOptions
+			.filter((opt) => !this.selectedValues.includes(opt.value))
+			.map((opt) => opt.value);
 	}
 
 	deselectAll() {
 		this.selectedValues = [];
-	}
-
-	invertSelected() {
-		this.selectedValues = this.filteredOptions
-			.filter((opt) => !this.selectedValues.includes(opt.value))
-			.map((opt) => opt.value);
 	}
 
 	toggleSelected(value: T['value']) {

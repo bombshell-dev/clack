@@ -230,7 +230,7 @@ describe('autocompleteMultiselect', () => {
 			output,
 		});
 
-		input.emit('keypress', '', { name: 'left' });
+		input.emit('keypress', '', { name: 'up', shift: true });
 		input.emit('keypress', '', { name: 'return' });
 		await result;
 		expect(output.buffer).toMatchSnapshot();
@@ -245,8 +245,8 @@ describe('autocompleteMultiselect', () => {
 			output,
 		});
 
-		input.emit('keypress', '', { name: 'left' });
-		input.emit('keypress', '', { name: 'left' });
+		input.emit('keypress', '', { name: 'up', shift: true });
+		input.emit('keypress', '', { name: 'up', shift: true });
 		input.emit('keypress', '', { name: 'return' });
 		await result;
 		expect(output.buffer).toMatchSnapshot();
@@ -263,7 +263,7 @@ describe('autocompleteMultiselect', () => {
 
 		input.emit('keypress', '', { name: 'down' });
 		input.emit('keypress', '', { name: 'space' });
-		input.emit('keypress', '', { name: 'right' });
+		input.emit('keypress', '', { name: 'down', shift: true });
 		input.emit('keypress', '', { name: 'return' });
 		await result;
 		expect(output.buffer).toMatchSnapshot();
@@ -279,7 +279,7 @@ describe('autocompleteMultiselect', () => {
 		});
 
 		input.emit('keypress', 'r', { name: 'r' });
-		input.emit('keypress', '', { name: 'left' });
+		input.emit('keypress', '', { name: 'up', shift: true });
 		input.emit('keypress', '', { name: 'return' });
 		await result;
 		expect(output.buffer).toMatchSnapshot();
@@ -297,7 +297,7 @@ describe('autocompleteMultiselect', () => {
 		input.emit('keypress', 'r', { name: 'r' });
 		input.emit('keypress', '', { name: 'down' });
 		input.emit('keypress', '', { name: 'space' });
-		input.emit('keypress', '', { name: 'right' });
+		input.emit('keypress', '', { name: 'down', shift: true });
 		input.emit('keypress', '', { name: 'return' });
 		await result;
 		expect(output.buffer).toMatchSnapshot();

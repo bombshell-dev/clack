@@ -298,7 +298,7 @@ exports[`autocompleteMultiselect > all selection only applies to filtered option
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
@@ -307,16 +307,15 @@ exports[`autocompleteMultiselect > all selection only applies to filtered option
 [36m│[39m  [2m◻[22m Cherry
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
-  "<cursor.down count=3>",
+  "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m [7mr[27m[2m (3 matches)[22m
-[36m│[39m  [32m◼[39m Cherry
+  "[36m│[39m  [32m◼[39m Cherry
 [36m│[39m  [32m◼[39m [2mGrape[22m
 [36m│[39m  [32m◼[39m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
@@ -341,7 +340,7 @@ exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "
 ",
@@ -361,7 +360,7 @@ exports[`autocompleteMultiselect > everything can be selected with left arrow 1`
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
@@ -371,7 +370,7 @@ exports[`autocompleteMultiselect > everything can be selected with left arrow 1`
 [36m│[39m  [32m◼[39m [2mCherry[22m
 [36m│[39m  [32m◼[39m [2mGrape[22m
 [36m│[39m  [32m◼[39m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -396,7 +395,7 @@ exports[`autocompleteMultiselect > everything is deselected if left is pressed a
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
@@ -406,7 +405,7 @@ exports[`autocompleteMultiselect > everything is deselected if left is pressed a
 [36m│[39m  [32m◼[39m [2mCherry[22m
 [36m│[39m  [32m◼[39m [2mGrape[22m
 [36m│[39m  [32m◼[39m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
@@ -416,7 +415,7 @@ exports[`autocompleteMultiselect > everything is deselected if left is pressed a
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -441,7 +440,7 @@ exports[`autocompleteMultiselect > inverse can be selected with right arrow 1`] 
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
@@ -452,7 +451,7 @@ exports[`autocompleteMultiselect > inverse can be selected with right arrow 1`] 
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
@@ -467,7 +466,7 @@ exports[`autocompleteMultiselect > inverse can be selected with right arrow 1`] 
 [36m│[39m  [32m◼[39m [2mCherry[22m
 [36m│[39m  [32m◼[39m [2mGrape[22m
 [36m│[39m  [32m◼[39m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -492,7 +491,7 @@ exports[`autocompleteMultiselect > inversion only applies to filtered options 1`
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
@@ -501,7 +500,7 @@ exports[`autocompleteMultiselect > inversion only applies to filtered options 1`
 [36m│[39m  [2m◻[22m Cherry
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=3>",
@@ -510,7 +509,7 @@ exports[`autocompleteMultiselect > inversion only applies to filtered options 1`
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m Grape
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=5>",
@@ -523,7 +522,7 @@ exports[`autocompleteMultiselect > inversion only applies to filtered options 1`
   "[36m│[39m  [32m◼[39m [2mCherry[22m
 [36m│[39m  [2m◻[22m Grape
 [36m│[39m  [32m◼[39m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
@@ -548,7 +547,7 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -562,7 +561,7 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
@@ -575,7 +574,7 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
 [36m│[39m  [2m◻[22m [2mCherry[22m
 [36m│[39m  [2m◻[22m [2mGrape[22m
 [36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2m←/→[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mCtrl+↑/↓[22m[2m select all/inverse • [2mSpace:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
