@@ -275,7 +275,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Instructions
 					const instructions = [
 						`${color.dim('↑/↓')} to navigate`,
-						`${color.dim('Ctrl+↑/↓')} select all/inverse`,
+						`${color.dim('Shift+↑/↓')} select all/inverse`,
 						`${color.dim('Space:')} select`,
 						`${color.dim('Enter:')} confirm`,
 						`${color.dim('Type:')} to search`,
