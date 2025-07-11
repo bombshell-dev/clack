@@ -294,7 +294,7 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group0 = log.group('Group 0');
 			const group1 = log.group('Group 1');
@@ -311,7 +311,7 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group0 = log.group('Group 0');
 			const group1 = log.group('Group 1');
@@ -330,10 +330,10 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group = log.group('Group 0');
-			group.message(`Group 0 line 0`);
+			group.message('Group 0 line 0');
 			group.success('Group success!');
 
 			expect(output.buffer).toMatchSnapshot();
@@ -343,10 +343,10 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group = log.group('Group 0');
-			group.message(`Group 0 line 0`);
+			group.message('Group 0 line 0');
 			group.error('Group error!');
 
 			expect(output.buffer).toMatchSnapshot();
@@ -374,10 +374,10 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group = log.group('Group 0');
-			group.message(`Group 0 line 0`);
+			group.message('Group 0 line 0');
 			group.success('Group success!');
 
 			expect(output.buffer).toMatchSnapshot();
@@ -387,10 +387,10 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group = log.group('Group 0');
-			group.message(`Group 0 line 0`);
+			group.message('Group 0 line 0');
 			group.error('Group error!');
 
 			expect(output.buffer).toMatchSnapshot();
@@ -415,7 +415,7 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			group0.success('Group 0 success!');
 			group1.error('Group 1 error!');
 
-			log.error('overall error', {showLog: true});
+			log.error('overall error', { showLog: true });
 
 			expect(output.buffer).toMatchSnapshot();
 		});
@@ -424,7 +424,7 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			const log = prompts.taskLog({
 				title: 'Some log',
 				input,
-				output
+				output,
 			});
 			const group = log.group('Group 0');
 
