@@ -221,4 +221,86 @@ describe('autocompleteMultiselect', () => {
 		expect(isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('everything can be selected with left arrow', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'up', shift: true });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(output.buffer.toString()).toMatch('5 items selected');
+	});
+
+	test('everything is deselected if left is pressed again', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'up', shift: true });
+		input.emit('keypress', '', { name: 'up', shift: true });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(output.buffer.toString()).toMatch('0 items selected');
+	});
+
+	test('inverse can be selected with right arrow', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'down', shift: true });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(output.buffer.toString()).toMatch('4 items selected');
+	});
+
+	test('all selection only applies to filtered options', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'r', { name: 'r' });
+		input.emit('keypress', '', { name: 'up', shift: true });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(output.buffer.toString()).toMatch('3 items selected');
+	});
+
+	test('inversion only applies to filtered options', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'r', { name: 'r' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'down', shift: true });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(output.buffer.toString()).toMatch('2 items selected');
+	});
 });
