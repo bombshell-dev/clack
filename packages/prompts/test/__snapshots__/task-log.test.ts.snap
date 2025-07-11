@@ -46,6 +46,556 @@ exports[`taskLog (isCI = false) > error > renders output with message 1`] = `
 ]
 `;
 
+exports[`taskLog (isCI = false) > group > applies limit per group 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 2[22m
+[90m│[39m  [2mGroup 0 line 3[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 2[22m
+[90m│[39m  [2mGroup 0 line 3[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 3[22m
+[90m│[39m  [2mGroup 0 line 4[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 3[22m
+[90m│[39m  [2mGroup 0 line 4[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > can render multiple groups of different sizes 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > can render multiple groups of equal size 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+[90m│[39m  [2mGroup 0 line 3[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+[90m│[39m  [2mGroup 0 line 3[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+[90m│[39m  [2mGroup 0 line 3[22m
+[90m│[39m  [2mGroup 0 line 4[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+[90m│[39m  [2mGroup 0 line 3[22m
+[90m│[39m  [2mGroup 0 line 4[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > handles empty groups 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[32m◆[39m  Group success!
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > renders error state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[31m■[39m  Group error!
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > renders group error state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[31m■[39m  Group error!
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > renders group success state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[32m◆[39m  Group success!
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > renders success state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[32m◆[39m  Group success!
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > group > showLog shows all groups in order 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[32m◆[39m  Group 0 success!
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[32m◆[39m  Group 0 success!
+",
+  "[31m■[39m  Group 1 error!
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m
+[31m■[39m  overall error
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m
+[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m
+[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
+",
+]
+`;
+
 exports[`taskLog (isCI = false) > message > can write line by line 1`] = `
 [
   "[90m│[39m
@@ -105,8 +655,6 @@ exports[`taskLog (isCI = false) > message > prints empty lines 1`] = `
   "[32m◇[39m  foo
 ",
   "[90m│[39m
-",
-  "[90m│[39m  [2m[22m
 ",
   "[90m│[39m  [2mline 1[22m
 ",
@@ -626,6 +1174,163 @@ exports[`taskLog (isCI = true) > error > renders output with message 1`] = `
   "[90m│[39m
 [90m│[39m  [2mline 0[22m
 [90m│[39m  [2mline 1[22m
+",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > applies limit per group 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > can render multiple groups of different sizes 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > can render multiple groups of equal size 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > handles empty groups 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > renders error state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > renders group error state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > renders group success state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > renders success state 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > group > showLog shows all groups in order 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  Some log
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m
+[31m■[39m  overall error
+",
+  "[90m│[39m  [1mGroup 0[22m
+",
+  "[90m│[39m
+[90m│[39m  [2mGroup 0 line 0[22m
+[90m│[39m  [2mGroup 0 line 1[22m
+[90m│[39m  [2mGroup 0 line 2[22m
+",
+  "[90m│[39m  [1mGroup 1[22m
+",
+  "[90m│[39m
+[90m│[39m  [2mGroup 1 line 0[22m
+[90m│[39m  [2mGroup 1 line 1[22m
+[90m│[39m  [2mGroup 1 line 2[22m
+[90m│[39m  [2mGroup 1 line 3[22m
+[90m│[39m  [2mGroup 1 line 4[22m
 ",
 ]
 `;

@@ -18,6 +18,7 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 
 	beforeEach(() => {
 		output = new MockWritable();
+		output.isTTY = isCI === 'false';
 		input = new MockReadable();
 	});
 
@@ -125,7 +126,6 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 				title: 'foo',
 			});
 
-			log.message('');
 			log.message('line 1');
 			log.message('');
 			log.message('line 3');
@@ -286,6 +286,151 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 
 				expect(output.buffer).toMatchSnapshot();
 			});
+		});
+	});
+
+	describe('group', () => {
+		test('can render multiple groups of equal size', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group0 = log.group('Group 0');
+			const group1 = log.group('Group 1');
+
+			for (let i = 0; i < 5; i++) {
+				group0.message(`Group 0 line ${i}`);
+				group1.message(`Group 1 line ${i}`);
+			}
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('can render multiple groups of different sizes', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group0 = log.group('Group 0');
+			const group1 = log.group('Group 1');
+
+			for (let i = 0; i < 3; i++) {
+				group0.message(`Group 0 line ${i}`);
+			}
+			for (let i = 0; i < 5; i++) {
+				group1.message(`Group 1 line ${i}`);
+			}
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders success state', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group = log.group('Group 0');
+			group.message(`Group 0 line 0`);
+			group.success('Group success!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders error state', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group = log.group('Group 0');
+			group.message(`Group 0 line 0`);
+			group.error('Group error!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('applies limit per group', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output,
+				limit: 2,
+			});
+			const group0 = log.group('Group 0');
+			const group1 = log.group('Group 1');
+
+			for (let i = 0; i < 5; i++) {
+				group0.message(`Group 0 line ${i}`);
+				group1.message(`Group 1 line ${i}`);
+			}
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders group success state', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group = log.group('Group 0');
+			group.message(`Group 0 line 0`);
+			group.success('Group success!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders group error state', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group = log.group('Group 0');
+			group.message(`Group 0 line 0`);
+			group.error('Group error!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('showLog shows all groups in order', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output,
+			});
+			const group0 = log.group('Group 0');
+			const group1 = log.group('Group 1');
+
+			for (let i = 0; i < 3; i++) {
+				group0.message(`Group 0 line ${i}`);
+			}
+			for (let i = 0; i < 5; i++) {
+				group1.message(`Group 1 line ${i}`);
+			}
+
+			group0.success('Group 0 success!');
+			group1.error('Group 1 error!');
+
+			log.error('overall error', {showLog: true});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('handles empty groups', async () => {
+			const log = prompts.taskLog({
+				title: 'Some log',
+				input,
+				output
+			});
+			const group = log.group('Group 0');
+
+			group.success('Group success!');
+
+			expect(output.buffer).toMatchSnapshot();
 		});
 	});
 });
