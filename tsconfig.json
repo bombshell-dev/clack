@@ -15,6 +15,5 @@
     "paths": {
       "@clack/core": ["./packages/core/src"]
     }
-  },
-  "include": ["packages"]
+  }
 }
