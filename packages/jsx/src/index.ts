@@ -34,13 +34,7 @@ export function Fragment(props: { children: JSX.Element | JSX.Element[] }): JSX.
 	};
 }
 
-export type Component =
-	| typeof Confirm
-	| typeof Note
-	| typeof Text
-	| typeof Password
-	| typeof Option
-	| typeof Select;
+export type Component = (props: never) => JSX.Element;
 
 function jsx<T extends keyof JSX.IntrinsicElements>(
 	tag: T,
