@@ -12,7 +12,8 @@ describe('Text', () => {
 	});
 
 	test('renders text input', async () => {
-		const task = (<Text message="foo" output={output} input={input} />)();
+		const element = <Text message="foo" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', '', { name: 'return' });
 
@@ -23,7 +24,8 @@ describe('Text', () => {
 	});
 
 	test('can set placeholder', async () => {
-		const task = (<Text message="foo" placeholder="bar" output={output} input={input} />)();
+		const element = <Text message="foo" placeholder="bar" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', '', { name: 'return' });
 
@@ -34,7 +36,8 @@ describe('Text', () => {
 	});
 
 	test('can set default value', async () => {
-		const task = (<Text message="foo" defaultValue="bar" output={output} input={input} />)();
+		const element = <Text message="foo" defaultValue="bar" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', '', { name: 'return' });
 
@@ -45,7 +48,8 @@ describe('Text', () => {
 	});
 
 	test('can set initial value', async () => {
-		const task = (<Text message="foo" initialValue="bar" output={output} input={input} />)();
+		const element = <Text message="foo" initialValue="bar" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', '', { name: 'return' });
 

@@ -12,12 +12,13 @@ describe('Select', () => {
 	});
 
 	test('renders options', async () => {
-		const task = (
-			<Select message="foo" input={input} output={output}>
+		const element = (
+			<Select message="foo">
 				<Option value={'opt0'} />
 				<Option value={'opt1'} />
 			</Select>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		await nextTick();
 		input.emit('keypress', '', { name: 'return' });
@@ -29,12 +30,13 @@ describe('Select', () => {
 	});
 
 	test('renders options with labels', async () => {
-		const task = (
-			<Select message="foo" input={input} output={output}>
+		const element = (
+			<Select message="foo">
 				<Option value={303}>Three o three</Option>
 				<Option value={808}>Eight o eight</Option>
 			</Select>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		await nextTick();
 		input.emit('keypress', '', { name: 'return' });
@@ -46,8 +48,8 @@ describe('Select', () => {
 	});
 
 	test('renders options with hints', async () => {
-		const task = (
-			<Select message="foo" input={input} output={output}>
+		const element = (
+			<Select message="foo">
 				<Option value={303} hint="hint one">
 					Three o three
 				</Option>
@@ -55,7 +57,8 @@ describe('Select', () => {
 					Eight o eight
 				</Option>
 			</Select>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		await nextTick();
 		input.emit('keypress', '', { name: 'return' });

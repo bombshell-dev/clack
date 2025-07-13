@@ -12,30 +12,32 @@ export interface FieldProps {
 	children?: JSX.Element | JSX.Element[] | string;
 }
 
-export function Field(props: FieldProps): () => Promise<FieldResult> {
-	return async () => {
-		let value: unknown = undefined;
+export function Field(props: FieldProps): JSX.Element {
+	return {
+		render: async (options) => {
+			let value: unknown = undefined;
 
-		if (props.children) {
-			const resolvedChildren = await resolveChildren(props.children);
-			const valueArr: unknown[] = [];
+			if (props.children) {
+				const resolvedChildren = await resolveChildren(props.children, options);
+				const valueArr: unknown[] = [];
 
-			for (const child of resolvedChildren) {
-				if (!isCancel(child)) {
-					valueArr.push(child);
+				for (const child of resolvedChildren) {
+					if (!isCancel(child)) {
+						valueArr.push(child);
+					}
+				}
+
+				if (valueArr.length === 1) {
+					value = valueArr[0];
+				} else {
+					value = valueArr;
 				}
 			}
 
-			if (valueArr.length === 1) {
-				value = valueArr[0];
-			} else {
-				value = valueArr;
-			}
-		}
-
-		return {
-			name: props.name,
-			value,
-		};
+			return {
+				name: props.name,
+				value,
+			};
+		},
 	};
 }

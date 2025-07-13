@@ -12,13 +12,14 @@ describe('Form', () => {
 	});
 
 	test('renders and resolves object', async () => {
-		const task = (
+		const element = (
 			<Form>
 				<Field name="foo">
-					<Text message="enter some text" output={output} input={input} />
+					<Text message="enter some text" />
 				</Field>
 			</Form>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', 'b', { name: 'b' });
@@ -32,16 +33,17 @@ describe('Form', () => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 	test('renders and resolves multiple fields', async () => {
-		const task = (
+		const element = (
 			<Form>
 				<Field name="foo">
-					<Text message="enter some text" output={output} input={input} />
+					<Text message="enter some text" />
 				</Field>
 				<Field name="bar">
-					<Text message="enter some other text" output={output} input={input} />
+					<Text message="enter some other text" />
 				</Field>
 			</Form>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', '', { name: 'return' });

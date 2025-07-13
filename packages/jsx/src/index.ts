@@ -6,7 +6,7 @@ import { Option, type OptionProps } from './components/option.js';
 import { Password, type PasswordProps } from './components/password.js';
 import { Select, type SelectProps } from './components/select.js';
 import { Text, type TextProps } from './components/text.js';
-import type { JSX } from './types.js';
+import type { JSX, RenderFunction, RenderOptions } from './types.js';
 
 export type { JSX };
 export {
@@ -29,7 +29,9 @@ export {
 };
 
 export function Fragment(props: { children: JSX.Element | JSX.Element[] }): JSX.Element {
-	return () => Promise.resolve(props.children);
+	return {
+		render: () => Promise.resolve(props.children),
+	};
 }
 
 export type Component =
@@ -47,11 +49,21 @@ function jsx<T extends keyof JSX.IntrinsicElements>(
 ): JSX.Element;
 function jsx<T extends Component>(fn: T, props: Parameters<T>[0], _key?: string): JSX.Element;
 function jsx(tagOrFn: string | Component, props: unknown, _key?: string): JSX.Element {
+	let render: RenderFunction;
 	if (typeof tagOrFn === 'function') {
-		return (tagOrFn as (props: unknown) => JSX.Element)(props);
+		const renderFn = (tagOrFn as (props: unknown) => JSX.Element)(props);
+		render = (options) => renderFn.render(options);
+	} else {
+		render = () => Promise.resolve(null);
 	}
-	return () => Promise.resolve(null);
+	return {
+		render,
+	};
 }
 
 export { jsx };
 export const jsxDEV = jsx;
+
+export async function render(node: JSX.Element, options?: RenderOptions): Promise<void> {
+	await node.render(options);
+}

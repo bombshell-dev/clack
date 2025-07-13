@@ -12,7 +12,8 @@ describe('Password', () => {
 	});
 
 	test('renders password input', async () => {
-		const task = (<Password message="foo" output={output} input={input} />)();
+		const element = <Password message="foo" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', '', { name: 'return' });
 
@@ -23,7 +24,8 @@ describe('Password', () => {
 	});
 
 	test('renders user input', async () => {
-		const task = (<Password message="foo" output={output} input={input} />)();
+		const element = <Password message="foo" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', 'b', { name: 'b' });
@@ -36,7 +38,8 @@ describe('Password', () => {
 	});
 
 	test('can set custom mask', async () => {
-		const task = (<Password message="foo" mask="!" output={output} input={input} />)();
+		const element = <Password message="foo" mask="!" />;
+		const task = element.render({ input, output });
 
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', 'b', { name: 'b' });

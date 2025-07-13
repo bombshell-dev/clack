@@ -12,11 +12,12 @@ describe('Field', () => {
 	});
 
 	test('renders and resolves children', async () => {
-		const task = (
+		const element = (
 			<Field name="foo">
-				<Text message="enter some text" output={output} input={input} />
+				<Text message="enter some text" />
 			</Field>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', 'b', { name: 'b' });
@@ -32,12 +33,13 @@ describe('Field', () => {
 	});
 
 	test('resolves multiple children into array', async () => {
-		const task = (
+		const element = (
 			<Field name="foo">
-				<Text message="enter some text" output={output} input={input} />
-				<Text message="enter some more text" output={output} input={input} />
+				<Text message="enter some text" />
+				<Text message="enter some more text" />
 			</Field>
-		)();
+		);
+		const task = element.render({ input, output });
 
 		input.emit('keypress', 'a', { name: 'a' });
 		input.emit('keypress', '', { name: 'return' });

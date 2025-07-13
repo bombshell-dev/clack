@@ -10,24 +10,26 @@ function isChildLike(child: unknown): child is { name: PropertyKey; value: unkno
 	return typeof child === 'object' && child !== null && 'name' in child && 'value' in child;
 }
 
-export function Form(props: FormProps): () => Promise<Record<PropertyKey, unknown>> {
-	return async () => {
-		const results: Record<PropertyKey, unknown> = {};
+export function Form(props: FormProps): JSX.Element {
+	return {
+		render: async (options) => {
+			const results: Record<PropertyKey, unknown> = {};
 
-		if (props.children) {
-			const resolvedChildren = await resolveChildren(props.children);
+			if (props.children) {
+				const resolvedChildren = await resolveChildren(props.children, options);
 
-			for (const child of resolvedChildren) {
-				if (isCancel(child)) {
-					continue;
-				}
+				for (const child of resolvedChildren) {
+					if (isCancel(child)) {
+						continue;
+					}
 
-				if (isChildLike(child)) {
-					results[child.name] = child.value;
+					if (isChildLike(child)) {
+						results[child.name] = child.value;
+					}
 				}
 			}
-		}
 
-		return results;
+			return results;
+		},
 	};
 }
