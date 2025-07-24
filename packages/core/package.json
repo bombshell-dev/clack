@@ -21,7 +21,10 @@
     "url": "https://github.com/bombshell-dev/clack/issues"
   },
   "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/core#readme",
-  "files": ["dist", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "ask",
     "clack",
@@ -54,7 +57,7 @@
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
-    "vitest": "^3.1.1",
+    "vitest": "^3.2.4",
     "wrap-ansi": "^8.1.0"
   }
 }
