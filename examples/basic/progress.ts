@@ -4,7 +4,7 @@ import type { ProgressResult } from '@clack/prompts';
 
 async function fakeProgress(progressbar: ProgressResult): Promise<void> {
 	await setTimeout(1000);
-	for (const i in Array(10).fill(1)) {
+	for (const _i in Array(10).fill(1)) {
 		progressbar.advance();
 		await setTimeout(100 + Math.random() * 500);
 	}
