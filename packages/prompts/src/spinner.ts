@@ -44,7 +44,7 @@ export const spinner = ({
 	let isSpinnerActive = false;
 	let isCancelled = false;
 	let _message = '';
-	let _prevMessage: string | undefined = undefined;
+	let _prevMessage: string | undefined ;
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {

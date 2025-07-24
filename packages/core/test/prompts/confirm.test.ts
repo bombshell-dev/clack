@@ -1,4 +1,4 @@
-import color from 'picocolors';
+
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as ConfirmPrompt } from '../../src/prompts/confirm.js';
