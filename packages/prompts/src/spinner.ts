@@ -3,11 +3,11 @@ import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
+	isCI as isCIFn,
 	S_BAR,
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
-	isCI as isCIFn,
 	unicode,
 } from './common.js';
 
@@ -44,7 +44,7 @@ export const spinner = ({
 	let isSpinnerActive = false;
 	let isCancelled = false;
 	let _message = '';
-	let _prevMessage: string | undefined ;
+	let _prevMessage: string | undefined;
 	let _origin: number = performance.now();
 
 	const handleExit = (code: number) => {

@@ -1,4 +1,3 @@
-
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as SelectPrompt } from '../../src/prompts/select.js';

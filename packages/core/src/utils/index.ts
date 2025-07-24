@@ -6,8 +6,8 @@ import { ReadStream, WriteStream } from 'node:tty';
 import { cursor } from 'sisteransi';
 import { isActionKey } from './settings.js';
 
-export * from './string.js';
 export * from './settings.js';
+export * from './string.js';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 

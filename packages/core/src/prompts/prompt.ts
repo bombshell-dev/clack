@@ -3,11 +3,9 @@ import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
 import { cursor, erase } from 'sisteransi';
 import wrap from 'wrap-ansi';
-
-import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
-
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
+import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;

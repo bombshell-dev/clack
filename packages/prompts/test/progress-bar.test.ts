@@ -1,8 +1,8 @@
 import process from 'node:process';
 import { EventEmitter } from 'node:stream';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from '../src/index.js';
 import type { ProgressOptions } from '../src/index.js';
+import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
 
 describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
