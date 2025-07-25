@@ -1,6 +1,6 @@
 {
   "name": "@clack/prompts",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",

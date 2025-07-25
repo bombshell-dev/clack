@@ -1,5 +1,19 @@
 # @clack/prompts
 
+## 1.0.0-alpha.2
+
+### Minor Changes
+
+- f10071e: Using the `group` method, task logs can now have groups which themselves can have scrolling windows of logs.
+
+### Patch Changes
+
+- 282b39e: Wrap spinner output to allow for multi-line/wrapped messages.
+- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
+- 17d3650: Use a default import for picocolors to avoid run time errors in some environments.
+- Updated dependencies [7df841d]
+  - @clack/core@1.0.0-alpha.2
+
 ## 1.0.0-alpha.1
 
 ### Minor Changes
