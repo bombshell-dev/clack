@@ -1,9 +1,31 @@
 import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
 import wrap from 'wrap-ansi';
-import type { CommonOptions } from './common.js';
+import {
+	type CommonOptions,
+	S_BAR,
+	S_BAR_END,
+	S_BAR_END_RIGHT,
+	S_BAR_H,
+	S_BAR_START,
+	S_BAR_START_RIGHT,
+	S_CORNER_BOTTOM_LEFT,
+	S_CORNER_BOTTOM_RIGHT,
+	S_CORNER_TOP_LEFT,
+	S_CORNER_TOP_RIGHT,
+} from './common.js';
 
 export type BoxAlignment = 'left' | 'center' | 'right';
+
+type BoxSymbols = [topLeft: string, topRight: string, bottomLeft: string, bottomRight: string];
+
+const roundedSymbols: BoxSymbols = [
+	S_CORNER_TOP_LEFT,
+	S_CORNER_TOP_RIGHT,
+	S_CORNER_BOTTOM_LEFT,
+	S_CORNER_BOTTOM_RIGHT,
+];
+const squareSymbols: BoxSymbols = [S_BAR_START, S_BAR_START_RIGHT, S_BAR_END, S_BAR_END_RIGHT];
 
 export interface BoxOptions extends CommonOptions {
 	format?: (line: string) => string;
@@ -12,6 +34,7 @@ export interface BoxOptions extends CommonOptions {
 	width?: number | 'auto';
 	titlePadding?: number;
 	contentPadding?: number;
+	rounded?: boolean;
 }
 
 function getPaddingForLine(
@@ -41,6 +64,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const titlePadding = opts?.titlePadding ?? 1;
 	const contentPadding = opts?.contentPadding ?? 2;
 	const width = opts?.width === undefined || opts.width === 'auto' ? 1 : opts.width;
+	const symbols = opts?.rounded ? roundedSymbols : squareSymbols;
 	let boxWidth = Math.floor(columns * width);
 	if (opts?.width === 'auto') {
 		const lines = message.split('\n');
@@ -73,7 +97,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 		trim: false,
 	});
 	output.write(
-		`C${'-'.repeat(titlePaddingLeft)}${truncatedTitle}${'-'.repeat(titlePaddingRight)}C\n`
+		`${symbols[0]}${S_BAR_H.repeat(titlePaddingLeft)}${truncatedTitle}${S_BAR_H.repeat(titlePaddingRight)}${symbols[1]}\n`
 	);
 	const wrappedLines = wrappedMessage.split('\n');
 	for (const line of wrappedLines) {
@@ -83,7 +107,9 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 			contentPadding,
 			opts?.contentAlign
 		);
-		output.write(`|${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}|\n`);
+		output.write(
+			`${S_BAR}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${S_BAR}\n`
+		);
 	}
-	output.write(`C${'-'.repeat(innerWidth)}C\n`);
+	output.write(`${symbols[2]}${S_BAR_H.repeat(innerWidth)}${symbols[3]}\n`);
 };
