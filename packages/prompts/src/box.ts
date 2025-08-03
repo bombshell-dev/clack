@@ -35,6 +35,7 @@ export interface BoxOptions extends CommonOptions {
 	titlePadding?: number;
 	contentPadding?: number;
 	rounded?: boolean;
+	includePrefix?: boolean;
 }
 
 function getPaddingForLine(
@@ -64,8 +65,9 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const titlePadding = opts?.titlePadding ?? 1;
 	const contentPadding = opts?.contentPadding ?? 2;
 	const width = opts?.width === undefined || opts.width === 'auto' ? 1 : opts.width;
+	const linePrefix = opts?.includePrefix ? '' : `${S_BAR} `;
 	const symbols = opts?.rounded ? roundedSymbols : squareSymbols;
-	let boxWidth = Math.floor(columns * width);
+	let boxWidth = Math.floor(columns * width) - linePrefix.length;
 	if (opts?.width === 'auto') {
 		const lines = message.split('\n');
 		let longestLine = 0;
@@ -97,7 +99,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 		trim: false,
 	});
 	output.write(
-		`${symbols[0]}${S_BAR_H.repeat(titlePaddingLeft)}${truncatedTitle}${S_BAR_H.repeat(titlePaddingRight)}${symbols[1]}\n`
+		`${linePrefix}${symbols[0]}${S_BAR_H.repeat(titlePaddingLeft)}${truncatedTitle}${S_BAR_H.repeat(titlePaddingRight)}${symbols[1]}\n`
 	);
 	const wrappedLines = wrappedMessage.split('\n');
 	for (const line of wrappedLines) {
@@ -108,8 +110,8 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 			opts?.contentAlign
 		);
 		output.write(
-			`${S_BAR}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${S_BAR}\n`
+			`${linePrefix}${S_BAR}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${S_BAR}\n`
 		);
 	}
-	output.write(`${symbols[2]}${S_BAR_H.repeat(innerWidth)}${symbols[3]}\n`);
+	output.write(`${linePrefix}${symbols[2]}${S_BAR_H.repeat(innerWidth)}${symbols[3]}\n`);
 };
