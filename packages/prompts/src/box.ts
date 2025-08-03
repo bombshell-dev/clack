@@ -28,7 +28,6 @@ const roundedSymbols: BoxSymbols = [
 const squareSymbols: BoxSymbols = [S_BAR_START, S_BAR_START_RIGHT, S_BAR_END, S_BAR_END_RIGHT];
 
 export interface BoxOptions extends CommonOptions {
-	format?: (line: string) => string;
 	contentAlign?: BoxAlignment;
 	titleAlign?: BoxAlignment;
 	width?: number | 'auto';
@@ -64,30 +63,36 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const borderTotalWidth = borderWidth * 2;
 	const titlePadding = opts?.titlePadding ?? 1;
 	const contentPadding = opts?.contentPadding ?? 2;
-	const width = opts?.width === undefined || opts.width === 'auto' ? 1 : opts.width;
-	const linePrefix = opts?.includePrefix ? '' : `${S_BAR} `;
+	const width = opts?.width === undefined || opts.width === 'auto' ? 1 : Math.min(1, opts.width);
+	const linePrefix = opts?.includePrefix ? `${S_BAR} ` : '';
 	const symbols = opts?.rounded ? roundedSymbols : squareSymbols;
+	const maxBoxWidth = columns - linePrefix.length;
 	let boxWidth = Math.floor(columns * width) - linePrefix.length;
 	if (opts?.width === 'auto') {
 		const lines = message.split('\n');
-		let longestLine = 0;
+		let longestLine = title.length + titlePadding * 2;
 		for (const line of lines) {
-			if (line.length > longestLine) {
-				longestLine = line.length;
+			const lineWithPadding = line.length + contentPadding * 2;
+			if (lineWithPadding > longestLine) {
+				longestLine = lineWithPadding;
 			}
 		}
-		const longestLineWidth = longestLine + borderTotalWidth + contentPadding * 2;
+		const longestLineWidth = longestLine + borderTotalWidth;
 		if (longestLineWidth < boxWidth) {
 			boxWidth = longestLineWidth;
 		}
 	}
 	if (boxWidth % 2 !== 0) {
-		boxWidth--;
+		if (boxWidth < maxBoxWidth) {
+			boxWidth++;
+		} else {
+			boxWidth--;
+		}
 	}
-	const maxTitleLength = boxWidth - borderTotalWidth - titlePadding * 2;
+	const innerWidth = boxWidth - borderTotalWidth;
+	const maxTitleLength = innerWidth - titlePadding * 2;
 	const truncatedTitle =
 		title.length > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
-	const innerWidth = boxWidth - borderTotalWidth;
 	const [titlePaddingLeft, titlePaddingRight] = getPaddingForLine(
 		truncatedTitle.length,
 		innerWidth,

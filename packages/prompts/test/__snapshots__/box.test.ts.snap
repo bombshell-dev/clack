@@ -1,0 +1,443 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`box (isCI = false) > cannot have width larger than 100% 1`] = `
+[
+  "┌─title────────────────────────────────────────────────────────────────────────┐
+",
+  "│  message                                                                     │
+",
+  "└──────────────────────────────────────────────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders as specified width 1`] = `
+[
+  "┌─title────────────────────────────────┐
+",
+  "│  short                               │
+",
+  "│  somewhat questionably long line     │
+",
+  "└──────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders as wide as longest line with width: auto 1`] = `
+[
+  "┌─title──────────────────────────────┐
+",
+  "│  short                             │
+",
+  "│  somewhat questionably long line   │
+",
+  "└────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders auto width with content longer than title 1`] = `
+[
+  "┌─title──────────────────────────┐
+",
+  "│  messagemessagemessagemessage  │
+",
+  "└────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders auto width with title longer than content 1`] = `
+[
+  "┌─titletitletitletitle─┐
+",
+  "│  message             │
+",
+  "└──────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders center aligned content 1`] = `
+[
+  "┌─title──────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders center aligned title 1`] = `
+[
+  "┌───title────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders left aligned content 1`] = `
+[
+  "┌─title──────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders left aligned title 1`] = `
+[
+  "┌─title──────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders message 1`] = `
+[
+  "┌──────────────────────────────────────────────────────────────────────────────┐
+",
+  "│  message                                                                     │
+",
+  "└──────────────────────────────────────────────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders message with title 1`] = `
+[
+  "┌─some title───────────────────────────────────────────────────────────────────┐
+",
+  "│  message                                                                     │
+",
+  "└──────────────────────────────────────────────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders right aligned content 1`] = `
+[
+  "┌─title──────┐
+",
+  "│   message  │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders right aligned title 1`] = `
+[
+  "┌──────title─┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders rounded corners when rounded is true 1`] = `
+[
+  "╭─title──────╮
+",
+  "│  message   │
+",
+  "╰────────────╯
+",
+]
+`;
+
+exports[`box (isCI = false) > renders specified contentPadding 1`] = `
+[
+  "┌─title──────────────┐
+",
+  "│      message       │
+",
+  "└────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders specified titlePadding 1`] = `
+[
+  "┌──────title───────┐
+",
+  "│  message         │
+",
+  "└──────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders truncated long titles 1`] = `
+[
+  "┌─foofoofoo...─┐
+",
+  "│  message     │
+",
+  "└──────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > renders with prefix when includePrefix is true 1`] = `
+[
+  "│ ┌─title──────┐
+",
+  "│ │  message   │
+",
+  "│ └────────────┘
+",
+]
+`;
+
+exports[`box (isCI = false) > wraps content to fit within specified width 1`] = `
+[
+  "┌─title────────────────────────────────┐
+",
+  "│  foo barfoo barfoo barfoo barfoo     │
+",
+  "│  barfoo barfoo barfoo barfoo barfoo  │
+",
+  "│   barfoo barfoo barfoo barfoo        │
+",
+  "│  barfoo barfoo barfoo barfoo barfoo  │
+",
+  "│   barfoo bar                         │
+",
+  "└──────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > cannot have width larger than 100% 1`] = `
+[
+  "┌─title────────────────────────────────────────────────────────────────────────┐
+",
+  "│  message                                                                     │
+",
+  "└──────────────────────────────────────────────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders as specified width 1`] = `
+[
+  "┌─title────────────────────────────────┐
+",
+  "│  short                               │
+",
+  "│  somewhat questionably long line     │
+",
+  "└──────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders as wide as longest line with width: auto 1`] = `
+[
+  "┌─title──────────────────────────────┐
+",
+  "│  short                             │
+",
+  "│  somewhat questionably long line   │
+",
+  "└────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders auto width with content longer than title 1`] = `
+[
+  "┌─title──────────────────────────┐
+",
+  "│  messagemessagemessagemessage  │
+",
+  "└────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders auto width with title longer than content 1`] = `
+[
+  "┌─titletitletitletitle─┐
+",
+  "│  message             │
+",
+  "└──────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders center aligned content 1`] = `
+[
+  "┌─title──────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders center aligned title 1`] = `
+[
+  "┌───title────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders left aligned content 1`] = `
+[
+  "┌─title──────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders left aligned title 1`] = `
+[
+  "┌─title──────┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders message 1`] = `
+[
+  "┌──────────────────────────────────────────────────────────────────────────────┐
+",
+  "│  message                                                                     │
+",
+  "└──────────────────────────────────────────────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders message with title 1`] = `
+[
+  "┌─some title───────────────────────────────────────────────────────────────────┐
+",
+  "│  message                                                                     │
+",
+  "└──────────────────────────────────────────────────────────────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders right aligned content 1`] = `
+[
+  "┌─title──────┐
+",
+  "│   message  │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders right aligned title 1`] = `
+[
+  "┌──────title─┐
+",
+  "│  message   │
+",
+  "└────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders rounded corners when rounded is true 1`] = `
+[
+  "╭─title──────╮
+",
+  "│  message   │
+",
+  "╰────────────╯
+",
+]
+`;
+
+exports[`box (isCI = true) > renders specified contentPadding 1`] = `
+[
+  "┌─title──────────────┐
+",
+  "│      message       │
+",
+  "└────────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders specified titlePadding 1`] = `
+[
+  "┌──────title───────┐
+",
+  "│  message         │
+",
+  "└──────────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders truncated long titles 1`] = `
+[
+  "┌─foofoofoo...─┐
+",
+  "│  message     │
+",
+  "└──────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > renders with prefix when includePrefix is true 1`] = `
+[
+  "│ ┌─title──────┐
+",
+  "│ │  message   │
+",
+  "│ └────────────┘
+",
+]
+`;
+
+exports[`box (isCI = true) > wraps content to fit within specified width 1`] = `
+[
+  "┌─title────────────────────────────────┐
+",
+  "│  foo barfoo barfoo barfoo barfoo     │
+",
+  "│  barfoo barfoo barfoo barfoo barfoo  │
+",
+  "│   barfoo barfoo barfoo barfoo        │
+",
+  "│  barfoo barfoo barfoo barfoo barfoo  │
+",
+  "│   barfoo bar                         │
+",
+  "└──────────────────────────────────────┘
+",
+]
+`;
