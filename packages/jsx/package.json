@@ -1,0 +1,63 @@
+{
+  "name": "@clack/jsx",
+  "version": "1.0.0-alpha.1",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./jsx-runtime": "./jsx-runtime.js",
+    "./jsx-dev-runtime": "./jsx-runtime.js",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bombshell-dev/clack.git",
+    "directory": "packages/jsx"
+  },
+  "bugs": {
+    "url": "https://github.com/bombshell-dev/clack/issues"
+  },
+  "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/jsx#readme",
+  "files": ["dist", "CHANGELOG.md"],
+  "keywords": [
+    "ask",
+    "clack",
+    "cli",
+    "command-line",
+    "command",
+    "input",
+    "interact",
+    "interface",
+    "menu",
+    "prompt",
+    "prompts",
+    "stdin",
+    "ui",
+    "jsx",
+    "ink"
+  ],
+  "author": {
+    "name": "James Garbutt",
+    "url": "https://github.com/43081j"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@9.14.2",
+  "scripts": {
+    "build": "unbuild",
+    "prepack": "pnpm build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@clack/prompts": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.1",
+    "vitest-ansi-serializer": "^0.1.2",
+    "@clack/test-utils": "workspace:*"
+  }
+}

@@ -81,7 +81,7 @@ async function main() {
 			} catch (error) {
 				// Handle errors but continue if not cancelled
 				if (!processSpinner.isCancelled) {
-					p.note(`Error processing ${language}: ${error.message}`, 'Error');
+					p.note(`Error processing ${language}: ${(error as Error).message}`, 'Error');
 				}
 			}
 		}
@@ -134,7 +134,7 @@ async function main() {
 					}
 				} catch (error) {
 					if (!finalSpinner.isCancelled) {
-						finalSpinner.stop(`Error during ${action}: ${error.message}`);
+						finalSpinner.stop(`Error during ${action}: ${(error as Error).message}`);
 					}
 				}
 			}
