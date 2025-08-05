@@ -187,7 +187,7 @@ export default class Prompt<TValue> {
 	}
 
 	protected _resetUserInput(): void {
-		(this.rl as any)?.clearLine();
+		this.rl?.write(null, { ctrl: true, name: 'u' });
 		if (this._track) {
 			this.userInput = '';
 			this._cursor = this.rl?.cursor ?? 0;
