@@ -186,6 +186,14 @@ export default class Prompt<TValue> {
 		}
 	}
 
+	protected _resetUserInput(): void {
+		(this.rl as any)?.clearLine();
+		if (this._track) {
+			this.userInput = '';
+			this._cursor = this.rl?.cursor ?? 0;
+		}
+	}
+
 	private onKeypress(char: string | undefined, key: Key) {
 		if (this._track && key.name !== 'return') {
 			if (key.name && this._isActionKey(char, key)) {
