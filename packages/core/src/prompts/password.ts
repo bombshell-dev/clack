@@ -25,8 +25,8 @@ export default class PasswordPrompt extends Prompt<string> {
 		const s2 = masked.slice(this.cursor);
 		return `${s1}${color.inverse(s2[0])}${s2.slice(1)}`;
 	}
-	reset() {
-		this._resetUserInput();
+	clear() {
+		this._clearUserInput();
 	}
 	constructor({ mask, ...opts }: PasswordOptions) {
 		super(opts);

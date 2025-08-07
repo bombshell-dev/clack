@@ -186,12 +186,9 @@ export default class Prompt<TValue> {
 		}
 	}
 
-	protected _resetUserInput(): void {
+	protected _clearUserInput(): void {
 		this.rl?.write(null, { ctrl: true, name: 'u' });
-		if (this._track) {
-			this.userInput = '';
-			this._cursor = this.rl?.cursor ?? 0;
-		}
+		this._setUserInput('');
 	}
 
 	private onKeypress(char: string | undefined, key: Key) {

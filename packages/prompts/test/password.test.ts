@@ -129,13 +129,13 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('clears input on error when reset is true', async () => {
+	test('clears input on error when clearOnError is true', async () => {
 		const result = prompts.password({
 			message: 'foo',
 			input,
 			output,
 			validate: (v) => (v === 'yz' ? undefined : 'Error'),
-			reset: true,
+			clearOnError: true,
 		});
 
 		input.emit('keypress', 'x', { name: 'x' });
