@@ -35,6 +35,7 @@ export interface BoxOptions extends CommonOptions {
 	contentPadding?: number;
 	rounded?: boolean;
 	includePrefix?: boolean;
+	formatBorder?: (text: string) => string;
 }
 
 function getPaddingForLine(
@@ -56,6 +57,8 @@ function getPaddingForLine(
 	return [leftPadding, rightPadding];
 }
 
+const defaultFormatBorder = (text: string) => text;
+
 export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
 	const columns = getColumns(output);
@@ -65,7 +68,8 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const contentPadding = opts?.contentPadding ?? 2;
 	const width = opts?.width === undefined || opts.width === 'auto' ? 1 : Math.min(1, opts.width);
 	const linePrefix = opts?.includePrefix ? `${S_BAR} ` : '';
-	const symbols = opts?.rounded ? roundedSymbols : squareSymbols;
+	const formatBorder = opts?.formatBorder ?? defaultFormatBorder;
+	const symbols = (opts?.rounded ? roundedSymbols : squareSymbols).map(formatBorder);
 	const maxBoxWidth = columns - linePrefix.length;
 	let boxWidth = Math.floor(columns * width) - linePrefix.length;
 	if (opts?.width === 'auto') {
