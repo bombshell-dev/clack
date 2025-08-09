@@ -6,6 +6,7 @@ export interface PasswordOptions extends CommonOptions {
 	message: string;
 	mask?: string;
 	validate?: (value: string | undefined) => string | Error | undefined;
+	clearOnError?: boolean;
 }
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
@@ -22,6 +23,9 @@ export const password = (opts: PasswordOptions) => {
 			switch (this.state) {
 				case 'error': {
 					const maskedText = masked ? `  ${masked}` : '';
+					if (opts.clearOnError) {
+						this.clear();
+					}
 					return `${title.trim()}\n${color.yellow(S_BAR)}${maskedText}\n${color.yellow(
 						S_BAR_END
 					)}  ${color.yellow(this.error)}\n`;

@@ -92,8 +92,9 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		input.emit('keypress', 'y', { name: 'y' });
 		input.emit('keypress', '', { name: 'return' });
 
-		await result;
+		const value = await result;
 
+		expect(value).toBe('xy');
 		expect(output.buffer).toMatchSnapshot();
 	});
 
@@ -125,6 +126,27 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		controller.abort();
 		const value = await result;
 		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('clears input on error when clearOnError is true', async () => {
+		const result = prompts.password({
+			message: 'foo',
+			input,
+			output,
+			validate: (v) => (v === 'yz' ? undefined : 'Error'),
+			clearOnError: true,
+		});
+
+		input.emit('keypress', 'x', { name: 'x' });
+		input.emit('keypress', '', { name: 'return' });
+		input.emit('keypress', 'y', { name: 'y' });
+		input.emit('keypress', 'z', { name: 'z' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('yz');
 		expect(output.buffer).toMatchSnapshot();
 	});
 });

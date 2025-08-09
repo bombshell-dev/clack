@@ -186,6 +186,11 @@ export default class Prompt<TValue> {
 		}
 	}
 
+	protected _clearUserInput(): void {
+		this.rl?.write(null, { ctrl: true, name: 'u' });
+		this._setUserInput('');
+	}
+
 	private onKeypress(char: string | undefined, key: Key) {
 		if (this._track && key.name !== 'return') {
 			if (key.name && this._isActionKey(char, key)) {
