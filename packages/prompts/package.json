@@ -62,6 +62,6 @@
     "memfs": "^4.17.2",
     "vitest": "^3.2.4",
     "vitest-ansi-serializer": "^0.1.2",
-    "wrap-ansi": "^8.1.0"
+    "fast-wrap-ansi": "^0.1.3"
   }
 }
