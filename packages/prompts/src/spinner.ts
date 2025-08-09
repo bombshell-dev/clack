@@ -1,7 +1,7 @@
 import { block, getColumns, settings } from '@clack/core';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
-import wrap from 'wrap-ansi';
 import {
 	type CommonOptions,
 	isCI as isCIFn,
@@ -96,7 +96,7 @@ export const spinner = ({
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
 		if (isCI) output.write('\n');
-		const wrapped = wrap(_prevMessage, columns, {
+		const wrapped = wrapAnsi(_prevMessage, columns, {
 			hard: true,
 			trim: false,
 		});
@@ -144,7 +144,7 @@ export const spinner = ({
 				outputMessage = `${frame}  ${_message}${loadingDots}`;
 			}
 
-			const wrapped = wrap(outputMessage, columns, {
+			const wrapped = wrapAnsi(outputMessage, columns, {
 				hard: true,
 				trim: false,
 			});
