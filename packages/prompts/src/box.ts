@@ -70,6 +70,8 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const linePrefix = opts?.includePrefix ? `${S_BAR} ` : '';
 	const formatBorder = opts?.formatBorder ?? defaultFormatBorder;
 	const symbols = (opts?.rounded ? roundedSymbols : squareSymbols).map(formatBorder);
+	const hSymbol = formatBorder(S_BAR_H);
+	const vSymbol = formatBorder(S_BAR);
 	const maxBoxWidth = columns - linePrefix.length;
 	let boxWidth = Math.floor(columns * width) - linePrefix.length;
 	if (opts?.width === 'auto') {
@@ -108,7 +110,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 		trim: false,
 	});
 	output.write(
-		`${linePrefix}${symbols[0]}${S_BAR_H.repeat(titlePaddingLeft)}${truncatedTitle}${S_BAR_H.repeat(titlePaddingRight)}${symbols[1]}\n`
+		`${linePrefix}${symbols[0]}${hSymbol.repeat(titlePaddingLeft)}${truncatedTitle}${hSymbol.repeat(titlePaddingRight)}${symbols[1]}\n`
 	);
 	const wrappedLines = wrappedMessage.split('\n');
 	for (const line of wrappedLines) {
@@ -119,8 +121,8 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 			opts?.contentAlign
 		);
 		output.write(
-			`${linePrefix}${S_BAR}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${S_BAR}\n`
+			`${linePrefix}${vSymbol}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${vSymbol}\n`
 		);
 	}
-	output.write(`${linePrefix}${symbols[2]}${S_BAR_H.repeat(innerWidth)}${symbols[3]}\n`);
+	output.write(`${linePrefix}${symbols[2]}${hSymbol.repeat(innerWidth)}${symbols[3]}\n`);
 };

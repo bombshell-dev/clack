@@ -1,3 +1,4 @@
+import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -218,6 +219,17 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 			output,
 			contentAlign: 'center',
 			width: 'auto',
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('renders with formatBorder formatting', () => {
+		prompts.box('message', 'title', {
+			input,
+			output,
+			width: 'auto',
+			formatBorder: colors.red,
 		});
 
 		expect(output.buffer).toMatchSnapshot();
