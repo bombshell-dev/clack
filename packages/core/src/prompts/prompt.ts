@@ -1,8 +1,8 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
-import wrap from 'wrap-ansi';
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
 import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
@@ -253,13 +253,13 @@ export default class Prompt<TValue> {
 
 	private restoreCursor() {
 		const lines =
-			wrap(this._prevFrame, process.stdout.columns, { hard: true, trim: false }).split('\n')
+			wrapAnsi(this._prevFrame, process.stdout.columns, { hard: true, trim: false }).split('\n')
 				.length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns, {
+		const frame = wrapAnsi(this._render(this) ?? '', process.stdout.columns, {
 			hard: true,
 			trim: false,
 		});
