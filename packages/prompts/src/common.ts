@@ -17,6 +17,8 @@ export const S_STEP_SUBMIT = unicodeOr('◇', 'o');
 export const S_BAR_START = unicodeOr('┌', 'T');
 export const S_BAR = unicodeOr('│', '|');
 export const S_BAR_END = unicodeOr('└', '—');
+export const S_BAR_START_RIGHT = unicodeOr('┐', 'T');
+export const S_BAR_END_RIGHT = unicodeOr('┘', '—');
 
 export const S_RADIO_ACTIVE = unicodeOr('●', '>');
 export const S_RADIO_INACTIVE = unicodeOr('○', ' ');
@@ -29,6 +31,8 @@ export const S_BAR_H = unicodeOr('─', '-');
 export const S_CORNER_TOP_RIGHT = unicodeOr('╮', '+');
 export const S_CONNECT_LEFT = unicodeOr('├', '+');
 export const S_CORNER_BOTTOM_RIGHT = unicodeOr('╯', '+');
+export const S_CORNER_BOTTOM_LEFT = unicodeOr('╰', '+');
+export const S_CORNER_TOP_LEFT = unicodeOr('╭', '+');
 
 export const S_INFO = unicodeOr('●', '•');
 export const S_SUCCESS = unicodeOr('◆', '*');
