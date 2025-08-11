@@ -3,4 +3,4 @@
 "@clack/core": minor
 ---
 
-Add input reset to password prompt
+Add `clearOnError` option to password prompt to automatically clear input when validation fails
