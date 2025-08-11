@@ -2,4 +2,4 @@
 "@clack/prompts": patch
 ---
 
-types: use more accurate type to replace any
+chore: use more accurate type to replace any in group select
