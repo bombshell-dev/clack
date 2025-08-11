@@ -1,6 +1,6 @@
 import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
-import wrap from 'wrap-ansi';
+import {wrapAnsi} from 'fast-wrap-ansi';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -105,7 +105,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 		titlePadding,
 		opts?.titleAlign
 	);
-	const wrappedMessage = wrap(message, innerWidth - contentPadding * 2, {
+	const wrappedMessage = wrapAnsi(message, innerWidth - contentPadding * 2, {
 		hard: true,
 		trim: false,
 	});
