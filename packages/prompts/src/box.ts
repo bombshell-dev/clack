@@ -1,6 +1,6 @@
 import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
-import {wrapAnsi} from 'fast-wrap-ansi';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import {
 	type CommonOptions,
 	S_BAR,
