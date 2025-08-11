@@ -23,7 +23,7 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
-		option: Option<Value>,
+		option: Option<Value> & { group: string | boolean },
 		state:
 			| 'inactive'
 			| 'active'
@@ -33,12 +33,12 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'group-active-selected'
 			| 'submitted'
 			| 'cancelled',
-		options: Option<Value>[] = []
+		options: (Option<Value> & { group: string | boolean })[] = []
 	) => {
 		const label = option.label ?? String(option.value);
-		const isItem = typeof (option as any).group === 'string';
+		const isItem = typeof option.group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
-		const isLast = isItem && (next as any).group === true;
+		const isLast = isItem && next && next.group === true;
 		const prefix = isItem ? (selectableGroups ? `${isLast ? S_BAR_END : S_BAR} ` : '  ') : '';
 		let spacingPrefix = '';
 		if (groupSpacing > 0 && !isItem) {
