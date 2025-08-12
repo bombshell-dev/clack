@@ -101,7 +101,9 @@ export const spinner = ({
 			trim: false,
 		});
 		const prevLines = wrapped.split('\n');
-		output.write(cursor.up(prevLines.length - 1));
+		if (prevLines.length > 1) {
+			output.write(cursor.up(prevLines.length - 1));
+		}
 		output.write(cursor.to(0));
 		output.write(erase.down());
 	};
