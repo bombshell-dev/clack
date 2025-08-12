@@ -87,6 +87,18 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('handles multi-line messages', () => {
+			const result = prompts.spinner({ output });
+
+			result.start('foo\nbar\nbaz');
+
+			vi.advanceTimersByTime(80);
+
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 
 	describe('stop', () => {
