@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.0.0-alpha.4
+
+### Patch Changes
+
+- d98e033: add invert selection for multiselect prompt
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
