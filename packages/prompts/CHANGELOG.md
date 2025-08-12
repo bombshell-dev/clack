@@ -1,5 +1,20 @@
 # @clack/prompts
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- 76fd17f: Added new `box` prompt for rendering boxed text, similar a note.
+- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
+
+### Patch Changes
+
+- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
+- 4c89dd7: chore: use more accurate type to replace any in group select
+- Updated dependencies [1a45f93]
+- Updated dependencies [1604f97]
+  - @clack/core@1.0.0-alpha.3
+
 ## 1.0.0-alpha.2
 
 ### Minor Changes
