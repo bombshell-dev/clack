@@ -6,7 +6,7 @@ exports[`prompts - progress (isCI = false) > message > sets message for next fra
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
 ]
@@ -95,13 +95,13 @@ exports[`prompts - progress (isCI = false) > start > renders frames at interval 
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◓[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◑[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
 ]
@@ -131,7 +131,7 @@ exports[`prompts - progress (isCI = false) > stop > renders cancel symbol if cod
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[31m■[39m  
 ",
@@ -145,7 +145,7 @@ exports[`prompts - progress (isCI = false) > stop > renders error symbol if code
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[31m▲[39m  
 ",
@@ -159,7 +159,7 @@ exports[`prompts - progress (isCI = false) > stop > renders message 1`] = `
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
 ",
@@ -173,7 +173,7 @@ exports[`prompts - progress (isCI = false) > stop > renders message without remo
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo.
 ",
@@ -187,7 +187,7 @@ exports[`prompts - progress (isCI = false) > stop > renders submit symbol and st
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -201,16 +201,16 @@ exports[`prompts - progress (isCI = false) > style > renders block progressbar 1
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m██████████[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m[39m[2m██████████[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◓[39m  [35m█████[39m[2m█████[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◑[39m  [35m█████[39m[2m█████[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -224,16 +224,16 @@ exports[`prompts - progress (isCI = false) > style > renders heavy progressbar 1
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m[39m[2m━━━━━━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◓[39m  [35m━━━━━[39m[2m━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◑[39m  [35m━━━━━[39m[2m━━━━━[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -247,16 +247,16 @@ exports[`prompts - progress (isCI = false) > style > renders light progressbar 1
   "[90m│[39m
 ",
   "[35m◒[39m  [35m[39m[2m──────────[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m[39m[2m──────────[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◓[39m  [35m─────[39m[2m─────[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◑[39m  [35m─────[39m[2m─────[22m ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -272,7 +272,7 @@ exports[`prompts - progress (isCI = true) > message > sets message for next fram
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
 ]
@@ -390,7 +390,7 @@ exports[`prompts - progress (isCI = true) > stop > renders cancel symbol if code
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[31m■[39m  
 ",
@@ -406,7 +406,7 @@ exports[`prompts - progress (isCI = true) > stop > renders error symbol if code 
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[31m▲[39m  
 ",
@@ -422,7 +422,7 @@ exports[`prompts - progress (isCI = true) > stop > renders message 1`] = `
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
 ",
@@ -438,7 +438,7 @@ exports[`prompts - progress (isCI = true) > stop > renders message without remov
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo.
 ",
@@ -454,7 +454,7 @@ exports[`prompts - progress (isCI = true) > stop > renders submit symbol and sto
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -470,12 +470,12 @@ exports[`prompts - progress (isCI = true) > style > renders block progressbar 1`
   "[35m◒[39m  [35m[39m[2m██████████[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m█████[39m[2m█████[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -491,12 +491,12 @@ exports[`prompts - progress (isCI = true) > style > renders heavy progressbar 1`
   "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m━━━━━[39m[2m━━━━━[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",
@@ -512,12 +512,12 @@ exports[`prompts - progress (isCI = true) > style > renders light progressbar 1`
   "[35m◒[39m  [35m[39m[2m──────────[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[35m◐[39m  [35m─────[39m[2m─────[22m ...",
   "
 ",
-  "<cursor.backward count=999>",
+  "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  
 ",

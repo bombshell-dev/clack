@@ -4,10 +4,10 @@ import color from 'picocolors';
 import { erase } from 'sisteransi';
 import {
 	type CommonOptions,
-	S_BAR,
-	S_STEP_SUBMIT,
 	isCI as isCIFn,
 	isTTY as isTTYFn,
+	S_BAR,
+	S_STEP_SUBMIT,
 } from './common.js';
 import { log } from './log.js';
 

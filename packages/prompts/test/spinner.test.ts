@@ -1,4 +1,5 @@
 import { EventEmitter } from 'node:stream';
+import { getColumns } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
@@ -66,6 +67,31 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			const result = prompts.spinner({ output, indicator: 'timer' });
 
 			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('handles wrapping', () => {
+			const columns = getColumns(output);
+			const result = prompts.spinner({ output });
+
+			result.start('x'.repeat(columns + 10));
+
+			vi.advanceTimersByTime(80);
+
+			result.stop('stopped');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('handles multi-line messages', () => {
+			const result = prompts.spinner({ output });
+
+			result.start('foo\nbar\nbaz');
 
 			vi.advanceTimersByTime(80);
 

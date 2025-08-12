@@ -1,5 +1,21 @@
 # @clack/core
 
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
+
+### Patch Changes
+
+- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
+
+## 1.0.0-alpha.2
+
+### Patch Changes
+
+- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
+
 ## 1.0.0-alpha.1
 
 ### Minor Changes

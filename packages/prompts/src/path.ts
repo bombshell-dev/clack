@@ -68,7 +68,7 @@ export const path = (opts: PathOptions) => {
 				return items.map((item) => ({
 					value: item.path,
 				}));
-			} catch (e) {
+			} catch (_e) {
 				return [];
 			}
 		},

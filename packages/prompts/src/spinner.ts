@@ -1,13 +1,14 @@
-import { block, settings } from '@clack/core';
+import { block, getColumns, settings } from '@clack/core';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
+	isCI as isCIFn,
 	S_BAR,
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
-	isCI as isCIFn,
 	unicode,
 } from './common.js';
 
@@ -44,8 +45,9 @@ export const spinner = ({
 	let isSpinnerActive = false;
 	let isCancelled = false;
 	let _message = '';
-	let _prevMessage: string | undefined = undefined;
+	let _prevMessage: string | undefined;
 	let _origin: number = performance.now();
+	const columns = getColumns(output);
 
 	const handleExit = (code: number) => {
 		const msg =
@@ -94,9 +96,16 @@ export const spinner = ({
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
 		if (isCI) output.write('\n');
-		const prevLines = _prevMessage.split('\n');
-		output.write(cursor.move(-999, prevLines.length - 1));
-		output.write(erase.down(prevLines.length));
+		const wrapped = wrapAnsi(_prevMessage, columns, {
+			hard: true,
+			trim: false,
+		});
+		const prevLines = wrapped.split('\n');
+		if (prevLines.length > 1) {
+			output.write(cursor.up(prevLines.length - 1));
+		}
+		output.write(cursor.to(0));
+		output.write(erase.down());
 	};
 
 	const removeTrailingDots = (msg: string): string => {
@@ -126,15 +135,22 @@ export const spinner = ({
 			clearPrevMessage();
 			_prevMessage = _message;
 			const frame = color.magenta(frames[frameIndex]);
+			let outputMessage: string;
 
 			if (isCI) {
-				output.write(`${frame}  ${_message}...`);
+				outputMessage = `${frame}  ${_message}...`;
 			} else if (indicator === 'timer') {
-				output.write(`${frame}  ${_message} ${formatTimer(_origin)}`);
+				outputMessage = `${frame}  ${_message} ${formatTimer(_origin)}`;
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3);
-				output.write(`${frame}  ${_message}${loadingDots}`);
+				outputMessage = `${frame}  ${_message}${loadingDots}`;
 			}
+
+			const wrapped = wrapAnsi(outputMessage, columns, {
+				hard: true,
+				trim: false,
+			});
+			output.write(wrapped);
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			// indicator increase by 1 every 8 frames

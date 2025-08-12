@@ -1,6 +1,6 @@
 {
   "name": "@clack/core",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.3",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -21,7 +21,10 @@
     "url": "https://github.com/bombshell-dev/clack/issues"
   },
   "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/core#readme",
-  "files": ["dist", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "ask",
     "clack",
@@ -43,7 +46,7 @@
     "url": "https://twitter.com/n_moore"
   },
   "license": "MIT",
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@9.14.2",
   "scripts": {
     "build": "unbuild",
     "prepack": "pnpm build",
@@ -54,7 +57,7 @@
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
-    "vitest": "^3.1.1",
-    "wrap-ansi": "^8.1.0"
+    "vitest": "^3.2.4",
+    "fast-wrap-ansi": "^0.1.3"
   }
 }
