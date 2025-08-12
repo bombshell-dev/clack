@@ -9,6 +9,7 @@
     "dev": "pnpm --filter @example/changesets run start",
     "format": "biome check --write",
     "lint": "biome lint --write --unsafe",
+    "typecheck": "pnpm -r exec tsc --noEmit",
     "types": "biome lint --write --unsafe",
     "deps": "pnpm exec knip --production",
     "test": "pnpm --color -r run test",
