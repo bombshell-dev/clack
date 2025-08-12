@@ -109,7 +109,7 @@ describe('MultiSelectPrompt', () => {
 				options: [{ value: 'foo' }, { value: 'bar' }],
 			});
 			instance.prompt();
-			
+
 			input.emit('keypress', 'down', { name: 'down' });
 			input.emit('keypress', 'space', { name: 'space' });
 			input.emit('keypress', 'a', { name: 'a' });
@@ -124,7 +124,7 @@ describe('MultiSelectPrompt', () => {
 				options: [{ value: 'foo' }, { value: 'bar' }],
 			});
 			instance.prompt();
-			
+
 			input.emit('keypress', 'down', { name: 'down' });
 			input.emit('keypress', 'space', { name: 'space' });
 			input.emit('keypress', 'i', { name: 'i' });
