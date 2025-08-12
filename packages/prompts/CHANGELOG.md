@@ -1,5 +1,13 @@
 # @clack/prompts
 
+## 1.0.0-alpha.4
+
+### Patch Changes
+
+- 7b009df: Fix spinner clearing too many lines upwards when non-wrapping.
+- Updated dependencies [d98e033]
+  - @clack/core@1.0.0-alpha.4
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
