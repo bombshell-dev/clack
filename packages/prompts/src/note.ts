@@ -19,17 +19,22 @@ export interface NoteOptions extends CommonOptions {
 
 const defaultNoteFormatter = (line: string): string => color.dim(line);
 
+const wrapWithFormat = (message: string, width: number, format: NoteOptions["format"]): string => {
+  const wrapMsg = wrapAnsi(message, width).split("\n");
+  const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
+  const maxWidthFormat = wrapMsg.map(format).reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
+  const wrapWidth = maxWidthNormal - (maxWidthFormat - maxWidthNormal);
+  return wrapAnsi(message, wrapWidth);
+}
+
 export const note = (message = '', title = '', opts?: NoteOptions) => {
   const output: Writable = opts?.output ?? process.stdout;
   const format = opts?.format ?? defaultNoteFormatter;
-  const wrapMsg = wrapAnsi(message, output.columns - 6);
+  const wrapMsg = wrapWithFormat(message, output.columns - 6, format);
   const lines = ['', ...wrapMsg.split('\n').map(format), ''];
   const titleLen = strip(title).length;
   const len = Math.max(
-    lines.reduce((sum, ln) => {
-      const line = strip(ln); 
-      return line.length > sum ? line.length : sum;
-    }, 0),
+    lines.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0),
     titleLen
   );
   const header = `${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(S_BAR_H.repeat(len - titleLen + 1) + S_CORNER_TOP_RIGHT)}`;

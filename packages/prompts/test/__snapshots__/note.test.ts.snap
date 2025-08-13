@@ -31,6 +31,38 @@ exports[`note (isCI = false) > don't overflow 1`] = `
 ]
 `;
 
+exports[`note (isCI = false) > don't overflow with formatter 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                         [90m│[39m
+[90m│[39m  [31m* [36mEiusmod sint officia proident qui ex tempor laborum ut. Voluptate[31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mdolore excepteur sunt adipisicing laborum non ea elit.[31m *[39m             [90m│[39m
+[90m│[39m  [31m* [36mConsectetur exercitation ad laboris consectetur nisi minim labore[31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mculpa enim. Eiusmod duis minim velit mollit nisi. Laboris magna[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mqui fugiat sit minim. Aliqua id aute sunt proident do tempor[31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mmollit nulla veniam exercitation est ipsum occaecat nostrud.[31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mExercitation ullamco proident ex ut et in ut.[31m *[39m                      [90m│[39m
+[90m│[39m  [31m* [36mDolore magna proident id in magna quis. Sunt et laboris Lorem[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36madipisicing nisi id proident qui enim laboris proident do. Fugiat[31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36meu commodo exercitation ipsum in aliquip ipsum magna consequat[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mlaborum. Id aute enim enim officia in do aliqua voluptate aute[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mnulla proident. Mollit pariatur exercitation sit mollit in[31m *[39m         [90m│[39m
+[90m│[39m  [31m* [36mexercitation culpa deserunt sunt laboris aliquip cillum mollit[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mad. Aliquip exercitation adipisicing qui laboris ea do occaecat[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36melit magna commodo sint adipisicing.[31m *[39m                               [90m│[39m
+[90m│[39m  [31m* [36mFugiat veniam non nostrud reprehenderit tempor quis officia ad[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mreprehenderit. Veniam ut est irure est. Laboris reprehenderit[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36mdolor dolor id laborum nulla velit et in sunt aliquip. Culpa[31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mvoluptate dolore enim ut incididunt dolor sint cupidatat enim.[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mIrure sint consectetur minim velit aliquip consequat enim ex in[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36msunt.[31m *[39m                                                              [90m│[39m
+[90m│[39m                                                                         [90m│[39m
+[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
 exports[`note (isCI = false) > formatter which adds colors works 1`] = `
 [
   "[90m│[39m
@@ -48,13 +80,16 @@ exports[`note (isCI = false) > formatter which adds colors works 1`] = `
 exports[`note (isCI = false) > formatter which adds length works 1`] = `
 [
   "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m──────╮[39m
-[90m│[39m              [90m│[39m
-[90m│[39m  * line 0 *  [90m│[39m
-[90m│[39m  * line 1 *  [90m│[39m
-[90m│[39m  * line 2 *  [90m│[39m
-[90m│[39m              [90m│[39m
-[90m├──────────────╯[39m
+[32m◇[39m  [0mtitle[0m [90m────╮[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  * line *  [90m│[39m
+[90m│[39m  * 0 *     [90m│[39m
+[90m│[39m  * line *  [90m│[39m
+[90m│[39m  * 1 *     [90m│[39m
+[90m│[39m  * line *  [90m│[39m
+[90m│[39m  * 2 *     [90m│[39m
+[90m│[39m            [90m│[39m
+[90m├────────────╯[39m
 ",
 ]
 `;
@@ -115,6 +150,38 @@ exports[`note (isCI = true) > don't overflow 1`] = `
 ]
 `;
 
+exports[`note (isCI = true) > don't overflow with formatter 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                         [90m│[39m
+[90m│[39m  [31m* [36mEiusmod sint officia proident qui ex tempor laborum ut. Voluptate[31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mdolore excepteur sunt adipisicing laborum non ea elit.[31m *[39m             [90m│[39m
+[90m│[39m  [31m* [36mConsectetur exercitation ad laboris consectetur nisi minim labore[31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mculpa enim. Eiusmod duis minim velit mollit nisi. Laboris magna[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mqui fugiat sit minim. Aliqua id aute sunt proident do tempor[31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mmollit nulla veniam exercitation est ipsum occaecat nostrud.[31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mExercitation ullamco proident ex ut et in ut.[31m *[39m                      [90m│[39m
+[90m│[39m  [31m* [36mDolore magna proident id in magna quis. Sunt et laboris Lorem[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36madipisicing nisi id proident qui enim laboris proident do. Fugiat[31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36meu commodo exercitation ipsum in aliquip ipsum magna consequat[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mlaborum. Id aute enim enim officia in do aliqua voluptate aute[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mnulla proident. Mollit pariatur exercitation sit mollit in[31m *[39m         [90m│[39m
+[90m│[39m  [31m* [36mexercitation culpa deserunt sunt laboris aliquip cillum mollit[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mad. Aliquip exercitation adipisicing qui laboris ea do occaecat[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36melit magna commodo sint adipisicing.[31m *[39m                               [90m│[39m
+[90m│[39m  [31m* [36mFugiat veniam non nostrud reprehenderit tempor quis officia ad[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mreprehenderit. Veniam ut est irure est. Laboris reprehenderit[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36mdolor dolor id laborum nulla velit et in sunt aliquip. Culpa[31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mvoluptate dolore enim ut incididunt dolor sint cupidatat enim.[31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36mIrure sint consectetur minim velit aliquip consequat enim ex in[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36msunt.[31m *[39m                                                              [90m│[39m
+[90m│[39m                                                                         [90m│[39m
+[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
 exports[`note (isCI = true) > formatter which adds colors works 1`] = `
 [
   "[90m│[39m
@@ -132,13 +199,16 @@ exports[`note (isCI = true) > formatter which adds colors works 1`] = `
 exports[`note (isCI = true) > formatter which adds length works 1`] = `
 [
   "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m──────╮[39m
-[90m│[39m              [90m│[39m
-[90m│[39m  * line 0 *  [90m│[39m
-[90m│[39m  * line 1 *  [90m│[39m
-[90m│[39m  * line 2 *  [90m│[39m
-[90m│[39m              [90m│[39m
-[90m├──────────────╯[39m
+[32m◇[39m  [0mtitle[0m [90m────╮[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  * line *  [90m│[39m
+[90m│[39m  * 0 *     [90m│[39m
+[90m│[39m  * line *  [90m│[39m
+[90m│[39m  * 1 *     [90m│[39m
+[90m│[39m  * line *  [90m│[39m
+[90m│[39m  * 2 *     [90m│[39m
+[90m│[39m            [90m│[39m
+[90m├────────────╯[39m
 ",
 ]
 `;
