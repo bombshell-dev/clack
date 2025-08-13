@@ -1,5 +1,36 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`note (isCI = false) > don't overflow 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                         [90m│[39m
+[90m│[39m  [2mEiusmod sint officia proident qui ex tempor laborum ut. Voluptate[22m      [90m│[39m
+[90m│[39m  [2mdolore excepteur sunt adipisicing laborum non ea elit. Consectetur[22m     [90m│[39m
+[90m│[39m  [2mexercitation ad laboris consectetur nisi minim labore culpa enim.[22m      [90m│[39m
+[90m│[39m  [2mEiusmod duis minim velit mollit nisi. Laboris magna qui fugiat sit[22m     [90m│[39m
+[90m│[39m  [2mminim. Aliqua id aute sunt proident do tempor mollit nulla veniam[22m      [90m│[39m
+[90m│[39m  [2mexercitation est ipsum occaecat nostrud. Exercitation ullamco[22m          [90m│[39m
+[90m│[39m  [2mproident ex ut et in ut.[22m                                               [90m│[39m
+[90m│[39m  [2mDolore magna proident id in magna quis. Sunt et laboris Lorem[22m          [90m│[39m
+[90m│[39m  [2madipisicing nisi id proident qui enim laboris proident do. Fugiat eu[22m   [90m│[39m
+[90m│[39m  [2mcommodo exercitation ipsum in aliquip ipsum magna consequat laborum.[22m   [90m│[39m
+[90m│[39m  [2mId aute enim enim officia in do aliqua voluptate aute nulla proident.[22m  [90m│[39m
+[90m│[39m  [2mMollit pariatur exercitation sit mollit in exercitation culpa[22m          [90m│[39m
+[90m│[39m  [2mdeserunt sunt laboris aliquip cillum mollit ad. Aliquip exercitation[22m   [90m│[39m
+[90m│[39m  [2madipisicing qui laboris ea do occaecat elit magna commodo sint[22m         [90m│[39m
+[90m│[39m  [2madipisicing.[22m                                                           [90m│[39m
+[90m│[39m  [2mFugiat veniam non nostrud reprehenderit tempor quis officia ad[22m         [90m│[39m
+[90m│[39m  [2mreprehenderit. Veniam ut est irure est. Laboris reprehenderit dolor[22m    [90m│[39m
+[90m│[39m  [2mdolor id laborum nulla velit et in sunt aliquip. Culpa voluptate[22m       [90m│[39m
+[90m│[39m  [2mdolore enim ut incididunt dolor sint cupidatat enim. Irure sint[22m        [90m│[39m
+[90m│[39m  [2mconsectetur minim velit aliquip consequat enim ex in sunt.[22m             [90m│[39m
+[90m│[39m                                                                         [90m│[39m
+[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
 exports[`note (isCI = false) > formatter which adds colors works 1`] = `
 [
   "[90m│[39m
@@ -49,6 +80,37 @@ exports[`note (isCI = false) > renders message with title 1`] = `
 [90m│[39m  [2mmessage[22m  [90m│[39m
 [90m│[39m           [90m│[39m
 [90m├───────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > don't overflow 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                         [90m│[39m
+[90m│[39m  [2mEiusmod sint officia proident qui ex tempor laborum ut. Voluptate[22m      [90m│[39m
+[90m│[39m  [2mdolore excepteur sunt adipisicing laborum non ea elit. Consectetur[22m     [90m│[39m
+[90m│[39m  [2mexercitation ad laboris consectetur nisi minim labore culpa enim.[22m      [90m│[39m
+[90m│[39m  [2mEiusmod duis minim velit mollit nisi. Laboris magna qui fugiat sit[22m     [90m│[39m
+[90m│[39m  [2mminim. Aliqua id aute sunt proident do tempor mollit nulla veniam[22m      [90m│[39m
+[90m│[39m  [2mexercitation est ipsum occaecat nostrud. Exercitation ullamco[22m          [90m│[39m
+[90m│[39m  [2mproident ex ut et in ut.[22m                                               [90m│[39m
+[90m│[39m  [2mDolore magna proident id in magna quis. Sunt et laboris Lorem[22m          [90m│[39m
+[90m│[39m  [2madipisicing nisi id proident qui enim laboris proident do. Fugiat eu[22m   [90m│[39m
+[90m│[39m  [2mcommodo exercitation ipsum in aliquip ipsum magna consequat laborum.[22m   [90m│[39m
+[90m│[39m  [2mId aute enim enim officia in do aliqua voluptate aute nulla proident.[22m  [90m│[39m
+[90m│[39m  [2mMollit pariatur exercitation sit mollit in exercitation culpa[22m          [90m│[39m
+[90m│[39m  [2mdeserunt sunt laboris aliquip cillum mollit ad. Aliquip exercitation[22m   [90m│[39m
+[90m│[39m  [2madipisicing qui laboris ea do occaecat elit magna commodo sint[22m         [90m│[39m
+[90m│[39m  [2madipisicing.[22m                                                           [90m│[39m
+[90m│[39m  [2mFugiat veniam non nostrud reprehenderit tempor quis officia ad[22m         [90m│[39m
+[90m│[39m  [2mreprehenderit. Veniam ut est irure est. Laboris reprehenderit dolor[22m    [90m│[39m
+[90m│[39m  [2mdolor id laborum nulla velit et in sunt aliquip. Culpa voluptate[22m       [90m│[39m
+[90m│[39m  [2mdolore enim ut incididunt dolor sint cupidatat enim. Irure sint[22m        [90m│[39m
+[90m│[39m  [2mconsectetur minim velit aliquip consequat enim ex in sunt.[22m             [90m│[39m
+[90m│[39m                                                                         [90m│[39m
+[90m├─────────────────────────────────────────────────────────────────────────╯[39m
 ",
 ]
 `;
