@@ -23,7 +23,7 @@ const wrapWithFormat = (message: string, width: number, format: NoteOptions["for
   const wrapMsg = wrapAnsi(message, width).split("\n");
   const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
   const maxWidthFormat = wrapMsg.map(format).reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
-  const wrapWidth = maxWidthNormal - (maxWidthFormat - maxWidthNormal);
+  const wrapWidth = width - (maxWidthFormat - maxWidthNormal);
   return wrapAnsi(message, wrapWidth);
 }
 
