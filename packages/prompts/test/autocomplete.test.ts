@@ -221,4 +221,23 @@ describe('autocompleteMultiselect', () => {
 		expect(isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('can use navigation keys to select options', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toEqual(['banana', 'cherry']);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

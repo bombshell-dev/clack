@@ -275,7 +275,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Instructions
 					const instructions = [
 						`${color.dim('↑/↓')} to navigate`,
-						`${color.dim('Space:')} select`,
+						`${color.dim(this.isNavigating ? 'Space/Tab:' : 'Tab:')} select`,
 						`${color.dim('Enter:')} confirm`,
 						`${color.dim('Type:')} to search`,
 					];
@@ -315,5 +315,5 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	});
 
 	// Return the result or cancel symbol
-	return prompt.prompt() as Promise<Value | symbol>;
+	return prompt.prompt() as Promise<Value[] | symbol>;
 };
