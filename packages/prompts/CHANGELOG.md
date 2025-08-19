@@ -1,5 +1,14 @@
 # @clack/prompts
 
+## 1.0.0-alpha.4
+
+### Patch Changes
+
+- 7b009df: Fix spinner clearing too many lines upwards when non-wrapping.
+- ae84dd0: Update key binding text to show tab/space when navigating, and tab otherwise.
+- Updated dependencies [d98e033]
+  - @clack/core@1.0.0-alpha.4
+
 ## 1.0.0-alpha.3
 
 ### Minor Changes
