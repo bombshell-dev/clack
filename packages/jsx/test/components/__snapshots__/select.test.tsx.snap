@@ -1,0 +1,61 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Select > renders options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`Select > renders options with hints 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Three o three [2m(hint one)[22m
+[36m│[39m  [2m○[22m [2mEight o eight[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mThree o three[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`Select > renders options with labels 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Three o three
+[36m│[39m  [2m○[22m [2mEight o eight[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mThree o three[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
