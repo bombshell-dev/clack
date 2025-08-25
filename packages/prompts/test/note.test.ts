@@ -64,8 +64,8 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('don\'t overflow', () => {
-	  const input = `${'test string '.repeat(32)}\n`.repeat(4).trim();
+	test("don't overflow", () => {
+		const input = `${'test string '.repeat(32)}\n`.repeat(4).trim();
 		prompts.note(input, 'title', {
 			input,
 			output: Object.assign(output, { columns: 75 }),
@@ -74,10 +74,10 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('don\'t overflow with formatter', () => {
-	  const input = `${'test string '.repeat(32)}\n`.repeat(4).trim();
+	test("don't overflow with formatter", () => {
+		const input = `${'test string '.repeat(32)}\n`.repeat(4).trim();
 		prompts.note(input, 'title', {
-		  format: (line) => colors.red(`* ${colors.cyan(line)} *`),
+			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
 			input,
 			output: Object.assign(output, { columns: 75 }),
 		});

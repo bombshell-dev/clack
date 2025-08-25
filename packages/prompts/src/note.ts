@@ -1,5 +1,7 @@
+import process from 'node:process';
 import type { Writable } from 'node:stream';
 import { stripVTControlCharacters as strip } from 'node:util';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -10,8 +12,6 @@ import {
 	S_CORNER_TOP_RIGHT,
 	S_STEP_SUBMIT,
 } from './common.js';
-import { wrapAnsi } from "fast-wrap-ansi";
-import process from "node:process";
 
 export interface NoteOptions extends CommonOptions {
 	format?: (line: string) => string;
@@ -19,13 +19,15 @@ export interface NoteOptions extends CommonOptions {
 
 const defaultNoteFormatter = (line: string): string => color.dim(line);
 
-const wrapWithFormat = (message: string, width: number, format: NoteOptions["format"]): string => {
-	const wrapMsg = wrapAnsi(message, width).split("\n");
+const wrapWithFormat = (message: string, width: number, format: NoteOptions['format']): string => {
+	const wrapMsg = wrapAnsi(message, width).split('\n');
 	const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
-	const maxWidthFormat = wrapMsg.map(format).reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
+	const maxWidthFormat = wrapMsg
+		.map(format)
+		.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
 	const wrapWidth = width - (maxWidthFormat - maxWidthNormal);
 	return wrapAnsi(message, wrapWidth);
-}
+};
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
