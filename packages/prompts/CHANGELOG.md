@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 1.0.0-alpha.5
+
+### Patch Changes
+
+- 9999adf: fix note component overflow bug
+
 ## 1.0.0-alpha.4
 
 ### Patch Changes
