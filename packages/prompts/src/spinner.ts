@@ -159,6 +159,7 @@ export const spinner = ({
 	};
 
 	const stop = (msg = '', code = 0): void => {
+		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
 		clearPrevMessage();
