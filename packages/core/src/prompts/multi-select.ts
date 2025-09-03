@@ -1,13 +1,16 @@
+import { findNextCursor, findPrevCursor } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface MultiSelectOptions<T extends { value: any }>
+interface MultiSelectOptions<T extends { value: any; disabled?: boolean }>
 	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
 	options: T[];
 	initialValues?: T['value'][];
 	required?: boolean;
 	cursorAt?: T['value'];
 }
-export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<T['value'][]> {
+export default class MultiSelectPrompt<T extends { value: any; disabled?: boolean }> extends Prompt<
+	T['value'][]
+> {
 	options: T[];
 	cursor = 0;
 
@@ -17,7 +20,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 
 	private toggleAll() {
 		const allSelected = this.value !== undefined && this.value.length === this.options.length;
-		this.value = allSelected ? [] : this.options.map((v) => v.value);
+		this.value = allSelected ? [] : this.options.filter((v) => !v.disabled).map((v) => v.value);
 	}
 
 	private toggleInvert() {
@@ -25,7 +28,7 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 		if (!value) {
 			return;
 		}
-		const notSelected = this.options.filter((v) => !value.includes(v.value));
+		const notSelected = this.options.filter((v) => !v.disabled && !value.includes(v.value));
 		this.value = notSelected.map((v) => v.value);
 	}
 
@@ -43,11 +46,17 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 		super(opts, false);
 
 		this.options = opts.options;
+		const disabledOptions = this.options.filter((option) => option.disabled);
+		if (this.options.length === disabledOptions.length) return;
 		this.value = [...(opts.initialValues ?? [])];
-		this.cursor = Math.max(
+		const cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
 			0
 		);
+		this.cursor = this.options[cursor].disabled ? findNextCursor<T>(
+			cursor,
+			this.options
+		) : cursor;
 		this.on('key', (char) => {
 			if (char === 'a') {
 				this.toggleAll();
@@ -61,11 +70,11 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 			switch (key) {
 				case 'left':
 				case 'up':
-					this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
+					this.cursor = findPrevCursor<T>(this.cursor, this.options);
 					break;
 				case 'down':
 				case 'right':
-					this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
+					this.cursor = findNextCursor<T>(this.cursor, this.options);
 					break;
 				case 'space':
 					this.toggleValue();
