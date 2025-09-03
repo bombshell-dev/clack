@@ -77,7 +77,7 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		const result = prompts.password({
 			message: 'foo',
 			validate: (value) => {
-				if (value.length < 2) {
+				if (!value || value.length < 2) {
 					return 'Password must be at least 2 characters';
 				}
 
