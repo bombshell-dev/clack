@@ -13,14 +13,15 @@ export default class MultiSelectPrompt<T extends { value: any; disabled?: boolea
 > {
 	options: T[];
 	cursor = 0;
+	#enabledOptions: T[] = [];
 
 	private get _value(): T['value'] {
 		return this.options[this.cursor].value;
 	}
 
 	private toggleAll() {
-		const allSelected = this.value !== undefined && this.value.length === this.options.length;
-		this.value = allSelected ? [] : this.options.filter((v) => !v.disabled).map((v) => v.value);
+		const allSelected = this.value !== undefined && this.value.length === this.#enabledOptions.length;
+		this.value = allSelected ? [] : this.#enabledOptions.map((v) => v.value);
 	}
 
 	private toggleInvert() {
@@ -28,7 +29,7 @@ export default class MultiSelectPrompt<T extends { value: any; disabled?: boolea
 		if (!value) {
 			return;
 		}
-		const notSelected = this.options.filter((v) => !v.disabled && !value.includes(v.value));
+		const notSelected = this.#enabledOptions.filter((v) => !value.includes(v.value));
 		this.value = notSelected.map((v) => v.value);
 	}
 
@@ -46,8 +47,8 @@ export default class MultiSelectPrompt<T extends { value: any; disabled?: boolea
 		super(opts, false);
 
 		this.options = opts.options;
-		const disabledOptions = this.options.filter((option) => option.disabled);
-		if (this.options.length === disabledOptions.length) return;
+		this.#enabledOptions = this.options.filter((option) => !option.disabled);
+		if (this.#enabledOptions.length === 0) return;
 		this.value = [...(opts.initialValues ?? [])];
 		const cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),

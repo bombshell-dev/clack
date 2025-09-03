@@ -11,6 +11,7 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 > {
 	options: T[];
 	cursor = 0;
+	#enabledOptions: T[] = [];
 
 	private get _selectedValue() {
 		return this.options[this.cursor];
@@ -24,8 +25,8 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 		super(opts, false);
 
 		this.options = opts.options;
-		const disabledOptions = this.options.filter((option) => option.disabled);
-		if (this.options.length === disabledOptions.length) return;
+		this.#enabledOptions = this.options.filter((option) => !option.disabled);
+		if (this.#enabledOptions.length === 0) return;
 
 		const initialCursor = this.options.findIndex(({ value }) => value === opts.initialValue);
 		const cursor = initialCursor === -1 ? 0 : initialCursor
