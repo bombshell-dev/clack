@@ -17,7 +17,5 @@
       "@clack/prompts": ["./packages/prompts/src/index.ts"]
     }
   },
-  "include": [
-    "packages/*/src/**/*"
-  ]
+  "include": ["packages/*/src/**/*"]
 }
