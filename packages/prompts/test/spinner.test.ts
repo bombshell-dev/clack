@@ -163,6 +163,12 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('does not throw if called before start', () => {
+			const result = prompts.spinner({ output });
+
+			expect(() => result.stop()).not.toThrow();
+		});
 	});
 
 	describe('message', () => {

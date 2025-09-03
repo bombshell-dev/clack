@@ -1,6 +1,7 @@
 import process from 'node:process';
 import type { Writable } from 'node:stream';
 import { stripVTControlCharacters as strip } from 'node:util';
+import { getColumns } from '@clack/core';
 import { wrapAnsi, type Options as WrapAnsiOptions } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
@@ -13,13 +14,14 @@ import {
 	S_STEP_SUBMIT,
 } from './common.js';
 
+type FormatFn = (line: string) => string;
 export interface NoteOptions extends CommonOptions {
-	format?: (line: string) => string;
+	format?: FormatFn;
 }
 
 const defaultNoteFormatter = (line: string): string => color.dim(line);
 
-const wrapWithFormat = (message: string, width: number, format: NoteOptions['format']): string => {
+const wrapWithFormat = (message: string, width: number, format: FormatFn): string => {
 	const opts: WrapAnsiOptions = {
 		hard: true,
 		trim: false,
@@ -35,9 +37,9 @@ const wrapWithFormat = (message: string, width: number, format: NoteOptions['for
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
-	const format = (ln) => opts?.format?.(ln) ?? defaultNoteFormatter(ln);
-	const wrapMsg = wrapWithFormat(message, output.columns - 6, format);
-	const lines = ['', ...wrapMsg.split('\n').map(format), ''];
+  const format = (ln) => opts?.format?.(ln) ?? defaultNoteFormatter(ln);
+	const wrapMsg = wrapWithFormat(message, getColumns(output) - 6, format);
+  const lines = ['', ...wrapMsg.split('\n').map(format), ''];
 	const titleLen = strip(title).length;
 	const len =
 		Math.max(
