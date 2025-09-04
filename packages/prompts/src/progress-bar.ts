@@ -53,7 +53,7 @@ export function progress({
 
 	const start = (msg = '') => {
 		previousMessage = msg;
-		return spin.start(drawProgress('initial', msg));
+		spin.start(drawProgress('initial', msg));
 	};
 	const advance = (step = 1, msg?: string): void => {
 		value = Math.min(max, step + value);
