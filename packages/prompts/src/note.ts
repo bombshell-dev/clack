@@ -37,9 +37,9 @@ const wrapWithFormat = (message: string, width: number, format: FormatFn): strin
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
-  const format = (ln: string) => opts?.format?.(ln) ?? defaultNoteFormatter(ln);
+	const format = opts?.format ?? defaultNoteFormatter;
 	const wrapMsg = wrapWithFormat(message, getColumns(output) - 6, format);
-  const lines = ['', ...wrapMsg.split('\n').map(format), ''];
+	const lines = ['', ...wrapMsg.split('\n').map(format), ''];
 	const titleLen = strip(title).length;
 	const len =
 		Math.max(
