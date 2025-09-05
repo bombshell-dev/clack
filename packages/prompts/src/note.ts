@@ -2,7 +2,7 @@ import process from 'node:process';
 import type { Writable } from 'node:stream';
 import { stripVTControlCharacters as strip } from 'node:util';
 import { getColumns } from '@clack/core';
-import { wrapAnsi } from 'fast-wrap-ansi';
+import { type Options as WrapAnsiOptions, wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -22,13 +22,17 @@ export interface NoteOptions extends CommonOptions {
 const defaultNoteFormatter = (line: string): string => color.dim(line);
 
 const wrapWithFormat = (message: string, width: number, format: FormatFn): string => {
-	const wrapMsg = wrapAnsi(message, width).split('\n');
+	const opts: WrapAnsiOptions = {
+		hard: true,
+		trim: false,
+	};
+	const wrapMsg = wrapAnsi(message, width, opts).split('\n');
 	const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
 	const maxWidthFormat = wrapMsg
 		.map(format)
 		.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
 	const wrapWidth = width - (maxWidthFormat - maxWidthNormal);
-	return wrapAnsi(message, wrapWidth);
+	return wrapAnsi(message, wrapWidth, opts);
 };
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
