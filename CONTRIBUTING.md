@@ -200,7 +200,7 @@ The `examples/` directory contains sample projects that demonstrate how to use C
    pnpm lint
    
    # Verify type correctness
-   pnpm type-check
+   pnpm types
    
    # Run tests
    pnpm test
