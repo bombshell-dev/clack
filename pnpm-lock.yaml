@@ -87,8 +87,8 @@ importers:
         version: 1.0.5
     devDependencies:
       fast-string-width:
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^1.1.0
+        version: 1.1.0
       fast-wrap-ansi:
         specifier: ^0.1.3
         version: 0.1.3
@@ -988,14 +988,8 @@ packages:
   fast-string-truncated-width@1.2.1:
     resolution: {integrity: sha512-Q9acT/+Uu3GwGj+5w/zsGuQjh9O1TyywhIwAxHudtWrgF09nHOPrvTLhQevPbttcxjr/SNN7mJmfOw/B1bXgow==}
 
-  fast-string-truncated-width@3.0.1:
-    resolution: {integrity: sha512-tHCvcq0zdQ0NoTG3LJ1VlepCq7m4eAVMsbNrta9IlYxCPvgyoVJPl0rUbi+jTCkJLRQKfadVKNBuAlaa4nQJIw==}
-
   fast-string-width@1.1.0:
     resolution: {integrity: sha512-O3fwIVIH5gKB38QNbdg+3760ZmGz0SZMgvwJbA1b2TGXceKE6A2cOlfogh1iw8lr049zPyd7YADHy+B7U4W9bQ==}
-
-  fast-string-width@3.0.1:
-    resolution: {integrity: sha512-8R+/9ppmJ+wcdnT21jIi+s2vqMhmRN/5TRmWVSiSeNBV5s26siCStF6R84LSLARPR/MSmE/z2bgBf7PCQxnwMg==}
 
   fast-wrap-ansi@0.1.3:
     resolution: {integrity: sha512-iLg8mLuZBztzm8jmY6/xjr+ci4WYo6eYgHAioTA1ElxkE1BJ9J4tPuDlnHaLfljkRZ2vYfP0CDIpCHBBag4InA==}
@@ -2684,15 +2678,9 @@ snapshots:
 
   fast-string-truncated-width@1.2.1: {}
 
-  fast-string-truncated-width@3.0.1: {}
-
   fast-string-width@1.1.0:
     dependencies:
       fast-string-truncated-width: 1.2.1
-
-  fast-string-width@3.0.1:
-    dependencies:
-      fast-string-truncated-width: 3.0.1
 
   fast-wrap-ansi@0.1.3:
     dependencies:
