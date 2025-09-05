@@ -2,7 +2,7 @@ import process from 'node:process';
 import type { Writable } from 'node:stream';
 import { stripVTControlCharacters as strip } from 'node:util';
 import { getColumns } from '@clack/core';
-import { wrapAnsi, type Options as WrapAnsiOptions } from 'fast-wrap-ansi';
+import { type Options as WrapAnsiOptions, wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
 	type CommonOptions,
