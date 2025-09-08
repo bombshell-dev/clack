@@ -84,4 +84,31 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test("handle wide characters", () => {
+		const messages = [
+			'이게 첫 번째 줄이에요',
+			'これは次の行です',
+		];
+		prompts.note(messages.join("\n"), '这是标题', {
+			input,
+			output: Object.assign(output, { columns: 10 }),
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test("handle wide characters with formatter", () => {
+		const messages = [
+			'이게 첫 번째 줄이에요',
+			'これは次の行です',
+		];
+		prompts.note(messages.join("\n"), '这是标题', {
+			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
+			input,
+			output: Object.assign(output, { columns: 10 }),
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
