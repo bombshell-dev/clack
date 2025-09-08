@@ -66,6 +66,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 	test("don't overflow", () => {
 		const message = `${'test string '.repeat(32)}\n`.repeat(4).trim();
+		output.columns = 75;
 		prompts.note(message, 'title', {
 			input,
 			output,
@@ -76,7 +77,37 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 	test("don't overflow with formatter", () => {
 		const message = `${'test string '.repeat(32)}\n`.repeat(4).trim();
+		output.columns = 75;
 		prompts.note(message, 'title', {
+			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
+			input,
+			output,
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test("handle wide characters", () => {
+		const messages = [
+			'이게 첫 번째 줄이에요',
+			'これは次の行です',
+		];
+		output.columns = 10;
+		prompts.note(messages.join("\n"), '这是标题', {
+			input,
+			output,
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test("handle wide characters with formatter", () => {
+		const messages = [
+			'이게 첫 번째 줄이에요',
+			'これは次の行です',
+		];
+		output.columns = 10;
+		prompts.note(messages.join("\n"), '这是标题', {
 			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
 			input,
 			output,
