@@ -73,11 +73,13 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const symbols = (opts?.rounded ? roundedSymbols : squareSymbols).map(formatBorder);
 	const hSymbol = formatBorder(S_BAR_H);
 	const vSymbol = formatBorder(S_BAR);
-	const maxBoxWidth = columns - stringWidth(linePrefix);
-	let boxWidth = Math.floor(columns * width) - stringWidth(linePrefix);
+	const linePrefixWidth = stringWidth(linePrefix);
+	const titleWidth = stringWidth(title);
+	const maxBoxWidth = columns - linePrefixWidth;
+	let boxWidth = Math.floor(columns * width) - linePrefixWidth;
 	if (opts?.width === 'auto') {
 		const lines = message.split('\n');
-		let longestLine = stringWidth(title) + titlePadding * 2;
+		let longestLine = titleWidth + titlePadding * 2;
 		for (const line of lines) {
 			const lineWithPadding = stringWidth(line) + contentPadding * 2;
 			if (lineWithPadding > longestLine) {
@@ -99,7 +101,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const innerWidth = boxWidth - borderTotalWidth;
 	const maxTitleLength = innerWidth - titlePadding * 2;
 	const truncatedTitle =
-		stringWidth(title) > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
+		titleWidth > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
 	const [titlePaddingLeft, titlePaddingRight] = getPaddingForLine(
 		stringWidth(truncatedTitle),
 		innerWidth,
