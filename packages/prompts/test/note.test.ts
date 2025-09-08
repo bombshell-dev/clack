@@ -68,7 +68,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		const message = `${'test string '.repeat(32)}\n`.repeat(4).trim();
 		prompts.note(message, 'title', {
 			input,
-			output: Object.assign(output, { columns: 75 }),
+			output,
 		});
 
 		expect(output.buffer).toMatchSnapshot();
@@ -79,7 +79,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		prompts.note(message, 'title', {
 			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
 			input,
-			output: Object.assign(output, { columns: 75 }),
+			output,
 		});
 
 		expect(output.buffer).toMatchSnapshot();
