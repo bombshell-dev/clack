@@ -1,6 +1,7 @@
 import process from 'node:process';
 import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
+import stringWidth from 'fast-string-width';
 import { type Options as WrapAnsiOptions, wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
@@ -12,7 +13,6 @@ import {
 	S_CORNER_TOP_RIGHT,
 	S_STEP_SUBMIT,
 } from './common.js';
-import stringWidth from "fast-string-width";
 
 type FormatFn = (line: string) => string;
 export interface NoteOptions extends CommonOptions {
@@ -28,9 +28,7 @@ const wrapWithFormat = (message: string, width: number, format: FormatFn): strin
 	};
 	const wrapMsg = wrapAnsi(message, width, opts).split('\n');
 	const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(stringWidth(ln), sum), 0);
-	const maxWidthFormat = wrapMsg
-		.map(format)
-		.reduce((sum, ln) => Math.max(stringWidth(ln), sum), 0);
+	const maxWidthFormat = wrapMsg.map(format).reduce((sum, ln) => Math.max(stringWidth(ln), sum), 0);
 	const wrapWidth = width - (maxWidthFormat - maxWidthNormal);
 	return wrapAnsi(message, wrapWidth, opts);
 };

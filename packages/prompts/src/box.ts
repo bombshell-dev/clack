@@ -1,5 +1,6 @@
 import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
+import stringWidth from 'fast-string-width';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import {
 	type CommonOptions,
@@ -14,7 +15,6 @@ import {
 	S_CORNER_TOP_LEFT,
 	S_CORNER_TOP_RIGHT,
 } from './common.js';
-import stringWidth from "fast-string-width";
 
 export type BoxAlignment = 'left' | 'center' | 'right';
 

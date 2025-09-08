@@ -87,13 +87,10 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test("handle wide characters", () => {
-		const messages = [
-			'이게 첫 번째 줄이에요',
-			'これは次の行です',
-		];
+	test('handle wide characters', () => {
+		const messages = ['이게 첫 번째 줄이에요', 'これは次の行です'];
 		output.columns = 10;
-		prompts.note(messages.join("\n"), '这是标题', {
+		prompts.note(messages.join('\n'), '这是标题', {
 			input,
 			output,
 		});
@@ -101,13 +98,10 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test("handle wide characters with formatter", () => {
-		const messages = [
-			'이게 첫 번째 줄이에요',
-			'これは次の行です',
-		];
+	test('handle wide characters with formatter', () => {
+		const messages = ['이게 첫 번째 줄이에요', 'これは次の行です'];
 		output.columns = 10;
-		prompts.note(messages.join("\n"), '这是标题', {
+		prompts.note(messages.join('\n'), '这是标题', {
 			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
 			input,
 			output,

@@ -236,11 +236,8 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 	});
 
 	test('renders wide characters with auto width', () => {
-		const messages = [
-			'이게 첫 번째 줄이에요',
-			'これは次の行です',
-		];
-		prompts.box(messages.join("\n"), '这是标题', {
+		const messages = ['이게 첫 번째 줄이에요', 'これは次の行です'];
+		prompts.box(messages.join('\n'), '这是标题', {
 			input,
 			output,
 			width: 'auto',
@@ -250,11 +247,8 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 	});
 
 	test('renders wide characters with specified width', () => {
-		const messages = [
-			'이게 첫 번째 줄이에요',
-			'これは次の行です',
-		];
-		prompts.box(messages.join("\n"), '这是标题', {
+		const messages = ['이게 첫 번째 줄이에요', 'これは次の行です'];
+		prompts.box(messages.join('\n'), '这是标题', {
 			input,
 			output,
 			width: 0.2,
