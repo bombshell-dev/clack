@@ -1,8 +1,9 @@
 import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from './common.js';
+import { cursor } from "sisteransi";
+import { type CommonPromptOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol, clearPrompt } from './common.js';
 
-export interface PasswordOptions extends CommonOptions {
+export interface PasswordOptions extends CommonPromptOptions {
 	message: string;
 	mask?: string;
 	validate?: (value: string | undefined) => string | Error | undefined;
@@ -32,7 +33,7 @@ export const password = (opts: PasswordOptions) => {
 				}
 				case 'submit': {
 					const maskedText = masked ? `  ${color.dim(masked)}` : '';
-					return `${title}${color.gray(S_BAR)}${maskedText}`;
+					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}${maskedText}`;
 				}
 				case 'cancel': {
 					const maskedText = masked ? `  ${color.strikethrough(color.dim(masked))}` : '';

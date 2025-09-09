@@ -1,17 +1,19 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
+import { cursor } from "sisteransi";
 import {
-	type CommonOptions,
+	type CommonPromptOptions,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	symbol,
+	clearPrompt,
 } from './common.js';
 import type { Option } from './select.js';
 
-export interface GroupMultiSelectOptions<Value> extends CommonOptions {
+export interface GroupMultiSelectOptions<Value> extends CommonPromptOptions {
 	message: string;
 	options: Record<string, Option<Value>[]>;
 	initialValues?: Value[];
@@ -109,7 +111,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.map((option) => opt(option, 'submitted'));
 					const optionsText =
 						selectedOptions.length === 0 ? '' : `  ${selectedOptions.join(color.dim(', '))}`;
-					return `${title}${color.gray(S_BAR)}${optionsText}`;
+					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}${optionsText}`;
 				}
 				case 'cancel': {
 					const label = this.options

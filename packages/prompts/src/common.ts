@@ -58,3 +58,11 @@ export interface CommonOptions {
 	output?: Writable;
 	signal?: AbortSignal;
 }
+
+export interface CommonPromptOptions extends CommonOptions {
+	clearPromptOnDone: boolean;
+}
+
+export const clearPrompt = (opts: CommonPromptOptions) => {
+	return opts.clearPromptOnDone && typeof opts.clearPromptOnDone === 'boolean';
+}

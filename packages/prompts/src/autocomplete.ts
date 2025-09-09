@@ -1,7 +1,8 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
+import { cursor } from "sisteransi";
 import {
-	type CommonOptions,
+	type CommonPromptOptions,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_INACTIVE,
@@ -9,6 +10,7 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	clearPrompt,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -41,7 +43,7 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
-interface AutocompleteSharedOptions<Value> extends CommonOptions {
+interface AutocompleteSharedOptions<Value> extends CommonPromptOptions {
 	/**
 	 * The message to display to the user.
 	 */
@@ -103,7 +105,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					return `${title}${color.gray(S_BAR)}${label}`;
+					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}${label}`;
 				}
 
 				case 'cancel': {
@@ -266,7 +268,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
+					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
