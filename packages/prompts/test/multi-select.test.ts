@@ -315,4 +315,22 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['opt0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

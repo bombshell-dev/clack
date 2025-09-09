@@ -205,4 +205,22 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			input,
+			output,
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', 'x', { name: 'x' });
+		input.emit('keypress', 'y', { name: 'y' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('xy');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

@@ -36,6 +36,25 @@ exports[`select (isCI = false) > can cancel 1`] = `
 ]
 `;
 
+exports[`select (isCI = false) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = false) > down arrow selects next option 1`] = `
 [
   "<cursor.hide>",
@@ -187,6 +206,25 @@ exports[`select (isCI = true) > can cancel 1`] = `
   "[31m■[39m  foo
 [90m│[39m  [9m[2mopt0[22m[29m
 [90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
   "
 ",
   "<cursor.show>",

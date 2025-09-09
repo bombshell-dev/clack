@@ -367,4 +367,27 @@ describe.each(['true', 'false'])('groupMultiselect (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			options: {
+				group1: [{ value: 'group1value0' }, { value: 'group1value1' }],
+				group2: [{ value: 'group2value0' }],
+			},
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['group1value0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
