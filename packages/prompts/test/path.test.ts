@@ -191,4 +191,21 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('/tmp/bar');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			input,
+			output,
+			root: '/tmp/',
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(output.buffer).toMatchSnapshot();
+		expect(value).toBe('/tmp/bar');
+	});
 });
