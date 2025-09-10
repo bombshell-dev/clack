@@ -149,4 +149,22 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		expect(value).toBe('yz');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = prompts.password({
+			message: 'foo',
+			input,
+			output,
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', 'x', { name: 'x' });
+		input.emit('keypress', 'y', { name: 'y' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('xy');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

@@ -53,6 +53,24 @@ exports[`confirm (isCI = false) > can set initialValue 1`] = `
 ]
 `;
 
+exports[`confirm (isCI = false) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`confirm (isCI = false) > left arrow moves to previous choice 1`] = `
 [
   "<cursor.hide>",
@@ -210,6 +228,24 @@ exports[`confirm (isCI = true) > can set initialValue 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mNo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
   "
 ",
   "<cursor.show>",

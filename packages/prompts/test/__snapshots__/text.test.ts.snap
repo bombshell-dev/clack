@@ -33,6 +33,34 @@ exports[`text (isCI = false) > can cancel 1`] = `
 ]
 `;
 
+exports[`text (isCI = false) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  xy█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = false) > defaultValue sets the value but does not render 1`] = `
 [
   "<cursor.hide>",
@@ -290,6 +318,34 @@ exports[`text (isCI = true) > can cancel 1`] = `
   "<erase.down>",
   "[31m■[39m  foo
 [90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  xy█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
   "
 ",
   "<cursor.show>",

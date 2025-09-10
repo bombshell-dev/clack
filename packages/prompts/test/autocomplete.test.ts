@@ -168,6 +168,23 @@ describe('autocomplete', () => {
 		expect(isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = autocomplete({
+			message: 'foo',
+			options: testOptions,
+			input,
+			output,
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toBe('banana');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
 
 describe('autocompleteMultiselect', () => {
@@ -228,6 +245,26 @@ describe('autocompleteMultiselect', () => {
 			options: testOptions,
 			input,
 			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toEqual(['banana', 'cherry']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('clear prompt after done', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			input,
+			output,
+			clearPromptOnDone: true,
 		});
 
 		input.emit('keypress', '', { name: 'down' });

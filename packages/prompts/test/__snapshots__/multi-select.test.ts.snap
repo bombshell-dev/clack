@@ -150,6 +150,30 @@ exports[`multiselect (isCI = false) > can submit without selection when required
 ]
 `;
 
+exports[`multiselect (isCI = false) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m opt0
+[36m│[39m  [2m◻[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [
   "<cursor.hide>",
@@ -754,6 +778,30 @@ exports[`multiselect (isCI = true) > can submit without selection when required 
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mnone[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > clear prompt after done 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m opt0
+[36m│[39m  [2m◻[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "",
+  "<erase.down>",
+  "<cursor.up count=1>",
   "
 ",
   "<cursor.show>",

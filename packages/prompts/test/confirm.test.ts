@@ -150,4 +150,20 @@ describe.each(['true', 'false'])('confirm (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('clear prompt after done', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			input,
+			output,
+			clearPromptOnDone: true,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

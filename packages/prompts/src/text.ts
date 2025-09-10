@@ -1,8 +1,9 @@
 import { TextPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
+import { cursor } from "sisteransi";
+import { type CommonPromptOptions, S_BAR, S_BAR_END, symbol, clearPrompt } from './common.js';
 
-export interface TextOptions extends CommonOptions {
+export interface TextOptions extends CommonPromptOptions {
 	message: string;
 	placeholder?: string;
 	defaultValue?: string;
@@ -36,7 +37,7 @@ export const text = (opts: TextOptions) => {
 				}
 				case 'submit': {
 					const valueText = value ? `  ${color.dim(value)}` : '';
-					return `${title}${color.gray(S_BAR)}${valueText}`;
+					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}${valueText}`;
 				}
 				case 'cancel': {
 					const valueText = value ? `  ${color.strikethrough(color.dim(value))}` : '';
