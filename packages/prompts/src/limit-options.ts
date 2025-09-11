@@ -1,6 +1,5 @@
 import type { Writable } from 'node:stream';
-import { WriteStream } from 'node:tty';
-import { getColumns } from '@clack/core';
+import { getColumns, getRows } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import type { CommonOptions } from './common.js';
@@ -41,13 +40,13 @@ export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): stri
 	const columnPadding = params.columnPadding ?? 0;
 	const rowPadding = params.rowPadding ?? 4;
 	const maxWidth = columns - columnPadding;
-	const rows = output instanceof WriteStream && output.rows !== undefined ? output.rows : 20;
+	const rows = getRows(output);
 	const overflowFormat = color.dim('...');
 
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - rowPadding, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
-	const maxItems = Math.min(outputMaxItems, Math.max(paramMaxItems, 5));
+	const maxItems = Math.max(paramMaxItems, 5);
 	let slidingWindowLocation = 0;
 
 	if (cursor >= maxItems - 3) {

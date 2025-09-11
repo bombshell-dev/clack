@@ -90,3 +90,11 @@ export const getColumns = (output: Writable): number => {
 	}
 	return 80;
 };
+
+export const getRows = (output: Writable): number => {
+	const withRows = output as Writable & { rows?: number };
+	if ('rows' in withRows && typeof withRows.rows === 'number') {
+		return withRows.rows;
+	}
+	return 20;
+};

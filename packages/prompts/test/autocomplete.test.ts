@@ -168,6 +168,63 @@ describe('autocomplete', () => {
 		expect(isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('renders bottom ellipsis when items do not fit', async () => {
+		output.rows = 5;
+
+		const options = [
+			{
+				value: Array.from({ length: 4 })
+					.map((_val, index) => `Line ${index}`)
+					.join('\n'),
+			},
+			{
+				value: 'Option 2',
+			},
+		];
+
+		const result = autocomplete({
+			message: 'Select an option',
+			options,
+			maxItems: 5,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('renders top ellipsis when scrolled down and its do not fit', async () => {
+		output.rows = 5;
+
+		const options = [
+			{
+				value: 'option1',
+				label: Array.from({ length: 4 })
+					.map((_val, index) => `Line ${index}`)
+					.join('\n'),
+			},
+			{
+				value: 'option2',
+				label: 'Option 2',
+			},
+		];
+
+		const result = autocomplete({
+			message: 'Select an option',
+			options,
+			initialValue: 'option2',
+			maxItems: 5,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
 
 describe('autocompleteMultiselect', () => {
