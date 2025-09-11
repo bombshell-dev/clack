@@ -4,6 +4,7 @@ export class MockWritable extends Writable {
 	public buffer: string[] = [];
 	public isTTY = false;
 	public columns = 80;
+	public rows = 20;
 
 	_write(
 		chunk: any,
