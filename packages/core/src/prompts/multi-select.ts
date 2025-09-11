@@ -21,7 +21,11 @@ export default class MultiSelectPrompt<T extends { value: any }> extends Prompt<
 	}
 
 	private toggleInvert() {
-		const notSelected = this.options.filter((v) => !this.value.includes(v.value));
+		const value = this.value;
+		if (!value) {
+			return;
+		}
+		const notSelected = this.options.filter((v) => !value.includes(v.value));
 		this.value = notSelected.map((v) => v.value);
 	}
 

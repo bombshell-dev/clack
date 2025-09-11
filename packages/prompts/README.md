@@ -203,7 +203,9 @@ console.log(group.name, group.age, group.color);
 Execute multiple tasks in spinners.
 
 ```js
-await p.tasks([
+import { tasks } from '@clack/prompts';
+
+await tasks([
   {
     title: 'Installing via npm',
     task: async (message) => {

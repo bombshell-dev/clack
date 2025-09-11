@@ -13,8 +13,9 @@
     "verbatimModuleSyntax": true,
     "lib": ["ES2022"],
     "paths": {
-      "@clack/core": ["./packages/core/src"]
+      "@clack/core": ["./packages/core/src/index.ts"],
+      "@clack/prompts": ["./packages/prompts/src/index.ts"]
     }
   },
-  "include": ["packages"]
+  "include": ["packages/*/src/**/*"]
 }

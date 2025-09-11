@@ -1,7 +1,8 @@
 import process from 'node:process';
 import type { Writable } from 'node:stream';
-import { stripVTControlCharacters as strip } from 'node:util';
-import { wrapAnsi } from 'fast-wrap-ansi';
+import { getColumns } from '@clack/core';
+import stringWidth from 'fast-string-width';
+import { type Options as WrapAnsiOptions, wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -13,39 +14,42 @@ import {
 	S_STEP_SUBMIT,
 } from './common.js';
 
+type FormatFn = (line: string) => string;
 export interface NoteOptions extends CommonOptions {
-	format?: (line: string) => string;
+	format?: FormatFn;
 }
 
 const defaultNoteFormatter = (line: string): string => color.dim(line);
 
-const wrapWithFormat = (message: string, width: number, format: NoteOptions['format']): string => {
-	const wrapMsg = wrapAnsi(message, width).split('\n');
-	const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
-	const maxWidthFormat = wrapMsg
-		.map(format)
-		.reduce((sum, ln) => Math.max(strip(ln).length, sum), 0);
+const wrapWithFormat = (message: string, width: number, format: FormatFn): string => {
+	const opts: WrapAnsiOptions = {
+		hard: true,
+		trim: false,
+	};
+	const wrapMsg = wrapAnsi(message, width, opts).split('\n');
+	const maxWidthNormal = wrapMsg.reduce((sum, ln) => Math.max(stringWidth(ln), sum), 0);
+	const maxWidthFormat = wrapMsg.map(format).reduce((sum, ln) => Math.max(stringWidth(ln), sum), 0);
 	const wrapWidth = width - (maxWidthFormat - maxWidthNormal);
-	return wrapAnsi(message, wrapWidth);
+	return wrapAnsi(message, wrapWidth, opts);
 };
 
 export const note = (message = '', title = '', opts?: NoteOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
 	const format = opts?.format ?? defaultNoteFormatter;
-	const wrapMsg = wrapWithFormat(message, output.columns - 6, format);
+	const wrapMsg = wrapWithFormat(message, getColumns(output) - 6, format);
 	const lines = ['', ...wrapMsg.split('\n').map(format), ''];
-	const titleLen = strip(title).length;
+	const titleLen = stringWidth(title);
 	const len =
 		Math.max(
 			lines.reduce((sum, ln) => {
-				const line = strip(ln);
-				return line.length > sum ? line.length : sum;
+				const width = stringWidth(ln);
+				return width > sum ? width : sum;
 			}, 0),
 			titleLen
 		) + 2;
 	const msg = lines
 		.map(
-			(ln) => `${color.gray(S_BAR)}  ${ln}${' '.repeat(len - strip(ln).length)}${color.gray(S_BAR)}`
+			(ln) => `${color.gray(S_BAR)}  ${ln}${' '.repeat(len - stringWidth(ln))}${color.gray(S_BAR)}`
 		)
 		.join('\n');
 	output.write(

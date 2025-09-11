@@ -3,6 +3,7 @@ import { Readable, Writable } from 'node:stream';
 export class MockWritable extends Writable {
 	public buffer: string[] = [];
 	public isTTY = false;
+	public columns = 80;
 
 	_write(
 		chunk: any,

@@ -1,5 +1,6 @@
 import type { Writable } from 'node:stream';
 import { getColumns } from '@clack/core';
+import stringWidth from 'fast-string-width';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import {
 	type CommonOptions,
@@ -72,13 +73,15 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const symbols = (opts?.rounded ? roundedSymbols : squareSymbols).map(formatBorder);
 	const hSymbol = formatBorder(S_BAR_H);
 	const vSymbol = formatBorder(S_BAR);
-	const maxBoxWidth = columns - linePrefix.length;
-	let boxWidth = Math.floor(columns * width) - linePrefix.length;
+	const linePrefixWidth = stringWidth(linePrefix);
+	const titleWidth = stringWidth(title);
+	const maxBoxWidth = columns - linePrefixWidth;
+	let boxWidth = Math.floor(columns * width) - linePrefixWidth;
 	if (opts?.width === 'auto') {
 		const lines = message.split('\n');
-		let longestLine = title.length + titlePadding * 2;
+		let longestLine = titleWidth + titlePadding * 2;
 		for (const line of lines) {
-			const lineWithPadding = line.length + contentPadding * 2;
+			const lineWithPadding = stringWidth(line) + contentPadding * 2;
 			if (lineWithPadding > longestLine) {
 				longestLine = lineWithPadding;
 			}
@@ -98,9 +101,9 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const innerWidth = boxWidth - borderTotalWidth;
 	const maxTitleLength = innerWidth - titlePadding * 2;
 	const truncatedTitle =
-		title.length > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
+		titleWidth > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
 	const [titlePaddingLeft, titlePaddingRight] = getPaddingForLine(
-		truncatedTitle.length,
+		stringWidth(truncatedTitle),
 		innerWidth,
 		titlePadding,
 		opts?.titleAlign
@@ -115,7 +118,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const wrappedLines = wrappedMessage.split('\n');
 	for (const line of wrappedLines) {
 		const [leftLinePadding, rightLinePadding] = getPaddingForLine(
-			line.length,
+			stringWidth(line),
 			innerWidth,
 			contentPadding,
 			opts?.contentAlign
