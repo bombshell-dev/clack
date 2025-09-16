@@ -31,6 +31,13 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * Whether this option is disabled.
+			 * Disabled options are visible but cannot be selected.
+			 *
+			 * By default, options are not disabled.
+			 */
+			disabled?: boolean;
 		}
 	: {
 			/**
@@ -48,6 +55,13 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * Whether this option is disabled.
+			 * Disabled options are visible but cannot be selected.
+			 *
+			 * By default, options are not disabled.
+			 */
+			disabled?: boolean;
 		};
 
 export interface SelectOptions<Value> extends CommonOptions {
@@ -58,9 +72,16 @@ export interface SelectOptions<Value> extends CommonOptions {
 }
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
-	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
+	const opt = (
+		option: Option<Value>,
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
+	) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
+			case 'disabled':
+				return `${color.black(S_RADIO_ACTIVE)} ${color.dim(label)}${
+					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+				}`;
 			case 'selected':
 				return `${color.dim(label)}`;
 			case 'active':
@@ -97,7 +118,8 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
-						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
+						style: (item, active) =>
+							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
 					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
