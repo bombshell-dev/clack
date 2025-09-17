@@ -81,6 +81,34 @@ exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
 ]
 `;
 
+exports[`autocomplete > renders bottom ellipsis when items do not fit 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select an option
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Line 0
+[36m│[39m  Line 1
+[36m│[39m  Line 2
+[36m│[39m  Line 3
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select an option
+[90m│[39m  [2mLine 0
+Line 1
+Line 2
+Line 3[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`autocomplete > renders initial UI with message and instructions 1`] = `
 [
   "<cursor.hide>",
@@ -125,6 +153,28 @@ exports[`autocomplete > renders placeholder if set 1`] = `
   "<erase.down>",
   "[32m◇[39m  Select a fruit
 [90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > renders top ellipsis when scrolled down and its do not fit 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select an option
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m...[22m
+[36m│[39m  [32m●[39m Option 2
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select an option
+[90m│[39m  [2mOption 2[22m",
   "
 ",
   "<cursor.show>",

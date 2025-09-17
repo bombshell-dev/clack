@@ -91,7 +91,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		validate: opts.validate,
 		render() {
 			// Title and message display
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
 			const options = this.options;
@@ -105,12 +105,13 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}${label}`;
+
+					return clearPrompt(opts) ? cursor.up() :`${headings.join('\n')}\n${color.gray(S_BAR)}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
-					return `${title}${color.gray(S_BAR)}${userInputText}`;
+					return `${headings.join('\n')}\n${color.gray(S_BAR)}${userInputText}`;
 				}
 
 				default: {
@@ -131,6 +132,34 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 								)
 							: '';
 
+					// No matches message
+					const noResults =
+						this.filteredOptions.length === 0 && userInput
+							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							: [];
+
+					const validationError =
+						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+
+					headings.push(
+						`${color.cyan(S_BAR)}`,
+						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
+						...noResults,
+						...validationError
+					);
+
+					// Show instructions
+					const instructions = [
+						`${color.dim('↑/↓')} to select`,
+						`${color.dim('Enter:')} confirm`,
+						`${color.dim('Type:')} to search`,
+					];
+
+					const footers = [
+						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
+						`${color.cyan(S_BAR_END)}`,
+					];
+
 					// Render options with selection
 					const displayOptions =
 						this.filteredOptions.length === 0
@@ -138,6 +167,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 							: limitOptions({
 									cursor: this.cursor,
 									options: this.filteredOptions,
+									columnPadding: 3, // for `|  `
+									rowPadding: headings.length + footers.length,
 									style: (option, active) => {
 										const label = getLabel(option);
 										const hint =
@@ -153,31 +184,11 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 									output: opts.output,
 								});
 
-					// Show instructions
-					const instructions = [
-						`${color.dim('↑/↓')} to select`,
-						`${color.dim('Enter:')} confirm`,
-						`${color.dim('Type:')} to search`,
-					];
-
-					// No matches message
-					const noResults =
-						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
-							: [];
-
-					const validationError =
-						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
-
 					// Return the formatted prompt
 					return [
-						`${title}${color.cyan(S_BAR)}`,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
-						...noResults,
-						...validationError,
+						...headings,
 						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						...footers,
 					].join('\n');
 				}
 			}

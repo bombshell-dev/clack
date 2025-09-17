@@ -84,9 +84,15 @@ export function block({
 }
 
 export const getColumns = (output: Writable): number => {
-	const withColumns = output as Writable & { columns?: number };
-	if ('columns' in withColumns && typeof withColumns.columns === 'number') {
-		return withColumns.columns;
+	if ('columns' in output && typeof output.columns === 'number') {
+		return output.columns;
 	}
 	return 80;
+};
+
+export const getRows = (output: Writable): number => {
+	if ('rows' in output && typeof output.rows === 'number') {
+		return output.rows;
+	}
+	return 20;
 };
