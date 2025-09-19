@@ -1,15 +1,15 @@
 import { MultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
-import { cursor } from "sisteransi";
+import { cursor } from 'sisteransi';
 import {
 	type CommonPromptOptions,
+	clearPrompt,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	symbol,
-	clearPrompt,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -88,12 +88,14 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit': {
-					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}  ${
-						this.options
-							.filter(({ value: optionValue }) => value.includes(optionValue))
-							.map((option) => opt(option, 'submitted'))
-							.join(color.dim(', ')) || color.dim('none')
-					}`;
+					return clearPrompt(opts)
+						? cursor.up()
+						: `${title}${color.gray(S_BAR)}  ${
+								this.options
+									.filter(({ value: optionValue }) => value.includes(optionValue))
+									.map((option) => opt(option, 'submitted'))
+									.join(color.dim(', ')) || color.dim('none')
+							}`;
 				}
 				case 'cancel': {
 					const label = this.options

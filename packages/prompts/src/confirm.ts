@@ -1,14 +1,14 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import { cursor } from "sisteransi";
+import { cursor } from 'sisteransi';
 import {
 	type CommonPromptOptions,
+	clearPrompt,
 	S_BAR,
 	S_BAR_END,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
-	clearPrompt,
 } from './common.js';
 
 export interface ConfirmOptions extends CommonPromptOptions {
@@ -33,7 +33,9 @@ export const confirm = (opts: ConfirmOptions) => {
 
 			switch (this.state) {
 				case 'submit':
-					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
+					return clearPrompt(opts)
+						? cursor.up()
+						: `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
 						color.dim(value)

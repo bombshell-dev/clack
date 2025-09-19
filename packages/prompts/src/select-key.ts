@@ -1,7 +1,7 @@
 import { SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
 import { cursor } from 'sisteransi';
-import { S_BAR, S_BAR_END, symbol, clearPrompt } from './common.js';
+import { clearPrompt, S_BAR, S_BAR_END, symbol } from './common.js';
 import type { Option, SelectOptions } from './select.js';
 
 export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
@@ -37,10 +37,12 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit':
-					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}  ${opt(
-						this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
-						'selected'
-					)}`;
+					return clearPrompt(opts)
+						? cursor.up()
+						: `${title}${color.gray(S_BAR)}  ${opt(
+								this.options.find((opt) => opt.value === this.value) ?? opts.options[0],
+								'selected'
+							)}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${opt(this.options[0], 'cancelled')}\n${color.gray(
 						S_BAR

@@ -3,12 +3,12 @@ import color from 'picocolors';
 import { cursor } from 'sisteransi';
 import {
 	type CommonPromptOptions,
+	clearPrompt,
 	S_BAR,
 	S_BAR_END,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
-	clearPrompt
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 
@@ -87,7 +87,9 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit':
-					return clearPrompt(opts) ? cursor.up() : `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
+					return clearPrompt(opts)
+						? cursor.up()
+						: `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
 				case 'cancel':
 					return `${title}${color.gray(S_BAR)}  ${opt(
 						this.options[this.cursor],

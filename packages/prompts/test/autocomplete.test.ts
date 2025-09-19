@@ -225,7 +225,7 @@ describe('autocomplete', () => {
 		await result;
 		expect(output.buffer).toMatchSnapshot();
 	});
-	
+
 	test('clear prompt after done', async () => {
 		const result = autocomplete({
 			message: 'foo',

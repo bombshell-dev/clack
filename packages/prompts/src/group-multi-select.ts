@@ -1,15 +1,15 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
-import { cursor } from "sisteransi";
+import { cursor } from 'sisteransi';
 import {
 	type CommonPromptOptions,
+	clearPrompt,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	symbol,
-	clearPrompt,
 } from './common.js';
 import type { Option } from './select.js';
 

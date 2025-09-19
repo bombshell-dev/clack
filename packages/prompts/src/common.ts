@@ -65,4 +65,4 @@ export interface CommonPromptOptions extends CommonOptions {
 
 export const clearPrompt = (opts: CommonPromptOptions) => {
 	return Boolean(opts.clearPromptOnDone && typeof opts.clearPromptOnDone === 'boolean');
-}
+};
