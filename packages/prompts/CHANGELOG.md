@@ -1,5 +1,25 @@
 # @clack/prompts
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- 55645c2: Support wrapping autocomplete and select prompts.
+
+### Patch Changes
+
+- 9999adf: fix note component overflow bug
+- 2839c66: fix(note): hard wrap text to column limit
+- 71b5029: Add missing nullish checks around values.
+- d25f6d0: fix(note, box): handle CJK correctly
+- 0b852e1: Handle `stop` calls on spinners which have not yet been started.
+- 09e596c: refactor(progress): remove unnecessary return statement in start function
+- 2310b43: Allow custom writables as output stream.
+- Updated dependencies [71b5029]
+- Updated dependencies [55645c2]
+- Updated dependencies [2310b43]
+  - @clack/core@1.0.0-alpha.5
+
 ## 1.0.0-alpha.4
 
 ### Patch Changes
