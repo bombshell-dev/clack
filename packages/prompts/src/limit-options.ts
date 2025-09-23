@@ -46,7 +46,7 @@ export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): stri
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - rowPadding, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
-	const maxItems = Math.max(paramMaxItems, 5);
+	const maxItems = Math.max(Math.min(paramMaxItems, outputMaxItems), 5);
 	let slidingWindowLocation = 0;
 
 	if (cursor >= maxItems - 3) {
@@ -73,7 +73,10 @@ export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): stri
 		slidingWindowLocationEnd - (shouldRenderBottomEllipsis ? 1 : 0);
 
 	for (let i = slidingWindowLocationWithEllipsis; i < slidingWindowLocationEndWithEllipsis; i++) {
-		const wrappedLines = wrapAnsi(style(options[i], i === cursor), maxWidth).split('\n');
+		const wrappedLines = wrapAnsi(style(options[i], i === cursor), maxWidth, {
+			hard: true,
+			trim: false,
+		}).split('\n');
 		lineGroups.push(wrappedLines);
 		lineCount += wrappedLines.length;
 	}
