@@ -1,5 +1,11 @@
 # @clack/prompts
 
+## 1.0.0-alpha.6
+
+### Patch Changes
+
+- aea4573: Clamp scrolling windows to 5 rows.
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes
