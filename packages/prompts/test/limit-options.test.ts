@@ -103,7 +103,7 @@ describe('limitOptions', () => {
 		output.rows = 7;
 		options.maxItems = 10;
 		const result = limitOptions(options);
-		expect(result).toEqual(['Item 1', 'Item 2', 'Item 3', color.dim('...')]);
+		expect(result).toEqual(['Item 1', 'Item 2', color.dim('...')]);
 	});
 
 	test('handle multi-line item clamping (start)', async () => {

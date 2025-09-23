@@ -50,7 +50,7 @@
   "scripts": {
     "build": "unbuild",
     "prepack": "pnpm build",
-    "test": "FORCE_COLOR=1 vitest run"
+    "test": "vitest run"
   },
   "dependencies": {
     "@clack/core": "workspace:*",
