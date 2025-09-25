@@ -1,7 +1,7 @@
 import { block, getColumns, settings } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import colors from 'picocolors';
-import type { Colors } from 'picocolors/types';
+import type { Colors } from 'picocolors/types.d.ts';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
