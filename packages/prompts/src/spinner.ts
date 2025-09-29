@@ -1,7 +1,6 @@
 import { block, getColumns, settings } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
-import colors from 'picocolors';
-import type { Colors } from 'picocolors/types.d.ts';
+import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
@@ -20,7 +19,7 @@ export interface SpinnerOptions extends CommonOptions {
 	errorMessage?: string;
 	frames?: string[];
 	delay?: number;
-	color?: keyof Omit<Colors, 'isColorSupported'>;
+	style?: (frame: string) => string;
 }
 
 export interface SpinnerResult {
@@ -29,6 +28,8 @@ export interface SpinnerResult {
 	message(msg?: string): void;
 	readonly isCancelled: boolean;
 }
+
+const defaultStyleFn: SpinnerOptions['style'] = color.magenta;
 
 export const spinner = ({
 	indicator = 'dots',
@@ -39,7 +40,7 @@ export const spinner = ({
 	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
 	delay = unicode ? 80 : 120,
 	signal,
-	color = 'magenta',
+	style,
 }: SpinnerOptions = {}): SpinnerResult => {
 	const isCI = isCIFn();
 
@@ -51,6 +52,7 @@ export const spinner = ({
 	let _prevMessage: string | undefined;
 	let _origin: number = performance.now();
 	const columns = getColumns(output);
+	const styleFn = style ?? defaultStyleFn;
 
 	const handleExit = (code: number) => {
 		const msg =
@@ -127,7 +129,7 @@ export const spinner = ({
 		unblock = block({ output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
-		output.write(`${colors.gray(S_BAR)}\n`);
+		output.write(`${color.gray(S_BAR)}\n`);
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		registerHooks();
@@ -137,7 +139,7 @@ export const spinner = ({
 			}
 			clearPrevMessage();
 			_prevMessage = _message;
-			const frame = colors[color](frames[frameIndex]);
+			const frame = styleFn(frames[frameIndex]);
 			let outputMessage: string;
 
 			if (isCI) {
@@ -168,10 +170,10 @@ export const spinner = ({
 		clearPrevMessage();
 		const step =
 			code === 0
-				? colors.green(S_STEP_SUBMIT)
+				? color.green(S_STEP_SUBMIT)
 				: code === 1
-					? colors.red(S_STEP_CANCEL)
-					: colors.red(S_STEP_ERROR);
+					? color.red(S_STEP_CANCEL)
+					: color.red(S_STEP_ERROR);
 		_message = msg ?? _message;
 		if (indicator === 'timer') {
 			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
