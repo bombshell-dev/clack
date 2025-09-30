@@ -3,6 +3,7 @@ import { getColumns } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
+import color from 'picocolors';
 
 describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 	let originalCI: string | undefined;
@@ -227,6 +228,20 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			// there are 4 frames
 			for (let i = 0; i < 4; i++) {
 				vi.advanceTimersByTime(200);
+			}
+
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('custom frame style', () => {
+			const result = prompts.spinner({ output, styleFrame: color.red });
+
+			result.start();
+
+			for (let i = 0; i < 64; i++) {
+				vi.advanceTimersByTime(80);
 			}
 
 			result.stop();
