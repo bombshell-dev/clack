@@ -1,17 +1,14 @@
-export function findPrevCursor<T extends { disabled?: boolean }>(cursor: number, options: T[]) {
-	const prevCursor = cursor === 0 ? options.length - 1 : cursor - 1;
-	const prevOption = options[prevCursor];
-	if (prevOption.disabled) {
-		return findPrevCursor(prevCursor, options);
+export function findCursor<T extends { disabled?: boolean }>(
+	cursor: number,
+	delta: number,
+	options: T[]
+) {
+	const newCursor = cursor + delta;
+	const maxCursor = Math.max(options.length - 1, 0);
+	const clampedCursor = newCursor < 0 ? maxCursor : newCursor > maxCursor ? 0 : newCursor;
+	const newOption = options[clampedCursor];
+	if (newOption.disabled) {
+		return findCursor(clampedCursor, delta + (delta < 0 ? -1 : 1), options);
 	}
-	return prevCursor;
-}
-
-export function findNextCursor<T extends { disabled?: boolean }>(cursor: number, options: T[]) {
-	const nextCursor = cursor === options.length - 1 ? 0 : cursor + 1;
-	const nextOption = options[nextCursor];
-	if (nextOption.disabled) {
-		return findNextCursor(nextCursor, options);
-	}
-	return nextCursor;
+	return clampedCursor;
 }

@@ -1,4 +1,4 @@
-import { findNextCursor, findPrevCursor } from '../utils/cursor.js';
+import { findCursor } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface SelectOptions<T extends { value: any; disabled?: boolean }>
@@ -11,7 +11,6 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 > {
 	options: T[];
 	cursor = 0;
-	#enabledOptions: T[] = [];
 
 	private get _selectedValue() {
 		return this.options[this.cursor];
@@ -25,23 +24,21 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 		super(opts, false);
 
 		this.options = opts.options;
-		this.#enabledOptions = this.options.filter((option) => !option.disabled);
-		if (this.#enabledOptions.length === 0) return;
 
 		const initialCursor = this.options.findIndex(({ value }) => value === opts.initialValue);
-		const cursor = initialCursor === -1 ? 0 : initialCursor
-		this.cursor = this.options[cursor].disabled ? findNextCursor<T>(cursor, this.options) : cursor;
+		const cursor = initialCursor === -1 ? 0 : initialCursor;
+		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.changeValue();
 
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'left':
 				case 'up':
-					this.cursor = findPrevCursor<T>(this.cursor, this.options);
+					this.cursor = findCursor<T>(this.cursor, -1, this.options);
 					break;
 				case 'down':
 				case 'right':
-					this.cursor = findNextCursor<T>(this.cursor, this.options);
+					this.cursor = findCursor<T>(this.cursor, 1, this.options);
 					break;
 			}
 			this.changeValue();
