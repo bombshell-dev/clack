@@ -2,7 +2,7 @@ import { stdin, stdout } from 'node:process';
 import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
-import { ReadStream, WriteStream } from 'node:tty';
+import { ReadStream } from 'node:tty';
 import { cursor } from 'sisteransi';
 import { isActionKey } from './settings.js';
 
@@ -84,8 +84,15 @@ export function block({
 }
 
 export const getColumns = (output: Writable): number => {
-	if (output instanceof WriteStream && output.columns) {
+	if ('columns' in output && typeof output.columns === 'number') {
 		return output.columns;
 	}
 	return 80;
+};
+
+export const getRows = (output: Writable): number => {
+	if ('rows' in output && typeof output.rows === 'number') {
+		return output.rows;
+	}
+	return 20;
 };

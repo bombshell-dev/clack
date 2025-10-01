@@ -1,6 +1,6 @@
 {
   "name": "@clack/prompts",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -50,7 +50,7 @@
   "scripts": {
     "build": "unbuild",
     "prepack": "pnpm build",
-    "test": "FORCE_COLOR=1 vitest run"
+    "test": "vitest run"
   },
   "dependencies": {
     "@clack/core": "workspace:*",
@@ -58,10 +58,11 @@
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
+    "fast-string-width": "^1.1.0",
+    "fast-wrap-ansi": "^0.1.3",
     "is-unicode-supported": "^1.3.0",
     "memfs": "^4.17.2",
     "vitest": "^3.2.4",
-    "vitest-ansi-serializer": "^0.1.2",
-    "fast-wrap-ansi": "^0.1.3"
+    "vitest-ansi-serializer": "^0.1.2"
   }
 }
