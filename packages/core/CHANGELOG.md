@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.0.0-alpha.6
+
+### Patch Changes
+
+- b103ad3: Allow disabled options in multi-select and select prompts.
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes
