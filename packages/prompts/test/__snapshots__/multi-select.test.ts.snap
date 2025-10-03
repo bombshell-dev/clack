@@ -240,6 +240,32 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 ]
 `;
 
+exports[`multiselect (isCI = false) > renders disabled options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [90m◻[39m [90mopt0[39m
+[36m│[39m  [36m◻[39m opt1
+[36m│[39m  [90m◻[39m [90mopt2[39m [2m(Hint 2)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`multiselect (isCI = false) > renders message 1`] = `
 [
   "<cursor.hide>",
@@ -844,6 +870,32 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt6[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders disabled options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [90m◻[39m [90mopt0[39m
+[36m│[39m  [36m◻[39m opt1
+[36m│[39m  [90m◻[39m [90mopt2[39m [2m(Hint 2)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mopt1[22m",
   "
 ",
   "<cursor.show>",

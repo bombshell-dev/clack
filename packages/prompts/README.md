@@ -86,7 +86,7 @@ const projectType = await select({
   message: 'Pick a project type.',
   options: [
     { value: 'ts', label: 'TypeScript' },
-    { value: 'js', label: 'JavaScript' },
+    { value: 'js', label: 'JavaScript', disabled: true },
     { value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
   ],
 });
@@ -103,7 +103,7 @@ const additionalTools = await multiselect({
   message: 'Select additional tools.',
   options: [
     { value: 'eslint', label: 'ESLint', hint: 'recommended' },
-    { value: 'prettier', label: 'Prettier' },
+    { value: 'prettier', label: 'Prettier', disabled: true },
     { value: 'gh-action', label: 'GitHub Action' },
   ],
   required: false,
