@@ -24,7 +24,7 @@ export interface SpinnerOptions extends CommonOptions {
 
 export interface SpinnerResult {
 	start(msg?: string): void;
-	stop(msg?: string, code?: number): void;
+	stop(msg?: string, code?: number, clear?: boolean): void;
 	message(msg?: string): void;
 	readonly isCancelled: boolean;
 }
@@ -163,7 +163,7 @@ export const spinner = ({
 		}, delay);
 	};
 
-	const stop = (msg = '', code = 0): void => {
+	const stop = (msg = '', code = 0, clear = false): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
@@ -174,11 +174,13 @@ export const spinner = ({
 				: code === 1
 					? color.red(S_STEP_CANCEL)
 					: color.red(S_STEP_ERROR);
-		_message = msg ?? _message;
-		if (indicator === 'timer') {
-			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
-		} else {
-			output.write(`${step}  ${_message}\n`);
+		if (!clear) {
+			_message = msg ?? _message;
+			if (indicator === 'timer') {
+				output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+			} else {
+				output.write(`${step}  ${_message}\n`);
+			}
 		}
 		clearHooks();
 		unblock();
