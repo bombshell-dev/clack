@@ -34,8 +34,8 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
-			return `${color.black(S_CHECKBOX_SELECTED)} ${color.dim(label)}${
-				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+			return `${color.gray(S_CHECKBOX_INACTIVE)} ${color.gray(label)}${
+				option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 			}`;
 		}
 		if (state === 'active') {
@@ -118,28 +118,32 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					}`;
 				}
 				case 'error': {
+					const prefix = `${color.yellow(S_BAR)}  `;
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title + color.yellow(S_BAR)}  ${limitOptions({
+					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						columnPadding: prefix.length,
 						style: styleOption,
-					}).join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+					}).join(`\n${prefix}`)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+					const prefix = `${color.cyan(S_BAR)}  `;
+					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						columnPadding: prefix.length,
 						style: styleOption,
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},

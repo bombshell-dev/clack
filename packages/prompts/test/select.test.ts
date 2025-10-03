@@ -145,4 +145,24 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('renders disabled options', async () => {
+		const result = prompts.select({
+			message: 'foo',
+			options: [
+				{ value: 'opt0', label: 'Option 0', disabled: true },
+				{ value: 'opt1', label: 'Option 1' },
+				{ value: 'opt2', label: 'Option 2', disabled: true, hint: 'Hint 2' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('opt1');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

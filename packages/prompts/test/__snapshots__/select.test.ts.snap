@@ -63,6 +63,27 @@ exports[`select (isCI = false) > down arrow selects next option 1`] = `
 ]
 `;
 
+exports[`select (isCI = false) > renders disabled options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [90m○[39m [90mOption 0[39m
+[36m│[39m  [32m●[39m Option 1
+[36m│[39m  [90m○[39m [90mOption 2[39m [2m(Hint 2)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = false) > renders option hints 1`] = `
 [
   "<cursor.hide>",
@@ -214,6 +235,27 @@ exports[`select (isCI = true) > down arrow selects next option 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > renders disabled options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [90m○[39m [90mOption 0[39m
+[36m│[39m  [32m●[39m Option 1
+[36m│[39m  [90m○[39m [90mOption 2[39m [2m(Hint 2)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 1[22m",
   "
 ",
   "<cursor.show>",

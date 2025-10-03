@@ -79,8 +79,8 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${color.black(S_RADIO_ACTIVE)} ${color.dim(label)}${
-					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+				return `${color.gray(S_RADIO_INACTIVE)} ${color.gray(label)}${
+					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
 				return `${color.dim(label)}`;
@@ -113,14 +113,16 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						'cancelled'
 					)}\n${color.gray(S_BAR)}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${limitOptions({
+					const prefix = `${color.cyan(S_BAR)}  `;
+					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
+						columnPadding: prefix.length,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${color.cyan(S_BAR)}  `)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},
