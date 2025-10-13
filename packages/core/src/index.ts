@@ -1,3 +1,4 @@
+export * from './component.js';
 export { default as AutocompletePrompt } from './prompts/autocomplete.js';
 export { default as ConfirmPrompt } from './prompts/confirm.js';
 export { default as GroupMultiSelectPrompt } from './prompts/group-multiselect.js';
