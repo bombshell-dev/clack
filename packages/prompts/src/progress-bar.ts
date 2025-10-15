@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import type { State } from '@clack/core';
-import color from 'picocolors';
 import { unicodeOr } from './common.js';
 import { type SpinnerOptions, type SpinnerResult, spinner } from './spinner.js';
 
@@ -36,19 +36,19 @@ export function progress({
 		switch (state) {
 			case 'initial':
 			case 'active':
-				return color.magenta;
+				return (text: string) => styleText('magenta', text);
 			case 'error':
 			case 'cancel':
-				return color.red;
+				return (text: string) => styleText('red', text);
 			case 'submit':
-				return color.green;
+				return (text: string) => styleText('green', text);
 			default:
-				return color.magenta;
+				return (text: string) => styleText('magenta', text);
 		}
 	};
 	const drawProgress = (state: State, msg: string) => {
 		const active = Math.floor((value / max) * size);
-		return `${activeStyle(state)(S_PROGRESS_CHAR[style].repeat(active))}${color.dim(S_PROGRESS_CHAR[style].repeat(size - active))} ${msg}`;
+		return `${activeStyle(state)(S_PROGRESS_CHAR[style].repeat(active))}${styleText('dim', S_PROGRESS_CHAR[style].repeat(size - active))} ${msg}`;
 	};
 
 	const start = (msg = '') => {

@@ -1,7 +1,7 @@
 import type { Readable, Writable } from 'node:stream';
+import { styleText } from 'node:util';
 import type { State } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
-import color from 'picocolors';
 
 export const unicode = isUnicodeSupported();
 export const isCI = (): boolean => process.env.CI === 'true';
@@ -43,13 +43,13 @@ export const symbol = (state: State) => {
 	switch (state) {
 		case 'initial':
 		case 'active':
-			return color.cyan(S_STEP_ACTIVE);
+			return styleText('cyan', S_STEP_ACTIVE);
 		case 'cancel':
-			return color.red(S_STEP_CANCEL);
+			return styleText('red', S_STEP_CANCEL);
 		case 'error':
-			return color.yellow(S_STEP_ERROR);
+			return styleText('yellow', S_STEP_ERROR);
 		case 'submit':
-			return color.green(S_STEP_SUBMIT);
+			return styleText('green', S_STEP_SUBMIT);
 	}
 };
 

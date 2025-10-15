@@ -1,6 +1,6 @@
+import { styleText } from 'node:util';
 import { block, getColumns, settings } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
-import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
@@ -124,7 +124,7 @@ export const spinner = ({
 		unblock = block({ output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
-		output.write(`${color.gray(S_BAR)}\n`);
+		output.write(`${styleText('gray', S_BAR)}\n`);
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		registerHooks();
@@ -134,7 +134,7 @@ export const spinner = ({
 			}
 			clearPrevMessage();
 			_prevMessage = _message;
-			const frame = color.magenta(frames[frameIndex]);
+			const frame = styleText('magenta', frames[frameIndex]);
 			let outputMessage: string;
 
 			if (isCI) {
@@ -165,10 +165,10 @@ export const spinner = ({
 		clearPrevMessage();
 		const step =
 			code === 0
-				? color.green(S_STEP_SUBMIT)
+				? styleText('green', S_STEP_SUBMIT)
 				: code === 1
-					? color.red(S_STEP_CANCEL)
-					: color.red(S_STEP_ERROR);
+					? styleText('red', S_STEP_CANCEL)
+					: styleText('red', S_STEP_ERROR);
 		_message = msg ?? _message;
 		if (indicator === 'timer') {
 			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);

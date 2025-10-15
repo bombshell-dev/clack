@@ -1,5 +1,5 @@
 import type { Key } from 'node:readline';
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
@@ -71,14 +71,14 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 	get userInputWithCursor() {
 		if (!this.userInput) {
-			return color.inverse(color.hidden('_'));
+			return styleText('inverse', styleText('hidden', '_'));
 		}
 		if (this._cursor >= this.userInput.length) {
 			return `${this.userInput}█`;
 		}
 		const s1 = this.userInput.slice(0, this._cursor);
 		const [s2, ...s3] = this.userInput.slice(this._cursor);
-		return `${s1}${color.inverse(s2)}${s3.join('')}`;
+		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
 	}
 
 	get options(): T[] {

@@ -1,4 +1,4 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import { beforeEach, describe, expect, test } from 'vitest';
 import { type LimitOptionsParams, limitOptions } from '../src/index.js';
 import { MockWritable } from './test-utils.js';
@@ -39,7 +39,7 @@ describe('limitOptions', () => {
 		];
 		options.maxItems = 3;
 		const result = limitOptions(options);
-		expect(result).toEqual(['Item 1', 'Item 2', 'Item 3', 'Item 4', color.dim('...')]);
+		expect(result).toEqual(['Item 1', 'Item 2', 'Item 3', 'Item 4', styleText('dim', '...')]);
 	});
 
 	test('returns sliding window when cursor moves down', async () => {
@@ -59,7 +59,13 @@ describe('limitOptions', () => {
 		options.maxItems = 5;
 		options.cursor = 6;
 		const result = limitOptions(options);
-		expect(result).toEqual([color.dim('...'), 'Item 6', 'Item 7', 'Item 8', color.dim('...')]);
+		expect(result).toEqual([
+			styleText('dim', '...'),
+			'Item 6',
+			'Item 7',
+			'Item 8',
+			styleText('dim', '...'),
+		]);
 	});
 
 	test('returns sliding window near end of list', async () => {
@@ -78,7 +84,7 @@ describe('limitOptions', () => {
 		options.maxItems = 5;
 		options.cursor = 8;
 		const result = limitOptions(options);
-		expect(result).toEqual([color.dim('...'), 'Item 7', 'Item 8', 'Item 9', 'Item 10']);
+		expect(result).toEqual([styleText('dim', '...'), 'Item 7', 'Item 8', 'Item 9', 'Item 10']);
 	});
 
 	test('handles empty options list', async () => {
@@ -103,7 +109,7 @@ describe('limitOptions', () => {
 		output.rows = 7;
 		options.maxItems = 10;
 		const result = limitOptions(options);
-		expect(result).toEqual(['Item 1', 'Item 2', color.dim('...')]);
+		expect(result).toEqual(['Item 1', 'Item 2', styleText('dim', '...')]);
 	});
 
 	test('handle multi-line item clamping (start)', async () => {
@@ -138,7 +144,7 @@ describe('limitOptions', () => {
 			'Item 6',
 			'Item 7',
 			'Item 8',
-			color.dim('...'),
+			styleText('dim', '...'),
 		]);
 	});
 
@@ -164,7 +170,7 @@ describe('limitOptions', () => {
 		options.cursor = 7;
 		const result = limitOptions(options);
 		expect(result).toEqual([
-			color.dim('...'),
+			styleText('dim', '...'),
 			'Item 2',
 			'Item 3',
 			'Item 4',
@@ -175,7 +181,7 @@ describe('limitOptions', () => {
 			'Item 6',
 			'Item 7',
 			'Item 8',
-			color.dim('...'),
+			styleText('dim', '...'),
 		]);
 	});
 
@@ -201,7 +207,7 @@ describe('limitOptions', () => {
 		options.cursor = 9;
 		const result = limitOptions(options);
 		expect(result).toEqual([
-			color.dim('...'),
+			styleText('dim', '...'),
 			'Item 4',
 			'Item 5',
 			'Item 6',

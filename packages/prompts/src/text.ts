@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { TextPrompt } from '@clack/core';
-import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export interface TextOptions extends CommonOptions {
@@ -20,30 +20,31 @@ export const text = (opts: TextOptions) => {
 		signal: opts.signal,
 		input: opts.input,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const placeholder = opts.placeholder
-				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
-				: color.inverse(color.hidden('_'));
+				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
+				: styleText('inverse', styleText('hidden', '_'));
 			const userInput = !this.userInput ? placeholder : this.userInputWithCursor;
 			const value = this.value ?? '';
 
 			switch (this.state) {
 				case 'error': {
-					const errorText = this.error ? `  ${color.yellow(this.error)}` : '';
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${userInput}\n${color.yellow(
+					const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
+					return `${title.trim()}\n${styleText('yellow', S_BAR)}  ${userInput}\n${styleText(
+						'yellow',
 						S_BAR_END
 					)}${errorText}\n`;
 				}
 				case 'submit': {
-					const valueText = value ? `  ${color.dim(value)}` : '';
-					return `${title}${color.gray(S_BAR)}${valueText}`;
+					const valueText = value ? `  ${styleText('dim', value)}` : '';
+					return `${title}${styleText('gray', S_BAR)}${valueText}`;
 				}
 				case 'cancel': {
-					const valueText = value ? `  ${color.strikethrough(color.dim(value))}` : '';
-					return `${title}${color.gray(S_BAR)}${valueText}${value.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+					const valueText = value ? `  ${styleText('strikethrough', styleText('dim', value))}` : '';
+					return `${title}${styleText('gray', S_BAR)}${valueText}${value.trim() ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${styleText('cyan', S_BAR)}  ${userInput}\n${styleText('cyan', S_BAR_END)}\n`;
 			}
 		},
 	}).prompt() as Promise<string | symbol>;

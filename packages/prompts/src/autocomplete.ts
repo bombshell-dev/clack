@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { AutocompletePrompt } from '@clack/core';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -89,7 +89,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		validate: opts.validate,
 		render() {
 			// Title and message display
-			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
+			const headings = [`${styleText('gray', S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
 			const options = this.options;
@@ -102,13 +102,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show selected value
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
-						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${label}`;
+						selected.length > 0 ? `  ${styleText('dim', selected.map(getLabel).join(', '))}` : '';
+					return `${headings.join('\n')}\n${styleText('gray', S_BAR)}${label}`;
 				}
 
 				case 'cancel': {
-					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${userInputText}`;
+					const userInputText = userInput
+						? `  ${styleText('strikethrough', styleText('dim', userInput))}`
+						: '';
+					return `${headings.join('\n')}\n${styleText('gray', S_BAR)}${userInputText}`;
 				}
 
 				default: {
@@ -116,7 +118,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					let searchText = '';
 					if (this.isNavigating || showPlaceholder) {
 						const searchTextValue = showPlaceholder ? placeholder : userInput;
-						searchText = searchTextValue !== '' ? ` ${color.dim(searchTextValue)}` : '';
+						searchText = searchTextValue !== '' ? ` ${styleText('dim', searchTextValue)}` : '';
 					} else {
 						searchText = ` ${this.userInputWithCursor}`;
 					}
@@ -124,7 +126,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show match count if filtered
 					const matches =
 						this.filteredOptions.length !== options.length
-							? color.dim(
+							? styleText(
+									'dim',
 									` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 								)
 							: '';
@@ -132,29 +135,31 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${styleText('cyan', S_BAR)}  ${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error'
+							? [`${styleText('yellow', S_BAR)}  ${styleText('yellow', this.error)}`]
+							: [];
 
 					headings.push(
-						`${color.cyan(S_BAR)}`,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
+						`${styleText('cyan', S_BAR)}`,
+						`${styleText('cyan', S_BAR)}  ${styleText('dim', 'Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
 
 					// Show instructions
 					const instructions = [
-						`${color.dim('↑/↓')} to select`,
-						`${color.dim('Enter:')} confirm`,
-						`${color.dim('Type:')} to search`,
+						`${styleText('dim', '↑/↓')} to select`,
+						`${styleText('dim', 'Enter:')} confirm`,
+						`${styleText('dim', 'Type:')} to search`,
 					];
 
 					const footers = [
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						`${styleText('cyan', S_BAR)}  ${styleText('dim', instructions.join(' • '))}`,
+						`${styleText('cyan', S_BAR_END)}`,
 					];
 
 					// Render options with selection
@@ -170,12 +175,12 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 										const label = getLabel(option);
 										const hint =
 											option.hint && option.value === this.focusedValue
-												? color.dim(` (${option.hint})`)
+												? styleText('dim', ` (${option.hint})`)
 												: '';
 
 										return active
-											? `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`
-											: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}${hint}`;
+											? `${styleText('green', S_RADIO_ACTIVE)} ${label}${hint}`
+											: `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}${hint}`;
 									},
 									maxItems: opts.maxItems,
 									output: opts.output,
@@ -184,7 +189,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						...headings,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${styleText('cyan', S_BAR)}  ${option}`),
 						...footers,
 					].join('\n');
 				}
@@ -222,14 +227,16 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		const label = option.label ?? String(option.value ?? '');
 		const hint =
 			option.hint && focusedValue !== undefined && option.value === focusedValue
-				? color.dim(` (${option.hint})`)
+				? styleText('dim', ` (${option.hint})`)
 				: '';
-		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
+		const checkbox = isSelected
+			? styleText('green', S_CHECKBOX_SELECTED)
+			: styleText('dim', S_CHECKBOX_INACTIVE);
 
 		if (active) {
 			return `${checkbox} ${label}${hint}`;
 		}
-		return `${checkbox} ${color.dim(label)}`;
+		return `${checkbox} ${styleText('dim', label)}`;
 	};
 
 	// Create text prompt which we'll use as foundation
@@ -251,7 +258,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		output: opts.output,
 		render() {
 			// Title and symbol
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -261,14 +268,15 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Search input display
 			const searchText =
 				this.isNavigating || showPlaceholder
-					? color.dim(showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
+					? styleText('dim', showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
 					: this.userInputWithCursor;
 
 			const options = this.options;
 
 			const matches =
 				this.filteredOptions.length !== options.length
-					? color.dim(
+					? styleText(
+							'dim',
 							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 						)
 					: '';
@@ -276,28 +284,30 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
+					return `${title}${styleText('gray', S_BAR)}  ${styleText('dim', `${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
+					return `${title}${styleText('gray', S_BAR)}  ${styleText('strikethrough', styleText('dim', userInput))}`;
 				}
 				default: {
 					// Instructions
 					const instructions = [
-						`${color.dim('↑/↓')} to navigate`,
-						`${color.dim(this.isNavigating ? 'Space/Tab:' : 'Tab:')} select`,
-						`${color.dim('Enter:')} confirm`,
-						`${color.dim('Type:')} to search`,
+						`${styleText('dim', '↑/↓')} to navigate`,
+						`${styleText('dim', this.isNavigating ? 'Space/Tab:' : 'Tab:')} select`,
+						`${styleText('dim', 'Enter:')} confirm`,
+						`${styleText('dim', 'Type:')} to search`,
 					];
 
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${styleText('cyan', S_BAR)}  ${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const errorMessage =
-						this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error'
+							? [`${styleText('cyan', S_BAR)}  ${styleText('yellow', this.error)}`]
+							: [];
 
 					// Get limited options for display
 					const displayOptions = limitOptions({
@@ -312,12 +322,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						title,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+						`${styleText('cyan', S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						...displayOptions.map((option) => `${styleText('cyan', S_BAR)}  ${option}`),
+						`${styleText('cyan', S_BAR)}  ${styleText('dim', instructions.join(' • '))}`,
+						`${styleText('cyan', S_BAR_END)}`,
 					].join('\n');
 				}
 			}

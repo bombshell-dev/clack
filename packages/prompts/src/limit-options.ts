@@ -1,7 +1,7 @@
 import type { Writable } from 'node:stream';
+import { styleText } from 'node:util';
 import { getColumns, getRows } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
-import color from 'picocolors';
 import type { CommonOptions } from './common.js';
 
 export interface LimitOptionsParams<TOption> extends CommonOptions {
@@ -41,7 +41,7 @@ export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): stri
 	const rowPadding = params.rowPadding ?? 4;
 	const maxWidth = columns - columnPadding;
 	const rows = getRows(output);
-	const overflowFormat = color.dim('...');
+	const overflowFormat = styleText('dim', '...');
 
 	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - rowPadding, 0);
