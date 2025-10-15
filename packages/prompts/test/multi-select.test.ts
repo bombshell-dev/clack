@@ -315,4 +315,25 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('renders disabled options', async () => {
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [
+				{ value: 'opt0', disabled: true },
+				{ value: 'opt1' },
+				{ value: 'opt2', disabled: true, hint: 'Hint 2' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['opt1']);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

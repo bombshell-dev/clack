@@ -31,6 +31,13 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * Whether this option is disabled.
+			 * Disabled options are visible but cannot be selected.
+			 *
+			 * By default, options are not disabled.
+			 */
+			disabled?: boolean;
 		}
 	: {
 			/**
@@ -48,6 +55,13 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+			/**
+			 * Whether this option is disabled.
+			 * Disabled options are visible but cannot be selected.
+			 *
+			 * By default, options are not disabled.
+			 */
+			disabled?: boolean;
 		};
 
 export interface SelectOptions<Value> extends CommonOptions {
@@ -58,9 +72,16 @@ export interface SelectOptions<Value> extends CommonOptions {
 }
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
-	const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'selected' | 'cancelled') => {
+	const opt = (
+		option: Option<Value>,
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
+	) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
+			case 'disabled':
+				return `${styleText('gray', S_RADIO_INACTIVE)} ${styleText('gray', label)}${
+					option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
+				}`;
 			case 'selected':
 				return `${styleText('dim', label)}`;
 			case 'active':
@@ -92,13 +113,16 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						'cancelled'
 					)}\n${styleText('gray', S_BAR)}`;
 				default: {
-					return `${title}${styleText('cyan', S_BAR)}  ${limitOptions({
+					const prefix = `${styleText('cyan', S_BAR)}  `;
+					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
-						style: (item, active) => opt(item, active ? 'active' : 'inactive'),
-					}).join(`\n${styleText('cyan', S_BAR)}  `)}\n${styleText('cyan', S_BAR_END)}\n`;
+						columnPadding: prefix.length,
+						style: (item, active) =>
+							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
+					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}
 			}
 		},

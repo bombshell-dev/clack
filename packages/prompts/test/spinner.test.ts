@@ -1,4 +1,5 @@
 import { EventEmitter } from 'node:stream';
+import { styleText } from 'node:util';
 import { getColumns } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
@@ -227,6 +228,20 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			// there are 4 frames
 			for (let i = 0; i < 4; i++) {
 				vi.advanceTimersByTime(200);
+			}
+
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('custom frame style', () => {
+			const result = prompts.spinner({ output, styleFrame: (text) => styleText('red', text) });
+
+			result.start();
+
+			for (let i = 0; i < 4; i++) {
+				vi.advanceTimersByTime(80);
 			}
 
 			result.stop();

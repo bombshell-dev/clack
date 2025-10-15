@@ -100,5 +100,43 @@ describe('SelectPrompt', () => {
 			instance.prompt();
 			expect(instance.cursor).to.equal(1);
 		});
+
+		test('cursor skips disabled options (down)', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [{ value: 'foo' }, { value: 'bar', disabled: true }, { value: 'baz' }],
+			});
+			instance.prompt();
+			expect(instance.cursor).to.equal(0);
+			input.emit('keypress', 'down', { name: 'down' });
+			expect(instance.cursor).to.equal(2);
+		});
+
+		test('cursor skips disabled options (up)', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				initialValue: 'baz',
+				options: [{ value: 'foo' }, { value: 'bar', disabled: true }, { value: 'baz' }],
+			});
+			instance.prompt();
+			expect(instance.cursor).to.equal(2);
+			input.emit('keypress', 'up', { name: 'up' });
+			expect(instance.cursor).to.equal(0);
+		});
+
+		test('cursor skips initial disabled option', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [{ value: 'foo', disabled: true }, { value: 'bar' }, { value: 'baz' }],
+			});
+			instance.prompt();
+			expect(instance.cursor).to.equal(1);
+		});
 	});
 });

@@ -19,6 +19,7 @@ export interface SpinnerOptions extends CommonOptions {
 	errorMessage?: string;
 	frames?: string[];
 	delay?: number;
+	styleFrame?: (frame: string) => string;
 }
 
 export interface SpinnerResult {
@@ -27,6 +28,8 @@ export interface SpinnerResult {
 	message(msg?: string): void;
 	readonly isCancelled: boolean;
 }
+
+const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
 export const spinner = ({
 	indicator = 'dots',
@@ -37,6 +40,7 @@ export const spinner = ({
 	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
 	delay = unicode ? 80 : 120,
 	signal,
+	...opts
 }: SpinnerOptions = {}): SpinnerResult => {
 	const isCI = isCIFn();
 
@@ -48,6 +52,7 @@ export const spinner = ({
 	let _prevMessage: string | undefined;
 	let _origin: number = performance.now();
 	const columns = getColumns(output);
+	const styleFn = opts?.styleFrame ?? defaultStyleFn;
 
 	const handleExit = (code: number) => {
 		const msg =
@@ -134,7 +139,7 @@ export const spinner = ({
 			}
 			clearPrevMessage();
 			_prevMessage = _message;
-			const frame = styleText('magenta', frames[frameIndex]);
+			const frame = styleFn(frames[frameIndex]);
 			let outputMessage: string;
 
 			if (isCI) {

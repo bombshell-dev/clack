@@ -1,5 +1,18 @@
 # @clack/prompts
 
+## 1.0.0-alpha.6
+
+### Minor Changes
+
+- 8409f2c: feat: add styleFrame option for spinner
+
+### Patch Changes
+
+- aea4573: Clamp scrolling windows to 5 rows.
+- b103ad3: Allow disabled options in multi-select and select prompts.
+- Updated dependencies [b103ad3]
+  - @clack/core@1.0.0-alpha.6
+
 ## 1.0.0-alpha.5
 
 ### Minor Changes

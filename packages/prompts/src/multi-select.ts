@@ -23,9 +23,21 @@ export interface MultiSelectOptions<Value> extends CommonOptions {
 export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
-		state: 'inactive' | 'active' | 'selected' | 'active-selected' | 'submitted' | 'cancelled'
+		state:
+			| 'inactive'
+			| 'active'
+			| 'selected'
+			| 'active-selected'
+			| 'submitted'
+			| 'cancelled'
+			| 'disabled'
 	) => {
 		const label = option.label ?? String(option.value);
+		if (state === 'disabled') {
+			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${styleText('gray', label)}${
+				option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
+			}`;
+		}
 		if (state === 'active') {
 			return `${styleText('cyan', S_CHECKBOX_ACTIVE)} ${label}${
 				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
@@ -77,6 +89,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
+				if (option.disabled) {
+					return opt(option, 'disabled');
+				}
 				const selected = value.includes(option.value);
 				if (active && selected) {
 					return opt(option, 'active-selected');
@@ -106,28 +121,32 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					}`;
 				}
 				case 'error': {
+					const prefix = `${styleText('yellow', S_BAR)}  `;
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
 							i === 0 ? `${styleText('yellow', S_BAR_END)}  ${styleText('yellow', ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title + styleText('yellow', S_BAR)}  ${limitOptions({
+					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						columnPadding: prefix.length,
 						style: styleOption,
-					}).join(`\n${styleText('yellow', S_BAR)}  `)}\n${footer}\n`;
+					}).join(`\n${prefix}`)}\n${footer}\n`;
 				}
 				default: {
-					return `${title}${styleText('cyan', S_BAR)}  ${limitOptions({
+					const prefix = `${styleText('cyan', S_BAR)}  `;
+					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
+						columnPadding: prefix.length,
 						style: styleOption,
-					}).join(`\n${styleText('cyan', S_BAR)}  `)}\n${styleText('cyan', S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}
 			}
 		},
