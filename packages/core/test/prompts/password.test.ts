@@ -1,4 +1,4 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as PasswordPrompt } from '../../src/prompts/password.js';
@@ -65,7 +65,9 @@ describe('PasswordPrompt', () => {
 			});
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
-			expect(instance.userInputWithCursor).to.equal(`•${color.inverse(color.hidden('_'))}`);
+			expect(instance.userInputWithCursor).to.equal(
+				`•${styleText(['inverse', 'hidden'], '_')}`
+			);
 		});
 
 		test('renders cursor inside value', () => {
@@ -80,7 +82,7 @@ describe('PasswordPrompt', () => {
 			input.emit('keypress', 'z', { name: 'z' });
 			input.emit('keypress', 'left', { name: 'left' });
 			input.emit('keypress', 'left', { name: 'left' });
-			expect(instance.userInputWithCursor).to.equal(`•${color.inverse('•')}•`);
+			expect(instance.userInputWithCursor).to.equal(`•${styleText('inverse', '•')}•`);
 		});
 
 		test('renders custom mask', () => {
@@ -92,7 +94,9 @@ describe('PasswordPrompt', () => {
 			});
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
-			expect(instance.userInputWithCursor).to.equal(`X${color.inverse(color.hidden('_'))}`);
+			expect(instance.userInputWithCursor).to.equal(
+				`X${styleText(['inverse', 'hidden'], '_')}`
+			);
 		});
 	});
 });

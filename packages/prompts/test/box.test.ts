@@ -1,4 +1,4 @@
-import colors from 'picocolors';
+import { styleText } from 'node:util';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -229,7 +229,7 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 			input,
 			output,
 			width: 'auto',
-			formatBorder: colors.red,
+			formatBorder: (text: string) => styleText('red', text),
 		});
 
 		expect(output.buffer).toMatchSnapshot();

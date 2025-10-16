@@ -1,4 +1,4 @@
-import colors from 'picocolors';
+import { styleText } from 'node:util';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -56,7 +56,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 	test('formatter which adds colors works', () => {
 		prompts.note('line 0\nline 1\nline 2', 'title', {
-			format: (line) => colors.red(line),
+			format: (line) => styleText('red', line),
 			input,
 			output,
 		});
@@ -79,7 +79,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		const message = `${'test string '.repeat(32)}\n`.repeat(4).trim();
 		output.columns = 75;
 		prompts.note(message, 'title', {
-			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
+			format: (line) => styleText('red', `* ${styleText('cyan', line)} *`),
 			input,
 			output,
 		});
@@ -102,7 +102,7 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 		const messages = ['이게 첫 번째 줄이에요', 'これは次の行です'];
 		output.columns = 10;
 		prompts.note(messages.join('\n'), '这是标题', {
-			format: (line) => colors.red(`* ${colors.cyan(line)} *`),
+			format: (line) => styleText('red', `* ${styleText('cyan', line)} *`),
 			input,
 			output,
 		});
