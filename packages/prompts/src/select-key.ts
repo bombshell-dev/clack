@@ -13,14 +13,14 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 			return `${styleText('dim', label)}`;
 		}
 		if (state === 'cancelled') {
-			return `${styleText('strikethrough', styleText('dim', label))}`;
+			return `${styleText(['strikethrough', 'dim'], label)}`;
 		}
 		if (state === 'active') {
-			return `${styleText('bgCyan', styleText('gray', ` ${option.value} `))} ${label} ${
+			return `${styleText(['bgCyan', 'gray'], ` ${option.value} `)} ${label} ${
 				option.hint ? styleText('dim', `(${option.hint})`) : ''
 			}`;
 		}
-		return `${styleText('gray', styleText('bgWhite', styleText('inverse', ` ${option.value} `)))} ${label} ${
+		return `${styleText(['gray', 'bgWhite', 'inverse'], ` ${option.value} `)} ${label} ${
 			option.hint ? styleText('dim', `(${option.hint})`) : ''
 		}`;
 	};

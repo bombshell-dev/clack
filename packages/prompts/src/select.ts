@@ -89,7 +89,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
-				return `${styleText('strikethrough', styleText('dim', label))}`;
+				return `${styleText(['strikethrough', 'dim'], label)}`;
 			default:
 				return `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}`;
 		}

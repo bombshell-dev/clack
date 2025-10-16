@@ -108,7 +108,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 				case 'cancel': {
 					const userInputText = userInput
-						? `  ${styleText('strikethrough', styleText('dim', userInput))}`
+						? `  ${styleText(['strikethrough', 'dim'], userInput)}`
 						: '';
 					return `${headings.join('\n')}\n${styleText('gray', S_BAR)}${userInputText}`;
 				}

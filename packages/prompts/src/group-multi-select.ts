@@ -1,4 +1,3 @@
-// import color from 'picocolors';
 import { styleText } from 'node:util';
 import { GroupMultiSelectPrompt } from '@clack/core';
 
@@ -67,7 +66,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			}`;
 		}
 		if (state === 'cancelled') {
-			return `${styleText('strikethrough', styleText('dim', label))}`;
+			return `${styleText(['strikethrough', 'dim'], label)}`;
 		}
 		if (state === 'active-selected') {
 			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('green', S_CHECKBOX_SELECTED)} ${label}${
@@ -98,9 +97,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 					'reset',
 					styleText(
 						'dim',
-						`Press ${styleText('gray', styleText('bgWhite', styleText('inverse', ' space ')))} to select, ${styleText(
+						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
 							'gray',
-							styleText('bgWhite', styleText('inverse', ' enter '))
+							styleText(['bgWhite', 'inverse'], ' enter ')
 						)} to submit`
 					)
 				)}`;

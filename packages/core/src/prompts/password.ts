@@ -18,7 +18,7 @@ export default class PasswordPrompt extends Prompt<string> {
 		}
 		const userInput = this.userInput;
 		if (this.cursor >= userInput.length) {
-			return `${this.masked}${styleText('inverse', styleText('hidden', '_'))}`;
+			return `${this.masked}${styleText(['inverse', 'hidden'], '_')}`;
 		}
 		const masked = this.masked;
 		const s1 = masked.slice(0, this.cursor);

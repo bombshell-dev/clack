@@ -34,8 +34,8 @@ export const confirm = (opts: ConfirmOptions) => {
 					return `${title}${styleText('gray', S_BAR)}  ${styleText('dim', value)}`;
 				case 'cancel':
 					return `${title}${styleText('gray', S_BAR)}  ${styleText(
-						'strikethrough',
-						styleText('dim', value)
+						['strikethrough', 'dim'],
+						value
 					)}\n${styleText('gray', S_BAR)}`;
 				default: {
 					return `${title}${styleText('cyan', S_BAR)}  ${

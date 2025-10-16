@@ -16,7 +16,6 @@ export const password = (opts: PasswordOptions) => {
 		input: opts.input,
 		output: opts.output,
 		render() {
-			// const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
 			const masked = this.masked;
@@ -38,7 +37,7 @@ export const password = (opts: PasswordOptions) => {
 				}
 				case 'cancel': {
 					const maskedText = masked
-						? `  ${styleText('strikethrough', styleText('dim', masked))}`
+						? `  ${styleText(['strikethrough', 'dim'], masked)}`
 						: '';
 					return `${title}${styleText('gray', S_BAR)}${maskedText}${
 						masked ? `\n${styleText('gray', S_BAR)}` : ''

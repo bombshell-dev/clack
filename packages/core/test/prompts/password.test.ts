@@ -66,7 +66,7 @@ describe('PasswordPrompt', () => {
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
 			expect(instance.userInputWithCursor).to.equal(
-				`•${styleText('inverse', styleText('hidden', '_'))}`
+				`•${styleText(['inverse', 'hidden'], '_')}`
 			);
 		});
 
@@ -95,7 +95,7 @@ describe('PasswordPrompt', () => {
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
 			expect(instance.userInputWithCursor).to.equal(
-				`X${styleText('inverse', styleText('hidden', '_'))}`
+				`X${styleText(['inverse', 'hidden'], '_')}`
 			);
 		});
 	});

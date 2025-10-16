@@ -71,7 +71,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 	get userInputWithCursor() {
 		if (!this.userInput) {
-			return styleText('inverse', styleText('hidden', '_'));
+			return styleText(['inverse', 'hidden'], '_');
 		}
 		if (this._cursor >= this.userInput.length) {
 			return `${this.userInput}█`;

@@ -77,7 +77,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					'reset',
 					styleText(
 						'dim',
-						`Press ${styleText('gray', styleText('bgWhite', styleText('inverse', ' space ')))} to select, ${styleText(
+						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
 							'gray',
 							styleText('bgWhite', styleText('inverse', ' enter '))
 						)} to submit`

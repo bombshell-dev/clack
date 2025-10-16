@@ -23,7 +23,7 @@ export const text = (opts: TextOptions) => {
 			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
-				: styleText('inverse', styleText('hidden', '_'));
+				: styleText(['inverse', 'hidden'], '_');
 			const userInput = !this.userInput ? placeholder : this.userInputWithCursor;
 			const value = this.value ?? '';
 
@@ -40,7 +40,7 @@ export const text = (opts: TextOptions) => {
 					return `${title}${styleText('gray', S_BAR)}${valueText}`;
 				}
 				case 'cancel': {
-					const valueText = value ? `  ${styleText('strikethrough', styleText('dim', value))}` : '';
+					const valueText = value ? `  ${styleText(['strikethrough', 'dim'], value)}` : '';
 					return `${title}${styleText('gray', S_BAR)}${valueText}${value.trim() ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
 				default:

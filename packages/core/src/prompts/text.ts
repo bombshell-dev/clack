@@ -1,4 +1,3 @@
-// import color from 'picocolors';
 import { styleText } from 'node:util';
 import Prompt, { type PromptOptions } from './prompt.js';
 
