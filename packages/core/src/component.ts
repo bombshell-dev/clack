@@ -29,7 +29,6 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 	const toLines = to.split('\n');
 	const fromLineCount = fromLines.length;
 	const toLineCount = toLines.length;
-	const maxLines = Math.max(fromLineCount, toLineCount);
 
 	output.write(cursor.hide);
 	output.write(cursor.left);
@@ -38,7 +37,7 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 		output.write(cursor.up(fromLineCount));
 	}
 
-	for (let i = 0; i < maxLines; i++) {
+	for (let i = 0; i < toLineCount; i++) {
 		const fromLine = fromLines[i];
 		const toLine = toLines[i];
 
@@ -54,10 +53,14 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 		}
 	}
 
+	if (fromLineCount > toLineCount) {
+		output.write(erase.down());
+	}
+
 	output.write(cursor.show);
 }
 
-function render(
+function renderToOutput(
 	template: Template,
 	output: Writable,
 	lastFrame: string | undefined,
@@ -107,10 +110,11 @@ export abstract class Component {
 	}
 }
 
-export class Renderer extends Component {
-	#output: Writable;
+export class RenderHost extends Component {
 	#lastFrame: string | undefined;
+	#output: Writable;
 	#root?: Component;
+	#mounted: boolean = false;
 
 	constructor(output: Writable = process.stdout) {
 		super(undefined);
@@ -132,22 +136,36 @@ export class Renderer extends Component {
 		return result;
 	}
 
-	mount(comp: Component): void {
-		this.#root = comp;
-		this.children.add(comp);
-		comp.host = this;
-		this.requestUpdate();
-		this.onMount();
-	}
-
 	requestUpdate() {
-		this.#lastFrame = render(this.render(), this.#output, this.#lastFrame, this.#root);
+		this.#lastFrame = renderToOutput(this.render(), this.#output, this.#lastFrame, this.#root);
+		if (!this.#mounted) {
+			this.#mounted = true;
+			this.onMount();
+		}
 	}
 
-	unmount() {
+	onUnmount(): void {
+		super.onUnmount();
 		this.#lastFrame = undefined;
-		this.onUnmount();
+		this.#mounted = false;
 	}
+
+	attach(component: Component): void {
+		component.host = this;
+		this.#root = component;
+		this.children.add(component);
+	}
+}
+
+export function render(component: Component, output: Writable = process.stdout): () => void {
+	const host = new RenderHost(output);
+
+	host.attach(component);
+	host.requestUpdate();
+
+	return () => {
+		host.onUnmount();
+	};
 }
 
 export const term = (strings: TemplateStringsArray, ...values: unknown[]): Template => {
