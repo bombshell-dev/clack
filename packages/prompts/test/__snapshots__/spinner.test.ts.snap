@@ -461,7 +461,7 @@ exports[`spinner (isCI = false) > start > renders timer when indicator is "timer
 ]
 `;
 
-exports[`spinner (isCI = false) > stop > renders cancel symbol if code = 1 1`] = `
+exports[`spinner (isCI = false) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -475,7 +475,7 @@ exports[`spinner (isCI = false) > stop > renders cancel symbol if code = 1 1`] =
 ]
 `;
 
-exports[`spinner (isCI = false) > stop > renders error symbol if code > 1 1`] = `
+exports[`spinner (isCI = false) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -789,7 +789,7 @@ exports[`spinner (isCI = true) > start > renders timer when indicator is "timer"
 ]
 `;
 
-exports[`spinner (isCI = true) > stop > renders cancel symbol if code = 1 1`] = `
+exports[`spinner (isCI = true) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -805,7 +805,7 @@ exports[`spinner (isCI = true) > stop > renders cancel symbol if code = 1 1`] = 
 ]
 `;
 
-exports[`spinner (isCI = true) > stop > renders error symbol if code > 1 1`] = `
+exports[`spinner (isCI = true) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m

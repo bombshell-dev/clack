@@ -125,7 +125,7 @@ exports[`prompts - progress (isCI = false) > start > renders timer when indicato
 ]
 `;
 
-exports[`prompts - progress (isCI = false) > stop > renders cancel symbol if code = 1 1`] = `
+exports[`prompts - progress (isCI = false) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -139,7 +139,7 @@ exports[`prompts - progress (isCI = false) > stop > renders cancel symbol if cod
 ]
 `;
 
-exports[`prompts - progress (isCI = false) > stop > renders error symbol if code > 1 1`] = `
+exports[`prompts - progress (isCI = false) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -382,7 +382,7 @@ exports[`prompts - progress (isCI = true) > start > renders timer when indicator
 ]
 `;
 
-exports[`prompts - progress (isCI = true) > stop > renders cancel symbol if code = 1 1`] = `
+exports[`prompts - progress (isCI = true) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -398,7 +398,7 @@ exports[`prompts - progress (isCI = true) > stop > renders cancel symbol if code
 ]
 `;
 
-exports[`prompts - progress (isCI = true) > stop > renders error symbol if code > 1 1`] = `
+exports[`prompts - progress (isCI = true) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
