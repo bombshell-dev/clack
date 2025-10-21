@@ -94,7 +94,7 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 
 			vi.advanceTimersByTime(80);
 
-			result.cancel('');
+			result.cancel();
 
 			expect(output.buffer).toMatchSnapshot();
 		});
@@ -106,7 +106,7 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 
 			vi.advanceTimersByTime(80);
 
-			result.error('');
+			result.error();
 
 			expect(output.buffer).toMatchSnapshot();
 		});
