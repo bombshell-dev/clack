@@ -134,6 +134,30 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('renders message when cancelling', () => {
+			const result = prompts.progress({ output });
+
+			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.cancel('cancelled :-(');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders message when erroring', () => {
+			const result = prompts.progress({ output });
+
+			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.error('FATAL ERROR!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 
 	describe('message', () => {

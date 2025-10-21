@@ -167,6 +167,34 @@ exports[`prompts - progress (isCI = false) > stop > renders message 1`] = `
 ]
 `;
 
+exports[`prompts - progress (isCI = false) > stop > renders message when cancelling 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  cancelled :-(
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders message when erroring 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  FATAL ERROR!
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`prompts - progress (isCI = false) > stop > renders message without removing dots 1`] = `
 [
   "<cursor.hide>",
@@ -425,6 +453,38 @@ exports[`prompts - progress (isCI = true) > stop > renders message 1`] = `
   "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders message when cancelling 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  cancelled :-(
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders message when erroring 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  FATAL ERROR!
 ",
   "<cursor.show>",
 ]

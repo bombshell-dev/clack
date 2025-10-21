@@ -165,6 +165,30 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('renders message when cancelling', () => {
+			const result = prompts.spinner({ output });
+
+			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.cancel('too dizzy — spinning cancelled');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders message when erroring', () => {
+			const result = prompts.spinner({ output });
+
+			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.error('error: spun too fast!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('does not throw if called before start', () => {
 			const result = prompts.spinner({ output });
 
