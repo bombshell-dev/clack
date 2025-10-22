@@ -461,7 +461,7 @@ exports[`spinner (isCI = false) > start > renders timer when indicator is "timer
 ]
 `;
 
-exports[`spinner (isCI = false) > stop > renders cancel symbol if code = 1 1`] = `
+exports[`spinner (isCI = false) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -475,7 +475,7 @@ exports[`spinner (isCI = false) > stop > renders cancel symbol if code = 1 1`] =
 ]
 `;
 
-exports[`spinner (isCI = false) > stop > renders error symbol if code > 1 1`] = `
+exports[`spinner (isCI = false) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -498,6 +498,34 @@ exports[`spinner (isCI = false) > stop > renders message 1`] = `
   "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = false) > stop > renders message when cancelling 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  too dizzy — spinning cancelled
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = false) > stop > renders message when erroring 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  error: spun too fast!
 ",
   "<cursor.show>",
 ]
@@ -789,7 +817,7 @@ exports[`spinner (isCI = true) > start > renders timer when indicator is "timer"
 ]
 `;
 
-exports[`spinner (isCI = true) > stop > renders cancel symbol if code = 1 1`] = `
+exports[`spinner (isCI = true) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -805,7 +833,7 @@ exports[`spinner (isCI = true) > stop > renders cancel symbol if code = 1 1`] = 
 ]
 `;
 
-exports[`spinner (isCI = true) > stop > renders error symbol if code > 1 1`] = `
+exports[`spinner (isCI = true) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -832,6 +860,38 @@ exports[`spinner (isCI = true) > stop > renders message 1`] = `
   "<cursor.left count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > stop > renders message when cancelling 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  too dizzy — spinning cancelled
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > stop > renders message when erroring 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  error: spun too fast!
 ",
   "<cursor.show>",
 ]
