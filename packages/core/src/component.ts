@@ -121,6 +121,10 @@ export class RenderHost extends Component {
 		this.#output = output;
 	}
 
+	#onResize = (): void => {
+		this.requestUpdate();
+	};
+
 	render(): Template {
 		const result: TemplateArray = [];
 		for (const child of this.children) {
@@ -148,6 +152,13 @@ export class RenderHost extends Component {
 		super.onUnmount();
 		this.#lastFrame = undefined;
 		this.#mounted = false;
+		this.#output.off('resize', this.#onResize);
+		this.#output.write(cursor.show);
+	}
+
+	onMount(): void {
+		super.onMount();
+		this.#output.on('resize', this.#onResize);
 	}
 
 	attach(component: Component): void {

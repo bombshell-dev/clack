@@ -1,7 +1,6 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
-import { cursor } from 'sisteransi';
 import { Component, RenderHost } from '../component.js';
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
@@ -153,19 +152,14 @@ export default class Prompt<TValue> extends Component {
 
 			this.input.on('keypress', this.onKeypress);
 			setRawMode(this.input, true);
-			this.output.on('resize', this.requestUpdate);
 
 			this.requestUpdate();
 
 			this.once('submit', () => {
-				this.output.write(cursor.show);
-				this.output.off('resize', this.requestUpdate);
 				setRawMode(this.input, false);
 				resolve(this.value);
 			});
 			this.once('cancel', () => {
-				this.output.write(cursor.show);
-				this.output.off('resize', this.requestUpdate);
 				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
 			});
