@@ -1,9 +1,9 @@
 import process from 'node:process';
 import type { Writable } from 'node:stream';
+import { styleText } from 'node:util';
 import { getColumns } from '@clack/core';
 import stringWidth from 'fast-string-width';
 import { type Options as WrapAnsiOptions, wrapAnsi } from 'fast-wrap-ansi';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -19,7 +19,7 @@ export interface NoteOptions extends CommonOptions {
 	format?: FormatFn;
 }
 
-const defaultNoteFormatter = (line: string): string => color.dim(line);
+const defaultNoteFormatter = (line: string): string => styleText('dim', line);
 
 const wrapWithFormat = (message: string, width: number, format: FormatFn): string => {
 	const opts: WrapAnsiOptions = {
@@ -49,12 +49,14 @@ export const note = (message = '', title = '', opts?: NoteOptions) => {
 		) + 2;
 	const msg = lines
 		.map(
-			(ln) => `${color.gray(S_BAR)}  ${ln}${' '.repeat(len - stringWidth(ln))}${color.gray(S_BAR)}`
+			(ln) =>
+				`${styleText('gray', S_BAR)}  ${ln}${' '.repeat(len - stringWidth(ln))}${styleText('gray', S_BAR)}`
 		)
 		.join('\n');
 	output.write(
-		`${color.gray(S_BAR)}\n${color.green(S_STEP_SUBMIT)}  ${color.reset(title)} ${color.gray(
+		`${styleText('gray', S_BAR)}\n${styleText('green', S_STEP_SUBMIT)}  ${styleText('reset', title)} ${styleText(
+			'gray',
 			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
-		)}\n${msg}\n${color.gray(S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
+		)}\n${msg}\n${styleText('gray', S_CONNECT_LEFT + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
 	);
 };

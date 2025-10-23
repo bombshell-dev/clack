@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { SelectPrompt } from '@clack/core';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -79,19 +79,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${color.gray(S_RADIO_INACTIVE)} ${color.gray(label)}${
-					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
+				return `${styleText('gray', S_RADIO_INACTIVE)} ${styleText('gray', label)}${
+					option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
-				return `${color.dim(label)}`;
+				return `${styleText('dim', label)}`;
 			case 'active':
-				return `${color.green(S_RADIO_ACTIVE)} ${label}${
-					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+				return `${styleText('green', S_RADIO_ACTIVE)} ${label}${
+					option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
-				return `${color.strikethrough(color.dim(label))}`;
+				return `${styleText(['strikethrough', 'dim'], label)}`;
 			default:
-				return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
+				return `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}`;
 		}
 	};
 
@@ -102,18 +102,18 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
+					return `${title}${styleText('gray', S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
+					return `${title}${styleText('gray', S_BAR)}  ${opt(
 						this.options[this.cursor],
 						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+					)}\n${styleText('gray', S_BAR)}`;
 				default: {
-					const prefix = `${color.cyan(S_BAR)}  `;
+					const prefix = `${styleText('cyan', S_BAR)}  `;
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
@@ -122,7 +122,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}
 			}
 		},
