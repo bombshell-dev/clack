@@ -205,4 +205,19 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('withBorder: false removes borders', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			withBorder: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
