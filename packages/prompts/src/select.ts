@@ -1,4 +1,6 @@
-import { SelectPrompt } from '@clack/core';
+import type { Writable } from 'node:stream';
+import { getColumns, SelectPrompt } from '@clack/core';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -7,6 +9,7 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 
@@ -102,16 +105,53 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const output: Writable = opts?.output ?? process.stdout;
+			const columns = getColumns(output);
+			const titlePrefix = `${symbol(this.state)}  `;
+			const titlePrefixBar = `${symbolBar(this.state)}  `;
+			const wrappedMessage = wrapAnsi(
+				opts.message,
+				columns - Math.max(titlePrefix.length, titlePrefixBar.length),
+				{
+					hard: true,
+					trim: false,
+				}
+			);
+			const messageLines = wrappedMessage
+				.split('\n')
+				.map((line, index) => {
+					return `${index === 0 ? titlePrefix : titlePrefixBar}${line}`;
+				})
+				.join('\n');
+			const title = `${color.gray(S_BAR)}\n${messageLines}\n`;
 
 			switch (this.state) {
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+				case 'submit': {
+					const submitPrefix = `${color.gray(S_BAR)}  `;
+					const wrappedOption = wrapAnsi(
+						opt(this.options[this.cursor], 'selected'),
+						columns - submitPrefix.length,
+						{ hard: true, trim: false }
+					);
+					const wrappedLines = wrappedOption
+						.split('\n')
+						.map((line) => `${submitPrefix}${line}`)
+						.join('\n');
+					return `${title}${wrappedLines}`;
+				}
+				case 'cancel': {
+					const cancelPrefix = `${color.gray(S_BAR)}  `;
+					const wrappedOption = wrapAnsi(
+						opt(this.options[this.cursor], 'cancelled'),
+						columns - cancelPrefix.length,
+						{ hard: true, trim: false }
+					);
+					const wrappedLines = wrappedOption
+						.split('\n')
+						.map((line) => `${cancelPrefix}${line}`)
+						.join('\n');
+					return `${title}${wrappedLines}\n${color.gray(S_BAR)}`;
+				}
 				default: {
 					const prefix = `${color.cyan(S_BAR)}  `;
 					return `${title}${prefix}${limitOptions({

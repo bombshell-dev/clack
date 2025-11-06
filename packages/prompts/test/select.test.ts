@@ -165,4 +165,50 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		expect(value).toBe('opt1');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('wraps long results', async () => {
+		output.columns = 40;
+
+		const result = prompts.select({
+			message: 'foo',
+			options: [
+				{
+					value: 'opt0',
+					label: 'foo '.repeat(30).trim(),
+				},
+				{ value: 'opt1', label: 'Option 1' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('wraps long cancelled message', async () => {
+		output.columns = 40;
+
+		const result = prompts.select({
+			message: 'foo',
+			options: [
+				{
+					value: 'opt0',
+					label: 'foo '.repeat(30).trim(),
+				},
+				{ value: 'opt1', label: 'Option 1' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'escape', { name: 'escape' });
+
+		const value = await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
