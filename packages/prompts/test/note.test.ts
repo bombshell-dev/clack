@@ -109,4 +109,14 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('without border', () => {
+		prompts.note('message', 'title', {
+			input,
+			output,
+			withBorder: false,
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
