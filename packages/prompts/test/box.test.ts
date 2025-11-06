@@ -96,11 +96,11 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders with prefix when includePrefix is true', () => {
+	test('renders without left border when withBorder is false', () => {
 		prompts.box('message', 'title', {
 			input,
 			output,
-			includePrefix: true,
+			withBorder: false,
 			width: 'auto',
 		});
 

@@ -23,25 +23,32 @@ export const log = {
 			secondarySymbol = color.gray(S_BAR),
 			output = process.stdout,
 			spacing = 1,
+			withBorder,
 		}: LogMessageOptions = {}
 	) => {
 		const parts: string[] = [];
+		const isStandalone = withBorder === false;
+		const spacingString = isStandalone ? '' : secondarySymbol;
+		const prefix = isStandalone ? '' : `${symbol}  `;
+		const secondaryPrefix = isStandalone ? '' : `${secondarySymbol}  `;
+
 		for (let i = 0; i < spacing; i++) {
-			parts.push(`${secondarySymbol}`);
+			parts.push(spacingString);
 		}
+
 		const messageParts = Array.isArray(message) ? message : message.split('\n');
 		if (messageParts.length > 0) {
 			const [firstLine, ...lines] = messageParts;
 			if (firstLine.length > 0) {
-				parts.push(`${symbol}  ${firstLine}`);
+				parts.push(`${prefix}${firstLine}`);
 			} else {
-				parts.push(symbol);
+				parts.push(isStandalone ? '' : symbol);
 			}
 			for (const ln of lines) {
 				if (ln.length > 0) {
-					parts.push(`${secondarySymbol}  ${ln}`);
+					parts.push(`${secondaryPrefix}${ln}`);
 				} else {
-					parts.push(secondarySymbol);
+					parts.push(isStandalone ? '' : secondarySymbol);
 				}
 			}
 		}
