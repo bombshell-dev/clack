@@ -181,6 +181,17 @@ exports[`note (isCI = false) > renders message with title 1`] = `
 ]
 `;
 
+exports[`note (isCI = false) > without guide 1`] = `
+[
+  "[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m╰───────────╯[39m
+",
+]
+`;
+
 exports[`note (isCI = true) > don't overflow 1`] = `
 [
   "[90m│[39m
@@ -358,6 +369,17 @@ exports[`note (isCI = true) > renders message with title 1`] = `
 [90m│[39m  [2mmessage[22m  [90m│[39m
 [90m│[39m           [90m│[39m
 [90m├───────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > without guide 1`] = `
+[
+  "[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m╰───────────╯[39m
 ",
 ]
 `;

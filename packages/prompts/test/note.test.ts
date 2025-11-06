@@ -109,4 +109,14 @@ describe.each(['true', 'false'])('note (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('without guide', () => {
+		prompts.note('message', 'title', {
+			input,
+			output,
+			withGuide: false,
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
