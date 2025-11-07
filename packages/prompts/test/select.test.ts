@@ -184,7 +184,7 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 
 		input.emit('keypress', '', { name: 'return' });
 
-		const value = await result;
+		await result;
 
 		expect(output.buffer).toMatchSnapshot();
 	});
@@ -207,7 +207,7 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 
 		input.emit('keypress', 'escape', { name: 'escape' });
 
-		const value = await result;
+		await result;
 
 		expect(output.buffer).toMatchSnapshot();
 	});

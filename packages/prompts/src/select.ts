@@ -1,6 +1,4 @@
-import type { Writable } from 'node:stream';
-import { getColumns, SelectPrompt } from '@clack/core';
-import { wrapAnsi } from 'fast-wrap-ansi';
+import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -105,51 +103,33 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const output: Writable = opts?.output ?? process.stdout;
-			const columns = getColumns(output);
 			const titlePrefix = `${symbol(this.state)}  `;
 			const titlePrefixBar = `${symbolBar(this.state)}  `;
-			const wrappedMessage = wrapAnsi(
+			const messageLines = wrapTextWithPrefix(
+				opts.output,
 				opts.message,
-				columns - Math.max(titlePrefix.length, titlePrefixBar.length),
-				{
-					hard: true,
-					trim: false,
-				}
+				titlePrefixBar,
+				titlePrefix
 			);
-			const messageLines = wrappedMessage
-				.split('\n')
-				.map((line, index) => {
-					return `${index === 0 ? titlePrefix : titlePrefixBar}${line}`;
-				})
-				.join('\n');
 			const title = `${color.gray(S_BAR)}\n${messageLines}\n`;
 
 			switch (this.state) {
 				case 'submit': {
 					const submitPrefix = `${color.gray(S_BAR)}  `;
-					const wrappedOption = wrapAnsi(
+					const wrappedLines = wrapTextWithPrefix(
+						opts.output,
 						opt(this.options[this.cursor], 'selected'),
-						columns - submitPrefix.length,
-						{ hard: true, trim: false }
+						submitPrefix
 					);
-					const wrappedLines = wrappedOption
-						.split('\n')
-						.map((line) => `${submitPrefix}${line}`)
-						.join('\n');
 					return `${title}${wrappedLines}`;
 				}
 				case 'cancel': {
 					const cancelPrefix = `${color.gray(S_BAR)}  `;
-					const wrappedOption = wrapAnsi(
+					const wrappedLines = wrapTextWithPrefix(
+						opts.output,
 						opt(this.options[this.cursor], 'cancelled'),
-						columns - cancelPrefix.length,
-						{ hard: true, trim: false }
+						cancelPrefix
 					);
-					const wrappedLines = wrappedOption
-						.split('\n')
-						.map((line) => `${cancelPrefix}${line}`)
-						.join('\n');
 					return `${title}${wrappedLines}\n${color.gray(S_BAR)}`;
 				}
 				default: {
