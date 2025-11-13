@@ -211,4 +211,41 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('wraps long messages', async () => {
+		output.columns = 40;
+
+		const result = prompts.select({
+			message: 'foo '.repeat(20).trim(),
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual('opt0');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('renders multi-line option labels', async () => {
+		const result = prompts.select({
+			message: 'foo',
+			options: [
+				{ value: 'opt0', label: 'Option 0\nwith multiple lines' },
+				{ value: 'opt1', label: 'Option 1' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
