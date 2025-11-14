@@ -263,6 +263,24 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 ]
 `;
 
+exports[`text (isCI = false) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[7m[8m_[28m[27m
+
+",
+  "<cursor.backward count=999><cursor.up count=3>",
+  "",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
@@ -520,6 +538,24 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mxy[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[7m[8m_[28m[27m
+
+",
+  "<cursor.backward count=999><cursor.up count=3>",
+  "",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
   "
 ",
   "<cursor.show>",

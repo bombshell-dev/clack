@@ -96,11 +96,11 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders with prefix when includePrefix is true', () => {
+	test('renders without guide when withGuide is false', () => {
 		prompts.box('message', 'title', {
 			input,
 			output,
-			includePrefix: true,
+			withGuide: false,
 			width: 'auto',
 		});
 

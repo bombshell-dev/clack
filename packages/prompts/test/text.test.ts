@@ -205,4 +205,19 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(prompts.isCancel(value)).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('withGuide: false removes guide', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			withGuide: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

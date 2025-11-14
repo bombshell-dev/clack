@@ -11,6 +11,8 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "lib": ["ES2022"],
     "paths": {
       "@clack/core": ["./packages/core/src/index.ts"],
