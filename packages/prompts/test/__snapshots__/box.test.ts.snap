@@ -234,7 +234,7 @@ exports[`box (isCI = false) > renders with formatBorder formatting 1`] = `
 ]
 `;
 
-exports[`box (isCI = false) > renders without left border when withBorder is false 1`] = `
+exports[`box (isCI = false) > renders without guide when withGuide is false 1`] = `
 [
   "┌─title──────┐
 ",
@@ -498,7 +498,7 @@ exports[`box (isCI = true) > renders with formatBorder formatting 1`] = `
 ]
 `;
 
-exports[`box (isCI = true) > renders without left border when withBorder is false 1`] = `
+exports[`box (isCI = true) > renders without guide when withGuide is false 1`] = `
 [
   "┌─title──────┐
 ",

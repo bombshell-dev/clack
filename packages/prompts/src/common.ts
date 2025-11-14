@@ -57,5 +57,5 @@ export interface CommonOptions {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
-	withBorder?: boolean;
+	withGuide?: boolean;
 }

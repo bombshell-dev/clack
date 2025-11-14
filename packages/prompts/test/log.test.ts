@@ -59,18 +59,18 @@ describe.each(['true', 'false'])('log (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
-		test('renders standalone message', () => {
+		test('renders message with guide disabled', () => {
 			prompts.log.message('standalone message', {
-				withBorder: false,
+				withGuide: false,
 				output,
 			});
 
 			expect(output.buffer).toMatchSnapshot();
 		});
 
-		test('renders multiline standalone message', () => {
+		test('renders multiline message with guide disabled', () => {
 			prompts.log.message('line 1\nline 2\nline 3', {
-				withBorder: false,
+				withGuide: false,
 				output,
 			});
 

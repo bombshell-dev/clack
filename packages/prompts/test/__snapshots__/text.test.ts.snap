@@ -263,7 +263,7 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > withBorder: false removes borders 1`] = `
+exports[`text (isCI = false) > withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
   "foo
@@ -543,7 +543,7 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > withBorder: false removes borders 1`] = `
+exports[`text (isCI = true) > withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
   "foo

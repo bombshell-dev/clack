@@ -96,11 +96,11 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders without left border when withBorder is false', () => {
+	test('renders without guide when withGuide is false', () => {
 		prompts.box('message', 'title', {
 			input,
 			output,
-			withBorder: false,
+			withGuide: false,
 			width: 'auto',
 		});
 

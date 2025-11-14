@@ -23,14 +23,14 @@ export const log = {
 			secondarySymbol = color.gray(S_BAR),
 			output = process.stdout,
 			spacing = 1,
-			withBorder,
+			withGuide,
 		}: LogMessageOptions = {}
 	) => {
 		const parts: string[] = [];
-		const isStandalone = withBorder === false;
-		const spacingString = isStandalone ? '' : secondarySymbol;
-		const prefix = isStandalone ? '' : `${symbol}  `;
-		const secondaryPrefix = isStandalone ? '' : `${secondarySymbol}  `;
+		const hasGuide = withGuide === false;
+		const spacingString = hasGuide ? '' : secondarySymbol;
+		const prefix = hasGuide ? '' : `${symbol}  `;
+		const secondaryPrefix = hasGuide ? '' : `${secondarySymbol}  `;
 
 		for (let i = 0; i < spacing; i++) {
 			parts.push(spacingString);
@@ -42,13 +42,13 @@ export const log = {
 			if (firstLine.length > 0) {
 				parts.push(`${prefix}${firstLine}`);
 			} else {
-				parts.push(isStandalone ? '' : symbol);
+				parts.push(hasGuide ? '' : symbol);
 			}
 			for (const ln of lines) {
 				if (ln.length > 0) {
 					parts.push(`${secondaryPrefix}${ln}`);
 				} else {
-					parts.push(isStandalone ? '' : secondarySymbol);
+					parts.push(hasGuide ? '' : secondarySymbol);
 				}
 			}
 		}

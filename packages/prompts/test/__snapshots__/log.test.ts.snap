@@ -53,6 +53,14 @@ exports[`log (isCI = false) > message > renders message with custom symbols and 
 ]
 `;
 
+exports[`log (isCI = false) > message > renders message with guide disabled 1`] = `
+[
+  "
+standalone message
+",
+]
+`;
+
 exports[`log (isCI = false) > message > renders multiline message 1`] = `
 [
   "[90m│[39m
@@ -63,20 +71,12 @@ exports[`log (isCI = false) > message > renders multiline message 1`] = `
 ]
 `;
 
-exports[`log (isCI = false) > message > renders multiline standalone message 1`] = `
+exports[`log (isCI = false) > message > renders multiline message with guide disabled 1`] = `
 [
   "
 line 1
 line 2
 line 3
-",
-]
-`;
-
-exports[`log (isCI = false) > message > renders standalone message 1`] = `
-[
-  "
-standalone message
 ",
 ]
 `;
@@ -158,6 +158,14 @@ exports[`log (isCI = true) > message > renders message with custom symbols and s
 ]
 `;
 
+exports[`log (isCI = true) > message > renders message with guide disabled 1`] = `
+[
+  "
+standalone message
+",
+]
+`;
+
 exports[`log (isCI = true) > message > renders multiline message 1`] = `
 [
   "[90m│[39m
@@ -168,20 +176,12 @@ exports[`log (isCI = true) > message > renders multiline message 1`] = `
 ]
 `;
 
-exports[`log (isCI = true) > message > renders multiline standalone message 1`] = `
+exports[`log (isCI = true) > message > renders multiline message with guide disabled 1`] = `
 [
   "
 line 1
 line 2
 line 3
-",
-]
-`;
-
-exports[`log (isCI = true) > message > renders standalone message 1`] = `
-[
-  "
-standalone message
 ",
 ]
 `;

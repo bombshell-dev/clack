@@ -206,10 +206,10 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('withBorder: false removes borders', async () => {
+	test('withGuide: false removes guide', async () => {
 		const result = prompts.text({
 			message: 'foo',
-			withBorder: false,
+			withGuide: false,
 			input,
 			output,
 		});
