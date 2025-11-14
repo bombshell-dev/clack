@@ -21,7 +21,7 @@ export const text = (opts: TextOptions) => {
 		input: opts.input,
 		render() {
 			const withGuide = opts.withGuide !== false;
-			const titlePrefix = withGuide ? `${color.gray(S_BAR)}\n${symbol(this.state)}  ` : '';
+			const titlePrefix = `${withGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))

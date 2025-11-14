@@ -266,14 +266,15 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 exports[`text (isCI = false) > withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
-  "foo
+  "[36m◆[39m  foo
 [7m[8m_[28m[27m
 
 ",
   "<cursor.backward count=999><cursor.up count=3>",
-  "<cursor.down count=1>",
-  "<erase.down>",
   "",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
   "
 ",
   "<cursor.show>",
@@ -546,14 +547,15 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
 exports[`text (isCI = true) > withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
-  "foo
+  "[36m◆[39m  foo
 [7m[8m_[28m[27m
 
 ",
   "<cursor.backward count=999><cursor.up count=3>",
-  "<cursor.down count=1>",
-  "<erase.down>",
   "",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
   "
 ",
   "<cursor.show>",
