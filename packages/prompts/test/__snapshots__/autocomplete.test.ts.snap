@@ -61,7 +61,6 @@ exports[`autocomplete > renders bottom ellipsis when items do not fit 1`] = `
 [36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
-  "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select an option
 [90m│[39m  [2mLine 0
@@ -136,9 +135,9 @@ exports[`autocomplete > renders top ellipsis when scrolled down and its do not f
 [36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
-  "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select an option
+  "[90m│[39m
+[32m◇[39m  Select an option
 [90m│[39m  [2mOption 2[22m",
   "
 ",
