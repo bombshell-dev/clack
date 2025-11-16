@@ -9,6 +9,7 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	extendStyle,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -76,6 +77,7 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
+	const style = extendStyle(opts.style);
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
@@ -95,6 +97,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			const options = this.options;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
+			const bar = style.formatBar[this.state](S_BAR);
 
 			// Handle different states
 			switch (this.state) {
@@ -103,12 +106,12 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${label}`;
+					return `${headings.join('\n')}\n${bar}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${userInputText}`;
+					return `${headings.join('\n')}\n${bar}${userInputText}`;
 				}
 
 				default: {
@@ -132,15 +135,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${bar}  ${style.formatBar.error('No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${bar}  ${style.formatBar[this.state](this.error)}`] : [];
 
 					headings.push(
-						`${color.cyan(S_BAR)}`,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
+						`${bar}`,
+						`${bar}  ${color.dim('Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
@@ -153,8 +156,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					];
 
 					const footers = [
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						`${bar}  ${color.dim(instructions.join(' • '))}`,
+						`${style.formatBar[this.state](S_BAR_END)}`,
 					];
 
 					// Render options with selection
@@ -174,8 +177,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 												: '';
 
 										return active
-											? `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`
-											: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}${hint}`;
+											? `${style.radio.active} ${label}${hint}`
+											: `${style.radio.inactive} ${color.dim(label)}${hint}`;
 									},
 									maxItems: opts.maxItems,
 									output: opts.output,
@@ -184,7 +187,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						...headings,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${bar}  ${option}`),
 						...footers,
 					].join('\n');
 				}
