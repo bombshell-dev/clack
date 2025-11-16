@@ -40,20 +40,6 @@ export const S_SUCCESS = unicodeOr('◆', '*');
 export const S_WARN = unicodeOr('▲', '!');
 export const S_ERROR = unicodeOr('■', 'x');
 
-export const symbol = (state: State) => {
-	switch (state) {
-		case 'initial':
-		case 'active':
-			return color.cyan(S_STEP_ACTIVE);
-		case 'cancel':
-			return color.red(S_STEP_CANCEL);
-		case 'error':
-			return color.yellow(S_STEP_ERROR);
-		case 'submit':
-			return color.green(S_STEP_SUBMIT);
-	}
-};
-
 export interface CommonOptions {
 	input?: Readable;
 	output?: Writable;
@@ -111,7 +97,7 @@ const defaultStyle: ThemeOptions = {
 			active: color.cyan(S_CHECKBOX_ACTIVE),
 			inactive: color.dim(S_CHECKBOX_INACTIVE),
 		},
-		disabled: color.dim(S_CHECKBOX_INACTIVE),
+		disabled: color.gray(S_CHECKBOX_INACTIVE),
 	},
 };
 
