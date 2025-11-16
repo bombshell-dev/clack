@@ -132,7 +132,7 @@ const defaultStyle: StyleOptions = {
 	checkbox: {
 		selected: {
 			active: color.green(S_CHECKBOX_SELECTED),
-			inactive: color.dim(S_CHECKBOX_INACTIVE),
+			inactive: color.green(S_CHECKBOX_SELECTED),
 		},
 		unselected: {
 			active: color.cyan(S_CHECKBOX_ACTIVE),
