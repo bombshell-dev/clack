@@ -4,9 +4,7 @@ import {
 	type CommonOptions,
 	S_BAR,
 	S_BAR_END,
-	S_RADIO_ACTIVE,
-	S_RADIO_INACTIVE,
-	symbol,
+	extendStyle,
 } from './common.js';
 
 export interface ConfirmOptions extends CommonOptions {
@@ -16,6 +14,7 @@ export interface ConfirmOptions extends CommonOptions {
 	initialValue?: boolean;
 }
 export const confirm = (opts: ConfirmOptions) => {
+	const style = extendStyle(opts.style);
 	const active = opts.active ?? 'Yes';
 	const inactive = opts.inactive ?? 'No';
 	return new ConfirmPrompt({
@@ -26,26 +25,29 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const bar = style.formatBar[this.state](S_BAR);
+			const barEnd = style.formatBar[this.state](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
+					return `${title}${bar}  ${color.dim(value)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
+					return `${title}${bar}  ${color.strikethrough(
 						color.dim(value)
-					)}\n${color.gray(S_BAR)}`;
+					)}\n${bar}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					return `${title}${bar}  ${
 						this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${active}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
+							? `${style.radio.active} ${active}`
+							: `${style.radio.inactive} ${color.dim(active)}`
 					} ${color.dim('/')} ${
 						!this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
-					}\n${color.cyan(S_BAR_END)}\n`;
+							? `${style.radio.active} ${inactive}`
+							: `${style.radio.inactive} ${color.dim(inactive)}`
+					}\n${barEnd}\n`;
 				}
 			}
 		},
