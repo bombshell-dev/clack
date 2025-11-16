@@ -193,20 +193,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	override prompt() {
 		// Trigger initial search for filteredOptions mode (static mode already has options set)
 		if (this.filteredOptions.length === 0) {
-			this.#abortController = new AbortController();
-			const result = this.#filteredOptionsFn('', this.#abortController.signal);
-
-			if (isThenable(result)) {
-				// Async - defer handling to next tick
-				this.#isAsync = true;
-				setImmediate(() => {
-					this.#handleAsyncResult(result);
-				});
-			} else {
-				// Sync - apply immediately
-				this.filteredOptions = result;
-				this.#updateCursorAndFocus();
-			}
+			this.#performSearch('');
 		}
 
 		return super.prompt();
@@ -332,7 +319,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	async #handleAsyncResult(resultPromise: PromiseLike<T[]>): Promise<void> {
 		// Store reference to detect if a newer request aborts this one
 		const currentController = this.#abortController;
-		this.#setLoadingState(false);
+		this.#setLoadingState(true);
 
 		try {
 			const results = await resultPromise;
@@ -348,6 +335,11 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				return;
 			}
 			this.searchError = error instanceof Error ? error : new Error(String(error));
+		} finally {
+			// Turn off loading state when done (unless request was aborted)
+			if (!currentController?.signal.aborted) {
+				this.#setLoadingState(false);
+			}
 		}
 	}
 
