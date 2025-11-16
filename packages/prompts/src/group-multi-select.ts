@@ -94,7 +94,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		},
 		render() {
 			const bar = style.formatBar[this.state](S_BAR);
-			const _barEnd = style.formatBar[this.state](S_BAR_END);
+			const barEnd = style.formatBar[this.state](S_BAR_END);
 
 			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
 			const value = this.value ?? [];
@@ -119,7 +119,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
+							i === 0 ? `${barEnd}  ${style.formatBar[this.state](ln)}` : `   ${ln}`
 						)
 						.join('\n');
 					return `${title}${bar}  ${this.options
@@ -181,7 +181,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						})
 						.join(`\n${bar}`);
 					const optionsPrefix = optionsText.startsWith('\n') ? '' : '  ';
-					return `${title}${bar}${optionsPrefix}${optionsText}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${bar}${optionsPrefix}${optionsText}\n${barEnd}\n`;
 				}
 			}
 		},
