@@ -13,7 +13,7 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	groupSpacing?: number;
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
 		option: Option<Value> & { group: string | boolean },
@@ -103,7 +103,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				case 'submit': {
 					const selectedOptions = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
-						.map((option) => opt(option, 'submitted'), bar);
+						.map((option) => opt(option, 'submitted', this.options, bar));
 					const optionsText =
 						selectedOptions.length === 0 ? '' : `  ${selectedOptions.join(color.dim(', '))}`;
 					return `${title}${bar}${optionsText}`;
@@ -111,7 +111,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
-						.map((option) => opt(option, 'cancelled'), bar)
+						.map((option) => opt(option, 'cancelled', this.options, bar))
 						.join(color.dim(', '));
 					return `${title}${bar}  ${label.trim() ? `${label}\n${bar}` : ''}`;
 				}
@@ -166,7 +166,8 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 								optionText = opt(
 									option,
 									selected ? 'group-active-selected' : 'group-active',
-									options
+									options,
+									bar
 								);
 							} else if (active && selected) {
 								optionText = opt(option, 'active-selected', options, bar);

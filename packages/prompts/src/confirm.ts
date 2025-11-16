@@ -9,7 +9,7 @@ export interface ConfirmOptions extends CommonOptions {
 	initialValue?: boolean;
 }
 export const confirm = (opts: ConfirmOptions) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 	const active = opts.active ?? 'Yes';
 	const inactive = opts.inactive ?? 'No';
 	return new ConfirmPrompt({

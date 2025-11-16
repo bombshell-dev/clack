@@ -20,7 +20,7 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 };
 
 export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 	const opt = (
 		option: Option<Value>,
 		state:

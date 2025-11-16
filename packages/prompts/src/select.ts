@@ -65,7 +65,7 @@ export interface SelectOptions<Value> extends CommonOptions {
 }
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 	const opt = (
 		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'

@@ -1,6 +1,6 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, symbol } from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -67,7 +67,7 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
@@ -81,7 +81,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		validate: opts.validate,
 		render() {
 			// Title and message display
-			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
+			const headings = [`${color.gray(S_BAR)}`, `${style.prefix[this.state]}  ${opts.message}`];
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
 			const options = this.options;
@@ -205,7 +205,7 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 	const formatOption = (
 		option: Option<Value>,
 		active: boolean,

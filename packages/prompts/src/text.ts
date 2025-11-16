@@ -11,7 +11,7 @@ export interface TextOptions extends CommonOptions {
 }
 
 export const text = (opts: TextOptions) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 
 	return new TextPrompt({
 		validate: opts.validate,

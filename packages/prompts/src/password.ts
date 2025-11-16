@@ -9,7 +9,7 @@ export interface PasswordOptions extends CommonOptions {
 	clearOnError?: boolean;
 }
 export const password = (opts: PasswordOptions) => {
-	const style = extendStyle(opts.style);
+	const style = extendStyle(opts.theme);
 
 	return new PasswordPrompt({
 		validate: opts.validate,

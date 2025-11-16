@@ -3,7 +3,6 @@ import type { State } from '@clack/core';
 import deepmerge from '@fastify/deepmerge';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
-import type { Formatter } from 'picocolors/types.d.ts';
 
 export const unicode = isUnicodeSupported();
 export const isCI = (): boolean => process.env.CI === 'true';
@@ -59,24 +58,12 @@ export interface CommonOptions {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
-	style?: StyleOptions;
+	theme?: ThemeOptions;
 }
 
-export interface StyleOptions {
-	formatBar?: {
-		initial?: Formatter;
-		active?: Formatter;
-		cancel?: Formatter;
-		error?: Formatter;
-		submit?: Formatter;
-	};
-	prefix?: {
-		initial?: string;
-		active?: string;
-		cancel?: string;
-		error?: string;
-		submit?: string;
-	};
+export interface ThemeOptions {
+	formatBar?: { [K in State]?: (str: string) => string };
+	prefix?: { [K in State]?: string };
 	radio?: {
 		active?: string;
 		inactive?: string;
@@ -95,7 +82,7 @@ export interface StyleOptions {
 	};
 }
 
-const defaultStyle: StyleOptions = {
+const defaultStyle: ThemeOptions = {
 	formatBar: {
 		initial: color.cyan,
 		active: color.cyan,
@@ -128,8 +115,14 @@ const defaultStyle: StyleOptions = {
 	},
 };
 
+type DeepRequired<T> = T extends object
+	? T extends (...args: any[]) => any
+		? T
+		: { [K in keyof T]-?: DeepRequired<T[K]> }
+	: T;
+
 const merge = deepmerge();
 
-export const extendStyle = (style?: StyleOptions) => {
-	return merge(defaultStyle, style ?? {});
+export const extendStyle = (style?: ThemeOptions) => {
+	return merge(defaultStyle, style ?? {}) as DeepRequired<ThemeOptions>;
 };
