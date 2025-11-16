@@ -39,6 +39,8 @@ export const S_SUCCESS = unicodeOr('◆', '*');
 export const S_WARN = unicodeOr('▲', '!');
 export const S_ERROR = unicodeOr('■', 'x');
 
+export const S_SPINNER_FRAMES = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
+
 export const symbol = (state: State) => {
 	switch (state) {
 		case 'initial':

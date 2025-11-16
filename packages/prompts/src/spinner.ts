@@ -9,6 +9,7 @@ import {
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
+	S_SPINNER_FRAMES,
 	unicode,
 } from './common.js';
 
@@ -39,7 +40,7 @@ export const spinner = ({
 	output = process.stdout,
 	cancelMessage,
 	errorMessage,
-	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
+	frames = S_SPINNER_FRAMES,
 	delay = unicode ? 80 : 120,
 	signal,
 	...opts

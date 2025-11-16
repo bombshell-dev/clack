@@ -8,13 +8,12 @@ import {
 	S_CHECKBOX_SELECTED,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
+	S_SPINNER_FRAMES,
 	symbol,
 	unicode,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
-
-const SPINNER_FRAMES = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 
 function getLabel<T>(option: Option<T>) {
 	return option.label ?? String(option.value ?? '');
@@ -127,7 +126,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		render() {
 			// Title and message display - show spinner when loading
 			const promptSymbol = this.isLoading
-				? color.magenta(SPINNER_FRAMES[this.spinnerFrameIndex])
+				? color.magenta(S_SPINNER_FRAMES[this.spinnerFrameIndex])
 				: symbol(this.state);
 			const headings = [`${color.gray(S_BAR)}`, `${promptSymbol}  ${opts.message}`];
 			const userInput = this.userInput;
@@ -347,7 +346,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		render() {
 			// Title and symbol - show spinner when loading
 			const promptSymbol = this.isLoading
-				? color.magenta(SPINNER_FRAMES[this.spinnerFrameIndex])
+				? color.magenta(S_SPINNER_FRAMES[this.spinnerFrameIndex])
 				: symbol(this.state);
 			const title = `${color.gray(S_BAR)}\n${promptSymbol}  ${opts.message}\n`;
 
