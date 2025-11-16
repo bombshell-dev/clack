@@ -9,9 +9,12 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	unicode,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
+
+const SPINNER_FRAMES = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'];
 
 function getLabel<T>(option: Option<T>) {
 	return option.label ?? String(option.value ?? '');
@@ -41,15 +44,11 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
-interface AutocompleteSharedOptions<Value> extends CommonOptions {
+interface AutocompleteBaseOptions<Value> extends CommonOptions {
 	/**
 	 * The message to display to the user.
 	 */
 	message: string;
-	/**
-	 * Available options for the autocomplete prompt.
-	 */
-	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 	/**
 	 * Maximum number of items to display at once.
 	 */
@@ -62,9 +61,6 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * Validates the value
 	 */
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
-}
-
-export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
 	/**
 	 * The initial selected value.
 	 */
@@ -75,24 +71,68 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 	initialUserInput?: string;
 }
 
+// Higher-level API: unfiltered options (automatic filtering)
+interface AutocompleteUnfilteredOptions<Value> extends AutocompleteBaseOptions<Value> {
+	/**
+	 * Available options for the autocomplete prompt.
+	 */
+	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
+	filteredOptions?: never;
+	debounce?: never;
+}
+
+// Lower-level API: custom filtered options function (sync or async)
+interface AutocompleteFilteredOptions<Value> extends AutocompleteBaseOptions<Value> {
+	/**
+	 * Function that returns filtered options based on search query.
+	 * Can be sync or async. If async, results will be debounced.
+	 */
+	filteredOptions: (
+		query: string,
+		signal?: AbortSignal
+	) => Option<Value>[] | PromiseLike<Option<Value>[]>;
+	/**
+	 * Debounce time in milliseconds for async searches (default: 300)
+	 */
+	debounce?: number;
+	options?: never;
+}
+
+export type AutocompleteOptions<Value> =
+	| AutocompleteUnfilteredOptions<Value>
+	| AutocompleteFilteredOptions<Value>;
+
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
+	const isFilteredMode = 'filteredOptions' in opts && opts.filteredOptions;
+
 	const prompt = new AutocompletePrompt({
-		options: opts.options,
+		// Conditionally pass either options+filter or filteredOptions+debounce
+		...(isFilteredMode
+			? {
+					filteredOptions: opts.filteredOptions,
+					debounce: opts.debounce,
+				}
+			: {
+					options: opts.options,
+					filter: (search: string, opt: Option<Value>) => {
+						return getFilteredOption(search, opt);
+					},
+				}),
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
-		filter: (search: string, opt: Option<Value>) => {
-			return getFilteredOption(search, opt);
-		},
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		validate: opts.validate,
 		render() {
-			// Title and message display
-			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
+			// Title and message display - show spinner when loading
+			const promptSymbol = this.isLoading
+				? color.magenta(SPINNER_FRAMES[this.spinnerFrameIndex])
+				: symbol(this.state);
+			const headings = [`${color.gray(S_BAR)}`, `${promptSymbol}  ${opts.message}`];
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
-			const options = this.options;
+			const options = this.filteredOptions;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
 
@@ -129,9 +169,9 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 								)
 							: '';
 
-					// No matches message
+					// No matches message (only if not loading)
 					const noResults =
-						this.filteredOptions.length === 0 && userInput
+						this.filteredOptions.length === 0 && userInput && !this.isLoading
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
@@ -196,8 +236,20 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	return prompt.prompt() as Promise<Value | symbol>;
 };
 
-// Type definition for the autocompleteMultiselect component
-export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
+// Base options for multiselect
+interface AutocompleteMultiSelectBaseOptions<Value> extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
+	message: string;
+	/**
+	 * Maximum number of items to display at once.
+	 */
+	maxItems?: number;
+	/**
+	 * Placeholder text to display when no input is provided.
+	 */
+	placeholder?: string;
 	/**
 	 * The initial selected values
 	 */
@@ -207,6 +259,39 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
 	 */
 	required?: boolean;
 }
+
+// Higher-level API: unfiltered options (automatic filtering)
+interface AutocompleteMultiSelectUnfilteredOptions<Value>
+	extends AutocompleteMultiSelectBaseOptions<Value> {
+	/**
+	 * Available options for the autocomplete prompt.
+	 */
+	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
+	filteredOptions?: never;
+	debounce?: never;
+}
+
+// Lower-level API: custom filtered options function (sync or async)
+interface AutocompleteMultiSelectFilteredOptions<Value>
+	extends AutocompleteMultiSelectBaseOptions<Value> {
+	/**
+	 * Function that returns filtered options based on search query.
+	 * Can be sync or async. If async, results will be debounced.
+	 */
+	filteredOptions: (
+		query: string,
+		signal?: AbortSignal
+	) => Option<Value>[] | PromiseLike<Option<Value>[]>;
+	/**
+	 * Debounce time in milliseconds for async searches (default: 300)
+	 */
+	debounce?: number;
+	options?: never;
+}
+
+export type AutocompleteMultiSelectOptions<Value> =
+	| AutocompleteMultiSelectUnfilteredOptions<Value>
+	| AutocompleteMultiSelectFilteredOptions<Value>;
 
 /**
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
@@ -233,12 +318,22 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	};
 
 	// Create text prompt which we'll use as foundation
+	const isFilteredMode = 'filteredOptions' in opts && opts.filteredOptions;
+
 	const prompt = new AutocompletePrompt<Option<Value>>({
-		options: opts.options,
+		// Conditionally pass either options+filter or filteredOptions+debounce
+		...(isFilteredMode
+			? {
+					filteredOptions: opts.filteredOptions,
+					debounce: opts.debounce,
+				}
+			: {
+					options: opts.options,
+					filter: (search, opt) => {
+						return getFilteredOption(search, opt);
+					},
+				}),
 		multiple: true,
-		filter: (search, opt) => {
-			return getFilteredOption(search, opt);
-		},
 		validate: () => {
 			if (opts.required && prompt.selectedValues.length === 0) {
 				return 'Please select at least one item';
@@ -250,8 +345,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
-			// Title and symbol
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			// Title and symbol - show spinner when loading
+			const promptSymbol = this.isLoading
+				? color.magenta(SPINNER_FRAMES[this.spinnerFrameIndex])
+				: symbol(this.state);
+			const title = `${color.gray(S_BAR)}\n${promptSymbol}  ${opts.message}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -264,14 +362,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					? color.dim(showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
 					: this.userInputWithCursor;
 
-			const options = this.options;
-
-			const matches =
-				this.filteredOptions.length !== options.length
-					? color.dim(
-							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
-						)
-					: '';
+			// Only show match count when user has typed something
+			const matches = userInput
+				? color.dim(
+						` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
+					)
+				: '';
 
 			// Render prompt state
 			switch (this.state) {
@@ -290,9 +386,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						`${color.dim('Type:')} to search`,
 					];
 
-					// No results message
+					// No results message (only if not loading)
 					const noResults =
-						this.filteredOptions.length === 0 && userInput
+						this.filteredOptions.length === 0 && userInput && !this.isLoading
 							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 

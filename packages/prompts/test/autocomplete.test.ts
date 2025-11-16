@@ -225,6 +225,61 @@ describe('autocomplete', () => {
 		await result;
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('supports filteredOptions with sync function', async () => {
+		const filterFn = vi.fn((query: string) => {
+			return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+		});
+
+		const result = autocomplete({
+			message: 'Select a fruit',
+			filteredOptions: filterFn,
+			input,
+			output,
+		});
+
+		// Type to filter
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+
+		expect(filterFn).toHaveBeenCalledWith('', expect.any(AbortSignal));
+		expect(filterFn).toHaveBeenCalledWith('a', expect.any(AbortSignal));
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('supports filteredOptions with async function', async () => {
+		vi.useFakeTimers();
+
+		const searchFn = vi.fn(async (query: string) => {
+			await new Promise((resolve) => setTimeout(resolve, 100));
+			return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+		});
+
+		const result = autocomplete({
+			message: 'Select a fruit',
+			filteredOptions: searchFn,
+			debounce: 200,
+			input,
+			output,
+		});
+
+		await vi.runAllTimersAsync();
+
+		// Type to filter
+		input.emit('keypress', 'b', { name: 'b' });
+		await vi.advanceTimersByTimeAsync(200);
+		await vi.runAllTimersAsync();
+
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+
+		expect(searchFn).toHaveBeenCalledWith('', expect.any(AbortSignal));
+		expect(searchFn).toHaveBeenCalledWith('b', expect.any(AbortSignal));
+		expect(value).toBe('banana');
+
+		vi.useRealTimers();
+	});
 });
 
 describe('autocompleteMultiselect', () => {
@@ -296,5 +351,64 @@ describe('autocompleteMultiselect', () => {
 		const value = await result;
 		expect(value).toEqual(['banana', 'cherry']);
 		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('supports filteredOptions with sync function', async () => {
+		const filterFn = vi.fn((query: string) => {
+			return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+		});
+
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			filteredOptions: filterFn,
+			input,
+			output,
+		});
+
+		// Type to filter
+		input.emit('keypress', 'a', { name: 'a' });
+		// Select first match
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		await result;
+
+		expect(filterFn).toHaveBeenCalledWith('', expect.any(AbortSignal));
+		expect(filterFn).toHaveBeenCalledWith('a', expect.any(AbortSignal));
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('supports filteredOptions with async function', async () => {
+		vi.useFakeTimers();
+
+		const searchFn = vi.fn(async (query: string) => {
+			await new Promise((resolve) => setTimeout(resolve, 100));
+			return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+		});
+
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			filteredOptions: searchFn,
+			debounce: 200,
+			input,
+			output,
+		});
+
+		await vi.runAllTimersAsync();
+
+		// Type to filter
+		input.emit('keypress', 'b', { name: 'b' });
+		await vi.advanceTimersByTimeAsync(200);
+		await vi.runAllTimersAsync();
+
+		// Select first match
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+
+		expect(searchFn).toHaveBeenCalledWith('', expect.any(AbortSignal));
+		expect(searchFn).toHaveBeenCalledWith('b', expect.any(AbortSignal));
+		expect(value).toEqual(['banana']);
+
+		vi.useRealTimers();
 	});
 });

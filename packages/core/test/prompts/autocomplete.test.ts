@@ -197,4 +197,245 @@ describe('AutocompletePrompt', () => {
 		expect(instance.selectedValues).to.deep.equal([]);
 		expect(result).to.deep.equal([]);
 	});
+
+	// Sync filtered mode tests
+	describe('sync filtered mode', () => {
+		test('triggers initial search with empty query', () => {
+			const filterFn = vi.fn((query: string, _signal?: AbortSignal) => {
+				return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+			});
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: filterFn,
+			});
+
+			instance.prompt();
+
+			// Should call with empty query and signal
+			expect(filterFn).toHaveBeenCalledWith('', expect.any(AbortSignal));
+		});
+
+		test('calls filteredOptions function on user input', () => {
+			const filterFn = vi.fn((query: string, _signal?: AbortSignal) => {
+				return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+			});
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: filterFn,
+			});
+
+			instance.prompt();
+
+			// Type 'a'
+			input.emit('keypress', 'a', { name: 'a' });
+
+			expect(filterFn).toHaveBeenCalledWith('a', expect.any(AbortSignal));
+			expect(instance.filteredOptions).toEqual([
+				{ value: 'apple', label: 'Apple' },
+				{ value: 'banana', label: 'Banana' },
+				{ value: 'grape', label: 'Grape' },
+				{ value: 'orange', label: 'Orange' },
+			]);
+		});
+
+		test('updates filteredOptions based on function result', () => {
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: (query, _signal?) => {
+					return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+				},
+			});
+
+			instance.prompt();
+
+			// Type 'app'
+			input.emit('keypress', 'a', { name: 'a' });
+			input.emit('keypress', 'p', { name: 'p' });
+			input.emit('keypress', 'p', { name: 'p' });
+
+			expect(instance.filteredOptions).toEqual([{ value: 'apple', label: 'Apple' }]);
+		});
+	});
+
+	// Async filtered mode tests
+	describe('async filtered mode', () => {
+		beforeEach(() => {
+			vi.useFakeTimers();
+		});
+
+		afterEach(() => {
+			vi.useRealTimers();
+		});
+
+		test('triggers initial search with empty query', async () => {
+			const searchFn = vi.fn(async () => testOptions);
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: searchFn,
+			});
+
+			const promise = instance.prompt();
+
+			// Wait for initial search to be triggered
+			await vi.runAllTimersAsync();
+
+			// Should call with signal even on first call
+			expect(searchFn).toHaveBeenCalledWith('', expect.any(AbortSignal));
+
+			input.emit('keypress', '', { name: 'return' });
+			await promise;
+		});
+
+		test('debounces search requests', async () => {
+			const searchFn = vi.fn(async (query: string) => {
+				return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+			});
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: searchFn,
+				debounce: 300,
+			});
+
+			const promise = instance.prompt();
+
+			// Wait for initial search
+			await vi.runAllTimersAsync();
+
+			// Type 'a'
+			input.emit('keypress', 'a', { name: 'a' });
+
+			// Search should not have been called yet (debouncing)
+			expect(searchFn).toHaveBeenCalledTimes(1); // Only initial search
+
+			// Wait for debounce
+			await vi.advanceTimersByTimeAsync(300);
+			await vi.runAllTimersAsync();
+
+			// Now search should have been called
+			expect(searchFn).toHaveBeenCalledWith('a', expect.any(AbortSignal));
+
+			input.emit('keypress', '', { name: 'return' });
+			await promise;
+		});
+
+		test('sets isLoading flag during search', async () => {
+			let resolveSearch!: (value: any) => void;
+			const searchPromise = new Promise((resolve) => {
+				resolveSearch = resolve;
+			});
+
+			const searchFn = vi.fn(async () => {
+				await searchPromise;
+				return testOptions;
+			});
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: searchFn,
+			});
+
+			const promise = instance.prompt();
+
+			// Advance timers to trigger initial search
+			await vi.runOnlyPendingTimersAsync();
+
+			// Should be loading
+			expect(instance.isLoading).to.equal(true);
+
+			// Resolve the search
+			resolveSearch?.(testOptions);
+			await vi.runAllTimersAsync();
+
+			// Should not be loading anymore
+			expect(instance.isLoading).to.equal(false);
+
+			input.emit('keypress', '', { name: 'return' });
+			await promise;
+		});
+
+		test('handles search errors', async () => {
+			const error = new Error('Search failed');
+			const searchFn = vi.fn(async () => {
+				throw error;
+			});
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: searchFn,
+			});
+
+			const promise = instance.prompt();
+
+			// Wait for initial search
+			await vi.runAllTimersAsync();
+
+			// Error should be set
+			expect(instance.searchError).to.equal(error);
+			expect(instance.isLoading).to.equal(false);
+
+			input.emit('keypress', '', { name: 'return' });
+			await promise;
+		});
+
+		test('cancels in-flight requests when query changes', async () => {
+			const searchFn = vi.fn(async (query: string, signal?: AbortSignal) => {
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				if (signal?.aborted) throw new Error('Aborted');
+				return testOptions.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
+			});
+
+			const instance = new AutocompletePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				filteredOptions: searchFn,
+				debounce: 100,
+			});
+
+			const promise = instance.prompt();
+
+			// Wait for initial search
+			await vi.runAllTimersAsync();
+
+			// Type 'a'
+			input.emit('keypress', 'a', { name: 'a' });
+
+			// Wait for debounce
+			await vi.advanceTimersByTimeAsync(100);
+
+			// Before first search completes, type another character
+			input.emit('keypress', 'p', { name: 'p' });
+
+			// Wait for debounce
+			await vi.advanceTimersByTimeAsync(100);
+
+			// The first search should have been aborted
+			expect(searchFn).toHaveBeenCalledWith('a', expect.any(AbortSignal));
+			expect(searchFn).toHaveBeenCalledWith('ap', expect.any(AbortSignal));
+
+			// Wait for all timers to complete
+			await vi.runAllTimersAsync();
+
+			input.emit('keypress', '', { name: 'return' });
+			await promise;
+		});
+	});
 });

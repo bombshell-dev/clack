@@ -16,7 +16,10 @@
     "path": "jiti ./path.ts",
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
     "spinner-timer": "jiti ./spinner-timer.ts",
-    "task-log": "jiti ./task-log.ts"
+    "task-log": "jiti ./task-log.ts",
+    "autocomplete-multiselect-required": "jiti ./autocomplete-multiselect-required.ts",
+    "autocomplete-async-api": "jiti ./autocomplete-async-api.ts",
+    "autocomplete-sync-custom": "jiti ./autocomplete-sync-custom.ts"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"
