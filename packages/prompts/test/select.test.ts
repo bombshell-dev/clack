@@ -248,4 +248,31 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('handles mixed size re-renders', async () => {
+		output.rows = 10;
+
+		const result = prompts.select({
+			message: 'Whatever',
+			options: [
+				{
+					value: 'longopt',
+					label: Array.from({ length: 8 }, () => 'Long Option').join('\n'),
+				},
+				...Array.from({ length: 4 }, (_, i) => ({
+					value: `opt${i}`,
+					label: `Option ${i}`,
+				})),
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'up' });
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
