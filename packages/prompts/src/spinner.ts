@@ -6,6 +6,7 @@ import {
 	type CommonOptions,
 	isCI as isCIFn,
 	S_BAR,
+	S_SPINNER_FRAMES,
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
@@ -39,7 +40,7 @@ export const spinner = ({
 	output = process.stdout,
 	cancelMessage,
 	errorMessage,
-	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
+	frames = S_SPINNER_FRAMES,
 	delay = unicode ? 80 : 120,
 	signal,
 	...opts
