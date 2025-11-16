@@ -1,6 +1,6 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, } from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -277,7 +277,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${bar}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
+					return `${title}\n${bar}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
 					return `${title}\n${bar}  ${color.strikethrough(color.dim(userInput))}`;
