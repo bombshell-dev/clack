@@ -215,7 +215,8 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
-	const formatOption = (
+	const style = extendStyle(opts.style);
+  const formatOption = (
 		option: Option<Value>,
 		active: boolean,
 		selectedValues: Value[],
@@ -227,11 +228,13 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			option.hint && focusedValue !== undefined && option.value === focusedValue
 				? color.dim(` (${option.hint})`)
 				: '';
-		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
 
 		if (active) {
+      const checkbox = isSelected ? style.checkbox.selected.active : style.checkbox?.unselected?.active;
 			return `${checkbox} ${label}${hint}`;
 		}
+
+    const checkbox = isSelected ? style.checkbox.selected.inactive : style.checkbox.unselected.inactive;
 		return `${checkbox} ${color.dim(label)}`;
 	};
 
@@ -254,7 +257,8 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		output: opts.output,
 		render() {
 			// Title and symbol
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}`;
+      const bar = style.formatBar[this.state](S_BAR);
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -279,10 +283,10 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
+					return `${title}${bar}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
+					return `${title}\n${bar}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 				default: {
 					// Instructions
@@ -296,11 +300,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${bar}  ${style.formatBar.error('No matches found')}`]
 							: [];
 
 					const errorMessage =
-						this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${bar}  ${style.formatBar[this.state](this.error)}`] : [];
 
 					// Get limited options for display
 					const displayOptions = limitOptions({
@@ -315,12 +319,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						title,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+						`${bar}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						...displayOptions.map((option) => `${bar}  ${option}`),
+						`${bar}  ${color.dim(instructions.join(' • '))}`,
+						`${style.formatBar[this.state](S_BAR_END)}`,
 					].join('\n');
 				}
 			}
