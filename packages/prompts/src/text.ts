@@ -1,6 +1,6 @@
 import { TextPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, S_BAR, S_BAR_END, extendStyle } from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
 export interface TextOptions extends CommonOptions {
 	message: string;

@@ -1,6 +1,6 @@
 import { SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
-import { S_BAR, S_BAR_END, extendStyle } from './common.js';
+import { extendStyle, S_BAR, S_BAR_END } from './common.js';
 import type { Option, SelectOptions } from './select.js';
 
 export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {

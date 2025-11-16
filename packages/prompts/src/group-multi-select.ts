@@ -1,15 +1,6 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	S_CHECKBOX_ACTIVE,
-	S_CHECKBOX_INACTIVE,
-	S_CHECKBOX_SELECTED,
-	symbol,
-	extendStyle,
-} from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import type { Option } from './select.js';
 
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
@@ -36,7 +27,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'submitted'
 			| 'cancelled',
 		options: (Option<Value> & { group: string | boolean })[] = [],
-		prefixBar: string,
+		prefixBar: string
 	) => {
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
@@ -103,9 +94,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		},
 		render() {
 			const bar = style.formatBar[this.state](S_BAR);
-			const barEnd = style.formatBar[this.state](S_BAR_END);
+			const _barEnd = style.formatBar[this.state](S_BAR_END);
 
-      const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
 			const value = this.value ?? [];
 
 			switch (this.state) {
@@ -122,9 +113,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'), bar)
 						.join(color.dim(', '));
-					return `${title}${bar}  ${
-						label.trim() ? `${label}\n${bar}` : ''
-					}`;
+					return `${title}${bar}  ${label.trim() ? `${label}\n${bar}` : ''}`;
 				}
 				case 'error': {
 					const footer = this.error
@@ -144,7 +133,12 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 								typeof option.group === 'string' &&
 								this.options[this.cursor].value === option.group;
 							if (groupActive) {
-								return opt(option, selected ? 'group-active-selected' : 'group-active', options, bar);
+								return opt(
+									option,
+									selected ? 'group-active-selected' : 'group-active',
+									options,
+									bar
+								);
 							}
 							if (active && selected) {
 								return opt(option, 'active-selected', options, bar);

@@ -1,11 +1,6 @@
 import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	extendStyle,
-} from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -119,11 +114,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							.filter(({ value: optionValue }) => value.includes(optionValue))
 							.map((option) => opt(option, 'submitted'))
 							.join(color.dim(', ')) || color.dim('none');
-					const wrappedSubmitText = wrapTextWithPrefix(
-						opts.output,
-						submitText,
-						`${bar}  `
-					);
+					const wrappedSubmitText = wrapTextWithPrefix(opts.output, submitText, `${bar}  `);
 					return `${title}${wrappedSubmitText}`;
 				}
 				case 'cancel': {

@@ -1,16 +1,6 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	S_CHECKBOX_INACTIVE,
-	S_CHECKBOX_SELECTED,
-	S_RADIO_ACTIVE,
-	S_RADIO_INACTIVE,
-	symbol,
-	extendStyle,
-} from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, symbol } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -216,7 +206,7 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
 	const style = extendStyle(opts.style);
-  const formatOption = (
+	const formatOption = (
 		option: Option<Value>,
 		active: boolean,
 		selectedValues: Value[],
@@ -230,11 +220,15 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				: '';
 
 		if (active) {
-      const checkbox = isSelected ? style.checkbox.selected.active : style.checkbox?.unselected?.active;
+			const checkbox = isSelected
+				? style.checkbox.selected.active
+				: style.checkbox?.unselected?.active;
 			return `${checkbox} ${label}${hint}`;
 		}
 
-    const checkbox = isSelected ? style.checkbox.selected.inactive : style.checkbox.unselected.inactive;
+		const checkbox = isSelected
+			? style.checkbox.selected.inactive
+			: style.checkbox.unselected.inactive;
 		return `${checkbox} ${color.dim(label)}`;
 	};
 
@@ -258,7 +252,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		render() {
 			// Title and symbol
 			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}`;
-      const bar = style.formatBar[this.state](S_BAR);
+			const bar = style.formatBar[this.state](S_BAR);
 
 			// Selection counter
 			const userInput = this.userInput;

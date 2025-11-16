@@ -1,9 +1,9 @@
 import type { Readable, Writable } from 'node:stream';
 import type { State } from '@clack/core';
+import deepmerge from '@fastify/deepmerge';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 import type { Formatter } from 'picocolors/types.d.ts';
-import deepmerge from '@fastify/deepmerge';
 
 export const unicode = isUnicodeSupported();
 export const isCI = (): boolean => process.env.CI === 'true';
@@ -124,12 +124,12 @@ const defaultStyle: StyleOptions = {
 			active: color.cyan(S_CHECKBOX_ACTIVE),
 			inactive: color.dim(S_CHECKBOX_INACTIVE),
 		},
-		disabled: color.dim(S_CHECKBOX_INACTIVE)
+		disabled: color.dim(S_CHECKBOX_INACTIVE),
 	},
-}
+};
 
 const merge = deepmerge();
 
 export const extendStyle = (style?: StyleOptions) => {
 	return merge(defaultStyle, style ?? {});
-}
+};

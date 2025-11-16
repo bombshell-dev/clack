@@ -1,6 +1,6 @@
 import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, extendStyle } from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, S_PASSWORD_MASK } from './common.js';
 
 export interface PasswordOptions extends CommonOptions {
 	message: string;
@@ -39,9 +39,7 @@ export const password = (opts: PasswordOptions) => {
 				}
 				case 'cancel': {
 					const maskedText = masked ? `  ${color.strikethrough(color.dim(masked))}` : '';
-					return `${title}${bar}${maskedText}${
-						masked ? `\n${bar}` : ''
-					}`;
+					return `${title}${bar}${maskedText}${masked ? `\n${bar}` : ''}`;
 				}
 				default:
 					return `${title}${bar}  ${userInput}\n${barEnd}\n`;

@@ -1,11 +1,6 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	extendStyle,
-} from './common.js';
+import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
 export interface ConfirmOptions extends CommonOptions {
 	message: string;
@@ -35,9 +30,7 @@ export const confirm = (opts: ConfirmOptions) => {
 				case 'submit':
 					return `${title}${bar}  ${color.dim(value)}`;
 				case 'cancel':
-					return `${title}${bar}  ${color.strikethrough(
-						color.dim(value)
-					)}\n${bar}`;
+					return `${title}${bar}  ${color.strikethrough(color.dim(value))}\n${bar}`;
 				default: {
 					return `${title}${bar}  ${
 						this.value
