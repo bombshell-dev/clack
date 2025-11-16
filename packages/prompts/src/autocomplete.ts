@@ -10,7 +10,6 @@ import {
 	S_RADIO_INACTIVE,
 	S_SPINNER_FRAMES,
 	symbol,
-	unicode,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -102,11 +101,9 @@ export type AutocompleteOptions<Value> =
 	| AutocompleteFilteredOptions<Value>;
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const isFilteredMode = 'filteredOptions' in opts && opts.filteredOptions;
-
 	const prompt = new AutocompletePrompt({
 		// Conditionally pass either options+filter or filteredOptions+debounce
-		...(isFilteredMode
+		...(opts.filteredOptions
 			? {
 					filteredOptions: opts.filteredOptions,
 					debounce: opts.debounce,
@@ -317,11 +314,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	};
 
 	// Create text prompt which we'll use as foundation
-	const isFilteredMode = 'filteredOptions' in opts && opts.filteredOptions;
-
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		// Conditionally pass either options+filter or filteredOptions+debounce
-		...(isFilteredMode
+		...(opts.filteredOptions
 			? {
 					filteredOptions: opts.filteredOptions,
 					debounce: opts.debounce,

@@ -6,10 +6,10 @@ import {
 	type CommonOptions,
 	isCI as isCIFn,
 	S_BAR,
+	S_SPINNER_FRAMES,
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
-	S_SPINNER_FRAMES,
 	unicode,
 } from './common.js';
 
