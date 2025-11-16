@@ -86,6 +86,9 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
     devDependencies:
+      '@fastify/deepmerge':
+        specifier: ^3.1.0
+        version: 3.1.0
       fast-string-width:
         specifier: ^1.1.0
         version: 1.1.0
@@ -391,6 +394,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fastify/deepmerge@3.1.0':
+    resolution: {integrity: sha512-lCVONBQINyNhM6LLezB6+2afusgEYR4G8xenMsfe+AT+iZ7Ca6upM5Ha8UkZuYSnuMw3GWl/BiPXnLMi/gSxuQ==}
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
@@ -2119,6 +2125,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.8':
     optional: true
+
+  '@fastify/deepmerge@3.1.0': {}
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
