@@ -94,6 +94,7 @@ export interface StyleOptions {
 	radio?: {
 		active?: string;
 		inactive?: string;
+		disabled?: string;
 	};
 	checkbox?: {
 		selected?: {
@@ -126,6 +127,7 @@ const defaultStyle: StyleOptions = {
 	radio: {
 		active: color.green(S_RADIO_ACTIVE),
 		inactive: color.dim(S_RADIO_INACTIVE),
+		disabled: color.gray(S_RADIO_INACTIVE),
 	},
 	checkbox: {
 		selected: {
