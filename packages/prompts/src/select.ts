@@ -72,6 +72,16 @@ export interface SelectOptions<Value> extends CommonOptions {
 	maxItems?: number;
 }
 
+const computeLabel = (label: string, format: (text: string) => string) => {
+	if (!label.includes('\n')) {
+		return format(label);
+	}
+	return label
+		.split('\n')
+		.map((line) => format(line))
+		.join('\n');
+};
+
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
@@ -80,19 +90,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${color.gray(S_RADIO_INACTIVE)} ${color.gray(label)}${
+				return `${color.gray(S_RADIO_INACTIVE)} ${computeLabel(label, color.gray)}${
 					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
-				return `${color.dim(label)}`;
+				return `${computeLabel(label, color.dim)}`;
 			case 'active':
 				return `${color.green(S_RADIO_ACTIVE)} ${label}${
 					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
-				return `${color.strikethrough(color.dim(label))}`;
+				return `${computeLabel(label, (str) => color.strikethrough(color.dim(str)))}`;
 			default:
-				return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
+				return `${color.dim(S_RADIO_INACTIVE)} ${computeLabel(label, color.dim)}`;
 		}
 	};
 
