@@ -131,5 +131,5 @@ const defaultStyle: StyleOptions = {
 const merge = deepmerge();
 
 export const extendStyle = (style?: StyleOptions) => {
-	return merge(defaultStyle, style);
+	return merge(defaultStyle, style ?? {});
 }
