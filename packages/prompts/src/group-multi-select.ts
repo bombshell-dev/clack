@@ -8,6 +8,7 @@ import {
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	symbol,
+	extendStyle,
 } from './common.js';
 import type { Option } from './select.js';
 
@@ -21,6 +22,7 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	groupSpacing?: number;
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
+	const style = extendStyle(opts.style);
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
 		option: Option<Value> & { group: string | boolean },
@@ -33,7 +35,8 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'group-active-selected'
 			| 'submitted'
 			| 'cancelled',
-		options: (Option<Value> & { group: string | boolean })[] = []
+		options: (Option<Value> & { group: string | boolean })[] = [],
+		prefixBar: string,
 	) => {
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
@@ -42,23 +45,23 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const prefix = isItem ? (selectableGroups ? `${isLast ? S_BAR_END : S_BAR} ` : '  ') : '';
 		let spacingPrefix = '';
 		if (groupSpacing > 0 && !isItem) {
-			const spacingPrefixText = `\n${color.cyan(S_BAR)}`;
+			const spacingPrefixText = `\n${prefixBar}`;
 			spacingPrefix = `${spacingPrefixText.repeat(groupSpacing - 1)}${spacingPrefixText}  `;
 		}
 
 		if (state === 'active') {
-			return `${spacingPrefix}${color.dim(prefix)}${color.cyan(S_CHECKBOX_ACTIVE)} ${label}${
+			return `${spacingPrefix}${color.dim(prefix)}${style.checkbox.unselected.active} ${label}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'group-active') {
-			return `${spacingPrefix}${prefix}${color.cyan(S_CHECKBOX_ACTIVE)} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${style.checkbox.unselected.active} ${color.dim(label)}`;
 		}
 		if (state === 'group-active-selected') {
-			return `${spacingPrefix}${prefix}${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${style.checkbox.selected.inactive} ${color.dim(label)}`;
 		}
 		if (state === 'selected') {
-			const selectedCheckbox = isItem || selectableGroups ? color.green(S_CHECKBOX_SELECTED) : '';
+			const selectedCheckbox = isItem || selectableGroups ? style.checkbox.selected.inactive : '';
 			return `${spacingPrefix}${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
@@ -67,14 +70,14 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${spacingPrefix}${color.dim(prefix)}${color.green(S_CHECKBOX_SELECTED)} ${label}${
+			return `${spacingPrefix}${color.dim(prefix)}${style.checkbox.selected.active} ${label}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		const unselectedCheckbox = isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : '';
+		const unselectedCheckbox = isItem || selectableGroups ? style.checkbox.unselected.inactive : '';
 		return `${spacingPrefix}${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
 	};
 	const required = opts.required ?? true;
@@ -99,25 +102,28 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const bar = style.formatBar[this.state](S_BAR);
+			const barEnd = style.formatBar[this.state](S_BAR_END);
+
+      const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
 			const value = this.value ?? [];
 
 			switch (this.state) {
 				case 'submit': {
 					const selectedOptions = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
-						.map((option) => opt(option, 'submitted'));
+						.map((option) => opt(option, 'submitted'), bar);
 					const optionsText =
 						selectedOptions.length === 0 ? '' : `  ${selectedOptions.join(color.dim(', '))}`;
-					return `${title}${color.gray(S_BAR)}${optionsText}`;
+					return `${title}${bar}${optionsText}`;
 				}
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
-						.map((option) => opt(option, 'cancelled'))
+						.map((option) => opt(option, 'cancelled'), bar)
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}  ${
-						label.trim() ? `${label}\n${color.gray(S_BAR)}` : ''
+					return `${title}${bar}  ${
+						label.trim() ? `${label}\n${bar}` : ''
 					}`;
 				}
 				case 'error': {
@@ -127,7 +133,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${color.yellow(S_BAR)}  ${this.options
+					return `${title}${bar}  ${this.options
 						.map((option, i, options) => {
 							const selected =
 								value.includes(option.value) ||
@@ -138,17 +144,17 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 								typeof option.group === 'string' &&
 								this.options[this.cursor].value === option.group;
 							if (groupActive) {
-								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
+								return opt(option, selected ? 'group-active-selected' : 'group-active', options, bar);
 							}
 							if (active && selected) {
-								return opt(option, 'active-selected', options);
+								return opt(option, 'active-selected', options, bar);
 							}
 							if (selected) {
-								return opt(option, 'selected', options);
+								return opt(option, 'selected', options, bar);
 							}
-							return opt(option, active ? 'active' : 'inactive', options);
+							return opt(option, active ? 'active' : 'inactive', options, bar);
 						})
-						.join(`\n${color.yellow(S_BAR)}  `)}\n${footer}\n`;
+						.join(`\n${bar}  `)}\n${footer}\n`;
 				}
 				default: {
 					const optionsText = this.options
@@ -169,18 +175,18 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 									options
 								);
 							} else if (active && selected) {
-								optionText = opt(option, 'active-selected', options);
+								optionText = opt(option, 'active-selected', options, bar);
 							} else if (selected) {
-								optionText = opt(option, 'selected', options);
+								optionText = opt(option, 'selected', options, bar);
 							} else {
-								optionText = opt(option, active ? 'active' : 'inactive', options);
+								optionText = opt(option, active ? 'active' : 'inactive', options, bar);
 							}
 							const prefix = i !== 0 && !optionText.startsWith('\n') ? '  ' : '';
 							return `${prefix}${optionText}`;
 						})
-						.join(`\n${color.cyan(S_BAR)}`);
+						.join(`\n${bar}`);
 					const optionsPrefix = optionsText.startsWith('\n') ? '' : '  ';
-					return `${title}${color.cyan(S_BAR)}${optionsPrefix}${optionsText}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${bar}${optionsPrefix}${optionsText}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},
