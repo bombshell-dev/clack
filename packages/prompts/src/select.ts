@@ -1,6 +1,6 @@
 import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type RadioTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 
 type Primitive = Readonly<string | boolean | number>;
@@ -57,7 +57,7 @@ export type Option<Value> = Value extends Primitive
 			disabled?: boolean;
 		};
 
-export interface SelectOptions<Value> extends CommonOptions {
+export interface SelectOptions<Value> extends CommonOptions<RadioTheme> {
 	message: string;
 	options: Option<Value>[];
 	initialValue?: Value;
@@ -75,7 +75,7 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 };
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<RadioTheme>(opts.theme);
 	const opt = (
 		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'

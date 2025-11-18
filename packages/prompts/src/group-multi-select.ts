@@ -1,9 +1,9 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type CheckboxTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import type { Option } from './select.js';
 
-export interface GroupMultiSelectOptions<Value> extends CommonOptions {
+export interface GroupMultiSelectOptions<Value> extends CommonOptions<CheckboxTheme> {
 	message: string;
 	options: Record<string, Option<Value>[]>;
 	initialValues?: Value[];
@@ -13,7 +13,7 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	groupSpacing?: number;
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<CheckboxTheme>(opts.theme);
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
 		option: Option<Value> & { group: string | boolean },

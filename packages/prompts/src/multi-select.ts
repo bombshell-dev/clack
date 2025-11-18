@@ -1,10 +1,10 @@
 import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type CheckboxTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
-export interface MultiSelectOptions<Value> extends CommonOptions {
+export interface MultiSelectOptions<Value> extends CommonOptions<CheckboxTheme> {
 	message: string;
 	options: Option<Value>[];
 	initialValues?: Value[];
@@ -20,7 +20,7 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 };
 
 export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<CheckboxTheme>(opts.theme);
 	const opt = (
 		option: Option<Value>,
 		state:

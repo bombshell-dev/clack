@@ -40,21 +40,26 @@ export const S_SUCCESS = unicodeOr('◆', '*');
 export const S_WARN = unicodeOr('▲', '!');
 export const S_ERROR = unicodeOr('■', 'x');
 
-export interface CommonOptions {
+export type CommonOptions<TStyle = unknown> = {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
-	theme?: ThemeOptions;
-}
+} & (TStyle extends object ? {
+	theme?: {
+		formatBar?: { [K in State]?: (str: string) => string };
+		prefix?: { [K in State]?: string };
+	} & TStyle;
+} : {});
 
-export interface ThemeOptions {
-	formatBar?: { [K in State]?: (str: string) => string };
-	prefix?: { [K in State]?: string };
+export interface RadioTheme {
 	radio?: {
 		active?: string;
 		inactive?: string;
 		disabled?: string;
-	};
+	}
+}
+
+export interface CheckboxTheme {
 	checkbox?: {
 		selected?: {
 			active?: string;
@@ -65,10 +70,10 @@ export interface ThemeOptions {
 			inactive?: string;
 		};
 		disabled?: string;
-	};
+	}
 }
 
-const defaultStyle: ThemeOptions = {
+const defaultStyle: CommonOptions<RadioTheme & CheckboxTheme>['theme'] = {
 	formatBar: {
 		initial: color.cyan,
 		active: color.cyan,
@@ -107,8 +112,10 @@ type DeepRequired<T> = T extends object
 		: { [K in keyof T]-?: DeepRequired<T[K]> }
 	: T;
 
+type ExtendStyleType<TStyle> = ({ theme: {} } & CommonOptions<TStyle>)['theme'];
+
 const merge = deepmerge();
 
-export const extendStyle = (style?: ThemeOptions) => {
-	return merge(defaultStyle, style ?? {}) as DeepRequired<ThemeOptions>;
+export const extendStyle = <TStyle>(style?: ExtendStyleType<TStyle>) => {
+	return merge(defaultStyle, style ?? {}) as DeepRequired<ExtendStyleType<TStyle>>;
 };

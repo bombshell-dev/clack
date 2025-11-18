@@ -2,14 +2,14 @@ import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, S_PASSWORD_MASK } from './common.js';
 
-export interface PasswordOptions extends CommonOptions {
+export interface PasswordOptions extends CommonOptions<{}> {
 	message: string;
 	mask?: string;
 	validate?: (value: string | undefined) => string | Error | undefined;
 	clearOnError?: boolean;
 }
 export const password = (opts: PasswordOptions) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<{}>(opts.theme);
 
 	return new PasswordPrompt({
 		validate: opts.validate,

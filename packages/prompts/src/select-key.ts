@@ -4,7 +4,7 @@ import { extendStyle, S_BAR, S_BAR_END } from './common.js';
 import type { Option, SelectOptions } from './select.js';
 
 export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<{}>(opts.theme);
 	const opt = (
 		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'

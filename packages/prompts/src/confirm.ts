@@ -1,15 +1,15 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type RadioTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
-export interface ConfirmOptions extends CommonOptions {
+export interface ConfirmOptions extends CommonOptions<RadioTheme> {
 	message: string;
 	active?: string;
 	inactive?: string;
 	initialValue?: boolean;
 }
 export const confirm = (opts: ConfirmOptions) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<RadioTheme>(opts.theme);
 	const active = opts.active ?? 'Yes';
 	const inactive = opts.inactive ?? 'No';
 	return new ConfirmPrompt({

@@ -2,7 +2,7 @@ import { TextPrompt } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
-export interface TextOptions extends CommonOptions {
+export interface TextOptions extends CommonOptions<{}> {
 	message: string;
 	placeholder?: string;
 	defaultValue?: string;
@@ -11,7 +11,7 @@ export interface TextOptions extends CommonOptions {
 }
 
 export const text = (opts: TextOptions) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<{}>(opts.theme);
 
 	return new TextPrompt({
 		validate: opts.validate,

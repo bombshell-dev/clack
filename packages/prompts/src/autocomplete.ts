@@ -1,6 +1,6 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type RadioTheme, type CheckboxTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -32,7 +32,7 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
-interface AutocompleteSharedOptions<Value> extends CommonOptions {
+type AutocompleteSharedOptions<Value, TStyle> = CommonOptions<TStyle> & {
 	/**
 	 * The message to display to the user.
 	 */
@@ -55,7 +55,7 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
 }
 
-export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
+export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value, RadioTheme> {
 	/**
 	 * The initial selected value.
 	 */
@@ -67,7 +67,7 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<RadioTheme>(opts.theme);
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
@@ -190,7 +190,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 };
 
 // Type definition for the autocompleteMultiselect component
-export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
+export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value, CheckboxTheme> {
 	/**
 	 * The initial selected values
 	 */
@@ -205,7 +205,7 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
-	const style = extendStyle(opts.theme);
+	const style = extendStyle<CheckboxTheme>(opts.theme);
 	const formatOption = (
 		option: Option<Value>,
 		active: boolean,
