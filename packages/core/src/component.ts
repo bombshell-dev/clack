@@ -30,10 +30,8 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 	const fromLineCount = fromLines.length;
 	const toLineCount = toLines.length;
 
-	output.write(cursor.hide);
-	output.write(cursor.left);
-
 	if (fromLineCount > 0) {
+		output.write(cursor.left);
 		output.write(cursor.up(fromLineCount));
 	}
 
@@ -44,7 +42,9 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 		if (fromLine === toLine) {
 			output.write(cursor.down(1));
 		} else {
-			output.write(erase.line);
+			if (fromLine !== undefined) {
+				output.write(erase.line);
+			}
 			if (toLine !== undefined) {
 				output.write(`${toLine}\n`);
 			} else {
@@ -56,8 +56,6 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 	if (fromLineCount > toLineCount) {
 		output.write(erase.down());
 	}
-
-	output.write(cursor.show);
 }
 
 function renderToOutput(
@@ -158,6 +156,7 @@ export class RenderHost extends Component {
 
 	onMount(): void {
 		super.onMount();
+		this.#output.write(cursor.hide);
 		this.#output.on('resize', this.#onResize);
 	}
 

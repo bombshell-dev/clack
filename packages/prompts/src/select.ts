@@ -1,4 +1,4 @@
-import { SelectPrompt } from '@clack/core';
+import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -7,6 +7,7 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 
@@ -71,6 +72,16 @@ export interface SelectOptions<Value> extends CommonOptions {
 	maxItems?: number;
 }
 
+const computeLabel = (label: string, format: (text: string) => string) => {
+	if (!label.includes('\n')) {
+		return format(label);
+	}
+	return label
+		.split('\n')
+		.map((line) => format(line))
+		.join('\n');
+};
+
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
@@ -79,19 +90,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${color.gray(S_RADIO_INACTIVE)} ${color.gray(label)}${
+				return `${color.gray(S_RADIO_INACTIVE)} ${computeLabel(label, color.gray)}${
 					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
-				return `${color.dim(label)}`;
+				return `${computeLabel(label, color.dim)}`;
 			case 'active':
 				return `${color.green(S_RADIO_ACTIVE)} ${label}${
 					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
-				return `${color.strikethrough(color.dim(label))}`;
+				return `${computeLabel(label, (str) => color.strikethrough(color.dim(str)))}`;
 			default:
-				return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
+				return `${color.dim(S_RADIO_INACTIVE)} ${computeLabel(label, color.dim)}`;
 		}
 	};
 
@@ -102,16 +113,35 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const titlePrefix = `${symbol(this.state)}  `;
+			const titlePrefixBar = `${symbolBar(this.state)}  `;
+			const messageLines = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				titlePrefixBar,
+				titlePrefix
+			);
+			const title = `${color.gray(S_BAR)}\n${messageLines}\n`;
 
 			switch (this.state) {
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${color.gray(S_BAR)}`;
+				case 'submit': {
+					const submitPrefix = `${color.gray(S_BAR)}  `;
+					const wrappedLines = wrapTextWithPrefix(
+						opts.output,
+						opt(this.options[this.cursor], 'selected'),
+						submitPrefix
+					);
+					return `${title}${wrappedLines}`;
+				}
+				case 'cancel': {
+					const cancelPrefix = `${color.gray(S_BAR)}  `;
+					const wrappedLines = wrapTextWithPrefix(
+						opts.output,
+						opt(this.options[this.cursor], 'cancelled'),
+						cancelPrefix
+					);
+					return `${title}${wrappedLines}\n${color.gray(S_BAR)}`;
+				}
 				default: {
 					const prefix = `${color.cyan(S_BAR)}  `;
 					return `${title}${prefix}${limitOptions({

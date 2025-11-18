@@ -117,26 +117,26 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
-		test('renders cancel symbol if code = 1', () => {
+		test('renders cancel symbol when calling cancel()', () => {
 			const result = prompts.spinner({ output });
 
 			result.start();
 
 			vi.advanceTimersByTime(80);
 
-			result.stop('', 1);
+			result.cancel();
 
 			expect(output.buffer).toMatchSnapshot();
 		});
 
-		test('renders error symbol if code > 1', () => {
+		test('renders error symbol when calling error()', () => {
 			const result = prompts.spinner({ output });
 
 			result.start();
 
 			vi.advanceTimersByTime(80);
 
-			result.stop('', 2);
+			result.error();
 
 			expect(output.buffer).toMatchSnapshot();
 		});
@@ -161,6 +161,30 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			result.stop('foo.');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders message when cancelling', () => {
+			const result = prompts.spinner({ output });
+
+			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.cancel('too dizzy — spinning cancelled');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders message when erroring', () => {
+			const result = prompts.spinner({ output });
+
+			result.start();
+
+			vi.advanceTimersByTime(80);
+
+			result.error('error: spun too fast!');
 
 			expect(output.buffer).toMatchSnapshot();
 		});

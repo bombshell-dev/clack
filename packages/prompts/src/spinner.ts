@@ -24,7 +24,9 @@ export interface SpinnerOptions extends CommonOptions {
 
 export interface SpinnerResult {
 	start(msg?: string): void;
-	stop(msg?: string, code?: number): void;
+	stop(msg?: string): void;
+	cancel(msg?: string): void;
+	error(msg?: string): void;
 	message(msg?: string): void;
 	readonly isCancelled: boolean;
 }
@@ -61,7 +63,7 @@ export const spinner = ({
 				: (cancelMessage ?? settings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
-			stop(msg, code);
+			_stop(msg, code);
 			if (isCancelled && typeof onCancel === 'function') {
 				onCancel();
 			}
@@ -163,7 +165,7 @@ export const spinner = ({
 		}, delay);
 	};
 
-	const stop = (msg = '', code = 0): void => {
+	const _stop = (msg = '', code = 0): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
@@ -184,6 +186,10 @@ export const spinner = ({
 		unblock();
 	};
 
+	const stop = (msg = ''): void => _stop(msg, 0);
+	const cancel = (msg = ''): void => _stop(msg, 1);
+	const error = (msg = ''): void => _stop(msg, 2);
+
 	const message = (msg = ''): void => {
 		_message = removeTrailingDots(msg ?? _message);
 	};
@@ -192,6 +198,8 @@ export const spinner = ({
 		start,
 		stop,
 		message,
+		cancel,
+		error,
 		get isCancelled() {
 			return isCancelled;
 		},

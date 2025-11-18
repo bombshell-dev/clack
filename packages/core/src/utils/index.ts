@@ -3,6 +3,7 @@ import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
 import { ReadStream } from 'node:tty';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor } from 'sisteransi';
 import { isActionKey } from './settings.js';
 
@@ -96,3 +97,23 @@ export const getRows = (output: Writable): number => {
 	}
 	return 20;
 };
+
+export function wrapTextWithPrefix(
+	output: Writable | undefined,
+	text: string,
+	prefix: string,
+	startPrefix: string = prefix
+): string {
+	const columns = getColumns(output ?? stdout);
+	const wrapped = wrapAnsi(text, columns - prefix.length, {
+		hard: true,
+		trim: false,
+	});
+	const lines = wrapped
+		.split('\n')
+		.map((line, index) => {
+			return `${index === 0 ? startPrefix : prefix}${line}`;
+		})
+		.join('\n');
+	return lines;
+}

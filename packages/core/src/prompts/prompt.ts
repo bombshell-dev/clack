@@ -4,7 +4,14 @@ import type { Readable, Writable } from 'node:stream';
 import { Component, RenderHost } from '../component.js';
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
-import { CANCEL_SYMBOL, isActionKey, setRawMode, settings } from '../utils/index.js';
+import {
+	CANCEL_SYMBOL,
+	diffLines,
+	getRows,
+	isActionKey,
+	setRawMode,
+	settings,
+} from '../utils/index.js';
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
@@ -252,14 +259,15 @@ export default class Prompt<TValue> extends Component {
 		this.rl = undefined;
 		this.emit(`${this.state}`, this.value);
 		this.unsubscribe();
+		this.#renderHost.onUnmount();
 	}
 
 	requestUpdate() {
-		super.requestUpdate();
-
 		if (this.state === 'initial') {
 			this.state = 'active';
 		}
+
+		super.requestUpdate();
 	}
 
 	render() {

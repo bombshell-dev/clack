@@ -63,6 +63,44 @@ exports[`select (isCI = false) > down arrow selects next option 1`] = `
 ]
 `;
 
+exports[`select (isCI = false) > handles mixed size re-renders 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Whatever
+[36m│[39m  [32m●[39m Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  [2m...[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=12>",
+  "<erase.down>",
+  "[90m│[39m
+[36m◆[39m  Whatever
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m○[22m [2mOption 0[22m
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m│[39m  [2m○[22m [2mOption 2[22m
+[36m│[39m  [32m●[39m Option 3
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Whatever
+[90m│[39m  [2mOption 3[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = false) > renders disabled options 1`] = `
 [
   "<cursor.hide>",
@@ -71,6 +109,35 @@ exports[`select (isCI = false) > renders disabled options 1`] = `
 [36m│[39m  [90m○[39m [90mOption 0[39m
 [36m│[39m  [32m●[39m Option 1
 [36m│[39m  [90m○[39m [90mOption 2[39m [2m(Hint 2)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = false) > renders multi-line option labels 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Option 0
+[36m│[39m  with multiple lines
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mOption 0[22m
+[36m│[39m  [2mwith multiple lines[22m
+[36m│[39m  [32m●[39m Option 1
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=6>",
@@ -178,6 +245,87 @@ exports[`select (isCI = false) > up arrow selects previous option 1`] = `
 ]
 `;
 
+exports[`select (isCI = false) > wraps long cancelled message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo[22m[29m
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = false) > wraps long messages 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo foo foo foo foo foo foo
+[32m│[39m   foo foo foo foo foo foo 
+[32m│[39m  foo foo foo foo foo foo foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = false) > wraps long results 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
@@ -241,6 +389,44 @@ exports[`select (isCI = true) > down arrow selects next option 1`] = `
 ]
 `;
 
+exports[`select (isCI = true) > handles mixed size re-renders 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Whatever
+[36m│[39m  [32m●[39m Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  Long Option
+[36m│[39m  [2m...[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=12>",
+  "<erase.down>",
+  "[90m│[39m
+[36m◆[39m  Whatever
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m○[22m [2mOption 0[22m
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m│[39m  [2m○[22m [2mOption 2[22m
+[36m│[39m  [32m●[39m Option 3
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Whatever
+[90m│[39m  [2mOption 3[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = true) > renders disabled options 1`] = `
 [
   "<cursor.hide>",
@@ -249,6 +435,35 @@ exports[`select (isCI = true) > renders disabled options 1`] = `
 [36m│[39m  [90m○[39m [90mOption 0[39m
 [36m│[39m  [32m●[39m Option 1
 [36m│[39m  [90m○[39m [90mOption 2[39m [2m(Hint 2)[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > renders multi-line option labels 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Option 0
+[36m│[39m  with multiple lines
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mOption 0[22m
+[36m│[39m  [2mwith multiple lines[22m
+[36m│[39m  [32m●[39m Option 1
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=6>",
@@ -350,6 +565,87 @@ exports[`select (isCI = true) > up arrow selects previous option 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > wraps long cancelled message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo[22m[29m
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > wraps long messages 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m  [32m●[39m opt0
+[36m│[39m  [2m○[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo foo foo foo foo foo foo
+[32m│[39m   foo foo foo foo foo foo 
+[32m│[39m  foo foo foo foo foo foo foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > wraps long results 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
+[90m│[39m  [2m foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo[22m",
   "
 ",
   "<cursor.show>",

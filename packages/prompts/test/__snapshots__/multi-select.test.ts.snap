@@ -636,6 +636,104 @@ exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 ]
 `;
 
+exports[`multiselect (isCI = false) > wraps cancelled state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0
+[36m│[39m  [2m◻[22m [2mOption 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0[22m[29m
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > wraps long messages 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m  [36m◻[39m opt0
+[36m│[39m  [2m◻[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo foo foo foo foo foo foo
+[32m│[39m   foo foo foo foo foo foo 
+[32m│[39m  foo foo foo foo foo foo foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > wraps success state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0
+[36m│[39m  [2m◻[22m [2mOption 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`multiselect (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
@@ -1266,6 +1364,104 @@ exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt11[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > wraps cancelled state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0
+[36m│[39m  [2m◻[22m [2mOption 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0[22m[29m
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > wraps long messages 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo foo foo foo foo foo foo
+[36m│[39m   foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo
+[36m│[39m  [36m◻[39m opt0
+[36m│[39m  [2m◻[22m [2mopt1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo foo foo foo foo foo foo
+[32m│[39m   foo foo foo foo foo foo 
+[32m│[39m  foo foo foo foo foo foo foo
+[90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > wraps success state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [36m◻[39m Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0 Option 0 Option 
+[36m│[39m  0 Option 0
+[36m│[39m  [2m◻[22m [2mOption 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1 Option 1 Option [22m
+[36m│[39m  [2m1 Option 1[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0 Option 0 Option 0 [22m
+[90m│[39m  [2mOption 0[22m",
   "
 ",
   "<cursor.show>",

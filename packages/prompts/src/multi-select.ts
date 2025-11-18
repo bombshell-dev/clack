@@ -1,4 +1,4 @@
-import { MultiSelectPrompt } from '@clack/core';
+import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -8,6 +8,7 @@ import {
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	symbol,
+	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -20,6 +21,13 @@ export interface MultiSelectOptions<Value> extends CommonOptions {
 	required?: boolean;
 	cursorAt?: Value;
 }
+const computeLabel = (label: string, format: (text: string) => string) => {
+	return label
+		.split('\n')
+		.map((line) => format(line))
+		.join('\n');
+};
+
 export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
@@ -34,7 +42,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
-			return `${color.gray(S_CHECKBOX_INACTIVE)} ${color.gray(label)}${
+			return `${color.gray(S_CHECKBOX_INACTIVE)} ${computeLabel(label, color.gray)}${
 				option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 			}`;
 		}
@@ -44,12 +52,12 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			}`;
 		}
 		if (state === 'selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${color.dim(label)}${
+			return `${color.green(S_CHECKBOX_SELECTED)} ${computeLabel(label, color.dim)}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'cancelled') {
-			return `${color.strikethrough(color.dim(label))}`;
+			return `${computeLabel(label, (text) => color.strikethrough(color.dim(text)))}`;
 		}
 		if (state === 'active-selected') {
 			return `${color.green(S_CHECKBOX_SELECTED)} ${label}${
@@ -57,9 +65,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			}`;
 		}
 		if (state === 'submitted') {
-			return `${color.dim(label)}`;
+			return `${computeLabel(label, color.dim)}`;
 		}
-		return `${color.dim(S_CHECKBOX_INACTIVE)} ${color.dim(label)}`;
+		return `${color.dim(S_CHECKBOX_INACTIVE)} ${computeLabel(label, color.dim)}`;
 	};
 	const required = opts.required ?? true;
 
@@ -82,7 +90,13 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const wrappedMessage = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				`${symbolBar(this.state)}  `,
+				`${symbol(this.state)}  `
+			);
+			const title = `${color.gray(S_BAR)}\n${wrappedMessage}\n`;
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
@@ -101,21 +115,28 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${
+					const submitText =
 						this.options
 							.filter(({ value: optionValue }) => value.includes(optionValue))
 							.map((option) => opt(option, 'submitted'))
-							.join(color.dim(', ')) || color.dim('none')
-					}`;
+							.join(color.dim(', ')) || color.dim('none');
+					const wrappedSubmitText = wrapTextWithPrefix(
+						opts.output,
+						submitText,
+						`${color.gray(S_BAR)}  `
+					);
+					return `${title}${wrappedSubmitText}`;
 				}
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'))
 						.join(color.dim(', '));
-					return `${title}${color.gray(S_BAR)}${
-						label.trim() ? `  ${label}\n${color.gray(S_BAR)}` : ''
-					}`;
+					if (label.trim() === '') {
+						return `${title}${color.gray(S_BAR)}`;
+					}
+					const wrappedLabel = wrapTextWithPrefix(opts.output, label, `${color.gray(S_BAR)}  `);
+					return `${title}${wrappedLabel}\n${color.gray(S_BAR)}`;
 				}
 				case 'error': {
 					const prefix = `${color.yellow(S_BAR)}  `;
