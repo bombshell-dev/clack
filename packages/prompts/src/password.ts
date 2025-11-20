@@ -1,14 +1,16 @@
 import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from './common.js';
+import { type CommonOptions, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END, S_PASSWORD_MASK } from './common.js';
 
-export interface PasswordOptions extends CommonOptions {
+export interface PasswordOptions extends CommonOptions<{}> {
 	message: string;
 	mask?: string;
 	validate?: (value: string | undefined) => string | Error | undefined;
 	clearOnError?: boolean;
 }
 export const password = (opts: PasswordOptions) => {
+	const style = extendStyle<{}>(opts.theme);
+
 	return new PasswordPrompt({
 		validate: opts.validate,
 		mask: opts.mask ?? S_PASSWORD_MASK,
@@ -16,7 +18,13 @@ export const password = (opts: PasswordOptions) => {
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
 			const masked = this.masked;
 
@@ -26,22 +34,18 @@ export const password = (opts: PasswordOptions) => {
 					if (opts.clearOnError) {
 						this.clear();
 					}
-					return `${title.trim()}\n${color.yellow(S_BAR)}${maskedText}\n${color.yellow(
-						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
+					return `${title.trim()}\n${bar}${maskedText}\n${barEnd}  ${style[themeColor](this.error)}\n`;
 				}
 				case 'submit': {
 					const maskedText = masked ? `  ${color.dim(masked)}` : '';
-					return `${title}${color.gray(S_BAR)}${maskedText}`;
+					return `${title}${bar}${maskedText}`;
 				}
 				case 'cancel': {
 					const maskedText = masked ? `  ${color.strikethrough(color.dim(masked))}` : '';
-					return `${title}${color.gray(S_BAR)}${maskedText}${
-						masked ? `\n${color.gray(S_BAR)}` : ''
-					}`;
+					return `${title}${bar}${maskedText}${masked ? `\n${bar}` : ''}`;
 				}
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${bar}  ${userInput}\n${barEnd}\n`;
 			}
 		},
 	}).prompt() as Promise<string | symbol>;

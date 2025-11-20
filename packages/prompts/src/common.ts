@@ -39,36 +39,68 @@ export const S_SUCCESS = unicodeOr('◆', '*');
 export const S_WARN = unicodeOr('▲', '!');
 export const S_ERROR = unicodeOr('■', 'x');
 
-export const symbol = (state: State) => {
-	switch (state) {
-		case 'initial':
-		case 'active':
-			return color.cyan(S_STEP_ACTIVE);
-		case 'cancel':
-			return color.red(S_STEP_CANCEL);
-		case 'error':
-			return color.yellow(S_STEP_ERROR);
-		case 'submit':
-			return color.green(S_STEP_SUBMIT);
-	}
-};
+type ColorState = `color${Capitalize<State>}`;
+type PrefixState = `prefix${Capitalize<State>}`;
 
-export const symbolBar = (state: State) => {
-	switch (state) {
-		case 'initial':
-		case 'active':
-			return color.cyan(S_BAR);
-		case 'cancel':
-			return color.red(S_BAR);
-		case 'error':
-			return color.yellow(S_BAR);
-		case 'submit':
-			return color.green(S_BAR);
-	}
-};
-
-export interface CommonOptions {
+export type CommonOptions<TStyle = unknown> = {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
+} & (TStyle extends object ? {
+	theme?: 
+		{ [K in ColorState]?: (str: string) => string } &
+		{ [K in PrefixState]?: string }
+		& TStyle;
+} : {});
+
+export interface RadioTheme {
+	radioActive?: string;
+	radioInactive?: string;
+	radioDisabled?: string;
 }
+
+export interface CheckboxTheme {
+	checkboxSelectedActive?: string,
+	checkboxSelectedInactive?: string,
+	checkboxUnselectedActive?: string,
+	checkboxUnselectedInactive?: string,
+	checkboxDisabled?: string,
+}
+
+const defaultStyle: CommonOptions<RadioTheme & CheckboxTheme>['theme'] = {
+	colorInitial: color.cyan,
+	colorActive: color.cyan,
+	colorCancel: color.gray,
+	colorError: color.yellow,
+	colorSubmit: color.gray,
+
+	prefixInitial: color.cyan(S_STEP_ACTIVE),
+	prefixActive: color.cyan(S_STEP_ACTIVE),
+	prefixCancel: color.red(S_STEP_CANCEL),
+	prefixError: color.yellow(S_STEP_ERROR),
+	prefixSubmit: color.green(S_STEP_SUBMIT),
+
+	radioActive: color.green(S_RADIO_ACTIVE),
+	radioInactive: color.dim(S_RADIO_INACTIVE),
+	radioDisabled: color.gray(S_RADIO_INACTIVE),
+
+	checkboxSelectedActive: color.green(S_CHECKBOX_SELECTED),
+	checkboxSelectedInactive: color.green(S_CHECKBOX_SELECTED),
+	checkboxUnselectedActive: color.cyan(S_CHECKBOX_ACTIVE),
+	checkboxUnselectedInactive: color.dim(S_CHECKBOX_INACTIVE),
+	checkboxDisabled: color.gray(S_CHECKBOX_INACTIVE),
+};
+
+type ExtendStyleType<TStyle> = ({ theme: {} } & CommonOptions<TStyle>)['theme'];
+
+export const extendStyle = <TStyle>(style?: ExtendStyleType<TStyle>) => {
+	return {
+		...defaultStyle,
+		...(style ?? {})
+	} as Required<ExtendStyleType<TStyle>>;
+};
+
+const capitalize = (str: string): string => str[0].toUpperCase() + str.substring(1);
+
+export const getThemeColor = (state: State) => (`color${capitalize(state)}`) as ColorState;
+export const getThemePrefix = (state: State) => (`prefix${capitalize(state)}`) as PrefixState;

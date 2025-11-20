@@ -1,15 +1,6 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	S_CHECKBOX_INACTIVE,
-	S_CHECKBOX_SELECTED,
-	S_RADIO_ACTIVE,
-	S_RADIO_INACTIVE,
-	symbol,
-} from './common.js';
+import { type CommonOptions, type RadioTheme, type CheckboxTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -41,7 +32,7 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
-interface AutocompleteSharedOptions<Value> extends CommonOptions {
+type AutocompleteSharedOptions<Value, TStyle> = CommonOptions<TStyle> & {
 	/**
 	 * The message to display to the user.
 	 */
@@ -64,7 +55,7 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
 }
 
-export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
+export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value, RadioTheme> {
 	/**
 	 * The initial selected value.
 	 */
@@ -76,6 +67,7 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 }
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
+	const style = extendStyle<RadioTheme>(opts.theme);
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
@@ -88,13 +80,17 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		output: opts.output,
 		validate: opts.validate,
 		render() {
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
 			// Title and message display
-			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
+			const headings = [`${color.gray(S_BAR)}`, `${style[themePrefix]}  ${opts.message}`];
 			const userInput = this.userInput;
 			const valueAsString = String(this.value ?? '');
 			const options = this.options;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
+			const bar = style[themeColor](S_BAR);
 
 			// Handle different states
 			switch (this.state) {
@@ -103,12 +99,12 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${label}`;
+					return `${headings.join('\n')}\n${bar}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${userInputText}`;
+					return `${headings.join('\n')}\n${bar}${userInputText}`;
 				}
 
 				default: {
@@ -132,15 +128,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${bar}  ${style.colorError('No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${bar}  ${style[themeColor](this.error)}`] : [];
 
 					headings.push(
-						`${color.cyan(S_BAR)}`,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
+						`${bar}`,
+						`${bar}  ${color.dim('Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
@@ -153,8 +149,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					];
 
 					const footers = [
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						`${bar}  ${color.dim(instructions.join(' • '))}`,
+						`${style[themeColor](S_BAR_END)}`,
 					];
 
 					// Render options with selection
@@ -174,8 +170,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 												: '';
 
 										return active
-											? `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`
-											: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}${hint}`;
+											? `${style.radioActive} ${label}${hint}`
+											: `${style.radioInactive} ${color.dim(label)}${hint}`;
 									},
 									maxItems: opts.maxItems,
 									output: opts.output,
@@ -184,7 +180,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						...headings,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${bar}  ${option}`),
 						...footers,
 					].join('\n');
 				}
@@ -197,7 +193,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 };
 
 // Type definition for the autocompleteMultiselect component
-export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
+export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value, CheckboxTheme> {
 	/**
 	 * The initial selected values
 	 */
@@ -212,6 +208,7 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
+	const style = extendStyle<CheckboxTheme>(opts.theme);
 	const formatOption = (
 		option: Option<Value>,
 		active: boolean,
@@ -224,11 +221,17 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			option.hint && focusedValue !== undefined && option.value === focusedValue
 				? color.dim(` (${option.hint})`)
 				: '';
-		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
 
 		if (active) {
+			const checkbox = isSelected
+				? style.checkboxSelectedActive
+				: style.checkboxUnselectedActive;
 			return `${checkbox} ${label}${hint}`;
 		}
+
+		const checkbox = isSelected
+			? style.checkboxSelectedInactive
+			: style.checkboxUnselectedInactive;
 		return `${checkbox} ${color.dim(label)}`;
 	};
 
@@ -250,8 +253,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
 			// Title and symbol
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}`;
+			const bar = style[themeColor](S_BAR);
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -276,10 +283,10 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
+					return `${title}\n${bar}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
+					return `${title}\n${bar}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 				default: {
 					// Instructions
@@ -293,11 +300,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${bar}  ${style.colorError('No matches found')}`]
 							: [];
 
 					const errorMessage =
-						this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${bar}  ${style[themeColor](this.error)}`] : [];
 
 					// Get limited options for display
 					const displayOptions = limitOptions({
@@ -312,12 +319,12 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						title,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+						`${bar}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						...displayOptions.map((option) => `${bar}  ${option}`),
+						`${bar}  ${color.dim(instructions.join(' • '))}`,
+						`${style[themeColor](S_BAR_END)}`,
 					].join('\n');
 				}
 			}

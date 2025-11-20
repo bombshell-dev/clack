@@ -289,8 +289,8 @@ exports[`select (isCI = false) > wraps long messages 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo foo foo foo foo foo foo
-[32m│[39m   foo foo foo foo foo foo 
-[32m│[39m  foo foo foo foo foo foo foo
+[90m│[39m   foo foo foo foo foo foo 
+[90m│[39m  foo foo foo foo foo foo foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -615,8 +615,8 @@ exports[`select (isCI = true) > wraps long messages 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo foo foo foo foo foo foo
-[32m│[39m   foo foo foo foo foo foo 
-[32m│[39m  foo foo foo foo foo foo foo
+[90m│[39m   foo foo foo foo foo foo 
+[90m│[39m  foo foo foo foo foo foo foo
 [90m│[39m  [2mopt0[22m",
   "
 ",

@@ -1,21 +1,15 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	S_RADIO_ACTIVE,
-	S_RADIO_INACTIVE,
-	symbol,
-} from './common.js';
+import { type CommonOptions, type RadioTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
-export interface ConfirmOptions extends CommonOptions {
+export interface ConfirmOptions extends CommonOptions<RadioTheme> {
 	message: string;
 	active?: string;
 	inactive?: string;
 	initialValue?: boolean;
 }
 export const confirm = (opts: ConfirmOptions) => {
+	const style = extendStyle<RadioTheme>(opts.theme);
 	const active = opts.active ?? 'Yes';
 	const inactive = opts.inactive ?? 'No';
 	return new ConfirmPrompt({
@@ -26,26 +20,30 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {
 				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
+					return `${title}${bar}  ${color.dim(value)}`;
 				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(value)
-					)}\n${color.gray(S_BAR)}`;
+					return `${title}${bar}  ${color.strikethrough(color.dim(value))}\n${bar}`;
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					return `${title}${bar}  ${
 						this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${active}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
+							? `${style.radioActive} ${active}`
+							: `${style.radioInactive} ${color.dim(active)}`
 					} ${color.dim('/')} ${
 						!this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
-					}\n${color.cyan(S_BAR_END)}\n`;
+							? `${style.radioActive} ${inactive}`
+							: `${style.radioInactive} ${color.dim(inactive)}`
+					}\n${barEnd}\n`;
 				}
 			}
 		},

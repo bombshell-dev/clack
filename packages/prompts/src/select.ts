@@ -1,14 +1,6 @@
 import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import {
-	type CommonOptions,
-	S_BAR,
-	S_BAR_END,
-	S_RADIO_ACTIVE,
-	S_RADIO_INACTIVE,
-	symbol,
-	symbolBar,
-} from './common.js';
+import { type CommonOptions, type RadioTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 
 type Primitive = Readonly<string | boolean | number>;
@@ -65,7 +57,7 @@ export type Option<Value> = Value extends Primitive
 			disabled?: boolean;
 		};
 
-export interface SelectOptions<Value> extends CommonOptions {
+export interface SelectOptions<Value> extends CommonOptions<RadioTheme> {
 	message: string;
 	options: Option<Value>[];
 	initialValue?: Value;
@@ -83,6 +75,7 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 };
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
+	const style = extendStyle<RadioTheme>(opts.theme);
 	const opt = (
 		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
@@ -90,19 +83,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${color.gray(S_RADIO_INACTIVE)} ${computeLabel(label, color.gray)}${
+				return `${style.radioDisabled} ${computeLabel(label, color.gray)}${
 					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
 				return `${computeLabel(label, color.dim)}`;
 			case 'active':
-				return `${color.green(S_RADIO_ACTIVE)} ${label}${
+				return `${style.radioActive} ${label}${
 					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
 				return `${computeLabel(label, (str) => color.strikethrough(color.dim(str)))}`;
 			default:
-				return `${color.dim(S_RADIO_INACTIVE)} ${computeLabel(label, color.dim)}`;
+				return `${style.radioInactive} ${computeLabel(label, color.dim)}`;
 		}
 	};
 
@@ -113,8 +106,12 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const titlePrefix = `${symbol(this.state)}  `;
-			const titlePrefixBar = `${symbolBar(this.state)}  `;
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const bar = style[themeColor](S_BAR);
+			const titlePrefix = `${style[themePrefix]}  `;
+			const titlePrefixBar = `${bar}  `;
 			const messageLines = wrapTextWithPrefix(
 				opts.output,
 				opts.message,
@@ -125,7 +122,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit': {
-					const submitPrefix = `${color.gray(S_BAR)}  `;
+					const submitPrefix = `${bar}  `;
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'selected'),
@@ -134,16 +131,16 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					return `${title}${wrappedLines}`;
 				}
 				case 'cancel': {
-					const cancelPrefix = `${color.gray(S_BAR)}  `;
+					const cancelPrefix = `${bar}  `;
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'cancelled'),
 						cancelPrefix
 					);
-					return `${title}${wrappedLines}\n${color.gray(S_BAR)}`;
+					return `${title}${wrappedLines}\n${bar}`;
 				}
 				default: {
-					const prefix = `${color.cyan(S_BAR)}  `;
+					const prefix = `${bar}  `;
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
@@ -152,7 +149,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${style[themeColor](S_BAR_END)}\n`;
 				}
 			}
 		},

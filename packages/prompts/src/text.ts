@@ -1,8 +1,8 @@
 import { TextPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
+import { type CommonOptions, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
-export interface TextOptions extends CommonOptions {
+export interface TextOptions extends CommonOptions<{}> {
 	message: string;
 	placeholder?: string;
 	defaultValue?: string;
@@ -11,6 +11,8 @@ export interface TextOptions extends CommonOptions {
 }
 
 export const text = (opts: TextOptions) => {
+	const style = extendStyle<{}>(opts.theme);
+
 	return new TextPrompt({
 		validate: opts.validate,
 		placeholder: opts.placeholder,
@@ -20,7 +22,13 @@ export const text = (opts: TextOptions) => {
 		signal: opts.signal,
 		input: opts.input,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
 				: color.inverse(color.hidden('_'));
@@ -29,21 +37,19 @@ export const text = (opts: TextOptions) => {
 
 			switch (this.state) {
 				case 'error': {
-					const errorText = this.error ? `  ${color.yellow(this.error)}` : '';
-					return `${title.trim()}\n${color.yellow(S_BAR)}  ${userInput}\n${color.yellow(
-						S_BAR_END
-					)}${errorText}\n`;
+					const errorText = this.error ? `  ${style[themeColor](this.error)}` : '';
+					return `${title.trim()}\n${bar}  ${userInput}\n${barEnd}${errorText}\n`;
 				}
 				case 'submit': {
 					const valueText = value ? `  ${color.dim(value)}` : '';
-					return `${title}${color.gray(S_BAR)}${valueText}`;
+					return `${title}${bar}${valueText}`;
 				}
 				case 'cancel': {
 					const valueText = value ? `  ${color.strikethrough(color.dim(value))}` : '';
-					return `${title}${color.gray(S_BAR)}${valueText}${value.trim() ? `\n${color.gray(S_BAR)}` : ''}`;
+					return `${title}${bar}${valueText}${value.trim() ? `\n${bar}` : ''}`;
 				}
 				default:
-					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
+					return `${title}${bar}  ${userInput}\n${barEnd}\n`;
 			}
 		},
 	}).prompt() as Promise<string | symbol>;
