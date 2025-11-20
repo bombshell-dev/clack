@@ -1,6 +1,6 @@
 import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, extendStyle, S_BAR, S_BAR_END, S_PASSWORD_MASK } from './common.js';
+import { type CommonOptions, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END, S_PASSWORD_MASK } from './common.js';
 
 export interface PasswordOptions extends CommonOptions<{}> {
 	message: string;
@@ -18,10 +18,13 @@ export const password = (opts: PasswordOptions) => {
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const bar = style.formatBar[this.state](S_BAR);
-			const barEnd = style.formatBar[this.state](S_BAR_END);
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
 
-			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
 			const masked = this.masked;
 
@@ -31,7 +34,7 @@ export const password = (opts: PasswordOptions) => {
 					if (opts.clearOnError) {
 						this.clear();
 					}
-					return `${title.trim()}\n${bar}${maskedText}\n${barEnd}  ${style.formatBar[this.state](this.error)}\n`;
+					return `${title.trim()}\n${bar}${maskedText}\n${barEnd}  ${style[themeColor](this.error)}\n`;
 				}
 				case 'submit': {
 					const maskedText = masked ? `  ${color.dim(masked)}` : '';

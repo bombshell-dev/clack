@@ -1,6 +1,6 @@
 import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type RadioTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type RadioTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 
 type Primitive = Readonly<string | boolean | number>;
@@ -83,19 +83,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${style.radio.disabled} ${computeLabel(label, color.gray)}${
+				return `${style.radioDisabled} ${computeLabel(label, color.gray)}${
 					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
 				return `${computeLabel(label, color.dim)}`;
 			case 'active':
-				return `${style.radio.active} ${label}${
+				return `${style.radioActive} ${label}${
 					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
 				return `${computeLabel(label, (str) => color.strikethrough(color.dim(str)))}`;
 			default:
-				return `${style.radio.inactive} ${computeLabel(label, color.dim)}`;
+				return `${style.radioInactive} ${computeLabel(label, color.dim)}`;
 		}
 	};
 
@@ -106,8 +106,11 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const bar = style.formatBar[this.state](S_BAR);
-			const titlePrefix = `${style.prefix[this.state]}  `;
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const bar = style[themeColor](S_BAR);
+			const titlePrefix = `${style[themePrefix]}  `;
 			const titlePrefixBar = `${bar}  `;
 			const messageLines = wrapTextWithPrefix(
 				opts.output,
@@ -146,7 +149,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${style.formatBar[this.state](S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${style[themeColor](S_BAR_END)}\n`;
 				}
 			}
 		},

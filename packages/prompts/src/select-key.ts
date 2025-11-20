@@ -1,6 +1,6 @@
 import { SelectKeyPrompt } from '@clack/core';
 import color from 'picocolors';
-import { extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { extendStyle, getThemeColor, getThemePrefix, S_BAR, S_BAR_END } from './common.js';
 import type { Option, SelectOptions } from './select.js';
 
 export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
@@ -33,8 +33,11 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
-			const bar = style.formatBar[this.state](S_BAR);
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
+			const bar = style[themeColor](S_BAR);
 
 			switch (this.state) {
 				case 'submit':
@@ -47,7 +50,7 @@ export const selectKey = <Value extends string>(opts: SelectOptions<Value>) => {
 				default: {
 					return `${title}${bar}  ${this.options
 						.map((option, i) => opt(option, i === this.cursor ? 'active' : 'inactive'))
-						.join(`\n${bar}  `)}\n${style.formatBar[this.state](S_BAR_END)}\n`;
+						.join(`\n${bar}  `)}\n${style[themeColor](S_BAR_END)}\n`;
 				}
 			}
 		},

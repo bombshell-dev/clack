@@ -1,6 +1,6 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type RadioTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type RadioTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 
 export interface ConfirmOptions extends CommonOptions<RadioTheme> {
 	message: string;
@@ -20,10 +20,13 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const bar = style.formatBar[this.state](S_BAR);
-			const barEnd = style.formatBar[this.state](S_BAR_END);
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
 
-			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {
@@ -34,12 +37,12 @@ export const confirm = (opts: ConfirmOptions) => {
 				default: {
 					return `${title}${bar}  ${
 						this.value
-							? `${style.radio.active} ${active}`
-							: `${style.radio.inactive} ${color.dim(active)}`
+							? `${style.radioActive} ${active}`
+							: `${style.radioInactive} ${color.dim(active)}`
 					} ${color.dim('/')} ${
 						!this.value
-							? `${style.radio.active} ${inactive}`
-							: `${style.radio.inactive} ${color.dim(inactive)}`
+							? `${style.radioActive} ${inactive}`
+							: `${style.radioInactive} ${color.dim(inactive)}`
 					}\n${barEnd}\n`;
 				}
 			}

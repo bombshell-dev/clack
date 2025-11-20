@@ -1,6 +1,6 @@
 import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type CheckboxTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type CheckboxTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -34,17 +34,17 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
-			return `${style.checkbox.disabled} ${computeLabel(label, color.gray)}${
+			return `${style.checkboxDisabled} ${computeLabel(label, color.gray)}${
 				option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 			}`;
 		}
 		if (state === 'active') {
-			return `${style.checkbox.unselected.active} ${label}${
+			return `${style.checkboxUnselectedActive} ${label}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'selected') {
-			return `${style.checkbox.selected.inactive} ${computeLabel(label, color.dim)}${
+			return `${style.checkboxSelectedInactive} ${computeLabel(label, color.dim)}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
@@ -52,14 +52,14 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			return `${computeLabel(label, (text) => color.strikethrough(color.dim(text)))}`;
 		}
 		if (state === 'active-selected') {
-			return `${style.checkbox.selected.active} ${label}${
+			return `${style.checkboxSelectedActive} ${label}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'submitted') {
 			return `${computeLabel(label, color.dim)}`;
 		}
-		return `${style.checkbox.unselected.inactive} ${computeLabel(label, color.dim)}`;
+		return `${style.checkboxUnselectedInactive} ${computeLabel(label, color.dim)}`;
 	};
 	const required = opts.required ?? true;
 
@@ -82,13 +82,16 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			const bar = style.formatBar[this.state](S_BAR);
-			const barEnd = style.formatBar[this.state](S_BAR_END);
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
+
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
 			const wrappedMessage = wrapTextWithPrefix(
 				opts.output,
 				opts.message,
 				`${bar}  `,
-				`${style.prefix[this.state]}  `
+				`${style[themePrefix]}  `
 			);
 			const title = `${color.gray(S_BAR)}\n${wrappedMessage}\n`;
 			const value = this.value ?? [];
@@ -133,7 +136,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${barEnd}  ${style.formatBar[this.state](ln)}` : `   ${ln}`
+							i === 0 ? `${barEnd}  ${style[themeColor](ln)}` : `   ${ln}`
 						)
 						.join('\n');
 					return `${title}${prefix}${limitOptions({

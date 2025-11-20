@@ -1,6 +1,6 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type CheckboxTheme, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import { type CommonOptions, type CheckboxTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
 import type { Option } from './select.js';
 
 export interface GroupMultiSelectOptions<Value> extends CommonOptions<CheckboxTheme> {
@@ -41,18 +41,18 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		}
 
 		if (state === 'active') {
-			return `${spacingPrefix}${color.dim(prefix)}${style.checkbox.unselected.active} ${label}${
+			return `${spacingPrefix}${color.dim(prefix)}${style.checkboxUnselectedActive} ${label}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'group-active') {
-			return `${spacingPrefix}${prefix}${style.checkbox.unselected.active} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${style.checkboxUnselectedActive} ${color.dim(label)}`;
 		}
 		if (state === 'group-active-selected') {
-			return `${spacingPrefix}${prefix}${style.checkbox.selected.inactive} ${color.dim(label)}`;
+			return `${spacingPrefix}${prefix}${style.checkboxSelectedInactive} ${color.dim(label)}`;
 		}
 		if (state === 'selected') {
-			const selectedCheckbox = isItem || selectableGroups ? style.checkbox.selected.inactive : '';
+			const selectedCheckbox = isItem || selectableGroups ? style.checkboxSelectedInactive : '';
 			return `${spacingPrefix}${color.dim(prefix)}${selectedCheckbox} ${color.dim(label)}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
@@ -61,14 +61,14 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			return `${color.strikethrough(color.dim(label))}`;
 		}
 		if (state === 'active-selected') {
-			return `${spacingPrefix}${color.dim(prefix)}${style.checkbox.selected.active} ${label}${
+			return `${spacingPrefix}${color.dim(prefix)}${style.checkboxSelectedActive} ${label}${
 				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'submitted') {
 			return `${color.dim(label)}`;
 		}
-		const unselectedCheckbox = isItem || selectableGroups ? style.checkbox.unselected.inactive : '';
+		const unselectedCheckbox = isItem || selectableGroups ? style.checkboxUnselectedInactive : '';
 		return `${spacingPrefix}${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
 	};
 	const required = opts.required ?? true;
@@ -93,10 +93,13 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			const bar = style.formatBar[this.state](S_BAR);
-			const barEnd = style.formatBar[this.state](S_BAR_END);
+			const themeColor = getThemeColor(this.state);
+			const themePrefix = getThemePrefix(this.state);
 
-			const title = `${color.gray(S_BAR)}\n${style.prefix[this.state]}  ${opts.message}\n`;
+			const bar = style[themeColor](S_BAR);
+			const barEnd = style[themeColor](S_BAR_END);
+
+			const title = `${color.gray(S_BAR)}\n${style[themePrefix]}  ${opts.message}\n`;
 			const value = this.value ?? [];
 
 			switch (this.state) {
@@ -119,7 +122,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${barEnd}  ${style.formatBar[this.state](ln)}` : `   ${ln}`
+							i === 0 ? `${barEnd}  ${style[themeColor](ln)}` : `   ${ln}`
 						)
 						.join('\n');
 					return `${title}${bar}  ${this.options

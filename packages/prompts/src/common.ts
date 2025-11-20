@@ -1,6 +1,5 @@
 import type { Readable, Writable } from 'node:stream';
 import type { State } from '@clack/core';
-import deepmerge from '@fastify/deepmerge';
 import isUnicodeSupported from 'is-unicode-supported';
 import color from 'picocolors';
 
@@ -40,82 +39,68 @@ export const S_SUCCESS = unicodeOr('◆', '*');
 export const S_WARN = unicodeOr('▲', '!');
 export const S_ERROR = unicodeOr('■', 'x');
 
+type ColorState = `color${Capitalize<State>}`;
+type PrefixState = `prefix${Capitalize<State>}`;
+
 export type CommonOptions<TStyle = unknown> = {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
 } & (TStyle extends object ? {
-	theme?: {
-		formatBar?: { [K in State]?: (str: string) => string };
-		prefix?: { [K in State]?: string };
-	} & TStyle;
+	theme?: 
+		{ [K in ColorState]?: (str: string) => string } &
+		{ [K in PrefixState]?: string }
+		& TStyle;
 } : {});
 
 export interface RadioTheme {
-	radio?: {
-		active?: string;
-		inactive?: string;
-		disabled?: string;
-	}
+	radioActive?: string;
+	radioInactive?: string;
+	radioDisabled?: string;
 }
 
 export interface CheckboxTheme {
-	checkbox?: {
-		selected?: {
-			active?: string;
-			inactive?: string;
-		};
-		unselected?: {
-			active?: string;
-			inactive?: string;
-		};
-		disabled?: string;
-	}
+	checkboxSelectedActive?: string,
+	checkboxSelectedInactive?: string,
+	checkboxUnselectedActive?: string,
+	checkboxUnselectedInactive?: string,
+	checkboxDisabled?: string,
 }
 
 const defaultStyle: CommonOptions<RadioTheme & CheckboxTheme>['theme'] = {
-	formatBar: {
-		initial: color.cyan,
-		active: color.cyan,
-		cancel: color.gray,
-		error: color.yellow,
-		submit: color.gray,
-	},
-	prefix: {
-		initial: color.cyan(S_STEP_ACTIVE),
-		active: color.cyan(S_STEP_ACTIVE),
-		cancel: color.red(S_STEP_CANCEL),
-		error: color.yellow(S_STEP_ERROR),
-		submit: color.green(S_STEP_SUBMIT),
-	},
-	radio: {
-		active: color.green(S_RADIO_ACTIVE),
-		inactive: color.dim(S_RADIO_INACTIVE),
-		disabled: color.gray(S_RADIO_INACTIVE),
-	},
-	checkbox: {
-		selected: {
-			active: color.green(S_CHECKBOX_SELECTED),
-			inactive: color.green(S_CHECKBOX_SELECTED),
-		},
-		unselected: {
-			active: color.cyan(S_CHECKBOX_ACTIVE),
-			inactive: color.dim(S_CHECKBOX_INACTIVE),
-		},
-		disabled: color.gray(S_CHECKBOX_INACTIVE),
-	},
-};
+	colorInitial: color.cyan,
+	colorActive: color.cyan,
+	colorCancel: color.gray,
+	colorError: color.yellow,
+	colorSubmit: color.gray,
 
-type DeepRequired<T> = T extends object
-	? T extends (...args: any[]) => any
-		? T
-		: { [K in keyof T]-?: DeepRequired<T[K]> }
-	: T;
+	prefixInitial: color.cyan(S_STEP_ACTIVE),
+	prefixActive: color.cyan(S_STEP_ACTIVE),
+	prefixCancel: color.red(S_STEP_CANCEL),
+	prefixError: color.yellow(S_STEP_ERROR),
+	prefixSubmit: color.green(S_STEP_SUBMIT),
+
+	radioActive: color.green(S_RADIO_ACTIVE),
+	radioInactive: color.dim(S_RADIO_INACTIVE),
+	radioDisabled: color.gray(S_RADIO_INACTIVE),
+
+	checkboxSelectedActive: color.green(S_CHECKBOX_SELECTED),
+	checkboxSelectedInactive: color.green(S_CHECKBOX_SELECTED),
+	checkboxUnselectedActive: color.cyan(S_CHECKBOX_ACTIVE),
+	checkboxUnselectedInactive: color.dim(S_CHECKBOX_INACTIVE),
+	checkboxDisabled: color.gray(S_CHECKBOX_INACTIVE),
+};
 
 type ExtendStyleType<TStyle> = ({ theme: {} } & CommonOptions<TStyle>)['theme'];
 
-const merge = deepmerge();
-
 export const extendStyle = <TStyle>(style?: ExtendStyleType<TStyle>) => {
-	return merge(defaultStyle, style ?? {}) as DeepRequired<ExtendStyleType<TStyle>>;
+	return {
+		...defaultStyle,
+		...(style ?? {})
+	} as Required<ExtendStyleType<TStyle>>;
 };
+
+const capitalize = (str: string): string => str[0].toUpperCase() + str.substring(1);
+
+export const getThemeColor = (state: State) => (`color${capitalize(state)}`) as ColorState;
+export const getThemePrefix = (state: State) => (`prefix${capitalize(state)}`) as PrefixState;
