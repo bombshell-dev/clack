@@ -336,4 +336,67 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		expect(value).toEqual(['opt1']);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('wraps long messages', async () => {
+		output.columns = 40;
+
+		const result = prompts.multiselect({
+			message: 'foo '.repeat(20).trim(),
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['opt0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('wraps cancelled state with long options', async () => {
+		output.columns = 40;
+
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [
+				{ value: 'opt0', label: 'Option 0 '.repeat(10).trim() },
+				{ value: 'opt1', label: 'Option 1 '.repeat(10).trim() },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', 'escape', { name: 'escape' });
+
+		const value = await result;
+
+		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('wraps success state with long options', async () => {
+		output.columns = 40;
+
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [
+				{ value: 'opt0', label: 'Option 0 '.repeat(10).trim() },
+				{ value: 'opt1', label: 'Option 1 '.repeat(10).trim() },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['opt0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

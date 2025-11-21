@@ -5,7 +5,14 @@ import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
-import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils/index.js';
+import {
+	CANCEL_SYMBOL,
+	diffLines,
+	getRows,
+	isActionKey,
+	setRawMode,
+	settings,
+} from '../utils/index.js';
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
@@ -274,28 +281,44 @@ export default class Prompt<TValue> {
 			this.output.write(cursor.hide);
 		} else {
 			const diff = diffLines(this._prevFrame, frame);
+			const rows = getRows(this.output);
 			this.restoreCursor();
-			// If a single line has changed, only update that line
-			if (diff && diff?.length === 1) {
-				const diffLine = diff[0];
-				this.output.write(cursor.move(0, diffLine));
-				this.output.write(erase.lines(1));
-				const lines = frame.split('\n');
-				this.output.write(lines[diffLine]);
-				this._prevFrame = frame;
-				this.output.write(cursor.move(0, lines.length - diffLine - 1));
-				return;
-				// If many lines have changed, rerender everything past the first line
-			}
-			if (diff && diff?.length > 1) {
-				const diffLine = diff[0];
-				this.output.write(cursor.move(0, diffLine));
-				this.output.write(erase.down());
-				const lines = frame.split('\n');
-				const newLines = lines.slice(diffLine);
-				this.output.write(newLines.join('\n'));
-				this._prevFrame = frame;
-				return;
+			if (diff) {
+				const diffOffsetAfter = Math.max(0, diff.numLinesAfter - rows);
+				const diffOffsetBefore = Math.max(0, diff.numLinesBefore - rows);
+				let diffLine = diff.lines.find((line) => line >= diffOffsetAfter);
+
+				if (diffLine === undefined) {
+					this._prevFrame = frame;
+					return;
+				}
+
+				// If a single line has changed, only update that line
+				if (diff.lines.length === 1) {
+					this.output.write(cursor.move(0, diffLine - diffOffsetBefore));
+					this.output.write(erase.lines(1));
+					const lines = frame.split('\n');
+					this.output.write(lines[diffLine]);
+					this._prevFrame = frame;
+					this.output.write(cursor.move(0, lines.length - diffLine - 1));
+					return;
+					// If many lines have changed, rerender everything past the first line
+				} else if (diff.lines.length > 1) {
+					if (diffOffsetAfter < diffOffsetBefore) {
+						diffLine = diffOffsetAfter;
+					} else {
+						const adjustedDiffLine = diffLine - diffOffsetBefore;
+						if (adjustedDiffLine > 0) {
+							this.output.write(cursor.move(0, adjustedDiffLine));
+						}
+					}
+					this.output.write(erase.down());
+					const lines = frame.split('\n');
+					const newLines = lines.slice(diffLine);
+					this.output.write(newLines.join('\n'));
+					this._prevFrame = frame;
+					return;
+				}
 			}
 
 			this.output.write(erase.down());

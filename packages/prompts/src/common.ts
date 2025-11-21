@@ -53,6 +53,20 @@ export const symbol = (state: State) => {
 	}
 };
 
+export const symbolBar = (state: State) => {
+	switch (state) {
+		case 'initial':
+		case 'active':
+			return color.cyan(S_BAR);
+		case 'cancel':
+			return color.red(S_BAR);
+		case 'error':
+			return color.yellow(S_BAR);
+		case 'submit':
+			return color.green(S_BAR);
+	}
+};
+
 export interface CommonOptions {
 	input?: Readable;
 	output?: Writable;
