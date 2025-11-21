@@ -49,7 +49,6 @@ export const text = (opts: TextOptions) => {
 				default: {
 					const defaultPrefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
 					const defaultPrefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
-					color.cyan(S_BAR_END);
 					return `${title}${defaultPrefix}${userInput}\n${defaultPrefixEnd}\n`;
 				}
 			}
