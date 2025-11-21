@@ -36,6 +36,10 @@ interface BufferEntry {
 	};
 }
 
+const stripDestructiveANSI = (input: string): string => {
+	return input.replace(/\x1b\[(?:\d+;)*\d*[ABCDEFGHfJKSTsu]|\x1b\[(s|u)/g, '');
+};
+
 /**
  * Renders a log which clears on success and remains on failure
  */
@@ -131,7 +135,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 		if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer.value !== '') {
 			buffer.value += '\n';
 		}
-		buffer.value += msg;
+		buffer.value += stripDestructiveANSI(msg);
 		lastMessageWasRaw = mopts?.raw === true;
 		if (opts.limit !== undefined) {
 			const lines = buffer.value.split('\n');

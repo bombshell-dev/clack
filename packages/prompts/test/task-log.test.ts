@@ -132,6 +132,20 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('destructive ansi codes are stripped', async () => {
+			const log = prompts.taskLog({
+				input,
+				output,
+				title: 'foo',
+			});
+
+			log.message('line 1');
+			log.message('line 2\x1b[2K bad ansi!');
+			log.message('line 3');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 
 	describe('error', () => {

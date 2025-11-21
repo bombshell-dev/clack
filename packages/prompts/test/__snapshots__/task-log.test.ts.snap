@@ -627,6 +627,28 @@ exports[`taskLog (isCI = false) > message > can write multiple lines 1`] = `
 ]
 `;
 
+exports[`taskLog (isCI = false) > message > destructive ansi codes are stripped 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [2mline 1[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2mline 1[22m
+[90m│[39m  [2mline 2 bad ansi![22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2mline 1[22m
+[90m│[39m  [2mline 2 bad ansi![22m
+[90m│[39m  [2mline 3[22m
+",
+]
+`;
+
 exports[`taskLog (isCI = false) > message > enforces limit if set 1`] = `
 [
   "[90m│[39m
@@ -1355,6 +1377,19 @@ exports[`taskLog (isCI = true) > message > can write multiple lines 1`] = `
 ",
   "[90m│[39m
 ",
+]
+`;
+
+exports[`taskLog (isCI = true) > message > destructive ansi codes are stripped 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
 `;
 
