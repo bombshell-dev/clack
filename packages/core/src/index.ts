@@ -1,3 +1,13 @@
+export type { AutocompleteOptions } from './prompts/autocomplete.js';
+export type { ConfirmOptions } from './prompts/confirm.js';
+export type { GroupMultiSelectOptions } from './prompts/group-multiselect.js';
+export type { MultiSelectOptions } from './prompts/multi-select.js';
+export type { PasswordOptions } from './prompts/password.js';
+export type { PromptOptions } from './prompts/prompt.js';
+export type { SelectKeyOptions } from './prompts/select-key.js';
+export type { SelectOptions } from './prompts/select.js';
+export type { TextOptions } from './prompts/text.js';
+
 export { default as AutocompletePrompt } from './prompts/autocomplete.js';
 export { default as ConfirmPrompt } from './prompts/confirm.js';
 export { default as GroupMultiSelectPrompt } from './prompts/group-multiselect.js';

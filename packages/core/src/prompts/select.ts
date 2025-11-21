@@ -1,7 +1,7 @@
 import { findCursor } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface SelectOptions<T extends { value: any; disabled?: boolean }>
+export interface SelectOptions<T extends { value: any; disabled?: boolean }>
 	extends PromptOptions<T['value'], SelectPrompt<T>> {
 	options: T[];
 	initialValue?: T['value'];

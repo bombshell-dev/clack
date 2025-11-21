@@ -1,6 +1,6 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface GroupMultiSelectOptions<T extends { value: any }>
+export interface GroupMultiSelectOptions<T extends { value: any }>
 	extends PromptOptions<T['value'][], GroupMultiSelectPrompt<T>> {
 	options: Record<string, T[]>;
 	initialValues?: T['value'][];
