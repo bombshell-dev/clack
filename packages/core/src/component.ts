@@ -38,6 +38,7 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 	for (let i = 0; i < toLineCount; i++) {
 		const fromLine = fromLines[i];
 		const toLine = toLines[i];
+		const nextFromLine = fromLines[i + 1];
 
 		if (fromLine === toLine) {
 			output.write(cursor.down(1));
@@ -46,8 +47,12 @@ function renderDiff(from: string | undefined, to: string, output: Writable): voi
 				output.write(erase.line);
 			}
 			if (toLine !== undefined) {
-				output.write(`${toLine}\n`);
+				output.write(toLine);
+			}
+			if (i < toLineCount - 1 && nextFromLine === undefined) {
+				output.write('\n');
 			} else {
+				output.write(cursor.left);
 				output.write(cursor.down(1));
 			}
 		}
