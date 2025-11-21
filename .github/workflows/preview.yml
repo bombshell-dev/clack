@@ -1,25 +1,16 @@
 name: Preview
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - run: pnpx pkg-pr-new publish './packages/*' --template './examples/*'
+  preview:
+    if: github.repository_owner == 'bombshell-dev'
+    uses: bombshell-dev/automation/.github/workflows/preview.yml@main
+    with:
+      publish: "./packages/*"
+      template: "./examples/*"

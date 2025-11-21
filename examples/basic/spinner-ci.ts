@@ -7,7 +7,7 @@
  * - There will be no loading dots animation, instead it will be always `...`
  * - Instead of erase the previous message, action that is blocked during CI, it will just write a new one.
  *
- * Issue: https://github.com/natemoo-re/clack/issues/168
+ * Issue: https://github.com/bombshell-dev/clack/issues/168
  */
 import * as p from '@clack/prompts';
 

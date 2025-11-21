@@ -1,20 +1,23 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "module": "ESNext",
+    "module": "node16",
     "target": "ESNext",
-    "moduleResolution": "Bundler",
-    "moduleDetection": "force",
+    "moduleResolution": "node16",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "erasableSyntaxOnly": true,
     "skipLibCheck": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "lib": ["ES2022"],
     "paths": {
-      "@clack/core": ["./packages/core/src"]
+      "@clack/core": ["./packages/core/src/index.ts"],
+      "@clack/prompts": ["./packages/prompts/src/index.ts"]
     }
   },
-  "include": ["packages"]
+  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts"]
 }

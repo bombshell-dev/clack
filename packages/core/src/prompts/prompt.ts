@@ -1,34 +1,38 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
-import { WriteStream } from 'node:tty';
+import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
-import wrap from 'wrap-ansi';
+import type { ClackEvents, ClackState } from '../types.js';
+import type { Action } from '../utils/index.js';
+import {
+	CANCEL_SYMBOL,
+	diffLines,
+	getRows,
+	isActionKey,
+	setRawMode,
+	settings,
+} from '../utils/index.js';
 
-import { CANCEL_SYMBOL, diffLines, isActionKey, setRawMode, settings } from '../utils';
-
-import type { ClackEvents, ClackState } from '../types';
-import type { Action } from '../utils';
-
-export interface PromptOptions<Self extends Prompt> {
+export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
-	placeholder?: string;
 	initialValue?: any;
-	validate?: ((value: any) => string | Error | undefined) | undefined;
+	initialUserInput?: string;
+	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
 	debug?: boolean;
 	signal?: AbortSignal;
 }
 
-export default class Prompt {
+export default class Prompt<TValue> {
 	protected input: Readable;
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;
 
 	private rl: ReadLine | undefined;
-	private opts: Omit<PromptOptions<Prompt>, 'render' | 'input' | 'output'>;
-	private _render: (context: Omit<Prompt, 'prompt'>) => string | undefined;
+	private opts: Omit<PromptOptions<TValue, Prompt<TValue>>, 'render' | 'input' | 'output'>;
+	private _render: (context: Omit<Prompt<TValue>, 'prompt'>) => string | undefined;
 	private _track = false;
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
@@ -36,9 +40,10 @@ export default class Prompt {
 
 	public state: ClackState = 'initial';
 	public error = '';
-	public value: any;
+	public value: TValue | undefined;
+	public userInput = '';
 
-	constructor(options: PromptOptions<Prompt>, trackValue = true) {
+	constructor(options: PromptOptions<TValue, Prompt<TValue>>, trackValue = true) {
 		const { input = stdin, output = stdout, render, signal, ...opts } = options;
 
 		this.opts = opts;
@@ -64,9 +69,9 @@ export default class Prompt {
 	 * Set a subscriber with opts
 	 * @param event - The event name
 	 */
-	private setSubscriber<T extends keyof ClackEvents>(
+	private setSubscriber<T extends keyof ClackEvents<TValue>>(
 		event: T,
-		opts: { cb: ClackEvents[T]; once?: boolean }
+		opts: { cb: ClackEvents<TValue>[T]; once?: boolean }
 	) {
 		const params = this._subscribers.get(event) ?? [];
 		params.push(opts);
@@ -78,7 +83,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public on<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
+	public on<T extends keyof ClackEvents<TValue>>(event: T, cb: ClackEvents<TValue>[T]) {
 		this.setSubscriber(event, { cb });
 	}
 
@@ -87,7 +92,7 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param cb - The callback
 	 */
-	public once<T extends keyof ClackEvents>(event: T, cb: ClackEvents[T]) {
+	public once<T extends keyof ClackEvents<TValue>>(event: T, cb: ClackEvents<TValue>[T]) {
 		this.setSubscriber(event, { cb, once: true });
 	}
 
@@ -96,7 +101,10 @@ export default class Prompt {
 	 * @param event - The event name
 	 * @param data - The data to pass to the callback
 	 */
-	public emit<T extends keyof ClackEvents>(event: T, ...data: Parameters<ClackEvents[T]>) {
+	public emit<T extends keyof ClackEvents<TValue>>(
+		event: T,
+		...data: Parameters<ClackEvents<TValue>[T]>
+	) {
 		const cbs = this._subscribers.get(event) ?? [];
 		const cleanup: (() => void)[] = [];
 
@@ -114,7 +122,7 @@ export default class Prompt {
 	}
 
 	public prompt() {
-		return new Promise<string | symbol>((resolve, reject) => {
+		return new Promise<TValue | symbol | undefined>((resolve) => {
 			if (this._abortSignal) {
 				if (this._abortSignal.aborted) {
 					this.state = 'cancel';
@@ -133,28 +141,17 @@ export default class Prompt {
 				);
 			}
 
-			const sink = new WriteStream(0);
-			sink._write = (chunk, encoding, done) => {
-				if (this._track) {
-					this.value = this.rl?.line.replace(/\t/g, '');
-					this._cursor = this.rl?.cursor ?? 0;
-					this.emit('value', this.value);
-				}
-				done();
-			};
-			this.input.pipe(sink);
-
 			this.rl = readline.createInterface({
 				input: this.input,
-				output: sink,
 				tabSize: 2,
 				prompt: '',
 				escapeCodeTimeout: 50,
+				terminal: true,
 			});
-			readline.emitKeypressEvents(this.input, this.rl);
 			this.rl.prompt();
-			if (this.opts.initialValue !== undefined && this._track) {
-				this.rl.write(this.opts.initialValue);
+
+			if (this.opts.initialUserInput !== undefined) {
+				this._setUserInput(this.opts.initialUserInput, true);
 			}
 
 			this.input.on('keypress', this.onKeypress);
@@ -178,7 +175,38 @@ export default class Prompt {
 		});
 	}
 
-	private onKeypress(char: string, key?: Key) {
+	protected _isActionKey(char: string | undefined, _key: Key): boolean {
+		return char === '\t';
+	}
+
+	protected _setValue(value: TValue | undefined): void {
+		this.value = value;
+		this.emit('value', this.value);
+	}
+
+	protected _setUserInput(value: string | undefined, write?: boolean): void {
+		this.userInput = value ?? '';
+		this.emit('userInput', this.userInput);
+		if (write && this._track && this.rl) {
+			this.rl.write(this.userInput);
+			this._cursor = this.rl.cursor;
+		}
+	}
+
+	protected _clearUserInput(): void {
+		this.rl?.write(null, { ctrl: true, name: 'u' });
+		this._setUserInput('');
+	}
+
+	private onKeypress(char: string | undefined, key: Key) {
+		if (this._track && key.name !== 'return') {
+			if (key.name && this._isActionKey(char, key)) {
+				this.rl?.write(null, { ctrl: true, name: 'h' });
+			}
+			this._cursor = this.rl?.cursor ?? 0;
+			this._setUserInput(this.rl?.line);
+		}
+
 		if (this.state === 'error') {
 			this.state = 'active';
 		}
@@ -193,15 +221,9 @@ export default class Prompt {
 		if (char && (char.toLowerCase() === 'y' || char.toLowerCase() === 'n')) {
 			this.emit('confirm', char.toLowerCase() === 'y');
 		}
-		if (char === '\t' && this.opts.placeholder) {
-			if (!this.value) {
-				this.rl?.write(this.opts.placeholder);
-				this.emit('value', this.opts.placeholder);
-			}
-		}
-		if (char) {
-			this.emit('key', char.toLowerCase());
-		}
+
+		// Call the key event handler and emit the key event
+		this.emit('key', char?.toLowerCase(), key);
 
 		if (key?.name === 'return') {
 			if (this.opts.validate) {
@@ -209,7 +231,7 @@ export default class Prompt {
 				if (problem) {
 					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';
-					this.rl?.write(this.value);
+					this.rl?.write(this.userInput);
 				}
 			}
 			if (this.state !== 'error') {
@@ -220,6 +242,7 @@ export default class Prompt {
 		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
+
 		if (this.state === 'submit' || this.state === 'cancel') {
 			this.emit('finalize');
 		}
@@ -242,40 +265,60 @@ export default class Prompt {
 
 	private restoreCursor() {
 		const lines =
-			wrap(this._prevFrame, process.stdout.columns, { hard: true }).split('\n').length - 1;
+			wrapAnsi(this._prevFrame, process.stdout.columns, { hard: true, trim: false }).split('\n')
+				.length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
 	private render() {
-		const frame = wrap(this._render(this) ?? '', process.stdout.columns, { hard: true });
+		const frame = wrapAnsi(this._render(this) ?? '', process.stdout.columns, {
+			hard: true,
+			trim: false,
+		});
 		if (frame === this._prevFrame) return;
 
 		if (this.state === 'initial') {
 			this.output.write(cursor.hide);
 		} else {
 			const diff = diffLines(this._prevFrame, frame);
+			const rows = getRows(this.output);
 			this.restoreCursor();
-			// If a single line has changed, only update that line
-			if (diff && diff?.length === 1) {
-				const diffLine = diff[0];
-				this.output.write(cursor.move(0, diffLine));
-				this.output.write(erase.lines(1));
-				const lines = frame.split('\n');
-				this.output.write(lines[diffLine]);
-				this._prevFrame = frame;
-				this.output.write(cursor.move(0, lines.length - diffLine - 1));
-				return;
-				// If many lines have changed, rerender everything past the first line
-			}
-			if (diff && diff?.length > 1) {
-				const diffLine = diff[0];
-				this.output.write(cursor.move(0, diffLine));
-				this.output.write(erase.down());
-				const lines = frame.split('\n');
-				const newLines = lines.slice(diffLine);
-				this.output.write(newLines.join('\n'));
-				this._prevFrame = frame;
-				return;
+			if (diff) {
+				const diffOffsetAfter = Math.max(0, diff.numLinesAfter - rows);
+				const diffOffsetBefore = Math.max(0, diff.numLinesBefore - rows);
+				let diffLine = diff.lines.find((line) => line >= diffOffsetAfter);
+
+				if (diffLine === undefined) {
+					this._prevFrame = frame;
+					return;
+				}
+
+				// If a single line has changed, only update that line
+				if (diff.lines.length === 1) {
+					this.output.write(cursor.move(0, diffLine - diffOffsetBefore));
+					this.output.write(erase.lines(1));
+					const lines = frame.split('\n');
+					this.output.write(lines[diffLine]);
+					this._prevFrame = frame;
+					this.output.write(cursor.move(0, lines.length - diffLine - 1));
+					return;
+					// If many lines have changed, rerender everything past the first line
+				} else if (diff.lines.length > 1) {
+					if (diffOffsetAfter < diffOffsetBefore) {
+						diffLine = diffOffsetAfter;
+					} else {
+						const adjustedDiffLine = diffLine - diffOffsetBefore;
+						if (adjustedDiffLine > 0) {
+							this.output.write(cursor.move(0, adjustedDiffLine));
+						}
+					}
+					this.output.write(erase.down());
+					const lines = frame.split('\n');
+					const newLines = lines.slice(diffLine);
+					this.output.write(newLines.join('\n'));
+					this._prevFrame = frame;
+					return;
+				}
 			}
 
 			this.output.write(erase.down());

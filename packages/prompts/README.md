@@ -2,7 +2,7 @@
 
 Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stackblitz.com/edit/clack-prompts?file=index.js)
 
-![clack-prompt](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-demo.gif)
+![clack-prompt](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-demo.gif)
 
 ---
 
@@ -86,7 +86,7 @@ const projectType = await select({
   message: 'Pick a project type.',
   options: [
     { value: 'ts', label: 'TypeScript' },
-    { value: 'js', label: 'JavaScript' },
+    { value: 'js', label: 'JavaScript', disabled: true },
     { value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
   ],
 });
@@ -103,10 +103,32 @@ const additionalTools = await multiselect({
   message: 'Select additional tools.',
   options: [
     { value: 'eslint', label: 'ESLint', hint: 'recommended' },
-    { value: 'prettier', label: 'Prettier' },
+    { value: 'prettier', label: 'Prettier', disabled: true },
     { value: 'gh-action', label: 'GitHub Action' },
   ],
   required: false,
+});
+```
+
+It is also possible to select multiple items arranged into hierarchy by using `groupMultiselect`:
+
+```js
+import { groupMultiselect } from '@clack/prompts';
+
+const basket = await groupMultiselect({
+  message: 'Select your favorite fruits and vegetables:',
+  options: {
+    fruits: [
+      { value: 'apple', label: 'apple' },
+      { value: 'banana', label: 'banana' },
+      { value: 'cherry', label: 'cherry' },
+    ],
+    vegetables: [
+      { value: 'carrot', label: 'carrot' },
+      { value: 'spinach', label: 'spinach' },
+      { value: 'potato', label: 'potato' },
+    ]
+  }
 });
 ```
 
@@ -121,6 +143,23 @@ const s = spinner();
 s.start('Installing via npm');
 // Do installation here
 s.stop('Installed via npm');
+```
+
+### Progress
+
+The progress component extends the spinner component to add a progress bar to visualize the progression of an action.
+
+```js
+import { progress } from '@clack/prompts';
+
+const p = progress({ max: 10 });
+p.start('Downloading archive');
+// Do download here
+p.advance(3, 'Downloading (30%)');
+// ...
+p.advance(8, 'Downloading (80%)');
+// ...
+p.stop('Archive downloaded');
 ```
 
 ## Utilities
@@ -164,7 +203,9 @@ console.log(group.name, group.age, group.color);
 Execute multiple tasks in spinners.
 
 ```js
-await p.tasks([
+import { tasks } from '@clack/prompts';
+
+await tasks([
   {
     title: 'Installing via npm',
     task: async (message) => {
@@ -188,4 +229,42 @@ log.error('Error!');
 log.message('Hello, World', { symbol: color.cyan('~') });
 ```
 
-[clack-log-prompts](https://github.com/natemoo-re/clack/blob/main/.github/assets/clack-logs.png)
+
+### Stream
+
+When interacting with dynamic LLMs or other streaming message providers, use the `stream` APIs to log messages from an iterable, even an async one.
+
+```js
+import { stream } from '@clack/prompts';
+
+stream.info((function *() { yield 'Info!'; })());
+stream.success((function *() { yield 'Success!'; })());
+stream.step((function *() { yield 'Step!'; })());
+stream.warn((function *() { yield 'Warn!'; })());
+stream.error((function *() { yield 'Error!'; })());
+stream.message((function *() { yield 'Hello'; yield ", World" })(), { symbol: color.cyan('~') });
+```
+
+![clack-log-prompts](https://github.com/bombshell-dev/clack/blob/main/.github/assets/clack-logs.png)
+
+### Task Log
+
+When executing a sub-process or a similar sub-task, `taskLog` can be used to render the output continuously and clear it at the end if it was successful.
+
+```js
+import { taskLog } from '@clack/prompts';
+
+const log = taskLog({
+	title: 'Running npm install'
+});
+
+for await (const line of npmInstall()) {
+	log.message(line);
+}
+
+if (success) {
+	log.success('Done!');
+} else {
+	log.error('Failed!');
+}
+```

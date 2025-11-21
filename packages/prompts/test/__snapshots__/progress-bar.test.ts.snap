@@ -1,0 +1,586 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`prompts - progress (isCI = false) > message > sets message for next frame 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > prioritizes cancel option over global setting 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Progress cancel message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > prioritizes error option over global setting 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m▲[39m  Progress error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > uses custom cancel message when provided directly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Custom cancel message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > uses custom error message when provided directly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m▲[39m  Custom error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > uses default cancel message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Canceled
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > uses global custom cancel message from settings 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Global cancel message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > process exit handling > uses global custom error message from settings 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m▲[39m  Global error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > start > renders frames at interval 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◓[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◑[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > start > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > start > renders timer when indicator is "timer" 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m  [0s]",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders cancel symbol when calling cancel() 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders error symbol when calling error() 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders message when cancelling 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  cancelled :-(
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders message when erroring 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  FATAL ERROR!
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders message without removing dots 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo.
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > stop > renders submit symbol and stops progress 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > style > renders block progressbar 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m██████████[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m[39m[2m██████████[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◓[39m  [35m█████[39m[2m█████[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◑[39m  [35m█████[39m[2m█████[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > style > renders heavy progressbar 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◓[39m  [35m━━━━━[39m[2m━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◑[39m  [35m━━━━━[39m[2m━━━━━[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = false) > style > renders light progressbar 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m──────────[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m[39m[2m──────────[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◓[39m  [35m─────[39m[2m─────[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◑[39m  [35m─────[39m[2m─────[22m ",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > message > sets message for next frame 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > prioritizes cancel option over global setting 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Progress cancel message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > prioritizes error option over global setting 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m▲[39m  Progress error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > uses custom cancel message when provided directly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Custom cancel message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > uses custom error message when provided directly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m▲[39m  Custom error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > uses default cancel message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Canceled
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > uses global custom cancel message from settings 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m■[39m  Global cancel message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > process exit handling > uses global custom error message from settings 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[31m▲[39m  Global error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > start > renders frames at interval 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > start > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > start > renders timer when indicator is "timer" 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders cancel symbol when calling cancel() 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders error symbol when calling error() 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders message when cancelling 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m■[39m  cancelled :-(
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders message when erroring 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[31m▲[39m  FATAL ERROR!
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders message without removing dots 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo.
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > stop > renders submit symbol and stops progress 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > style > renders block progressbar 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m██████████[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m█████[39m[2m█████[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > style > renders heavy progressbar 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m━━━━━[39m[2m━━━━━[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`prompts - progress (isCI = true) > style > renders light progressbar 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  [35m[39m[2m──────────[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  [35m─────[39m[2m─────[22m ...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;

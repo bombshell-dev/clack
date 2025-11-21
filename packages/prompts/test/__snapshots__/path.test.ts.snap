@@ -1,0 +1,603 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`text (isCI = false) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m/tmp/[22m[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > cannot submit unknown value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/_█
+[36m│[39m  [33mNo matches found[39m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/_█
+[36m│[39m  [33mNo matches found[39m
+[33m│[39m  [33mPlease select a path[39m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > initialValue sets the value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/bar█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/x█
+[36m│[39m  [33mNo matches found[39m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2mSearch:[22m /tmp/xy█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m/tmp/xy[22m[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > renders submitted value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2mSearch:[22m /tmp/ba█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > validation errors render and clear (using Error) 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/r█
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/r█
+[33m│[39m  [33mshould be /tmp/bar[39m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [2m○[22m [2m/tmp/bar[22m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > validation errors render and clear 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/r█
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/r█
+[33m│[39m  [33mshould be /tmp/bar[39m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [2m○[22m [2m/tmp/bar[22m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m/tmp/[22m[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > cannot submit unknown value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/_█
+[36m│[39m  [33mNo matches found[39m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/_█
+[36m│[39m  [33mNo matches found[39m
+[33m│[39m  [33mPlease select a path[39m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > initialValue sets the value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/bar█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/x█
+[36m│[39m  [33mNo matches found[39m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2mSearch:[22m /tmp/xy█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m/tmp/xy[22m[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > renders submitted value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2mSearch:[22m /tmp/ba█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > validation errors render and clear (using Error) 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/r█
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/r█
+[33m│[39m  [33mshould be /tmp/bar[39m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [2m○[22m [2m/tmp/bar[22m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > validation errors render and clear 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/r█
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/r█
+[33m│[39m  [33mshould be /tmp/bar[39m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m /tmp/█
+[36m│[39m  [2m○[22m [2m/tmp/bar[22m
+[36m│[39m  [32m●[39m /tmp/root.zip
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m /tmp/b█
+[36m│[39m  [32m●[39m /tmp/bar
+[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2m/tmp/bar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;

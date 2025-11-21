@@ -1,0 +1,327 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`confirm (isCI = false) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  yes?
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mNo[22m[29m
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > can set initialValue 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > left arrow moves to previous choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > renders custom active choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m bleep [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbleep[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > renders custom inactive choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mbleep[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > renders message with choices 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = false) > right arrow moves to next choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  yes?
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mNo[22m[29m
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > can set initialValue 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > left arrow moves to previous choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > renders custom active choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m bleep [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mbleep[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > renders custom inactive choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mbleep[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > renders message with choices 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > right arrow moves to next choice 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2m○[22m [2mYes[22m [2m/[22m [32m●[39m No",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mNo[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;

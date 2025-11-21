@@ -1,5 +1,106 @@
 # @clack/core
 
+## 1.0.0-alpha.6
+
+### Patch Changes
+
+- b103ad3: Allow disabled options in multi-select and select prompts.
+
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- 55645c2: Support wrapping autocomplete and select prompts.
+
+### Patch Changes
+
+- 71b5029: Add missing nullish checks around values.
+- 2310b43: Allow custom writables as output stream.
+
+## 1.0.0-alpha.4
+
+### Patch Changes
+
+- d98e033: add invert selection for multiselect prompt
+
+## 1.0.0-alpha.3
+
+### Minor Changes
+
+- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
+
+### Patch Changes
+
+- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
+
+## 1.0.0-alpha.2
+
+### Patch Changes
+
+- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
+
+## 1.0.0-alpha.1
+
+### Minor Changes
+
+- 7bc3301: Prompts now have a `userInput` stored separately from their `value`.
+- 2837845: Adds suggestion and path prompts
+- df4eea1: Remove `suggestion` prompt and change `path` prompt to be an autocomplete prompt.
+
+### Patch Changes
+
+- bfe0dd3: Prevents placeholder from being used as input value in text prompts
+- 34f52fe: Validates initial values immediately when using text prompts with initialValue and validate props.
+- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
+- 4f6b3c2: Set initial values of auto complete prompt to first option when multiple is false.
+- 8ead5d3: Avoid passing initial values to core when using auto complete prompt
+
+## 1.0.0-alpha.0
+
+### Major Changes
+
+- c713fd5: The package is now distributed as ESM-only. In `v0` releases, the package was dual-published as CJS and ESM.
+
+  For existing CJS projects using Node v20+, please see Node's guide on [Loading ECMAScript modules using `require()`](https://nodejs.org/docs/latest-v20.x/api/modules.html#loading-ecmascript-modules-using-require).
+
+### Minor Changes
+
+- 729bbb6: Add support for customizable spinner cancel and error messages. Users can now customize these messages either per spinner instance or globally via the `updateSettings` function to support multilingual CLIs.
+
+  This update also improves the architecture by exposing the core settings to the prompts package, enabling more consistent default message handling across the codebase.
+
+  ```ts
+  // Per-instance customization
+  const spinner = prompts.spinner({
+    cancelMessage: "Operación cancelada", // "Operation cancelled" in Spanish
+    errorMessage: "Se produjo un error", // "An error occurred" in Spanish
+  });
+
+  // Global customization via updateSettings
+  prompts.updateSettings({
+    messages: {
+      cancel: "Operación cancelada", // "Operation cancelled" in Spanish
+      error: "Se produjo un error", // "An error occurred" in Spanish
+    },
+  });
+
+  // Settings can now be accessed directly
+  console.log(prompts.settings.messages.cancel); // "Operación cancelada"
+
+  // Direct options take priority over global settings
+  const spinner = prompts.spinner({
+    cancelMessage: "Cancelled", // This will be used instead of the global setting
+  });
+  ```
+
+- f2c2b89: Adds `AutocompletePrompt` to core with comprehensive tests and implement both `autocomplete` and `autocomplete-multiselect` components in prompts package.
+
+### Patch Changes
+
+- 6868c1c: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- a4f5034: Fixes an edge case for placeholder values. Previously, when pressing `enter` on an empty prompt, placeholder values would be ignored. Now, placeholder values are treated as the prompt value.
+- a36292b: Fix "TTY initialization failed: uv_tty_init returned EBADF (bad file descriptor)" error happening on Windows for non-tty terminals.
+
 ## 0.4.1
 
 ### Patch Changes
