@@ -71,6 +71,24 @@ exports[`text (isCI = false) > empty string when no value and no default 1`] = `
 ]
 `;
 
+exports[`text (isCI = false) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[7m[8m_[28m[27m
+
+",
+  "<cursor.backward count=999><cursor.up count=3>",
+  "",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = false) > placeholder is not used as value when pressing enter 1`] = `
 [
   "<cursor.hide>",
@@ -346,6 +364,24 @@ exports[`text (isCI = true) > empty string when no value and no default 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[7m[8m_[28m[27m
+
+",
+  "<cursor.backward count=999><cursor.up count=3>",
+  "",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
   "
 ",
   "<cursor.show>",

@@ -1,3 +1,4 @@
+import { settings } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -27,10 +28,10 @@ export const log = {
 		}: LogMessageOptions = {}
 	) => {
 		const parts: string[] = [];
-		const hasGuide = withGuide === false;
-		const spacingString = hasGuide ? '' : secondarySymbol;
-		const prefix = hasGuide ? '' : `${symbol}  `;
-		const secondaryPrefix = hasGuide ? '' : `${secondarySymbol}  `;
+		const hasGuide = (withGuide ?? settings.withGuide) !== false;
+		const spacingString = !hasGuide ? '' : secondarySymbol;
+		const prefix = !hasGuide ? '' : `${symbol}  `;
+		const secondaryPrefix = !hasGuide ? '' : `${secondarySymbol}  `;
 
 		for (let i = 0; i < spacing; i++) {
 			parts.push(spacingString);

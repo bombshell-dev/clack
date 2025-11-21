@@ -9,6 +9,7 @@ interface InternalClackSettings {
 		cancel: string;
 		error: string;
 	};
+	withGuide: boolean;
 }
 
 export const settings: InternalClackSettings = {
@@ -27,6 +28,7 @@ export const settings: InternalClackSettings = {
 		cancel: 'Canceled',
 		error: 'Something went wrong',
 	},
+	withGuide: true,
 };
 
 export interface ClackSettings {
@@ -54,6 +56,8 @@ export interface ClackSettings {
 		 */
 		error?: string;
 	};
+
+	withGuide?: boolean;
 }
 
 export function updateSettings(updates: ClackSettings) {
@@ -80,6 +84,10 @@ export function updateSettings(updates: ClackSettings) {
 		if (messages.error !== undefined) {
 			settings.messages.error = messages.error;
 		}
+	}
+
+	if (updates.withGuide !== undefined) {
+		settings.withGuide = updates.withGuide !== false;
 	}
 }
 

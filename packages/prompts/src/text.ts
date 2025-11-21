@@ -1,4 +1,4 @@
-import { TextPrompt } from '@clack/core';
+import { settings, TextPrompt } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
@@ -20,8 +20,8 @@ export const text = (opts: TextOptions) => {
 		signal: opts.signal,
 		input: opts.input,
 		render() {
-			const withGuide = opts.withGuide !== false;
-			const titlePrefix = `${withGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  `;
+			const hasGuide = (opts?.withGuide ?? settings.withGuide) !== false;
+			const titlePrefix = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
@@ -32,23 +32,23 @@ export const text = (opts: TextOptions) => {
 			switch (this.state) {
 				case 'error': {
 					const errorText = this.error ? `  ${color.yellow(this.error)}` : '';
-					const errorPrefix = withGuide ? `${color.yellow(S_BAR)}  ` : '';
-					const errorPrefixEnd = withGuide ? color.yellow(S_BAR_END) : '';
+					const errorPrefix = hasGuide ? `${color.yellow(S_BAR)}  ` : '';
+					const errorPrefixEnd = hasGuide ? color.yellow(S_BAR_END) : '';
 					return `${title.trim()}\n${errorPrefix}${userInput}\n${errorPrefixEnd}${errorText}\n`;
 				}
 				case 'submit': {
 					const valueText = value ? `  ${color.dim(value)}` : '';
-					const submitPrefix = withGuide ? color.gray(S_BAR) : '';
+					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
 					return `${title}${submitPrefix}${valueText}`;
 				}
 				case 'cancel': {
 					const valueText = value ? `  ${color.strikethrough(color.dim(value))}` : '';
-					const cancelPrefix = withGuide ? color.gray(S_BAR) : '';
+					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
 					return `${title}${cancelPrefix}${valueText}${value.trim() ? `\n${cancelPrefix}` : ''}`;
 				}
 				default: {
-					const defaultPrefix = withGuide ? `${color.cyan(S_BAR)}  ` : '';
-					const defaultPrefixEnd = withGuide ? color.cyan(S_BAR_END) : '';
+					const defaultPrefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
 					color.cyan(S_BAR_END);
 					return `${title}${defaultPrefix}${userInput}\n${defaultPrefixEnd}\n`;
 				}
