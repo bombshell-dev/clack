@@ -1,3 +1,4 @@
+import { updateSettings } from '@clack/core';
 import colors from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
@@ -24,6 +25,7 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		updateSettings({ withGuide: true });
 	});
 
 	test('renders message', () => {
@@ -96,11 +98,23 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders with prefix when includePrefix is true', () => {
+	test('renders without guide when withGuide is false', () => {
 		prompts.box('message', 'title', {
 			input,
 			output,
-			includePrefix: true,
+			withGuide: false,
+			width: 'auto',
+		});
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('renders without guide when global withGuide is false', () => {
+		updateSettings({ withGuide: false });
+
+		prompts.box('message', 'title', {
+			input,
+			output,
 			width: 'auto',
 		});
 

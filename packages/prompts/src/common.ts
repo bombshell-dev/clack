@@ -71,4 +71,5 @@ export interface CommonOptions {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
+	withGuide?: boolean;
 }
