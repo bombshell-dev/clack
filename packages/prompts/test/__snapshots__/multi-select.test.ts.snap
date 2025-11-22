@@ -245,9 +245,9 @@ exports[`multiselect (isCI = false) > renders disabled options 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
-[36m│[39m  [90m◻[39m [90mopt0[39m
+[36m│[39m  [90m◻[39m [9m[90mopt0[39m[29m
 [36m│[39m  [36m◻[39m opt1
-[36m│[39m  [90m◻[39m [90mopt2[39m [2m(Hint 2)[22m
+[36m│[39m  [90m◻[39m [9m[90mopt2[39m[29m [2m(Hint 2)[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=6>",
@@ -979,9 +979,9 @@ exports[`multiselect (isCI = true) > renders disabled options 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
-[36m│[39m  [90m◻[39m [90mopt0[39m
+[36m│[39m  [90m◻[39m [9m[90mopt0[39m[29m
 [36m│[39m  [36m◻[39m opt1
-[36m│[39m  [90m◻[39m [90mopt2[39m [2m(Hint 2)[22m
+[36m│[39m  [90m◻[39m [9m[90mopt2[39m[29m [2m(Hint 2)[22m
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=6>",

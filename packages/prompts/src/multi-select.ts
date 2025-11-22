@@ -42,7 +42,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
-			return `${color.gray(S_CHECKBOX_INACTIVE)} ${computeLabel(label, color.gray)}${
+			return `${color.gray(S_CHECKBOX_INACTIVE)} ${computeLabel(label, (str) => color.strikethrough(color.gray(str)))}${
 				option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
 			}`;
 		}
