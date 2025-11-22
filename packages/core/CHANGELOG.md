@@ -1,5 +1,13 @@
 # @clack/core
 
+## 1.0.0-alpha.7
+
+### Patch Changes
+
+- 0718b07: fix: export `*Options` types for prompts.
+- 4ba2d78: Support short terminal windows when re-rendering by accounting for off-screen lines
+- acc4c3a: Add a new `withGuide` option to all prompts to disable the default clack border
+
 ## 1.0.0-alpha.6
 
 ### Patch Changes

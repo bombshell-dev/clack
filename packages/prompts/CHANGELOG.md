@@ -1,5 +1,46 @@
 # @clack/prompts
 
+## 1.0.0-alpha.7
+
+### Minor Changes
+
+- 38019c7: Updates the API for stopping spinners and progress bars to be clearer
+
+  Previously, both the spinner and progress bar components used a single `stop` method that accepted a code to indicate success, cancellation, or error. This update separates these into distinct methods: `stop()`, `cancel()`, and `error()`:
+
+  ```diff
+  const spinner = prompts.spinner();
+  spinner.start();
+
+  // Cancelling a spinner
+  - spinner.stop(undefined, 1);
+  + spinner.cancel();
+
+  // Stopping with an error
+  - spinner.stop(undefined, 2);
+  + spinner.error();
+  ```
+
+  As before, you can pass a message to each method to customize the output displayed:
+
+  ```js
+  spinner.cancel("Operation cancelled by user");
+  progressBar.error("An error occurred during processing");
+  ```
+
+### Patch Changes
+
+- 4d1d83b: Fixes rendering of multi-line messages and options in select prompt.
+- 6176ced: Add withGuide support to note prompt
+- 69681ea: Strip destructive ANSI codes from task log messages.
+- b0fa7d8: Add support for wrapped messages in multi line prompts
+- 7530af0: Fixes wrapping of cancelled and success messages of select prompt
+- acc4c3a: Add a new `withGuide` option to all prompts to disable the default clack border
+- Updated dependencies [0718b07]
+- Updated dependencies [4ba2d78]
+- Updated dependencies [acc4c3a]
+  - @clack/core@1.0.0-alpha.7
+
 ## 1.0.0-alpha.6
 
 ### Minor Changes
