@@ -1,6 +1,14 @@
 import { PasswordPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END, S_PASSWORD_MASK } from './common.js';
+import {
+	type CommonOptions,
+	extendStyle,
+	getThemeColor,
+	getThemePrefix,
+	S_BAR,
+	S_BAR_END,
+	S_PASSWORD_MASK,
+} from './common.js';
 
 export interface PasswordOptions extends CommonOptions<{}> {
 	message: string;

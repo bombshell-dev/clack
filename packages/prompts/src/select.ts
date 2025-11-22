@@ -1,6 +1,14 @@
 import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type RadioTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import {
+	type CommonOptions,
+	extendStyle,
+	getThemeColor,
+	getThemePrefix,
+	type RadioTheme,
+	S_BAR,
+	S_BAR_END,
+} from './common.js';
 import { limitOptions } from './limit-options.js';
 
 type Primitive = Readonly<string | boolean | number>;

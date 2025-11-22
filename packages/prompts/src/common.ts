@@ -46,12 +46,13 @@ export type CommonOptions<TStyle = unknown> = {
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
-} & (TStyle extends object ? {
-	theme?: 
-		{ [K in ColorState]?: (str: string) => string } &
-		{ [K in PrefixState]?: string }
-		& TStyle;
-} : {});
+} & (TStyle extends object
+	? {
+			theme?: { [K in ColorState]?: (str: string) => string } & {
+				[K in PrefixState]?: string;
+			} & TStyle;
+		}
+	: {});
 
 export interface RadioTheme {
 	radioActive?: string;
@@ -60,11 +61,11 @@ export interface RadioTheme {
 }
 
 export interface CheckboxTheme {
-	checkboxSelectedActive?: string,
-	checkboxSelectedInactive?: string,
-	checkboxUnselectedActive?: string,
-	checkboxUnselectedInactive?: string,
-	checkboxDisabled?: string,
+	checkboxSelectedActive?: string;
+	checkboxSelectedInactive?: string;
+	checkboxUnselectedActive?: string;
+	checkboxUnselectedInactive?: string;
+	checkboxDisabled?: string;
 }
 
 const defaultStyle: CommonOptions<RadioTheme & CheckboxTheme>['theme'] = {
@@ -96,11 +97,11 @@ type ExtendStyleType<TStyle> = ({ theme: {} } & CommonOptions<TStyle>)['theme'];
 export const extendStyle = <TStyle>(style?: ExtendStyleType<TStyle>) => {
 	return {
 		...defaultStyle,
-		...(style ?? {})
+		...(style ?? {}),
 	} as Required<ExtendStyleType<TStyle>>;
 };
 
 const capitalize = (str: string): string => str[0].toUpperCase() + str.substring(1);
 
-export const getThemeColor = (state: State) => (`color${capitalize(state)}`) as ColorState;
-export const getThemePrefix = (state: State) => (`prefix${capitalize(state)}`) as PrefixState;
+export const getThemeColor = (state: State) => `color${capitalize(state)}` as ColorState;
+export const getThemePrefix = (state: State) => `prefix${capitalize(state)}` as PrefixState;

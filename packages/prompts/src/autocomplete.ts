@@ -1,6 +1,15 @@
 import { AutocompletePrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type RadioTheme, type CheckboxTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import {
+	type CheckboxTheme,
+	type CommonOptions,
+	extendStyle,
+	getThemeColor,
+	getThemePrefix,
+	type RadioTheme,
+	S_BAR,
+	S_BAR_END,
+} from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -53,7 +62,7 @@ type AutocompleteSharedOptions<Value, TStyle> = CommonOptions<TStyle> & {
 	 * Validates the value
 	 */
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
-}
+};
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value, RadioTheme> {
 	/**
@@ -193,7 +202,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 };
 
 // Type definition for the autocompleteMultiselect component
-export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value, CheckboxTheme> {
+export interface AutocompleteMultiSelectOptions<Value>
+	extends AutocompleteSharedOptions<Value, CheckboxTheme> {
 	/**
 	 * The initial selected values
 	 */
@@ -223,15 +233,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				: '';
 
 		if (active) {
-			const checkbox = isSelected
-				? style.checkboxSelectedActive
-				: style.checkboxUnselectedActive;
+			const checkbox = isSelected ? style.checkboxSelectedActive : style.checkboxUnselectedActive;
 			return `${checkbox} ${label}${hint}`;
 		}
 
-		const checkbox = isSelected
-			? style.checkboxSelectedInactive
-			: style.checkboxUnselectedInactive;
+		const checkbox = isSelected ? style.checkboxSelectedInactive : style.checkboxUnselectedInactive;
 		return `${checkbox} ${color.dim(label)}`;
 	};
 

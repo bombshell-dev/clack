@@ -1,6 +1,14 @@
 import { ConfirmPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type RadioTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import {
+	type CommonOptions,
+	extendStyle,
+	getThemeColor,
+	getThemePrefix,
+	type RadioTheme,
+	S_BAR,
+	S_BAR_END,
+} from './common.js';
 
 export interface ConfirmOptions extends CommonOptions<RadioTheme> {
 	message: string;

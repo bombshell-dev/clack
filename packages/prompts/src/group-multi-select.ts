@@ -1,6 +1,14 @@
 import { GroupMultiSelectPrompt } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type CheckboxTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import {
+	type CheckboxTheme,
+	type CommonOptions,
+	extendStyle,
+	getThemeColor,
+	getThemePrefix,
+	S_BAR,
+	S_BAR_END,
+} from './common.js';
 import type { Option } from './select.js';
 
 export interface GroupMultiSelectOptions<Value> extends CommonOptions<CheckboxTheme> {
@@ -121,9 +129,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				case 'error': {
 					const footer = this.error
 						.split('\n')
-						.map((ln, i) =>
-							i === 0 ? `${barEnd}  ${style[themeColor](ln)}` : `   ${ln}`
-						)
+						.map((ln, i) => (i === 0 ? `${barEnd}  ${style[themeColor](ln)}` : `   ${ln}`))
 						.join('\n');
 					return `${title}${bar}  ${this.options
 						.map((option, i, options) => {

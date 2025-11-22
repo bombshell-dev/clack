@@ -1,6 +1,14 @@
 import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
-import { type CommonOptions, type CheckboxTheme, getThemeColor, getThemePrefix, extendStyle, S_BAR, S_BAR_END } from './common.js';
+import {
+	type CheckboxTheme,
+	type CommonOptions,
+	extendStyle,
+	getThemeColor,
+	getThemePrefix,
+	S_BAR,
+	S_BAR_END,
+} from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
@@ -135,9 +143,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const prefix = `${bar}  `;
 					const footer = this.error
 						.split('\n')
-						.map((ln, i) =>
-							i === 0 ? `${barEnd}  ${style[themeColor](ln)}` : `   ${ln}`
-						)
+						.map((ln, i) => (i === 0 ? `${barEnd}  ${style[themeColor](ln)}` : `   ${ln}`))
 						.join('\n');
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
