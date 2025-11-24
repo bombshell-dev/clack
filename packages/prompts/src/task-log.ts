@@ -37,6 +37,7 @@ interface BufferEntry {
 }
 
 const stripDestructiveANSI = (input: string): string => {
+	// biome-ignore lint/suspicious/noControlCharactersInRegex: intentional
 	return input.replace(/\x1b\[(?:\d+;)*\d*[ABCDEFGHfJKSTsu]|\x1b\[(s|u)/g, '');
 };
 
