@@ -242,7 +242,7 @@ describe('limitOptions', () => {
 		expect(result).toEqual(['Item 1', '-- Item 2 --', 'Item 3']);
 	});
 
-	test('respects custom rowPadding for multiline messages', async () => {
+	test('respects custom rowPadding', async () => {
 		options.options = [
 			{ value: 'Item 1' },
 			{ value: 'Item 2' },
@@ -256,7 +256,6 @@ describe('limitOptions', () => {
 			{ value: 'Item 10' },
 		];
 		output.rows = 12;
-		// Simulate a multiline message that takes 6 lines (e.g., title bar + 4-line message + footer)
 		options.rowPadding = 6;
 		// Available rows for options = 12 - 6 = 6
 		const result = limitOptions(options);
