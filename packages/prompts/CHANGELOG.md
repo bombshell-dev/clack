@@ -1,5 +1,12 @@
 # @clack/prompts
 
+## 1.0.0-alpha.8
+
+### Patch Changes
+
+- 43aed55: Change styling of disabled multi-select options to have strikethrough.
+- 2feaebb: Fix duplicated logs when scrolling through options with multiline messages by calculating `rowPadding` dynamically based on actual rendered lines instead of using a hardcoded value.
+
 ## 1.0.0-alpha.7
 
 ### Minor Changes
