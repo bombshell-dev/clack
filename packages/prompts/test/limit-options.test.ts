@@ -241,4 +241,54 @@ describe('limitOptions', () => {
 		const result = limitOptions(options);
 		expect(result).toEqual(['Item 1', '-- Item 2 --', 'Item 3']);
 	});
+
+	test('respects custom rowPadding', async () => {
+		options.options = [
+			{ value: 'Item 1' },
+			{ value: 'Item 2' },
+			{ value: 'Item 3' },
+			{ value: 'Item 4' },
+			{ value: 'Item 5' },
+			{ value: 'Item 6' },
+			{ value: 'Item 7' },
+			{ value: 'Item 8' },
+			{ value: 'Item 9' },
+			{ value: 'Item 10' },
+		];
+		output.rows = 12;
+		options.rowPadding = 6;
+		// Available rows for options = 12 - 6 = 6
+		const result = limitOptions(options);
+		expect(result).toEqual(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', color.dim('...')]);
+	});
+
+	test('respects custom rowPadding when scrolling', async () => {
+		options.options = [
+			{ value: 'Item 1' },
+			{ value: 'Item 2' },
+			{ value: 'Item 3' },
+			{ value: 'Item 4' },
+			{ value: 'Item 5' },
+			{ value: 'Item 6' },
+			{ value: 'Item 7' },
+			{ value: 'Item 8' },
+			{ value: 'Item 9' },
+			{ value: 'Item 10' },
+		];
+		output.rows = 12;
+		// Simulate a multiline message that takes 6 lines
+		options.rowPadding = 6;
+		// Move cursor to middle of list
+		options.cursor = 5;
+		// Available rows for options = 12 - 6 = 6
+		const result = limitOptions(options);
+		expect(result).toEqual([
+			color.dim('...'),
+			'Item 4',
+			'Item 5',
+			'Item 6',
+			'Item 7',
+			color.dim('...'),
+		]);
+	});
 });

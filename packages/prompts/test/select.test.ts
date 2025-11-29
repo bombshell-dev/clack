@@ -275,4 +275,59 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('correctly limits options when message wraps to multiple lines', async () => {
+		// Simulate a narrow terminal that forces the message to wrap
+		output.columns = 30;
+		output.rows = 12;
+
+		const result = prompts.select({
+			// Long message that will wrap to multiple lines in a 30-column terminal
+			message: 'This is a very long message that will wrap to multiple lines',
+			options: Array.from({ length: 10 }, (_, i) => ({
+				value: `opt${i}`,
+				label: `Option ${i}`,
+			})),
+			input,
+			output,
+		});
+
+		// Scroll down through options to trigger the bug scenario
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('opt4');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('correctly limits options with explicit multiline message', async () => {
+		output.rows = 12;
+
+		const result = prompts.select({
+			// Explicit multiline message
+			message: 'Choose an option:\nLine 2 of the message\nLine 3 of the message',
+			options: Array.from({ length: 10 }, (_, i) => ({
+				value: `opt${i}`,
+				label: `Option ${i}`,
+			})),
+			input,
+			output,
+		});
+
+		// Scroll down to test that options don't overflow
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('opt3');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
