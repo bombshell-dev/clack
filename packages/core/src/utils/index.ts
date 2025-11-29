@@ -10,8 +10,6 @@ import { isActionKey } from './settings.js';
 export * from './settings.js';
 export * from './string.js';
 
-const isWindows = globalThis.process.platform.startsWith('win');
-
 export const CANCEL_SYMBOL = Symbol('clack:cancel');
 
 export function isCancel(value: unknown): value is symbol {
@@ -73,8 +71,7 @@ export function block({
 		input.off('keypress', clear);
 		if (hideCursor) output.write(cursor.show);
 
-		// Prevent Windows specific issues: https://github.com/bombshell-dev/clack/issues/176
-		if (input instanceof ReadStream && input.isTTY && !isWindows) {
+		if (input instanceof ReadStream && input.isTTY) {
 			input.setRawMode(false);
 		}
 
