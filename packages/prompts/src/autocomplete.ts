@@ -290,35 +290,44 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						`${color.dim('Type:')} to search`,
 					];
 
-					// No results message
-					const noResults =
-						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
-							: [];
+				// No results message
+				const noResults =
+					this.filteredOptions.length === 0 && userInput
+						? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+						: [];
 
-					const errorMessage =
-						this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
+				const errorMessage =
+					this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
 
-					// Get limited options for display
-					const displayOptions = limitOptions({
-						cursor: this.cursor,
-						options: this.filteredOptions,
-						style: (option, active) =>
-							formatOption(option, active, this.selectedValues, this.focusedValue),
-						maxItems: opts.maxItems,
-						output: opts.output,
-					});
+				// Calculate header and footer line counts for rowPadding
+				const headerLines = [
+					...title.split('\n'),
+					`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+					...noResults,
+					...errorMessage,
+				];
+				const footerLines = [
+					`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
+					`${color.cyan(S_BAR_END)}`,
+				];
 
-					// Build the prompt display
-					return [
-						title,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
-						...noResults,
-						...errorMessage,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
-					].join('\n');
+				// Get limited options for display
+				const displayOptions = limitOptions({
+					cursor: this.cursor,
+					options: this.filteredOptions,
+					style: (option, active) =>
+						formatOption(option, active, this.selectedValues, this.focusedValue),
+					maxItems: opts.maxItems,
+					output: opts.output,
+					rowPadding: headerLines.length + footerLines.length,
+				});
+
+				// Build the prompt display
+				return [
+					...headerLines,
+					...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
+					...footerLines,
+				].join('\n');
 				}
 			}
 		},

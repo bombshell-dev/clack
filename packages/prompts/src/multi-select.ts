@@ -138,34 +138,42 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const wrappedLabel = wrapTextWithPrefix(opts.output, label, `${color.gray(S_BAR)}  `);
 					return `${title}${wrappedLabel}\n${color.gray(S_BAR)}`;
 				}
-				case 'error': {
-					const prefix = `${color.yellow(S_BAR)}  `;
-					const footer = this.error
-						.split('\n')
-						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
-						)
-						.join('\n');
-					return `${title}${prefix}${limitOptions({
-						output: opts.output,
-						options: this.options,
-						cursor: this.cursor,
-						maxItems: opts.maxItems,
-						columnPadding: prefix.length,
-						style: styleOption,
-					}).join(`\n${prefix}`)}\n${footer}\n`;
-				}
-				default: {
-					const prefix = `${color.cyan(S_BAR)}  `;
-					return `${title}${prefix}${limitOptions({
-						output: opts.output,
-						options: this.options,
-						cursor: this.cursor,
-						maxItems: opts.maxItems,
-						columnPadding: prefix.length,
-						style: styleOption,
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
-				}
+			case 'error': {
+				const prefix = `${color.yellow(S_BAR)}  `;
+				const footer = this.error
+					.split('\n')
+					.map((ln, i) =>
+						i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
+					)
+					.join('\n');
+				// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
+				const titleLineCount = title.split('\n').length;
+				const footerLineCount = footer.split('\n').length + 1; // footer + trailing newline
+				return `${title}${prefix}${limitOptions({
+					output: opts.output,
+					options: this.options,
+					cursor: this.cursor,
+					maxItems: opts.maxItems,
+					columnPadding: prefix.length,
+					rowPadding: titleLineCount + footerLineCount,
+					style: styleOption,
+				}).join(`\n${prefix}`)}\n${footer}\n`;
+			}
+			default: {
+				const prefix = `${color.cyan(S_BAR)}  `;
+				// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+				const titleLineCount = title.split('\n').length;
+				const footerLineCount = 2; // S_BAR_END + trailing newline
+				return `${title}${prefix}${limitOptions({
+					output: opts.output,
+					options: this.options,
+					cursor: this.cursor,
+					maxItems: opts.maxItems,
+					columnPadding: prefix.length,
+					rowPadding: titleLineCount + footerLineCount,
+					style: styleOption,
+				}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+			}
 			}
 		},
 	}).prompt() as Promise<Value[] | symbol>;

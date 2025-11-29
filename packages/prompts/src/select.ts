@@ -142,17 +142,21 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					);
 					return `${title}${wrappedLines}\n${color.gray(S_BAR)}`;
 				}
-				default: {
-					const prefix = `${color.cyan(S_BAR)}  `;
-					return `${title}${prefix}${limitOptions({
-						output: opts.output,
-						cursor: this.cursor,
-						options: this.options,
-						maxItems: opts.maxItems,
-						columnPadding: prefix.length,
-						style: (item, active) =>
-							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+			default: {
+				const prefix = `${color.cyan(S_BAR)}  `;
+				// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+				const titleLineCount = title.split('\n').length;
+				const footerLineCount = 2; // S_BAR_END + trailing newline
+				return `${title}${prefix}${limitOptions({
+					output: opts.output,
+					cursor: this.cursor,
+					options: this.options,
+					maxItems: opts.maxItems,
+					columnPadding: prefix.length,
+					rowPadding: titleLineCount + footerLineCount,
+					style: (item, active) =>
+						opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
+				}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
 				}
 			}
 		},
