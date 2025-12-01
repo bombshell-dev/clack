@@ -43,7 +43,7 @@ export const log = {
 			if (firstLine.length > 0) {
 				parts.push(`${prefix}${firstLine}`);
 			} else {
-				parts.push(hasGuide ? '' : symbol);
+				parts.push(hasGuide ? symbol : '');
 			}
 			for (const ln of lines) {
 				if (ln.length > 0) {
