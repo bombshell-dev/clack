@@ -73,3 +73,38 @@ export interface CommonOptions {
 	signal?: AbortSignal;
 	withGuide?: boolean;
 }
+
+export type ColorFormatter = (str: string) => string;
+
+/**
+ * Global theme options shared across all prompts.
+ * These control the common visual elements like the guide line.
+ */
+export interface GlobalTheme {
+	/** Format the left guide/border line (default: cyan) */
+	formatGuide?: ColorFormatter;
+	/** Format the guide line on submit (default: gray) */
+	formatGuideSubmit?: ColorFormatter;
+	/** Format the guide line on cancel (default: gray) */
+	formatGuideCancel?: ColorFormatter;
+	/** Format the guide line on error (default: yellow) */
+	formatGuideError?: ColorFormatter;
+}
+
+export interface ThemeOptions<T> {
+	theme?: T & GlobalTheme;
+}
+
+export const defaultGlobalTheme: Required<GlobalTheme> = {
+	formatGuide: color.cyan,
+	formatGuideSubmit: color.gray,
+	formatGuideCancel: color.gray,
+	formatGuideError: color.yellow,
+};
+
+export function resolveTheme<T>(
+	theme: Partial<T> | undefined,
+	defaults: T
+): T {
+	return { ...defaults, ...theme };
+}

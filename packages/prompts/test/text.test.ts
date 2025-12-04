@@ -238,4 +238,99 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('custom theme changes active symbol color', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			input,
+			output,
+			theme: {
+				formatSymbolActive: (str) => `[MAGENTA]${str}[/MAGENTA]`,
+				formatGuide: (str) => `[BLUE]${str}[/BLUE]`,
+			},
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('custom theme changes submit symbol color', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			input,
+			output,
+			theme: {
+				formatSymbolSubmit: (str) => `[PURPLE]${str}[/PURPLE]`,
+				formatGuideSubmit: (str) => `[PINK]${str}[/PINK]`,
+			},
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('custom theme changes cancel symbol color', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			input,
+			output,
+			theme: {
+				formatSymbolCancel: (str) => `[ORANGE]${str}[/ORANGE]`,
+				formatGuideCancel: (str) => `[BROWN]${str}[/BROWN]`,
+			},
+		});
+
+		input.emit('keypress', 'escape', { name: 'escape' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('custom theme changes error colors', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			validate: () => 'custom error',
+			input,
+			output,
+			theme: {
+				formatSymbolError: (str) => `[RED_BG]${str}[/RED_BG]`,
+				formatGuideError: (str) => `[RED]${str}[/RED]`,
+				formatErrorMessage: (str) => `[BOLD_RED]${str}[/BOLD_RED]`,
+			},
+		});
+
+		input.emit('keypress', 'x', { name: 'x' });
+		input.emit('keypress', '', { name: 'return' });
+		// Cancel to exit after seeing the error
+		input.emit('keypress', 'escape', { name: 'escape' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('partial theme only overrides specified options', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			input,
+			output,
+			theme: {
+				// Only override the symbol, let guide use default
+				formatSymbolActive: (str) => `[CUSTOM]${str}[/CUSTOM]`,
+			},
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
