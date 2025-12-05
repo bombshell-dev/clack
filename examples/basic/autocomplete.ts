@@ -45,7 +45,6 @@ ${color.cyan('This example demonstrates the type-ahead autocomplete feature:')}
 		options: countries,
 		placeholder: 'Type to search countries...',
 		maxItems: 8,
-		validate: () => "Validate :)"
 	});
 
 	if (p.isCancel(result)) {
