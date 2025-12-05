@@ -33,95 +33,6 @@ exports[`text (isCI = false) > can cancel 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > custom theme changes active symbol color 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[MAGENTA]◆[/MAGENTA]  foo
-[BLUE]│[/BLUE]  [7m[8m_[28m[27m
-[BLUE]└[/BLUE]
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = false) > custom theme changes cancel symbol color 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[ORANGE]■[/ORANGE]  foo
-[BROWN]│[/BROWN]",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = false) > custom theme changes error colors 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=2>",
-  "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
-  "<cursor.down count=2>",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[RED_BG]▲[/RED_BG]  foo
-[RED]│[/RED]  x█
-[RED]└[/RED]  [BOLD_RED]custom error[/BOLD_RED]
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[31m■[39m  foo
-[90m│[39m  [9m[2mx[22m[29m
-[90m│[39m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = false) > custom theme changes submit symbol color 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[PURPLE]◇[/PURPLE]  foo
-[PINK]│[/PINK]",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
 exports[`text (isCI = false) > defaultValue sets the value but does not render 1`] = `
 [
   "<cursor.hide>",
@@ -171,25 +82,6 @@ exports[`text (isCI = false) > global withGuide: false removes guide 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 ",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = false) > partial theme only overrides specified options 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[CUSTOM]◆[/CUSTOM]  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -438,95 +330,6 @@ exports[`text (isCI = true) > can cancel 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > custom theme changes active symbol color 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[MAGENTA]◆[/MAGENTA]  foo
-[BLUE]│[/BLUE]  [7m[8m_[28m[27m
-[BLUE]└[/BLUE]
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = true) > custom theme changes cancel symbol color 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[ORANGE]■[/ORANGE]  foo
-[BROWN]│[/BROWN]",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = true) > custom theme changes error colors 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=2>",
-  "<erase.line><cursor.left count=1>",
-  "[36m│[39m  x█",
-  "<cursor.down count=2>",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[RED_BG]▲[/RED_BG]  foo
-[RED]│[/RED]  x█
-[RED]└[/RED]  [BOLD_RED]custom error[/BOLD_RED]
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[31m■[39m  foo
-[90m│[39m  [9m[2mx[22m[29m
-[90m│[39m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = true) > custom theme changes submit symbol color 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[PURPLE]◇[/PURPLE]  foo
-[PINK]│[/PINK]",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
 exports[`text (isCI = true) > defaultValue sets the value but does not render 1`] = `
 [
   "<cursor.hide>",
@@ -576,25 +379,6 @@ exports[`text (isCI = true) > global withGuide: false removes guide 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 ",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`text (isCI = true) > partial theme only overrides specified options 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[CUSTOM]◆[/CUSTOM]  foo
-[36m│[39m  [7m[8m_[28m[27m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m",
   "
 ",
   "<cursor.show>",

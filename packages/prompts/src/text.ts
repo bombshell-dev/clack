@@ -79,7 +79,22 @@ export const text = (opts: TextOptions) => {
 				}
 			})();
 
-			const titlePrefix = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbolText}  `;
+			// Resolve connector bar color based on state
+			const connectorBar = (() => {
+				switch (this.state) {
+					case 'initial':
+					case 'active':
+						return theme.formatGuide(S_BAR);
+					case 'cancel':
+						return theme.formatGuideCancel(S_BAR);
+					case 'error':
+						return theme.formatGuideError(S_BAR);
+					case 'submit':
+						return theme.formatGuideSubmit(S_BAR);
+				}
+			})();
+
+			const titlePrefix = `${hasGuide ? `${connectorBar}\n` : ''}${symbolText}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? color.inverse(opts.placeholder[0]) + color.dim(opts.placeholder.slice(1))
