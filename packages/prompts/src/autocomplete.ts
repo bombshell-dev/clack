@@ -112,6 +112,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				}
 
 				default: {
+					const barColor = this.state === "error" ? color.yellow : color.cyan;
 					// Display cursor position - show plain text in navigation mode
 					let searchText = '';
 					if (this.isNavigating || showPlaceholder) {
@@ -132,15 +133,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${barColor(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error' ? [`${color.yellow(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${barColor(S_BAR)}  ${color.yellow(this.error)}`] : [];
 
 					headings.push(
-						`${color.cyan(S_BAR)}`,
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
+						`${barColor(S_BAR)}`,
+						`${barColor(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
@@ -153,8 +154,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					];
 
 					const footers = [
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						`${barColor(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
+						`${barColor(S_BAR_END)}`,
 					];
 
 					// Render options with selection
@@ -184,7 +185,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						...headings,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${barColor(S_BAR)}  ${option}`),
 						...footers,
 					].join('\n');
 				}
@@ -282,6 +283,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 				default: {
+					const barColor = this.state === "error" ? color.yellow : color.cyan;
 					// Instructions
 					const instructions = [
 						`${color.dim('↑/↓')} to navigate`,
@@ -293,22 +295,22 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${color.cyan(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${barColor(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
 					const errorMessage =
-						this.state === 'error' ? [`${color.cyan(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${barColor(S_BAR)}  ${color.yellow(this.error)}`] : [];
 
 					// Calculate header and footer line counts for rowPadding
 					const headerLines = [
 						...title.split('\n'),
-						`${color.cyan(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+						`${barColor(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
 					];
 					const footerLines = [
-						`${color.cyan(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${color.cyan(S_BAR_END)}`,
+						`${barColor(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
+						`${barColor(S_BAR_END)}`,
 					];
 
 					// Get limited options for display
@@ -325,7 +327,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						...headerLines,
-						...displayOptions.map((option) => `${color.cyan(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${barColor(S_BAR)}  ${option}`),
 						...footerLines,
 					].join('\n');
 				}
