@@ -429,15 +429,15 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
   "<erase.down>",
   "[33m▲[39m  Select a fruit
 
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [33mPlease select at least one item[39m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mTab:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
-[36m└[39m",
+[33m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[33m│[39m  [33mPlease select at least one item[39m
+[33m│[39m  [2m◻[22m Apple
+[33m│[39m  [2m◻[22m [2mBanana[22m
+[33m│[39m  [2m◻[22m [2mCherry[22m
+[33m│[39m  [2m◻[22m [2mGrape[22m
+[33m│[39m  [2m◻[22m [2mOrange[22m
+[33m│[39m  [2m[2m↑/↓[22m[2m to navigate • [2mTab:[22m[2m select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
