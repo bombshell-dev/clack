@@ -304,7 +304,8 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 
 					// Calculate header and footer line counts for rowPadding
 					const headerLines = [
-						...title.split('\n'),
+						...title.split('\n').slice(0, -1),
+						barColor(S_BAR),
 						`${barColor(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
