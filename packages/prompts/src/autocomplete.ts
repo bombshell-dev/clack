@@ -112,7 +112,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				}
 
 				default: {
-					const barColor = this.state === "error" ? color.yellow : color.cyan;
+					const guidePrefix = `${(this.state === 'error' ? color.yellow : color.cyan)(S_BAR)}  `;
+					const guidePrefixEnd = (this.state === 'error' ? color.yellow : color.cyan)(S_BAR_END);
 					// Display cursor position - show plain text in navigation mode
 					let searchText = '';
 					if (this.isNavigating || showPlaceholder) {
@@ -133,15 +134,15 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${barColor(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${guidePrefix}${color.yellow('No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error' ? [`${barColor(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${guidePrefix}${color.yellow(this.error)}`] : [];
 
 					headings.push(
-						`${barColor(S_BAR)}`,
-						`${barColor(S_BAR)}  ${color.dim('Search:')}${searchText}${matches}`,
+						`${guidePrefix.trimEnd()}`,
+						`${guidePrefix}${color.dim('Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
@@ -154,8 +155,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					];
 
 					const footers = [
-						`${barColor(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
-						`${barColor(S_BAR_END)}`,
+						`${guidePrefix}${color.dim(instructions.join(' • '))}`,
+						`${guidePrefixEnd}`,
 					];
 
 					// Render options with selection
@@ -185,7 +186,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						...headings,
-						...displayOptions.map((option) => `${barColor(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${guidePrefix}${option}`),
 						...footers,
 					].join('\n');
 				}
@@ -283,7 +284,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
 				}
 				default: {
-					const barColor = this.state === "error" ? color.yellow : color.cyan;
+					const barColor = this.state === 'error' ? color.yellow : color.cyan;
 					// Instructions
 					const instructions = [
 						`${color.dim('↑/↓')} to navigate`,
