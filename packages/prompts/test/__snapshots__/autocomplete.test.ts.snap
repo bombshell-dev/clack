@@ -340,7 +340,7 @@ exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [2m◻[22m Apple
 [36m│[39m  [2m◻[22m [2mBanana[22m
@@ -360,7 +360,7 @@ exports[`autocompleteMultiselect > can use navigation keys to select options 1`]
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select fruits
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [2m◻[22m Apple
 [36m│[39m  [2m◻[22m [2mBanana[22m
@@ -415,7 +415,7 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [2m◻[22m Apple
 [36m│[39m  [2m◻[22m [2mBanana[22m
@@ -428,7 +428,7 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m  Select a fruit
-
+[33m│[39m
 [33m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [33m│[39m  [33mPlease select at least one item[39m
 [33m│[39m  [2m◻[22m Apple
@@ -442,7 +442,7 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
   "<cursor.down count=1>",
   "<erase.down>",
   "[36m◆[39m  Select a fruit
-
+[36m│[39m
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [32m◼[39m Apple
 [36m│[39m  [2m◻[22m [2mBanana[22m
