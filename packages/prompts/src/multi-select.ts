@@ -172,7 +172,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						this.state === 'initial' && usage
 							? usageMessage
 									.split('\n')
-									.map((ln, i) => (i === 0 ? `${color.cyan(S_BAR_END)} ${ln}` : `   ${ln}`))
+									.map((ln, i) => (i === 0 ? `${color.cyan(S_BAR_END)}  ${ln}` : `   ${ln}`))
 									.join('\n')
 							: color.cyan(S_BAR_END);
 					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)

@@ -191,7 +191,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						this.state === 'initial' && usage
 							? usageMessage
 									.split('\n')
-									.map((ln, i) => (i === 0 ? `${color.cyan(S_BAR_END)} ${ln}` : `   ${ln}`))
+									.map((ln, i) => (i === 0 ? `${color.cyan(S_BAR_END)}  ${ln}` : `   ${ln}`))
 									.join('\n')
 							: color.cyan(S_BAR_END);
 					return `${title}${color.cyan(S_BAR)}${optionsPrefix}${optionsText}\n${footer}\n`;
