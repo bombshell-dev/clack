@@ -14,6 +14,7 @@ import type { Option } from './select.js';
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	message: string;
 	options: Record<string, Option<Value>[]>;
+	usage?: boolean | string;
 	initialValues?: Value[];
 	required?: boolean;
 	cursorAt?: Value;
@@ -77,6 +78,18 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const unselectedCheckbox = isItem || selectableGroups ? color.dim(S_CHECKBOX_INACTIVE) : '';
 		return `${spacingPrefix}${color.dim(prefix)}${unselectedCheckbox} ${color.dim(label)}`;
 	};
+
+	const defaultUsageMessage = `${color.reset(
+		color.dim(
+			`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
+				color.bgWhite(color.inverse(' enter '))
+			)} to submit`
+		)
+	)}`;
+
+	const usage = opts.usage ?? false;
+	const usageMessage = typeof usage === 'string' ? usage : defaultUsageMessage;
+
 	const required = opts.required ?? true;
 
 	return new GroupMultiSelectPrompt({
@@ -90,13 +103,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		selectableGroups,
 		validate(selected: Value[] | undefined) {
 			if (required && (selected === undefined || selected.length === 0))
-				return `Please select at least one option.\n${color.reset(
-					color.dim(
-						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
-							color.bgWhite(color.inverse(' enter '))
-						)} to submit`
-					)
-				)}`;
+				return `Please select at least one option.\n${defaultUsageMessage}`;
 		},
 		render() {
 			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
@@ -180,7 +187,14 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						})
 						.join(`\n${color.cyan(S_BAR)}`);
 					const optionsPrefix = optionsText.startsWith('\n') ? '' : '  ';
-					return `${title}${color.cyan(S_BAR)}${optionsPrefix}${optionsText}\n${color.cyan(S_BAR_END)}\n`;
+					const footer =
+						this.state === 'initial' && usage
+							? usageMessage
+									.split('\n')
+									.map((ln, i) => (i === 0 ? `${color.cyan(S_BAR_END)} ${ln}` : `   ${ln}`))
+									.join('\n')
+							: color.cyan(S_BAR_END);
+					return `${title}${color.cyan(S_BAR)}${optionsPrefix}${optionsText}\n${footer}\n`;
 				}
 			}
 		},
