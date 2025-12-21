@@ -11,6 +11,18 @@ exports[`spinner (isCI = false) > can be aborted by a signal 1`] = `
 ]
 `;
 
+exports[`spinner (isCI = false) > clear > stops and clears the spinner from the output 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  Loading",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "<cursor.show>",
+]
+`;
+
 exports[`spinner (isCI = false) > indicator customization > custom delay 1`] = `
 [
   "<cursor.hide>",
@@ -566,6 +578,20 @@ exports[`spinner (isCI = true) > can be aborted by a signal 1`] = `
 ",
   "[31m■[39m  Canceled
 ",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > clear > stops and clears the spinner from the output 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+",
+  "[35m◒[39m  Loading...",
+  "
+",
+  "<cursor.left count=1>",
+  "<erase.down>",
   "<cursor.show>",
 ]
 `;

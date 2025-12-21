@@ -425,4 +425,18 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	describe('clear', () => {
+		test('stops and clears the spinner from the output', () => {
+			const result = prompts.spinner({ output });
+
+			result.start('Loading');
+
+			vi.advanceTimersByTime(80);
+
+			result.clear();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+	});
 });

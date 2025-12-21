@@ -28,6 +28,7 @@ export interface SpinnerResult {
 	cancel(msg?: string): void;
 	error(msg?: string): void;
 	message(msg?: string): void;
+	clear(): void;
 	readonly isCancelled: boolean;
 }
 
@@ -165,7 +166,7 @@ export const spinner = ({
 		}, delay);
 	};
 
-	const _stop = (msg = '', code = 0): void => {
+	const _stop = (msg = '', code = 0, silent: boolean = false): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
@@ -177,10 +178,12 @@ export const spinner = ({
 					? color.red(S_STEP_CANCEL)
 					: color.red(S_STEP_ERROR);
 		_message = msg ?? _message;
-		if (indicator === 'timer') {
-			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
-		} else {
-			output.write(`${step}  ${_message}\n`);
+		if (!silent) {
+			if (indicator === 'timer') {
+				output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+			} else {
+				output.write(`${step}  ${_message}\n`);
+			}
 		}
 		clearHooks();
 		unblock();
@@ -189,6 +192,10 @@ export const spinner = ({
 	const stop = (msg = ''): void => _stop(msg, 0);
 	const cancel = (msg = ''): void => _stop(msg, 1);
 	const error = (msg = ''): void => _stop(msg, 2);
+	// TODO (43081j): this will leave the initial S_BAR since we purposely
+	// don't erase that in `clearPrevMessage`. In future, we may want to treat
+	// `clear` as a special case and remove the bar too.
+	const clear = (): void => _stop('', 0, true);
 
 	const message = (msg = ''): void => {
 		_message = removeTrailingDots(msg ?? _message);
@@ -200,6 +207,7 @@ export const spinner = ({
 		message,
 		cancel,
 		error,
+		clear,
 		get isCancelled() {
 			return isCancelled;
 		},
