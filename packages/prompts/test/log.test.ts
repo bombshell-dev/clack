@@ -102,6 +102,23 @@ describe.each(['true', 'false'])('log (isCI = %s)', (isCI) => {
 
 			expect(output.buffer).toMatchSnapshot();
 		});
+
+		test('renders empty lines correctly', () => {
+			prompts.log.message('foo\n\nbar', {
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders empty lines with guide disabled', () => {
+			prompts.log.message('foo\n\nbar', {
+				withGuide: false,
+				output,
+			});
+
+			expect(output.buffer).toMatchSnapshot();
+		});
 	});
 
 	describe('info', () => {

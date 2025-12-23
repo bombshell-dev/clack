@@ -49,7 +49,7 @@ export const log = {
 				if (ln.length > 0) {
 					parts.push(`${secondaryPrefix}${ln}`);
 				} else {
-					parts.push(hasGuide ? '' : secondarySymbol);
+					parts.push(hasGuide ? secondarySymbol : '');
 				}
 			}
 		}
