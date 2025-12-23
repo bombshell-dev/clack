@@ -16,6 +16,26 @@ exports[`log (isCI = false) > info > renders info message 1`] = `
 ]
 `;
 
+exports[`log (isCI = false) > message > renders empty lines correctly 1`] = `
+[
+  "[90m│[39m
+[90m│[39m  foo
+[90m│[39m
+[90m│[39m  bar
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders empty lines with guide disabled 1`] = `
+[
+  "
+foo
+
+bar
+",
+]
+`;
+
 exports[`log (isCI = false) > message > renders empty message correctly 1`] = `
 [
   "[90m│[39m
@@ -133,6 +153,26 @@ exports[`log (isCI = true) > info > renders info message 1`] = `
 [
   "[90m│[39m
 [34m●[39m  info message
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders empty lines correctly 1`] = `
+[
+  "[90m│[39m
+[90m│[39m  foo
+[90m│[39m
+[90m│[39m  bar
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders empty lines with guide disabled 1`] = `
+[
+  "
+foo
+
+bar
 ",
 ]
 `;
