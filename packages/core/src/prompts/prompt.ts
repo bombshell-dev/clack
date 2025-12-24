@@ -16,6 +16,7 @@ import {
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
+	usage?: boolean | string;
 	initialValue?: any;
 	initialUserInput?: string;
 	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
