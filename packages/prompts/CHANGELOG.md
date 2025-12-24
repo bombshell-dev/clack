@@ -1,5 +1,12 @@
 # @clack/prompts
 
+## 1.0.0-alpha.9
+
+### Patch Changes
+
+- f952592: Fixes missing guide when rendering empty log lines.
+- 372b526: Add `clear` method to spinner for stopping and clearing.
+
 ## 1.0.0-alpha.8
 
 ### Patch Changes
