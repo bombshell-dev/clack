@@ -85,9 +85,11 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
-		filter: opts.filter ?? ((search: string, opt: Option<Value>) => {
-			return getFilteredOption(search, opt);
-		}),
+		filter:
+			opts.filter ??
+			((search: string, opt: Option<Value>) => {
+				return getFilteredOption(search, opt);
+			}),
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
@@ -243,9 +245,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
 		multiple: true,
-		filter: opts.filter ?? ((search, opt) => {
-			return getFilteredOption(search, opt);
-		}),
+		filter:
+			opts.filter ??
+			((search, opt) => {
+				return getFilteredOption(search, opt);
+			}),
 		validate: () => {
 			if (opts.required && prompt.selectedValues.length === 0) {
 				return 'Please select at least one item';
