@@ -62,6 +62,11 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * Validates the value
 	 */
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
+	/**
+	 * Custom filter function to match options against search input.
+	 * If not provided, a default filter that matches label, hint, and value is used.
+	 */
+	filter?: (search: string, option: Option<Value>) => boolean;
 }
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
@@ -80,9 +85,9 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
-		filter: (search: string, opt: Option<Value>) => {
+		filter: opts.filter ?? ((search: string, opt: Option<Value>) => {
 			return getFilteredOption(search, opt);
-		},
+		}),
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
@@ -238,9 +243,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
 		multiple: true,
-		filter: (search, opt) => {
+		filter: opts.filter ?? ((search, opt) => {
 			return getFilteredOption(search, opt);
-		},
+		}),
 		validate: () => {
 			if (opts.required && prompt.selectedValues.length === 0) {
 				return 'Please select at least one item';

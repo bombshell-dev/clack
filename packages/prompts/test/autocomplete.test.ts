@@ -297,4 +297,86 @@ describe('autocompleteMultiselect', () => {
 		expect(value).toEqual(['banana', 'cherry']);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('supports custom filter function', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			input,
+			output,
+			// Custom filter that only matches exact prefix
+			filter: (search, option) => {
+				const label = option.label ?? String(option.value ?? '');
+				return label.toLowerCase().startsWith(search.toLowerCase());
+			},
+		});
+
+		// Type 'a' - should match 'Apple' only (not 'Banana' which contains 'a')
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toEqual(['apple']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+});
+
+describe('autocomplete with custom filter', () => {
+	let input: MockReadable;
+	let output: MockWritable;
+	const testOptions = [
+		{ value: 'apple', label: 'Apple' },
+		{ value: 'banana', label: 'Banana' },
+		{ value: 'cherry', label: 'Cherry' },
+	];
+
+	beforeEach(() => {
+		input = new MockReadable();
+		output = new MockWritable();
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
+	test('uses custom filter function when provided', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+			// Custom filter that only matches exact prefix
+			filter: (search, option) => {
+				const label = option.label ?? String(option.value ?? '');
+				return label.toLowerCase().startsWith(search.toLowerCase());
+			},
+		});
+
+		// Type 'a' - should match 'Apple' only (not 'Banana' which contains 'a')
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toBe('apple');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('falls back to default filter when not provided', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		// Type 'a' - default filter should match both 'Apple' and 'Banana'
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		// First match should be selected
+		expect(value).toBe('apple');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
