@@ -98,10 +98,9 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			// Title and message display
 			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
 			const userInput = this.userInput;
-			const valueAsString = String(this.value ?? '');
 			const options = this.options;
 			const placeholder = opts.placeholder;
-			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
+			const showPlaceholder = userInput === '' && placeholder !== undefined;
 
 			// Handle different states
 			switch (this.state) {

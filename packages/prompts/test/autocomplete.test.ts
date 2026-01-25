@@ -225,6 +225,22 @@ describe('autocomplete', () => {
 		await result;
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('placeholder is shown if set', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'Type to search...',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'g', { name: 'g' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(output.buffer).toMatchSnapshot();
+		expect(value).toBe('grape');
+	});
 });
 
 describe('autocompleteMultiselect', () => {
