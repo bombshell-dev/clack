@@ -1,5 +1,18 @@
 # @clack/prompts
 
+## 1.0.0-alpha.10
+
+### Minor Changes
+
+- 415410b: This adds a custom filter function to autocompleteMultiselect. It could be used, for example, to support fuzzy searching logic.
+
+### Patch Changes
+
+- 55eb280: Fix placeholder rendering when using autocomplete.
+- 68dbf9b: select-key: Fixed wrapping and added new `caseSensitive` option
+- Updated dependencies [68dbf9b]
+  - @clack/core@1.0.0-alpha.8
+
 ## 1.0.0-alpha.9
 
 ### Patch Changes
