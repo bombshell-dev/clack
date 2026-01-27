@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.0.0-alpha.8
+
+### Patch Changes
+
+- 68dbf9b: select-key: Fixed wrapping and added new `caseSensitive` option
+
 ## 1.0.0-alpha.7
 
 ### Patch Changes

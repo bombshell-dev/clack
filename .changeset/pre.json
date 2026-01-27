@@ -8,10 +8,12 @@
     "@clack/prompts": "0.10.0"
   },
   "changesets": [
+    "afraid-rabbits-grin",
     "afraid-socks-deny",
     "afraid-worms-help",
     "better-hotels-fall",
     "bright-hornets-destroy",
+    "brown-banks-play",
     "busy-baths-work",
     "calm-trains-camp",
     "chatty-islands-move",
@@ -69,6 +71,7 @@
     "tall-keys-allow",
     "tasty-candies-tie",
     "thin-socks-travel",
+    "three-boxes-follow",
     "three-ideas-refuse",
     "tough-crews-flow",
     "upset-showers-grow",
