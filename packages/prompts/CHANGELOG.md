@@ -1,172 +1,6 @@
 # @clack/prompts
 
-## 1.0.0-alpha.10
-
-### Minor Changes
-
-- 415410b: This adds a custom filter function to autocompleteMultiselect. It could be used, for example, to support fuzzy searching logic.
-
-### Patch Changes
-
-- 55eb280: Fix placeholder rendering when using autocomplete.
-- 68dbf9b: select-key: Fixed wrapping and added new `caseSensitive` option
-- Updated dependencies [68dbf9b]
-  - @clack/core@1.0.0-alpha.8
-
-## 1.0.0-alpha.9
-
-### Patch Changes
-
-- f952592: Fixes missing guide when rendering empty log lines.
-- 372b526: Add `clear` method to spinner for stopping and clearing.
-
-## 1.0.0-alpha.8
-
-### Patch Changes
-
-- 43aed55: Change styling of disabled multi-select options to have strikethrough.
-- 2feaebb: Fix duplicated logs when scrolling through options with multiline messages by calculating `rowPadding` dynamically based on actual rendered lines instead of using a hardcoded value.
-- 42adff8: fix: add missing guide line in autocomplete-multiselect
-- 8e2e30a: fix: fix autocomplete bar color when validate
-- 9b92161: Show symbol when withGuide is true for log messages
-
-## 1.0.0-alpha.7
-
-### Minor Changes
-
-- 38019c7: Updates the API for stopping spinners and progress bars to be clearer
-
-  Previously, both the spinner and progress bar components used a single `stop` method that accepted a code to indicate success, cancellation, or error. This update separates these into distinct methods: `stop()`, `cancel()`, and `error()`:
-
-  ```diff
-  const spinner = prompts.spinner();
-  spinner.start();
-
-  // Cancelling a spinner
-  - spinner.stop(undefined, 1);
-  + spinner.cancel();
-
-  // Stopping with an error
-  - spinner.stop(undefined, 2);
-  + spinner.error();
-  ```
-
-  As before, you can pass a message to each method to customize the output displayed:
-
-  ```js
-  spinner.cancel("Operation cancelled by user");
-  progressBar.error("An error occurred during processing");
-  ```
-
-### Patch Changes
-
-- 4d1d83b: Fixes rendering of multi-line messages and options in select prompt.
-- 6176ced: Add withGuide support to note prompt
-- 69681ea: Strip destructive ANSI codes from task log messages.
-- b0fa7d8: Add support for wrapped messages in multi line prompts
-- 7530af0: Fixes wrapping of cancelled and success messages of select prompt
-- acc4c3a: Add a new `withGuide` option to all prompts to disable the default clack border
-- Updated dependencies [0718b07]
-- Updated dependencies [4ba2d78]
-- Updated dependencies [acc4c3a]
-  - @clack/core@1.0.0-alpha.7
-
-## 1.0.0-alpha.6
-
-### Minor Changes
-
-- 8409f2c: feat: add styleFrame option for spinner
-
-### Patch Changes
-
-- aea4573: Clamp scrolling windows to 5 rows.
-- b103ad3: Allow disabled options in multi-select and select prompts.
-- Updated dependencies [b103ad3]
-  - @clack/core@1.0.0-alpha.6
-
-## 1.0.0-alpha.5
-
-### Minor Changes
-
-- 55645c2: Support wrapping autocomplete and select prompts.
-
-### Patch Changes
-
-- 9999adf: fix note component overflow bug
-- 2839c66: fix(note): hard wrap text to column limit
-- 71b5029: Add missing nullish checks around values.
-- d25f6d0: fix(note, box): handle CJK correctly
-- 0b852e1: Handle `stop` calls on spinners which have not yet been started.
-- 09e596c: refactor(progress): remove unnecessary return statement in start function
-- 2310b43: Allow custom writables as output stream.
-- Updated dependencies [71b5029]
-- Updated dependencies [55645c2]
-- Updated dependencies [2310b43]
-  - @clack/core@1.0.0-alpha.5
-
-## 1.0.0-alpha.4
-
-### Patch Changes
-
-- 7b009df: Fix spinner clearing too many lines upwards when non-wrapping.
-- ae84dd0: Update key binding text to show tab/space when navigating, and tab otherwise.
-- Updated dependencies [d98e033]
-  - @clack/core@1.0.0-alpha.4
-
-## 1.0.0-alpha.3
-
-### Minor Changes
-
-- 76fd17f: Added new `box` prompt for rendering boxed text, similar a note.
-- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
-
-### Patch Changes
-
-- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
-- 4c89dd7: chore: use more accurate type to replace any in group select
-- Updated dependencies [1a45f93]
-- Updated dependencies [1604f97]
-  - @clack/core@1.0.0-alpha.3
-
-## 1.0.0-alpha.2
-
-### Minor Changes
-
-- f10071e: Using the `group` method, task logs can now have groups which themselves can have scrolling windows of logs.
-
-### Patch Changes
-
-- 282b39e: Wrap spinner output to allow for multi-line/wrapped messages.
-- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
-- 17d3650: Use a default import for picocolors to avoid run time errors in some environments.
-- Updated dependencies [7df841d]
-  - @clack/core@1.0.0-alpha.2
-
-## 1.0.0-alpha.1
-
-### Minor Changes
-
-- 7bc3301: Prompts now have a `userInput` stored separately from their `value`.
-- 2837845: Adds suggestion and path prompts
-- 9e5bc6c: Add support for signals in prompts, allowing them to be aborted.
-- df4eea1: Remove `suggestion` prompt and change `path` prompt to be an autocomplete prompt.
-- 9bd8072: Add a `required` option to autocomplete multiselect.
-
-### Patch Changes
-
-- bfe0dd3: Prevents placeholder from being used as input value in text prompts
-- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
-- Updated dependencies [bfe0dd3]
-- Updated dependencies [7bc3301]
-- Updated dependencies [2837845]
-- Updated dependencies [34f52fe]
-- Updated dependencies [94fee2a]
-- Updated dependencies [4f6b3c2]
-- Updated dependencies [df4eea1]
-- Updated dependencies [8ead5d3]
-  - @clack/core@1.0.0-alpha.1
-
-## 1.0.0-alpha.0
+## 1.0.0
 
 ### Major Changes
 
@@ -176,6 +10,10 @@
 
 ### Minor Changes
 
+- 415410b: This adds a custom filter function to autocompleteMultiselect. It could be used, for example, to support fuzzy searching logic.
+- 7bc3301: Prompts now have a `userInput` stored separately from their `value`.
+- 8409f2c: feat: add styleFrame option for spinner
+- 2837845: Adds suggestion and path prompts
 - 99c3530: Adds `format` option to the note prompt to allow formatting of individual lines
 - 0aaee4c: Added new `taskLog` prompt for log output which is cleared on success
 - 729bbb6: Add support for customizable spinner cancel and error messages. Users can now customize these messages either per spinner instance or globally via the `updateSettings` function to support multilingual CLIs.
@@ -207,26 +45,84 @@
   ```
 
 - 44df9af: Adds a new `groupSpacing` option to grouped multi-select prompts. If set to an integer greater than 0, it will add that number of new lines between each group.
+- 55645c2: Support wrapping autocomplete and select prompts.
+- 9e5bc6c: Add support for signals in prompts, allowing them to be aborted.
 - f2c2b89: Adds `AutocompletePrompt` to core with comprehensive tests and implement both `autocomplete` and `autocomplete-multiselect` components in prompts package.
+- 38019c7: Updates the API for stopping spinners and progress bars to be clearer
+
+  Previously, both the spinner and progress bar components used a single `stop` method that accepted a code to indicate success, cancellation, or error. This update separates these into distinct methods: `stop()`, `cancel()`, and `error()`:
+
+  ```diff
+  const spinner = prompts.spinner();
+  spinner.start();
+
+  // Cancelling a spinner
+  - spinner.stop(undefined, 1);
+  + spinner.cancel();
+
+  // Stopping with an error
+  - spinner.stop(undefined, 2);
+  + spinner.error();
+  ```
+
+  As before, you can pass a message to each method to customize the output displayed:
+
+  ```js
+  spinner.cancel("Operation cancelled by user");
+  progressBar.error("An error occurred during processing");
+  ```
+
 - c45b9fb: Adds support for detecting spinner cancellation via CTRL+C. This allows for graceful handling of user interruptions during long-running operations.
+- f10071e: Using the `group` method, task logs can now have groups which themselves can have scrolling windows of logs.
+- df4eea1: Remove `suggestion` prompt and change `path` prompt to be an autocomplete prompt.
+- 76fd17f: Added new `box` prompt for rendering boxed text, similar a note.
 - 9a09318: Adds new `progress` prompt to display a progess-bar
+- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
+- 9bd8072: Add a `required` option to autocomplete multiselect.
 - 19558b9: Added support for custom frames in spinner prompt
 
 ### Patch Changes
 
 - 46dc0a4: Fixes multiselect only shows hints on the first item in the options list. Now correctly shows hints for all selected options with hint property.
+- aea4573: Clamp scrolling windows to 5 rows.
+- bfe0dd3: Prevents placeholder from being used as input value in text prompts
+- 55eb280: Fix placeholder rendering when using autocomplete.
+- 4d1d83b: Fixes rendering of multi-line messages and options in select prompt.
+- 6176ced: Add withGuide support to note prompt
+- 7b009df: Fix spinner clearing too many lines upwards when non-wrapping.
+- 43aed55: Change styling of disabled multi-select options to have strikethrough.
 - 17342d2: Exposes a new `SpinnerResult` type to describe the return type of `spinner`
+- 282b39e: Wrap spinner output to allow for multi-line/wrapped messages.
+- 2feaebb: Fix duplicated logs when scrolling through options with multiline messages by calculating `rowPadding` dynamically based on actual rendered lines instead of using a hardcoded value.
+- 69681ea: Strip destructive ANSI codes from task log messages.
+- b0fa7d8: Add support for wrapped messages in multi line prompts
+- 9999adf: fix note component overflow bug
 - 6868c1c: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
+- 2839c66: fix(note): hard wrap text to column limit
 - 7a556ad: Updates all prompts to accept a custom `output` and `input` stream
+- 17d3650: Use a default import for picocolors to avoid run time errors in some environments.
 - 7cc8a55: Messages passed to the `stop` method of a spinner no longer have dots stripped.
+- b103ad3: Allow disabled options in multi-select and select prompts.
+- 71b5029: Add missing nullish checks around values.
+- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
+- f952592: Fixes missing guide when rendering empty log lines.
+- 372b526: Add `clear` method to spinner for stopping and clearing.
+- d25f6d0: fix(note, box): handle CJK correctly
+- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
+- 7530af0: Fixes wrapping of cancelled and success messages of select prompt
+- 4c89dd7: chore: use more accurate type to replace any in group select
+- 0b852e1: Handle `stop` calls on spinners which have not yet been started.
+- 42adff8: fix: add missing guide line in autocomplete-multiselect
+- 8e2e30a: fix: fix autocomplete bar color when validate
 - 2048eb1: Fix spinner's dots behavior with custom frames
-- Updated dependencies [729bbb6]
-- Updated dependencies [6868c1c]
-- Updated dependencies [a4f5034]
-- Updated dependencies [c713fd5]
-- Updated dependencies [a36292b]
-- Updated dependencies [f2c2b89]
-  - @clack/core@1.0.0-alpha.0
+- acc4c3a: Add a new `withGuide` option to all prompts to disable the default clack border
+- 9b92161: Show symbol when withGuide is true for log messages
+- 68dbf9b: select-key: Fixed wrapping and added new `caseSensitive` option
+- 09e596c: refactor(progress): remove unnecessary return statement in start function
+- 2310b43: Allow custom writables as output stream.
+- ae84dd0: Update key binding text to show tab/space when navigating, and tab otherwise.
+- Updated dependency on `@clack/core` to `1.0.0`
 
 ## 0.10.0
 
