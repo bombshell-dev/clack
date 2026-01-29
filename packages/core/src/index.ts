@@ -14,6 +14,8 @@ export type { SelectOptions } from './prompts/select.js';
 export { default as SelectPrompt } from './prompts/select.js';
 export type { SelectKeyOptions } from './prompts/select-key.js';
 export { default as SelectKeyPrompt } from './prompts/select-key.js';
+export type { SpinnerOptions } from './prompts/spinner.js';
+export { default as SpinnerPrompt } from './prompts/spinner.js';
 export type { TextOptions } from './prompts/text.js';
 export { default as TextPrompt } from './prompts/text.js';
 export type { ClackState as State } from './types.js';
