@@ -1,0 +1,268 @@
+import color from 'picocolors';
+import { cursor } from 'sisteransi';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { default as DatePrompt } from '../../src/prompts/date.js';
+import { isCancel } from '../../src/utils/index.js';
+import { MockReadable } from '../mock-readable.js';
+import { MockWritable } from '../mock-writable.js';
+
+describe('DatePrompt', () => {
+	let input: MockReadable;
+	let output: MockWritable;
+
+	beforeEach(() => {
+		input = new MockReadable();
+		output = new MockWritable();
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
+	test('renders render() result', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+		instance.prompt();
+		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
+	});
+
+	test('initial value displays correctly', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15',
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('2025/01/15');
+		expect(instance.value).to.equal('2025-01-15');
+	});
+
+	test('left/right navigates between segments', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15',
+		});
+		instance.prompt();
+		expect(instance.cursor).to.equal(0); // year start
+		// Move within year (0->1->2->3), then right from end goes to month
+		for (let i = 0; i < 4; i++) {
+			input.emit('keypress', undefined, { name: 'right' });
+		}
+		expect(instance.cursor).to.equal(5); // month start
+		for (let i = 0; i < 2; i++) {
+			input.emit('keypress', undefined, { name: 'right' });
+		}
+		expect(instance.cursor).to.equal(8); // day start
+		input.emit('keypress', undefined, { name: 'left' });
+		expect(instance.cursor).to.equal(5); // month start
+	});
+
+	test('up/down increments and decrements segment', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15',
+		});
+		instance.prompt();
+		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
+		input.emit('keypress', undefined, { name: 'up' });
+		expect(instance.userInput).to.equal('2025/02/15');
+		input.emit('keypress', undefined, { name: 'down' });
+		expect(instance.userInput).to.equal('2025/01/15');
+	});
+
+	test('digit-by-digit editing from left to right', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15',
+		});
+		instance.prompt();
+		expect(instance.cursor).to.equal(0); // year start
+		// Type 2,0,2,3 to change 2025 -> 2023 (edit digit by digit)
+		input.emit('keypress', '2', { name: undefined, sequence: '2' });
+		input.emit('keypress', '0', { name: undefined, sequence: '0' });
+		input.emit('keypress', '2', { name: undefined, sequence: '2' });
+		input.emit('keypress', '3', { name: undefined, sequence: '3' });
+		expect(instance.userInput).to.equal('2023/01/15');
+		expect(instance.cursor).to.equal(3); // end of year segment
+	});
+
+	test('backspace clears entire segment at any cursor position', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-12-21',
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('2025/12/21');
+		expect(instance.cursor).to.equal(0); // year start
+		// Backspace at first position clears whole year segment
+		input.emit('keypress', undefined, { name: 'backspace', sequence: '\x7f' });
+		expect(instance.userInput).to.equal('____/12/21');
+		expect(instance.cursor).to.equal(0);
+	});
+
+	test('backspace clears segment when cursor at first char (2___)', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+		instance.prompt();
+		// Type "2" to get "2___"
+		input.emit('keypress', '2', { name: undefined, sequence: '2' });
+		expect(instance.userInput).to.equal('2___/__/__');
+		expect(instance.cursor).to.equal(1); // after "2"
+		// Move to first char (position 0)
+		input.emit('keypress', undefined, { name: 'left' });
+		expect(instance.cursor).to.equal(0);
+		// Backspace should clear whole segment - also test char-based detection
+		input.emit('keypress', '\x7f', { name: undefined, sequence: '\x7f' });
+		expect(instance.userInput).to.equal('____/__/__');
+		expect(instance.cursor).to.equal(0);
+	});
+
+	test('digit input updates segment and jumps to next when complete', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+		instance.prompt();
+		// Type year 2025 - left-to-right, jumps to month when year complete
+		for (const c of '2025') {
+			input.emit('keypress', c, { name: undefined, sequence: c });
+		}
+		expect(instance.userInput).to.equal('2025/__/__');
+		expect(instance.cursor).to.equal(5); // jumped to month segment start
+	});
+
+	test('submit returns ISO string for valid date', async () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-31',
+		});
+		const resultPromise = instance.prompt();
+		input.emit('keypress', undefined, { name: 'return' });
+		const result = await resultPromise;
+		expect(result).to.equal('2025-01-31');
+	});
+
+	test('can cancel', async () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15',
+		});
+		const resultPromise = instance.prompt();
+		input.emit('keypress', 'escape', { name: 'escape' });
+		const result = await resultPromise;
+		expect(isCancel(result)).toBe(true);
+	});
+
+	test('defaultValue used when invalid date submitted', async () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			defaultValue: '2025-06-15',
+		});
+		const resultPromise = instance.prompt();
+		input.emit('keypress', undefined, { name: 'return' });
+		const result = await resultPromise;
+		expect(result).to.equal('2025-06-15');
+	});
+
+	test('supports MM/DD/YYYY format', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			format: 'MM/DD/YYYY',
+			initialValue: '2025-01-15',
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('01/15/2025');
+	});
+
+	test('rejects invalid month and shows inline error', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15', // month is 01
+		});
+		instance.prompt();
+		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month (cursor at start)
+		input.emit('keypress', '3', { name: undefined, sequence: '3' }); // 0→3 gives 31, invalid
+		expect(instance.userInput).to.equal('2025/01/15'); // stayed - 31 rejected
+		expect(instance.inlineError).to.equal('There are only 12 months in a year');
+	});
+
+	test('rejects invalid day and shows inline error', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: '2025-01-15', // January has 31 days
+		});
+		instance.prompt();
+		for (let i = 0; i < 6; i++) input.emit('keypress', undefined, { name: 'right' }); // move to day (cursor at start)
+		input.emit('keypress', '4', { name: undefined, sequence: '4' }); // 1→4 gives 45, invalid for Jan
+		expect(instance.userInput).to.equal('2025/01/15'); // stayed - 45 rejected
+		expect(instance.inlineError).to.contain('31 days');
+		expect(instance.inlineError).to.contain('January');
+	});
+
+	test('supports DD/MM/YYYY format', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			format: 'DD/MM/YYYY',
+			initialValue: '2025-01-15',
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('15/01/2025');
+	});
+
+	describe('userInputWithCursor', () => {
+		test('highlights character at cursor', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				initialValue: '2025-01-15',
+			});
+			instance.prompt();
+			for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
+			const display = instance.userInputWithCursor;
+			expect(display).to.contain(color.inverse('0')); // first digit of "01"
+		});
+
+		test('returns value on submit', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				initialValue: '2025-01-15',
+			});
+			instance.prompt();
+			input.emit('keypress', undefined, { name: 'return' });
+			expect(instance.userInputWithCursor).to.equal('2025/01/15');
+		});
+	});
+});
