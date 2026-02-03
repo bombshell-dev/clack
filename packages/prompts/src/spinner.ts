@@ -127,12 +127,16 @@ export const spinner = ({
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	};
 
+	const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block({ output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
-		output.write(`${color.gray(S_BAR)}\n`);
+		if (hasGuide) {
+			output.write(`${color.gray(S_BAR)}\n`);
+		}
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		registerHooks();
