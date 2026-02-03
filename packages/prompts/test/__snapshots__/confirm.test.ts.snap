@@ -139,6 +139,26 @@ exports[`confirm (isCI = false) > renders message with choices 1`] = `
 ]
 `;
 
+exports[`confirm (isCI = false) > renders options in vertical alignment 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes
+[36m│[39m  [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`confirm (isCI = false) > right arrow moves to next choice 1`] = `
 [
   "<cursor.hide>",
@@ -292,6 +312,26 @@ exports[`confirm (isCI = true) > renders message with choices 1`] = `
 [36m└[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mYes[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`confirm (isCI = true) > renders options in vertical alignment 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [32m●[39m Yes
+[36m│[39m  [2m○[22m [2mNo[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo

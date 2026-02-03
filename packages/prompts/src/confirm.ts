@@ -14,6 +14,7 @@ export interface ConfirmOptions extends CommonOptions {
 	active?: string;
 	inactive?: string;
 	initialValue?: boolean;
+	vertical?: boolean;
 }
 export const confirm = (opts: ConfirmOptions) => {
 	const active = opts.active ?? 'Yes';
@@ -41,7 +42,7 @@ export const confirm = (opts: ConfirmOptions) => {
 						this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${active}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
-					} ${color.dim('/')} ${
+					}${opts.vertical ? `\n${color.cyan(S_BAR)}  ` : ` ${color.dim('/')} `}${
 						!this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
