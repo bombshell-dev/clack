@@ -1,4 +1,4 @@
-import { PasswordPrompt } from '@clack/core';
+import { PasswordPrompt, settings } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from './common.js';
 
@@ -16,7 +16,8 @@ export const password = (opts: PasswordOptions) => {
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+			const title = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
 			const masked = this.masked;
 
@@ -26,22 +27,27 @@ export const password = (opts: PasswordOptions) => {
 					if (opts.clearOnError) {
 						this.clear();
 					}
-					return `${title.trim()}\n${color.yellow(S_BAR)}${maskedText}\n${color.yellow(
-						S_BAR_END
-					)}  ${color.yellow(this.error)}\n`;
+					const errorPrefix = hasGuide ? `${color.yellow(S_BAR)}` : '';
+					const errorPrefixEnd = hasGuide ? color.yellow(S_BAR_END) : '';
+					return `${title.trim()}\n${errorPrefix}${maskedText}\n${errorPrefixEnd}  ${color.yellow(this.error)}\n`;
 				}
 				case 'submit': {
 					const maskedText = masked ? `  ${color.dim(masked)}` : '';
-					return `${title}${color.gray(S_BAR)}${maskedText}`;
+					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
+					return `${title}${submitPrefix}${maskedText}`;
 				}
 				case 'cancel': {
 					const maskedText = masked ? `  ${color.strikethrough(color.dim(masked))}` : '';
-					return `${title}${color.gray(S_BAR)}${maskedText}${
-						masked ? `\n${color.gray(S_BAR)}` : ''
+					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
+					return `${title}${cancelPrefix}${maskedText}${
+						masked && hasGuide ? `\n${color.gray(S_BAR)}` : ''
 					}`;
 				}
-				default:
-					return `${title}${color.cyan(S_BAR)}  ${userInput}\n${color.cyan(S_BAR_END)}\n`;
+				default: {
+					const defaultPrefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
+					return `${title}${defaultPrefix}${userInput}\n${defaultPrefixEnd}\n`;
+				}
 			}
 		},
 	}).prompt() as Promise<string | symbol>;

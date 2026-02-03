@@ -1,3 +1,4 @@
+import { updateSettings } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -23,6 +24,7 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		updateSettings({ withGuide: true });
 	});
 
 	test('renders message', async () => {
@@ -147,6 +149,37 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		const value = await result;
 
 		expect(value).toBe('yz');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('withGuide: false removes guide', async () => {
+		const result = prompts.password({
+			message: 'foo',
+			withGuide: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('global withGuide: false removes guide', async () => {
+		updateSettings({ withGuide: false });
+
+		const result = prompts.password({
+			message: 'foo',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
 		expect(output.buffer).toMatchSnapshot();
 	});
 });
