@@ -27,7 +27,7 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			const title = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.value ? active : inactive;
 
@@ -49,7 +49,7 @@ export const confirm = (opts: ConfirmOptions) => {
 						this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${active}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
-					}${opts.vertical ? `\n${color.cyan(S_BAR)}  ` : ` ${color.dim('/')} `}${
+					}${opts.vertical ? (hasGuide ? `\n${color.cyan(S_BAR)}  ` : '\n') : ` ${color.dim('/')} `}${
 						!this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
