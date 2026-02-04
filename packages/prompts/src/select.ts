@@ -113,7 +113,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			const titlePrefix = `${symbol(this.state)}  `;
 			const titlePrefixBar = `${symbolBar(this.state)}  `;
 			const messageLines = wrapTextWithPrefix(

@@ -40,7 +40,7 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 		initialValue: opts.initialValue,
 		caseSensitive: opts.caseSensitive,
 		render() {
-			const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			const title = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 
 			switch (this.state) {

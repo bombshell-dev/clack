@@ -28,7 +28,7 @@ export const log = {
 		}: LogMessageOptions = {}
 	) => {
 		const parts: string[] = [];
-		const hasGuide = (withGuide ?? settings.withGuide) !== false;
+		const hasGuide = withGuide ?? settings.withGuide;
 		const spacingString = !hasGuide ? '' : secondarySymbol;
 		const prefix = !hasGuide ? '' : `${symbol}  `;
 		const secondaryPrefix = !hasGuide ? '' : `${secondarySymbol}  `;
