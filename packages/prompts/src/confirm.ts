@@ -1,4 +1,4 @@
-import { ConfirmPrompt } from '@clack/core';
+import { ConfirmPrompt, settings } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -27,18 +27,25 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+			const title = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
+				case 'submit': {
+					const submitPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					return `${title}${submitPrefix}${color.dim(value)}`;
+				}
+				case 'cancel': {
+					const cancelPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					return `${title}${cancelPrefix}${color.strikethrough(
 						color.dim(value)
-					)}\n${color.gray(S_BAR)}`;
+					)}${hasGuide ? `\n${color.gray(S_BAR)}` : ''}`;
+				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					const defaultPrefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
+					return `${title}${defaultPrefix}${
 						this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${active}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
@@ -46,7 +53,7 @@ export const confirm = (opts: ConfirmOptions) => {
 						!this.value
 							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
 							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
-					}\n${color.cyan(S_BAR_END)}\n`;
+					}\n${defaultPrefixEnd}\n`;
 				}
 			}
 		},

@@ -1,4 +1,4 @@
-import { SelectPrompt, wrapTextWithPrefix } from '@clack/core';
+import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -113,6 +113,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
+			const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
 			const titlePrefix = `${symbol(this.state)}  `;
 			const titlePrefixBar = `${symbolBar(this.state)}  `;
 			const messageLines = wrapTextWithPrefix(
@@ -121,11 +122,11 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				titlePrefixBar,
 				titlePrefix
 			);
-			const title = `${color.gray(S_BAR)}\n${messageLines}\n`;
+			const title = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${messageLines}\n`;
 
 			switch (this.state) {
 				case 'submit': {
-					const submitPrefix = `${color.gray(S_BAR)}  `;
+					const submitPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'selected'),
@@ -134,19 +135,20 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					return `${title}${wrappedLines}`;
 				}
 				case 'cancel': {
-					const cancelPrefix = `${color.gray(S_BAR)}  `;
+					const cancelPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'cancelled'),
 						cancelPrefix
 					);
-					return `${title}${wrappedLines}\n${color.gray(S_BAR)}`;
+					return `${title}${wrappedLines}${hasGuide ? `\n${color.gray(S_BAR)}` : ''}`;
 				}
 				default: {
-					const prefix = `${color.cyan(S_BAR)}  `;
+					const prefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
+					const prefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
 					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
-					const footerLineCount = 2; // S_BAR_END + trailing newline
+					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline (or just trailing newline)
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
@@ -156,7 +158,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						rowPadding: titleLineCount + footerLineCount,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${prefixEnd}\n`;
 				}
 			}
 		},

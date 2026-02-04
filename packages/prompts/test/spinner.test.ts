@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:stream';
-import { getColumns } from '@clack/core';
+import { getColumns, updateSettings } from '@clack/core';
 import color from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
@@ -26,6 +26,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 	afterEach(() => {
 		vi.useRealTimers();
 		vi.restoreAllMocks();
+		updateSettings({ withGuide: true });
 	});
 
 	test('returns spinner API', () => {
@@ -422,6 +423,32 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 		result.start('Testing');
 
 		controller.abort();
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('withGuide: false removes guide', () => {
+		const result = prompts.spinner({ output, withGuide: false });
+
+		result.start('foo');
+
+		vi.advanceTimersByTime(80);
+
+		result.stop();
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('global withGuide: false removes guide', () => {
+		updateSettings({ withGuide: false });
+
+		const result = prompts.spinner({ output });
+
+		result.start('foo');
+
+		vi.advanceTimersByTime(80);
+
+		result.stop();
 
 		expect(output.buffer).toMatchSnapshot();
 	});
