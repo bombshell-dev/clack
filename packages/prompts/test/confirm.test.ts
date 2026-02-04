@@ -74,6 +74,22 @@ describe.each(['true', 'false'])('confirm (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('renders options in vertical alignment', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			vertical: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('right arrow moves to next choice', async () => {
 		const result = prompts.confirm({
 			message: 'foo',
