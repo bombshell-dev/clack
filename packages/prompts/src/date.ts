@@ -1,5 +1,5 @@
-import { DatePrompt, settings } from '@clack/core';
 import type { DateFormatConfig, DateParts } from '@clack/core';
+import { DatePrompt, settings } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
@@ -33,6 +33,8 @@ export interface DateOptions extends CommonOptions {
 	format?: DateFormat;
 	defaultValue?: Date;
 	initialValue?: Date;
+	minDate?: Date;
+	maxDate?: Date;
 	validate?: (value: Date | undefined) => string | Error | undefined;
 }
 
@@ -43,11 +45,20 @@ export const date = (opts: DateOptions) => {
 		formatConfig,
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
+		minDate: opts.minDate,
+		maxDate: opts.maxDate,
 		validate(value: Date | undefined) {
 			if (value === undefined) {
 				if (opts.defaultValue !== undefined) return undefined;
 				if (validate) return validate(value);
 				return 'Please enter a valid date';
+			}
+			const dateOnly = (d: Date) => d.toISOString().slice(0, 10);
+			if (opts.minDate && dateOnly(value) < dateOnly(opts.minDate)) {
+				return settings.date.messages.afterMin(opts.minDate);
+			}
+			if (opts.maxDate && dateOnly(value) > dateOnly(opts.maxDate)) {
+				return settings.date.messages.beforeMax(opts.maxDate);
 			}
 			if (validate) return validate(value);
 			return undefined;
@@ -61,7 +72,13 @@ export const date = (opts: DateOptions) => {
 			const title = `${titlePrefix}${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
 			const value =
-				this.value instanceof Date ? this.value.toISOString().slice(0, 10) : '';
+				this.value instanceof Date
+					? formatConfig.format({
+							year: String(this.value.getFullYear()).padStart(4, '0'),
+							month: String(this.value.getMonth() + 1).padStart(2, '0'),
+							day: String(this.value.getDate()).padStart(2, '0'),
+						})
+					: '';
 
 			switch (this.state) {
 				case 'error': {
@@ -85,10 +102,9 @@ export const date = (opts: DateOptions) => {
 					const defaultPrefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
 					// Inline validation: extra bar (│) below date, bar end (└) only at the end
 					const inlineErrorBar = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
-					const inlineError =
-						(this as { inlineError?: string }).inlineError
-							? `\n${inlineErrorBar}${color.yellow((this as { inlineError: string }).inlineError)}`
-							: '';
+					const inlineError = (this as { inlineError?: string }).inlineError
+						? `\n${inlineErrorBar}${color.yellow((this as { inlineError: string }).inlineError)}`
+						: '';
 					return `${title}${defaultPrefix}${userInput}${inlineError}\n${defaultPrefixEnd}\n`;
 				}
 			}

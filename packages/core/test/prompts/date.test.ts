@@ -117,6 +117,66 @@ describe('DatePrompt', () => {
 		expect(instance.userInput).to.equal('2025/01/15');
 	});
 
+	test('up/down on one segment leaves other segments blank', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			formatConfig: YYYY_MM_DD,
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('____/__/__');
+		input.emit('keypress', undefined, { name: 'up' }); // up on year (first segment)
+		expect(instance.userInput).to.equal('1000/__/__');
+		input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' }); // move to month
+		input.emit('keypress', undefined, { name: 'up' });
+		expect(instance.userInput).to.equal('1000/01/__');
+	});
+
+	test('with minDate/maxDate, up on blank segment starts at min', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			formatConfig: YYYY_MM_DD,
+			minDate: d('2025-03-10'),
+			maxDate: d('2025-11-20'),
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('____/__/__');
+		input.emit('keypress', undefined, { name: 'up' });
+		expect(instance.userInput).to.equal('2025/__/__');
+		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'up' });
+		expect(instance.userInput).to.equal('2025/03/__');
+		for (let i = 0; i < 2; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'up' });
+		expect(instance.userInput).to.equal('2025/03/10');
+	});
+
+	test('with minDate/maxDate, down on blank segment starts at max', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			formatConfig: YYYY_MM_DD,
+			minDate: d('2025-03-10'),
+			maxDate: d('2025-11-20'),
+		});
+		instance.prompt();
+		input.emit('keypress', undefined, { name: 'down' });
+		expect(instance.userInput).to.equal('2025/__/__');
+		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'down' });
+		expect(instance.userInput).to.equal('2025/11/__');
+		for (let i = 0; i < 2; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'down' });
+		expect(instance.userInput).to.equal('2025/11/20');
+	});
+
 	test('digit-by-digit editing from left to right', () => {
 		const instance = new DatePrompt({
 			input,

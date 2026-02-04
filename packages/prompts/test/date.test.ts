@@ -146,4 +146,26 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 		expect((value as Date).toISOString().slice(0, 10)).toBe('2025-01-15');
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('minDate shows error when date before min and submit', async () => {
+		const result = prompts.date({
+			message: 'Pick a date',
+			initialValue: d('2025-01-10'),
+			minDate: d('2025-01-15'),
+			input,
+			output,
+		});
+
+		input.emit('keypress', undefined, { name: 'return' });
+		await new Promise((r) => setImmediate(r));
+
+		const hasError = output.buffer.some(
+			(s) => typeof s === 'string' && s.includes('Date must be on or after')
+		);
+		expect(hasError).toBe(true);
+
+		input.emit('keypress', 'escape', { name: 'escape' });
+		const value = await result;
+		expect(prompts.isCancel(value)).toBe(true);
+	});
 });

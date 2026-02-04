@@ -15,11 +15,19 @@ export interface DateParts {
 	day: string;
 }
 
+const DEFAULT_SEGMENT_LABELS: Record<'year' | 'month' | 'day', string> = {
+	year: 'yyyy',
+	month: 'mm',
+	day: 'dd',
+};
+
 /** Format config passed from prompts package; core does not define presets */
 export interface DateFormatConfig {
 	segments: SegmentConfig[];
 	displayTemplate: string;
 	format: (parts: DateParts) => string;
+	/** Labels shown when segment is blank (e.g. yyyy, mm, dd). Default: { year: 'yyyy', month: 'mm', day: 'dd' } */
+	segmentLabels?: { year: string; month: string; day: string };
 }
 
 function displayToSegmentValues(display: string, config: DateFormatConfig): DateParts {
@@ -75,6 +83,53 @@ function clampSegment(
 	return Math.max(1, Math.min(daysInMonth, value || 1));
 }
 
+function datePartsUTC(d: Date): { year: number; month: number; day: number } {
+	return {
+		year: d.getUTCFullYear(),
+		month: d.getUTCMonth() + 1,
+		day: d.getUTCDate(),
+	};
+}
+
+function getSegmentBounds(
+	type: 'year' | 'month' | 'day',
+	context: { year: number; month: number; day: number },
+	minDate: Date | undefined,
+	maxDate: Date | undefined
+): { min: number; max: number } {
+	const { year, month } = context;
+	const minParts = minDate ? datePartsUTC(minDate) : null;
+	const maxParts = maxDate ? datePartsUTC(maxDate) : null;
+
+	if (type === 'year') {
+		const min = minParts ? minParts.year : 1000;
+		const max = maxParts ? maxParts.year : 9999;
+		return { min, max };
+	}
+	if (type === 'month') {
+		let min = 1;
+		let max = 12;
+		if (minParts && year && year >= minParts.year) {
+			if (year === minParts.year) min = minParts.month;
+		}
+		if (maxParts && year && year <= maxParts.year) {
+			if (year === maxParts.year) max = maxParts.month;
+		}
+		return { min, max };
+	}
+	// day
+	const daysInMonth = new Date(year || 2000, month || 1, 0).getDate();
+	let min = 1;
+	let max = daysInMonth;
+	if (minParts && year && month && year === minParts.year && month === minParts.month) {
+		min = minParts.day;
+	}
+	if (maxParts && year && month && year === maxParts.year && month === maxParts.month) {
+		max = maxParts.day;
+	}
+	return { min, max };
+}
+
 function toISOString(display: string, config: DateFormatConfig): string | undefined {
 	const { year, month, day } = parseDisplayString(display, config);
 	if (!year || year < 1000 || year > 9999) return undefined;
@@ -113,12 +168,15 @@ export interface DateOptions extends PromptOptions<Date, DatePrompt> {
 	formatConfig: DateFormatConfig;
 	defaultValue?: Date;
 	initialValue?: Date;
+	minDate?: Date;
+	maxDate?: Date;
 }
 
 export default class DatePrompt extends Prompt<Date> {
 	#config: DateFormatConfig;
-	/** Segment values as source of truth; display derived from this */
 	#segmentValues: DateParts;
+	#minDate: Date | undefined;
+	#maxDate: Date | undefined;
 
 	/** Inline validation message shown beneath input during editing (e.g. "There are only 12 months") */
 	inlineError = '';
@@ -135,30 +193,51 @@ export default class DatePrompt extends Prompt<Date> {
 	}
 
 	get userInputWithCursor() {
-		const userInput = this.#config.format(this.#segmentValues);
-		const sep = (ch: string) => (ch === '/' ? color.gray(ch) : ch);
+		const labels = this.#config.segmentLabels ?? DEFAULT_SEGMENT_LABELS;
+		const sep = color.gray('/');
 		if (this.state === 'submit') {
-			return userInput; // plain string for programmatic use (no ANSI)
+			return this.#config.format(this.#segmentValues);
 		}
-		let result = '';
-		for (let i = 0; i < userInput.length; i++) {
-			const ch = userInput[i];
-			if (i === this._cursor) {
-				result += ch === '_' ? color.inverse(' ') : color.inverse(ch);
+		const parts: string[] = [];
+		for (let i = 0; i < this.#config.segments.length; i++) {
+			if (i > 0) parts.push(sep);
+			const seg = this.#config.segments[i];
+			const val = this.#segmentValues[seg.type];
+			const isBlank = !val || val.replace(/_/g, '') === '';
+			if (isBlank) {
+				const label = labels[seg.type];
+				const cursorInThis = this._cursor >= seg.start && this._cursor < seg.start + seg.len;
+				if (cursorInThis) {
+					const posInSeg = this._cursor - seg.start;
+					for (let j = 0; j < label.length; j++) {
+						parts.push(j === posInSeg ? color.inverse(' ') : color.dim(label[j]));
+					}
+				} else {
+					parts.push(color.dim(label));
+				}
 			} else {
-				result += sep(ch); // keep '_' as-is for placeholders, grey '/'
+				for (let j = 0; j < val.length; j++) {
+					const globalIdx = seg.start + j;
+					if (globalIdx === this._cursor) {
+						parts.push(val[j] === '_' ? color.inverse(' ') : color.inverse(val[j]));
+					} else {
+						parts.push(val[j] === '_' ? color.dim(' ') : val[j]);
+					}
+				}
 			}
 		}
-		if (this._cursor >= userInput.length) {
-			result += '█';
+		if (this._cursor >= this.#config.displayTemplate.length) {
+			parts.push('█');
 		}
-		return result;
+		return parts.join('');
 	}
 
 	constructor(opts: DateOptions) {
 		const config = opts.formatConfig;
 		const initialDisplay = DatePrompt.#toDisplayString(
-			opts.initialValue ?? opts.defaultValue ?? (opts as { initialUserInput?: string }).initialUserInput,
+			opts.initialValue ??
+				opts.defaultValue ??
+				(opts as { initialUserInput?: string }).initialUserInput,
 			config
 		);
 		super(
@@ -170,6 +249,8 @@ export default class DatePrompt extends Prompt<Date> {
 		);
 		this.#config = config;
 		this.#segmentValues = displayToSegmentValues(initialDisplay, config);
+		this.#minDate = opts.minDate;
+		this.#maxDate = opts.maxDate;
 
 		this._setUserInput(initialDisplay);
 		const firstSeg = this.#config.segments[0];
@@ -255,27 +336,25 @@ export default class DatePrompt extends Prompt<Date> {
 		}
 
 		if (key === 'up' || key === 'down') {
-			const { year, month, day } = segmentValuesToParsed(this.#segmentValues);
+			const context = segmentValuesToParsed(this.#segmentValues);
 			const seg = ctx.segment;
-			const delta = key === 'up' ? 1 : -1;
+			const raw = this.#segmentValues[seg.type];
+			const isBlank = !raw || raw.replace(/_/g, '') === '';
+			const num = Number.parseInt((raw || '0').replace(/_/g, '0'), 10) || 0;
 
-			let newYear = year;
-			let newMonth = month;
-			let newDay = day;
+			const bounds = getSegmentBounds(seg.type, context, this.#minDate, this.#maxDate);
 
-			if (seg.type === 'year') {
-				newYear = clampSegment(year + delta, 'year', { year, month });
-			} else if (seg.type === 'month') {
-				newMonth = clampSegment(month + delta, 'month', { year, month });
+			let newNum: number;
+			if (isBlank) {
+				newNum = key === 'up' ? bounds.min : bounds.max;
 			} else {
-				newDay = clampSegment(day + delta, 'day', { year, month });
+				const delta = key === 'up' ? 1 : -1;
+				newNum = Math.max(bounds.min, Math.min(bounds.max, num + delta));
 			}
 
-			this.#segmentValues = {
-				year: String(newYear).padStart(4, '0'),
-				month: String(newMonth).padStart(2, '0'),
-				day: String(newDay).padStart(2, '0'),
-			};
+			const len = seg.len;
+			const newSegmentValue = String(newNum).padStart(len, '0');
+			this.#segmentValues = { ...this.#segmentValues, [seg.type]: newSegmentValue };
 			this.#refreshFromSegmentValues();
 		}
 	}
@@ -357,6 +436,6 @@ export default class DatePrompt extends Prompt<Date> {
 	#onFinalize(opts: DateOptions) {
 		const display = this.#config.format(this.#segmentValues);
 		const iso = toISOString(display, this.#config);
-		this.value = iso ? new Date(iso) : opts.defaultValue ?? undefined;
+		this.value = iso ? new Date(iso) : (opts.defaultValue ?? undefined);
 	}
 }
