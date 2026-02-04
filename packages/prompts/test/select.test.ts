@@ -1,3 +1,4 @@
+import { updateSettings } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -23,6 +24,7 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		updateSettings({ withGuide: true });
 	});
 
 	test('renders options and message', async () => {
@@ -302,6 +304,39 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		const value = await result;
 
 		expect(value).toBe('opt4');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('withGuide: false removes guide', async () => {
+		const result = prompts.select({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			withGuide: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('global withGuide: false removes guide', async () => {
+		updateSettings({ withGuide: false });
+
+		const result = prompts.select({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
 		expect(output.buffer).toMatchSnapshot();
 	});
 
