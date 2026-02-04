@@ -1,35 +1,55 @@
 import { DatePrompt, settings } from '@clack/core';
-import type { DateFormat } from '@clack/core';
+import type { DateFormatConfig, DateParts } from '@clack/core';
 import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
+
+export type DateFormat = 'YYYY/MM/DD' | 'MM/DD/YYYY' | 'DD/MM/YYYY';
+
+const formatters: Record<DateFormat, (parts: DateParts) => string> = {
+	'YYYY/MM/DD': (p) => `${p.year}/${p.month}/${p.day}`,
+	'MM/DD/YYYY': (p) => `${p.month}/${p.day}/${p.year}`,
+	'DD/MM/YYYY': (p) => `${p.day}/${p.month}/${p.year}`,
+};
+
+function buildFormatConfig(format: DateFormat): DateFormatConfig {
+	const formatFn = formatters[format];
+	const displayTemplate = formatFn({ year: '____', month: '__', day: '__' });
+	// Derive segment order from formatter output (e.g. "Y/M/D" → [year, month, day])
+	const marker = formatFn({ year: 'Y', month: 'M', day: 'D' });
+	const typeMap = { Y: 'year' as const, M: 'month' as const, D: 'day' as const };
+	const types = marker.split('/').map((c) => typeMap[c as keyof typeof typeMap]);
+	const parts = displayTemplate.split('/');
+	let start = 0;
+	const segments = parts.map((part, i) => {
+		const seg = { type: types[i], start, len: part.length };
+		start += part.length + 1;
+		return seg;
+	});
+	return { segments, displayTemplate, format: formatFn };
+}
 
 export interface DateOptions extends CommonOptions {
 	message: string;
 	format?: DateFormat;
-	defaultValue?: string | Date;
-	initialValue?: string | Date;
-	validate?: (value: string | undefined) => string | Error | undefined;
+	defaultValue?: Date;
+	initialValue?: Date;
+	validate?: (value: Date | undefined) => string | Error | undefined;
 }
 
 export const date = (opts: DateOptions) => {
 	const validate = opts.validate;
+	const formatConfig = buildFormatConfig(opts.format ?? 'YYYY/MM/DD');
 	return new DatePrompt({
-		format: opts.format ?? 'YYYY/MM/DD',
+		formatConfig,
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
-		validate(value) {
-			if (value === undefined || value === '') {
-				if (opts.defaultValue !== undefined) {
-					return undefined;
-				}
-				if (validate) {
-					return validate(value);
-				}
+		validate(value: Date | undefined) {
+			if (value === undefined) {
+				if (opts.defaultValue !== undefined) return undefined;
+				if (validate) return validate(value);
 				return 'Please enter a valid date';
 			}
-			if (validate) {
-				return validate(value);
-			}
+			if (validate) return validate(value);
 			return undefined;
 		},
 		signal: opts.signal,
@@ -40,7 +60,8 @@ export const date = (opts: DateOptions) => {
 			const titlePrefix = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
-			const value = this.value ?? '';
+			const value =
+				this.value instanceof Date ? this.value.toISOString().slice(0, 10) : '';
 
 			switch (this.state) {
 				case 'error': {
@@ -72,5 +93,5 @@ export const date = (opts: DateOptions) => {
 				}
 			}
 		},
-	}).prompt() as Promise<string | symbol>;
+	}).prompt() as Promise<Date | symbol>;
 };

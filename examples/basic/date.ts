@@ -2,23 +2,13 @@ import * as p from '@clack/prompts';
 import color from 'picocolors';
 
 async function main() {
-	const result = await p.date({
+	const result = (await p.date({
 		message: color.magenta('Pick a date'),
-		format: 'YYYY/MM/DD',
-	});
+		format: 'DD/MM/YYYY',
+	})) as Date;
 
-	const secondResult = await p.date({
-		message: color.magenta('Modify this date:'),
-		format: 'YYYY/MM/DD',
-		defaultValue: '2025-01-01',
-	});
-
-	if (p.isCancel(result) || p.isCancel(secondResult)) {
-		p.cancel('Operation cancelled.');
-		process.exit(0);
-	}
-
-	p.outro(`Selected dates: ${color.cyan(result)} and ${color.cyan(secondResult)}`);
+	const fmt = (d: Date) => d.toISOString().slice(0, 10);
+	p.outro(`Selected date: ${color.cyan(fmt(result))}`);
 }
 
 main().catch(console.error);

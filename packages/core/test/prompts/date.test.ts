@@ -1,10 +1,44 @@
 import color from 'picocolors';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import type { DateFormatConfig, DateParts } from '../../src/prompts/date.js';
 import { default as DatePrompt } from '../../src/prompts/date.js';
 import { isCancel } from '../../src/utils/index.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
+
+function buildFormatConfig(
+	format: (p: DateParts) => string,
+	types: ('year' | 'month' | 'day')[]
+): DateFormatConfig {
+	const displayTemplate = format({ year: '____', month: '__', day: '__' });
+	const parts = displayTemplate.split('/');
+	let start = 0;
+	const segments = parts.map((part, i) => {
+		const seg = { type: types[i], start, len: part.length };
+		start += part.length + 1;
+		return seg;
+	});
+	return { segments, displayTemplate, format };
+}
+
+const YYYY_MM_DD = buildFormatConfig(
+	(p) => `${p.year}/${p.month}/${p.day}`,
+	['year', 'month', 'day']
+);
+const MM_DD_YYYY = buildFormatConfig(
+	(p) => `${p.month}/${p.day}/${p.year}`,
+	['month', 'day', 'year']
+);
+const DD_MM_YYYY = buildFormatConfig(
+	(p) => `${p.day}/${p.month}/${p.year}`,
+	['day', 'month', 'year']
+);
+
+const d = (iso: string) => {
+	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
+	return new Date(y, m - 1, day);
+};
 
 describe('DatePrompt', () => {
 	let input: MockReadable;
@@ -24,6 +58,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
+			formatConfig: YYYY_MM_DD,
 		});
 		instance.prompt();
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
@@ -34,11 +69,13 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/01/15');
-		expect(instance.value).to.equal('2025-01-15');
+		expect(instance.value).toBeInstanceOf(Date);
+		expect(instance.value!.toISOString().slice(0, 10)).to.equal('2025-01-15');
 	});
 
 	test('left/right navigates between segments', () => {
@@ -46,7 +83,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.cursor).to.equal(0); // year start
@@ -68,7 +106,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
@@ -83,7 +122,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.cursor).to.equal(0); // year start
@@ -101,7 +141,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-12-21',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-12-21'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/12/21');
@@ -117,6 +158,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
+			formatConfig: YYYY_MM_DD,
 		});
 		instance.prompt();
 		// Type "2" to get "2___"
@@ -137,6 +179,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
+			formatConfig: YYYY_MM_DD,
 		});
 		instance.prompt();
 		// Type year 2025 - left-to-right, jumps to month when year complete
@@ -152,12 +195,14 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-31',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-31'),
 		});
 		const resultPromise = instance.prompt();
 		input.emit('keypress', undefined, { name: 'return' });
 		const result = await resultPromise;
-		expect(result).to.equal('2025-01-31');
+		expect(result).toBeInstanceOf(Date);
+		expect((result as Date).toISOString().slice(0, 10)).to.equal('2025-01-31');
 	});
 
 	test('can cancel', async () => {
@@ -165,7 +210,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15',
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'),
 		});
 		const resultPromise = instance.prompt();
 		input.emit('keypress', 'escape', { name: 'escape' });
@@ -178,12 +224,14 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			defaultValue: '2025-06-15',
+			formatConfig: YYYY_MM_DD,
+			defaultValue: d('2025-06-15'),
 		});
 		const resultPromise = instance.prompt();
 		input.emit('keypress', undefined, { name: 'return' });
 		const result = await resultPromise;
-		expect(result).to.equal('2025-06-15');
+		expect(result).toBeInstanceOf(Date);
+		expect((result as Date).toISOString().slice(0, 10)).to.equal('2025-06-15');
 	});
 
 	test('supports MM/DD/YYYY format', () => {
@@ -191,8 +239,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			format: 'MM/DD/YYYY',
-			initialValue: '2025-01-15',
+			formatConfig: MM_DD_YYYY,
+			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('01/15/2025');
@@ -203,7 +251,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15', // month is 01
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'), // month is 01
 		});
 		instance.prompt();
 		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month (cursor at start)
@@ -217,7 +266,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			initialValue: '2025-01-15', // January has 31 days
+			formatConfig: YYYY_MM_DD,
+			initialValue: d('2025-01-15'), // January has 31 days
 		});
 		instance.prompt();
 		for (let i = 0; i < 6; i++) input.emit('keypress', undefined, { name: 'right' }); // move to day (cursor at start)
@@ -232,8 +282,8 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			format: 'DD/MM/YYYY',
-			initialValue: '2025-01-15',
+			formatConfig: DD_MM_YYYY,
+			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('15/01/2025');
@@ -245,7 +295,8 @@ describe('DatePrompt', () => {
 				input,
 				output,
 				render: () => 'foo',
-				initialValue: '2025-01-15',
+				formatConfig: YYYY_MM_DD,
+				initialValue: d('2025-01-15'),
 			});
 			instance.prompt();
 			for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
@@ -258,7 +309,8 @@ describe('DatePrompt', () => {
 				input,
 				output,
 				render: () => 'foo',
-				initialValue: '2025-01-15',
+				formatConfig: YYYY_MM_DD,
+				initialValue: d('2025-01-15'),
 			});
 			instance.prompt();
 			input.emit('keypress', undefined, { name: 'return' });
