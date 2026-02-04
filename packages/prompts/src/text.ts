@@ -20,7 +20,7 @@ export const text = (opts: TextOptions) => {
 		signal: opts.signal,
 		input: opts.input,
 		render() {
-			const hasGuide = (opts?.withGuide ?? settings.withGuide) !== false;
+			const hasGuide = opts?.withGuide ?? settings.withGuide;
 			const titlePrefix = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
 			const placeholder = opts.placeholder

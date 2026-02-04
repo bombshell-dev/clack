@@ -127,7 +127,7 @@ export const spinner = ({
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	};
 
-	const hasGuide = (opts.withGuide ?? settings.withGuide) !== false;
+	const hasGuide = opts.withGuide ?? settings.withGuide;
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
