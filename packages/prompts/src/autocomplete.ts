@@ -104,7 +104,6 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			const options = this.options;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = userInput === '' && placeholder !== undefined;
-			const indent = hasGuide ? '  ' : '';
 
 			// Handle different states
 			switch (this.state) {
@@ -112,20 +111,20 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show selected value
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
-						selected.length > 0 ? `${indent}${color.dim(selected.map(getLabel).join(', '))}` : '';
-					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
+						selected.length > 0 ? color.dim(selected.map(getLabel).join(', ')) : '';
+					const submitPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
 					return `${headings.join('\n')}\n${submitPrefix}${label}`;
 				}
 
 				case 'cancel': {
-					const userInputText = userInput ? `${indent}${color.strikethrough(color.dim(userInput))}` : '';
-					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
+					const userInputText = userInput ? color.strikethrough(color.dim(userInput)) : '';
+					const cancelPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
 					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
 				}
 
 				default: {
 					const barColor = this.state === 'error' ? color.yellow : color.cyan;
-					const guidePrefix = hasGuide ? `${barColor(S_BAR)}${indent}` : '';
+					const guidePrefix = hasGuide ? `${barColor(S_BAR)}  ` : '';
 					const guidePrefixEnd = hasGuide ? barColor(S_BAR_END) : '';
 					// Display cursor position - show plain text in navigation mode
 					let searchText = '';

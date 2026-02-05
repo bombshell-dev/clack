@@ -14,6 +14,7 @@ describe('utils', () => {
 		test('clears output on keypress', () => {
 			const input = new MockReadable();
 			const output = new MockWritable();
+			// @ts-expect-error
 			const callback = block({ input, output });
 
 			const event: Key = {
@@ -28,6 +29,7 @@ describe('utils', () => {
 		test('clears output vertically when return pressed', () => {
 			const input = new MockReadable();
 			const output = new MockWritable();
+			// @ts-expect-error
 			const callback = block({ input, output });
 
 			const event: Key = {
@@ -42,6 +44,7 @@ describe('utils', () => {
 		test('ignores additional keypresses after dispose', () => {
 			const input = new MockReadable();
 			const output = new MockWritable();
+			// @ts-expect-error
 			const callback = block({ input, output });
 
 			const event: Key = {
@@ -58,10 +61,12 @@ describe('utils', () => {
 			const input = new MockReadable();
 			const output = new MockWritable();
 			// purposely don't keep the callback since we would exit the process
+			// @ts-expect-error
 			block({ input, output });
-			const spy = vi.spyOn(process, 'exit').mockImplementation((() => {
+			// @ts-expect-error
+			const spy = vi.spyOn(process, 'exit').mockImplementation(() => {
 				return;
-			}) as () => never);
+			});
 
 			const event: Key = {
 				name: 'c',
@@ -75,6 +80,7 @@ describe('utils', () => {
 		test('does not clear if overwrite=false', () => {
 			const input = new MockReadable();
 			const output = new MockWritable();
+			// @ts-expect-error
 			const callback = block({ input, output, overwrite: false });
 
 			const event: Key = {
