@@ -23,23 +23,22 @@ export const password = (opts: PasswordOptions) => {
 
 			switch (this.state) {
 				case 'error': {
-					const indent = hasGuide ? '  ' : '';
-					const maskedText = masked ? `${indent}${masked}` : '';
+					const errorPrefix = hasGuide ? `${color.yellow(S_BAR)}  ` : '';
+					const errorPrefixEnd = hasGuide ? `${color.yellow(S_BAR_END)}  ` : '';
+					const maskedText = masked ?? '';
 					if (opts.clearOnError) {
 						this.clear();
 					}
-					const errorPrefix = hasGuide ? `${color.yellow(S_BAR)}` : '';
-					const errorPrefixEnd = hasGuide ? color.yellow(S_BAR_END) : '';
-					return `${title.trim()}\n${errorPrefix}${maskedText}\n${errorPrefixEnd}${indent}${color.yellow(this.error)}\n`;
+					return `${title.trim()}\n${errorPrefix}${maskedText}\n${errorPrefixEnd}${color.yellow(this.error)}\n`;
 				}
 				case 'submit': {
-					const maskedText = masked ? `  ${color.dim(masked)}` : '';
-					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
+					const submitPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					const maskedText = masked ? color.dim(masked) : '';
 					return `${title}${submitPrefix}${maskedText}`;
 				}
 				case 'cancel': {
-					const maskedText = masked ? `  ${color.strikethrough(color.dim(masked))}` : '';
-					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
+					const cancelPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					const maskedText = masked ? color.strikethrough(color.dim(masked)) : '';
 					return `${title}${cancelPrefix}${maskedText}${
 						masked && hasGuide ? `\n${color.gray(S_BAR)}` : ''
 					}`;
