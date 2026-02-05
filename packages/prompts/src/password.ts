@@ -23,13 +23,14 @@ export const password = (opts: PasswordOptions) => {
 
 			switch (this.state) {
 				case 'error': {
-					const maskedText = masked ? `  ${masked}` : '';
+					const indent = hasGuide ? '  ' : '';
+					const maskedText = masked ? `${indent}${masked}` : '';
 					if (opts.clearOnError) {
 						this.clear();
 					}
 					const errorPrefix = hasGuide ? `${color.yellow(S_BAR)}` : '';
 					const errorPrefixEnd = hasGuide ? color.yellow(S_BAR_END) : '';
-					return `${title.trim()}\n${errorPrefix}${maskedText}\n${errorPrefixEnd}  ${color.yellow(this.error)}\n`;
+					return `${title.trim()}\n${errorPrefix}${maskedText}\n${errorPrefixEnd}${indent}${color.yellow(this.error)}\n`;
 				}
 				case 'submit': {
 					const maskedText = masked ? `  ${color.dim(masked)}` : '';
