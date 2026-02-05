@@ -12,7 +12,7 @@ exports[`autocomplete > can be aborted by a signal 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "
 ",
@@ -33,7 +33,7 @@ exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
 [36m│[39m  [2m○[22m [2mOption 3[22m
 [36m│[39m  [2m○[22m [2mOption 4[22m
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
@@ -58,7 +58,7 @@ exports[`autocomplete > placeholder is shown if set 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
@@ -66,7 +66,7 @@ exports[`autocomplete > placeholder is shown if set 1`] = `
   "[36m│[39m  [2mSearch:[22m g█[2m (2 matches)[22m
 [36m│[39m  [32m●[39m Grape
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -91,7 +91,7 @@ exports[`autocomplete > renders bottom ellipsis when items do not fit 1`] = `
 [36m│[39m  Line 2
 [36m│[39m  Line 3
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<erase.down>",
@@ -118,7 +118,7 @@ exports[`autocomplete > renders initial UI with message and instructions 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -143,7 +143,7 @@ exports[`autocomplete > renders placeholder if set 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -165,7 +165,7 @@ exports[`autocomplete > renders top ellipsis when scrolled down and its do not f
 [36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
 [36m│[39m  [2m...[22m
 [36m│[39m  [32m●[39m Option 2
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<erase.down>",
@@ -191,7 +191,7 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
 [36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
@@ -203,7 +203,7 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
 [36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
@@ -213,7 +213,7 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
 [36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
@@ -222,7 +222,7 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
 [36m│[39m  [32m●[39m Grape
 [36m│[39m  [2m○[22m [2mOrange[22m
 [36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=7>",
@@ -230,14 +230,14 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
   "[36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [32m●[39m Orange
 [36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=8>",
   "<erase.down>",
   "[36m│[39m  [2m○[22m [2mOrange[22m
 [36m│[39m  [32m●[39m Kiwi[2m (New Zealand)[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
@@ -262,14 +262,14 @@ exports[`autocomplete > shows no matches message when search has no results 1`] 
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m z█[2m (0 matches)[22m
 [36m│[39m  [33mNo matches found[39m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -294,7 +294,7 @@ exports[`autocomplete > shows selected value in submit state 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
@@ -305,7 +305,7 @@ exports[`autocomplete > shows selected value in submit state 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -330,7 +330,7 @@ exports[`autocomplete > shows strikethrough in cancel state 1`] = `
 [36m│[39m  [2m○[22m [2mCherry[22m
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -355,7 +355,7 @@ exports[`autocomplete > supports initialValue 1`] = `
 [36m│[39m  [32m●[39m Cherry
 [36m│[39m  [2m○[22m [2mGrape[22m
 [36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
@@ -378,7 +378,7 @@ exports[`autocomplete with custom filter > falls back to default filter when not
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
 [36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=3>",
@@ -386,7 +386,7 @@ exports[`autocomplete with custom filter > falls back to default filter when not
   "[36m│[39m  [2mSearch:[22m a█[2m (2 matches)[22m
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -409,14 +409,14 @@ exports[`autocomplete with custom filter > uses custom filter function when prov
 [36m│[39m  [32m●[39m Apple
 [36m│[39m  [2m○[22m [2mBanana[22m
 [36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m a█[2m (1 match)[22m
 [36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select[2m • [22m[2mEnter:[22m confirm[2m • [22m[2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
