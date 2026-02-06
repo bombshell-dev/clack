@@ -31,7 +31,7 @@ exports[`date (isCI = false) > defaultValue used when empty submit 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/12/24[22m",
+[90m│[39m  [2m2025/12/25[22m",
   "
 ",
   "<cursor.show>",
@@ -50,7 +50,7 @@ exports[`date (isCI = false) > renders initial value 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/01/14[22m",
+[90m│[39m  [2m2025/01/15[22m",
   "
 ",
   "<cursor.show>",
@@ -69,7 +69,7 @@ exports[`date (isCI = false) > renders message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/01/14[22m",
+[90m│[39m  [2m2025/01/15[22m",
   "
 ",
   "<cursor.show>",
@@ -88,7 +88,7 @@ exports[`date (isCI = false) > renders submitted value 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/06/14[22m",
+[90m│[39m  [2m2025/06/15[22m",
   "
 ",
   "<cursor.show>",
@@ -107,7 +107,7 @@ exports[`date (isCI = false) > supports MM/DD/YYYY format 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m01/14/2025[22m",
+[90m│[39m  [2m01/15/2025[22m",
   "
 ",
   "<cursor.show>",
@@ -124,7 +124,7 @@ exports[`date (isCI = false) > withGuide: false removes guide 1`] = `
   "<cursor.backward count=999><cursor.up count=3>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-  [2m2025/01/14[22m",
+  [2m2025/01/15[22m",
   "
 ",
   "<cursor.show>",
@@ -162,7 +162,7 @@ exports[`date (isCI = true) > defaultValue used when empty submit 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/12/24[22m",
+[90m│[39m  [2m2025/12/25[22m",
   "
 ",
   "<cursor.show>",
@@ -181,7 +181,7 @@ exports[`date (isCI = true) > renders initial value 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/01/14[22m",
+[90m│[39m  [2m2025/01/15[22m",
   "
 ",
   "<cursor.show>",
@@ -200,7 +200,7 @@ exports[`date (isCI = true) > renders message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/01/14[22m",
+[90m│[39m  [2m2025/01/15[22m",
   "
 ",
   "<cursor.show>",
@@ -219,7 +219,7 @@ exports[`date (isCI = true) > renders submitted value 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m2025/06/14[22m",
+[90m│[39m  [2m2025/06/15[22m",
   "
 ",
   "<cursor.show>",
@@ -238,7 +238,7 @@ exports[`date (isCI = true) > supports MM/DD/YYYY format 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-[90m│[39m  [2m01/14/2025[22m",
+[90m│[39m  [2m01/15/2025[22m",
   "
 ",
   "<cursor.show>",
@@ -255,7 +255,7 @@ exports[`date (isCI = true) > withGuide: false removes guide 1`] = `
   "<cursor.backward count=999><cursor.up count=3>",
   "<erase.down>",
   "[32m◇[39m  Pick a date
-  [2m2025/01/14[22m",
+  [2m2025/01/15[22m",
   "
 ",
   "<cursor.show>",

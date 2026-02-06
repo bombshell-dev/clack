@@ -130,7 +130,11 @@ function getSegmentBounds(
 	return { min, max };
 }
 
-function toISOString(display: string, config: DateFormatConfig): string | undefined {
+/** Parse display string to calendar parts; returns undefined if invalid. */
+function parseDisplayToParts(
+	display: string,
+	config: DateFormatConfig
+): { year: number; month: number; day: number } | undefined {
 	const { year, month, day } = parseDisplayString(display, config);
 	if (!year || year < 1000 || year > 9999) return undefined;
 	if (!month || month < 1 || month > 12) return undefined;
@@ -139,8 +143,21 @@ function toISOString(display: string, config: DateFormatConfig): string | undefi
 	if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
 		return undefined;
 	}
-	// Use UTC to avoid timezone shifting the date part of toISOString()
-	return new Date(Date.UTC(year, month - 1, day)).toISOString().slice(0, 10);
+	return { year, month, day };
+}
+
+/** Build a Date from display string using local midnight so getFullYear/getMonth/getDate are timezone-stable. */
+function displayToDate(display: string, config: DateFormatConfig): Date | undefined {
+	const parts = parseDisplayToParts(display, config);
+	if (!parts) return undefined;
+	return new Date(parts.year, parts.month - 1, parts.day);
+}
+
+function toISOString(display: string, config: DateFormatConfig): string | undefined {
+	const parts = parseDisplayToParts(display, config);
+	if (!parts) return undefined;
+	// Use UTC so toISOString().slice(0,10) is consistent (YYYY-MM-DD)
+	return new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).toISOString().slice(0, 10);
 }
 
 function getSegmentValidationMessage(
@@ -184,8 +201,7 @@ export default class DatePrompt extends Prompt<Date> {
 	#refreshFromSegmentValues() {
 		const display = this.#config.format(this.#segmentValues);
 		this._setUserInput(display);
-		const iso = toISOString(display, this.#config);
-		this._setValue(iso ? new Date(iso) : undefined);
+		this._setValue(displayToDate(display, this.#config) ?? undefined);
 	}
 
 	get cursor() {
@@ -255,8 +271,7 @@ export default class DatePrompt extends Prompt<Date> {
 		this._setUserInput(initialDisplay);
 		const firstSeg = this.#config.segments[0];
 		this._cursor = firstSeg.start;
-		const iso = toISOString(initialDisplay, this.#config);
-		this._setValue(iso ? new Date(iso) : undefined);
+		this._setValue(displayToDate(initialDisplay, config) ?? undefined);
 
 		this.on('cursor', (key) => this.#onCursor(key));
 		this.on('key', (char, key) => this.#onKey(char, key));
@@ -435,7 +450,6 @@ export default class DatePrompt extends Prompt<Date> {
 
 	#onFinalize(opts: DateOptions) {
 		const display = this.#config.format(this.#segmentValues);
-		const iso = toISOString(display, this.#config);
-		this.value = iso ? new Date(iso) : (opts.defaultValue ?? undefined);
+		this.value = displayToDate(display, this.#config) ?? opts.defaultValue ?? undefined;
 	}
 }
