@@ -111,14 +111,14 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show selected value
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
-						selected.length > 0 ? color.dim(selected.map(getLabel).join(', ')) : '';
-					const submitPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
+					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
 					return `${headings.join('\n')}\n${submitPrefix}${label}`;
 				}
 
 				case 'cancel': {
-					const userInputText = userInput ? color.strikethrough(color.dim(userInput)) : '';
-					const cancelPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
+					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
 					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
 				}
 
