@@ -1,11 +1,9 @@
 import type { Key } from 'node:readline';
-import color from 'picocolors';
 import { settings } from '../utils/settings.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface SegmentConfig {
 	type: 'year' | 'month' | 'day';
-	start: number;
 	len: number;
 }
 
@@ -15,27 +13,24 @@ export interface DateParts {
 	day: string;
 }
 
-const DEFAULT_SEGMENT_LABELS: Record<'year' | 'month' | 'day', string> = {
-	year: 'yyyy',
-	month: 'mm',
-	day: 'dd',
-};
-
 /** Format config passed from prompts package; core does not define presets */
 export interface DateFormatConfig {
 	segments: SegmentConfig[];
-	displayTemplate: string;
 	format: (parts: DateParts) => string;
 	/** Labels shown when segment is blank (e.g. yyyy, mm, dd). Default: { year: 'yyyy', month: 'mm', day: 'dd' } */
 	segmentLabels?: { year: string; month: string; day: string };
 }
 
-function displayToSegmentValues(display: string, config: DateFormatConfig): DateParts {
-	const blank: DateParts = { year: '____', month: '__', day: '__' };
-	for (const seg of config.segments) {
-		blank[seg.type] = display.slice(seg.start, seg.start + seg.len);
+/** Convert Date directly to segment values - no string parsing needed */
+function dateToSegmentValues(date: Date | undefined): DateParts {
+	if (!date) {
+		return { year: '____', month: '__', day: '__' };
 	}
-	return blank;
+	return {
+		year: String(date.getFullYear()).padStart(4, '0'),
+		month: String(date.getMonth() + 1).padStart(2, '0'),
+		day: String(date.getDate()).padStart(2, '0'),
+	};
 }
 
 function segmentValuesToParsed(parts: DateParts): { year: number; month: number; day: number } {
@@ -47,23 +42,8 @@ function segmentValuesToParsed(parts: DateParts): { year: number; month: number;
 	};
 }
 
-function parseDisplayString(
-	display: string,
-	config: DateFormatConfig
-): { year: number; month: number; day: number } {
-	return segmentValuesToParsed(displayToSegmentValues(display, config));
-}
-
-function formatDisplayString(
-	{ year, month, day }: { year: number; month: number; day: number },
-	config: DateFormatConfig
-): string {
-	const parts: DateParts = {
-		year: String(year).padStart(4, '0'),
-		month: String(month).padStart(2, '0'),
-		day: String(day).padStart(2, '0'),
-	};
-	return config.format(parts);
+function daysInMonth(year: number, month: number): number {
+	return new Date(year || 2000, month || 1, 0).getDate();
 }
 
 function clampSegment(
@@ -79,8 +59,7 @@ function clampSegment(
 	}
 	// day - month-aware
 	const { year, month } = context;
-	const daysInMonth = new Date(year || 2000, month || 1, 0).getDate();
-	return Math.max(1, Math.min(daysInMonth, value || 1));
+	return Math.max(1, Math.min(daysInMonth(year, month), value || 1));
 }
 
 function datePartsUTC(d: Date): { year: number; month: number; day: number } {
@@ -118,9 +97,8 @@ function getSegmentBounds(
 		return { min, max };
 	}
 	// day
-	const daysInMonth = new Date(year || 2000, month || 1, 0).getDate();
 	let min = 1;
-	let max = daysInMonth;
+	let max = daysInMonth(year, month);
 	if (minParts && year && month && year === minParts.year && month === minParts.month) {
 		min = minParts.day;
 	}
@@ -130,12 +108,11 @@ function getSegmentBounds(
 	return { min, max };
 }
 
-/** Parse display string to calendar parts; returns undefined if invalid. */
-function parseDisplayToParts(
-	display: string,
-	config: DateFormatConfig
+/** Parse segment values to calendar parts; returns undefined if invalid. */
+function segmentValuesToParts(
+	parts: DateParts
 ): { year: number; month: number; day: number } | undefined {
-	const { year, month, day } = parseDisplayString(display, config);
+	const { year, month, day } = segmentValuesToParsed(parts);
 	if (!year || year < 1000 || year > 9999) return undefined;
 	if (!month || month < 1 || month > 12) return undefined;
 	if (!day || day < 1) return undefined;
@@ -146,36 +123,31 @@ function parseDisplayToParts(
 	return { year, month, day };
 }
 
-/** Build a Date from display string using local midnight so getFullYear/getMonth/getDate are timezone-stable. */
-function displayToDate(display: string, config: DateFormatConfig): Date | undefined {
-	const parts = parseDisplayToParts(display, config);
-	if (!parts) return undefined;
-	return new Date(parts.year, parts.month - 1, parts.day);
+/** Build a Date from segment values using local midnight so getFullYear/getMonth/getDate are timezone-stable. */
+function segmentValuesToDate(parts: DateParts): Date | undefined {
+	const parsed = segmentValuesToParts(parts);
+	if (!parsed) return undefined;
+	return new Date(parsed.year, parsed.month - 1, parsed.day);
 }
 
-function toISOString(display: string, config: DateFormatConfig): string | undefined {
-	const parts = parseDisplayToParts(display, config);
-	if (!parts) return undefined;
+function segmentValuesToISOString(parts: DateParts): string | undefined {
+	const parsed = segmentValuesToParts(parts);
+	if (!parsed) return undefined;
 	// Use UTC so toISOString().slice(0,10) is consistent (YYYY-MM-DD)
-	return new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).toISOString().slice(0, 10);
+	return new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)).toISOString().slice(0, 10);
 }
 
-function getSegmentValidationMessage(
-	newDisplay: string,
-	seg: SegmentConfig,
-	config: DateFormatConfig
-): string | undefined {
-	const { year, month, day } = parseDisplayString(newDisplay, config);
+function getSegmentValidationMessage(parts: DateParts, seg: SegmentConfig): string | undefined {
+	const { year, month, day } = segmentValuesToParsed(parts);
 	if (seg.type === 'month' && (month < 1 || month > 12)) {
 		return settings.date.messages.invalidMonth;
 	}
 	if (seg.type === 'day') {
 		if (day < 1) return undefined; // incomplete
-		const daysInMonth = new Date(year || 2000, month || 1, 0).getDate();
-		if (day > daysInMonth) {
+		if (day > daysInMonth(year, month)) {
 			const monthName =
 				month >= 1 && month <= 12 ? settings.date.monthNames[month - 1] : 'this month';
-			return settings.date.messages.invalidDay(daysInMonth, monthName);
+			return settings.date.messages.invalidDay(daysInMonth(year, month), monthName);
 		}
 	}
 	return undefined;
@@ -194,6 +166,11 @@ export default class DatePrompt extends Prompt<Date> {
 	#segmentValues: DateParts;
 	#minDate: Date | undefined;
 	#maxDate: Date | undefined;
+	/** Segment-based cursor: { segmentIndex, positionInSegment } */
+	#cursor: { segmentIndex: number; positionInSegment: number } = {
+		segmentIndex: 0,
+		positionInSegment: 0,
+	};
 
 	/** Inline validation message shown beneath input during editing (e.g. "There are only 12 months") */
 	inlineError = '';
@@ -201,61 +178,36 @@ export default class DatePrompt extends Prompt<Date> {
 	#refreshFromSegmentValues() {
 		const display = this.#config.format(this.#segmentValues);
 		this._setUserInput(display);
-		this._setValue(displayToDate(display, this.#config) ?? undefined);
+		this._setValue(segmentValuesToDate(this.#segmentValues) ?? undefined);
 	}
 
 	get cursor() {
-		return this._cursor;
+		// Convert segment cursor to absolute position for backward compatibility
+		// Calculate start position by summing previous segments' lengths + separators
+		let start = 0;
+		for (let i = 0; i < this.#cursor.segmentIndex; i++) {
+			start += this.#config.segments[i].len + 1; // +1 for separator
+		}
+		return start + this.#cursor.positionInSegment;
 	}
 
-	get userInputWithCursor() {
-		const labels = this.#config.segmentLabels ?? DEFAULT_SEGMENT_LABELS;
-		const sep = color.gray('/');
-		if (this.state === 'submit') {
-			return this.#config.format(this.#segmentValues);
-		}
-		const parts: string[] = [];
-		for (let i = 0; i < this.#config.segments.length; i++) {
-			if (i > 0) parts.push(sep);
-			const seg = this.#config.segments[i];
-			const val = this.#segmentValues[seg.type];
-			const isBlank = !val || val.replace(/_/g, '') === '';
-			if (isBlank) {
-				const label = labels[seg.type];
-				const cursorInThis = this._cursor >= seg.start && this._cursor < seg.start + seg.len;
-				if (cursorInThis) {
-					const posInSeg = this._cursor - seg.start;
-					for (let j = 0; j < label.length; j++) {
-						parts.push(j === posInSeg ? color.inverse(' ') : color.dim(label[j]));
-					}
-				} else {
-					parts.push(color.dim(label));
-				}
-			} else {
-				for (let j = 0; j < val.length; j++) {
-					const globalIdx = seg.start + j;
-					if (globalIdx === this._cursor) {
-						parts.push(val[j] === '_' ? color.inverse(' ') : color.inverse(val[j]));
-					} else {
-						parts.push(val[j] === '_' ? color.dim(' ') : val[j]);
-					}
-				}
-			}
-		}
-		if (this._cursor >= this.#config.displayTemplate.length) {
-			parts.push('█');
-		}
-		return parts.join('');
+	/** Get current segment cursor position */
+	get segmentCursor() {
+		return { ...this.#cursor };
+	}
+
+	/** Get current segment values for rendering in prompts layer */
+	get segmentValues(): DateParts {
+		return { ...this.#segmentValues };
 	}
 
 	constructor(opts: DateOptions) {
 		const config = opts.formatConfig;
-		const initialDisplay = DatePrompt.#toDisplayString(
-			opts.initialValue ??
-				opts.defaultValue ??
-				(opts as { initialUserInput?: string }).initialUserInput,
-			config
-		);
+		// Convert Date directly to segment values - no string parsing needed
+		const initialDate = opts.initialValue ?? opts.defaultValue;
+		const segmentValues = dateToSegmentValues(initialDate);
+		const initialDisplay = config.format(segmentValues);
+
 		super(
 			{
 				...opts,
@@ -264,89 +216,57 @@ export default class DatePrompt extends Prompt<Date> {
 			false
 		);
 		this.#config = config;
-		this.#segmentValues = displayToSegmentValues(initialDisplay, config);
+		this.#segmentValues = segmentValues;
 		this.#minDate = opts.minDate;
 		this.#maxDate = opts.maxDate;
 
 		this._setUserInput(initialDisplay);
-		const firstSeg = this.#config.segments[0];
-		this._cursor = firstSeg.start;
-		this._setValue(displayToDate(initialDisplay, config) ?? undefined);
+		// Initialize cursor to first segment, position 0
+		this.#cursor = { segmentIndex: 0, positionInSegment: 0 };
+		this._setValue(segmentValuesToDate(this.#segmentValues) ?? undefined);
 
 		this.on('cursor', (key) => this.#onCursor(key));
 		this.on('key', (char, key) => this.#onKey(char, key));
 		this.on('finalize', () => this.#onFinalize(opts));
 	}
 
-	static #toDisplayString(value: Date | string | undefined, config: DateFormatConfig): string {
-		if (!value) return config.displayTemplate;
-		if (value instanceof Date) {
-			return formatDisplayString(
-				{
-					year: value.getFullYear(),
-					month: value.getMonth() + 1,
-					day: value.getDate(),
-				},
-				config
-			);
-		}
-		if (typeof value === 'string') {
-			const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
-			if (match) {
-				return formatDisplayString(
-					{
-						year: Number.parseInt(match[1], 10),
-						month: Number.parseInt(match[2], 10),
-						day: Number.parseInt(match[3], 10),
-					},
-					config
-				);
-			}
-		}
-		return config.displayTemplate;
-	}
-
-	#getSegmentAtCursor(): { segment: SegmentConfig; index: number } | undefined {
-		const cursor = this._cursor;
-		for (let i = 0; i < this.#config.segments.length; i++) {
-			const seg = this.#config.segments[i];
-			if (cursor >= seg.start && cursor < seg.start + seg.len) {
-				return { segment: seg, index: i };
-			}
-		}
-		// Cursor might be on separator - find nearest segment
-		for (let i = 0; i < this.#config.segments.length; i++) {
-			const seg = this.#config.segments[i];
-			if (cursor < seg.start) {
-				return { segment: this.#config.segments[Math.max(0, i - 1)], index: Math.max(0, i - 1) };
-			}
-		}
-		return {
-			segment: this.#config.segments[this.#config.segments.length - 1],
-			index: this.#config.segments.length - 1,
-		};
+	/** Get current segment and ensure cursor is valid */
+	#getCurrentSegment(): { segment: SegmentConfig; index: number } | undefined {
+		const index = Math.max(
+			0,
+			Math.min(this.#config.segments.length - 1, this.#cursor.segmentIndex)
+		);
+		const seg = this.#config.segments[index];
+		if (!seg) return undefined;
+		// Ensure positionInSegment is within bounds
+		this.#cursor.positionInSegment = Math.max(
+			0,
+			Math.min(seg.len - 1, this.#cursor.positionInSegment)
+		);
+		return { segment: seg, index };
 	}
 
 	#onCursor(key?: string) {
 		if (!key) return;
-		const ctx = this.#getSegmentAtCursor();
+		const ctx = this.#getCurrentSegment();
 		if (!ctx) return;
 
 		if (key === 'left' || key === 'right') {
 			this.inlineError = '';
-			const seg = ctx.segment;
-			const posInSeg = this._cursor - seg.start;
 			const delta = key === 'left' ? -1 : 1;
+			const newPosInSeg = this.#cursor.positionInSegment + delta;
+
 			// Move within segment first, then between segments
-			const newPosInSeg = posInSeg + delta;
-			if (newPosInSeg >= 0 && newPosInSeg < seg.len) {
-				this._cursor = seg.start + newPosInSeg;
+			if (newPosInSeg >= 0 && newPosInSeg < ctx.segment.len) {
+				this.#cursor.positionInSegment = newPosInSeg;
 				return;
 			}
+
+			// Move to next/prev segment
 			const newIndex = Math.max(0, Math.min(this.#config.segments.length - 1, ctx.index + delta));
-			const newSeg = this.#config.segments[newIndex];
+			this.#cursor.segmentIndex = newIndex;
 			// Always start at beginning of segment for left-to-right digit-by-digit editing
-			this._cursor = newSeg.start;
+			this.#cursor.positionInSegment = 0;
 			return;
 		}
 
@@ -384,7 +304,7 @@ export default class DatePrompt extends Prompt<Date> {
 			char === '\b';
 		if (isBackspace) {
 			this.inlineError = '';
-			const ctx = this.#getSegmentAtCursor();
+			const ctx = this.#getCurrentSegment();
 			if (!ctx) return;
 			const seg = ctx.segment;
 			const segmentVal = this.#segmentValues[seg.type];
@@ -393,28 +313,26 @@ export default class DatePrompt extends Prompt<Date> {
 			// Clear entire segment on backspace at any position
 			this.#segmentValues[seg.type] = '_'.repeat(seg.len);
 			this.#refreshFromSegmentValues();
-			this._cursor = seg.start;
+			this.#cursor.positionInSegment = 0;
 			return;
 		}
 
 		if (char && /^[0-9]$/.test(char)) {
-			const ctx = this.#getSegmentAtCursor();
+			const ctx = this.#getCurrentSegment();
 			if (!ctx) return;
 			const seg = ctx.segment;
 			const segmentDisplay = this.#segmentValues[seg.type];
 
 			const firstBlank = segmentDisplay.indexOf('_');
-			const pos = firstBlank >= 0 ? firstBlank : Math.min(this._cursor - seg.start, seg.len - 1);
+			const pos =
+				firstBlank >= 0 ? firstBlank : Math.min(this.#cursor.positionInSegment, seg.len - 1);
 			if (pos < 0 || pos >= seg.len) return;
 
 			const newSegmentVal = segmentDisplay.slice(0, pos) + char + segmentDisplay.slice(pos + 1);
 
 			if (!newSegmentVal.includes('_')) {
-				const newDisplay = this.#config.format({
-					...this.#segmentValues,
-					[seg.type]: newSegmentVal,
-				});
-				const validationMsg = getSegmentValidationMessage(newDisplay, seg, this.#config);
+				const newParts = { ...this.#segmentValues, [seg.type]: newSegmentVal };
+				const validationMsg = getSegmentValidationMessage(newParts, seg);
 				if (validationMsg) {
 					this.inlineError = validationMsg;
 					return;
@@ -423,8 +341,7 @@ export default class DatePrompt extends Prompt<Date> {
 			this.inlineError = '';
 
 			this.#segmentValues[seg.type] = newSegmentVal;
-			const newDisplay = this.#config.format(this.#segmentValues);
-			const iso = toISOString(newDisplay, this.#config);
+			const iso = segmentValuesToISOString(this.#segmentValues);
 
 			if (iso) {
 				const { year, month, day } = segmentValuesToParsed(this.#segmentValues);
@@ -439,17 +356,18 @@ export default class DatePrompt extends Prompt<Date> {
 			const nextBlank = newSegmentVal.indexOf('_');
 			const wasFilling = firstBlank >= 0;
 			if (nextBlank >= 0) {
-				this._cursor = seg.start + nextBlank;
+				this.#cursor.positionInSegment = nextBlank;
 			} else if (wasFilling && ctx.index < this.#config.segments.length - 1) {
-				this._cursor = this.#config.segments[ctx.index + 1].start;
+				// Auto-jump to next segment
+				this.#cursor.segmentIndex = ctx.index + 1;
+				this.#cursor.positionInSegment = 0;
 			} else {
-				this._cursor = seg.start + Math.min(pos + 1, seg.len - 1);
+				this.#cursor.positionInSegment = Math.min(pos + 1, seg.len - 1);
 			}
 		}
 	}
 
 	#onFinalize(opts: DateOptions) {
-		const display = this.#config.format(this.#segmentValues);
-		this.value = displayToDate(display, this.#config) ?? opts.defaultValue ?? undefined;
+		this.value = segmentValuesToDate(this.#segmentValues) ?? opts.defaultValue ?? undefined;
 	}
 }

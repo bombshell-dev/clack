@@ -1,4 +1,3 @@
-import color from 'picocolors';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import type { DateFormatConfig, DateParts } from '../../src/prompts/date.js';
@@ -11,15 +10,11 @@ function buildFormatConfig(
 	format: (p: DateParts) => string,
 	types: ('year' | 'month' | 'day')[]
 ): DateFormatConfig {
-	const displayTemplate = format({ year: '____', month: '__', day: '__' });
-	const parts = displayTemplate.split('/');
-	let start = 0;
-	const segments = parts.map((part, i) => {
-		const seg = { type: types[i], start, len: part.length };
-		start += part.length + 1;
-		return seg;
+	const segments = types.map((type) => {
+		const len = type === 'year' ? 4 : 2;
+		return { type, len };
 	});
-	return { segments, displayTemplate, format };
+	return { segments, format };
 }
 
 const YYYY_MM_DD = buildFormatConfig(
@@ -349,8 +344,23 @@ describe('DatePrompt', () => {
 		expect(instance.userInput).to.equal('15/01/2025');
 	});
 
-	describe('userInputWithCursor', () => {
-		test('highlights character at cursor', () => {
+	describe('segmentValues and segmentCursor', () => {
+		test('segmentValues reflects current input', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				formatConfig: YYYY_MM_DD,
+				initialValue: d('2025-01-15'),
+			});
+			instance.prompt();
+			const segmentValues = instance.segmentValues;
+			expect(segmentValues.year).to.equal('2025');
+			expect(segmentValues.month).to.equal('01');
+			expect(segmentValues.day).to.equal('15');
+		});
+
+		test('segmentCursor tracks cursor position', () => {
 			const instance = new DatePrompt({
 				input,
 				output,
@@ -360,11 +370,12 @@ describe('DatePrompt', () => {
 			});
 			instance.prompt();
 			for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
-			const display = instance.userInputWithCursor;
-			expect(display).to.contain(color.inverse('0')); // first digit of "01"
+			const cursor = instance.segmentCursor;
+			expect(cursor.segmentIndex).to.equal(1); // month segment
+			expect(cursor.positionInSegment).to.equal(0); // start of segment
 		});
 
-		test('returns value on submit', () => {
+		test('segmentValues updates on submit', () => {
 			const instance = new DatePrompt({
 				input,
 				output,
@@ -374,7 +385,10 @@ describe('DatePrompt', () => {
 			});
 			instance.prompt();
 			input.emit('keypress', undefined, { name: 'return' });
-			expect(instance.userInputWithCursor).to.equal('2025/01/15');
+			const segmentValues = instance.segmentValues;
+			expect(segmentValues.year).to.equal('2025');
+			expect(segmentValues.month).to.equal('01');
+			expect(segmentValues.day).to.equal('15');
 		});
 	});
 });
