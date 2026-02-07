@@ -168,10 +168,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 						`${color.dim('Type:')} to search`,
 					];
 
-					const footers = [
-						`${guidePrefix}${instructions.join(' • ')}`,
-						guidePrefixEnd,
-					];
+					const footers = [`${guidePrefix}${instructions.join(' • ')}`, guidePrefixEnd];
 
 					// Render options with selection
 					const displayOptions =
