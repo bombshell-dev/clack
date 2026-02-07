@@ -9,7 +9,7 @@ exports[`text (isCI = false) > can cancel 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -31,14 +31,14 @@ exports[`text (isCI = false) > cannot submit unknown value 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/_█
 [36m│[39m  [33mNo matches found[39m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -48,7 +48,7 @@ exports[`text (isCI = false) > cannot submit unknown value 1`] = `
 [33m│[39m  [2mSearch:[22m /tmp/_█
 [33m│[39m  [33mNo matches found[39m
 [33m│[39m  [33mPlease select a path[39m
-[33m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [33m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -58,14 +58,14 @@ exports[`text (isCI = false) > cannot submit unknown value 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -86,7 +86,7 @@ exports[`text (isCI = false) > initialValue sets the value 1`] = `
 [36m│[39m
 [36m│[39m  [2mSearch:[22m /tmp/bar█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -108,14 +108,14 @@ exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/x█
 [36m│[39m  [33mNo matches found[39m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=3>",
@@ -142,7 +142,7 @@ exports[`text (isCI = false) > renders message 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -164,14 +164,14 @@ exports[`text (isCI = false) > renders submitted value 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=3>",
@@ -198,14 +198,14 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/r█
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -215,7 +215,7 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
 [33m│[39m  [2mSearch:[22m /tmp/r█
 [33m│[39m  [33mshould be /tmp/bar[39m
 [33m│[39m  [32m●[39m /tmp/root.zip
-[33m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [33m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -225,14 +225,14 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [2m○[22m [2m/tmp/bar[22m
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -254,14 +254,14 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/r█
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -271,7 +271,7 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 [33m│[39m  [2mSearch:[22m /tmp/r█
 [33m│[39m  [33mshould be /tmp/bar[39m
 [33m│[39m  [32m●[39m /tmp/root.zip
-[33m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [33m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -281,14 +281,14 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [2m○[22m [2m/tmp/bar[22m
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -310,7 +310,7 @@ exports[`text (isCI = true) > can cancel 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -332,14 +332,14 @@ exports[`text (isCI = true) > cannot submit unknown value 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/_█
 [36m│[39m  [33mNo matches found[39m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -349,7 +349,7 @@ exports[`text (isCI = true) > cannot submit unknown value 1`] = `
 [33m│[39m  [2mSearch:[22m /tmp/_█
 [33m│[39m  [33mNo matches found[39m
 [33m│[39m  [33mPlease select a path[39m
-[33m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [33m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -359,14 +359,14 @@ exports[`text (isCI = true) > cannot submit unknown value 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -387,7 +387,7 @@ exports[`text (isCI = true) > initialValue sets the value 1`] = `
 [36m│[39m
 [36m│[39m  [2mSearch:[22m /tmp/bar█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -409,14 +409,14 @@ exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/x█
 [36m│[39m  [33mNo matches found[39m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=3>",
@@ -443,7 +443,7 @@ exports[`text (isCI = true) > renders message 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -465,14 +465,14 @@ exports[`text (isCI = true) > renders submitted value 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=3>",
@@ -499,14 +499,14 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/r█
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -516,7 +516,7 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
 [33m│[39m  [2mSearch:[22m /tmp/r█
 [33m│[39m  [33mshould be /tmp/bar[39m
 [33m│[39m  [32m●[39m /tmp/root.zip
-[33m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [33m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -526,14 +526,14 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [2m○[22m [2m/tmp/bar[22m
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -555,14 +555,14 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [32m●[39m /tmp/bar
 [36m│[39m  [2m○[22m [2m/tmp/root.zip[22m
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/r█
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
@@ -572,7 +572,7 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
 [33m│[39m  [2mSearch:[22m /tmp/r█
 [33m│[39m  [33mshould be /tmp/bar[39m
 [33m│[39m  [32m●[39m /tmp/root.zip
-[33m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[33m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [33m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
@@ -582,14 +582,14 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
 [36m│[39m  [2mSearch:[22m /tmp/█
 [36m│[39m  [2m○[22m [2m/tmp/bar[22m
 [36m│[39m  [32m●[39m /tmp/root.zip
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2mSearch:[22m /tmp/b█
 [36m│[39m  [32m●[39m /tmp/bar
-[36m│[39m  [2m[2m↑/↓[22m[2m to select • [2mEnter:[22m[2m confirm • [2mType:[22m[2m to search[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",

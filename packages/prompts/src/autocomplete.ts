@@ -1,4 +1,4 @@
-import { AutocompletePrompt } from '@clack/core';
+import { AutocompletePrompt, settings } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
@@ -95,8 +95,11 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		output: opts.output,
 		validate: opts.validate,
 		render() {
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and message display
-			const headings = [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
+			const headings = hasGuide
+				? [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
+				: [`${symbol(this.state)}  ${opts.message}`];
 			const userInput = this.userInput;
 			const options = this.options;
 			const placeholder = opts.placeholder;
@@ -109,17 +112,20 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${label}`;
+					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
+					return `${headings.join('\n')}\n${submitPrefix}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
-					return `${headings.join('\n')}\n${color.gray(S_BAR)}${userInputText}`;
+					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
+					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
 				}
 
 				default: {
-					const guidePrefix = `${(this.state === 'error' ? color.yellow : color.cyan)(S_BAR)}  `;
-					const guidePrefixEnd = (this.state === 'error' ? color.yellow : color.cyan)(S_BAR_END);
+					const barColor = this.state === 'error' ? color.yellow : color.cyan;
+					const guidePrefix = hasGuide ? `${barColor(S_BAR)}  ` : '';
+					const guidePrefixEnd = hasGuide ? barColor(S_BAR_END) : '';
 					// Display cursor position - show plain text in navigation mode
 					let searchText = '';
 					if (this.isNavigating || showPlaceholder) {
@@ -146,8 +152,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const validationError =
 						this.state === 'error' ? [`${guidePrefix}${color.yellow(this.error)}`] : [];
 
+					if (hasGuide) {
+						headings.push(`${guidePrefix.trimEnd()}`);
+					}
 					headings.push(
-						`${guidePrefix.trimEnd()}`,
 						`${guidePrefix}${color.dim('Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
@@ -161,8 +169,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					];
 
 					const footers = [
-						`${guidePrefix}${color.dim(instructions.join(' • '))}`,
-						`${guidePrefixEnd}`,
+						`${guidePrefix}${instructions.join(' • ')}`,
+						guidePrefixEnd,
 					];
 
 					// Render options with selection
@@ -172,7 +180,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 							: limitOptions({
 									cursor: this.cursor,
 									options: this.filteredOptions,
-									columnPadding: 3, // for `|  `
+									columnPadding: hasGuide ? 3 : 0, // for `|  ` when guide is shown
 									rowPadding: headings.length + footers.length,
 									style: (option, active) => {
 										const label = getLabel(option);
@@ -318,7 +326,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						...errorMessage,
 					];
 					const footerLines = [
-						`${barColor(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
+						`${barColor(S_BAR)}  ${instructions.join(' • ')}`,
 						`${barColor(S_BAR_END)}`,
 					];
 
