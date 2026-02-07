@@ -169,7 +169,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					];
 
 					const footers = [
-						`${guidePrefix}${instructions.join(color.dim(' • '))}`,
+						`${guidePrefix}${instructions.join(' • ')}`,
 						guidePrefixEnd,
 					];
 
@@ -326,7 +326,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						...errorMessage,
 					];
 					const footerLines = [
-						`${barColor(S_BAR)}  ${color.dim(instructions.join(' • '))}`,
+						`${barColor(S_BAR)}  ${instructions.join(' • ')}`,
 						`${barColor(S_BAR_END)}`,
 					];
 
