@@ -1,6 +1,7 @@
 import type { Key } from 'node:readline';
 import color from 'picocolors';
 import Prompt, { type PromptOptions } from './prompt.js';
+import { findCursor } from '../utils/cursor.js';
 
 interface OptionLike {
 	value: unknown;
@@ -143,10 +144,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
-			this.#cursor = Math.max(
-				0,
-				Math.min(this.#cursor + (isUpKey ? -1 : 1), this.filteredOptions.length - 1)
-			);
+			this.#cursor = findCursor(this.#cursor, isUpKey ? -1 : 1, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
 			if (!this.multiple) {
 				this.selectedValues = [this.focusedValue];
