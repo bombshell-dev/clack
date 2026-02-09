@@ -1,7 +1,7 @@
 import type { Key } from 'node:readline';
 import color from 'picocolors';
-import Prompt, { type PromptOptions } from './prompt.js';
 import { findCursor } from '../utils/cursor.js';
+import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: unknown;
