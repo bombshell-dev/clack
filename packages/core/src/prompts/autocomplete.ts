@@ -6,6 +6,7 @@ import { findCursor } from '../utils/cursor.js';
 interface OptionLike {
 	value: unknown;
 	label?: string;
+	disabled?: boolean;
 }
 
 type FilterFunction<T extends OptionLike> = (search: string, opt: T) => boolean;
