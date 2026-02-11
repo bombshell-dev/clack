@@ -20,6 +20,115 @@ exports[`autocomplete > can be aborted by a signal 1`] = `
 ]
 `;
 
+exports[`autocomplete > cannot select disabled options when only one left 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m k█[2m (1 match)[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > displays disabled options correctly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m
+[36m│[39m  [2m○[22m [2mApple[22m
+[36m│[39m  [32m●[39m Banana
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [32m●[39m Cherry
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [32m●[39m Grape
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=7>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [32m●[39m Orange
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
 [
   "<cursor.hide>",
@@ -498,6 +607,120 @@ exports[`autocompleteMultiselect > can use navigation keys to select options 1`]
   "<erase.down>",
   "[32m◇[39m  Select fruits
 [90m│[39m  [2m2 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > cannot select disabled options when only one left 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m k█[2m (1 match)[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2m0 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > displays disabled options correctly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m [2m[22m
+[36m│[39m  [2m◻[22m [2mApple[22m
+[36m│[39m  [2m◻[22m Banana
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m Cherry
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m Grape
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=7>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m Orange
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Apple",
+  "<cursor.down count=7>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2m1 items selected[22m",
   "
 ",
   "<cursor.show>",

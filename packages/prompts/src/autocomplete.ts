@@ -104,6 +104,19 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			const options = this.options;
 			const placeholder = opts.placeholder;
 			const showPlaceholder = userInput === '' && placeholder !== undefined;
+			const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'disabled') => {
+				const label = getLabel(option);
+				const hint =
+					option.hint && option.value === this.focusedValue ? color.dim(` (${option.hint})`) : '';
+				switch (state) {
+					case 'active':
+						return `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`;
+					case 'inactive':
+						return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
+					case 'disabled':
+						return `${color.gray(S_RADIO_INACTIVE)} ${color.strikethrough(color.gray(label))}`;
+				}
+			};
 
 			// Handle different states
 			switch (this.state) {
@@ -180,15 +193,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 									columnPadding: hasGuide ? 3 : 0, // for `|  ` when guide is shown
 									rowPadding: headings.length + footers.length,
 									style: (option, active) => {
-										const label = getLabel(option);
-										const hint =
-											option.hint && option.value === this.focusedValue
-												? color.dim(` (${option.hint})`)
-												: '';
-
-										return active
-											? `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`
-											: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}${hint}`;
+										return opt(
+											option,
+											option.disabled ? 'disabled' : active ? 'active' : 'inactive'
+										);
 									},
 									maxItems: opts.maxItems,
 									output: opts.output,
@@ -239,6 +247,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				: '';
 		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
 
+		if (option.disabled) {
+			return `${color.gray(S_CHECKBOX_INACTIVE)} ${color.strikethrough(color.gray(label))}`;
+		}
 		if (active) {
 			return `${checkbox} ${label}${hint}`;
 		}
