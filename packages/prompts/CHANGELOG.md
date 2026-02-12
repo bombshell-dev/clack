@@ -1,5 +1,23 @@
 # @clack/prompts
 
+## 1.0.1
+
+### Patch Changes
+
+- 6404dc1: Disallows selection of `disabled` options in autocomplete.
+- 86e36d8: Adds `withGuide` support to select prompt.
+- c697439: Fixes line wrapping behavior in autocomplete.
+- 0ded19c: Simplifies `withGuide` option checks.
+- 0e4ddc9: Fixes `withGuide` support in password and path prompts.
+- 76550d6: Adds `withGuide` support to selectKey prompt.
+- f9b9953: Adds `withGuide` support to password prompt.
+- 0e93ccb: Adds `vertical` arrangement option to `confirm` prompt.
+- 4e9ae13: Adds `withGuide` support to confirm prompt.
+- 0256238: Adds `withGuide` support to spinner prompt.
+- Updated dependencies [6404dc1]
+- Updated dependencies [2533180]
+  - @clack/core@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
