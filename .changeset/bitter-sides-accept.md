@@ -3,4 +3,4 @@
 "@clack/core": patch
 ---
 
-Disallow selection of disabled options in autocomplete.
+Disallows selection of `disabled` options in autocomplete.

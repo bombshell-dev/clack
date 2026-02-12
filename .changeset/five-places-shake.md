@@ -2,4 +2,4 @@
 "@clack/prompts": patch
 ---
 
-chore: simplify guide option checks
+Simplifies `withGuide` option checks.

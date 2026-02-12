@@ -2,4 +2,4 @@
 "@clack/prompts": patch
 ---
 
-Add support for `withGuide` to confirm prompt
+Adds `withGuide` support to confirm prompt.

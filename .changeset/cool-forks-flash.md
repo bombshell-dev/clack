@@ -2,4 +2,4 @@
 "@clack/core": patch
 ---
 
-Update the core README.md to reflect the internal member name change when rendering a TextPrompt (`userInputWithCursor`).
+Updates the documentation to mention `userInputWithCursor` when using the `TextPrompt` primitive.

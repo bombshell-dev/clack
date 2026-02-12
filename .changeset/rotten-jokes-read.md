@@ -2,4 +2,4 @@
 "@clack/prompts": patch
 ---
 
-Add `withGuide` support to password prompt.
+Adds `withGuide` support to password prompt.

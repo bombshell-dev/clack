@@ -1,5 +1,5 @@
 ---
-"@clack/prompts": minor
+"@clack/prompts": patch
 ---
 
-add wraparound behaviour to autocomplete components
+Fixes line wrapping behavior in autocomplete.

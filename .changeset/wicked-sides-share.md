@@ -2,4 +2,4 @@
 "@clack/prompts": patch
 ---
 
-Add `withGuide` support to spinner prompt
+Adds `withGuide` support to spinner prompt.
