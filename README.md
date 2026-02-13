@@ -13,4 +13,10 @@
 <br />
 <br />
 
+<div align="center">
+
+![Demo](assets/demo.gif)
+
+</div>
+
 <h3 align="center"><a href="https://bomb.sh/docs/clack/basics/getting-started/">Read the docs</a></h3>
