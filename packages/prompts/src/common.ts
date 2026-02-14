@@ -57,13 +57,13 @@ export const symbolBar = (state: State) => {
 	switch (state) {
 		case 'initial':
 		case 'active':
-			return color.cyan(S_BAR);
+			return styleText('cyan', S_BAR);
 		case 'cancel':
-			return color.red(S_BAR);
+			return styleText('red', S_BAR);
 		case 'error':
-			return color.yellow(S_BAR);
+			return styleText('yellow', S_BAR);
 		case 'submit':
-			return color.green(S_BAR);
+			return styleText('green', S_BAR);
 	}
 };
 
