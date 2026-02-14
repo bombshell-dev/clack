@@ -222,7 +222,7 @@ exports[`text (isCI = false) > validation errors render and clear (using Error) 
   "<erase.down>",
   "[33m▲[39m  foo
 [33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m└[39m    [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
@@ -260,7 +260,7 @@ exports[`text (isCI = false) > validation errors render and clear 1`] = `
   "<erase.down>",
   "[33m▲[39m  foo
 [33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m└[39m    [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
@@ -519,7 +519,7 @@ exports[`text (isCI = true) > validation errors render and clear (using Error) 1
   "<erase.down>",
   "[33m▲[39m  foo
 [33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m└[39m    [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
@@ -557,7 +557,7 @@ exports[`text (isCI = true) > validation errors render and clear 1`] = `
   "<erase.down>",
   "[33m▲[39m  foo
 [33m│[39m  x█
-[33m└[39m  [33mshould be xy[39m
+[33m└[39m    [33mshould be xy[39m
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
