@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { SelectPrompt } from '@clack/core';
+import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -7,6 +7,7 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 
@@ -71,6 +72,16 @@ export interface SelectOptions<Value> extends CommonOptions {
 	maxItems?: number;
 }
 
+const computeLabel = (label: string, format: (text: string) => string) => {
+	if (!label.includes('\n')) {
+		return format(label);
+	}
+	return label
+		.split('\n')
+		.map((line) => format(line))
+		.join('\n');
+};
+
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
@@ -79,19 +90,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${styleText('gray', S_RADIO_INACTIVE)} ${styleText('gray', label)}${
+				return `${styleText('gray', S_RADIO_INACTIVE)} ${computeLabel(label, (text) => styleText('gray', text))}${
 					option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
-				return `${styleText('dim', label)}`;
+				return `${computeLabel(label, (text) => styleText('dim', text))}`;
 			case 'active':
 				return `${styleText('green', S_RADIO_ACTIVE)} ${label}${
 					option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
-				return `${styleText(['strikethrough', 'dim'], label)}`;
+				return `${computeLabel(label, (str) => styleText(['strikethrough', 'dim'], str))}`;
 			default:
-				return `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}`;
+				return `${styleText('dim', S_RADIO_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 		}
 	};
 
@@ -102,27 +113,52 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		output: opts.output,
 		initialValue: opts.initialValue,
 		render() {
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
+			const titlePrefix = `${symbol(this.state)}  `;
+			const titlePrefixBar = `${symbolBar(this.state)}  `;
+			const messageLines = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				titlePrefixBar,
+				titlePrefix
+			);
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
 
 			switch (this.state) {
-				case 'submit':
-					return `${title}${styleText('gray', S_BAR)}  ${opt(this.options[this.cursor], 'selected')}`;
-				case 'cancel':
-					return `${title}${styleText('gray', S_BAR)}  ${opt(
-						this.options[this.cursor],
-						'cancelled'
-					)}\n${styleText('gray', S_BAR)}`;
+				case 'submit': {
+					const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+					const wrappedLines = wrapTextWithPrefix(
+						opts.output,
+						opt(this.options[this.cursor], 'selected'),
+						submitPrefix
+					);
+					return `${title}${wrappedLines}`;
+				}
+				case 'cancel': {
+					const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+					const wrappedLines = wrapTextWithPrefix(
+						opts.output,
+						opt(this.options[this.cursor], 'cancelled'),
+						cancelPrefix
+					);
+					return `${title}${wrappedLines}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
+				}
 				default: {
-					const prefix = `${styleText('cyan', S_BAR)}  `;
+					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const prefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+					const titleLineCount = title.split('\n').length;
+					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline (or just trailing newline)
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
 						options: this.options,
 						maxItems: opts.maxItems,
 						columnPadding: prefix.length,
+						rowPadding: titleLineCount + footerLineCount,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${prefixEnd}\n`;
 				}
 			}
 		},

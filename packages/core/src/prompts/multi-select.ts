@@ -6,7 +6,7 @@ interface OptionLike {
 	disabled?: boolean;
 }
 
-interface MultiSelectOptions<T extends OptionLike>
+export interface MultiSelectOptions<T extends OptionLike>
 	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
 	options: T[];
 	initialValues?: T['value'][];

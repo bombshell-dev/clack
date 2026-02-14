@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface TextOptions extends PromptOptions<string, TextPrompt> {
+export interface TextOptions extends PromptOptions<string, TextPrompt> {
 	placeholder?: string;
 	defaultValue?: string;
 }

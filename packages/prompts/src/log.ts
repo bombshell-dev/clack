@@ -1,4 +1,5 @@
 import { styleText } from 'node:util';
+import { settings } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -23,25 +24,32 @@ export const log = {
 			secondarySymbol = styleText('gray', S_BAR),
 			output = process.stdout,
 			spacing = 1,
+			withGuide,
 		}: LogMessageOptions = {}
 	) => {
 		const parts: string[] = [];
+		const hasGuide = withGuide ?? settings.withGuide;
+		const spacingString = !hasGuide ? '' : secondarySymbol;
+		const prefix = !hasGuide ? '' : `${symbol}  `;
+		const secondaryPrefix = !hasGuide ? '' : `${secondarySymbol}  `;
+
 		for (let i = 0; i < spacing; i++) {
-			parts.push(`${secondarySymbol}`);
+			parts.push(spacingString);
 		}
+
 		const messageParts = Array.isArray(message) ? message : message.split('\n');
 		if (messageParts.length > 0) {
 			const [firstLine, ...lines] = messageParts;
 			if (firstLine.length > 0) {
-				parts.push(`${symbol}  ${firstLine}`);
+				parts.push(`${prefix}${firstLine}`);
 			} else {
-				parts.push(symbol);
+				parts.push(hasGuide ? symbol : '');
 			}
 			for (const ln of lines) {
 				if (ln.length > 0) {
-					parts.push(`${secondarySymbol}  ${ln}`);
+					parts.push(`${secondaryPrefix}${ln}`);
 				} else {
-					parts.push(secondarySymbol);
+					parts.push(hasGuide ? secondarySymbol : '');
 				}
 			}
 		}

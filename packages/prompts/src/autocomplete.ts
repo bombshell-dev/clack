@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { AutocompletePrompt } from '@clack/core';
+import { AutocompletePrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -62,6 +62,11 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * Validates the value
 	 */
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
+	/**
+	 * Custom filter function to match options against search input.
+	 * If not provided, a default filter that matches label, hint, and value is used.
+	 */
+	filter?: (search: string, option: Option<Value>) => boolean;
 }
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
@@ -80,21 +85,40 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
-		filter: (search: string, opt: Option<Value>) => {
-			return getFilteredOption(search, opt);
-		},
+		filter:
+			opts.filter ??
+			((search: string, opt: Option<Value>) => {
+				return getFilteredOption(search, opt);
+			}),
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		validate: opts.validate,
 		render() {
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and message display
-			const headings = [`${styleText('gray', S_BAR)}`, `${symbol(this.state)}  ${opts.message}`];
+			const headings = hasGuide
+				? [`${styleText('gray', S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
+				: [`${symbol(this.state)}  ${opts.message}`];
 			const userInput = this.userInput;
-			const valueAsString = String(this.value ?? '');
 			const options = this.options;
 			const placeholder = opts.placeholder;
-			const showPlaceholder = valueAsString === '' && placeholder !== undefined;
+			const showPlaceholder = userInput === '' && placeholder !== undefined;
+			const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'disabled') => {
+				const label = getLabel(option);
+				const hint =
+					option.hint && option.value === this.focusedValue
+						? styleText('dim', ` (${option.hint})`)
+						: '';
+				switch (state) {
+					case 'active':
+						return `${styleText('green', S_RADIO_ACTIVE)} ${label}${hint}`;
+					case 'inactive':
+						return `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}`;
+					case 'disabled':
+						return `${styleText('gray', S_RADIO_INACTIVE)} ${styleText(['strikethrough', 'gray'], label)}`;
+				}
+			};
 
 			// Handle different states
 			switch (this.state) {
@@ -103,17 +127,22 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${styleText('dim', selected.map(getLabel).join(', '))}` : '';
-					return `${headings.join('\n')}\n${styleText('gray', S_BAR)}${label}`;
+					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
+					return `${headings.join('\n')}\n${submitPrefix}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput
 						? `  ${styleText(['strikethrough', 'dim'], userInput)}`
 						: '';
-					return `${headings.join('\n')}\n${styleText('gray', S_BAR)}${userInputText}`;
+					const cancelPrefix = hasGuide ? styleText('gray', S_BAR) : '';
+					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
 				}
 
 				default: {
+					const barStyle = this.state === 'error' ? 'yellow' : 'cyan';
+					const guidePrefix = hasGuide ? `${styleText(barStyle, S_BAR)}  ` : '';
+					const guidePrefixEnd = hasGuide ? styleText(barStyle, S_BAR_END) : '';
 					// Display cursor position - show plain text in navigation mode
 					let searchText = '';
 					if (this.isNavigating || showPlaceholder) {
@@ -135,17 +164,17 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${styleText('cyan', S_BAR)}  ${styleText('yellow', 'No matches found')}`]
+							? [`${guidePrefix}${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error'
-							? [`${styleText('yellow', S_BAR)}  ${styleText('yellow', this.error)}`]
-							: [];
+						this.state === 'error' ? [`${guidePrefix}${styleText('yellow', this.error)}`] : [];
 
+					if (hasGuide) {
+						headings.push(`${guidePrefix.trimEnd()}`);
+					}
 					headings.push(
-						`${styleText('cyan', S_BAR)}`,
-						`${styleText('cyan', S_BAR)}  ${styleText('dim', 'Search:')}${searchText}${matches}`,
+						`${guidePrefix}${styleText('dim', 'Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
@@ -157,10 +186,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 						`${styleText('dim', 'Type:')} to search`,
 					];
 
-					const footers = [
-						`${styleText('cyan', S_BAR)}  ${styleText('dim', instructions.join(' • '))}`,
-						`${styleText('cyan', S_BAR_END)}`,
-					];
+					const footers = [`${guidePrefix}${instructions.join(' • ')}`, guidePrefixEnd];
 
 					// Render options with selection
 					const displayOptions =
@@ -169,18 +195,13 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 							: limitOptions({
 									cursor: this.cursor,
 									options: this.filteredOptions,
-									columnPadding: 3, // for `|  `
+									columnPadding: hasGuide ? 3 : 0, // for `|  ` when guide is shown
 									rowPadding: headings.length + footers.length,
 									style: (option, active) => {
-										const label = getLabel(option);
-										const hint =
-											option.hint && option.value === this.focusedValue
-												? styleText('dim', ` (${option.hint})`)
-												: '';
-
-										return active
-											? `${styleText('green', S_RADIO_ACTIVE)} ${label}${hint}`
-											: `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}${hint}`;
+										return opt(
+											option,
+											option.disabled ? 'disabled' : active ? 'active' : 'inactive'
+										);
 									},
 									maxItems: opts.maxItems,
 									output: opts.output,
@@ -189,7 +210,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Return the formatted prompt
 					return [
 						...headings,
-						...displayOptions.map((option) => `${styleText('cyan', S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${guidePrefix}${option}`),
 						...footers,
 					].join('\n');
 				}
@@ -233,6 +254,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			? styleText('green', S_CHECKBOX_SELECTED)
 			: styleText('dim', S_CHECKBOX_INACTIVE);
 
+		if (option.disabled) {
+			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${styleText(['strikethrough', 'gray'], label)}`;
+		}
 		if (active) {
 			return `${checkbox} ${label}${hint}`;
 		}
@@ -243,9 +267,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
 		multiple: true,
-		filter: (search, opt) => {
-			return getFilteredOption(search, opt);
-		},
+		filter:
+			opts.filter ??
+			((search, opt) => {
+				return getFilteredOption(search, opt);
+			}),
 		validate: () => {
 			if (opts.required && prompt.selectedValues.length === 0) {
 				return 'Please select at least one item';
@@ -287,9 +313,10 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					return `${title}${styleText('gray', S_BAR)}  ${styleText('dim', `${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
-					return `${title}${styleText('gray', S_BAR)}  ${styleText('strikethrough', styleText('dim', userInput))}`;
+					return `${title}${styleText('gray', S_BAR)}  ${styleText(['strikethrough', 'dim'], userInput)}`;
 				}
 				default: {
+					const barStyle = this.state === 'error' ? 'yellow' : 'cyan';
 					// Instructions
 					const instructions = [
 						`${styleText('dim', '↑/↓')} to navigate`,
@@ -301,13 +328,25 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${styleText('cyan', S_BAR)}  ${styleText('yellow', 'No matches found')}`]
+							? [`${styleText(barStyle, S_BAR)}  ${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const errorMessage =
 						this.state === 'error'
-							? [`${styleText('cyan', S_BAR)}  ${styleText('yellow', this.error)}`]
+							? [`${styleText(barStyle, S_BAR)}  ${styleText('yellow', this.error)}`]
 							: [];
+
+					// Calculate header and footer line counts for rowPadding
+					const headerLines = [
+						...`${title}${styleText(barStyle, S_BAR)}`.split('\n'),
+						`${styleText(barStyle, S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
+						...noResults,
+						...errorMessage,
+					];
+					const footerLines = [
+						`${styleText(barStyle, S_BAR)}  ${instructions.join(' • ')}`,
+						styleText(barStyle, S_BAR_END),
+					];
 
 					// Get limited options for display
 					const displayOptions = limitOptions({
@@ -317,17 +356,14 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 							formatOption(option, active, this.selectedValues, this.focusedValue),
 						maxItems: opts.maxItems,
 						output: opts.output,
+						rowPadding: headerLines.length + footerLines.length,
 					});
 
 					// Build the prompt display
 					return [
-						title,
-						`${styleText('cyan', S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
-						...noResults,
-						...errorMessage,
-						...displayOptions.map((option) => `${styleText('cyan', S_BAR)}  ${option}`),
-						`${styleText('cyan', S_BAR)}  ${styleText('dim', instructions.join(' • '))}`,
-						`${styleText('cyan', S_BAR_END)}`,
+						...headerLines,
+						...displayOptions.map((option) => `${styleText(barStyle, S_BAR)}  ${option}`),
+						...footerLines,
 					].join('\n');
 				}
 			}

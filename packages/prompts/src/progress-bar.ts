@@ -63,6 +63,9 @@ export function progress({
 	return {
 		start,
 		stop: spin.stop,
+		cancel: spin.cancel,
+		error: spin.error,
+		clear: spin.clear,
 		advance,
 		isCancelled: spin.isCancelled,
 		message: (msg: string) => advance(0, msg),

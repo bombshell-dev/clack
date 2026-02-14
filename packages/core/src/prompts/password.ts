@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-interface PasswordOptions extends PromptOptions<string, PasswordPrompt> {
+export interface PasswordOptions extends PromptOptions<string, PasswordPrompt> {
 	mask?: string;
 }
 export default class PasswordPrompt extends Prompt<string> {

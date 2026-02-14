@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { PasswordPrompt } from '@clack/core';
+import { PasswordPrompt, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from './common.js';
 
 export interface PasswordOptions extends CommonOptions {
@@ -16,35 +16,38 @@ export const password = (opts: PasswordOptions) => {
 		input: opts.input,
 		output: opts.output,
 		render() {
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const userInput = this.userInputWithCursor;
 			const masked = this.masked;
 
 			switch (this.state) {
 				case 'error': {
-					const maskedText = masked ? `  ${masked}` : '';
+					const errorPrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
+					const errorPrefixEnd = hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : '';
+					const maskedText = masked ?? '';
 					if (opts.clearOnError) {
 						this.clear();
 					}
-					return `${title.trim()}\n${styleText('yellow', S_BAR)}${maskedText}\n${styleText(
-						'yellow',
-						S_BAR_END
-					)}  ${styleText('yellow', this.error)}\n`;
+					return `${title.trim()}\n${errorPrefix}${maskedText}\n${errorPrefixEnd}${styleText('yellow', this.error)}\n`;
 				}
 				case 'submit': {
-					const maskedText = masked ? `  ${styleText('dim', masked)}` : '';
-					return `${title}${styleText('gray', S_BAR)}${maskedText}`;
+					const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+					const maskedText = masked ? styleText('dim', masked) : '';
+					return `${title}${submitPrefix}${maskedText}`;
 				}
 				case 'cancel': {
-					const maskedText = masked
-						? `  ${styleText(['strikethrough', 'dim'], masked)}`
-						: '';
-					return `${title}${styleText('gray', S_BAR)}${maskedText}${
-						masked ? `\n${styleText('gray', S_BAR)}` : ''
+					const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+					const maskedText = masked ? styleText(['strikethrough', 'dim'], masked) : '';
+					return `${title}${cancelPrefix}${maskedText}${
+						masked && hasGuide ? `\n${styleText('gray', S_BAR)}` : ''
 					}`;
 				}
-				default:
-					return `${title}${styleText('cyan', S_BAR)}  ${userInput}\n${styleText('cyan', S_BAR_END)}\n`;
+				default: {
+					const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					return `${title}${defaultPrefix}${userInput}\n${defaultPrefixEnd}\n`;
+				}
 			}
 		},
 	}).prompt() as Promise<string | symbol>;

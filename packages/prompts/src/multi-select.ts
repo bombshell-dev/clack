@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { MultiSelectPrompt } from '@clack/core';
+import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -8,6 +8,7 @@ import {
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	symbol,
+	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -20,6 +21,13 @@ export interface MultiSelectOptions<Value> extends CommonOptions {
 	required?: boolean;
 	cursorAt?: Value;
 }
+const computeLabel = (label: string, format: (text: string) => string) => {
+	return label
+		.split('\n')
+		.map((line) => format(line))
+		.join('\n');
+};
+
 export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
@@ -34,7 +42,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
-			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${styleText('gray', label)}${
+			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (str) => styleText(['strikethrough', 'gray'], str))}${
 				option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
 			}`;
 		}
@@ -44,12 +52,12 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			}`;
 		}
 		if (state === 'selected') {
-			return `${styleText('green', S_CHECKBOX_SELECTED)} ${styleText('dim', label)}${
+			return `${styleText('green', S_CHECKBOX_SELECTED)} ${computeLabel(label, (text) => styleText('dim', text))}${
 				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'cancelled') {
-			return `${styleText('strikethrough', styleText('dim', label))}`;
+			return `${computeLabel(label, (text) => styleText(['strikethrough', 'dim'], text))}`;
 		}
 		if (state === 'active-selected') {
 			return `${styleText('green', S_CHECKBOX_SELECTED)} ${label}${
@@ -57,9 +65,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			}`;
 		}
 		if (state === 'submitted') {
-			return `${styleText('dim', label)}`;
+			return `${computeLabel(label, (text) => styleText('dim', text))}`;
 		}
-		return `${styleText('dim', S_CHECKBOX_INACTIVE)} ${styleText('dim', label)}`;
+		return `${styleText('dim', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 	};
 	const required = opts.required ?? true;
 
@@ -85,7 +93,13 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const wrappedMessage = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				`${symbolBar(this.state)}  `,
+				`${symbol(this.state)}  `
+			);
+			const title = `${styleText('gray', S_BAR)}\n${wrappedMessage}\n`;
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
@@ -104,21 +118,32 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${styleText('gray', S_BAR)}  ${
+					const submitText =
 						this.options
 							.filter(({ value: optionValue }) => value.includes(optionValue))
 							.map((option) => opt(option, 'submitted'))
-							.join(styleText('dim', ', ')) || styleText('dim', 'none')
-					}`;
+							.join(styleText('dim', ', ')) || styleText('dim', 'none');
+					const wrappedSubmitText = wrapTextWithPrefix(
+						opts.output,
+						submitText,
+						`${styleText('gray', S_BAR)}  `
+					);
+					return `${title}${wrappedSubmitText}`;
 				}
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'))
 						.join(styleText('dim', ', '));
-					return `${title}${styleText('gray', S_BAR)}${
-						label.trim() ? `  ${label}\n${styleText('gray', S_BAR)}` : ''
-					}`;
+					if (label.trim() === '') {
+						return `${title}${styleText('gray', S_BAR)}`;
+					}
+					const wrappedLabel = wrapTextWithPrefix(
+						opts.output,
+						label,
+						`${styleText('gray', S_BAR)}  `
+					);
+					return `${title}${wrappedLabel}\n${styleText('gray', S_BAR)}`;
 				}
 				case 'error': {
 					const prefix = `${styleText('yellow', S_BAR)}  `;
@@ -128,23 +153,31 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 							i === 0 ? `${styleText('yellow', S_BAR_END)}  ${styleText('yellow', ln)}` : `   ${ln}`
 						)
 						.join('\n');
+					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
+					const titleLineCount = title.split('\n').length;
+					const footerLineCount = footer.split('\n').length + 1; // footer + trailing newline
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
 						columnPadding: prefix.length,
+						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
 					}).join(`\n${prefix}`)}\n${footer}\n`;
 				}
 				default: {
 					const prefix = `${styleText('cyan', S_BAR)}  `;
+					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+					const titleLineCount = title.split('\n').length;
+					const footerLineCount = 2; // S_BAR_END + trailing newline
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
 						cursor: this.cursor,
 						maxItems: opts.maxItems,
 						columnPadding: prefix.length,
+						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
 					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}

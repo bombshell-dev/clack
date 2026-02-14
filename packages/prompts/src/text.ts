@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { TextPrompt } from '@clack/core';
+import { settings, TextPrompt } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export interface TextOptions extends CommonOptions {
@@ -20,7 +20,9 @@ export const text = (opts: TextOptions) => {
 		signal: opts.signal,
 		input: opts.input,
 		render() {
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = opts?.withGuide ?? settings.withGuide;
+			const titlePrefix = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  `;
+			const title = `${titlePrefix}${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
 				: styleText(['inverse', 'hidden'], '_');
@@ -30,21 +32,25 @@ export const text = (opts: TextOptions) => {
 			switch (this.state) {
 				case 'error': {
 					const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
-					return `${title.trim()}\n${styleText('yellow', S_BAR)}  ${userInput}\n${styleText(
-						'yellow',
-						S_BAR_END
-					)}${errorText}\n`;
+					const errorPrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
+					const errorPrefixEnd = hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : '';
+					return `${title.trim()}\n${errorPrefix}${userInput}\n${errorPrefixEnd}${errorText}\n`;
 				}
 				case 'submit': {
 					const valueText = value ? `  ${styleText('dim', value)}` : '';
-					return `${title}${styleText('gray', S_BAR)}${valueText}`;
+					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
+					return `${title}${submitPrefix}${valueText}`;
 				}
 				case 'cancel': {
 					const valueText = value ? `  ${styleText(['strikethrough', 'dim'], value)}` : '';
-					return `${title}${styleText('gray', S_BAR)}${valueText}${value.trim() ? `\n${styleText('gray', S_BAR)}` : ''}`;
+					const cancelPrefix = hasGuide ? styleText('gray', S_BAR) : '';
+					return `${title}${cancelPrefix}${valueText}${value.trim() ? `\n${cancelPrefix}` : ''}`;
 				}
-				default:
-					return `${title}${styleText('cyan', S_BAR)}  ${userInput}\n${styleText('cyan', S_BAR_END)}\n`;
+				default: {
+					const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					return `${title}${defaultPrefix}${userInput}\n${defaultPrefixEnd}\n`;
+				}
 			}
 		},
 	}).prompt() as Promise<string | symbol>;

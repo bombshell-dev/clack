@@ -1,61 +1,13 @@
 # @clack/core
 
-## 1.0.0-alpha.6
+## 1.0.1
 
 ### Patch Changes
 
-- b103ad3: Allow disabled options in multi-select and select prompts.
+- 6404dc1: Disallows selection of `disabled` options in autocomplete.
+- 2533180: Updates the documentation to mention `userInputWithCursor` when using the `TextPrompt` primitive.
 
-## 1.0.0-alpha.5
-
-### Minor Changes
-
-- 55645c2: Support wrapping autocomplete and select prompts.
-
-### Patch Changes
-
-- 71b5029: Add missing nullish checks around values.
-- 2310b43: Allow custom writables as output stream.
-
-## 1.0.0-alpha.4
-
-### Patch Changes
-
-- d98e033: add invert selection for multiselect prompt
-
-## 1.0.0-alpha.3
-
-### Minor Changes
-
-- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
-
-### Patch Changes
-
-- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
-
-## 1.0.0-alpha.2
-
-### Patch Changes
-
-- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
-
-## 1.0.0-alpha.1
-
-### Minor Changes
-
-- 7bc3301: Prompts now have a `userInput` stored separately from their `value`.
-- 2837845: Adds suggestion and path prompts
-- df4eea1: Remove `suggestion` prompt and change `path` prompt to be an autocomplete prompt.
-
-### Patch Changes
-
-- bfe0dd3: Prevents placeholder from being used as input value in text prompts
-- 34f52fe: Validates initial values immediately when using text prompts with initialValue and validate props.
-- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
-- 4f6b3c2: Set initial values of auto complete prompt to first option when multiple is false.
-- 8ead5d3: Avoid passing initial values to core when using auto complete prompt
-
-## 1.0.0-alpha.0
+## 1.0.0
 
 ### Major Changes
 
@@ -65,6 +17,8 @@
 
 ### Minor Changes
 
+- 7bc3301: Prompts now have a `userInput` stored separately from their `value`.
+- 2837845: Adds suggestion and path prompts
 - 729bbb6: Add support for customizable spinner cancel and error messages. Users can now customize these messages either per spinner instance or globally via the `updateSettings` function to support multilingual CLIs.
 
   This update also improves the architecture by exposing the core settings to the prompts package, enabling more consistent default message handling across the codebase.
@@ -93,13 +47,31 @@
   });
   ```
 
+- 55645c2: Support wrapping autocomplete and select prompts.
 - f2c2b89: Adds `AutocompletePrompt` to core with comprehensive tests and implement both `autocomplete` and `autocomplete-multiselect` components in prompts package.
+- df4eea1: Remove `suggestion` prompt and change `path` prompt to be an autocomplete prompt.
+- 1604f97: Add `clearOnError` option to password prompt to automatically clear input when validation fails
 
 ### Patch Changes
 
+- 0718b07: fix: export `*Options` types for prompts.
+- bfe0dd3: Prevents placeholder from being used as input value in text prompts
 - 6868c1c: Adds a new `selectableGroups` boolean to the group multi-select prompt. Using `selectableGroups: false` will disable the ability to select a top-level group, but still allow every child to be selected individually.
+- 7df841d: Removed all trailing space in prompt output and fixed various padding rendering bugs.
 - a4f5034: Fixes an edge case for placeholder values. Previously, when pressing `enter` on an empty prompt, placeholder values would be ignored. Now, placeholder values are treated as the prompt value.
+- b103ad3: Allow disabled options in multi-select and select prompts.
+- 71b5029: Add missing nullish checks around values.
 - a36292b: Fix "TTY initialization failed: uv_tty_init returned EBADF (bad file descriptor)" error happening on Windows for non-tty terminals.
+- 1a45f93: Switched from wrap-ansi to fast-wrap-ansi
+- 4ba2d78: Support short terminal windows when re-rendering by accounting for off-screen lines
+- 34f52fe: Validates initial values immediately when using text prompts with initialValue and validate props.
+- 94fee2a: Changes `placeholder` to be a visual hint rather than a tabbable value.
+- 4f6b3c2: Set initial values of auto complete prompt to first option when multiple is false.
+- 8ead5d3: Avoid passing initial values to core when using auto complete prompt
+- acc4c3a: Add a new `withGuide` option to all prompts to disable the default clack border
+- 68dbf9b: select-key: Fixed wrapping and added new `caseSensitive` option
+- 2310b43: Allow custom writables as output stream.
+- d98e033: add invert selection for multiselect prompt
 
 ## 0.4.1
 

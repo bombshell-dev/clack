@@ -1,10 +1,12 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
+import { findCursor } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: unknown;
 	label?: string;
+	disabled?: boolean;
 }
 
 type FilterFunction<T extends OptionLike> = (search: string, opt: T) => boolean;
@@ -44,7 +46,7 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-interface AutocompleteOptions<T extends OptionLike>
+export interface AutocompleteOptions<T extends OptionLike>
 	extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
 	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
@@ -143,10 +145,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
-			this.#cursor = Math.max(
-				0,
-				Math.min(this.#cursor + (isUpKey ? -1 : 1), this.filteredOptions.length - 1)
-			);
+			this.#cursor = findCursor(this.#cursor, isUpKey ? -1 : 1, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
 			if (!this.multiple) {
 				this.selectedValues = [this.focusedValue];
@@ -204,8 +203,14 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			} else {
 				this.filteredOptions = [...options];
 			}
-			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
-			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
+			const valueCursor = getCursorForValue(this.focusedValue, this.filteredOptions);
+			this.#cursor = findCursor(valueCursor, 0, this.filteredOptions);
+			const focusedOption = this.filteredOptions[this.#cursor];
+			if (focusedOption && !focusedOption.disabled) {
+				this.focusedValue = focusedOption.value;
+			} else {
+				this.focusedValue = undefined;
+			}
 			if (!this.multiple) {
 				if (this.focusedValue !== undefined) {
 					this.toggleSelected(this.focusedValue);

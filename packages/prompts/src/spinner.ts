@@ -24,8 +24,11 @@ export interface SpinnerOptions extends CommonOptions {
 
 export interface SpinnerResult {
 	start(msg?: string): void;
-	stop(msg?: string, code?: number): void;
+	stop(msg?: string): void;
+	cancel(msg?: string): void;
+	error(msg?: string): void;
 	message(msg?: string): void;
+	clear(): void;
 	readonly isCancelled: boolean;
 }
 
@@ -61,7 +64,7 @@ export const spinner = ({
 				: (cancelMessage ?? settings.messages.cancel);
 		isCancelled = code === 1;
 		if (isSpinnerActive) {
-			stop(msg, code);
+			_stop(msg, code);
 			if (isCancelled && typeof onCancel === 'function') {
 				onCancel();
 			}
@@ -124,12 +127,16 @@ export const spinner = ({
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	};
 
+	const hasGuide = opts.withGuide ?? settings.withGuide;
+
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block({ output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
-		output.write(`${styleText('gray', S_BAR)}\n`);
+		if (hasGuide) {
+			output.write(`${styleText('gray', S_BAR)}\n`);
+		}
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		registerHooks();
@@ -163,7 +170,7 @@ export const spinner = ({
 		}, delay);
 	};
 
-	const stop = (msg = '', code = 0): void => {
+	const _stop = (msg = '', code = 0, silent: boolean = false): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
@@ -175,14 +182,24 @@ export const spinner = ({
 					? styleText('red', S_STEP_CANCEL)
 					: styleText('red', S_STEP_ERROR);
 		_message = msg ?? _message;
-		if (indicator === 'timer') {
-			output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
-		} else {
-			output.write(`${step}  ${_message}\n`);
+		if (!silent) {
+			if (indicator === 'timer') {
+				output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+			} else {
+				output.write(`${step}  ${_message}\n`);
+			}
 		}
 		clearHooks();
 		unblock();
 	};
+
+	const stop = (msg = ''): void => _stop(msg, 0);
+	const cancel = (msg = ''): void => _stop(msg, 1);
+	const error = (msg = ''): void => _stop(msg, 2);
+	// TODO (43081j): this will leave the initial S_BAR since we purposely
+	// don't erase that in `clearPrevMessage`. In future, we may want to treat
+	// `clear` as a special case and remove the bar too.
+	const clear = (): void => _stop('', 0, true);
 
 	const message = (msg = ''): void => {
 		_message = removeTrailingDots(msg ?? _message);
@@ -192,6 +209,9 @@ export const spinner = ({
 		start,
 		stop,
 		message,
+		cancel,
+		error,
+		clear,
 		get isCancelled() {
 			return isCancelled;
 		},
