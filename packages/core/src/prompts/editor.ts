@@ -8,6 +8,7 @@ import Prompt, { type PromptOptions } from './prompt.js';
 export interface EditorOptions extends PromptOptions<string, EditorPrompt> {
 	exec?: string;
 	postfix?: string;
+	tmpdir?: string;
 }
 
 export default class EditorPrompt extends Prompt<string> {
@@ -25,7 +26,7 @@ export default class EditorPrompt extends Prompt<string> {
 
 		this.exec =
 			opts.exec ?? process.env.EDITOR ?? (process.platform === 'win32' ? 'notepad' : 'nano');
-		this.path = join(tmpdir(), `ce-${randomUUID()}${opts.postfix ?? ''}`);
+		this.path = join(opts.tmpdir ?? tmpdir(), `ce-${randomUUID()}${opts.postfix ?? ''}`);
 		writeFileSync(this.path, this.value as string);
 
 		this.on('key', (_char, key) => {
