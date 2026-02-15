@@ -16,6 +16,7 @@ import type { Option } from './select.js';
 export interface MultiSelectOptions<Value> extends CommonOptions {
 	message: string;
 	options: Option<Value>[];
+	usage?: boolean | string;
 	initialValues?: Value[];
 	maxItems?: number;
 	required?: boolean;
@@ -69,6 +70,18 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		}
 		return `${color.dim(S_CHECKBOX_INACTIVE)} ${computeLabel(label, color.dim)}`;
 	};
+
+	const defaultUsageMessage = `${color.reset(
+		color.dim(
+			`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
+				color.bgWhite(color.inverse(' enter '))
+			)} to submit`
+		)
+	)}`;
+
+	const usage = opts.usage ?? false;
+	const usageMessage = typeof usage === 'string' ? usage : defaultUsageMessage;
+
 	const required = opts.required ?? true;
 
 	return new MultiSelectPrompt({
@@ -81,13 +94,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		cursorAt: opts.cursorAt,
 		validate(selected: Value[] | undefined) {
 			if (required && (selected === undefined || selected.length === 0))
-				return `Please select at least one option.\n${color.reset(
-					color.dim(
-						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
-							color.bgWhite(color.inverse(' enter '))
-						)} to submit`
-					)
-				)}`;
+				return `Please select at least one option.\n${defaultUsageMessage}`;
 		},
 		render() {
 			const wrappedMessage = wrapTextWithPrefix(
@@ -161,6 +168,13 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				}
 				default: {
 					const prefix = `${color.cyan(S_BAR)}  `;
+					const footer =
+						this.state === 'initial' && usage
+							? usageMessage
+									.split('\n')
+									.map((ln, i) => (i === 0 ? `${color.cyan(S_BAR_END)}  ${ln}` : `   ${ln}`))
+									.join('\n')
+							: color.cyan(S_BAR_END);
 					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
 					const footerLineCount = 2; // S_BAR_END + trailing newline
@@ -172,7 +186,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${footer}\n`;
 				}
 			}
 		},
