@@ -33,7 +33,7 @@ export const text = (opts: TextOptions) => {
 				case 'error': {
 					const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
 					const errorPrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
-					const errorPrefixEnd = hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : '';
+					const errorPrefixEnd = hasGuide ? styleText('yellow', S_BAR_END) : '';
 					return `${title.trim()}\n${errorPrefix}${userInput}\n${errorPrefixEnd}${errorText}\n`;
 				}
 				case 'submit': {
