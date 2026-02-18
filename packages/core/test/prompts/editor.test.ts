@@ -1,4 +1,4 @@
-import { vol } from 'memfs';
+import { fs, vol } from 'memfs';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as EditorPrompt } from '../../src/prompts/editor.js';
@@ -92,6 +92,33 @@ describe('EditorPrompt', () => {
 			expect(instance.path).to.match(createRegexp('tmp', '.txt'));
 		});
 	});
+
+	describe("file", () => {
+		test("created on start", () => {
+			const instance = new EditorPrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+
+			instance.prompt();
+
+			expect(fs.existsSync(instance.path)).to.equal(true);
+		})
+
+		test("removed on end", () => {
+			const instance = new EditorPrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+
+			instance.prompt();
+			input.emit('keypress', '\r', { name: 'return' });
+
+			expect(fs.existsSync(instance.path)).to.equal(false);
+		})
+	})
 
 	describe('executable', () => {
 		const originalEnv = structuredClone(process.env);
