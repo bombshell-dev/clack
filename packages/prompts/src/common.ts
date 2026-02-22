@@ -8,7 +8,7 @@ export const isCI = (): boolean => process.env.CI === 'true';
 export const isTTY = (output: Writable): boolean => {
 	return (output as Writable & { isTTY?: boolean }).isTTY === true;
 };
-export const unicodeOr = (c: string, fallback: string) => (unicode ? c : fallback);
+export const unicodeOr = <T>(c: T, fallback: T): T => (unicode ? c : fallback);
 export const S_STEP_ACTIVE = unicodeOr('◆', '*');
 export const S_STEP_CANCEL = unicodeOr('■', 'x');
 export const S_STEP_ERROR = unicodeOr('▲', 'x');
@@ -38,6 +38,10 @@ export const S_INFO = unicodeOr('●', '•');
 export const S_SUCCESS = unicodeOr('◆', '*');
 export const S_WARN = unicodeOr('▲', '!');
 export const S_ERROR = unicodeOr('■', 'x');
+
+export const S_SPINNER = unicodeOr(['◒', '◐', '◓', '◑'], ['•', 'o', 'O', '0']);
+
+export const N_INTERVAL = unicodeOr(80, 120);
 
 export const symbol = (state: State) => {
 	switch (state) {
