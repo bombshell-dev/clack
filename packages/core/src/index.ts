@@ -26,6 +26,7 @@ export {
 	CANCEL_SYMBOL,
 	getColumns,
 	getRows,
+	isAsync,
 	isCancel,
 	wrapTextWithPrefix,
 } from './utils/index.js';
