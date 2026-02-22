@@ -5,11 +5,12 @@ import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
 	isCI as isCIFn,
+	N_INTERVAL,
 	S_BAR,
+	S_SPINNER,
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
 	S_STEP_SUBMIT,
-	unicode,
 } from './common.js';
 
 export interface SpinnerOptions extends CommonOptions {
@@ -40,8 +41,8 @@ export const spinner = ({
 	output = process.stdout,
 	cancelMessage,
 	errorMessage,
-	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
-	delay = unicode ? 80 : 120,
+	frames = S_SPINNER,
+	delay = N_INTERVAL,
 	signal,
 	...opts
 }: SpinnerOptions = {}): SpinnerResult => {
