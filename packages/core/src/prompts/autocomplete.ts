@@ -1,6 +1,7 @@
 import type { Key } from 'node:readline';
 import color from 'picocolors';
 import { findCursor } from '../utils/cursor.js';
+import { isAsync } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
@@ -46,26 +47,56 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-export interface AutocompleteOptions<T extends OptionLike>
-	extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
+function isAsyncOptions<T extends OptionLike>(
+	options: AutocompleteOptions<T>['options']
+): options is AutocompleteOptionsAsync<T>['options'] {
+	return isAsync({ options }, 'options');
+}
+
+interface AutocompleteOptionsSync<T extends OptionLike> {
 	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
-	multiple?: boolean;
 }
+interface AutocompleteOptionsAsync<T extends OptionLike> {
+	options: (this: AutocompletePrompt<T>, signal?: AbortSignal) => Promise<T[]>;
+	interval: number;
+	frameCount: number;
+	debounce?: number;
+	filter?: FilterFunction<T> | null;
+}
+
+export type AutocompleteOptions<T extends OptionLike> = PromptOptions<
+	T['value'] | T['value'][],
+	AutocompletePrompt<T>
+> & {
+	multiple?: boolean;
+} & (AutocompleteOptionsSync<T> | AutocompleteOptionsAsync<T>);
 
 export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	T['value'] | T['value'][]
 > {
-	filteredOptions: T[];
+	options: T[] = [];
+	filteredOptions: T[] = [];
 	multiple: boolean;
 	isNavigating = false;
 	selectedValues: Array<T['value']> = [];
 
 	focusedValue: T['value'] | undefined;
+
+	isLoading = false;
+	spinnerIndex = 0;
+	#spinnerFrameCount: number = 0;
+	#spinnerInterval?: number;
+	#spinnerTimer?: NodeJS.Timeout;
+
+	#debounceMs?: number;
+	#debounceTimer?: NodeJS.Timeout;
+	#abortController?: AbortController;
+
 	#cursor = 0;
 	#lastUserInput = '';
-	#filterFn: FilterFunction<T>;
-	#options: T[] | (() => T[]);
+	#filterFn: FilterFunction<T> | null;
+	#options: AutocompleteOptions<T>['options'];
 
 	get cursor(): number {
 		return this.#cursor;
@@ -83,48 +114,53 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		return `${s1}${color.inverse(s2)}${s3.join('')}`;
 	}
 
-	get options(): T[] {
-		if (typeof this.#options === 'function') {
-			return this.#options();
-		}
-		return this.#options;
-	}
-
 	constructor(opts: AutocompleteOptions<T>) {
 		super(opts);
 
 		this.#options = opts.options;
-		const options = this.options;
-		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
-		this.#filterFn = opts.filter ?? defaultFilter;
-		let initialValues: unknown[] | undefined;
-		if (opts.initialValue && Array.isArray(opts.initialValue)) {
-			if (this.multiple) {
-				initialValues = opts.initialValue;
-			} else {
-				initialValues = opts.initialValue.slice(0, 1);
-			}
-		} else {
-			if (!this.multiple && this.options.length > 0) {
-				initialValues = [this.options[0].value];
-			}
+		this.#filterFn = opts.filter === undefined ? defaultFilter : opts.filter;
+
+		if (isAsync<AutocompleteOptionsSync<T>, AutocompleteOptionsAsync<T>>(opts, 'options')) {
+			this.#debounceMs = opts.debounce ?? 300;
+			this.#spinnerInterval = opts.interval;
+			this.#spinnerFrameCount = opts.frameCount;
 		}
 
-		if (initialValues) {
-			for (const selectedValue of initialValues) {
-				const selectedIndex = options.findIndex((opt) => opt.value === selectedValue);
-				if (selectedIndex !== -1) {
-					this.toggleSelected(selectedValue);
-					this.#cursor = selectedIndex;
+		const optionsProcessing = () => {
+			this.filteredOptions = [...this.options];
+
+			let initialValues: unknown[] | undefined;
+			if (opts.initialValue && Array.isArray(opts.initialValue)) {
+				if (this.multiple) {
+					initialValues = opts.initialValue;
+				} else {
+					initialValues = opts.initialValue.slice(0, 1);
+				}
+			} else {
+				if (!this.multiple && this.options.length > 0) {
+					initialValues = [this.options[0].value];
 				}
 			}
-		}
 
-		this.focusedValue = this.options[this.#cursor]?.value;
+			if (initialValues) {
+				for (const selectedValue of initialValues) {
+					const selectedIndex = this.options.findIndex((opt) => opt.value === selectedValue);
+					if (selectedIndex !== -1) {
+						this.toggleSelected(selectedValue);
+						this.#cursor = selectedIndex;
+					}
+				}
+			}
+
+			this.focusedValue = this.options[this.#cursor]?.value;
+		};
+
+		this.#populateOptions(optionsProcessing);
 
 		this.on('key', (char, key) => this.#onKey(char, key));
 		this.on('userInput', (value) => this.#onUserInputChanged(value));
+		this.on('finalize', () => this.#setLoading(false));
 	}
 
 	protected override _isActionKey(char: string | undefined, key: Key): boolean {
@@ -136,6 +172,67 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				char !== undefined &&
 				char !== '')
 		);
+	}
+
+	async #populateOptions(runnable?: () => void) {
+		if (isAsyncOptions(this.#options)) {
+			this.#setLoading(true);
+
+			// Allows aborting the previous async options call if the user
+			// made a new search before getting results from the previous one.
+			if (this.#abortController) {
+				this.#abortController.abort();
+			}
+
+			const abortController = new AbortController();
+			this.#abortController = abortController;
+			const options = await this.#options(abortController.signal);
+
+			// Don't do anything else if there was a new search done.
+			// This works because abortController will still have the old instance
+			if (this.#abortController !== abortController) {
+				return;
+			}
+
+			this.options = options;
+			this.#setLoading(false);
+			this.#abortController = undefined;
+
+			runnable?.();
+			this.render();
+			return;
+		}
+
+		if (typeof this.#options === 'function') {
+			this.options = this.#options();
+		} else {
+			this.options = this.#options;
+		}
+
+		runnable?.();
+	}
+
+	#setLoading(loading: boolean) {
+		this.isLoading = loading;
+
+		if (!loading) {
+			if (this.#spinnerTimer) {
+				clearInterval(this.#spinnerTimer);
+				this.#spinnerTimer = undefined;
+			}
+			return;
+		}
+
+		if (!this.#spinnerTimer) {
+			this.spinnerIndex = 0;
+
+			this.#spinnerTimer = setInterval(() => {
+				this.spinnerIndex = (this.spinnerIndex + 1) % this.#spinnerFrameCount;
+				this.render();
+			}, this.#spinnerInterval);
+
+			this.render();
+		}
 	}
 
 	#onKey(_char: string | undefined, key: Key): void {
@@ -181,28 +278,41 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			return;
 		}
 
-		if (this.multiple) {
-			if (this.selectedValues.includes(value)) {
-				this.selectedValues = this.selectedValues.filter((v) => v !== value);
-			} else {
-				this.selectedValues = [...this.selectedValues, value];
-			}
-		} else {
+		if (!this.multiple) {
 			this.selectedValues = [value];
+			return;
+		}
+
+		if (this.selectedValues.includes(value)) {
+			this.selectedValues = this.selectedValues.filter((v) => v !== value);
+		} else {
+			this.selectedValues = [...this.selectedValues, value];
 		}
 	}
 
 	#onUserInputChanged(value: string): void {
-		if (value !== this.#lastUserInput) {
-			this.#lastUserInput = value;
+		if (value === this.#lastUserInput) {
+			return;
+		}
 
-			const options = this.options;
+		this.#lastUserInput = value;
 
-			if (value) {
-				this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
+		if (isAsyncOptions(this.#options)) {
+			this.#handleInputChangedAsync(value);
+		} else {
+			this.#handleInputChangedSync(value);
+		}
+	}
+
+	#handleInputChangedSync(value: string) {
+		const optionsProcessing = () => {
+			if (value && this.#filterFn !== null) {
+				const filterFn = this.#filterFn;
+				this.filteredOptions = this.options.filter((opt) => filterFn(value, opt));
 			} else {
-				this.filteredOptions = [...options];
+				this.filteredOptions = [...this.options];
 			}
+
 			const valueCursor = getCursorForValue(this.focusedValue, this.filteredOptions);
 			this.#cursor = findCursor(valueCursor, 0, this.filteredOptions);
 			const focusedOption = this.filteredOptions[this.#cursor];
@@ -218,6 +328,19 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 					this.deselectAll();
 				}
 			}
+		};
+
+		this.#populateOptions(optionsProcessing);
+	}
+
+	#handleInputChangedAsync(value: string) {
+		// Clear previous debounce timer
+		if (this.#debounceTimer) {
+			clearTimeout(this.#debounceTimer);
 		}
+
+		this.#debounceTimer = setTimeout(() => {
+			this.#handleInputChangedSync(value);
+		}, this.#debounceMs);
 	}
 }

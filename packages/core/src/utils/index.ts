@@ -117,3 +117,15 @@ export function wrapTextWithPrefix(
 		.join('\n');
 	return lines;
 }
+
+/**
+ * Check if a specific prop is a async function
+ */
+export function isAsync<Sync extends object, Async extends object>(
+	opts: Sync | Async,
+	prop: string
+): opts is Async {
+	const value = (opts as Record<string, unknown>)[prop];
+
+	return typeof value === 'function' && value.constructor.name === 'AsyncFunction';
+}

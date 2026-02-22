@@ -1,13 +1,15 @@
-import { AutocompletePrompt, settings } from '@clack/core';
+import { AutocompletePrompt, isAsync, settings } from '@clack/core';
 import color from 'picocolors';
 import {
 	type CommonOptions,
+	N_INTERVAL,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
+	S_SPINNER,
 	symbol,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
@@ -41,15 +43,29 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
-interface AutocompleteSharedOptions<Value> extends CommonOptions {
+function getAsyncFilter<Value>(
+	opts: AutocompleteOptions<Value>
+): AutocompleteSharedOptionsAsync<Value>['filter'] {
+	// filter not provided at all
+	if (!('filter' in opts)) {
+		return null;
+	}
+
+	if (opts.filter) {
+		return opts.filter;
+	}
+
+	// filter undefined
+	return (search: string, opt: Option<Value>) => {
+		return getFilteredOption(search, opt);
+	};
+}
+
+type AutocompleteSharedOptions<Value> = CommonOptions & {
 	/**
 	 * The message to display to the user.
 	 */
 	message: string;
-	/**
-	 * Available options for the autocomplete prompt.
-	 */
-	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 	/**
 	 * Maximum number of items to display at once.
 	 */
@@ -62,6 +78,13 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * Validates the value
 	 */
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
+} & (AutocompleteSharedOptionsSync<Value> | AutocompleteSharedOptionsAsync<Value>);
+
+interface AutocompleteSharedOptionsSync<Value> {
+	/**
+	 * Available options for the autocomplete prompt.
+	 */
+	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 	/**
 	 * Custom filter function to match options against search input.
 	 * If not provided, a default filter that matches label, hint, and value is used.
@@ -69,7 +92,35 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	filter?: (search: string, option: Option<Value>) => boolean;
 }
 
-export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
+interface AutocompleteSharedOptionsAsync<Value> {
+	/**
+	 * Available async options for the autocomplete prompt.
+	 */
+	options: (
+		this: AutocompletePrompt<Option<Value>>,
+		signal?: AbortSignal
+	) => Promise<Option<Value>[]>;
+	/**
+	 * Frames to show during the loading of the options.
+	 */
+	frames?: string[];
+	/**
+	 * Interval between each frame.
+	 */
+	interval?: number;
+	/**
+	 * Debounce for user inputs before doing getting new options.
+	 */
+	debounce?: number;
+	/**
+	 * Custom filter function to match options against search input.
+	 * - null (default): not filter function will be used.
+	 * - undefined: a default filter that matches label, hint, and value is used.
+	 */
+	filter?: ((search: string, option: Option<Value>) => boolean) | null;
+}
+
+export type AutocompleteOptions<Value> = AutocompleteSharedOptions<Value> & {
 	/**
 	 * The initial selected value.
 	 */
@@ -78,28 +129,30 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 	 * The initial user input
 	 */
 	initialUserInput?: string;
-}
+};
 
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const prompt = new AutocompletePrompt({
-		options: opts.options,
+	const frames = ('frames' in opts && opts.frames) || S_SPINNER;
+
+	let prompt: AutocompletePrompt<Option<Value>>;
+
+	const sharedConfig = {
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
-		filter:
-			opts.filter ??
-			((search: string, opt: Option<Value>) => {
-				return getFilteredOption(search, opt);
-			}),
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		validate: opts.validate,
-		render() {
+		render(this: AutocompletePrompt<Option<Value>>) {
+			const promptSymbol = this.isLoading
+				? color.magenta(frames[this.spinnerIndex])
+				: symbol(this.state);
+
 			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and message display
 			const headings = hasGuide
-				? [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
-				: [`${symbol(this.state)}  ${opts.message}`];
+				? [`${color.gray(S_BAR)}`, `${promptSymbol}  ${opts.message}`]
+				: [`${promptSymbol}  ${opts.message}`];
 			const userInput = this.userInput;
 			const options = this.options;
 			const placeholder = opts.placeholder;
@@ -158,7 +211,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// No matches message
 					const noResults =
-						this.filteredOptions.length === 0 && userInput
+						this.filteredOptions.length === 0 && userInput && !this.isLoading
 							? [`${guidePrefix}${color.yellow('No matches found')}`]
 							: [];
 
@@ -211,14 +264,41 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				}
 			}
 		},
-	});
+	};
+
+	// Create autocomplete prompt based on if the option is async or not
+	if (
+		isAsync<AutocompleteSharedOptionsSync<Value>, AutocompleteSharedOptionsAsync<Value>>(
+			opts,
+			'options'
+		)
+	) {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			frameCount: frames.length,
+			interval: opts.interval ?? N_INTERVAL,
+			debounce: opts.debounce,
+			filter: getAsyncFilter(opts),
+		});
+	} else {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			filter:
+				opts.filter ??
+				((search: string, opt: Option<Value>) => {
+					return getFilteredOption(search, opt);
+				}),
+		});
+	}
 
 	// Return the result or cancel symbol
 	return prompt.prompt() as Promise<Value | symbol>;
 };
 
 // Type definition for the autocompleteMultiselect component
-export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
+export type AutocompleteMultiSelectOptions<Value> = AutocompleteSharedOptions<Value> & {
 	/**
 	 * The initial selected values
 	 */
@@ -227,12 +307,16 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
 	 * If true, at least one option must be selected
 	 */
 	required?: boolean;
-}
+};
 
 /**
  * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
+	const frames = ('frames' in opts && opts.frames) || S_SPINNER;
+
+	let prompt: AutocompletePrompt<Option<Value>>;
+
 	const formatOption = (
 		option: Option<Value>,
 		active: boolean,
@@ -257,14 +341,8 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	};
 
 	// Create text prompt which we'll use as foundation
-	const prompt = new AutocompletePrompt<Option<Value>>({
-		options: opts.options,
+	const sharedConfig = {
 		multiple: true,
-		filter:
-			opts.filter ??
-			((search, opt) => {
-				return getFilteredOption(search, opt);
-			}),
 		validate: () => {
 			if (opts.required && prompt.selectedValues.length === 0) {
 				return 'Please select at least one item';
@@ -275,9 +353,13 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
-		render() {
-			// Title and symbol
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+		render(this: AutocompletePrompt<Option<Value>>) {
+			// Symbol and title
+			const promptSymbol = this.isLoading
+				? color.magenta(frames[this.spinnerIndex])
+				: symbol(this.state);
+
+			const title = `${color.gray(S_BAR)}\n${promptSymbol}  ${opts.message}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -319,7 +401,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 
 					// No results message
 					const noResults =
-						this.filteredOptions.length === 0 && userInput
+						this.filteredOptions.length === 0 && userInput && !this.isLoading
 							? [`${barColor(S_BAR)}  ${color.yellow('No matches found')}`]
 							: [];
 
@@ -358,7 +440,34 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				}
 			}
 		},
-	});
+	};
+
+	// Create autocomplete prompt based on if the option is async or not
+	if (
+		isAsync<AutocompleteSharedOptionsSync<Value>, AutocompleteSharedOptionsAsync<Value>>(
+			opts,
+			'options'
+		)
+	) {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			frameCount: frames.length,
+			interval: opts.interval ?? N_INTERVAL,
+			debounce: opts.debounce,
+			filter: getAsyncFilter(opts),
+		});
+	} else {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			filter:
+				opts.filter ??
+				((search, opt) => {
+					return getFilteredOption(search, opt);
+				}),
+		});
+	}
 
 	// Return the result or cancel symbol
 	return prompt.prompt() as Promise<Value[] | symbol>;
