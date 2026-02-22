@@ -17,6 +17,13 @@ export { default as SelectKeyPrompt } from './prompts/select-key.js';
 export type { TextOptions } from './prompts/text.js';
 export { default as TextPrompt } from './prompts/text.js';
 export type { ClackState as State } from './types.js';
-export { block, getColumns, getRows, isCancel, wrapTextWithPrefix } from './utils/index.js';
+export {
+	block,
+	getColumns,
+	getRows,
+	isAsync,
+	isCancel,
+	wrapTextWithPrefix,
+} from './utils/index.js';
 export type { ClackSettings } from './utils/settings.js';
 export { settings, updateSettings } from './utils/settings.js';
