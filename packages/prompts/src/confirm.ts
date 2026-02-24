@@ -1,5 +1,5 @@
-import { ConfirmPrompt } from '@clack/core';
-import color from 'picocolors';
+import { styleText } from 'node:util';
+import { ConfirmPrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -14,6 +14,7 @@ export interface ConfirmOptions extends CommonOptions {
 	active?: string;
 	inactive?: string;
 	initialValue?: boolean;
+	vertical?: boolean;
 }
 export const confirm = (opts: ConfirmOptions) => {
 	const active = opts.active ?? 'Yes';
@@ -26,26 +27,33 @@ export const confirm = (opts: ConfirmOptions) => {
 		output: opts.output,
 		initialValue: opts.initialValue ?? true,
 		render() {
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {
-				case 'submit':
-					return `${title}${color.gray(S_BAR)}  ${color.dim(value)}`;
-				case 'cancel':
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(
-						color.dim(value)
-					)}\n${color.gray(S_BAR)}`;
+				case 'submit': {
+					const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+					return `${title}${submitPrefix}${styleText('dim', value)}`;
+				}
+				case 'cancel': {
+					const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+					return `${title}${cancelPrefix}${styleText(['strikethrough', 'dim'], value)}${
+						hasGuide ? `\n${styleText('gray', S_BAR)}` : ''
+					}`;
+				}
 				default: {
-					return `${title}${color.cyan(S_BAR)}  ${
+					const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					return `${title}${defaultPrefix}${
 						this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${active}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(active)}`
-					} ${color.dim('/')} ${
+							? `${styleText('green', S_RADIO_ACTIVE)} ${active}`
+							: `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', active)}`
+					}${opts.vertical ? (hasGuide ? `\n${styleText('cyan', S_BAR)}  ` : '\n') : ` ${styleText('dim', '/')} `}${
 						!this.value
-							? `${color.green(S_RADIO_ACTIVE)} ${inactive}`
-							: `${color.dim(S_RADIO_INACTIVE)} ${color.dim(inactive)}`
-					}\n${color.cyan(S_BAR_END)}\n`;
+							? `${styleText('green', S_RADIO_ACTIVE)} ${inactive}`
+							: `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', inactive)}`
+					}\n${defaultPrefixEnd}\n`;
 				}
 			}
 		},

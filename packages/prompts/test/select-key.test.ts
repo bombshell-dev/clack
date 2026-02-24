@@ -211,6 +211,45 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('withGuide: false removes guide', async () => {
+		const result = prompts.selectKey({
+			message: 'foo',
+			options: [
+				{ label: 'Option A', value: 'a' },
+				{ label: 'Option B', value: 'b' },
+			],
+			withGuide: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'a', { name: 'a' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('global withGuide: false removes guide', async () => {
+		updateSettings({ withGuide: false });
+
+		const result = prompts.selectKey({
+			message: 'foo',
+			options: [
+				{ label: 'Option A', value: 'a' },
+				{ label: 'Option B', value: 'b' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'a', { name: 'a' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('long submitted labels are wrapped correctly', async () => {
 		output.columns = 40;
 

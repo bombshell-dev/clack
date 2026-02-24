@@ -63,6 +63,24 @@ exports[`text (isCI = false) > caseSensitive: true makes options case-sensitive 
 ]
 `;
 
+exports[`text (isCI = false) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[46m[90m a [39m[49m Option A
+[90m[47m[7m b [27m[49m[39m Option B
+
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mOption A[22m",
+  "
+",
+]
+`;
+
 exports[`text (isCI = false) > input is case-insensitive by default 1`] = `
 [
   "<cursor.hide>",
@@ -270,6 +288,24 @@ exports[`text (isCI = false) > selects option by keypress 1`] = `
 ]
 `;
 
+exports[`text (isCI = false) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[46m[90m a [39m[49m Option A
+[90m[47m[7m b [27m[49m[39m Option B
+
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mOption A[22m",
+  "
+",
+]
+`;
+
 exports[`text (isCI = true) > can cancel by pressing escape 1`] = `
 [
   "<cursor.hide>",
@@ -330,6 +366,24 @@ exports[`text (isCI = true) > caseSensitive: true makes options case-sensitive 1
   "
 ",
   "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[46m[90m a [39m[49m Option A
+[90m[47m[7m b [27m[49m[39m Option B
+
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mOption A[22m",
+  "
+",
 ]
 `;
 
@@ -535,6 +589,24 @@ exports[`text (isCI = true) > selects option by keypress 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mOption B[22m",
+  "
+",
+]
+`;
+
+exports[`text (isCI = true) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[46m[90m a [39m[49m Option A
+[90m[47m[7m b [27m[49m[39m Option B
+
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mOption A[22m",
   "
 ",
 ]

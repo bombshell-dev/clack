@@ -1,5 +1,5 @@
-import { SpinnerPrompt } from '@clack/core';
-import color from 'picocolors';
+import { styleText } from 'node:util';
+import { SpinnerPrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
 	isCI as isCIFn,
@@ -30,7 +30,7 @@ export interface SpinnerResult {
 	readonly isCancelled: boolean;
 }
 
-const defaultStyleFn: SpinnerOptions['styleFrame'] = color.magenta;
+const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
 export const spinner = ({
 	indicator = 'dots',
@@ -54,16 +54,18 @@ export const spinner = ({
 		signal: opts.signal,
 		input: opts.input,
 		render() {
+			const hasGuide = opts.withGuide ?? settings.withGuide;
+
 			if (!this.isActive) {
 				if (this.silentExit) {
 					return '';
 				}
 				const step =
 					this.exitCode === 0
-						? color.green(S_STEP_SUBMIT)
+						? styleText('green', S_STEP_SUBMIT)
 						: this.exitCode === 1
-							? color.red(S_STEP_CANCEL)
-							: color.red(S_STEP_ERROR);
+							? styleText('red', S_STEP_CANCEL)
+							: styleText('red', S_STEP_ERROR);
 				if (indicator === 'timer') {
 					return `${step}  ${this.message} ${this.getFormattedTimer()}\n`;
 				} else {
@@ -81,7 +83,8 @@ export const spinner = ({
 				const loadingDots = '.'.repeat(Math.floor(this.indicatorTimer)).slice(0, 3);
 				outputMessage = `${frame}  ${message}${loadingDots}`;
 			}
-			return `${color.gray(S_BAR)}\n${outputMessage}`;
+			const prefix = hasGuide ? `${styleText('grey', S_BAR)}\n` : '';
+			return `${prefix}${outputMessage}`;
 		},
 	});
 

@@ -1,5 +1,12 @@
 # @clack/core
 
+## 1.0.1
+
+### Patch Changes
+
+- 6404dc1: Disallows selection of `disabled` options in autocomplete.
+- 2533180: Updates the documentation to mention `userInputWithCursor` when using the `TextPrompt` primitive.
+
 ## 1.0.0
 
 ### Major Changes

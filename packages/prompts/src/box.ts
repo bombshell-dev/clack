@@ -67,7 +67,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const titlePadding = opts?.titlePadding ?? 1;
 	const contentPadding = opts?.contentPadding ?? 2;
 	const width = opts?.width === undefined || opts.width === 'auto' ? 1 : Math.min(1, opts.width);
-	const hasGuide = (opts?.withGuide ?? settings.withGuide) !== false;
+	const hasGuide = opts?.withGuide ?? settings.withGuide;
 	const linePrefix = !hasGuide ? '' : `${S_BAR} `;
 	const formatBorder = opts?.formatBorder ?? defaultFormatBorder;
 	const symbols = (opts?.rounded ? roundedSymbols : squareSymbols).map(formatBorder);

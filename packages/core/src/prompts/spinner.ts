@@ -1,5 +1,5 @@
+import { settings } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
-import {settings} from '../utils/index.js';
 
 const removeTrailingDots = (msg: string): string => {
 	return msg.replace(/\.+$/, '');
