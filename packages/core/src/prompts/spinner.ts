@@ -43,6 +43,9 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 	}
 
 	start(msg?: string): void {
+		if (this.#isActive) {
+			this.#reset();
+		}
 		this.#isActive = true;
 		this.#message = removeTrailingDots(msg ?? '');
 		this.#startTime = performance.now();
@@ -59,7 +62,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 			return;
 		}
 
-		this.#isActive = false;
+		this.#reset();
 		this.#silentExit = silent === true;
 		this.#exitCode = exitCode;
 
@@ -67,12 +70,6 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 			this.#message = msg;
 		}
 
-		if (this.#intervalId) {
-			clearInterval(this.#intervalId);
-			this.#intervalId = undefined;
-		}
-
-		this.#removeGlobalListeners();
 		this.state = 'cancel';
 		this.render();
 		this.close();
@@ -115,6 +112,18 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		const min = Math.floor(duration / 60);
 		const secs = Math.floor(duration % 60);
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
+	}
+
+	#reset(): void {
+		this.#isActive = false;
+		this.#exitCode = undefined;
+
+		if (this.#intervalId) {
+			clearInterval(this.#intervalId);
+			this.#intervalId = undefined;
+		}
+
+		this.#removeGlobalListeners();
 	}
 
 	#onInterval(): void {
