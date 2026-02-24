@@ -13,7 +13,7 @@ export interface LimitOptionsParams<TOption> extends CommonOptions {
 }
 
 const trimLines = (
-	groups: string[][],
+	groups: Array<string[]>,
 	initialLineCount: number,
 	startIndex: number,
 	endIndex: number,
@@ -60,7 +60,7 @@ export const limitOptions = <TOption>({
 		computedMaxItems < options.length && slidingWindowLocation + computedMaxItems < options.length;
 
 	const slidingWindowLocationEnd = Math.min(slidingWindowLocation + computedMaxItems, options.length);
-	const lineGroups: string[][] = [];
+	const lineGroups: Array<string[]> = [];
 	let lineCount = 0;
 	if (shouldRenderTopEllipsis) {
 		lineCount++;
