@@ -1,6 +1,6 @@
 import { EventEmitter } from 'node:stream';
+import { styleText } from 'node:util';
 import { getColumns, updateSettings } from '@clack/core';
-import color from 'picocolors';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
@@ -261,7 +261,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 		});
 
 		test('custom frame style', () => {
-			const result = prompts.spinner({ output, styleFrame: color.red });
+			const result = prompts.spinner({ output, styleFrame: (text) => styleText('red', text) });
 
 			result.start();
 

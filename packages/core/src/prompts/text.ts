@@ -1,4 +1,4 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 export interface TextOptions extends PromptOptions<string, TextPrompt> {
@@ -17,7 +17,7 @@ export default class TextPrompt extends Prompt<string> {
 		}
 		const s1 = userInput.slice(0, this.cursor);
 		const [s2, ...s3] = userInput.slice(this.cursor);
-		return `${s1}${color.inverse(s2)}${s3.join('')}`;
+		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
 	}
 	get cursor() {
 		return this._cursor;

@@ -1,9 +1,8 @@
-import { stripVTControlCharacters as strip } from 'node:util';
-import color from 'picocolors';
+import { stripVTControlCharacters as strip, styleText } from 'node:util';
 import { S_BAR, S_ERROR, S_INFO, S_STEP_SUBMIT, S_SUCCESS, S_WARN } from './common.js';
 import type { LogMessageOptions } from './log.js';
 
-const prefix = `${color.gray(S_BAR)}  `;
+const prefix = `${styleText('gray', S_BAR)}  `;
 
 // TODO (43081j): this currently doesn't support custom `output` writables
 // because we rely on `columns` existing (i.e. `process.stdout.columns).
@@ -13,9 +12,9 @@ const prefix = `${color.gray(S_BAR)}  `;
 export const stream = {
 	message: async (
 		iterable: Iterable<string> | AsyncIterable<string>,
-		{ symbol = color.gray(S_BAR) }: LogMessageOptions = {}
+		{ symbol = styleText('gray', S_BAR) }: LogMessageOptions = {}
 	) => {
-		process.stdout.write(`${color.gray(S_BAR)}\n${symbol}  `);
+		process.stdout.write(`${styleText('gray', S_BAR)}\n${symbol}  `);
 		let lineWidth = 3;
 		for await (let chunk of iterable) {
 			chunk = chunk.replace(/\n/g, `\n${prefix}`);
@@ -34,22 +33,22 @@ export const stream = {
 		process.stdout.write('\n');
 	},
 	info: (iterable: Iterable<string> | AsyncIterable<string>) => {
-		return stream.message(iterable, { symbol: color.blue(S_INFO) });
+		return stream.message(iterable, { symbol: styleText('blue', S_INFO) });
 	},
 	success: (iterable: Iterable<string> | AsyncIterable<string>) => {
-		return stream.message(iterable, { symbol: color.green(S_SUCCESS) });
+		return stream.message(iterable, { symbol: styleText('green', S_SUCCESS) });
 	},
 	step: (iterable: Iterable<string> | AsyncIterable<string>) => {
-		return stream.message(iterable, { symbol: color.green(S_STEP_SUBMIT) });
+		return stream.message(iterable, { symbol: styleText('green', S_STEP_SUBMIT) });
 	},
 	warn: (iterable: Iterable<string> | AsyncIterable<string>) => {
-		return stream.message(iterable, { symbol: color.yellow(S_WARN) });
+		return stream.message(iterable, { symbol: styleText('yellow', S_WARN) });
 	},
 	/** alias for `log.warn()`. */
 	warning: (iterable: Iterable<string> | AsyncIterable<string>) => {
 		return stream.warn(iterable);
 	},
 	error: (iterable: Iterable<string> | AsyncIterable<string>) => {
-		return stream.message(iterable, { symbol: color.red(S_ERROR) });
+		return stream.message(iterable, { symbol: styleText('red', S_ERROR) });
 	},
 };

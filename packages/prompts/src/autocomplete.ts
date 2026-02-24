@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { AutocompletePrompt, settings } from '@clack/core';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -98,7 +98,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and message display
 			const headings = hasGuide
-				? [`${color.gray(S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
+				? [`${styleText('gray', S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
 				: [`${symbol(this.state)}  ${opts.message}`];
 			const userInput = this.userInput;
 			const options = this.options;
@@ -107,14 +107,16 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			const opt = (option: Option<Value>, state: 'inactive' | 'active' | 'disabled') => {
 				const label = getLabel(option);
 				const hint =
-					option.hint && option.value === this.focusedValue ? color.dim(` (${option.hint})`) : '';
+					option.hint && option.value === this.focusedValue
+						? styleText('dim', ` (${option.hint})`)
+						: '';
 				switch (state) {
 					case 'active':
-						return `${color.green(S_RADIO_ACTIVE)} ${label}${hint}`;
+						return `${styleText('green', S_RADIO_ACTIVE)} ${label}${hint}`;
 					case 'inactive':
-						return `${color.dim(S_RADIO_INACTIVE)} ${color.dim(label)}`;
+						return `${styleText('dim', S_RADIO_INACTIVE)} ${styleText('dim', label)}`;
 					case 'disabled':
-						return `${color.gray(S_RADIO_INACTIVE)} ${color.strikethrough(color.gray(label))}`;
+						return `${styleText('gray', S_RADIO_INACTIVE)} ${styleText(['strikethrough', 'gray'], label)}`;
 				}
 			};
 
@@ -124,26 +126,28 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show selected value
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
-						selected.length > 0 ? `  ${color.dim(selected.map(getLabel).join(', '))}` : '';
-					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
+						selected.length > 0 ? `  ${styleText('dim', selected.map(getLabel).join(', '))}` : '';
+					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
 					return `${headings.join('\n')}\n${submitPrefix}${label}`;
 				}
 
 				case 'cancel': {
-					const userInputText = userInput ? `  ${color.strikethrough(color.dim(userInput))}` : '';
-					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
+					const userInputText = userInput
+						? `  ${styleText(['strikethrough', 'dim'], userInput)}`
+						: '';
+					const cancelPrefix = hasGuide ? styleText('gray', S_BAR) : '';
 					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
 				}
 
 				default: {
-					const barColor = this.state === 'error' ? color.yellow : color.cyan;
-					const guidePrefix = hasGuide ? `${barColor(S_BAR)}  ` : '';
-					const guidePrefixEnd = hasGuide ? barColor(S_BAR_END) : '';
+					const barStyle = this.state === 'error' ? 'yellow' : 'cyan';
+					const guidePrefix = hasGuide ? `${styleText(barStyle, S_BAR)}  ` : '';
+					const guidePrefixEnd = hasGuide ? styleText(barStyle, S_BAR_END) : '';
 					// Display cursor position - show plain text in navigation mode
 					let searchText = '';
 					if (this.isNavigating || showPlaceholder) {
 						const searchTextValue = showPlaceholder ? placeholder : userInput;
-						searchText = searchTextValue !== '' ? ` ${color.dim(searchTextValue)}` : '';
+						searchText = searchTextValue !== '' ? ` ${styleText('dim', searchTextValue)}` : '';
 					} else {
 						searchText = ` ${this.userInputWithCursor}`;
 					}
@@ -151,7 +155,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show match count if filtered
 					const matches =
 						this.filteredOptions.length !== options.length
-							? color.dim(
+							? styleText(
+									'dim',
 									` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 								)
 							: '';
@@ -159,26 +164,26 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// No matches message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${guidePrefix}${color.yellow('No matches found')}`]
+							? [`${guidePrefix}${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const validationError =
-						this.state === 'error' ? [`${guidePrefix}${color.yellow(this.error)}`] : [];
+						this.state === 'error' ? [`${guidePrefix}${styleText('yellow', this.error)}`] : [];
 
 					if (hasGuide) {
 						headings.push(`${guidePrefix.trimEnd()}`);
 					}
 					headings.push(
-						`${guidePrefix}${color.dim('Search:')}${searchText}${matches}`,
+						`${guidePrefix}${styleText('dim', 'Search:')}${searchText}${matches}`,
 						...noResults,
 						...validationError
 					);
 
 					// Show instructions
 					const instructions = [
-						`${color.dim('↑/↓')} to select`,
-						`${color.dim('Enter:')} confirm`,
-						`${color.dim('Type:')} to search`,
+						`${styleText('dim', '↑/↓')} to select`,
+						`${styleText('dim', 'Enter:')} confirm`,
+						`${styleText('dim', 'Type:')} to search`,
 					];
 
 					const footers = [`${guidePrefix}${instructions.join(' • ')}`, guidePrefixEnd];
@@ -243,17 +248,19 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		const label = option.label ?? String(option.value ?? '');
 		const hint =
 			option.hint && focusedValue !== undefined && option.value === focusedValue
-				? color.dim(` (${option.hint})`)
+				? styleText('dim', ` (${option.hint})`)
 				: '';
-		const checkbox = isSelected ? color.green(S_CHECKBOX_SELECTED) : color.dim(S_CHECKBOX_INACTIVE);
+		const checkbox = isSelected
+			? styleText('green', S_CHECKBOX_SELECTED)
+			: styleText('dim', S_CHECKBOX_INACTIVE);
 
 		if (option.disabled) {
-			return `${color.gray(S_CHECKBOX_INACTIVE)} ${color.strikethrough(color.gray(label))}`;
+			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${styleText(['strikethrough', 'gray'], label)}`;
 		}
 		if (active) {
 			return `${checkbox} ${label}${hint}`;
 		}
-		return `${checkbox} ${color.dim(label)}`;
+		return `${checkbox} ${styleText('dim', label)}`;
 	};
 
 	// Create text prompt which we'll use as foundation
@@ -277,7 +284,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		output: opts.output,
 		render() {
 			// Title and symbol
-			const title = `${color.gray(S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -287,14 +294,15 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Search input display
 			const searchText =
 				this.isNavigating || showPlaceholder
-					? color.dim(showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
+					? styleText('dim', showPlaceholder ? placeholder : userInput) // Just show plain text when in navigation mode
 					: this.userInputWithCursor;
 
 			const options = this.options;
 
 			const matches =
 				this.filteredOptions.length !== options.length
-					? color.dim(
+					? styleText(
+							'dim',
 							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
 						)
 					: '';
@@ -302,40 +310,42 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${color.gray(S_BAR)}  ${color.dim(`${this.selectedValues.length} items selected`)}`;
+					return `${title}${styleText('gray', S_BAR)}  ${styleText('dim', `${this.selectedValues.length} items selected`)}`;
 				}
 				case 'cancel': {
-					return `${title}${color.gray(S_BAR)}  ${color.strikethrough(color.dim(userInput))}`;
+					return `${title}${styleText('gray', S_BAR)}  ${styleText(['strikethrough', 'dim'], userInput)}`;
 				}
 				default: {
-					const barColor = this.state === 'error' ? color.yellow : color.cyan;
+					const barStyle = this.state === 'error' ? 'yellow' : 'cyan';
 					// Instructions
 					const instructions = [
-						`${color.dim('↑/↓')} to navigate`,
-						`${color.dim(this.isNavigating ? 'Space/Tab:' : 'Tab:')} select`,
-						`${color.dim('Enter:')} confirm`,
-						`${color.dim('Type:')} to search`,
+						`${styleText('dim', '↑/↓')} to navigate`,
+						`${styleText('dim', this.isNavigating ? 'Space/Tab:' : 'Tab:')} select`,
+						`${styleText('dim', 'Enter:')} confirm`,
+						`${styleText('dim', 'Type:')} to search`,
 					];
 
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${barColor(S_BAR)}  ${color.yellow('No matches found')}`]
+							? [`${styleText(barStyle, S_BAR)}  ${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const errorMessage =
-						this.state === 'error' ? [`${barColor(S_BAR)}  ${color.yellow(this.error)}`] : [];
+						this.state === 'error'
+							? [`${styleText(barStyle, S_BAR)}  ${styleText('yellow', this.error)}`]
+							: [];
 
 					// Calculate header and footer line counts for rowPadding
 					const headerLines = [
-						...`${title}${barColor(S_BAR)}`.split('\n'),
-						`${barColor(S_BAR)}  ${color.dim('Search:')} ${searchText}${matches}`,
+						...`${title}${styleText(barStyle, S_BAR)}`.split('\n'),
+						`${styleText(barStyle, S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
 					];
 					const footerLines = [
-						`${barColor(S_BAR)}  ${instructions.join(' • ')}`,
-						`${barColor(S_BAR_END)}`,
+						`${styleText(barStyle, S_BAR)}  ${instructions.join(' • ')}`,
+						styleText(barStyle, S_BAR_END),
 					];
 
 					// Get limited options for display
@@ -352,7 +362,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						...headerLines,
-						...displayOptions.map((option) => `${barColor(S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${styleText(barStyle, S_BAR)}  ${option}`),
 						...footerLines,
 					].join('\n');
 				}

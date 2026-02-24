@@ -1,4 +1,4 @@
-import colors from 'picocolors';
+import { styleText } from 'node:util';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
@@ -51,8 +51,8 @@ describe.each(['true', 'false'])('log (isCI = %s)', (isCI) => {
 
 		test('renders message with custom symbols and spacing', () => {
 			prompts.log.message('custom\nsymbols', {
-				symbol: colors.red('>>'),
-				secondarySymbol: colors.yellow('--'),
+				symbol: styleText('red', '>>'),
+				secondarySymbol: styleText('yellow', '--'),
 				output,
 			});
 

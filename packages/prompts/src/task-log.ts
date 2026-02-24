@@ -1,6 +1,6 @@
 import type { Writable } from 'node:stream';
+import { styleText } from 'node:util';
 import { getColumns } from '@clack/core';
-import color from 'picocolors';
 import { erase } from 'sisteransi';
 import {
 	type CommonOptions,
@@ -47,14 +47,14 @@ const stripDestructiveANSI = (input: string): string => {
 export const taskLog = (opts: TaskLogOptions) => {
 	const output: Writable = opts.output ?? process.stdout;
 	const columns = getColumns(output);
-	const secondarySymbol = color.gray(S_BAR);
+	const secondarySymbol = styleText('gray', S_BAR);
 	const spacing = opts.spacing ?? 1;
 	const barSize = 3;
 	const retainLog = opts.retainLog === true;
 	const isTTY = !isCIFn() && isTTYFn(output);
 
 	output.write(`${secondarySymbol}\n`);
-	output.write(`${color.green(S_STEP_SUBMIT)}  ${opts.title}\n`);
+	output.write(`${styleText('green', S_STEP_SUBMIT)}  ${opts.title}\n`);
 	for (let i = 0; i < spacing; i++) {
 		output.write(`${secondarySymbol}\n`);
 	}
@@ -108,19 +108,25 @@ export const taskLog = (opts: TaskLogOptions) => {
 	const printBuffer = (buffer: BufferEntry, messageSpacing?: number, full?: boolean): void => {
 		const messages = full ? `${buffer.full}\n${buffer.value}` : buffer.value;
 		if (buffer.header !== undefined && buffer.header !== '') {
-			log.message(buffer.header.split('\n').map(color.bold), {
+			log.message(
+				buffer.header.split('\n').map((line) => styleText('bold', line)),
+				{
+					output,
+					secondarySymbol,
+					symbol: secondarySymbol,
+					spacing: 0,
+				}
+			);
+		}
+		log.message(
+			messages.split('\n').map((line) => styleText('dim', line)),
+			{
 				output,
 				secondarySymbol,
 				symbol: secondarySymbol,
-				spacing: 0,
-			});
-		}
-		log.message(messages.split('\n').map(color.dim), {
-			output,
-			secondarySymbol,
-			symbol: secondarySymbol,
-			spacing: messageSpacing ?? spacing,
-		});
+				spacing: messageSpacing ?? spacing,
+			}
+		);
 	};
 	const renderBuffer = (): void => {
 		for (const buffer of buffers) {

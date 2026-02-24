@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -90,19 +90,19 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
-				return `${color.gray(S_RADIO_INACTIVE)} ${computeLabel(label, color.gray)}${
-					option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
+				return `${styleText('gray', S_RADIO_INACTIVE)} ${computeLabel(label, (text) => styleText('gray', text))}${
+					option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
 				}`;
 			case 'selected':
-				return `${computeLabel(label, color.dim)}`;
+				return `${computeLabel(label, (text) => styleText('dim', text))}`;
 			case 'active':
-				return `${color.green(S_RADIO_ACTIVE)} ${label}${
-					option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+				return `${styleText('green', S_RADIO_ACTIVE)} ${label}${
+					option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 				}`;
 			case 'cancelled':
-				return `${computeLabel(label, (str) => color.strikethrough(color.dim(str)))}`;
+				return `${computeLabel(label, (str) => styleText(['strikethrough', 'dim'], str))}`;
 			default:
-				return `${color.dim(S_RADIO_INACTIVE)} ${computeLabel(label, color.dim)}`;
+				return `${styleText('dim', S_RADIO_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 		}
 	};
 
@@ -122,11 +122,11 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				titlePrefixBar,
 				titlePrefix
 			);
-			const title = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${messageLines}\n`;
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
 
 			switch (this.state) {
 				case 'submit': {
-					const submitPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'selected'),
@@ -135,17 +135,17 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					return `${title}${wrappedLines}`;
 				}
 				case 'cancel': {
-					const cancelPrefix = hasGuide ? `${color.gray(S_BAR)}  ` : '';
+					const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'cancelled'),
 						cancelPrefix
 					);
-					return `${title}${wrappedLines}${hasGuide ? `\n${color.gray(S_BAR)}` : ''}`;
+					return `${title}${wrappedLines}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
 				default: {
-					const prefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
-					const prefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
+					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const prefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
 					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
 					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline (or just trailing newline)
