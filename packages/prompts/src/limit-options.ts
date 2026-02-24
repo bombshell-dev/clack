@@ -39,7 +39,7 @@ export const limitOptions = <TOption>({
 	output = process.stdout,
 	maxItems = Number.POSITIVE_INFINITY,
 	columnPadding = 0,
-	rowPadding = 4
+	rowPadding = 4,
 }: LimitOptionsParams<TOption>): string[] => {
 	const columns = getColumns(output);
 	const maxWidth = columns - columnPadding;
@@ -52,14 +52,20 @@ export const limitOptions = <TOption>({
 	let slidingWindowLocation = 0;
 
 	if (cursor >= computedMaxItems - 3) {
-		slidingWindowLocation = Math.max(Math.min(cursor - computedMaxItems + 3, options.length - computedMaxItems), 0);
+		slidingWindowLocation = Math.max(
+			Math.min(cursor - computedMaxItems + 3, options.length - computedMaxItems),
+			0
+		);
 	}
 
 	let shouldRenderTopEllipsis = computedMaxItems < options.length && slidingWindowLocation > 0;
 	let shouldRenderBottomEllipsis =
 		computedMaxItems < options.length && slidingWindowLocation + computedMaxItems < options.length;
 
-	const slidingWindowLocationEnd = Math.min(slidingWindowLocation + computedMaxItems, options.length);
+	const slidingWindowLocationEnd = Math.min(
+		slidingWindowLocation + computedMaxItems,
+		options.length
+	);
 	const lineGroups: Array<string[]> = [];
 	let lineCount = 0;
 	if (shouldRenderTopEllipsis) {
