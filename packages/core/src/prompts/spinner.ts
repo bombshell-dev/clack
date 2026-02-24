@@ -29,7 +29,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 	#onCancel?: () => void;
 	#message: string = '';
 	#silentExit: boolean = false;
-	#exitCode: number | undefined = undefined;
+	#exitCode: number = 0;
 
 	constructor(opts: SpinnerOptions) {
 		super(opts);
@@ -64,7 +64,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 
 		this.#reset();
 		this.#silentExit = silent === true;
-		this.#exitCode = exitCode;
+		this.#exitCode = exitCode ?? 0;
 
 		if (msg !== undefined) {
 			this.#message = msg;
@@ -116,7 +116,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 
 	#reset(): void {
 		this.#isActive = false;
-		this.#exitCode = undefined;
+		this.#exitCode = 0;
 
 		if (this.#intervalId) {
 			clearInterval(this.#intervalId);
@@ -127,11 +127,11 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 	}
 
 	#onInterval(): void {
+		this.render();
+
 		this.#frameIndex = this.#frameIndex + 1 < this.#frames.length ? this.#frameIndex + 1 : 0;
 		// indicator increase by 1 every 8 frames
 		this.#indicatorTimer = this.#indicatorTimer < 4 ? this.#indicatorTimer + 0.125 : 0;
-
-		this.render();
 	}
 
 	#onProcessError: () => void = () => {

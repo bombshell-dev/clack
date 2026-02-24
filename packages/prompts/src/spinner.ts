@@ -57,7 +57,7 @@ export const spinner = ({
 			const hasGuide = opts.withGuide ?? settings.withGuide;
 
 			if (!this.isActive) {
-				if (this.silentExit) {
+				if (this.silentExit || this.state === 'initial') {
 					return '';
 				}
 				const step =
