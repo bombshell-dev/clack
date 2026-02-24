@@ -1,4 +1,3 @@
-import type { Writable } from 'node:stream';
 import { getColumns, getRows } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import color from 'picocolors';
@@ -6,9 +5,9 @@ import type { CommonOptions } from './common.js';
 
 export interface LimitOptionsParams<TOption> extends CommonOptions {
 	options: TOption[];
-	maxItems: number | undefined;
 	cursor: number;
 	style: (option: TOption, active: boolean) => string;
+	maxItems?: number;
 	columnPadding?: number;
 	rowPadding?: number;
 }
@@ -33,31 +32,34 @@ const trimLines = (
 	return { lineCount, removals };
 };
 
-export const limitOptions = <TOption>(params: LimitOptionsParams<TOption>): string[] => {
-	const { cursor, options, style } = params;
-	const output: Writable = params.output ?? process.stdout;
+export const limitOptions = <TOption>({
+	cursor,
+	options,
+	style,
+	output = process.stdout,
+	maxItems = Number.POSITIVE_INFINITY,
+	columnPadding = 0,
+	rowPadding = 4
+}: LimitOptionsParams<TOption>): string[] => {
 	const columns = getColumns(output);
-	const columnPadding = params.columnPadding ?? 0;
-	const rowPadding = params.rowPadding ?? 4;
 	const maxWidth = columns - columnPadding;
 	const rows = getRows(output);
 	const overflowFormat = color.dim('...');
 
-	const paramMaxItems = params.maxItems ?? Number.POSITIVE_INFINITY;
 	const outputMaxItems = Math.max(rows - rowPadding, 0);
 	// We clamp to minimum 5 because anything less doesn't make sense UX wise
-	const maxItems = Math.max(Math.min(paramMaxItems, outputMaxItems), 5);
+	const computedMaxItems = Math.max(Math.min(maxItems, outputMaxItems), 5);
 	let slidingWindowLocation = 0;
 
-	if (cursor >= maxItems - 3) {
-		slidingWindowLocation = Math.max(Math.min(cursor - maxItems + 3, options.length - maxItems), 0);
+	if (cursor >= computedMaxItems - 3) {
+		slidingWindowLocation = Math.max(Math.min(cursor - computedMaxItems + 3, options.length - computedMaxItems), 0);
 	}
 
-	let shouldRenderTopEllipsis = maxItems < options.length && slidingWindowLocation > 0;
+	let shouldRenderTopEllipsis = computedMaxItems < options.length && slidingWindowLocation > 0;
 	let shouldRenderBottomEllipsis =
-		maxItems < options.length && slidingWindowLocation + maxItems < options.length;
+		computedMaxItems < options.length && slidingWindowLocation + computedMaxItems < options.length;
 
-	const slidingWindowLocationEnd = Math.min(slidingWindowLocation + maxItems, options.length);
+	const slidingWindowLocationEnd = Math.min(slidingWindowLocation + computedMaxItems, options.length);
 	const lineGroups: Array<string[]> = [];
 	let lineCount = 0;
 	if (shouldRenderTopEllipsis) {
