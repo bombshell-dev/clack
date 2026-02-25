@@ -68,9 +68,9 @@ export const spinner = ({
 							? styleText('red', S_STEP_CANCEL)
 							: styleText('red', S_STEP_ERROR);
 				if (indicator === 'timer') {
-					return `${prefix}${step}  ${this.message} ${this.getFormattedTimer()}\n`;
+					return `${prefix}${step}  ${this.message} ${this.getFormattedTimer()}`;
 				} else {
-					return `${prefix}${step}  ${this.message}\n`;
+					return `${prefix}${step}  ${this.message}`;
 				}
 			}
 			const frame = styleFn(frames[this.frameIndex]);
