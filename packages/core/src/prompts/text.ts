@@ -39,5 +39,10 @@ export default class TextPrompt extends Prompt<string> {
 				this.value = '';
 			}
 		});
+		this.on('key', () => {
+			if (!this.value) {
+				this.value = opts.defaultValue;
+			}
+		});
 	}
 }
