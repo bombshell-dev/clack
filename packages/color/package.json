@@ -1,0 +1,52 @@
+{
+  "name": "@clack/color",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bombshell-dev/clack.git",
+    "directory": "packages/color"
+  },
+  "bugs": {
+    "url": "https://github.com/bombshell-dev/clack/issues"
+  },
+  "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/color#readme",
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "ansi",
+    "chalk",
+    "color",
+    "styletext"
+  ],
+  "license": "MIT",
+  "packageManager": "pnpm@9.14.2",
+  "scripts": {
+    "build": "unbuild",
+    "prepack": "pnpm build",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@types/node": "*"
+  },
+  "peerDependenciesMeta": {
+    "@types/node": {
+      "optional": true
+    }
+  }
+}
