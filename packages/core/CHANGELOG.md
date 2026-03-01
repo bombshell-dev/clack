@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.1.0
+
+### Minor Changes
+
+- e3333fb: Replaces `picocolors` with Node.js built-in `styleText`.
+
 ## 1.0.1
 
 ### Patch Changes
