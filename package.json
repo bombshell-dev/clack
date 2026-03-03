@@ -17,7 +17,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",
     "@changesets/cli": "^2.29.5",
-    "@types/node": "^24.1.0",
+    "@types/node": "^25.3.2",
     "jsr": "^0.13.4",
     "knip": "^5.62.0",
     "typescript": "^5.8.3",
