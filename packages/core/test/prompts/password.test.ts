@@ -78,8 +78,8 @@ describe('PasswordPrompt', () => {
 			input.emit('keypress', 'x', { name: 'x' });
 			input.emit('keypress', 'y', { name: 'y' });
 			input.emit('keypress', 'z', { name: 'z' });
-			input.emit('keypress', 'left', { name: 'left' });
-			input.emit('keypress', 'left', { name: 'left' });
+			input.emit('keypress', undefined, { name: 'left' });
+			input.emit('keypress', undefined, { name: 'left' });
 			expect(instance.userInputWithCursor).to.equal(`•${styleText('inverse', '•')}•`);
 		});
 

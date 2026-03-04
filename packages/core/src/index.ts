@@ -2,6 +2,8 @@ export type { AutocompleteOptions } from './prompts/autocomplete.js';
 export { default as AutocompletePrompt } from './prompts/autocomplete.js';
 export type { ConfirmOptions } from './prompts/confirm.js';
 export { default as ConfirmPrompt } from './prompts/confirm.js';
+export type { DateFormatConfig, DateOptions, DateParts } from './prompts/date.js';
+export { default as DatePrompt } from './prompts/date.js';
 export type { GroupMultiSelectOptions } from './prompts/group-multiselect.js';
 export { default as GroupMultiSelectPrompt } from './prompts/group-multiselect.js';
 export type { MultiSelectOptions } from './prompts/multi-select.js';

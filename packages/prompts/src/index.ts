@@ -4,6 +4,7 @@ export * from './autocomplete.js';
 export * from './box.js';
 export * from './common.js';
 export * from './confirm.js';
+export * from './date.js';
 export * from './group.js';
 export * from './group-multi-select.js';
 export * from './limit-options.js';
