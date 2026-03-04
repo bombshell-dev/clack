@@ -1,5 +1,5 @@
+import { styleText } from 'node:util';
 import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
-import color from 'picocolors';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -42,32 +42,32 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
-			return `${color.gray(S_CHECKBOX_INACTIVE)} ${computeLabel(label, (str) => color.strikethrough(color.gray(str)))}${
-				option.hint ? ` ${color.dim(`(${option.hint ?? 'disabled'})`)}` : ''
+			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (str) => styleText(['strikethrough', 'gray'], str))}${
+				option.hint ? ` ${styleText('dim', `(${option.hint ?? 'disabled'})`)}` : ''
 			}`;
 		}
 		if (state === 'active') {
-			return `${color.cyan(S_CHECKBOX_ACTIVE)} ${label}${
-				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+			return `${styleText('cyan', S_CHECKBOX_ACTIVE)} ${label}${
+				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${computeLabel(label, color.dim)}${
-				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+			return `${styleText('green', S_CHECKBOX_SELECTED)} ${computeLabel(label, (text) => styleText('dim', text))}${
+				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'cancelled') {
-			return `${computeLabel(label, (text) => color.strikethrough(color.dim(text)))}`;
+			return `${computeLabel(label, (text) => styleText(['strikethrough', 'dim'], text))}`;
 		}
 		if (state === 'active-selected') {
-			return `${color.green(S_CHECKBOX_SELECTED)} ${label}${
-				option.hint ? ` ${color.dim(`(${option.hint})`)}` : ''
+			return `${styleText('green', S_CHECKBOX_SELECTED)} ${label}${
+				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
 			}`;
 		}
 		if (state === 'submitted') {
-			return `${computeLabel(label, color.dim)}`;
+			return `${computeLabel(label, (text) => styleText('dim', text))}`;
 		}
-		return `${color.dim(S_CHECKBOX_INACTIVE)} ${computeLabel(label, color.dim)}`;
+		return `${styleText('dim', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 	};
 	const required = opts.required ?? true;
 
@@ -81,10 +81,13 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		cursorAt: opts.cursorAt,
 		validate(selected: Value[] | undefined) {
 			if (required && (selected === undefined || selected.length === 0))
-				return `Please select at least one option.\n${color.reset(
-					color.dim(
-						`Press ${color.gray(color.bgWhite(color.inverse(' space ')))} to select, ${color.gray(
-							color.bgWhite(color.inverse(' enter '))
+				return `Please select at least one option.\n${styleText(
+					'reset',
+					styleText(
+						'dim',
+						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
+							'gray',
+							styleText('bgWhite', styleText('inverse', ' enter '))
 						)} to submit`
 					)
 				)}`;
@@ -96,7 +99,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				`${symbolBar(this.state)}  `,
 				`${symbol(this.state)}  `
 			);
-			const title = `${color.gray(S_BAR)}\n${wrappedMessage}\n`;
+			const title = `${styleText('gray', S_BAR)}\n${wrappedMessage}\n`;
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
@@ -119,11 +122,11 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						this.options
 							.filter(({ value: optionValue }) => value.includes(optionValue))
 							.map((option) => opt(option, 'submitted'))
-							.join(color.dim(', ')) || color.dim('none');
+							.join(styleText('dim', ', ')) || styleText('dim', 'none');
 					const wrappedSubmitText = wrapTextWithPrefix(
 						opts.output,
 						submitText,
-						`${color.gray(S_BAR)}  `
+						`${styleText('gray', S_BAR)}  `
 					);
 					return `${title}${wrappedSubmitText}`;
 				}
@@ -131,19 +134,23 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'))
-						.join(color.dim(', '));
+						.join(styleText('dim', ', '));
 					if (label.trim() === '') {
-						return `${title}${color.gray(S_BAR)}`;
+						return `${title}${styleText('gray', S_BAR)}`;
 					}
-					const wrappedLabel = wrapTextWithPrefix(opts.output, label, `${color.gray(S_BAR)}  `);
-					return `${title}${wrappedLabel}\n${color.gray(S_BAR)}`;
+					const wrappedLabel = wrapTextWithPrefix(
+						opts.output,
+						label,
+						`${styleText('gray', S_BAR)}  `
+					);
+					return `${title}${wrappedLabel}\n${styleText('gray', S_BAR)}`;
 				}
 				case 'error': {
-					const prefix = `${color.yellow(S_BAR)}  `;
+					const prefix = `${styleText('yellow', S_BAR)}  `;
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${color.yellow(S_BAR_END)}  ${color.yellow(ln)}` : `   ${ln}`
+							i === 0 ? `${styleText('yellow', S_BAR_END)}  ${styleText('yellow', ln)}` : `   ${ln}`
 						)
 						.join('\n');
 					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
@@ -160,7 +167,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					}).join(`\n${prefix}`)}\n${footer}\n`;
 				}
 				default: {
-					const prefix = `${color.cyan(S_BAR)}  `;
+					const prefix = `${styleText('cyan', S_BAR)}  `;
 					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
 					const footerLineCount = 2; // S_BAR_END + trailing newline
@@ -172,7 +179,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
-					}).join(`\n${prefix}`)}\n${color.cyan(S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
 				}
 			}
 		},

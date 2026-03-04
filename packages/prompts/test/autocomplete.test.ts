@@ -241,6 +241,42 @@ describe('autocomplete', () => {
 		expect(output.buffer).toMatchSnapshot();
 		expect(value).toBe('grape');
 	});
+
+	test('displays disabled options correctly', async () => {
+		const optionsWithDisabled = [...testOptions, { value: 'kiwi', label: 'Kiwi', disabled: true }];
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: optionsWithDisabled,
+			input,
+			output,
+		});
+
+		for (let i = 0; i < 5; i++) {
+			input.emit('keypress', '', { name: 'down' });
+		}
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toBe('apple');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('cannot select disabled options when only one left', async () => {
+		const optionsWithDisabled = [...testOptions, { value: 'kiwi', label: 'Kiwi', disabled: true }];
+		const result = autocomplete({
+			message: 'Select a fruit',
+			options: optionsWithDisabled,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'k', { name: 'k' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toBe(undefined);
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
 
 describe('autocompleteMultiselect', () => {
@@ -334,6 +370,44 @@ describe('autocompleteMultiselect', () => {
 
 		const value = await result;
 		expect(value).toEqual(['apple']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('displays disabled options correctly', async () => {
+		const optionsWithDisabled = [...testOptions, { value: 'kiwi', label: 'Kiwi', disabled: true }];
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: optionsWithDisabled,
+			input,
+			output,
+		});
+
+		for (let i = 0; i < testOptions.length; i++) {
+			input.emit('keypress', '', { name: 'down' });
+		}
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toEqual(['apple']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('cannot select disabled options when only one left', async () => {
+		const optionsWithDisabled = [...testOptions, { value: 'kiwi', label: 'Kiwi', disabled: true }];
+		const result = autocompleteMultiselect({
+			message: 'Select a fruit',
+			options: optionsWithDisabled,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'k', { name: 'k' });
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toEqual([]);
 		expect(output.buffer).toMatchSnapshot();
 	});
 });

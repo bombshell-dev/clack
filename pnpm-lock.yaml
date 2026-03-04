@@ -60,9 +60,6 @@ importers:
 
   packages/core:
     dependencies:
-      picocolors:
-        specifier: ^1.0.0
-        version: 1.1.1
       sisteransi:
         specifier: ^1.0.5
         version: 1.0.5
@@ -79,9 +76,6 @@ importers:
       '@clack/core':
         specifier: workspace:*
         version: link:../core
-      picocolors:
-        specifier: ^1.0.0
-        version: 1.1.1
       sisteransi:
         specifier: ^1.0.5
         version: 1.0.5

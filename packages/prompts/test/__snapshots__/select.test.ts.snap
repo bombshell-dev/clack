@@ -181,6 +181,24 @@ exports[`select (isCI = false) > down arrow selects next option 1`] = `
 ]
 `;
 
+exports[`select (isCI = false) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[32m●[39m opt0
+[2m○[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = false) > handles mixed size re-renders 1`] = `
 [
   "<cursor.hide>",
@@ -357,6 +375,24 @@ exports[`select (isCI = false) > up arrow selects previous option 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = false) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[32m●[39m opt0
+[2m○[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
   "
 ",
   "<cursor.show>",
@@ -625,6 +661,24 @@ exports[`select (isCI = true) > down arrow selects next option 1`] = `
 ]
 `;
 
+exports[`select (isCI = true) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[32m●[39m opt0
+[2m○[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`select (isCI = true) > handles mixed size re-renders 1`] = `
 [
   "<cursor.hide>",
@@ -801,6 +855,24 @@ exports[`select (isCI = true) > up arrow selects previous option 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`select (isCI = true) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[32m●[39m opt0
+[2m○[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
   "
 ",
   "<cursor.show>",

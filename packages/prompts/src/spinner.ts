@@ -1,6 +1,6 @@
+import { styleText } from 'node:util';
 import { block, getColumns, settings } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
-import color from 'picocolors';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
@@ -32,7 +32,7 @@ export interface SpinnerResult {
 	readonly isCancelled: boolean;
 }
 
-const defaultStyleFn: SpinnerOptions['styleFrame'] = color.magenta;
+const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
 export const spinner = ({
 	indicator = 'dots',
@@ -127,12 +127,16 @@ export const spinner = ({
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	};
 
+	const hasGuide = opts.withGuide ?? settings.withGuide;
+
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block({ output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
-		output.write(`${color.gray(S_BAR)}\n`);
+		if (hasGuide) {
+			output.write(`${styleText('gray', S_BAR)}\n`);
+		}
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		registerHooks();
@@ -173,10 +177,10 @@ export const spinner = ({
 		clearPrevMessage();
 		const step =
 			code === 0
-				? color.green(S_STEP_SUBMIT)
+				? styleText('green', S_STEP_SUBMIT)
 				: code === 1
-					? color.red(S_STEP_CANCEL)
-					: color.red(S_STEP_ERROR);
+					? styleText('red', S_STEP_CANCEL)
+					: styleText('red', S_STEP_ERROR);
 		_message = msg ?? _message;
 		if (!silent) {
 			if (indicator === 'timer') {

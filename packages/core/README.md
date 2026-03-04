@@ -11,7 +11,7 @@ import { TextPrompt, isCancel } from '@clack/core';
 
 const p = new TextPrompt({
   render() {
-    return `What's your name?\n${this.valueWithCursor}`;
+    return `What's your name?\n${this.userInputWithCursor}`;
   },
 });
 

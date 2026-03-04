@@ -1,10 +1,12 @@
 import type { Key } from 'node:readline';
-import color from 'picocolors';
+import { styleText } from 'node:util';
+import { findCursor } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: unknown;
 	label?: string;
+	disabled?: boolean;
 }
 
 type FilterFunction<T extends OptionLike> = (search: string, opt: T) => boolean;
@@ -71,14 +73,14 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 	get userInputWithCursor() {
 		if (!this.userInput) {
-			return color.inverse(color.hidden('_'));
+			return styleText(['inverse', 'hidden'], '_');
 		}
 		if (this._cursor >= this.userInput.length) {
 			return `${this.userInput}█`;
 		}
 		const s1 = this.userInput.slice(0, this._cursor);
 		const [s2, ...s3] = this.userInput.slice(this._cursor);
-		return `${s1}${color.inverse(s2)}${s3.join('')}`;
+		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
 	}
 
 	get options(): T[] {
@@ -143,10 +145,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
-			this.#cursor = Math.max(
-				0,
-				Math.min(this.#cursor + (isUpKey ? -1 : 1), this.filteredOptions.length - 1)
-			);
+			this.#cursor = findCursor(this.#cursor, isUpKey ? -1 : 1, this.filteredOptions);
 			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
 			if (!this.multiple) {
 				this.selectedValues = [this.focusedValue];
@@ -204,8 +203,14 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			} else {
 				this.filteredOptions = [...options];
 			}
-			this.#cursor = getCursorForValue(this.focusedValue, this.filteredOptions);
-			this.focusedValue = this.filteredOptions[this.#cursor]?.value;
+			const valueCursor = getCursorForValue(this.focusedValue, this.filteredOptions);
+			this.#cursor = findCursor(valueCursor, 0, this.filteredOptions);
+			const focusedOption = this.filteredOptions[this.#cursor];
+			if (focusedOption && !focusedOption.disabled) {
+				this.focusedValue = focusedOption.value;
+			} else {
+				this.focusedValue = undefined;
+			}
 			if (!this.multiple) {
 				if (this.focusedValue !== undefined) {
 					this.toggleSelected(this.focusedValue);
