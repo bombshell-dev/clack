@@ -272,7 +272,9 @@ export default class DatePrompt extends Prompt<Date> {
 		);
 
 		const newNum = isBlank
-			? (direction === 1 ? bounds.min : bounds.max)
+			? direction === 1
+				? bounds.min
+				: bounds.max
 			: clamp(bounds.min, num + direction, bounds.max);
 
 		const newSegmentValue = String(newNum).padStart(segment.len, '0');
@@ -323,9 +325,7 @@ export default class DatePrompt extends Prompt<Date> {
 
 			const firstBlank = segmentDisplay.indexOf('_');
 			const pos =
-				firstBlank >= 0
-					? firstBlank
-					: Math.min(this.#cursor.positionInSegment, segment.len - 1);
+				firstBlank >= 0 ? firstBlank : Math.min(this.#cursor.positionInSegment, segment.len - 1);
 			if (pos < 0 || pos >= segment.len) return;
 
 			const newSegmentVal = segmentDisplay.slice(0, pos) + char + segmentDisplay.slice(pos + 1);

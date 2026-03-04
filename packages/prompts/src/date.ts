@@ -1,6 +1,6 @@
+import { styleText } from 'node:util';
 import type { DateFormatConfig, DateParts } from '@clack/core';
 import { DatePrompt, settings } from '@clack/core';
-import color from 'picocolors';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export type DateFormat = 'YYYY/MM/DD' | 'MM/DD/YYYY' | 'DD/MM/YYYY';
@@ -35,17 +35,19 @@ function renderSegment(
 	if (isBlank) {
 		if (cursorInThis) {
 			for (let j = 0; j < label.length; j++) {
-				parts.push(j === cursor.positionInSegment ? color.inverse(' ') : color.dim(label[j]));
+				parts.push(
+					j === cursor.positionInSegment ? styleText('inverse', ' ') : styleText('dim', label[j])
+				);
 			}
 		} else {
-			parts.push(color.dim(label));
+			parts.push(styleText('dim', label));
 		}
 	} else {
 		for (let j = 0; j < value.length; j++) {
 			if (cursorInThis && j === cursor.positionInSegment) {
-				parts.push(value[j] === '_' ? color.inverse(' ') : color.inverse(value[j]));
+				parts.push(value[j] === '_' ? styleText('inverse', ' ') : styleText('inverse', value[j]));
 			} else {
-				parts.push(value[j] === '_' ? color.dim(' ') : value[j]);
+				parts.push(value[j] === '_' ? styleText('dim', ' ') : value[j]);
 			}
 		}
 	}
@@ -64,12 +66,11 @@ function renderDateFormat(
 		return config.format(parts);
 	}
 	const labels = config.segmentLabels ?? DEFAULT_SEGMENT_LABELS;
-	const sep = color.gray('/');
+	const sep = styleText('gray', '/');
 	const rendered = config.segments.map((seg, i) =>
 		renderSegment(parts[seg.type], i, cursor, labels[seg.type], state)
 	);
 	let result = rendered.join(sep);
-	// Add cursor block if beyond last segment
 	const lastSeg = config.segments[config.segments.length - 1];
 	if (
 		cursor.segmentIndex >= config.segments.length ||
@@ -146,14 +147,12 @@ export const date = (opts: DateOptions) => {
 		output: opts.output,
 		render() {
 			const hasGuide = (opts?.withGuide ?? settings.withGuide) !== false;
-			const titlePrefix = `${hasGuide ? `${color.gray(S_BAR)}\n` : ''}${symbol(this.state)}  `;
+			const titlePrefix = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
 
-			// Get segment values and cursor from core
 			const segmentValues = this.segmentValues;
 			const segmentCursor = this.segmentCursor;
 
-			// Determine render state
 			const renderState: RenderState =
 				this.state === 'submit'
 					? 'submit'
@@ -163,7 +162,6 @@ export const date = (opts: DateOptions) => {
 							? 'error'
 							: 'active';
 
-			// Render using generic data-driven renderer
 			const userInput = renderDateFormat(segmentValues, segmentCursor, renderState, formatConfig);
 
 			const value =
@@ -177,28 +175,27 @@ export const date = (opts: DateOptions) => {
 
 			switch (this.state) {
 				case 'error': {
-					const errorText = this.error ? `  ${color.yellow(this.error)}` : '';
-					const errorPrefix = hasGuide ? `${color.yellow(S_BAR)}  ` : '';
-					const errorPrefixEnd = hasGuide ? color.yellow(S_BAR_END) : '';
+					const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
+					const errorPrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
+					const errorPrefixEnd = hasGuide ? styleText('yellow', S_BAR_END) : '';
 					return `${title.trim()}\n${errorPrefix}${userInput}\n${errorPrefixEnd}${errorText}\n`;
 				}
 				case 'submit': {
-					const valueText = value ? `  ${color.dim(value)}` : '';
-					const submitPrefix = hasGuide ? color.gray(S_BAR) : '';
+					const valueText = value ? `  ${styleText('dim', value)}` : '';
+					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
 					return `${title}${submitPrefix}${valueText}`;
 				}
 				case 'cancel': {
-					const valueText = value ? `  ${color.strikethrough(color.dim(value))}` : '';
-					const cancelPrefix = hasGuide ? color.gray(S_BAR) : '';
+					const valueText = value ? `  ${styleText(['strikethrough', 'dim'], value)}` : '';
+					const cancelPrefix = hasGuide ? styleText('gray', S_BAR) : '';
 					return `${title}${cancelPrefix}${valueText}${value.trim() ? `\n${cancelPrefix}` : ''}`;
 				}
 				default: {
-					const defaultPrefix = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
-					const defaultPrefixEnd = hasGuide ? color.cyan(S_BAR_END) : '';
-					// Inline validation: extra bar (│) below date, bar end (└) only at the end
-					const inlineErrorBar = hasGuide ? `${color.cyan(S_BAR)}  ` : '';
+					const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					const inlineErrorBar = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const inlineError = (this as { inlineError?: string }).inlineError
-						? `\n${inlineErrorBar}${color.yellow((this as { inlineError: string }).inlineError)}`
+						? `\n${inlineErrorBar}${styleText('yellow', (this as { inlineError: string }).inlineError)}`
 						: '';
 					return `${title}${defaultPrefix}${userInput}${inlineError}\n${defaultPrefixEnd}\n`;
 				}
