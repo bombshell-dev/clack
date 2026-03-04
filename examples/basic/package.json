@@ -16,6 +16,7 @@
     "path": "jiti ./path.ts",
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
     "spinner-timer": "jiti ./spinner-timer.ts",
+    "spinner-wrap": "jiti ./spinner-wrap.ts",
     "task-log": "jiti ./task-log.ts"
   },
   "devDependencies": {

@@ -53,6 +53,7 @@ export const spinner = ({
 	let isCancelled = false;
 	let _message = '';
 	let _prevMessage: string | undefined;
+	let _prevOutput: string | undefined;
 	let _origin: number = performance.now();
 	const columns = getColumns(output);
 	const styleFn = opts?.styleFrame ?? defaultStyleFn;
@@ -102,13 +103,9 @@ export const spinner = ({
 	};
 
 	const clearPrevMessage = () => {
-		if (_prevMessage === undefined) return;
+		if (_prevOutput === undefined) return;
 		if (isCI) output.write('\n');
-		const wrapped = wrapAnsi(_prevMessage, columns, {
-			hard: true,
-			trim: false,
-		});
-		const prevLines = wrapped.split('\n');
+		const prevLines = _prevOutput.split('\n');
 		if (prevLines.length > 1) {
 			output.write(cursor.up(prevLines.length - 1));
 		}
@@ -163,6 +160,8 @@ export const spinner = ({
 				trim: false,
 			});
 			output.write(wrapped);
+
+			_prevOutput = wrapped;
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			// indicator increase by 1 every 8 frames
