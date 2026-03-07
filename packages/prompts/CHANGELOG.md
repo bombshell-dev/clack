@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 1.2.0
+
+### Minor Changes
+
+- 9786226: Externalize `fast-string-width` and `fast-wrap-ansi` to avoid double dependencies
+
+### Patch Changes
+
+- Updated dependencies [9786226]
+  - @clack/core@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes

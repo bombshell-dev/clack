@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 9786226: Externalize `fast-string-width` and `fast-wrap-ansi` to avoid double dependencies
+
 ## 1.1.0
 
 ### Minor Changes
