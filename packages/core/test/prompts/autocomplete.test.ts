@@ -197,4 +197,22 @@ describe('AutocompletePrompt', () => {
 		expect(instance.selectedValues).to.deep.equal([]);
 		expect(result).to.deep.equal([]);
 	});
+
+	test('Tab with empty input and placeholder fills input and submit returns matching option', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			placeholder: 'apple',
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const result = await promise;
+
+		expect(instance.userInput).to.equal('apple');
+		expect(result).to.equal('apple');
+	});
 });
