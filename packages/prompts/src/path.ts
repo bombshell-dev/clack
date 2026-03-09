@@ -63,7 +63,7 @@ export const path = (opts: PathOptions) => {
 					})
 					.filter(
 						({ path, isDirectory }) =>
-							path.startsWith(userInput) && (opts.directory || !isDirectory)
+							path.startsWith(userInput) && (isDirectory || !opts.directory)
 					);
 				return items.map((item) => ({
 					value: item.path,
