@@ -39,12 +39,14 @@ export const path = (opts: PathOptions) => {
 
 			try {
 				let searchPath: string;
+				let userInputIsDirectory = false;
 
 				if (!existsSync(userInput)) {
 					searchPath = dirname(userInput);
 				} else {
 					const stat = lstatSync(userInput);
 					if (stat.isDirectory()) {
+						userInputIsDirectory = true;
 						searchPath = userInput;
 					} else {
 						searchPath = dirname(userInput);
@@ -65,6 +67,13 @@ export const path = (opts: PathOptions) => {
 						({ path, isDirectory }) =>
 							path.startsWith(userInput) && (isDirectory || !opts.directory)
 					);
+				if (opts.directory && userInputIsDirectory) {
+					items.unshift({
+						name: userInput,
+						path: userInput,
+						isDirectory: true,
+					});
+				}
 				return items.map((item) => ({
 					value: item.path,
 				}));

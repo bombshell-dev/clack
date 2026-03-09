@@ -163,6 +163,41 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('/tmp/foo');
 	});
 
+	test('directory mode submits initial directory value on enter', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			initialValue: '/tmp/',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/');
+	});
+
+	test('directory mode can navigate from initial directory to child directory', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			initialValue: '/tmp/',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo');
+	});
+
 	test('default mode allows selecting files', async () => {
 		const result = prompts.path({
 			message: 'foo',
