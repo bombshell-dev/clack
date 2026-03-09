@@ -18,6 +18,7 @@ export const path = (opts: PathOptions) => {
 		...opts,
 		initialUserInput: opts.initialValue ?? opts.root ?? process.cwd(),
 		maxItems: 5,
+		filter: () => true,
 		validate(value) {
 			if (Array.isArray(value)) {
 				// Shouldn't ever happen since we don't enable `multiple: true`
@@ -39,19 +40,21 @@ export const path = (opts: PathOptions) => {
 
 			try {
 				let searchPath: string;
-				let userInputIsDirectory = false;
 
 				if (!existsSync(userInput)) {
 					searchPath = dirname(userInput);
 				} else {
 					const stat = lstatSync(userInput);
-					if (stat.isDirectory()) {
-						userInputIsDirectory = true;
+					if (stat.isDirectory() && !opts.directory) {
 						searchPath = userInput;
 					} else {
 						searchPath = dirname(userInput);
 					}
 				}
+
+				// Strip trailing slash so startsWith matches the directory itself among its siblings
+				const prefix =
+					userInput.length > 1 && userInput.endsWith('/') ? userInput.slice(0, -1) : userInput;
 
 				const items = readdirSync(searchPath)
 					.map((item) => {
@@ -65,15 +68,9 @@ export const path = (opts: PathOptions) => {
 					})
 					.filter(
 						({ path, isDirectory }) =>
-							path.startsWith(userInput) && (isDirectory || !opts.directory)
+							path.startsWith(prefix) && (isDirectory || !opts.directory)
 					);
-				if (opts.directory && userInputIsDirectory) {
-					items.unshift({
-						name: userInput,
-						path: userInput,
-						isDirectory: true,
-					});
-				}
+
 				return items.map((item) => ({
 					value: item.path,
 				}));

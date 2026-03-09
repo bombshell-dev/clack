@@ -177,7 +177,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 
 		const value = await result;
 
-		expect(value).toBe('/tmp/');
+		expect(value).toBe('/tmp');
 	});
 
 	test('directory mode can navigate from initial directory to child directory', async () => {
@@ -190,7 +190,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
-		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', 'f', { name: 'f' });
 		input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
