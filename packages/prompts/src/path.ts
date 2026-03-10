@@ -18,7 +18,6 @@ export const path = (opts: PathOptions) => {
 		...opts,
 		initialUserInput: opts.initialValue ?? opts.root ?? process.cwd(),
 		maxItems: 5,
-		filter: () => true,
 		validate(value) {
 			if (Array.isArray(value)) {
 				// Shouldn't ever happen since we don't enable `multiple: true`
@@ -45,7 +44,7 @@ export const path = (opts: PathOptions) => {
 					searchPath = dirname(userInput);
 				} else {
 					const stat = lstatSync(userInput);
-					if (stat.isDirectory() && !opts.directory) {
+					if (stat.isDirectory() && (!opts.directory || userInput.endsWith('/'))) {
 						searchPath = userInput;
 					} else {
 						searchPath = dirname(userInput);
@@ -67,8 +66,7 @@ export const path = (opts: PathOptions) => {
 						};
 					})
 					.filter(
-						({ path, isDirectory }) =>
-							path.startsWith(prefix) && (isDirectory || !opts.directory)
+						({ path, isDirectory }) => path.startsWith(prefix) && (isDirectory || !opts.directory)
 					);
 
 				return items.map((item) => ({
