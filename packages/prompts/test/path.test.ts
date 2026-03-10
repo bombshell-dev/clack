@@ -167,7 +167,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		const result = prompts.path({
 			message: 'foo',
 			root: '/tmp/',
-			initialValue: '/tmp/',
+			initialValue: '/tmp',
 			directory: true,
 			input,
 			output,
@@ -178,6 +178,24 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		const value = await result;
 
 		expect(value).toBe('/tmp');
+	});
+
+	test('directory mode traverses into child when trailing slash entered', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			initialValue: '/tmp',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '/', { name: '/' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo');
 	});
 
 	test('directory mode can navigate from initial directory to child directory', async () => {
