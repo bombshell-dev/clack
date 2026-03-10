@@ -49,13 +49,13 @@ export const spinner = ({
 		cancelMessage,
 		errorMessage,
 		frames,
-		delay,
+		delay: isCI ? Infinity : delay,
 		output: opts.output,
 		signal: opts.signal,
 		input: opts.input,
 		render() {
 			const hasGuide = opts.withGuide ?? settings.withGuide;
-			const prefix = hasGuide ? `${styleText('grey', S_BAR)}\n` : '';
+			const prefix = hasGuide ? `${styleText('gray', S_BAR)}\n` : '';
 
 			if (!this.isActive) {
 				if (this.silentExit || this.state === 'initial') {
@@ -68,9 +68,11 @@ export const spinner = ({
 							? styleText('red', S_STEP_CANCEL)
 							: styleText('red', S_STEP_ERROR);
 				if (indicator === 'timer') {
-					return `${prefix}${step}  ${this.message} ${this.getFormattedTimer()}`;
+					const paddedMessage = this.message ? `  ${this.message}` : ' ';
+					return `${prefix}${step}${paddedMessage} ${this.getFormattedTimer()}`;
 				} else {
-					return `${prefix}${step}  ${this.message}`;
+					const paddedMessage = this.message ? `  ${this.message}` : '';
+					return `${prefix}${step}${paddedMessage}`;
 				}
 			}
 			const frame = styleFn(frames[this.frameIndex]);

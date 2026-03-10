@@ -52,7 +52,11 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		this.#frameIndex = 0;
 		this.#indicatorTimer = 0;
 
-		this.#intervalId = setInterval(() => this.#onInterval(), this.#delay);
+		if (Number.isFinite(this.#delay)) {
+			this.#intervalId = setInterval(() => this.#onInterval(), this.#delay);
+		} else {
+			this.render();
+		}
 
 		this.#addGlobalListeners();
 	}
