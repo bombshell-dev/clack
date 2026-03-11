@@ -3,5 +3,5 @@
 "@clack/core": patch
 ---
 
-Make the autocomplete placeholder tabbable: when the input is empty and a placeholder is set, pressing Tab fills the input with the placeholder so that options are filtered and the user can confirm with Enter.
+Adds `placeholder` option to `autocomplete`. When the placeholder is set and the input is empty, pressing `tab` will set the value to `placeholder`.
 
