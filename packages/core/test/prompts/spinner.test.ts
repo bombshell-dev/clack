@@ -110,7 +110,7 @@ describe('SpinnerPrompt', () => {
 			expect(instance.message).to.equal('');
 			expect(instance.isActive).to.equal(false);
 			expect(instance.silentExit).to.equal(false);
-			expect(instance.exitCode).to.equal(undefined);
+			expect(instance.exitCode).to.equal(0);
 			expect(instance.state).to.equal('initial');
 			expect(output.buffer).to.deep.equal([]);
 		});
