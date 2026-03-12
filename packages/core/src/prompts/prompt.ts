@@ -270,7 +270,7 @@ export default class Prompt<TValue> {
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
-	private render() {
+	protected render() {
 		const frame = wrapAnsi(this._render(this) ?? '', process.stdout.columns, {
 			hard: true,
 			trim: false,
