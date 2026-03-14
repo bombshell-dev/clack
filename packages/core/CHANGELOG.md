@@ -1,5 +1,16 @@
 # @clack/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 9786226: Externalize `fast-string-width` and `fast-wrap-ansi` to avoid double dependencies
+- 090902c: Adds `date` prompt with format support (YYYY/MM/DD, MM/DD/YYYY, DD/MM/YYYY).
+
+### Patch Changes
+
+- 52fce8a: Fix timezone issues in DatePrompt causing dates to be off by one day in non-UTC timezones
+
 ## 1.1.0
 
 ### Minor Changes
