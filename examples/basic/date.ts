@@ -4,9 +4,9 @@ import color from 'picocolors';
 async function main() {
 	const result = (await p.date({
 		message: color.magenta('Pick a date'),
-		format: 'YYYY/MM/DD',
-		minDate: new Date('2025-01-01'),
-		maxDate: new Date('2025-12-31'),
+		format: 'YMD',
+		minDate: new Date('2026-01-01'),
+		maxDate: new Date('2026-12-31'),
 	})) as Date;
 
 	if (p.isCancel(result)) {
