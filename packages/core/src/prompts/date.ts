@@ -31,13 +31,17 @@ function dateToSegmentValues(date: Date | undefined): DateParts {
 		return { year: '____', month: '__', day: '__' };
 	}
 	return {
-		year: String(date.getFullYear()).padStart(4, '0'),
-		month: String(date.getMonth() + 1).padStart(2, '0'),
-		day: String(date.getDate()).padStart(2, '0'),
+		year: String(date.getUTCFullYear()).padStart(4, '0'),
+		month: String(date.getUTCMonth() + 1).padStart(2, '0'),
+		day: String(date.getUTCDate()).padStart(2, '0'),
 	};
 }
 
-function segmentValuesToParsed(parts: DateParts): { year: number; month: number; day: number } {
+function segmentValuesToParsed(parts: DateParts): {
+	year: number;
+	month: number;
+	day: number;
+} {
 	const val = (s: string) => Number.parseInt((s || '0').replace(/_/g, '0'), 10) || 0;
 	return {
 		year: val(parts.year),
@@ -119,18 +123,22 @@ function segmentValuesToParts(
 	if (!year || year < 1000 || year > 9999) return undefined;
 	if (!month || month < 1 || month > 12) return undefined;
 	if (!day || day < 1) return undefined;
-	const date = new Date(year, month - 1, day);
-	if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+	const date = new Date(Date.UTC(year, month - 1, day));
+	if (
+		date.getUTCFullYear() !== year ||
+		date.getUTCMonth() !== month - 1 ||
+		date.getUTCDate() !== day
+	) {
 		return undefined;
 	}
 	return { year, month, day };
 }
 
-/** Build a Date from segment values using local midnight so getFullYear/getMonth/getDate are timezone-stable. */
+/** Build a Date from segment values using UTC midnight so getFullYear/getMonth/getDate are timezone-stable. */
 function segmentValuesToDate(parts: DateParts): Date | undefined {
 	const parsed = segmentValuesToParts(parts);
 	if (!parsed) return undefined;
-	return new Date(parsed.year, parsed.month - 1, parsed.day);
+	return new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day));
 }
 
 function segmentValuesToISOString(parts: DateParts): string | undefined {
@@ -278,7 +286,10 @@ export default class DatePrompt extends Prompt<Date> {
 			: clamp(bounds.min, num + direction, bounds.max);
 
 		const newSegmentValue = String(newNum).padStart(segment.len, '0');
-		this.#segmentValues = { ...this.#segmentValues, [segment.type]: newSegmentValue };
+		this.#segmentValues = {
+			...this.#segmentValues,
+			[segment.type]: newSegmentValue,
+		};
 		this.#refreshFromSegmentValues();
 	}
 
@@ -331,7 +342,10 @@ export default class DatePrompt extends Prompt<Date> {
 			const newSegmentVal = segmentDisplay.slice(0, pos) + char + segmentDisplay.slice(pos + 1);
 
 			if (!newSegmentVal.includes('_')) {
-				const newParts = { ...this.#segmentValues, [segment.type]: newSegmentVal };
+				const newParts = {
+					...this.#segmentValues,
+					[segment.type]: newSegmentVal,
+				};
 				const validationMsg = getSegmentValidationMessage(newParts, segment);
 				if (validationMsg) {
 					this.inlineError = validationMsg;

@@ -32,7 +32,7 @@ const DD_MM_YYYY = buildFormatConfig(
 
 const d = (iso: string) => {
 	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
-	return new Date(y, m - 1, day);
+	return new Date(Date.UTC(y, m - 1, day));
 };
 
 describe('DatePrompt', () => {
@@ -70,7 +70,7 @@ describe('DatePrompt', () => {
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/01/15');
 		expect(instance.value).toBeInstanceOf(Date);
-		expect(instance.value!.toISOString().slice(0, 10)).to.equal('2025-01-15');
+		expect(instance.value?.toISOString().slice(0, 10)).to.equal('2025-01-15');
 	});
 
 	test('left/right navigates between segments', () => {
@@ -82,18 +82,30 @@ describe('DatePrompt', () => {
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 0,
+		});
 		// Move within year (0->1->2->3), then right from end goes to month
 		for (let i = 0; i < 4; i++) {
 			input.emit('keypress', undefined, { name: 'right' });
 		}
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 1, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 1,
+			positionInSegment: 0,
+		});
 		for (let i = 0; i < 2; i++) {
 			input.emit('keypress', undefined, { name: 'right' });
 		}
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 2, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 2,
+			positionInSegment: 0,
+		});
 		input.emit('keypress', undefined, { name: 'left' });
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 1, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 1,
+			positionInSegment: 0,
+		});
 	});
 
 	test('up/down increments and decrements segment', () => {
@@ -181,14 +193,20 @@ describe('DatePrompt', () => {
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 0,
+		});
 		// Type 2,0,2,3 to change 2025 -> 2023 (edit digit by digit)
 		input.emit('keypress', '2', { name: undefined, sequence: '2' });
 		input.emit('keypress', '0', { name: undefined, sequence: '0' });
 		input.emit('keypress', '2', { name: undefined, sequence: '2' });
 		input.emit('keypress', '3', { name: undefined, sequence: '3' });
 		expect(instance.userInput).to.equal('2023/01/15');
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 3 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 3,
+		});
 	});
 
 	test('backspace clears entire segment at any cursor position', () => {
@@ -201,11 +219,17 @@ describe('DatePrompt', () => {
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/12/21');
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 0,
+		});
 		// Backspace at first position clears whole year segment
 		input.emit('keypress', undefined, { name: 'backspace', sequence: '\x7f' });
 		expect(instance.userInput).to.equal('____/12/21');
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 0,
+		});
 	});
 
 	test('backspace clears segment when cursor at first char (2___)', () => {
@@ -219,14 +243,23 @@ describe('DatePrompt', () => {
 		// Type "2" to get "2___"
 		input.emit('keypress', '2', { name: undefined, sequence: '2' });
 		expect(instance.userInput).to.equal('2___/__/__');
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 1 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 1,
+		});
 		// Move to first char (position 0)
 		input.emit('keypress', undefined, { name: 'left' });
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 0,
+		});
 		// Backspace should clear whole segment - also test char-based detection
 		input.emit('keypress', '\x7f', { name: undefined, sequence: '\x7f' });
 		expect(instance.userInput).to.equal('____/__/__');
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 0,
+			positionInSegment: 0,
+		});
 	});
 
 	test('digit input updates segment and jumps to next when complete', () => {
@@ -242,7 +275,10 @@ describe('DatePrompt', () => {
 			input.emit('keypress', c, { name: undefined, sequence: c });
 		}
 		expect(instance.userInput).to.equal('2025/__/__');
-		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 1, positionInSegment: 0 });
+		expect(instance.segmentCursor).to.deep.equal({
+			segmentIndex: 1,
+			positionInSegment: 0,
+		});
 	});
 
 	test('submit returns ISO string for valid date', async () => {

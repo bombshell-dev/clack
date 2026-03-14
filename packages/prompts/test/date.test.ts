@@ -5,7 +5,7 @@ import { MockReadable, MockWritable } from './test-utils.js';
 
 const d = (iso: string) => {
 	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
-	return new Date(y, m - 1, day);
+	return new Date(Date.UTC(y, m - 1, day));
 };
 
 describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
