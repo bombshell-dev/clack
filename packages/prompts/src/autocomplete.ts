@@ -85,6 +85,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
+		placeholder: opts.placeholder,
 		filter:
 			opts.filter ??
 			((search: string, opt: Option<Value>) => {
@@ -267,6 +268,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
 		multiple: true,
+		placeholder: opts.placeholder,
 		filter:
 			opts.filter ??
 			((search, opt) => {
