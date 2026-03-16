@@ -216,7 +216,7 @@ export default class DatePrompt extends Prompt<Date> {
 			next = Math.max(Math.min(bounds.max, num + direction), bounds.min);
 		}
 
-		this.#segmentValues = { ...this.#segmentValues, [segment.type]: String(next).padStart(segment.len, '0') };
+		this.#segmentValues = { ...this.#segmentValues, [segment.type]: next.toString().padStart(segment.len, '0') };
 		this.#segmentSelected = true;
 		this.#pendingTensDigit = null;
 		this.#refresh();
