@@ -65,6 +65,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	#cursor = 0;
 	#lastUserInput = '';
 	#filterFn: FilterFunction<T>;
+	#hasCustomFilter: boolean;
 	#options: T[] | (() => T[]);
 
 	get cursor(): number {
@@ -97,6 +98,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		const options = this.options;
 		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
+		this.#hasCustomFilter = opts.filter !== undefined;
 		this.#filterFn = opts.filter ?? defaultFilter;
 		let initialValues: unknown[] | undefined;
 		if (opts.initialValue && Array.isArray(opts.initialValue)) {
@@ -197,9 +199,16 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			this.#lastUserInput = value;
 
 			const options = this.options;
+			const isOptionsFunction = typeof this.#options === 'function';
 
 			if (value) {
-				this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
+				// When options is a function and no custom filter was provided,
+				// skip filtering since the function already returns filtered results.
+				if (isOptionsFunction && !this.#hasCustomFilter) {
+					this.filteredOptions = [...options];
+				} else {
+					this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
+				}
 			} else {
 				this.filteredOptions = [...options];
 			}
