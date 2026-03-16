@@ -210,9 +210,7 @@ export default class DatePrompt extends Prompt<Date> {
 		if (isBlank) {
 			next = direction === 1 ? bounds.min : bounds.max;
 		} else {
-			next = num + direction;
-			if (next > bounds.max) next = bounds.min;
-			if (next < bounds.min) next = bounds.max;
+			next = Math.max(Math.min(bounds.max, num + direction), bounds.min);
 		}
 
 		this.#segmentValues = { ...this.#segmentValues, [segment.type]: String(next).padStart(segment.len, '0') };
