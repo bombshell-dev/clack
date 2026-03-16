@@ -137,6 +137,37 @@ describe('autocomplete', () => {
 		expect(value).toBe('apple');
 	});
 
+	test('Tab with placeholder fills input and Enter submits matching option', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'apple',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(value).toBe('apple');
+	});
+
+	test('Tab with non-matching placeholder does not fill input', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'Type to search...',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		// Tab did not fill input with placeholder (no option matches), so Enter submits first option
+		expect(value).toBe('apple');
+	});
+
 	test('supports initialValue', async () => {
 		const result = autocomplete({
 			message: 'Select a fruit',
@@ -409,6 +440,21 @@ describe('autocompleteMultiselect', () => {
 		const value = await result;
 		expect(value).toEqual([]);
 		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('Tab with placeholder fills input; Enter submits current selection', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			placeholder: 'apple',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(value).toEqual([]);
 	});
 });
 
