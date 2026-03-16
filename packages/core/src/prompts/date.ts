@@ -41,9 +41,12 @@ function detectLocaleFormat(locale?: string): { segments: SegmentConfig[]; separ
 }
 
 /** Parse string segment values to numbers, treating blanks as 0 */
+function parseSegmentToNum(s: string): number {
+	return Number.parseInt((s || '0').replace(/_/g, '0'), 10) || 0;
+}
+
 function parse(parts: DateParts): { year: number; month: number; day: number } {
-	const n = (s: string) => Number.parseInt((s || '0').replace(/_/g, '0'), 10) || 0;
-	return { year: n(parts.year), month: n(parts.month), day: n(parts.day) };
+	return { year: parseSegmentToNum(parts.year), month: parseSegmentToNum(parts.month), day: parseSegmentToNum(parts.day) };
 }
 
 function daysInMonth(year: number, month: number): number {
