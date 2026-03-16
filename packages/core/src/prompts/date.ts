@@ -58,15 +58,15 @@ function validParts(
 	if (!year || year < 0 || year > 9999) return undefined;
 	if (!month || month < 1 || month > 12) return undefined;
 	if (!day || day < 1) return undefined;
-	const d = new Date(year, month - 1, day);
-	if (d.getFullYear() !== year || d.getMonth() !== month - 1 || d.getDate() !== day)
+	const d = new Date(Date.UTC(year, month - 1, day));
+	if (d.getUTCFullYear() !== year || d.getUTCMonth() !== month - 1 || d.getUTCDate() !== day)
 		return undefined;
 	return { year, month, day };
 }
 
 function toDate(parts: DateParts): Date | undefined {
 	const p = validParts(parts);
-	return p ? new Date(p.year, p.month - 1, p.day) : undefined;
+	return p ? new Date(Date.UTC(p.year, p.month - 1, p.day)) : undefined;
 }
 
 function segmentBounds(
@@ -158,9 +158,9 @@ export default class DatePrompt extends Prompt<Date> {
 		const initialDate = opts.initialValue ?? opts.defaultValue;
 		const segmentValues: DateParts = initialDate
 			? {
-					year: String(initialDate.getFullYear()).padStart(4, '0'),
-					month: String(initialDate.getMonth() + 1).padStart(2, '0'),
-					day: String(initialDate.getDate()).padStart(2, '0'),
+					year: String(initialDate.getUTCFullYear()).padStart(4, '0'),
+					month: String(initialDate.getUTCMonth() + 1).padStart(2, '0'),
+					day: String(initialDate.getUTCDate()).padStart(2, '0'),
 				}
 			: { year: '____', month: '__', day: '__' };
 
