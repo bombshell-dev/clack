@@ -29,6 +29,7 @@ interface InternalClackSettings {
 		monthNames: string[];
 		messages: {
 			invalidMonth: string;
+			required: string;
 			invalidDay: (days: number, month: string) => string;
 			afterMin: (min: Date) => string;
 			beforeMax: (max: Date) => string;
@@ -56,6 +57,7 @@ export const settings: InternalClackSettings = {
 	date: {
 		monthNames: [...DEFAULT_MONTH_NAMES],
 		messages: {
+			required: 'Please enter a valid date',
 			invalidMonth: 'There are only 12 months in a year',
 			invalidDay: (days, month) => `There are only ${days} days in ${month}`,
 			afterMin: (min) => `Date must be on or after ${min.toISOString().slice(0, 10)}`,
