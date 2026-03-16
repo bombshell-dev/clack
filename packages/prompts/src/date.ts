@@ -1,44 +1,7 @@
 import { styleText } from 'node:util';
-import type { DateFormat } from '@clack/core';
+import type { DateFormat, State } from '@clack/core';
 import { DatePrompt, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
-
-const DEFAULT_LABELS: Record<'year' | 'month' | 'day', string> = {
-	year: 'yyyy',
-	month: 'mm',
-	day: 'dd',
-};
-
-function renderSegment(
-	value: string,
-	segmentIndex: number,
-	cursor: { segmentIndex: number },
-	label: string,
-): string {
-	const isBlank = !value || value.replace(/_/g, '') === '';
-	const active = segmentIndex === cursor.segmentIndex && state !== 'submit' && state !== 'cancel';
-
-	if (active) return styleText('inverse', isBlank ? label : value.replace(/_/g, ' '));
-	if (isBlank) return styleText('dim', label);
-	return value.replace(/_/g, styleText('dim', ' '));
-}
-
-function renderDate(
-	prompt: Omit<InstanceType<typeof DatePrompt>, 'prompt'>,
-	state: RenderState
-): string {
-	const parts = prompt.segmentValues;
-	const cursor = prompt.segmentCursor;
-
-	if (state === 'submit' || state === 'cancel') {
-		return prompt.formattedValue;
-	}
-
-	const sep = styleText('gray', prompt.separator);
-	return prompt.segments
-		.map((seg, i) => renderSegment(parts[seg.type], i, cursor, DEFAULT_LABELS[seg.type], state))
-		.join(sep);
-}
 
 export type { DateFormat };
 
@@ -61,7 +24,7 @@ export const date = (opts: DateOptions) => {
 			if (value === undefined) {
 				if (opts.defaultValue !== undefined) return undefined;
 				if (validate) return validate(value);
-				return 'Please enter a valid date';
+				return settings.date.messages.required;
 			}
 			const iso = (d: Date) => d.toISOString().slice(0, 10);
 			if (opts.minDate && iso(value) < iso(opts.minDate)) {
@@ -112,4 +75,46 @@ export const date = (opts: DateOptions) => {
 			}
 		},
 	}).prompt() as Promise<Date | symbol>;
+};
+
+
+function renderDate(
+	prompt: Omit<InstanceType<typeof DatePrompt>, 'prompt'>,
+	state: State
+): string {
+	const parts = prompt.segmentValues;
+	const cursor = prompt.segmentCursor;
+
+	if (state === 'submit' || state === 'cancel') {
+		return prompt.formattedValue;
+	}
+
+	const sep = styleText('gray', prompt.separator);
+	return prompt.segments
+		.map((seg, i) => {
+			const isActive = i === cursor.segmentIndex && !['submit', 'cancel'].includes(state);
+			const label = DEFAULT_LABELS[seg.type];
+			return renderSegment(parts[seg.type], { isActive, label });
+		})
+		.join(sep);
+}
+
+interface SegmentOptions {
+	isActive: boolean;
+	label: string;
+}
+function renderSegment(
+	value: string,
+	opts: SegmentOptions,
+): string {
+	const isBlank = !value || value.replace(/_/g, '') === '';
+	if (opts.isActive) return styleText('inverse', isBlank ? opts.label : value.replace(/_/g, ' '));
+	if (isBlank) return styleText('dim', opts.label);
+	return value.replace(/_/g, styleText('dim', ' '));
+}
+
+const DEFAULT_LABELS: Record<'year' | 'month' | 'day', string> = {
+	year: 'yyyy',
+	month: 'mm',
+	day: 'dd',
 };

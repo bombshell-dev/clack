@@ -5,7 +5,7 @@ import { MockReadable, MockWritable } from './test-utils.js';
 
 const d = (iso: string) => {
 	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
-	return new Date(Date.UTC(y, m - 1, day));
+	return new Date(y, m - 1, day);
 };
 
 describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
@@ -129,10 +129,10 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('supports MM/DD/YYYY format', async () => {
+	test('supports MDY format', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
-			format: 'MM/DD/YYYY',
+			format: 'MDY',
 			initialValue: d('2025-01-15'),
 			input,
 			output,
