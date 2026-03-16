@@ -152,6 +152,22 @@ describe('autocomplete', () => {
 		expect(value).toBe('apple');
 	});
 
+	test('Tab with non-matching placeholder does not fill input', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'Type to search...',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		// Tab did not fill input with placeholder (no option matches), so Enter submits first option
+		expect(value).toBe('apple');
+	});
+
 	test('supports initialValue', async () => {
 		const result = autocomplete({
 			message: 'Select a fruit',

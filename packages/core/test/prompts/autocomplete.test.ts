@@ -215,4 +215,20 @@ describe('AutocompletePrompt', () => {
 		expect(instance.userInput).to.equal('apple');
 		expect(result).to.equal('apple');
 	});
+
+	test('Tab with non-matching placeholder does not fill input', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			placeholder: 'Type to search...',
+		});
+
+		instance.prompt();
+		input.emit('keypress', '\t', { name: 'tab' });
+
+		// Placeholder does not match any option, so input must not be filled with placeholder
+		expect(instance.userInput).not.to.equal('Type to search...');
+	});
 });

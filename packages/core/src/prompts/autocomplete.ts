@@ -54,6 +54,8 @@ export interface AutocompleteOptions<T extends OptionLike>
 	/**
 	 * When set (non-empty), pressing Tab with no input fills the field with this value
 	 * and runs the normal filter/selection logic so the user can confirm with Enter.
+	 * Tab only fills the input when the placeholder matches at least one option under
+	 * the prompt's filter (so the value remains selectable).
 	 */
 	placeholder?: string;
 }
@@ -151,14 +153,19 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		const isReturnKey = key.name === 'return';
 
 		// Tab with empty input and placeholder: fill input with placeholder to trigger autocomplete
+		// Only when the placeholder matches at least one (non-disabled) option so the value remains selectable
 		const isEmptyOrOnlyTab = this.userInput === '' || this.userInput === '\t';
-		const hasTabbablePlaceholder =
-			this.#placeholder !== undefined && this.#placeholder !== '';
-		if (key.name === 'tab' && isEmptyOrOnlyTab && hasTabbablePlaceholder) {
+		const placeholder = this.#placeholder;
+		const options = this.options;
+		const placeholderMatchesOption =
+			placeholder !== undefined &&
+			placeholder !== '' &&
+			options.some((opt) => !opt.disabled && this.#filterFn(placeholder, opt));
+		if (key.name === 'tab' && isEmptyOrOnlyTab && placeholderMatchesOption) {
 			if (this.userInput === '\t') {
 				this._clearUserInput();
 			}
-			this._setUserInput(this.#placeholder, true);
+			this._setUserInput(placeholder, true);
 			this.isNavigating = false;
 			return;
 		}
