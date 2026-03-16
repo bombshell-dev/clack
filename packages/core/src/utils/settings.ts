@@ -101,6 +101,8 @@ export interface ClackSettings {
 		/** Month names for validation messages (January, February, ...) */
 		monthNames?: string[];
 		messages?: {
+			/** Shown when date is missing */
+			required?: string;
 			/** Shown when month > 12 */
 			invalidMonth?: string;
 			/** (days, monthName) => message for invalid day */
@@ -149,6 +151,9 @@ export function updateSettings(updates: ClackSettings) {
 			settings.date.monthNames = [...date.monthNames];
 		}
 		if (date.messages !== undefined) {
+			if (date.messages.required !== undefined) {
+				settings.date.messages.required = date.messages.required;
+			}
 			if (date.messages.invalidMonth !== undefined) {
 				settings.date.messages.invalidMonth = date.messages.invalidMonth;
 			}
