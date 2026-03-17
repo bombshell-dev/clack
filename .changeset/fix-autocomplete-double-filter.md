@@ -1,7 +1,7 @@
 ---
-'@clack/core': patch
+'@clack/core': minor
 ---
 
-fix(core): skip double-filtering when options is a function
+feat(core): skip default filter when options is a function
 
-When `options` is provided as a function, the caller manages their own filtering. The default filter is no longer applied on top of the function's results, preventing valid matches from being silently dropped.
+When `options` is provided as a function, the default filter is no longer applied on top of the function's results. If both `options` (function) and a custom `filter` are provided, the filter is still applied.
