@@ -129,10 +129,10 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('supports MM/DD/YYYY format', async () => {
+	test('supports MDY format', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
-			format: 'MM/DD/YYYY',
+			format: 'MDY',
 			initialValue: d('2025-01-15'),
 			input,
 			output,

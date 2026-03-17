@@ -3,4 +3,4 @@
 "@clack/core": minor
 ---
 
-Adds `date` prompt with format support (YYYY/MM/DD, MM/DD/YYYY, DD/MM/YYYY).
+Adds `date` prompt with `format` support (YMD, MDY, DMY)

@@ -1,34 +1,9 @@
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import type { DateFormatConfig, DateParts } from '../../src/prompts/date.js';
 import { default as DatePrompt } from '../../src/prompts/date.js';
 import { isCancel } from '../../src/utils/index.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
-
-function buildFormatConfig(
-	format: (p: DateParts) => string,
-	types: ('year' | 'month' | 'day')[]
-): DateFormatConfig {
-	const segments = types.map((type) => {
-		const len = type === 'year' ? 4 : 2;
-		return { type, len };
-	});
-	return { segments, format };
-}
-
-const YYYY_MM_DD = buildFormatConfig(
-	(p) => `${p.year}/${p.month}/${p.day}`,
-	['year', 'month', 'day']
-);
-const MM_DD_YYYY = buildFormatConfig(
-	(p) => `${p.month}/${p.day}/${p.year}`,
-	['month', 'day', 'year']
-);
-const DD_MM_YYYY = buildFormatConfig(
-	(p) => `${p.day}/${p.month}/${p.year}`,
-	['day', 'month', 'year']
-);
 
 const d = (iso: string) => {
 	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
@@ -53,7 +28,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 		});
 		instance.prompt();
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
@@ -64,13 +39,13 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/01/15');
 		expect(instance.value).toBeInstanceOf(Date);
-		expect(instance.value?.toISOString().slice(0, 10)).to.equal('2025-01-15');
+		expect(instance.value!.toISOString().slice(0, 10)).to.equal('2025-01-15');
 	});
 
 	test('left/right navigates between segments', () => {
@@ -78,34 +53,17 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 0,
-		});
-		// Move within year (0->1->2->3), then right from end goes to month
-		for (let i = 0; i < 4; i++) {
-			input.emit('keypress', undefined, { name: 'right' });
-		}
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 1,
-			positionInSegment: 0,
-		});
-		for (let i = 0; i < 2; i++) {
-			input.emit('keypress', undefined, { name: 'right' });
-		}
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 2,
-			positionInSegment: 0,
-		});
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		input.emit('keypress', undefined, { name: 'right' });
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 1, positionInSegment: 0 });
+		input.emit('keypress', undefined, { name: 'right' });
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 2, positionInSegment: 0 });
 		input.emit('keypress', undefined, { name: 'left' });
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 1,
-			positionInSegment: 0,
-		});
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 1, positionInSegment: 0 });
 	});
 
 	test('up/down increments and decrements segment', () => {
@@ -113,11 +71,11 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
-		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
+		input.emit('keypress', undefined, { name: 'right' }); // move to month
 		input.emit('keypress', undefined, { name: 'up' });
 		expect(instance.userInput).to.equal('2025/02/15');
 		input.emit('keypress', undefined, { name: 'down' });
@@ -129,18 +87,15 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('____/__/__');
 		input.emit('keypress', undefined, { name: 'up' }); // up on year (first segment)
-		expect(instance.userInput).to.equal('1000/__/__');
-		input.emit('keypress', undefined, { name: 'right' });
-		input.emit('keypress', undefined, { name: 'right' });
-		input.emit('keypress', undefined, { name: 'right' });
+		expect(instance.userInput).to.equal('0001/__/__');
 		input.emit('keypress', undefined, { name: 'right' }); // move to month
 		input.emit('keypress', undefined, { name: 'up' });
-		expect(instance.userInput).to.equal('1000/01/__');
+		expect(instance.userInput).to.equal('0001/01/__');
 	});
 
 	test('with minDate/maxDate, up on blank segment starts at min', () => {
@@ -148,7 +103,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			minDate: d('2025-03-10'),
 			maxDate: d('2025-11-20'),
 		});
@@ -156,10 +111,10 @@ describe('DatePrompt', () => {
 		expect(instance.userInput).to.equal('____/__/__');
 		input.emit('keypress', undefined, { name: 'up' });
 		expect(instance.userInput).to.equal('2025/__/__');
-		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
 		input.emit('keypress', undefined, { name: 'up' });
 		expect(instance.userInput).to.equal('2025/03/__');
-		for (let i = 0; i < 2; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
 		input.emit('keypress', undefined, { name: 'up' });
 		expect(instance.userInput).to.equal('2025/03/10');
 	});
@@ -169,17 +124,17 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			minDate: d('2025-03-10'),
 			maxDate: d('2025-11-20'),
 		});
 		instance.prompt();
 		input.emit('keypress', undefined, { name: 'down' });
 		expect(instance.userInput).to.equal('2025/__/__');
-		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
 		input.emit('keypress', undefined, { name: 'down' });
 		expect(instance.userInput).to.equal('2025/11/__');
-		for (let i = 0; i < 2; i++) input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
 		input.emit('keypress', undefined, { name: 'down' });
 		expect(instance.userInput).to.equal('2025/11/20');
 	});
@@ -189,24 +144,20 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 0,
-		});
-		// Type 2,0,2,3 to change 2025 -> 2023 (edit digit by digit)
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
+		// Type 2,0,2,3 to change year to 2023 (right-to-left fill)
 		input.emit('keypress', '2', { name: undefined, sequence: '2' });
+		expect(instance.userInput).to.equal('___2/01/15');
 		input.emit('keypress', '0', { name: undefined, sequence: '0' });
+		expect(instance.userInput).to.equal('__20/01/15');
 		input.emit('keypress', '2', { name: undefined, sequence: '2' });
+		expect(instance.userInput).to.equal('_202/01/15');
 		input.emit('keypress', '3', { name: undefined, sequence: '3' });
 		expect(instance.userInput).to.equal('2023/01/15');
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 3,
-		});
 	});
 
 	test('backspace clears entire segment at any cursor position', () => {
@@ -214,22 +165,14 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-12-21'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/12/21');
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 0,
-		});
-		// Backspace at first position clears whole year segment
 		input.emit('keypress', undefined, { name: 'backspace', sequence: '\x7f' });
 		expect(instance.userInput).to.equal('____/12/21');
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 0,
-		});
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
 	});
 
 	test('backspace clears segment when cursor at first char (2___)', () => {
@@ -237,29 +180,14 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 		});
 		instance.prompt();
-		// Type "2" to get "2___"
 		input.emit('keypress', '2', { name: undefined, sequence: '2' });
-		expect(instance.userInput).to.equal('2___/__/__');
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 1,
-		});
-		// Move to first char (position 0)
-		input.emit('keypress', undefined, { name: 'left' });
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 0,
-		});
-		// Backspace should clear whole segment - also test char-based detection
+		expect(instance.userInput).to.equal('___2/__/__');
 		input.emit('keypress', '\x7f', { name: undefined, sequence: '\x7f' });
 		expect(instance.userInput).to.equal('____/__/__');
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 0,
-			positionInSegment: 0,
-		});
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 0, positionInSegment: 0 });
 	});
 
 	test('digit input updates segment and jumps to next when complete', () => {
@@ -267,26 +195,22 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 		});
 		instance.prompt();
-		// Type year 2025 - left-to-right, jumps to month when year complete
 		for (const c of '2025') {
 			input.emit('keypress', c, { name: undefined, sequence: c });
 		}
 		expect(instance.userInput).to.equal('2025/__/__');
-		expect(instance.segmentCursor).to.deep.equal({
-			segmentIndex: 1,
-			positionInSegment: 0,
-		});
+		expect(instance.segmentCursor).to.deep.equal({ segmentIndex: 1, positionInSegment: 0 });
 	});
 
-	test('submit returns ISO string for valid date', async () => {
+	test('submit returns Date for valid date', async () => {
 		const instance = new DatePrompt({
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-01-31'),
 		});
 		const resultPromise = instance.prompt();
@@ -301,7 +225,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			initialValue: d('2025-01-15'),
 		});
 		const resultPromise = instance.prompt();
@@ -315,7 +239,7 @@ describe('DatePrompt', () => {
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
+			format: 'YMD',
 			defaultValue: d('2025-06-15'),
 		});
 		const resultPromise = instance.prompt();
@@ -325,59 +249,63 @@ describe('DatePrompt', () => {
 		expect((result as Date).toISOString().slice(0, 10)).to.equal('2025-06-15');
 	});
 
-	test('supports MM/DD/YYYY format', () => {
+	test('supports MDY format', () => {
 		const instance = new DatePrompt({
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: MM_DD_YYYY,
+			format: 'MDY',
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('01/15/2025');
 	});
 
-	test('rejects invalid month and shows inline error', () => {
+	test('supports DMY format', () => {
 		const instance = new DatePrompt({
 			input,
 			output,
 			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
-			initialValue: d('2025-01-15'), // month is 01
-		});
-		instance.prompt();
-		for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month (cursor at start)
-		input.emit('keypress', '3', { name: undefined, sequence: '3' }); // 0→3 gives 31, invalid
-		expect(instance.userInput).to.equal('2025/01/15'); // stayed - 31 rejected
-		expect(instance.inlineError).to.equal('There are only 12 months in a year');
-	});
-
-	test('rejects invalid day and shows inline error', () => {
-		const instance = new DatePrompt({
-			input,
-			output,
-			render: () => 'foo',
-			formatConfig: YYYY_MM_DD,
-			initialValue: d('2025-01-15'), // January has 31 days
-		});
-		instance.prompt();
-		for (let i = 0; i < 6; i++) input.emit('keypress', undefined, { name: 'right' }); // move to day (cursor at start)
-		input.emit('keypress', '4', { name: undefined, sequence: '4' }); // 1→4 gives 45, invalid for Jan
-		expect(instance.userInput).to.equal('2025/01/15'); // stayed - 45 rejected
-		expect(instance.inlineError).to.contain('31 days');
-		expect(instance.inlineError).to.contain('January');
-	});
-
-	test('supports DD/MM/YYYY format', () => {
-		const instance = new DatePrompt({
-			input,
-			output,
-			render: () => 'foo',
-			formatConfig: DD_MM_YYYY,
+			format: 'DMY',
 			initialValue: d('2025-01-15'),
 		});
 		instance.prompt();
 		expect(instance.userInput).to.equal('15/01/2025');
+	});
+
+	test('rejects invalid month via pending tens digit', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			format: 'YMD',
+		});
+		instance.prompt();
+		// Navigate to month
+		input.emit('keypress', undefined, { name: 'right' });
+		// Type '1' → '01' with pending tens digit (since 1 <= 1)
+		input.emit('keypress', '1', { name: undefined, sequence: '1' });
+		expect(instance.segmentValues.month).to.equal('01');
+		// Type '3' → tries '13' which is > 12 → inline error
+		input.emit('keypress', '3', { name: undefined, sequence: '3' });
+		expect(instance.inlineError).to.equal('There are only 12 months in a year');
+	});
+
+	test('rejects invalid day via pending tens digit', () => {
+		const instance = new DatePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			format: 'YMD',
+		});
+		instance.prompt();
+		// Navigate to day
+		input.emit('keypress', undefined, { name: 'right' });
+		input.emit('keypress', undefined, { name: 'right' });
+		// Type '2' → '02' with pending (2 <= 2)
+		input.emit('keypress', '2', { name: undefined, sequence: '2' });
+		input.emit('keypress', '0', { name: undefined, sequence: '0' });
+		expect(instance.inlineError).to.equal('');
 	});
 
 	describe('segmentValues and segmentCursor', () => {
@@ -386,7 +314,7 @@ describe('DatePrompt', () => {
 				input,
 				output,
 				render: () => 'foo',
-				formatConfig: YYYY_MM_DD,
+				format: 'YMD',
 				initialValue: d('2025-01-15'),
 			});
 			instance.prompt();
@@ -401,14 +329,14 @@ describe('DatePrompt', () => {
 				input,
 				output,
 				render: () => 'foo',
-				formatConfig: YYYY_MM_DD,
+				format: 'YMD',
 				initialValue: d('2025-01-15'),
 			});
 			instance.prompt();
-			for (let i = 0; i < 4; i++) input.emit('keypress', undefined, { name: 'right' }); // move to month
+			input.emit('keypress', undefined, { name: 'right' }); // move to month
 			const cursor = instance.segmentCursor;
-			expect(cursor.segmentIndex).to.equal(1); // month segment
-			expect(cursor.positionInSegment).to.equal(0); // start of segment
+			expect(cursor.segmentIndex).to.equal(1);
+			expect(cursor.positionInSegment).to.equal(0);
 		});
 
 		test('segmentValues updates on submit', () => {
@@ -416,7 +344,7 @@ describe('DatePrompt', () => {
 				input,
 				output,
 				render: () => 'foo',
-				formatConfig: YYYY_MM_DD,
+				format: 'YMD',
 				initialValue: d('2025-01-15'),
 			});
 			instance.prompt();
@@ -425,6 +353,76 @@ describe('DatePrompt', () => {
 			expect(segmentValues.year).to.equal('2025');
 			expect(segmentValues.month).to.equal('01');
 			expect(segmentValues.day).to.equal('15');
+		});
+	});
+
+	describe('formattedValue and segments', () => {
+		test('formattedValue returns formatted string', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				format: 'MDY',
+				initialValue: d('2025-03-15'),
+			});
+			instance.prompt();
+			expect(instance.formattedValue).to.equal('03/15/2025');
+		});
+
+		test('segments exposes segment config', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				format: 'DMY',
+			});
+			instance.prompt();
+			expect(instance.segments).to.deep.equal([
+				{ type: 'day', len: 2 },
+				{ type: 'month', len: 2 },
+				{ type: 'year', len: 4 },
+			]);
+		});
+
+		test('separator defaults to / for explicit format', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				format: 'YMD',
+			});
+			instance.prompt();
+			expect(instance.separator).to.equal('/');
+		});
+	});
+
+	describe('locale detection', () => {
+		test('locale auto-detects format from Intl', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				locale: 'en-US',
+				initialValue: d('2025-03-15'),
+			});
+			instance.prompt();
+			// en-US is MDY
+			expect(instance.segments[0].type).to.equal('month');
+			expect(instance.segments[1].type).to.equal('day');
+			expect(instance.segments[2].type).to.equal('year');
+		});
+
+		test('explicit format overrides locale', () => {
+			const instance = new DatePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				format: 'YMD',
+				locale: 'en-US', // would be MDY, but format takes precedence
+				initialValue: d('2025-03-15'),
+			});
+			instance.prompt();
+			expect(instance.segments[0].type).to.equal('year');
 		});
 	});
 });

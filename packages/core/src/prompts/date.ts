@@ -13,158 +13,97 @@ export interface DateParts {
 	day: string;
 }
 
-/** Format config passed from prompts package; core does not define presets */
-export interface DateFormatConfig {
-	segments: SegmentConfig[];
-	format: (parts: DateParts) => string;
-	/** Labels shown when segment is blank (e.g. yyyy, mm, dd). Default: { year: 'yyyy', month: 'mm', day: 'dd' } */
-	segmentLabels?: { year: string; month: string; day: string };
+export type DateFormat = 'YMD' | 'MDY' | 'DMY';
+
+const SEGMENTS: Record<string, SegmentConfig> = { Y: { type: 'year', len: 4 }, M: { type: 'month', len: 2 }, D: { type: 'day', len: 2 } } as const;
+
+function segmentsFor(fmt: DateFormat): SegmentConfig[] {
+	return [...fmt].map((c) => SEGMENTS[c as keyof typeof SEGMENTS]);
 }
 
-function clamp(min: number, value: number, max: number): number {
-	return Math.max(min, Math.min(max, value));
-}
-
-/** Convert Date directly to segment values - no string parsing needed */
-function dateToSegmentValues(date: Date | undefined): DateParts {
-	if (!date) {
-		return { year: '____', month: '__', day: '__' };
+function detectLocaleFormat(locale?: string): { segments: SegmentConfig[]; separator: string } {
+	const fmt = new Intl.DateTimeFormat(locale, {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+	});
+	const parts = fmt.formatToParts(new Date(2000, 0, 15));
+	const segments: SegmentConfig[] = [];
+	let separator = '/';
+	for (const p of parts) {
+		if (p.type === 'literal') {
+			separator = p.value.trim() || p.value;
+		} else if (p.type === 'year' || p.type === 'month' || p.type === 'day') {
+			segments.push({ type: p.type, len: p.type === 'year' ? 4 : 2 });
+		}
 	}
-	return {
-		year: String(date.getUTCFullYear()).padStart(4, '0'),
-		month: String(date.getUTCMonth() + 1).padStart(2, '0'),
-		day: String(date.getUTCDate()).padStart(2, '0'),
-	};
+	return { segments, separator };
 }
 
-function segmentValuesToParsed(parts: DateParts): {
-	year: number;
-	month: number;
-	day: number;
-} {
-	const val = (s: string) => Number.parseInt((s || '0').replace(/_/g, '0'), 10) || 0;
-	return {
-		year: val(parts.year),
-		month: val(parts.month),
-		day: val(parts.day),
-	};
+/** Parse string segment values to numbers, treating blanks as 0 */
+function parseSegmentToNum(s: string): number {
+	return Number.parseInt((s || '0').replace(/_/g, '0'), 10) || 0;
+}
+
+function parse(parts: DateParts): { year: number; month: number; day: number } {
+	return { year: parseSegmentToNum(parts.year), month: parseSegmentToNum(parts.month), day: parseSegmentToNum(parts.day) };
 }
 
 function daysInMonth(year: number, month: number): number {
 	return new Date(year || 2001, month || 1, 0).getDate();
 }
 
-function clampSegment(
-	value: number,
-	type: 'year' | 'month' | 'day',
-	context: { year: number; month: number }
-): number {
-	if (type === 'year') {
-		return clamp(1000, value || 1000, 9999);
-	}
-	if (type === 'month') {
-		return clamp(1, value || 1, 12);
-	}
-	const { year, month } = context;
-	return clamp(1, value || 1, daysInMonth(year, month));
-}
-
-function datePartsUTC(d: Date): { year: number; month: number; day: number } {
-	return {
-		year: d.getUTCFullYear(),
-		month: d.getUTCMonth() + 1,
-		day: d.getUTCDate(),
-	};
-}
-
-function getSegmentBounds(
-	type: 'year' | 'month' | 'day',
-	context: { year: number; month: number; day: number },
-	minDate: Date | undefined,
-	maxDate: Date | undefined
-): { min: number; max: number } {
-	const { year, month } = context;
-	const minParts = minDate ? datePartsUTC(minDate) : null;
-	const maxParts = maxDate ? datePartsUTC(maxDate) : null;
-
-	if (type === 'year') {
-		const min = minParts ? minParts.year : 1000;
-		const max = maxParts ? maxParts.year : 9999;
-		return { min, max };
-	}
-	if (type === 'month') {
-		let min = 1;
-		let max = 12;
-		if (minParts && year && year >= minParts.year) {
-			if (year === minParts.year) min = minParts.month;
-		}
-		if (maxParts && year && year <= maxParts.year) {
-			if (year === maxParts.year) max = maxParts.month;
-		}
-		return { min, max };
-	}
-	// day
-	let min = 1;
-	let max = daysInMonth(year, month);
-	if (minParts && year && month && year === minParts.year && month === minParts.month) {
-		min = minParts.day;
-	}
-	if (maxParts && year && month && year === maxParts.year && month === maxParts.month) {
-		max = maxParts.day;
-	}
-	return { min, max };
-}
-
-/** Parse segment values to calendar parts; returns undefined if invalid. */
-function segmentValuesToParts(
+/** Validate and return calendar parts, or undefined if invalid */
+function validParts(
 	parts: DateParts
 ): { year: number; month: number; day: number } | undefined {
-	const { year, month, day } = segmentValuesToParsed(parts);
-	if (!year || year < 1000 || year > 9999) return undefined;
+	const { year, month, day } = parse(parts);
+	if (!year || year < 0 || year > 9999) return undefined;
 	if (!month || month < 1 || month > 12) return undefined;
 	if (!day || day < 1) return undefined;
-	const date = new Date(Date.UTC(year, month - 1, day));
-	if (
-		date.getUTCFullYear() !== year ||
-		date.getUTCMonth() !== month - 1 ||
-		date.getUTCDate() !== day
-	) {
+	const d = new Date(Date.UTC(year, month - 1, day));
+	if (d.getUTCFullYear() !== year || d.getUTCMonth() !== month - 1 || d.getUTCDate() !== day)
 		return undefined;
-	}
 	return { year, month, day };
 }
 
-/** Build a Date from segment values using UTC midnight so getFullYear/getMonth/getDate are timezone-stable. */
-function segmentValuesToDate(parts: DateParts): Date | undefined {
-	const parsed = segmentValuesToParts(parts);
-	if (!parsed) return undefined;
-	return new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day));
+function toDate(parts: DateParts): Date | undefined {
+	const p = validParts(parts);
+	return p ? new Date(Date.UTC(p.year, p.month - 1, p.day)) : undefined;
 }
 
-function segmentValuesToISOString(parts: DateParts): string | undefined {
-	const parsed = segmentValuesToParts(parts);
-	if (!parsed) return undefined;
-	return new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)).toISOString().slice(0, 10);
-}
+function segmentBounds(
+	type: 'year' | 'month' | 'day',
+	ctx: { year: number; month: number },
+	minDate: Date | undefined,
+	maxDate: Date | undefined
+): { min: number; max: number } {
+	const minP = minDate
+		? { year: minDate.getUTCFullYear(), month: minDate.getUTCMonth() + 1, day: minDate.getUTCDate() }
+		: null;
+	const maxP = maxDate
+		? { year: maxDate.getUTCFullYear(), month: maxDate.getUTCMonth() + 1, day: maxDate.getUTCDate() }
+		: null;
 
-function getSegmentValidationMessage(parts: DateParts, seg: SegmentConfig): string | undefined {
-	const { year, month, day } = segmentValuesToParsed(parts);
-	if (seg.type === 'month' && (month < 1 || month > 12)) {
-		return settings.date.messages.invalidMonth;
+	if (type === 'year') {
+		return { min: minP?.year ?? 1, max: maxP?.year ?? 9999 };
 	}
-	if (seg.type === 'day') {
-		if (day < 1) return undefined;
-		if (day > daysInMonth(year, month)) {
-			const monthName =
-				month >= 1 && month <= 12 ? settings.date.monthNames[month - 1] : 'this month';
-			return settings.date.messages.invalidDay(daysInMonth(year, month), monthName);
-		}
+	if (type === 'month') {
+		return {
+			min: minP && ctx.year === minP.year ? minP.month : 1,
+			max: maxP && ctx.year === maxP.year ? maxP.month : 12,
+		};
 	}
-	return undefined;
+	return {
+		min: minP && ctx.year === minP.year && ctx.month === minP.month ? minP.day : 1,
+		max: maxP && ctx.year === maxP.year && ctx.month === maxP.month ? maxP.day : daysInMonth(ctx.year, ctx.month),
+	};
 }
 
 export interface DateOptions extends PromptOptions<Date, DatePrompt> {
-	formatConfig: DateFormatConfig;
+	format?: DateFormat;
+	locale?: string;
+	separator?: string;
 	defaultValue?: Date;
 	initialValue?: Date;
 	minDate?: Date;
@@ -172,20 +111,16 @@ export interface DateOptions extends PromptOptions<Date, DatePrompt> {
 }
 
 export default class DatePrompt extends Prompt<Date> {
-	#config: DateFormatConfig;
+	#segments: SegmentConfig[];
+	#separator: string;
 	#segmentValues: DateParts;
 	#minDate: Date | undefined;
 	#maxDate: Date | undefined;
 	#cursor = { segmentIndex: 0, positionInSegment: 0 };
+	#segmentSelected = true;
+	#pendingTensDigit: string | null = null;
 
-	/** Inline validation message shown beneath input during editing */
 	inlineError = '';
-
-	#refreshFromSegmentValues() {
-		const display = this.#config.format(this.#segmentValues);
-		this._setUserInput(display);
-		this._setValue(segmentValuesToDate(this.#segmentValues) ?? undefined);
-	}
 
 	get segmentCursor() {
 		return { ...this.#cursor };
@@ -195,192 +130,263 @@ export default class DatePrompt extends Prompt<Date> {
 		return { ...this.#segmentValues };
 	}
 
-	constructor(opts: DateOptions) {
-		const config = opts.formatConfig;
-		const initialDate = opts.initialValue ?? opts.defaultValue;
-		const segmentValues = dateToSegmentValues(initialDate);
-		const initialDisplay = config.format(segmentValues);
+	get segments(): readonly SegmentConfig[] {
+		return this.#segments;
+	}
 
-		super(
-			{
-				...opts,
-				initialUserInput: initialDisplay,
-			},
-			false
-		);
-		this.#config = config;
+	get separator(): string {
+		return this.#separator;
+	}
+
+	get formattedValue(): string {
+		return this.#format(this.#segmentValues);
+	}
+
+	#format(parts: DateParts): string {
+		return this.#segments.map((s) => parts[s.type]).join(this.#separator);
+	}
+
+	#refresh() {
+		this._setUserInput(this.#format(this.#segmentValues));
+		this._setValue(toDate(this.#segmentValues) ?? undefined);
+	}
+
+	constructor(opts: DateOptions) {
+		const detected = opts.format
+			? { segments: segmentsFor(opts.format), separator: opts.separator ?? '/' }
+			: detectLocaleFormat(opts.locale);
+		const sep = opts.separator ?? detected.separator;
+		const segments = opts.format ? segmentsFor(opts.format) : detected.segments;
+
+		const initialDate = opts.initialValue ?? opts.defaultValue;
+		const segmentValues: DateParts = initialDate
+			? {
+					year: String(initialDate.getUTCFullYear()).padStart(4, '0'),
+					month: String(initialDate.getUTCMonth() + 1).padStart(2, '0'),
+					day: String(initialDate.getUTCDate()).padStart(2, '0'),
+				}
+			: { year: '____', month: '__', day: '__' };
+
+		const initialDisplay = segments.map((s) => segmentValues[s.type]).join(sep);
+
+		super({ ...opts, initialUserInput: initialDisplay }, false);
+		this.#segments = segments;
+		this.#separator = sep;
 		this.#segmentValues = segmentValues;
 		this.#minDate = opts.minDate;
 		this.#maxDate = opts.maxDate;
-		this.#refreshFromSegmentValues();
+		this.#refresh();
 
 		this.on('cursor', (key) => this.#onCursor(key));
 		this.on('key', (char, key) => this.#onKey(char, key));
 		this.on('finalize', () => this.#onFinalize(opts));
 	}
 
-	#getCurrentSegment(): { segment: SegmentConfig; index: number } | undefined {
-		const index = clamp(0, this.#cursor.segmentIndex, this.#config.segments.length - 1);
-		const segment = this.#config.segments[index];
+	#seg(): { segment: SegmentConfig; index: number } | undefined {
+		const index = Math.max(0, Math.min(this.#cursor.segmentIndex, this.#segments.length - 1));
+		const segment = this.#segments[index];
 		if (!segment) return undefined;
-		this.#cursor.positionInSegment = clamp(0, this.#cursor.positionInSegment, segment.len - 1);
+		this.#cursor.positionInSegment = Math.max(0, Math.min(this.#cursor.positionInSegment, segment.len - 1));
 		return { segment, index };
 	}
 
-	#moveCursorNext() {
+	#navigate(direction: 1 | -1) {
 		this.inlineError = '';
-		const ctx = this.#getCurrentSegment();
+		this.#pendingTensDigit = null;
+		const ctx = this.#seg();
 		if (!ctx) return;
-		const newPos = this.#cursor.positionInSegment + 1;
-		if (newPos < ctx.segment.len) {
-			this.#cursor.positionInSegment = newPos;
-			return;
-		}
-		const newIndex = Math.min(this.#config.segments.length - 1, ctx.index + 1);
-		this.#cursor.segmentIndex = newIndex;
+		this.#cursor.segmentIndex = Math.max(0, Math.min(this.#segments.length - 1, ctx.index + direction));
 		this.#cursor.positionInSegment = 0;
+		this.#segmentSelected = true;
 	}
 
-	#moveCursorPrevious() {
-		this.inlineError = '';
-		const ctx = this.#getCurrentSegment();
+	#adjust(direction: 1 | -1) {
+		const ctx = this.#seg();
 		if (!ctx) return;
-		const newPos = this.#cursor.positionInSegment - 1;
-		if (newPos >= 0) {
-			this.#cursor.positionInSegment = newPos;
-			return;
-		}
-		const newIndex = Math.max(0, ctx.index - 1);
-		this.#cursor.segmentIndex = newIndex;
-		this.#cursor.positionInSegment = 0;
-	}
-
-	#incrementSegment() {
-		const ctx = this.#getCurrentSegment();
-		if (!ctx) return;
-		this.#adjustSegment(ctx, 1);
-	}
-
-	#decrementSegment() {
-		const ctx = this.#getCurrentSegment();
-		if (!ctx) return;
-		this.#adjustSegment(ctx, -1);
-	}
-
-	#adjustSegment(ctx: { segment: SegmentConfig; index: number }, direction: 1 | -1) {
 		const { segment } = ctx;
 		const raw = this.#segmentValues[segment.type];
 		const isBlank = !raw || raw.replace(/_/g, '') === '';
 		const num = Number.parseInt((raw || '0').replace(/_/g, '0'), 10) || 0;
-		const bounds = getSegmentBounds(
-			segment.type,
-			segmentValuesToParsed(this.#segmentValues),
-			this.#minDate,
-			this.#maxDate
-		);
+		const bounds = segmentBounds(segment.type, parse(this.#segmentValues), this.#minDate, this.#maxDate);
 
-		const newNum = isBlank
-			? direction === 1
-				? bounds.min
-				: bounds.max
-			: clamp(bounds.min, num + direction, bounds.max);
+		let next: number;
+		if (isBlank) {
+			next = direction === 1 ? bounds.min : bounds.max;
+		} else {
+			next = Math.max(Math.min(bounds.max, num + direction), bounds.min);
+		}
 
-		const newSegmentValue = String(newNum).padStart(segment.len, '0');
-		this.#segmentValues = {
-			...this.#segmentValues,
-			[segment.type]: newSegmentValue,
-		};
-		this.#refreshFromSegmentValues();
+		this.#segmentValues = { ...this.#segmentValues, [segment.type]: next.toString().padStart(segment.len, '0') };
+		this.#segmentSelected = true;
+		this.#pendingTensDigit = null;
+		this.#refresh();
 	}
 
 	#onCursor(key?: string) {
 		if (!key) return;
 		switch (key) {
-			case 'right':
-				return this.#moveCursorNext();
-			case 'left':
-				return this.#moveCursorPrevious();
-			case 'up':
-				return this.#incrementSegment();
-			case 'down':
-				return this.#decrementSegment();
+			case 'right': return this.#navigate(1);
+			case 'left': return this.#navigate(-1);
+			case 'up': return this.#adjust(1);
+			case 'down': return this.#adjust(-1);
 		}
 	}
 
 	#onKey(char: string | undefined, key: Key) {
+		// Backspace
 		const isBackspace =
-			key?.name === 'backspace' ||
-			key?.sequence === '\x7f' ||
-			key?.sequence === '\b' ||
-			char === '\x7f' ||
-			char === '\b';
+			key?.name === 'backspace' || key?.sequence === '\x7f' || key?.sequence === '\b' ||
+			char === '\x7f' || char === '\b';
 		if (isBackspace) {
 			this.inlineError = '';
-			const ctx = this.#getCurrentSegment();
+			const ctx = this.#seg();
 			if (!ctx) return;
-			const { segment } = ctx;
-			const segmentVal = this.#segmentValues[segment.type];
-			if (!segmentVal.replace(/_/g, '')) return;
-
-			this.#segmentValues[segment.type] = '_'.repeat(segment.len);
-			this.#refreshFromSegmentValues();
+			if (!this.#segmentValues[ctx.segment.type].replace(/_/g, '')) {
+				this.#navigate(-1);
+				return;
+			}
+			this.#segmentValues[ctx.segment.type] = '_'.repeat(ctx.segment.len);
+			this.#segmentSelected = true;
 			this.#cursor.positionInSegment = 0;
+			this.#refresh();
 			return;
 		}
 
+		// Tab navigation
+		if (key?.name === 'tab') {
+			this.inlineError = '';
+			const ctx = this.#seg();
+			if (!ctx) return;
+			const dir = key.shift ? -1 : 1;
+			const next = ctx.index + dir;
+			if (next >= 0 && next < this.#segments.length) {
+				this.#cursor.segmentIndex = next;
+				this.#cursor.positionInSegment = 0;
+				this.#segmentSelected = true;
+			}
+			return;
+		}
+
+		// Digit input
 		if (char && /^[0-9]$/.test(char)) {
-			const ctx = this.#getCurrentSegment();
+			const ctx = this.#seg();
 			if (!ctx) return;
 			const { segment } = ctx;
-			const segmentDisplay = this.#segmentValues[segment.type];
+			const isBlank = !this.#segmentValues[segment.type].replace(/_/g, '');
 
-			const firstBlank = segmentDisplay.indexOf('_');
-			const pos =
-				firstBlank >= 0 ? firstBlank : Math.min(this.#cursor.positionInSegment, segment.len - 1);
+			// Pending tens digit: complete the two-digit entry
+			if (this.#segmentSelected && this.#pendingTensDigit !== null && !isBlank) {
+				const newVal = this.#pendingTensDigit + char;
+				const newParts = { ...this.#segmentValues, [segment.type]: newVal };
+				const err = this.#validateSegment(newParts, segment);
+				if (err) {
+					this.inlineError = err;
+					this.#pendingTensDigit = null;
+					this.#segmentSelected = false;
+					return;
+				}
+				this.inlineError = '';
+				this.#segmentValues[segment.type] = newVal;
+				this.#pendingTensDigit = null;
+				this.#segmentSelected = false;
+				this.#refresh();
+				if (ctx.index < this.#segments.length - 1) {
+					this.#cursor.segmentIndex = ctx.index + 1;
+					this.#cursor.positionInSegment = 0;
+					this.#segmentSelected = true;
+				}
+				return;
+			}
+
+			// Clear-on-type: typing into a selected filled segment clears it first
+			if (this.#segmentSelected && !isBlank) {
+				this.#segmentValues[segment.type] = '_'.repeat(segment.len);
+				this.#cursor.positionInSegment = 0;
+			}
+			this.#segmentSelected = false;
+			this.#pendingTensDigit = null;
+
+			const display = this.#segmentValues[segment.type];
+			const firstBlank = display.indexOf('_');
+			const pos = firstBlank >= 0 ? firstBlank : Math.min(this.#cursor.positionInSegment, segment.len - 1);
 			if (pos < 0 || pos >= segment.len) return;
 
-			const newSegmentVal = segmentDisplay.slice(0, pos) + char + segmentDisplay.slice(pos + 1);
+			let newVal = display.slice(0, pos) + char + display.slice(pos + 1);
 
-			if (!newSegmentVal.includes('_')) {
-				const newParts = {
-					...this.#segmentValues,
-					[segment.type]: newSegmentVal,
-				};
-				const validationMsg = getSegmentValidationMessage(newParts, segment);
-				if (validationMsg) {
-					this.inlineError = validationMsg;
+			// Smart digit placement
+			let shouldStaySelected = false;
+			if (pos === 0 && display === '__' && (segment.type === 'month' || segment.type === 'day')) {
+				const digit = Number.parseInt(char, 10);
+				newVal = `0${char}`;
+				shouldStaySelected = digit <= (segment.type === 'month' ? 1 : 2);
+			}
+			if (segment.type === 'year') {
+				const digits = display.replace(/_/g, '');
+				newVal = (digits + char).padStart(segment.len, '_');
+			}
+
+			if (!newVal.includes('_')) {
+				const newParts = { ...this.#segmentValues, [segment.type]: newVal };
+				const err = this.#validateSegment(newParts, segment);
+				if (err) {
+					this.inlineError = err;
 					return;
 				}
 			}
 			this.inlineError = '';
 
-			this.#segmentValues[segment.type] = newSegmentVal;
-			const iso = segmentValuesToISOString(this.#segmentValues);
+			this.#segmentValues[segment.type] = newVal;
 
-			if (iso) {
-				const { year, month, day } = segmentValuesToParsed(this.#segmentValues);
+			// Clamp only when the current segment is fully entered
+			const parsed = !newVal.includes('_') ? validParts(this.#segmentValues) : undefined;
+			if (parsed) {
+				const { year, month } = parsed;
+				const maxDay = daysInMonth(year, month);
 				this.#segmentValues = {
-					year: String(clampSegment(year, 'year', { year, month })).padStart(4, '0'),
-					month: String(clampSegment(month, 'month', { year, month })).padStart(2, '0'),
-					day: String(clampSegment(day, 'day', { year, month })).padStart(2, '0'),
+					year: String(Math.max(0, Math.min(9999, year))).padStart(4, '0'),
+					month: String(Math.max(1, Math.min(12, month))).padStart(2, '0'),
+					day: String(Math.max(1, Math.min(maxDay, parsed.day))).padStart(2, '0'),
 				};
 			}
-			this.#refreshFromSegmentValues();
+			this.#refresh();
 
-			const nextBlank = newSegmentVal.indexOf('_');
-			const wasFilling = firstBlank >= 0;
-			if (nextBlank >= 0) {
+			// Advance cursor
+			const nextBlank = newVal.indexOf('_');
+			if (shouldStaySelected) {
+				this.#segmentSelected = true;
+				this.#pendingTensDigit = char;
+			} else if (nextBlank >= 0) {
 				this.#cursor.positionInSegment = nextBlank;
-			} else if (wasFilling && ctx.index < this.#config.segments.length - 1) {
+			} else if (firstBlank >= 0 && ctx.index < this.#segments.length - 1) {
 				this.#cursor.segmentIndex = ctx.index + 1;
 				this.#cursor.positionInSegment = 0;
+				this.#segmentSelected = true;
 			} else {
 				this.#cursor.positionInSegment = Math.min(pos + 1, segment.len - 1);
 			}
 		}
 	}
 
+	#validateSegment(parts: DateParts, seg: SegmentConfig): string | undefined {
+		const { month, day } = parse(parts);
+		if (seg.type === 'month' && (month < 0 || month > 12)) {
+			return settings.date.messages.invalidMonth;
+		}
+		if (seg.type === 'day' && (day < 0 || day > 31)) {
+			return settings.date.messages.invalidDay(31, 'any month');
+		}
+		return undefined;
+	}
+
 	#onFinalize(opts: DateOptions) {
-		this.value = segmentValuesToDate(this.#segmentValues) ?? opts.defaultValue ?? undefined;
+		const { year, month, day } = parse(this.#segmentValues);
+		if (year && month && day) {
+			const maxDay = daysInMonth(year, month);
+			this.#segmentValues = {
+				...this.#segmentValues,
+				day: String(Math.min(day, maxDay)).padStart(2, '0'),
+			};
+		}
+		this.value = toDate(this.#segmentValues) ?? opts.defaultValue ?? undefined;
 	}
 }
