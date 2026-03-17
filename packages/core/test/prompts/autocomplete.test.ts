@@ -197,4 +197,59 @@ describe('AutocompletePrompt', () => {
 		expect(instance.selectedValues).to.deep.equal([]);
 		expect(result).to.deep.equal([]);
 	});
+
+	test('options function skips default filter when no custom filter provided', () => {
+		const optionsFn = function (this: any) {
+			const input = this.userInput || '';
+			if (!input) return testOptions;
+			return testOptions.filter((opt) => opt.value.startsWith(input));
+		};
+
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: optionsFn,
+		});
+
+		instance.prompt();
+
+		// Type 'b' - options function returns only 'banana'
+		input.emit('keypress', 'b', { name: 'b' });
+
+		// Should use the options function result as-is, no additional filtering
+		expect(instance.filteredOptions).toEqual([
+			{ value: 'banana', label: 'Banana' },
+		]);
+	});
+
+	test('options function applies custom filter when both are provided', () => {
+		const optionsFn = function (this: any) {
+			return testOptions;
+		};
+
+		const customFilter = (search: string, opt: { value: string; label?: string }) => {
+			return opt.value.includes(search);
+		};
+
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: optionsFn,
+			filter: customFilter,
+		});
+
+		instance.prompt();
+
+		// Type 'an' - custom filter should run on top of options function result
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', 'n', { name: 'n' });
+
+		// Custom filter: 'an' matches banana and orange
+		expect(instance.filteredOptions).toEqual([
+			{ value: 'banana', label: 'Banana' },
+			{ value: 'orange', label: 'Orange' },
+		]);
+	});
 });
