@@ -67,6 +67,8 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * If not provided, a default filter that matches label, hint, and value is used.
 	 */
 	filter?: (search: string, option: Option<Value>) => boolean;
+
+	initial?: (prompt: AutocompletePrompt<Option<Value>>) => void;
 }
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
@@ -218,6 +220,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 			}
 		},
 	});
+
+	if (opts.initial) {
+		opts.initial(prompt);
+	}
 
 	// Return the result or cancel symbol
 	return prompt.prompt() as Promise<Value | symbol>;
