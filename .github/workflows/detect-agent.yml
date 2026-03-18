@@ -5,6 +5,10 @@ on:
     types: [opened]
   workflow_dispatch: {}
 
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
   detect:
     if: github.event_name != 'workflow_dispatch'
