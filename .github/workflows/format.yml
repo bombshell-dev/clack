@@ -10,4 +10,7 @@ jobs:
   format:
     if: github.repository_owner == 'bombshell-dev'
     uses: bombshell-dev/automation/.github/workflows/format.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
     secrets: inherit
