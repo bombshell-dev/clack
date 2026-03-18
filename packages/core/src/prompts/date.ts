@@ -15,7 +15,11 @@ export interface DateParts {
 
 export type DateFormat = 'YMD' | 'MDY' | 'DMY';
 
-const SEGMENTS: Record<string, SegmentConfig> = { Y: { type: 'year', len: 4 }, M: { type: 'month', len: 2 }, D: { type: 'day', len: 2 } } as const;
+const SEGMENTS: Record<string, SegmentConfig> = {
+	Y: { type: 'year', len: 4 },
+	M: { type: 'month', len: 2 },
+	D: { type: 'day', len: 2 },
+} as const;
 
 function segmentsFor(fmt: DateFormat): SegmentConfig[] {
 	return [...fmt].map((c) => SEGMENTS[c as keyof typeof SEGMENTS]);
@@ -46,7 +50,11 @@ function parseSegmentToNum(s: string): number {
 }
 
 function parse(parts: DateParts): { year: number; month: number; day: number } {
-	return { year: parseSegmentToNum(parts.year), month: parseSegmentToNum(parts.month), day: parseSegmentToNum(parts.day) };
+	return {
+		year: parseSegmentToNum(parts.year),
+		month: parseSegmentToNum(parts.month),
+		day: parseSegmentToNum(parts.day),
+	};
 }
 
 function daysInMonth(year: number, month: number): number {
@@ -54,9 +62,7 @@ function daysInMonth(year: number, month: number): number {
 }
 
 /** Validate and return calendar parts, or undefined if invalid */
-function validParts(
-	parts: DateParts
-): { year: number; month: number; day: number } | undefined {
+function validParts(parts: DateParts): { year: number; month: number; day: number } | undefined {
 	const { year, month, day } = parse(parts);
 	if (!year || year < 0 || year > 9999) return undefined;
 	if (!month || month < 1 || month > 12) return undefined;
@@ -79,10 +85,18 @@ function segmentBounds(
 	maxDate: Date | undefined
 ): { min: number; max: number } {
 	const minP = minDate
-		? { year: minDate.getUTCFullYear(), month: minDate.getUTCMonth() + 1, day: minDate.getUTCDate() }
+		? {
+				year: minDate.getUTCFullYear(),
+				month: minDate.getUTCMonth() + 1,
+				day: minDate.getUTCDate(),
+			}
 		: null;
 	const maxP = maxDate
-		? { year: maxDate.getUTCFullYear(), month: maxDate.getUTCMonth() + 1, day: maxDate.getUTCDate() }
+		? {
+				year: maxDate.getUTCFullYear(),
+				month: maxDate.getUTCMonth() + 1,
+				day: maxDate.getUTCDate(),
+			}
 		: null;
 
 	if (type === 'year') {
@@ -96,7 +110,10 @@ function segmentBounds(
 	}
 	return {
 		min: minP && ctx.year === minP.year && ctx.month === minP.month ? minP.day : 1,
-		max: maxP && ctx.year === maxP.year && ctx.month === maxP.month ? maxP.day : daysInMonth(ctx.year, ctx.month),
+		max:
+			maxP && ctx.year === maxP.year && ctx.month === maxP.month
+				? maxP.day
+				: daysInMonth(ctx.year, ctx.month),
 	};
 }
 
@@ -186,7 +203,10 @@ export default class DatePrompt extends Prompt<Date> {
 		const index = Math.max(0, Math.min(this.#cursor.segmentIndex, this.#segments.length - 1));
 		const segment = this.#segments[index];
 		if (!segment) return undefined;
-		this.#cursor.positionInSegment = Math.max(0, Math.min(this.#cursor.positionInSegment, segment.len - 1));
+		this.#cursor.positionInSegment = Math.max(
+			0,
+			Math.min(this.#cursor.positionInSegment, segment.len - 1)
+		);
 		return { segment, index };
 	}
 
@@ -195,7 +215,10 @@ export default class DatePrompt extends Prompt<Date> {
 		this.#pendingTensDigit = null;
 		const ctx = this.#seg();
 		if (!ctx) return;
-		this.#cursor.segmentIndex = Math.max(0, Math.min(this.#segments.length - 1, ctx.index + direction));
+		this.#cursor.segmentIndex = Math.max(
+			0,
+			Math.min(this.#segments.length - 1, ctx.index + direction)
+		);
 		this.#cursor.positionInSegment = 0;
 		this.#segmentSelected = true;
 	}
@@ -207,7 +230,12 @@ export default class DatePrompt extends Prompt<Date> {
 		const raw = this.#segmentValues[segment.type];
 		const isBlank = !raw || raw.replace(/_/g, '') === '';
 		const num = Number.parseInt((raw || '0').replace(/_/g, '0'), 10) || 0;
-		const bounds = segmentBounds(segment.type, parse(this.#segmentValues), this.#minDate, this.#maxDate);
+		const bounds = segmentBounds(
+			segment.type,
+			parse(this.#segmentValues),
+			this.#minDate,
+			this.#maxDate
+		);
 
 		let next: number;
 		if (isBlank) {
@@ -216,7 +244,10 @@ export default class DatePrompt extends Prompt<Date> {
 			next = Math.max(Math.min(bounds.max, num + direction), bounds.min);
 		}
 
-		this.#segmentValues = { ...this.#segmentValues, [segment.type]: next.toString().padStart(segment.len, '0') };
+		this.#segmentValues = {
+			...this.#segmentValues,
+			[segment.type]: next.toString().padStart(segment.len, '0'),
+		};
 		this.#segmentSelected = true;
 		this.#pendingTensDigit = null;
 		this.#refresh();
@@ -225,18 +256,25 @@ export default class DatePrompt extends Prompt<Date> {
 	#onCursor(key?: string) {
 		if (!key) return;
 		switch (key) {
-			case 'right': return this.#navigate(1);
-			case 'left': return this.#navigate(-1);
-			case 'up': return this.#adjust(1);
-			case 'down': return this.#adjust(-1);
+			case 'right':
+				return this.#navigate(1);
+			case 'left':
+				return this.#navigate(-1);
+			case 'up':
+				return this.#adjust(1);
+			case 'down':
+				return this.#adjust(-1);
 		}
 	}
 
 	#onKey(char: string | undefined, key: Key) {
 		// Backspace
 		const isBackspace =
-			key?.name === 'backspace' || key?.sequence === '\x7f' || key?.sequence === '\b' ||
-			char === '\x7f' || char === '\b';
+			key?.name === 'backspace' ||
+			key?.sequence === '\x7f' ||
+			key?.sequence === '\b' ||
+			char === '\x7f' ||
+			char === '\b';
 		if (isBackspace) {
 			this.inlineError = '';
 			const ctx = this.#seg();
@@ -308,7 +346,8 @@ export default class DatePrompt extends Prompt<Date> {
 
 			const display = this.#segmentValues[segment.type];
 			const firstBlank = display.indexOf('_');
-			const pos = firstBlank >= 0 ? firstBlank : Math.min(this.#cursor.positionInSegment, segment.len - 1);
+			const pos =
+				firstBlank >= 0 ? firstBlank : Math.min(this.#cursor.positionInSegment, segment.len - 1);
 			if (pos < 0 || pos >= segment.len) return;
 
 			let newVal = display.slice(0, pos) + char + display.slice(pos + 1);

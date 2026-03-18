@@ -77,11 +77,7 @@ export const date = (opts: DateOptions) => {
 	}).prompt() as Promise<Date | symbol>;
 };
 
-
-function renderDate(
-	prompt: Omit<InstanceType<typeof DatePrompt>, 'prompt'>,
-	state: State
-): string {
+function renderDate(prompt: Omit<InstanceType<typeof DatePrompt>, 'prompt'>, state: State): string {
 	const parts = prompt.segmentValues;
 	const cursor = prompt.segmentCursor;
 
@@ -103,10 +99,7 @@ interface SegmentOptions {
 	isActive: boolean;
 	label: string;
 }
-function renderSegment(
-	value: string,
-	opts: SegmentOptions,
-): string {
+function renderSegment(value: string, opts: SegmentOptions): string {
 	const isBlank = !value || value.replace(/_/g, '') === '';
 	if (opts.isActive) return styleText('inverse', isBlank ? opts.label : value.replace(/_/g, ' '));
 	if (isBlank) return styleText('dim', opts.label);
