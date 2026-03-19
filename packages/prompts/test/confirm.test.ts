@@ -199,4 +199,18 @@ describe.each(['true', 'false'])('confirm (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('renders multi-line messages correctly', async () => {
+		const result = prompts.confirm({
+			message: 'foo\nbar\nbaz',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
