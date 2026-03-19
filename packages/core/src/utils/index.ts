@@ -102,7 +102,8 @@ export function wrapTextWithPrefix(
 	output: Writable | undefined,
 	text: string,
 	prefix: string,
-	startPrefix: string = prefix
+	startPrefix: string = prefix,
+	lineFormatter?: (line: string, index: number) => string
 ): string {
 	const columns = getColumns(output ?? stdout);
 	const wrapped = wrapAnsi(text, columns - prefix.length, {
@@ -112,7 +113,8 @@ export function wrapTextWithPrefix(
 	const lines = wrapped
 		.split('\n')
 		.map((line, index) => {
-			return `${index === 0 ? startPrefix : prefix}${line}`;
+			const lineString = lineFormatter ? lineFormatter(line, index) : line;
+			return `${index === 0 ? startPrefix : prefix}${lineString}`;
 		})
 		.join('\n');
 	return lines;

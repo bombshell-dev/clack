@@ -22,24 +22,30 @@ export const multiline = (opts: MultiLineOptions) => {
 				case 'error': {
 					const lines = wrapTextWithPrefix(
 						opts.output,
-						styleText('yellow', value),
-						`${styleText('yellow', S_BAR)}  `
+						value,
+						`${styleText('yellow', S_BAR)}  `,
+						undefined,
+						(str) => styleText('yellow', str)
 					);
 					return `${title.trim()}${lines}\n${styleText('yellow', S_BAR_END)}  ${styleText('yellow', this.error)}\n`;
 				}
 				case 'submit': {
 					const lines = wrapTextWithPrefix(
 						opts.output,
-						styleText('dim', this.value ?? ''),
-						`${styleText('gray', S_BAR)}  `
+						this.value ?? '',
+						`${styleText('gray', S_BAR)}  `,
+						undefined,
+						(str) => styleText('dim', str)
 					);
 					return `${title}${lines}`;
 				}
 				case 'cancel': {
 					const lines = wrapTextWithPrefix(
 						opts.output,
-						styleText(['strikethrough', 'dim'], value),
-						`${styleText('gray', S_BAR)}  `
+						value,
+						`${styleText('gray', S_BAR)}  `,
+						undefined,
+						(str) => styleText(['strikethrough', 'dim'], str)
 					);
 					return `${title}${lines}${this.value?.trim() ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
