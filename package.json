@@ -9,17 +9,19 @@
     "dev": "pnpm --filter @example/changesets run start",
     "format": "biome check --write",
     "lint": "biome lint --write --unsafe",
-    "type-check": "biome lint && tsc",
-    "test": "pnpm -r run test",
-    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:publish": "changeset publish"
+    "types": "tsc --noEmit",
+    "deps": "pnpm exec knip --production",
+    "test": "pnpm --color -r run test",
+    "pretest": "pnpm run build"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@changesets/cli": "^2.26.2",
-    "@types/node": "^18.16.0",
-    "typescript": "^5.2.2",
-    "unbuild": "^2.0.0"
+    "@biomejs/biome": "^2.1.2",
+    "@changesets/cli": "^2.29.5",
+    "@types/node": "^24.1.0",
+    "jsr": "^0.13.4",
+    "knip": "^5.62.0",
+    "typescript": "^5.8.3",
+    "unbuild": "^3.6.0"
   },
   "packageManager": "pnpm@9.14.2",
   "volta": {

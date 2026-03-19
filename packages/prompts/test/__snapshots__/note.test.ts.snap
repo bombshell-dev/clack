@@ -1,0 +1,385 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`note (isCI = false) > don't overflow 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                       [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string[22m               [90m│[39m
+[90m│[39m                                                                       [90m│[39m
+[90m├───────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > don't overflow with formatter 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                         [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string[31m *[39m                                                 [90m│[39m
+[90m│[39m                                                                         [90m│[39m
+[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > formatter which adds colors works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──╮[39m
+[90m│[39m          [90m│[39m
+[90m│[39m  [31mline 0[39m  [90m│[39m
+[90m│[39m  [31mline 1[39m  [90m│[39m
+[90m│[39m  [31mline 2[39m  [90m│[39m
+[90m│[39m          [90m│[39m
+[90m├──────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > formatter which adds length works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──────╮[39m
+[90m│[39m              [90m│[39m
+[90m│[39m  * line 0 *  [90m│[39m
+[90m│[39m  * line 1 *  [90m│[39m
+[90m│[39m  * line 2 *  [90m│[39m
+[90m│[39m              [90m│[39m
+[90m├──────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > handle wide characters 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0m这是标题[0m [90m─╮[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  [2m이게[22m      [90m│[39m
+[90m│[39m  [2m 첫 [22m      [90m│[39m
+[90m│[39m  [2m번째[22m      [90m│[39m
+[90m│[39m  [2m [22m         [90m│[39m
+[90m│[39m  [2m줄이[22m      [90m│[39m
+[90m│[39m  [2m에요[22m      [90m│[39m
+[90m│[39m  [2mこれ[22m      [90m│[39m
+[90m│[39m  [2mは次[22m      [90m│[39m
+[90m│[39m  [2mの行[22m      [90m│[39m
+[90m│[39m  [2mです[22m      [90m│[39m
+[90m│[39m            [90m│[39m
+[90m├────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > handle wide characters with formatter 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0m这是标题[0m [90m─╮[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m게[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36m첫[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36m번[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m째[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36m줄[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m에[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m요[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36mこ[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mれ[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mは[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m次[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mの[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m行[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mで[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mす[31m *[39m    [90m│[39m
+[90m│[39m            [90m│[39m
+[90m├────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > renders as wide as longest line 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
+[90m│[39m                                   [90m│[39m
+[90m│[39m  [2mshort[22m                            [90m│[39m
+[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
+[90m│[39m                                   [90m│[39m
+[90m├───────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > renders message with title 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m├───────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = false) > without guide 1`] = `
+[
+  "[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m╰───────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > don't overflow 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                       [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
+[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
+[90m│[39m  [2mstring test string test string test string test string[22m               [90m│[39m
+[90m│[39m                                                                       [90m│[39m
+[90m├───────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > don't overflow with formatter 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
+[90m│[39m                                                                         [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
+[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
+[90m│[39m  [31m* [36mstring test string[31m *[39m                                                 [90m│[39m
+[90m│[39m                                                                         [90m│[39m
+[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > formatter which adds colors works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──╮[39m
+[90m│[39m          [90m│[39m
+[90m│[39m  [31mline 0[39m  [90m│[39m
+[90m│[39m  [31mline 1[39m  [90m│[39m
+[90m│[39m  [31mline 2[39m  [90m│[39m
+[90m│[39m          [90m│[39m
+[90m├──────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > formatter which adds length works 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m──────╮[39m
+[90m│[39m              [90m│[39m
+[90m│[39m  * line 0 *  [90m│[39m
+[90m│[39m  * line 1 *  [90m│[39m
+[90m│[39m  * line 2 *  [90m│[39m
+[90m│[39m              [90m│[39m
+[90m├──────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > handle wide characters 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0m这是标题[0m [90m─╮[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  [2m이게[22m      [90m│[39m
+[90m│[39m  [2m 첫 [22m      [90m│[39m
+[90m│[39m  [2m번째[22m      [90m│[39m
+[90m│[39m  [2m [22m         [90m│[39m
+[90m│[39m  [2m줄이[22m      [90m│[39m
+[90m│[39m  [2m에요[22m      [90m│[39m
+[90m│[39m  [2mこれ[22m      [90m│[39m
+[90m│[39m  [2mは次[22m      [90m│[39m
+[90m│[39m  [2mの行[22m      [90m│[39m
+[90m│[39m  [2mです[22m      [90m│[39m
+[90m│[39m            [90m│[39m
+[90m├────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > handle wide characters with formatter 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0m这是标题[0m [90m─╮[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m게[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36m첫[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36m번[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m째[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
+[90m│[39m  [31m* [36m줄[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m에[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m요[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
+[90m│[39m  [31m* [36mこ[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mれ[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mは[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m次[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mの[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36m行[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mで[31m *[39m    [90m│[39m
+[90m│[39m  [31m* [36mす[31m *[39m    [90m│[39m
+[90m│[39m            [90m│[39m
+[90m├────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > renders as wide as longest line 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
+[90m│[39m                                   [90m│[39m
+[90m│[39m  [2mshort[22m                            [90m│[39m
+[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
+[90m│[39m                                   [90m│[39m
+[90m├───────────────────────────────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > renders message with title 1`] = `
+[
+  "[90m│[39m
+[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m├───────────╯[39m
+",
+]
+`;
+
+exports[`note (isCI = true) > without guide 1`] = `
+[
+  "[32m◇[39m  [0mtitle[0m [90m───╮[39m
+[90m│[39m           [90m│[39m
+[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m           [90m│[39m
+[90m╰───────────╯[39m
+",
+]
+`;

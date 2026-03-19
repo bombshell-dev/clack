@@ -1,29 +1,35 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 import { type Action, settings } from '../utils/index.js';
-import Prompt from './prompt.js';
-import type { TextOptions } from './text.js';
+import Prompt, { type PromptOptions } from './prompt.js';
 
-export default class MultiLinePrompt extends Prompt {
+export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
+	placeholder?: string;
+	defaultValue?: string;
+}
+
+export default class MultiLinePrompt extends Prompt<string> {
 	get valueWithCursor() {
 		if (this.state === 'submit') {
-			return this.value;
+			return this.userInput;
 		}
-		if (this.cursor >= this.value.length) {
-			return `${this.value}█`;
+		const userInput = this.userInput;
+		if (this.cursor >= userInput.length) {
+			return `${userInput}█`;
 		}
-		const s1 = this.value.slice(0, this.cursor);
-		const [s2, ...s3] = this.value.slice(this.cursor);
-		return `${s1}${color.inverse(s2)}${s3.join('')}`;
+		const s1 = userInput.slice(0, this.cursor);
+		const [s2, ...s3] = userInput.slice(this.cursor);
+		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
 	}
 	get cursor() {
 		return this._cursor;
 	}
 	insertAtCursor(char: string) {
-		if (!this.value || this.value.length === 0) {
-			this.value = char;
+		if (this.userInput.length === 0) {
+			this.userInput = char;
 			return;
 		}
-		this.value = this.value.substr(0, this.cursor) + char + this.value.substr(this.cursor);
+		this.userInput =
+			this.userInput.substr(0, this.cursor) + char + this.userInput.substr(this.cursor);
 	}
 	handleCursor(key?: Action) {
 		const text = this.value ?? '';
@@ -62,12 +68,12 @@ export default class MultiLinePrompt extends Prompt {
 				return;
 		}
 	}
-	constructor(opts: TextOptions) {
+	constructor(opts: MultiLineOptions) {
 		super(opts, false);
 
-		this.on('rawKey', (char, key) => {
-			if (settings.actions.has(key?.name)) {
-				this.handleCursor(key?.name);
+		this.on('key', (char, key) => {
+			if (key?.name && settings.actions.has(key.name as Action)) {
+				this.handleCursor(key.name as Action);
 			}
 			if (char === '\r') {
 				this.insertAtCursor('\n');
@@ -78,12 +84,13 @@ export default class MultiLinePrompt extends Prompt {
 				return;
 			}
 			if (key?.name === 'backspace' && this.cursor > 0) {
-				this.value = this.value.substr(0, this.cursor - 1) + this.value.substr(this.cursor);
+				this.userInput =
+					this.userInput.substr(0, this.cursor - 1) + this.userInput.substr(this.cursor);
 				this._cursor--;
 				return;
 			}
-			if (key?.name === 'delete' && this.cursor < this.value.length) {
-				this.value = this.value.substr(0, this.cursor) + this.value.substr(this.cursor + 1);
+			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
+				this.value = this.userInput.substr(0, this.cursor) + this.userInput.substr(this.cursor + 1);
 				return;
 			}
 			if (char) {

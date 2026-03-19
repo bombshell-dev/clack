@@ -1,0 +1,817 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`autocomplete > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > cannot select disabled options when only one left 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m k█[2m (1 match)[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > displays disabled options correctly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m
+[36m│[39m  [2m○[22m [2mApple[22m
+[36m│[39m  [32m●[39m Banana
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [32m●[39m Cherry
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [32m●[39m Grape
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=7>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [32m●[39m Orange
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select an option
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Option 0
+[36m│[39m  [2m○[22m [2mOption 1[22m
+[36m│[39m  [2m○[22m [2mOption 2[22m
+[36m│[39m  [2m○[22m [2mOption 3[22m
+[36m│[39m  [2m○[22m [2mOption 4[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select an option
+[90m│[39m  [2mOption 0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > placeholder is shown if set 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [2mType to search...[22m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m g█[2m (2 matches)[22m
+[36m│[39m  [32m●[39m Grape
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mGrape[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > renders bottom ellipsis when items do not fit 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select an option
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Line 0
+[36m│[39m  Line 1
+[36m│[39m  Line 2
+[36m│[39m  Line 3
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<erase.down>",
+  "[32m◇[39m  Select an option
+[90m│[39m  [2mLine 0
+Line 1
+Line 2
+Line 3[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > renders initial UI with message and instructions 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > renders placeholder if set 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [2mType to search...[22m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > renders top ellipsis when scrolled down and its do not fit 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select an option
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m...[22m
+[36m│[39m  [32m●[39m Option 2
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<erase.down>",
+  "[90m│[39m
+[32m◇[39m  Select an option
+[90m│[39m  [2mOption 2[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m○[22m [2mKiwi[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m
+[36m│[39m  [2m○[22m [2mApple[22m
+[36m│[39m  [32m●[39m Banana
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m○[22m [2mKiwi[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [32m●[39m Cherry
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m○[22m [2mKiwi[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [32m●[39m Grape
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m○[22m [2mKiwi[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=7>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [32m●[39m Orange
+[36m│[39m  [2m○[22m [2mKiwi[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=8>",
+  "<erase.down>",
+  "[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [32m●[39m Kiwi[2m (New Zealand)[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mKiwi[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > shows no matches message when search has no results 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m z█[2m (0 matches)[22m
+[36m│[39m  [33mNo matches found[39m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > shows selected value in submit state 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m
+[36m│[39m  [2m○[22m [2mApple[22m
+[36m│[39m  [32m●[39m Banana
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mBanana[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > shows strikethrough in cancel state 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  Select a fruit
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete > supports initialValue 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m○[22m [2mApple[22m
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [32m●[39m Cherry
+[36m│[39m  [2m○[22m [2mGrape[22m
+[36m│[39m  [2m○[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mCherry[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete with custom filter > falls back to default filter when not provided 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m a█[2m (2 matches)[22m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocomplete with custom filter > uses custom filter function when provided 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m○[22m [2mBanana[22m
+[36m│[39m  [2m○[22m [2mCherry[22m
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m a█[2m (1 match)[22m
+[36m│[39m  [32m●[39m Apple
+[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2mApple[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > can use navigation keys to select options 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select fruits
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m [2m[22m
+[36m│[39m  [2m◻[22m [2mApple[22m
+[36m│[39m  [2m◻[22m Banana
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Banana",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "[36m│[39m  [32m◼[39m [2mBanana[22m
+[36m│[39m  [2m◻[22m Cherry
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=6>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Cherry",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select fruits
+[90m│[39m  [2m2 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > cannot select disabled options when only one left 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m k█[2m (1 match)[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2m0 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > displays disabled options correctly 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m [2m[22m
+[36m│[39m  [2m◻[22m [2mApple[22m
+[36m│[39m  [2m◻[22m Banana
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m Cherry
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m Grape
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=7>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m Orange
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Apple",
+  "<cursor.down count=7>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2m1 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > renders error when empty selection & required is true 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  Select a fruit
+[33m│[39m
+[33m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[33m│[39m  [33mPlease select at least one item[39m
+[33m│[39m  [2m◻[22m Apple
+[33m│[39m  [2m◻[22m [2mBanana[22m
+[33m│[39m  [2m◻[22m [2mCherry[22m
+[33m│[39m  [2m◻[22m [2mGrape[22m
+[33m│[39m  [2m◻[22m [2mOrange[22m
+[33m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[33m└[39m",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  Select a fruit
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [32m◼[39m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select a fruit
+[90m│[39m  [2m1 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`autocompleteMultiselect > supports custom filter function 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Select fruits
+[36m│[39m
+[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m◻[22m [2mBanana[22m
+[36m│[39m  [2m◻[22m [2mCherry[22m
+[36m│[39m  [2m◻[22m [2mGrape[22m
+[36m│[39m  [2m◻[22m [2mOrange[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2mSearch:[22m a█[2m (1 match)[22m
+[36m│[39m  [2m◻[22m Apple
+[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
+[36m└[39m",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [32m◼[39m Apple",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Select fruits
+[90m│[39m  [2m1 items selected[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;

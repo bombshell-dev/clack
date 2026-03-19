@@ -14,7 +14,7 @@ async function main() {
 
 	p.intro(`${color.bgCyan(color.black(' changesets '))}`);
 
-	const changeset = await p.group(
+	const _changeset = await p.group(
 		{
 			packages: () =>
 				p.groupMultiselect({

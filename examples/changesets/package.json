@@ -4,14 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@clack/core": "workspace:*",
+    "jiti": "^1.17.0",
     "@clack/prompts": "workspace:*",
     "picocolors": "^1.0.0"
   },
   "scripts": {
     "start": "jiti ./index.ts"
   },
-  "devDependencies": {
-    "jiti": "^1.17.0"
-  }
+  "devDependencies": {}
 }

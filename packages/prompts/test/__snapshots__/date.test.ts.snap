@@ -1,0 +1,263 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`date (isCI = false) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7mmm[27m[90m/[39m[2mdd[22m[90m/[39m[2myyyy[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  Pick a date
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = false) > defaultValue used when empty submit 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m12[27m[90m/[39m25[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m12/25/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = false) > renders initial value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m01[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = false) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m01[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = false) > renders submitted value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m06[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m06/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = false) > supports MDY format 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m01[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = false) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  Pick a date
+[7m01[27m[90m/[39m15[90m/[39m2025
+
+",
+  "<cursor.backward count=999><cursor.up count=3>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7mmm[27m[90m/[39m[2mdd[22m[90m/[39m[2myyyy[22m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  Pick a date
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > defaultValue used when empty submit 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m12[27m[90m/[39m25[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m12/25/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > renders initial value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m01[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m01[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > renders submitted value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m06[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m06/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > supports MDY format 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  Pick a date
+[36m│[39m  [7m01[27m[90m/[39m15[90m/[39m2025
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+[90m│[39m  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`date (isCI = true) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  Pick a date
+[7m01[27m[90m/[39m15[90m/[39m2025
+
+",
+  "<cursor.backward count=999><cursor.up count=3>",
+  "<erase.down>",
+  "[32m◇[39m  Pick a date
+  [2m01/15/2025[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
