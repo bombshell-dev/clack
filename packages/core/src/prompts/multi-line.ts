@@ -25,11 +25,12 @@ export default class MultiLinePrompt extends Prompt<string> {
 	}
 	insertAtCursor(char: string) {
 		if (this.userInput.length === 0) {
-			this.userInput = char;
+			this._setUserInput(char);
 			return;
 		}
-		this.userInput =
-			this.userInput.substr(0, this.cursor) + char + this.userInput.substr(this.cursor);
+		this._setUserInput(
+			this.userInput.substr(0, this.cursor) + char + this.userInput.substr(this.cursor)
+		);
 	}
 	handleCursor(key?: Action) {
 		const text = this.value ?? '';
@@ -84,13 +85,16 @@ export default class MultiLinePrompt extends Prompt<string> {
 				return;
 			}
 			if (key?.name === 'backspace' && this.cursor > 0) {
-				this.userInput =
-					this.userInput.substr(0, this.cursor - 1) + this.userInput.substr(this.cursor);
+				this._setUserInput(
+					this.userInput.substr(0, this.cursor - 1) + this.userInput.substr(this.cursor)
+				);
 				this._cursor--;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
-				this.value = this.userInput.substr(0, this.cursor) + this.userInput.substr(this.cursor + 1);
+				this._setUserInput(
+					this.userInput.substr(0, this.cursor) + this.userInput.substr(this.cursor + 1)
+				);
 				return;
 			}
 			if (char) {
@@ -98,9 +102,16 @@ export default class MultiLinePrompt extends Prompt<string> {
 				this._cursor++;
 			}
 		});
+
+		this.on('userInput', (input) => {
+			this._setValue(input);
+		});
 		this.on('finalize', () => {
 			if (!this.value) {
 				this.value = opts.defaultValue;
+			}
+			if (this.value === undefined) {
+				this.value = '';
 			}
 		});
 	}
