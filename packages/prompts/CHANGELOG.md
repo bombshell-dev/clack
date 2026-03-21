@@ -1,5 +1,23 @@
 # @clack/prompts
 
+## 1.2.0
+
+### Minor Changes
+
+- 9786226: Externalize `fast-string-width` and `fast-wrap-ansi` to avoid double dependencies
+- 090902c: Adds `date` prompt with `format` support (YMD, MDY, DMY)
+
+### Patch Changes
+
+- 134a1a1: Fix the `path` prompt so `directory: true` correctly enforces directory-only selection while still allowing directory navigation, and add regression tests for both directory and default file selection behavior.
+- bdf89a5: Adds `placeholder` option to `autocomplete`. When the placeholder is set and the input is empty, pressing `tab` will set the value to `placeholder`.
+- 336495a: Apply guide to wrapped multi-line messages in confirm prompt.
+- 29a50cb: Fix `path` directory mode so pressing Enter with an existing directory `initialValue` submits that current directory instead of the first child option, and add regression coverage for immediate submit and child-directory navigation.
+- Updated dependencies [9786226]
+- Updated dependencies [bdf89a5]
+- Updated dependencies [090902c]
+  - @clack/core@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes
