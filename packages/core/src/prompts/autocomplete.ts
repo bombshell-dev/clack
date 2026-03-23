@@ -71,7 +71,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	focusedValue: T['value'] | undefined;
 	#cursor = 0;
 	#lastUserInput = '';
-	#filterFn: FilterFunction<T>;
+	#filterFn: FilterFunction<T> | undefined;
 	#options: T[] | (() => T[]);
 	#placeholder: string | undefined;
 
@@ -106,7 +106,8 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		const options = this.options;
 		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
-		this.#filterFn = opts.filter ?? defaultFilter;
+		this.#filterFn =
+			typeof opts.options === 'function' ? opts.filter : (opts.filter ?? defaultFilter);
 		let initialValues: unknown[] | undefined;
 		if (opts.initialValue && Array.isArray(opts.initialValue)) {
 			if (this.multiple) {
@@ -160,7 +161,9 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		const placeholderMatchesOption =
 			placeholder !== undefined &&
 			placeholder !== '' &&
-			options.some((opt) => !opt.disabled && this.#filterFn(placeholder, opt));
+			options.some(
+				(opt) => !opt.disabled && (this.#filterFn ? this.#filterFn(placeholder, opt) : true)
+			);
 		if (key.name === 'tab' && isEmptyOrOnlyTab && placeholderMatchesOption) {
 			if (this.userInput === '\t') {
 				this._clearUserInput();
@@ -225,8 +228,8 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 			const options = this.options;
 
-			if (value) {
-				this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
+			if (value && this.#filterFn) {
+				this.filteredOptions = options.filter((opt) => this.#filterFn?.(value, opt));
 			} else {
 				this.filteredOptions = [...options];
 			}
