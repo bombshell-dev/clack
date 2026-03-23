@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { ConfirmPrompt, settings } from '@clack/core';
+import { ConfirmPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -28,7 +28,15 @@ export const confirm = (opts: ConfirmOptions) => {
 		initialValue: opts.initialValue ?? true,
 		render() {
 			const hasGuide = opts.withGuide ?? settings.withGuide;
-			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
+			const titlePrefix = `${symbol(this.state)}  `;
+			const titlePrefixBar = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+			const messageLines = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				titlePrefixBar,
+				titlePrefix
+			);
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
 			const value = this.value ? active : inactive;
 
 			switch (this.state) {

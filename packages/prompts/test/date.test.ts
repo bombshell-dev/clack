@@ -35,6 +35,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('renders message', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			initialValue: d('2025-01-15'),
 			input,
 			output,
@@ -50,6 +51,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('renders initial value', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			initialValue: d('2025-01-15'),
 			input,
 			output,
@@ -67,6 +69,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('can cancel', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			input,
 			output,
 		});
@@ -82,6 +85,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('renders submitted value', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			initialValue: d('2025-06-15'),
 			input,
 			output,
@@ -99,6 +103,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('defaultValue used when empty submit', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			defaultValue: d('2025-12-25'),
 			input,
 			output,
@@ -116,6 +121,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('withGuide: false removes guide', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			withGuide: false,
 			initialValue: d('2025-01-15'),
 			input,
@@ -150,6 +156,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 	test('minDate shows error when date before min and submit', async () => {
 		const result = prompts.date({
 			message: 'Pick a date',
+			locale: 'en-US',
 			initialValue: d('2025-01-10'),
 			minDate: d('2025-01-15'),
 			input,
