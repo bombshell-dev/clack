@@ -1,4 +1,5 @@
 import { styleText } from 'node:util';
+import { findTextCursor } from '../utils/cursor.js';
 import { type Action, settings } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
@@ -8,7 +9,7 @@ export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt>
 }
 
 export default class MultiLinePrompt extends Prompt<string> {
-	get valueWithCursor() {
+	get userInputWithCursor() {
 		if (this.state === 'submit') {
 			return this.userInput;
 		}
@@ -17,8 +18,10 @@ export default class MultiLinePrompt extends Prompt<string> {
 			return `${userInput}█`;
 		}
 		const s1 = userInput.slice(0, this.cursor);
-		const [s2, ...s3] = userInput.slice(this.cursor);
-		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
+		const s2 = userInput[this.cursor];
+		const s3 = userInput.slice(this.cursor + 1);
+		if (s2 === '\n') return `${s1}█\n${s3}`;
+		return `${s1}${styleText('inverse', s2)}${s3}`;
 	}
 	get cursor() {
 		return this._cursor;
@@ -34,38 +37,18 @@ export default class MultiLinePrompt extends Prompt<string> {
 	}
 	handleCursor(key?: Action) {
 		const text = this.value ?? '';
-		const lines = text.split('\n');
-		const beforeCursor = text.substr(0, this.cursor);
-		const currentLine = beforeCursor.split('\n').length - 1;
-		const lineStart = beforeCursor.lastIndexOf('\n');
-		const cursorOffet = this.cursor - lineStart;
 		switch (key) {
 			case 'up':
-				if (currentLine === 0) {
-					this._cursor = 0;
-					return;
-				}
-				this._cursor +=
-					-cursorOffet -
-					lines[currentLine - 1].length +
-					Math.min(lines[currentLine - 1].length, cursorOffet - 1);
+				this._cursor = findTextCursor(this._cursor, 0, -1, text);
 				return;
 			case 'down':
-				if (currentLine === lines.length - 1) {
-					this._cursor = text.length;
-					return;
-				}
-				this._cursor +=
-					-cursorOffet +
-					1 +
-					lines[currentLine].length +
-					Math.min(lines[currentLine + 1].length + 1, cursorOffet);
+				this._cursor = findTextCursor(this._cursor, 0, 1, text);
 				return;
 			case 'left':
-				this._cursor = Math.max(0, this._cursor - 1);
+				this._cursor = findTextCursor(this._cursor, -1, 0, text);
 				return;
 			case 'right':
-				this._cursor = Math.min(text.length, this._cursor + 1);
+				this._cursor = findTextCursor(this._cursor, 1, 0, text);
 				return;
 		}
 	}

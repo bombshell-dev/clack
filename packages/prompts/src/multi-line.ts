@@ -17,7 +17,7 @@ export const multiline = (opts: MultiLineOptions) => {
 			const placeholder = opts.placeholder
 				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
 				: styleText(['inverse', 'hidden'], '_');
-			const value = `${!this.value ? placeholder : this.valueWithCursor}`;
+			const value = !this.userInput ? placeholder : this.userInputWithCursor;
 			switch (this.state) {
 				case 'error': {
 					const lines = wrapTextWithPrefix(
