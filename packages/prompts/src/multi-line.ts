@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { MultiLinePrompt, wrapTextWithPrefix } from '@clack/core';
+import { MultiLinePrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import { S_BAR, S_BAR_END, symbol } from './common.js';
 import type { TextOptions } from './text.js';
 
@@ -14,48 +14,59 @@ export const multiline = (opts: MultiLineOptions) => {
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
 		showSubmit: opts.showSubmit,
+		output: opts.output,
+		signal: opts.signal,
+		input: opts.input,
 		render() {
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = opts?.withGuide ?? settings.withGuide;
+			const titlePrefix = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  `;
+			const title = `${titlePrefix}${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
 				: styleText(['inverse', 'hidden'], '_');
 			const userInput = !this.userInput ? placeholder : this.userInputWithCursor;
+			const value = this.value ?? '';
 			const submitButton = opts.showSubmit
-				? `\n   ${styleText(this.focused === 'submit' ? 'cyan' : 'dim', '[ submit ]')}`
+				? `\n  ${styleText(this.focused === 'submit' ? 'cyan' : 'dim', '[ submit ]')}`
 				: '';
 			switch (this.state) {
 				case 'error': {
-					const lines = wrapTextWithPrefix(
-						opts.output,
-						userInput,
-						`${styleText('yellow', S_BAR)}  `,
-						undefined
-					);
-					return `${title}${lines}\n${styleText('yellow', S_BAR_END)}  ${styleText('yellow', this.error)}${submitButton}\n`;
+					const errorPrefix = `${styleText('yellow', S_BAR)}  `;
+					const lines = hasGuide
+						? wrapTextWithPrefix(opts.output, userInput, errorPrefix, undefined)
+						: userInput;
+					const errorPrefixEnd = styleText('yellow', S_BAR_END);
+					return `${title}${lines}\n${errorPrefixEnd}  ${styleText('yellow', this.error)}${submitButton}\n`;
 				}
 				case 'submit': {
-					const lines = wrapTextWithPrefix(
-						opts.output,
-						this.value ?? '',
-						`${styleText('gray', S_BAR)}  `,
-						undefined,
-						(str) => styleText('dim', str)
-					);
+					const submitPrefix = `${styleText('gray', S_BAR)}  `;
+					const lines = hasGuide
+						? wrapTextWithPrefix(opts.output, value, submitPrefix, undefined, (str) =>
+								styleText('dim', str)
+							)
+						: value
+							? styleText('dim', value)
+							: '';
 					return `${title}${lines}`;
 				}
 				case 'cancel': {
-					const lines = wrapTextWithPrefix(
-						opts.output,
-						userInput,
-						`${styleText('gray', S_BAR)}  `,
-						undefined,
-						(str) => styleText(['strikethrough', 'dim'], str)
-					);
-					return `${title}${lines}${this.value?.trim() ? `\n${styleText('gray', S_BAR)}` : ''}`;
+					const cancelPrefix = `${styleText('gray', S_BAR)}  `;
+					const lines = hasGuide
+						? wrapTextWithPrefix(opts.output, value, cancelPrefix, undefined, (str) =>
+								styleText(['strikethrough', 'dim'], str)
+							)
+						: value
+							? styleText(['strikethrough', 'dim'], value)
+							: '';
+					return `${title}${lines}`;
 				}
 				default: {
-					const lines = wrapTextWithPrefix(opts.output, userInput, `${styleText('cyan', S_BAR)}  `);
-					return `${title}${lines}\n${styleText('cyan', S_BAR_END)}${submitButton}\n`;
+					const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					const lines = hasGuide
+						? wrapTextWithPrefix(opts.output, userInput, defaultPrefix)
+						: userInput;
+					return `${title}${lines}\n${defaultPrefixEnd}${submitButton}\n`;
 				}
 			}
 		},
