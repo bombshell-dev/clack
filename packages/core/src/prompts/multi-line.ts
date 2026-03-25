@@ -1,3 +1,4 @@
+import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findTextCursor } from '../utils/cursor.js';
 import { type Action, settings } from '../utils/index.js';
@@ -6,9 +7,14 @@ import Prompt, { type PromptOptions } from './prompt.js';
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
 	defaultValue?: string;
+	showSubmit?: boolean;
 }
 
 export default class MultiLinePrompt extends Prompt<string> {
+	#lastKeyWasReturn = false;
+	#showSubmit: boolean;
+	public focused: 'editor' | 'submit' = 'editor';
+
 	get userInputWithCursor() {
 		if (this.state === 'submit') {
 			return this.userInput;
@@ -32,7 +38,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			return;
 		}
 		this._setUserInput(
-			this.userInput.substr(0, this.cursor) + char + this.userInput.substr(this.cursor)
+			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor)
 		);
 	}
 	handleCursor(key?: Action) {
@@ -52,35 +58,65 @@ export default class MultiLinePrompt extends Prompt<string> {
 				return;
 		}
 	}
+
+	protected override _shouldSubmit(_char: string | undefined, _key: Key): boolean {
+		if (this.#showSubmit) {
+			if (this.focused === 'submit') {
+				return true;
+			}
+			this.insertAtCursor('\n');
+			this._cursor++;
+			return false;
+		}
+		const wasReturn = this.#lastKeyWasReturn;
+		this.#lastKeyWasReturn = true;
+		if (wasReturn) {
+			if (this.userInput[this.cursor - 1] === '\n') {
+				this._setUserInput(
+					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
+				);
+				this._cursor--;
+			}
+			return true;
+		}
+		this.insertAtCursor('\n');
+		this._cursor++;
+		return false;
+	}
+
 	constructor(opts: MultiLineOptions) {
 		super(opts, false);
+		this.#showSubmit = opts.showSubmit ?? false;
 
 		this.on('key', (char, key) => {
 			if (key?.name && settings.actions.has(key.name as Action)) {
 				this.handleCursor(key.name as Action);
 			}
-			if (char === '\r') {
-				this.insertAtCursor('\n');
-				this._cursor++;
+			if (char === '\t' && this.#showSubmit) {
+				this.focused = this.focused === 'editor' ? 'submit' : 'editor';
 				return;
 			}
-			if (char === '\u0004') {
+			if (key?.name === 'return') {
 				return;
 			}
+			this.#lastKeyWasReturn = false;
 			if (key?.name === 'backspace' && this.cursor > 0) {
 				this._setUserInput(
-					this.userInput.substr(0, this.cursor - 1) + this.userInput.substr(this.cursor)
+					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
 				);
 				this._cursor--;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
 				this._setUserInput(
-					this.userInput.substr(0, this.cursor) + this.userInput.substr(this.cursor + 1)
+					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1)
 				);
 				return;
 			}
 			if (char) {
+				if (this.#showSubmit && this.focused === 'submit') {
+					this.focused = 'editor';
+				}
 				this.insertAtCursor(char ?? '');
 				this._cursor++;
 			}

@@ -1,5 +1,3 @@
-import type { Key } from 'node:readline';
-
 const actions = ['up', 'down', 'left', 'right', 'space', 'enter', 'cancel'] as const;
 export type Action = (typeof actions)[number];
 
@@ -190,16 +188,4 @@ export function isActionKey(key: string | Array<string | undefined>, action: Act
 		}
 	}
 	return false;
-}
-
-export function isSameKey(actual: Key | undefined, expected: Key): boolean {
-	if (actual === undefined) {
-		return false;
-	}
-	return (
-		actual.name === expected.name &&
-		(actual.ctrl ?? false) === (expected.ctrl ?? false) &&
-		(actual.meta ?? false) === (expected.meta ?? false) &&
-		(actual.shift ?? false) === (expected.shift ?? false)
-	);
 }

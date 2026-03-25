@@ -3,7 +3,9 @@ import { MultiLinePrompt, wrapTextWithPrefix } from '@clack/core';
 import { S_BAR, S_BAR_END, symbol } from './common.js';
 import type { TextOptions } from './text.js';
 
-export type MultiLineOptions = TextOptions;
+export interface MultiLineOptions extends TextOptions {
+	showSubmit?: boolean;
+}
 
 export const multiline = (opts: MultiLineOptions) => {
 	return new MultiLinePrompt({
@@ -11,23 +13,25 @@ export const multiline = (opts: MultiLineOptions) => {
 		placeholder: opts.placeholder,
 		defaultValue: opts.defaultValue,
 		initialValue: opts.initialValue,
-		submitKey: { name: 'd', ctrl: true },
+		showSubmit: opts.showSubmit,
 		render() {
 			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
 			const placeholder = opts.placeholder
 				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
 				: styleText(['inverse', 'hidden'], '_');
-			const value = !this.userInput ? placeholder : this.userInputWithCursor;
+			const userInput = !this.userInput ? placeholder : this.userInputWithCursor;
+			const submitButton = opts.showSubmit
+				? `\n   ${styleText(this.focused === 'submit' ? 'cyan' : 'dim', '[ submit ]')}`
+				: '';
 			switch (this.state) {
 				case 'error': {
 					const lines = wrapTextWithPrefix(
 						opts.output,
-						value,
+						userInput,
 						`${styleText('yellow', S_BAR)}  `,
-						undefined,
-						(str) => styleText('yellow', str)
+						undefined
 					);
-					return `${title.trim()}${lines}\n${styleText('yellow', S_BAR_END)}  ${styleText('yellow', this.error)}\n`;
+					return `${title}${lines}\n${styleText('yellow', S_BAR_END)}  ${styleText('yellow', this.error)}${submitButton}\n`;
 				}
 				case 'submit': {
 					const lines = wrapTextWithPrefix(
@@ -42,7 +46,7 @@ export const multiline = (opts: MultiLineOptions) => {
 				case 'cancel': {
 					const lines = wrapTextWithPrefix(
 						opts.output,
-						value,
+						userInput,
 						`${styleText('gray', S_BAR)}  `,
 						undefined,
 						(str) => styleText(['strikethrough', 'dim'], str)
@@ -50,8 +54,8 @@ export const multiline = (opts: MultiLineOptions) => {
 					return `${title}${lines}${this.value?.trim() ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
 				default: {
-					const lines = wrapTextWithPrefix(opts.output, value, `${styleText('cyan', S_BAR)}  `);
-					return `${title}${lines}\n${styleText('cyan', S_BAR_END)}\n`;
+					const lines = wrapTextWithPrefix(opts.output, userInput, `${styleText('cyan', S_BAR)}  `);
+					return `${title}${lines}\n${styleText('cyan', S_BAR_END)}${submitButton}\n`;
 				}
 			}
 		},

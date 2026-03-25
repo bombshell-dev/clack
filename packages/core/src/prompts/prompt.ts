@@ -10,7 +10,6 @@ import {
 	diffLines,
 	getRows,
 	isActionKey,
-	isSameKey,
 	setRawMode,
 	settings,
 } from '../utils/index.js';
@@ -24,7 +23,6 @@ export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	output?: Writable;
 	debug?: boolean;
 	signal?: AbortSignal;
-	submitKey?: Key;
 }
 
 export default class Prompt<TValue> {
@@ -39,7 +37,6 @@ export default class Prompt<TValue> {
 	private _prevFrame = '';
 	private _subscribers = new Map<string, { cb: (...args: any) => any; once?: boolean }[]>();
 	protected _cursor = 0;
-	private _submitKey: Key;
 
 	public state: ClackState = 'initial';
 	public error = '';
@@ -56,7 +53,6 @@ export default class Prompt<TValue> {
 		this._render = render.bind(this);
 		this._track = trackValue;
 		this._abortSignal = signal;
-		this._submitKey = options.submitKey ?? { name: 'return' };
 
 		this.input = input;
 		this.output = output;
@@ -183,6 +179,10 @@ export default class Prompt<TValue> {
 		return char === '\t';
 	}
 
+	protected _shouldSubmit(_char: string | undefined, _key: Key): boolean {
+		return true;
+	}
+
 	protected _setValue(value: TValue | undefined): void {
 		this.value = value;
 		this.emit('value', this.value);
@@ -229,7 +229,7 @@ export default class Prompt<TValue> {
 		// Call the key event handler and emit the key event
 		this.emit('key', char?.toLowerCase(), key);
 
-		if (isSameKey(key, this._submitKey)) {
+		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {
