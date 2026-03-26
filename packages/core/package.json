@@ -48,9 +48,10 @@
   "license": "MIT",
   "packageManager": "pnpm@9.14.2",
   "scripts": {
-    "build": "unbuild",
+    "build": "bsh build",
     "prepack": "pnpm build",
-    "test": "vitest run"
+    "test": "bsh test",
+    "lint": "bsh lint"
   },
   "dependencies": {
     "fast-wrap-ansi": "^0.1.3",

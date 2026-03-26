@@ -3,25 +3,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "stub": "pnpm -r run build --stub",
     "build": "pnpm --filter \"@clack/*\" run build",
     "start": "pnpm run dev",
     "dev": "pnpm --filter @example/changesets run start",
-    "format": "biome check --write",
-    "lint": "biome lint --write --unsafe",
-    "types": "tsc --noEmit",
-    "deps": "pnpm exec knip --production",
+    "format": "bsh format",
+    "lint": "pnpm -r run lint",
     "test": "pnpm --color -r run test",
     "pretest": "pnpm run build"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.2",
+    "@bomb.sh/tools": "^0.3.0",
     "@changesets/cli": "^2.29.5",
     "@types/node": "^24.1.0",
     "jsr": "^0.13.4",
-    "knip": "^5.62.0",
-    "typescript": "^5.8.3",
-    "unbuild": "^3.6.0"
+    "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@9.14.2",
   "volta": {

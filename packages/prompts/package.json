@@ -48,9 +48,10 @@
   ],
   "packageManager": "pnpm@9.14.2",
   "scripts": {
-    "build": "unbuild",
+    "build": "bsh build",
     "prepack": "pnpm build",
-    "test": "vitest run"
+    "test": "bsh test",
+    "lint": "bsh lint"
   },
   "dependencies": {
     "@clack/core": "workspace:*",
