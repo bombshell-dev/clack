@@ -53,7 +53,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@clack/core": "workspace:*",
+    "@clack/core": "file:../core",
     "fast-string-width": "^1.1.0",
     "fast-wrap-ansi": "^0.1.3",
     "sisteransi": "^1.0.5"

@@ -58,6 +58,18 @@ importers:
         specifier: ^1.0.0
         version: 1.1.1
 
+  examples/testpath:
+    dependencies:
+      '@clack/prompts':
+        specifier: workspace:*
+        version: link:../../packages/prompts
+      jiti:
+        specifier: ^1.17.0
+        version: 1.21.7
+      picocolors:
+        specifier: ^1.0.0
+        version: 1.1.1
+
   packages/core:
     dependencies:
       fast-wrap-ansi:
@@ -74,7 +86,7 @@ importers:
   packages/prompts:
     dependencies:
       '@clack/core':
-        specifier: workspace:*
+        specifier: file:../core
         version: link:../core
       fast-string-width:
         specifier: ^1.1.0
