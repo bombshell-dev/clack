@@ -32,7 +32,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 	get cursor() {
 		return this._cursor;
 	}
-	insertAtCursor(char: string) {
+	#insertAtCursor(char: string) {
 		if (this.userInput.length === 0) {
 			this._setUserInput(char);
 			return;
@@ -41,7 +41,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor)
 		);
 	}
-	handleCursor(key?: Action) {
+	#handleCursor(key?: Action) {
 		const text = this.value ?? '';
 		switch (key) {
 			case 'up':
@@ -64,7 +64,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			if (this.focused === 'submit') {
 				return true;
 			}
-			this.insertAtCursor('\n');
+			this.#insertAtCursor('\n');
 			this._cursor++;
 			return false;
 		}
@@ -79,7 +79,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			}
 			return true;
 		}
-		this.insertAtCursor('\n');
+		this.#insertAtCursor('\n');
 		this._cursor++;
 		return false;
 	}
@@ -90,7 +90,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 
 		this.on('key', (char, key) => {
 			if (key?.name && settings.actions.has(key.name as Action)) {
-				this.handleCursor(key.name as Action);
+				this.#handleCursor(key.name as Action);
 			}
 			if (char === '\t' && this.#showSubmit) {
 				this.focused = this.focused === 'editor' ? 'submit' : 'editor';
@@ -117,7 +117,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 				if (this.#showSubmit && this.focused === 'submit') {
 					this.focused = 'editor';
 				}
-				this.insertAtCursor(char ?? '');
+				this.#insertAtCursor(char ?? '');
 				this._cursor++;
 			}
 		});
