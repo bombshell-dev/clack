@@ -1,5 +1,17 @@
 # @clack/core
 
+## 1.2.0
+
+### Minor Changes
+
+- 9786226: Externalize `fast-string-width` and `fast-wrap-ansi` to avoid double dependencies
+- 090902c: Adds `date` prompt with `format` support (YMD, MDY, DMY)
+
+### Patch Changes
+
+- bdf89a5: Adds `placeholder` option to `autocomplete`. When the placeholder is set and the input is empty, pressing `tab` will set the value to `placeholder`.
+- 417b451: Only apply autocomplete default filter if it has been explicitly set or if options is not a getter.
+
 ## 1.1.0
 
 ### Minor Changes
