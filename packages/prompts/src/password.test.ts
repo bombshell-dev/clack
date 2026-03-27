@@ -1,78 +1,65 @@
 import { updateSettings } from '@clack/core';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import * as prompts from './index.js';
-import { MockReadable, MockWritable } from './test-utils.js';
+import { createMocks, type Mocks } from '@bomb.sh/tools/test-utils';
 
 describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
-	let originalCI: string | undefined;
-	let output: MockWritable;
-	let input: MockReadable;
-
-	beforeAll(() => {
-		originalCI = process.env.CI;
-		process.env.CI = isCI;
-	});
-
-	afterAll(() => {
-		process.env.CI = originalCI;
-	});
+	let mocks: Mocks<{ input: true; output: true }>;
 
 	beforeEach(() => {
-		output = new MockWritable();
-		input = new MockReadable();
+		mocks = createMocks({ input: true, output: true, env: { CI: isCI } });
 	});
 
 	afterEach(() => {
-		vi.restoreAllMocks();
 		updateSettings({ withGuide: true });
 	});
 
 	test('renders message', async () => {
 		const result = prompts.password({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('renders masked value', async () => {
 		const result = prompts.password({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'x', { name: 'x' });
+		mocks.input.emit('keypress', 'y', { name: 'y' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('xy');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('renders custom mask', async () => {
 		const result = prompts.password({
 			message: 'foo',
 			mask: '*',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'x', { name: 'x' });
+		mocks.input.emit('keypress', 'y', { name: 'y' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('renders and clears validation errors', async () => {
@@ -85,86 +72,86 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 
 				return undefined;
 			},
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'x', { name: 'x' });
+		mocks.input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'y', { name: 'y' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('xy');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('renders cancelled value', async () => {
 		const result = prompts.password({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', '', { name: 'escape' });
+		mocks.input.emit('keypress', 'x', { name: 'x' });
+		mocks.input.emit('keypress', '', { name: 'escape' });
 
 		const value = await result;
 
 		expect(prompts.isCancel(value)).toBe(true);
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('can be aborted by a signal', async () => {
 		const controller = new AbortController();
 		const result = prompts.password({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			signal: controller.signal,
 		});
 
 		controller.abort();
 		const value = await result;
 		expect(prompts.isCancel(value)).toBe(true);
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('clears input on error when clearOnError is true', async () => {
 		const result = prompts.password({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			validate: (v) => (v === 'yz' ? undefined : 'Error'),
 			clearOnError: true,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', 'z', { name: 'z' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'x', { name: 'x' });
+		mocks.input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'y', { name: 'y' });
+		mocks.input.emit('keypress', 'z', { name: 'z' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('yz');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('withGuide: false removes guide', async () => {
 		const result = prompts.password({
 			message: 'foo',
 			withGuide: false,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('global withGuide: false removes guide', async () => {
@@ -172,14 +159,14 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 
 		const result = prompts.password({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 });

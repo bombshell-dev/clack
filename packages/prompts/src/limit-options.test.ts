@@ -1,16 +1,16 @@
 import { styleText } from 'node:util';
 import { beforeEach, describe, expect, test } from 'vitest';
 import { type LimitOptionsParams, limitOptions } from './index.js';
-import { MockWritable } from './test-utils.js';
+import { createMocks, type Mocks } from '@bomb.sh/tools/test-utils';
 
 describe('limitOptions', () => {
-	let output: MockWritable;
+	let mocks: Mocks<{ output: true }>;
 	let options: LimitOptionsParams<{ value: string }>;
 
 	beforeEach(() => {
-		output = new MockWritable();
+		mocks = createMocks({ output: true });
 		options = {
-			output,
+			output: mocks.output,
 			options: [],
 			maxItems: undefined,
 			cursor: 0,
@@ -55,7 +55,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 20;
+		mocks.output.rows = 20;
 		options.maxItems = 5;
 		options.cursor = 6;
 		const result = limitOptions(options);
@@ -106,7 +106,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 7;
+		mocks.output.rows = 7;
 		options.maxItems = 10;
 		const result = limitOptions(options);
 		expect(result).toEqual(['Item 1', 'Item 2', styleText('dim', '...')]);
@@ -129,7 +129,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 14;
+		mocks.output.rows = 14;
 		options.maxItems = 10;
 		const result = limitOptions(options);
 		expect(result).toEqual([
@@ -165,7 +165,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 14;
+		mocks.output.rows = 14;
 		options.maxItems = 10;
 		options.cursor = 7;
 		const result = limitOptions(options);
@@ -202,7 +202,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 14;
+		mocks.output.rows = 14;
 		options.maxItems = 10;
 		options.cursor = 9;
 		const result = limitOptions(options);
@@ -261,7 +261,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 12;
+		mocks.output.rows = 12;
 		options.rowPadding = 6;
 		// Available rows for options = 12 - 6 = 6
 		const result = limitOptions(options);
@@ -288,7 +288,7 @@ describe('limitOptions', () => {
 			{ value: 'Item 9' },
 			{ value: 'Item 10' },
 		];
-		output.rows = 12;
+		mocks.output.rows = 12;
 		// Simulate a multiline message that takes 6 lines
 		options.rowPadding = 6;
 		// Move cursor to middle of list

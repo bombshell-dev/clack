@@ -1,27 +1,15 @@
 import { vol } from 'memfs';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from './index.js';
-import { MockReadable, MockWritable } from './test-utils.js';
+import { createMocks, type Mocks } from '@bomb.sh/tools/test-utils';
 
 vi.mock('node:fs');
 
 describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
-	let originalCI: string | undefined;
-	let output: MockWritable;
-	let input: MockReadable;
-
-	beforeAll(() => {
-		originalCI = process.env.CI;
-		process.env.CI = isCI;
-	});
-
-	afterAll(() => {
-		process.env.CI = originalCI;
-	});
+	let mocks: Mocks<{ input: true; output: true }>;
 
 	beforeEach(() => {
-		output = new MockWritable();
-		input = new MockReadable();
+		mocks = createMocks({ input: true, output: true, env: { CI: isCI } });
 		vol.reset();
 		vol.fromJSON(
 			{
@@ -37,23 +25,19 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		);
 	});
 
-	afterEach(() => {
-		vi.restoreAllMocks();
-	});
-
 	test('renders message', async () => {
 		const result = prompts.path({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			root: '/tmp/',
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe('/tmp/bar');
 	});
 
@@ -61,72 +45,72 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		const result = prompts.path({
 			message: 'foo',
 			root: '/tmp/',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'escape', { name: 'escape' });
+		mocks.input.emit('keypress', 'escape', { name: 'escape' });
 
 		const value = await result;
 
 		expect(prompts.isCancel(value)).toBe(true);
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('renders cancelled value if one set', async () => {
 		const result = prompts.path({
 			message: 'foo',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			root: '/tmp/',
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', '', { name: 'escape' });
+		mocks.input.emit('keypress', 'x', { name: 'x' });
+		mocks.input.emit('keypress', 'y', { name: 'y' });
+		mocks.input.emit('keypress', '', { name: 'escape' });
 
 		const value = await result;
 
 		expect(prompts.isCancel(value)).toBe(true);
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('renders submitted value', async () => {
 		const result = prompts.path({
 			message: 'foo',
 			root: '/tmp/',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'b', { name: 'b' });
-		input.emit('keypress', 'a', { name: 'a' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'b', { name: 'b' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('/tmp/bar');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('cannot submit unknown value', async () => {
 		const result = prompts.path({
 			message: 'foo',
 			root: '/tmp/',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '_', { name: '_' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', '', { name: 'h', ctrl: true });
-		input.emit('keypress', 'b', { name: 'b' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '_', { name: '_' });
+		mocks.input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'h', ctrl: true });
+		mocks.input.emit('keypress', 'b', { name: 'b' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('/tmp/bar');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('initialValue sets the value', async () => {
@@ -134,16 +118,16 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			message: 'foo',
 			initialValue: '/tmp/bar',
 			root: '/tmp/',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('/tmp/bar');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('directory mode only allows selecting directories', async () => {
@@ -151,12 +135,12 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			message: 'foo',
 			root: '/tmp/',
 			directory: true,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'f', { name: 'f' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'f', { name: 'f' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
@@ -169,11 +153,11 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			root: '/tmp/',
 			initialValue: '/tmp',
 			directory: true,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
@@ -186,12 +170,12 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			root: '/tmp/',
 			initialValue: '/tmp',
 			directory: true,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '/', { name: '/' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '/', { name: '/' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
@@ -204,12 +188,12 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			root: '/tmp/',
 			initialValue: '/tmp/',
 			directory: true,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'f', { name: 'f' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'f', { name: 'f' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
@@ -220,15 +204,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		const result = prompts.path({
 			message: 'foo',
 			root: '/tmp/',
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'r', { name: 'r' });
-		input.emit('keypress', 'o', { name: 'o' });
-		input.emit('keypress', 'o', { name: 'o' });
-		input.emit('keypress', 't', { name: 't' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'r', { name: 'r' });
+		mocks.input.emit('keypress', 'o', { name: 'o' });
+		mocks.input.emit('keypress', 'o', { name: 'o' });
+		mocks.input.emit('keypress', 't', { name: 't' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
@@ -240,22 +224,22 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			message: 'foo',
 			root: '/tmp/',
 			validate: (val) => (val !== '/tmp/bar' ? 'should be /tmp/bar' : undefined),
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
 		// to match `root.zip`
-		input.emit('keypress', 'r', { name: 'r' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'r', { name: 'r' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 		// delete what we had
-		input.emit('keypress', '', { name: 'h', ctrl: true });
-		input.emit('keypress', 'b', { name: 'b' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'h', ctrl: true });
+		mocks.input.emit('keypress', 'b', { name: 'b' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('/tmp/bar');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('validation errors render and clear (using Error)', async () => {
@@ -263,21 +247,21 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			message: 'foo',
 			root: '/tmp/',
 			validate: (val) => (val !== '/tmp/bar' ? new Error('should be /tmp/bar') : undefined),
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
 		// to match `root.zip`
-		input.emit('keypress', 'r', { name: 'r' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', 'r', { name: 'r' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 		// delete what we had
-		input.emit('keypress', '', { name: 'h', ctrl: true });
-		input.emit('keypress', 'b', { name: 'b' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'h', ctrl: true });
+		mocks.input.emit('keypress', 'b', { name: 'b' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
 		expect(value).toBe('/tmp/bar');
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 });
