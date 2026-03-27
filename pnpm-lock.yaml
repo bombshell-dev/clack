@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@bomb.sh/tools':
-        specifier: ^0.3.1
-        version: 0.3.1(@types/node@24.1.0)(jiti@2.6.1)(oxc-resolver@11.19.1)(typescript@5.8.3)(yaml@2.8.3)
+        specifier: ^0.3.2
+        version: 0.3.2(@types/node@24.1.0)(jiti@2.6.1)(oxc-resolver@11.19.1)(typescript@5.8.3)(yaml@2.8.3)
       '@changesets/cli':
         specifier: ^2.29.5
         version: 2.29.5
@@ -123,8 +123,8 @@ packages:
   '@bomb.sh/args@0.3.1':
     resolution: {integrity: sha512-CwxKrfgcorUPP6KfYD59aRdBYWBTsfsxT+GmoLVnKo5Tmyoqbpo0UNcjngRMyU+6tiPbd18RuIYxhgAn44wU/Q==}
 
-  '@bomb.sh/tools@0.3.1':
-    resolution: {integrity: sha512-BdZ7h4EeUgERrMqazbpSnTo83H2nDuCVvz2FUUthrKq5VR+wORLBrJkRidkXlZGaXq0/Jz8haylaJx8JxEisPw==}
+  '@bomb.sh/tools@0.3.2':
+    resolution: {integrity: sha512-qKuYAuMlxcPWW0wr0WnJIBRwQZuBENWN9nnbLJIo1LzafO6YRyidqJFY3dasU1q8LsKI8wL8K6k4sjZU9QjAQg==}
     hasBin: true
 
   '@changesets/apply-release-plan@7.0.12':
@@ -1968,7 +1968,7 @@ snapshots:
 
   '@bomb.sh/args@0.3.1': {}
 
-  '@bomb.sh/tools@0.3.1(@types/node@24.1.0)(jiti@2.6.1)(oxc-resolver@11.19.1)(typescript@5.8.3)(yaml@2.8.3)':
+  '@bomb.sh/tools@0.3.2(@types/node@24.1.0)(jiti@2.6.1)(oxc-resolver@11.19.1)(typescript@5.8.3)(yaml@2.8.3)':
     dependencies:
       '@bomb.sh/args': 0.3.1
       '@humanfs/node': 0.16.7
@@ -2029,7 +2029,7 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.4
 
   '@changesets/assemble-release-plan@6.0.9':
     dependencies:
@@ -2038,7 +2038,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.7.2
+      semver: 7.7.4
 
   '@changesets/changelog-git@0.2.1':
     dependencies:
@@ -2094,7 +2094,7 @@ snapshots:
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.7.2
+      semver: 7.7.4
 
   '@changesets/get-release-plan@4.0.13':
     dependencies:
