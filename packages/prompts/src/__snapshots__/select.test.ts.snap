@@ -3,11 +3,11 @@
 exports[`select (isCI = false) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "
 ",
@@ -18,18 +18,18 @@ exports[`select (isCI = false) > can be aborted by a signal 1`] = `
 exports[`select (isCI = false) > can cancel 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
-[90m│[39m  [9m[2mopt0[22m[29m
-[90m│[39m",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>opt0</bold>[29m
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -39,59 +39,59 @@ exports[`select (isCI = false) > can cancel 1`] = `
 exports[`select (isCI = false) > correctly limits options when message wraps to multiple lines 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  This is a very 
-[36m│[39m  long message that
-[36m│[39m   will wrap to 
-[36m│[39m  multiple lines
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  This is a very 
+<cyan>│</fg>  long message that
+<cyan>│</fg>   will wrap to 
+<cyan>│</fg>  multiple lines
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [32m●[39m Option 1
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [32m●[39m Option 2
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <green>●</fg> Option 2
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m...[22m
-[36m│[39m  [32m●[39m Option 3
-[36m│[39m  [2m○[22m [2mOption 4[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <green>●</fg> Option 3
+<cyan>│</fg>  <dim>○</bold> <dim>Option 4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [32m●[39m Option 4
-[36m│[39m  [2m○[22m [2mOption 5[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <green>●</fg> Option 4
+<cyan>│</fg>  <dim>○</bold> <dim>Option 5</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  This is a very 
-[32m│[39m  long message that
-[32m│[39m   will wrap to 
-[32m│[39m  multiple lines
-[90m│[39m  [2mOption 4[22m",
+  "<green>◇</fg>  This is a very 
+<green>│</fg>  long message that
+<green>│</fg>   will wrap to 
+<green>│</fg>  multiple lines
+<dim>│</fg>  <dim>Option 4</bold>",
   "
 ",
   "<cursor.show>",
@@ -101,53 +101,53 @@ exports[`select (isCI = false) > correctly limits options when message wraps to 
 exports[`select (isCI = false) > correctly limits options with explicit multiline message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Choose an option:
-[36m│[39m  Line 2 of the message
-[36m│[39m  Line 3 of the message
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  Choose an option:
+<cyan>│</fg>  Line 2 of the message
+<cyan>│</fg>  Line 3 of the message
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [32m●[39m Option 1
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [32m●[39m Option 2
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <green>●</fg> Option 2
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [2m...[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [32m●[39m Option 3
-[36m│[39m  [2m○[22m [2mOption 4[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <green>●</fg> Option 3
+<cyan>│</fg>  <dim>○</bold> <dim>Option 4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Choose an option:
-[32m│[39m  Line 2 of the message
-[32m│[39m  Line 3 of the message
-[90m│[39m  [2mOption 3[22m",
+  "<green>◇</fg>  Choose an option:
+<green>│</fg>  Line 2 of the message
+<green>│</fg>  Line 3 of the message
+<dim>│</fg>  <dim>Option 3</bold>",
   "
 ",
   "<cursor.show>",
@@ -157,24 +157,24 @@ exports[`select (isCI = false) > correctly limits options with explicit multilin
 exports[`select (isCI = false) > down arrow selects next option 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mopt0[22m
-[36m│[39m  [32m●[39m opt1
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>opt0</bold>
+<cyan>│</fg>  <green>●</fg> opt1
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt1[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
   "
 ",
   "<cursor.show>",
@@ -184,15 +184,15 @@ exports[`select (isCI = false) > down arrow selects next option 1`] = `
 exports[`select (isCI = false) > global withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
-  "[36m◆[39m  foo
-[32m●[39m opt0
-[2m○[22m [2mopt1[22m
+  "<cyan>◆</fg>  foo
+<green>●</fg> opt0
+<dim>○</bold> <dim>opt1</bold>
 
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -202,35 +202,35 @@ exports[`select (isCI = false) > global withGuide: false removes guide 1`] = `
 exports[`select (isCI = false) > handles mixed size re-renders 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Whatever
-[36m│[39m  [32m●[39m Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  Whatever
+<cyan>│</fg>  <green>●</fg> Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=12>",
   "<erase.down>",
-  "[90m│[39m
-[36m◆[39m  Whatever
-[36m│[39m  [2m...[22m
-[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [32m●[39m Option 3
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  Whatever
+<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <green>●</fg> Option 3
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Whatever
-[90m│[39m  [2mOption 3[22m",
+  "<green>◇</fg>  Whatever
+<dim>│</fg>  <dim>Option 3</bold>",
   "
 ",
   "<cursor.show>",
@@ -240,18 +240,18 @@ exports[`select (isCI = false) > handles mixed size re-renders 1`] = `
 exports[`select (isCI = false) > renders disabled options 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [90m○[39m [90mOption 0[39m
-[36m│[39m  [32m●[39m Option 1
-[36m│[39m  [90m○[39m [90mOption 2[39m [2m(Hint 2)[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <dim>○</fg> <dim>Option 0</fg>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>│</fg>  <dim>○</fg> <dim>Option 2</fg> <dim>(Hint 2)</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mOption 1[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 1</bold>",
   "
 ",
   "<cursor.show>",
@@ -261,26 +261,26 @@ exports[`select (isCI = false) > renders disabled options 1`] = `
 exports[`select (isCI = false) > renders multi-line option labels 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  with multiple lines
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  with multiple lines
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [2mwith multiple lines[22m
-[36m│[39m  [32m●[39m Option 1
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <dim>with multiple lines</bold>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mOption 1[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 1</bold>",
   "
 ",
   "<cursor.show>",
@@ -290,17 +290,17 @@ exports[`select (isCI = false) > renders multi-line option labels 1`] = `
 exports[`select (isCI = false) > renders option hints 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0 [2m(Hint 0)[22m
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0 <dim>(Hint 0)</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -310,17 +310,17 @@ exports[`select (isCI = false) > renders option hints 1`] = `
 exports[`select (isCI = false) > renders option labels 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mOption 0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 0</bold>",
   "
 ",
   "<cursor.show>",
@@ -330,17 +330,17 @@ exports[`select (isCI = false) > renders option labels 1`] = `
 exports[`select (isCI = false) > renders options and message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -350,31 +350,31 @@ exports[`select (isCI = false) > renders options and message 1`] = `
 exports[`select (isCI = false) > up arrow selects previous option 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mopt0[22m
-[36m│[39m  [32m●[39m opt1
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>opt0</bold>
+<cyan>│</fg>  <green>●</fg> opt1
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -384,15 +384,15 @@ exports[`select (isCI = false) > up arrow selects previous option 1`] = `
 exports[`select (isCI = false) > withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
-  "[36m◆[39m  foo
-[32m●[39m opt0
-[2m○[22m [2mopt1[22m
+  "<cyan>◆</fg>  foo
+<green>●</fg> opt0
+<dim>○</bold> <dim>opt1</bold>
 
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -402,26 +402,26 @@ exports[`select (isCI = false) > withGuide: false removes guide 1`] = `
 exports[`select (isCI = false) > wraps long cancelled message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=9>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
-[90m│[39m  [9m[2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m[29m
-[90m│[39m",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo</bold>[29m
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -431,21 +431,21 @@ exports[`select (isCI = false) > wraps long cancelled message 1`] = `
 exports[`select (isCI = false) > wraps long messages 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo foo foo foo foo foo foo
-[32m│[39m   foo foo foo foo foo foo 
-[32m│[39m  foo foo foo foo foo foo foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo foo foo foo foo foo foo
+<green>│</fg>   foo foo foo foo foo foo 
+<green>│</fg>  foo foo foo foo foo foo foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -455,25 +455,25 @@ exports[`select (isCI = false) > wraps long messages 1`] = `
 exports[`select (isCI = false) > wraps long results 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=9>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo</bold>",
   "
 ",
   "<cursor.show>",
@@ -483,11 +483,11 @@ exports[`select (isCI = false) > wraps long results 1`] = `
 exports[`select (isCI = true) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "
 ",
@@ -498,18 +498,18 @@ exports[`select (isCI = true) > can be aborted by a signal 1`] = `
 exports[`select (isCI = true) > can cancel 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
-[90m│[39m  [9m[2mopt0[22m[29m
-[90m│[39m",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>opt0</bold>[29m
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -519,59 +519,59 @@ exports[`select (isCI = true) > can cancel 1`] = `
 exports[`select (isCI = true) > correctly limits options when message wraps to multiple lines 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  This is a very 
-[36m│[39m  long message that
-[36m│[39m   will wrap to 
-[36m│[39m  multiple lines
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  This is a very 
+<cyan>│</fg>  long message that
+<cyan>│</fg>   will wrap to 
+<cyan>│</fg>  multiple lines
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [32m●[39m Option 1
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [32m●[39m Option 2
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <green>●</fg> Option 2
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m...[22m
-[36m│[39m  [32m●[39m Option 3
-[36m│[39m  [2m○[22m [2mOption 4[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <green>●</fg> Option 3
+<cyan>│</fg>  <dim>○</bold> <dim>Option 4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [32m●[39m Option 4
-[36m│[39m  [2m○[22m [2mOption 5[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <green>●</fg> Option 4
+<cyan>│</fg>  <dim>○</bold> <dim>Option 5</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  This is a very 
-[32m│[39m  long message that
-[32m│[39m   will wrap to 
-[32m│[39m  multiple lines
-[90m│[39m  [2mOption 4[22m",
+  "<green>◇</fg>  This is a very 
+<green>│</fg>  long message that
+<green>│</fg>   will wrap to 
+<green>│</fg>  multiple lines
+<dim>│</fg>  <dim>Option 4</bold>",
   "
 ",
   "<cursor.show>",
@@ -581,53 +581,53 @@ exports[`select (isCI = true) > correctly limits options when message wraps to m
 exports[`select (isCI = true) > correctly limits options with explicit multiline message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Choose an option:
-[36m│[39m  Line 2 of the message
-[36m│[39m  Line 3 of the message
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  Choose an option:
+<cyan>│</fg>  Line 2 of the message
+<cyan>│</fg>  Line 3 of the message
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [32m●[39m Option 1
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [32m●[39m Option 2
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <green>●</fg> Option 2
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [2m...[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [32m●[39m Option 3
-[36m│[39m  [2m○[22m [2mOption 4[22m
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <green>●</fg> Option 3
+<cyan>│</fg>  <dim>○</bold> <dim>Option 4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Choose an option:
-[32m│[39m  Line 2 of the message
-[32m│[39m  Line 3 of the message
-[90m│[39m  [2mOption 3[22m",
+  "<green>◇</fg>  Choose an option:
+<green>│</fg>  Line 2 of the message
+<green>│</fg>  Line 3 of the message
+<dim>│</fg>  <dim>Option 3</bold>",
   "
 ",
   "<cursor.show>",
@@ -637,24 +637,24 @@ exports[`select (isCI = true) > correctly limits options with explicit multiline
 exports[`select (isCI = true) > down arrow selects next option 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mopt0[22m
-[36m│[39m  [32m●[39m opt1
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>opt0</bold>
+<cyan>│</fg>  <green>●</fg> opt1
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt1[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
   "
 ",
   "<cursor.show>",
@@ -664,15 +664,15 @@ exports[`select (isCI = true) > down arrow selects next option 1`] = `
 exports[`select (isCI = true) > global withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
-  "[36m◆[39m  foo
-[32m●[39m opt0
-[2m○[22m [2mopt1[22m
+  "<cyan>◆</fg>  foo
+<green>●</fg> opt0
+<dim>○</bold> <dim>opt1</bold>
 
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -682,35 +682,35 @@ exports[`select (isCI = true) > global withGuide: false removes guide 1`] = `
 exports[`select (isCI = true) > handles mixed size re-renders 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Whatever
-[36m│[39m  [32m●[39m Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  Long Option
-[36m│[39m  [2m...[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  Whatever
+<cyan>│</fg>  <green>●</fg> Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  Long Option
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=12>",
   "<erase.down>",
-  "[90m│[39m
-[36m◆[39m  Whatever
-[36m│[39m  [2m...[22m
-[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [32m●[39m Option 3
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  Whatever
+<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <green>●</fg> Option 3
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Whatever
-[90m│[39m  [2mOption 3[22m",
+  "<green>◇</fg>  Whatever
+<dim>│</fg>  <dim>Option 3</bold>",
   "
 ",
   "<cursor.show>",
@@ -720,18 +720,18 @@ exports[`select (isCI = true) > handles mixed size re-renders 1`] = `
 exports[`select (isCI = true) > renders disabled options 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [90m○[39m [90mOption 0[39m
-[36m│[39m  [32m●[39m Option 1
-[36m│[39m  [90m○[39m [90mOption 2[39m [2m(Hint 2)[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <dim>○</fg> <dim>Option 0</fg>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>│</fg>  <dim>○</fg> <dim>Option 2</fg> <dim>(Hint 2)</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mOption 1[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 1</bold>",
   "
 ",
   "<cursor.show>",
@@ -741,26 +741,26 @@ exports[`select (isCI = true) > renders disabled options 1`] = `
 exports[`select (isCI = true) > renders multi-line option labels 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  with multiple lines
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  with multiple lines
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOption 0[22m
-[36m│[39m  [2mwith multiple lines[22m
-[36m│[39m  [32m●[39m Option 1
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>Option 0</bold>
+<cyan>│</fg>  <dim>with multiple lines</bold>
+<cyan>│</fg>  <green>●</fg> Option 1
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mOption 1[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 1</bold>",
   "
 ",
   "<cursor.show>",
@@ -770,17 +770,17 @@ exports[`select (isCI = true) > renders multi-line option labels 1`] = `
 exports[`select (isCI = true) > renders option hints 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0 [2m(Hint 0)[22m
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0 <dim>(Hint 0)</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -790,17 +790,17 @@ exports[`select (isCI = true) > renders option hints 1`] = `
 exports[`select (isCI = true) > renders option labels 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mOption 0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 0</bold>",
   "
 ",
   "<cursor.show>",
@@ -810,17 +810,17 @@ exports[`select (isCI = true) > renders option labels 1`] = `
 exports[`select (isCI = true) > renders options and message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -830,31 +830,31 @@ exports[`select (isCI = true) > renders options and message 1`] = `
 exports[`select (isCI = true) > up arrow selects previous option 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mopt0[22m
-[36m│[39m  [32m●[39m opt1
-[36m└[39m
+  "<cyan>│</fg>  <dim>○</bold> <dim>opt0</bold>
+<cyan>│</fg>  <green>●</fg> opt1
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=2>",
   "<erase.down>",
-  "[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=5>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -864,15 +864,15 @@ exports[`select (isCI = true) > up arrow selects previous option 1`] = `
 exports[`select (isCI = true) > withGuide: false removes guide 1`] = `
 [
   "<cursor.hide>",
-  "[36m◆[39m  foo
-[32m●[39m opt0
-[2m○[22m [2mopt1[22m
+  "<cyan>◆</fg>  foo
+<green>●</fg> opt0
+<dim>○</bold> <dim>opt1</bold>
 
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[2mopt0[22m",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -882,26 +882,26 @@ exports[`select (isCI = true) > withGuide: false removes guide 1`] = `
 exports[`select (isCI = true) > wraps long cancelled message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=9>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  foo
-[90m│[39m  [9m[2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m[29m
-[90m│[39m",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo</bold>[29m
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -911,21 +911,21 @@ exports[`select (isCI = true) > wraps long cancelled message 1`] = `
 exports[`select (isCI = true) > wraps long messages 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m  [32m●[39m opt0
-[36m│[39m  [2m○[22m [2mopt1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>  <green>●</fg> opt0
+<cyan>│</fg>  <dim>○</bold> <dim>opt1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo foo foo foo foo foo foo
-[32m│[39m   foo foo foo foo foo foo 
-[32m│[39m  foo foo foo foo foo foo foo
-[90m│[39m  [2mopt0[22m",
+  "<green>◇</fg>  foo foo foo foo foo foo foo
+<green>│</fg>   foo foo foo foo foo foo 
+<green>│</fg>  foo foo foo foo foo foo foo
+<dim>│</fg>  <dim>opt0</bold>",
   "
 ",
   "<cursor.show>",
@@ -935,25 +935,25 @@ exports[`select (isCI = true) > wraps long messages 1`] = `
 exports[`select (isCI = true) > wraps long results 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [32m●[39m foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m└[39m
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>●</fg> foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>└</fg>
 ",
   "<cursor.backward count=999><cursor.up count=9>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo foo foo foo</bold>
+<dim>│</fg>  <dim> foo foo foo foo foo foo </bold>
+<dim>│</fg>  <dim>foo foo foo foo</bold>",
   "
 ",
   "<cursor.show>",

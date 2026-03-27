@@ -3,17 +3,17 @@
 exports[`autocomplete > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "
 ",
   "<cursor.show>",
@@ -23,30 +23,30 @@ exports[`autocomplete > can be aborted by a signal 1`] = `
 exports[`autocomplete > cannot select disabled options when only one left 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m k█[2m (1 match)[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> k█<dim> (1 match)</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -56,73 +56,73 @@ exports[`autocomplete > cannot select disabled options when only one left 1`] = 
 exports[`autocomplete > displays disabled options correctly 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m
-[36m│[39m  [2m○[22m [2mApple[22m
-[36m│[39m  [32m●[39m Banana
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Apple</bold>
+<cyan>│</fg>  <green>●</fg> Banana
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [32m●[39m Cherry
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <green>●</fg> Cherry
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [32m●[39m Grape
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <green>●</fg> Grape
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=7>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [32m●[39m Orange
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <green>●</fg> Orange
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [90m○[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mApple[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Apple</bold>",
   "
 ",
   "<cursor.show>",
@@ -132,23 +132,23 @@ exports[`autocomplete > displays disabled options correctly 1`] = `
 exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select an option
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Option 0
-[36m│[39m  [2m○[22m [2mOption 1[22m
-[36m│[39m  [2m○[22m [2mOption 2[22m
-[36m│[39m  [2m○[22m [2mOption 3[22m
-[36m│[39m  [2m○[22m [2mOption 4[22m
-[36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select an option
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Option 0
+<cyan>│</fg>  <dim>○</bold> <dim>Option 1</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 2</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 3</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Option 4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select an option
-[90m│[39m  [2mOption 0[22m",
+  "<green>◇</fg>  Select an option
+<dim>│</fg>  <dim>Option 0</bold>",
   "
 ",
   "<cursor.show>",
@@ -158,30 +158,30 @@ exports[`autocomplete > limits displayed options when maxItems is set 1`] = `
 exports[`autocomplete > placeholder is shown if set 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [2mType to search...[22m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> <dim>Type to search...</bold>
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m g█[2m (2 matches)[22m
-[36m│[39m  [32m●[39m Grape
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> g█<dim> (2 matches)</bold>
+<cyan>│</fg>  <green>●</fg> Grape
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mGrape[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Grape</bold>",
   "
 ",
   "<cursor.show>",
@@ -191,24 +191,24 @@ exports[`autocomplete > placeholder is shown if set 1`] = `
 exports[`autocomplete > renders bottom ellipsis when items do not fit 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select an option
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Line 0
-[36m│[39m  Line 1
-[36m│[39m  Line 2
-[36m│[39m  Line 3
-[36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select an option
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Line 0
+<cyan>│</fg>  Line 1
+<cyan>│</fg>  Line 2
+<cyan>│</fg>  Line 3
+<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<erase.down>",
-  "[32m◇[39m  Select an option
-[90m│[39m  [2mLine 0
+  "<green>◇</fg>  Select an option
+<dim>│</fg>  <dim>Line 0
 Line 1
 Line 2
-Line 3[22m",
+Line 3</bold>",
   "
 ",
   "<cursor.show>",
@@ -218,22 +218,22 @@ Line 3[22m",
 exports[`autocomplete > renders initial UI with message and instructions 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mApple[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Apple</bold>",
   "
 ",
   "<cursor.show>",
@@ -243,22 +243,22 @@ exports[`autocomplete > renders initial UI with message and instructions 1`] = `
 exports[`autocomplete > renders placeholder if set 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [2mType to search...[22m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> <dim>Type to search...</bold>
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mApple[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Apple</bold>",
   "
 ",
   "<cursor.show>",
@@ -268,19 +268,19 @@ exports[`autocomplete > renders placeholder if set 1`] = `
 exports[`autocomplete > renders top ellipsis when scrolled down and its do not fit 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select an option
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m...[22m
-[36m│[39m  [32m●[39m Option 2
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select an option
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <green>●</fg> Option 2
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=7>",
   "<erase.down>",
-  "[90m│[39m
-[32m◇[39m  Select an option
-[90m│[39m  [2mOption 2[22m",
+  "<dim>│</fg>
+<green>◇</fg>  Select an option
+<dim>│</fg>  <dim>Option 2</bold>",
   "
 ",
   "<cursor.show>",
@@ -290,69 +290,69 @@ exports[`autocomplete > renders top ellipsis when scrolled down and its do not f
 exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Kiwi</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m
-[36m│[39m  [2m○[22m [2mApple[22m
-[36m│[39m  [32m●[39m Banana
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Apple</bold>
+<cyan>│</fg>  <green>●</fg> Banana
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Kiwi</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [32m●[39m Cherry
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <green>●</fg> Cherry
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Kiwi</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [32m●[39m Grape
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <green>●</fg> Grape
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Kiwi</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=7>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [32m●[39m Orange
-[36m│[39m  [2m○[22m [2mKiwi[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <green>●</fg> Orange
+<cyan>│</fg>  <dim>○</bold> <dim>Kiwi</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=8>",
   "<erase.down>",
-  "[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [32m●[39m Kiwi[2m (New Zealand)[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <green>●</fg> Kiwi<dim> (New Zealand)</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mKiwi[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Kiwi</bold>",
   "
 ",
   "<cursor.show>",
@@ -362,29 +362,29 @@ exports[`autocomplete > shows hint when option has hint and is focused 1`] = `
 exports[`autocomplete > shows no matches message when search has no results 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m z█[2m (0 matches)[22m
-[36m│[39m  [33mNo matches found[39m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> z█<dim> (0 matches)</bold>
+<cyan>│</fg>  <yellow>No matches found</fg>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -394,33 +394,33 @@ exports[`autocomplete > shows no matches message when search has no results 1`] 
 exports[`autocomplete > shows selected value in submit state 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m
-[36m│[39m  [2m○[22m [2mApple[22m
-[36m│[39m  [32m●[39m Banana
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Apple</bold>
+<cyan>│</fg>  <green>●</fg> Banana
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mBanana[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Banana</bold>",
   "
 ",
   "<cursor.show>",
@@ -430,22 +430,22 @@ exports[`autocomplete > shows selected value in submit state 1`] = `
 exports[`autocomplete > shows strikethrough in cancel state 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[31m■[39m  Select a fruit
-[90m│[39m",
+  "<red>■</fg>  Select a fruit
+<dim>│</fg>",
   "
 ",
   "<cursor.show>",
@@ -455,22 +455,22 @@ exports[`autocomplete > shows strikethrough in cancel state 1`] = `
 exports[`autocomplete > supports initialValue 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m○[22m [2mApple[22m
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [32m●[39m Cherry
-[36m│[39m  [2m○[22m [2mGrape[22m
-[36m│[39m  [2m○[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>○</bold> <dim>Apple</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <green>●</fg> Cherry
+<cyan>│</fg>  <dim>○</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mCherry[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Cherry</bold>",
   "
 ",
   "<cursor.show>",
@@ -480,28 +480,28 @@ exports[`autocomplete > supports initialValue 1`] = `
 exports[`autocomplete with custom filter > falls back to default filter when not provided 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m a█[2m (2 matches)[22m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> a█<dim> (2 matches)</bold>
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mApple[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Apple</bold>",
   "
 ",
   "<cursor.show>",
@@ -511,27 +511,27 @@ exports[`autocomplete with custom filter > falls back to default filter when not
 exports[`autocomplete with custom filter > uses custom filter function when provided 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m○[22m [2mBanana[22m
-[36m│[39m  [2m○[22m [2mCherry[22m
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>○</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m a█[2m (1 match)[22m
-[36m│[39m  [32m●[39m Apple
-[36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> a█<dim> (1 match)</bold>
+<cyan>│</fg>  <green>●</fg> Apple
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2mApple[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>Apple</bold>",
   "
 ",
   "<cursor.show>",
@@ -541,17 +541,17 @@ exports[`autocomplete with custom filter > uses custom filter function when prov
 exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "
 ",
   "<cursor.show>",
@@ -561,52 +561,52 @@ exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
 exports[`autocompleteMultiselect > can use navigation keys to select options 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select fruits
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select fruits
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m [2m[22m
-[36m│[39m  [2m◻[22m [2mApple[22m
-[36m│[39m  [2m◻[22m Banana
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> <dim></bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Apple</bold>
+<cyan>│</fg>  <dim>◻</bold> Banana
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  [32m◼[39m Banana",
+  "<cyan>│</fg>  <green>◼</fg> Banana",
   "<cursor.down count=5>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [32m◼[39m [2mBanana[22m
-[36m│[39m  [2m◻[22m Cherry
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <green>◼</fg> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> Cherry
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  [32m◼[39m Cherry",
+  "<cyan>│</fg>  <green>◼</fg> Cherry",
   "<cursor.down count=4>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select fruits
-[90m│[39m  [2m2 items selected[22m",
+  "<green>◇</fg>  Select fruits
+<dim>│</fg>  <dim>2 items selected</bold>",
   "
 ",
   "<cursor.show>",
@@ -616,30 +616,30 @@ exports[`autocompleteMultiselect > can use navigation keys to select options 1`]
 exports[`autocompleteMultiselect > cannot select disabled options when only one left 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m k█[2m (1 match)[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> k█<dim> (1 match)</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2m0 items selected[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>0 items selected</bold>",
   "
 ",
   "<cursor.show>",
@@ -649,78 +649,78 @@ exports[`autocompleteMultiselect > cannot select disabled options when only one 
 exports[`autocompleteMultiselect > displays disabled options correctly 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m [2m[22m
-[36m│[39m  [2m◻[22m [2mApple[22m
-[36m│[39m  [2m◻[22m Banana
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> <dim></bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Apple</bold>
+<cyan>│</fg>  <dim>◻</bold> Banana
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
-  "[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m Cherry
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> Cherry
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.down>",
-  "[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m Grape
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> Grape
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=7>",
   "<erase.down>",
-  "[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m Orange
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> Orange
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=4>",
   "<erase.down>",
-  "[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [90m◻[39m [9m[90mKiwi[39m[29m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace/Tab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>Kiwi</fg>[29m
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Space/Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=4>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  [32m◼[39m Apple",
+  "<cyan>│</fg>  <green>◼</fg> Apple",
   "<cursor.down count=7>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2m1 items selected[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>1 items selected</bold>",
   "
 ",
   "<cursor.show>",
@@ -730,49 +730,49 @@ exports[`autocompleteMultiselect > displays disabled options correctly 1`] = `
 exports[`autocompleteMultiselect > renders error when empty selection & required is true 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[33m▲[39m  Select a fruit
-[33m│[39m
-[33m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[33m│[39m  [33mPlease select at least one item[39m
-[33m│[39m  [2m◻[22m Apple
-[33m│[39m  [2m◻[22m [2mBanana[22m
-[33m│[39m  [2m◻[22m [2mCherry[22m
-[33m│[39m  [2m◻[22m [2mGrape[22m
-[33m│[39m  [2m◻[22m [2mOrange[22m
-[33m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[33m└[39m",
+  "<yellow>▲</fg>  Select a fruit
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<yellow>│</fg>  <yellow>Please select at least one item</fg>
+<yellow>│</fg>  <dim>◻</bold> Apple
+<yellow>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<yellow>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<yellow>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<yellow>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<yellow>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
   "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[36m◆[39m  Select a fruit
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [32m◼[39m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>◆</fg>  Select a fruit
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <green>◼</fg> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select a fruit
-[90m│[39m  [2m1 items selected[22m",
+  "<green>◇</fg>  Select a fruit
+<dim>│</fg>  <dim>1 items selected</bold>",
   "
 ",
   "<cursor.show>",
@@ -782,34 +782,34 @@ exports[`autocompleteMultiselect > renders error when empty selection & required
 exports[`autocompleteMultiselect > supports custom filter function 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  Select fruits
-[36m│[39m
-[36m│[39m  [2mSearch:[22m [7m[8m_[28m[27m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m◻[22m [2mBanana[22m
-[36m│[39m  [2m◻[22m [2mCherry[22m
-[36m│[39m  [2m◻[22m [2mGrape[22m
-[36m│[39m  [2m◻[22m [2mOrange[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<dim>│</fg>
+<cyan>◆</fg>  Select fruits
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> [7m[8m_[28m[27m
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>◻</bold> <dim>Banana</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Cherry</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Grape</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>Orange</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
-  "[36m│[39m  [2mSearch:[22m a█[2m (1 match)[22m
-[36m│[39m  [2m◻[22m Apple
-[36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
-[36m└[39m",
+  "<cyan>│</fg>  <dim>Search:</bold> a█<dim> (1 match)</bold>
+<cyan>│</fg>  <dim>◻</bold> Apple
+<cyan>│</fg>  <dim>↑/↓</bold> to navigate • <dim>Tab:</bold> select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=4>",
   "<erase.line><cursor.left count=1>",
-  "[36m│[39m  [32m◼[39m Apple",
+  "<cyan>│</fg>  <green>◼</fg> Apple",
   "<cursor.down count=2>",
   "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  Select fruits
-[90m│[39m  [2m1 items selected[22m",
+  "<green>◇</fg>  Select fruits
+<dim>│</fg>  <dim>1 items selected</bold>",
   "
 ",
   "<cursor.show>",

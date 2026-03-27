@@ -2,1211 +2,1211 @@
 
 exports[`taskLog (isCI = false) > error > clears output if showLog = false 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  some error!
+  "<dim>│</fg>
+<red>■</fg>  some error!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > error > renders output with message 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  some error!
+  "<dim>│</fg>
+<red>■</fg>  some error!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > applies limit per group 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-",
-  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
-",
-  "[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
-",
-  "[90m│[39m  [1mGroup 1[22m
-",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-",
-  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
-",
-  "[90m│[39m  [2mGroup 0 line 2[22m
-[90m│[39m  [2mGroup 0 line 3[22m
-",
-  "[90m│[39m  [1mGroup 1[22m
-",
-  "[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 2[22m
-[90m│[39m  [2mGroup 0 line 3[22m
+  "<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-",
-  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
-",
-  "[90m│[39m  [2mGroup 0 line 3[22m
-[90m│[39m  [2mGroup 0 line 4[22m
-",
-  "[90m│[39m  [1mGroup 1[22m
-",
-  "[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
+  "<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 3[22m
-[90m│[39m  [2mGroup 0 line 4[22m
+  "<dim>│</fg>  <dim>Group 0 line 2</bold>
+<dim>│</fg>  <dim>Group 0 line 3</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<dim>│</fg>  <bold>Group 0</bold>
+",
+  "<dim>│</fg>  <dim>Group 0 line 2</bold>
+<dim>│</fg>  <dim>Group 0 line 3</bold>
+",
+  "<dim>│</fg>  <bold>Group 1</bold>
+",
+  "<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<dim>│</fg>  <bold>Group 0</bold>
+",
+  "<dim>│</fg>  <dim>Group 0 line 3</bold>
+<dim>│</fg>  <dim>Group 0 line 4</bold>
+",
+  "<dim>│</fg>  <bold>Group 1</bold>
+",
+  "<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<dim>│</fg>  <bold>Group 0</bold>
+",
+  "<dim>│</fg>  <dim>Group 0 line 3</bold>
+<dim>│</fg>  <dim>Group 0 line 4</bold>
+",
+  "<dim>│</fg>  <bold>Group 1</bold>
+",
+  "<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > can render multiple groups of different sizes 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > can render multiple groups of equal size 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
-[90m│[39m  [2mGroup 0 line 3[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
+<dim>│</fg>  <dim>Group 0 line 3</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
-[90m│[39m  [2mGroup 0 line 3[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
+<dim>│</fg>  <dim>Group 0 line 3</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
-[90m│[39m  [2mGroup 0 line 3[22m
-[90m│[39m  [2mGroup 0 line 4[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
+<dim>│</fg>  <dim>Group 0 line 3</bold>
+<dim>│</fg>  <dim>Group 0 line 4</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
-[90m│[39m  [2mGroup 0 line 3[22m
-[90m│[39m  [2mGroup 0 line 4[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
+<dim>│</fg>  <dim>Group 0 line 3</bold>
+<dim>│</fg>  <dim>Group 0 line 4</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > handles empty groups 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◆[39m  Group success!
+  "<green>◆</fg>  Group success!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > renders error state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[31m■[39m  Group error!
+  "<red>■</fg>  Group error!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > renders group error state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[31m■[39m  Group error!
+  "<red>■</fg>  Group error!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > renders group success state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[32m◆[39m  Group success!
+  "<green>◆</fg>  Group success!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > renders success state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[32m◆[39m  Group success!
+  "<green>◆</fg>  Group success!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > group > showLog shows all groups in order 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[32m◆[39m  Group 0 success!
+  "<green>◆</fg>  Group 0 success!
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[32m◆[39m  Group 0 success!
+  "<green>◆</fg>  Group 0 success!
 ",
-  "[31m■[39m  Group 1 error!
+  "<red>■</fg>  Group 1 error!
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  overall error
+  "<dim>│</fg>
+<red>■</fg>  overall error
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m
-[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m
-[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > can write line by line 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > can write multiple lines 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > destructive ansi codes are stripped 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2 bad ansi![22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2 bad ansi!</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2 bad ansi![22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2 bad ansi!</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > enforces limit if set 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > prints empty lines 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2m[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim></bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2m[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim></bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > raw = true appends message text until newline 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
-",
-  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0still line 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0still line 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0still line 0</bold>
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<dim>│</fg>  <dim>line 0still line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > raw = true works when mixed with non-raw messages 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
-",
-  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0still line 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0still line 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0still line 0</bold>
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<dim>│</fg>  <dim>line 0still line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > message > raw = true works when started with non-raw messages 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1still line 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1still line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > error > outputs limited log with limit by default 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > error > retainLog = false outputs full log without limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > error > retainLog = false outputs limited log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > error > retainLog = true outputs full log 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > error > retainLog = true outputs full log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > success > outputs limited log with limit by default 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > success > retainLog = false outputs full log without limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > success > retainLog = false outputs limited log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > success > retainLog = true outputs full log 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > retainLog > success > retainLog = true outputs full log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
+  "<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > success > clears output and renders message 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  success!
+  "<dim>│</fg>
+<green>◆</fg>  success!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > success > renders output if showLog = true 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[90m│[39m  [2mline 0[22m
+  "<dim>│</fg>  <dim>line 0</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  success!
+  "<dim>│</fg>
+<green>◆</fg>  success!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = false) > writes message header 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > error > clears output if showLog = false 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  some error!
+  "<dim>│</fg>
+<red>■</fg>  some error!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > error > renders output with message 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  some error!
+  "<dim>│</fg>
+<red>■</fg>  some error!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > group > applies limit per group 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1222,11 +1222,11 @@ exports[`taskLog (isCI = true) > group > applies limit per group 1`] = `
 
 exports[`taskLog (isCI = true) > group > can render multiple groups of different sizes 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1240,11 +1240,11 @@ exports[`taskLog (isCI = true) > group > can render multiple groups of different
 
 exports[`taskLog (isCI = true) > group > can render multiple groups of equal size 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1260,22 +1260,22 @@ exports[`taskLog (isCI = true) > group > can render multiple groups of equal siz
 
 exports[`taskLog (isCI = true) > group > handles empty groups 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > group > renders error state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
@@ -1283,11 +1283,11 @@ exports[`taskLog (isCI = true) > group > renders error state 1`] = `
 
 exports[`taskLog (isCI = true) > group > renders group error state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
@@ -1295,11 +1295,11 @@ exports[`taskLog (isCI = true) > group > renders group error state 1`] = `
 
 exports[`taskLog (isCI = true) > group > renders group success state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
@@ -1307,11 +1307,11 @@ exports[`taskLog (isCI = true) > group > renders group success state 1`] = `
 
 exports[`taskLog (isCI = true) > group > renders success state 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
@@ -1319,11 +1319,11 @@ exports[`taskLog (isCI = true) > group > renders success state 1`] = `
 
 exports[`taskLog (isCI = true) > group > showLog shows all groups in order 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  Some log
+  "<green>◇</fg>  Some log
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1335,35 +1335,35 @@ exports[`taskLog (isCI = true) > group > showLog shows all groups in order 1`] =
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  overall error
+  "<dim>│</fg>
+<red>■</fg>  overall error
 ",
-  "[90m│[39m  [1mGroup 0[22m
+  "<dim>│</fg>  <bold>Group 0</bold>
 ",
-  "[90m│[39m
-[90m│[39m  [2mGroup 0 line 0[22m
-[90m│[39m  [2mGroup 0 line 1[22m
-[90m│[39m  [2mGroup 0 line 2[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>Group 0 line 0</bold>
+<dim>│</fg>  <dim>Group 0 line 1</bold>
+<dim>│</fg>  <dim>Group 0 line 2</bold>
 ",
-  "[90m│[39m  [1mGroup 1[22m
+  "<dim>│</fg>  <bold>Group 1</bold>
 ",
-  "[90m│[39m
-[90m│[39m  [2mGroup 1 line 0[22m
-[90m│[39m  [2mGroup 1 line 1[22m
-[90m│[39m  [2mGroup 1 line 2[22m
-[90m│[39m  [2mGroup 1 line 3[22m
-[90m│[39m  [2mGroup 1 line 4[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>Group 1 line 0</bold>
+<dim>│</fg>  <dim>Group 1 line 1</bold>
+<dim>│</fg>  <dim>Group 1 line 2</bold>
+<dim>│</fg>  <dim>Group 1 line 3</bold>
+<dim>│</fg>  <dim>Group 1 line 4</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > message > can write line by line 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]
@@ -1371,22 +1371,22 @@ exports[`taskLog (isCI = true) > message > can write line by line 1`] = `
 
 exports[`taskLog (isCI = true) > message > can write multiple lines 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > message > destructive ansi codes are stripped 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1395,11 +1395,11 @@ exports[`taskLog (isCI = true) > message > destructive ansi codes are stripped 1
 
 exports[`taskLog (isCI = true) > message > enforces limit if set 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1408,11 +1408,11 @@ exports[`taskLog (isCI = true) > message > enforces limit if set 1`] = `
 
 exports[`taskLog (isCI = true) > message > prints empty lines 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1421,11 +1421,11 @@ exports[`taskLog (isCI = true) > message > prints empty lines 1`] = `
 
 exports[`taskLog (isCI = true) > message > raw = true appends message text until newline 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1434,11 +1434,11 @@ exports[`taskLog (isCI = true) > message > raw = true appends message text until
 
 exports[`taskLog (isCI = true) > message > raw = true works when mixed with non-raw messages 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1447,11 +1447,11 @@ exports[`taskLog (isCI = true) > message > raw = true works when mixed with non-
 
 exports[`taskLog (isCI = true) > message > raw = true works when started with non-raw messages 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
@@ -1460,279 +1460,279 @@ exports[`taskLog (isCI = true) > message > raw = true works when started with no
 
 exports[`taskLog (isCI = true) > retainLog > error > outputs limited log with limit by default 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > error > retainLog = false outputs full log without limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > error > retainLog = false outputs limited log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > error > retainLog = true outputs full log 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > error > retainLog = true outputs full log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[31m■[39m  woo!
+  "<dim>│</fg>
+<red>■</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > success > outputs limited log with limit by default 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > success > retainLog = false outputs full log without limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > success > retainLog = false outputs limited log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > success > retainLog = true outputs full log 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > retainLog > success > retainLog = true outputs full log with limit 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  woo!
+  "<dim>│</fg>
+<green>◆</fg>  woo!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
-[90m│[39m  [2mline 2[22m
-[90m│[39m  [2mline 3[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
+<dim>│</fg>  <dim>line 2</bold>
+<dim>│</fg>  <dim>line 3</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > success > clears output and renders message 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  success!
+  "<dim>│</fg>
+<green>◆</fg>  success!
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > success > renders output if showLog = true 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
-  "[90m│[39m
-[32m◆[39m  success!
+  "<dim>│</fg>
+<green>◆</fg>  success!
 ",
-  "[90m│[39m
-[90m│[39m  [2mline 0[22m
-[90m│[39m  [2mline 1[22m
+  "<dim>│</fg>
+<dim>│</fg>  <dim>line 0</bold>
+<dim>│</fg>  <dim>line 1</bold>
 ",
 ]
 `;
 
 exports[`taskLog (isCI = true) > writes message header 1`] = `
 [
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
 ]
 `;
