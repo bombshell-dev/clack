@@ -1,8 +1,8 @@
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import type { DateFormatConfig, DateParts } from '../../src/prompts/date.js';
-import { default as DatePrompt } from '../../src/prompts/date.js';
-import { isCancel } from '../../src/utils/index.js';
+import type { DateFormatConfig, DateParts } from './date.js';
+import { default as DatePrompt } from './date.js';
+import { isCancel } from '../utils/index.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 

@@ -1,6 +1,6 @@
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { default as ConfirmPrompt } from '../../src/prompts/confirm.js';
+import { default as ConfirmPrompt } from './confirm.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 

@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from '../src/index.js';
+import * as prompts from './index.js';
 import { MockWritable } from './test-utils.js';
 
 describe.each(['true', 'false'])('log (isCI = %s)', (isCI) => {

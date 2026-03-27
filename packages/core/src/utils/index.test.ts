@@ -1,9 +1,9 @@
 import type { Key } from 'node:readline';
 import { cursor } from 'sisteransi';
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import { block } from '../src/utils/index.js';
-import { MockReadable } from './mock-readable.js';
-import { MockWritable } from './mock-writable.js';
+import { block } from './index.js';
+import { MockReadable } from '../mock-readable.js';
+import { MockWritable } from '../mock-writable.js';
 
 describe('utils', () => {
 	afterEach(() => {

@@ -1,9 +1,9 @@
 import { updateSettings } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from '../src/index.js';
+import * as prompts from './index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
-describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
+describe.each(['true', 'false'])('confirm (isCI = %s)', (isCI) => {
 	let originalCI: string | undefined;
 	let output: MockWritable;
 	let input: MockReadable;
@@ -27,88 +27,110 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		updateSettings({ withGuide: true });
 	});
 
-	test('renders message', async () => {
-		const result = prompts.password({
+	test('renders message with choices', async () => {
+		const result = prompts.confirm({
 			message: 'foo',
 			input,
 			output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
-
-		await result;
-
-		expect(output.buffer).toMatchSnapshot();
-	});
-
-	test('renders masked value', async () => {
-		const result = prompts.password({
-			message: 'foo',
-			input,
-			output,
-		});
-
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', 'y', { name: 'y' });
 		input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
-		expect(value).toBe('xy');
+		expect(value).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders custom mask', async () => {
-		const result = prompts.password({
+	test('renders custom active choice', async () => {
+		const result = prompts.confirm({
 			message: 'foo',
-			mask: '*',
+			active: 'bleep',
 			input,
 			output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', '', { name: 'return' });
-
-		await result;
-
-		expect(output.buffer).toMatchSnapshot();
-	});
-
-	test('renders and clears validation errors', async () => {
-		const result = prompts.password({
-			message: 'foo',
-			validate: (value) => {
-				if (!value || value.length < 2) {
-					return 'Password must be at least 2 characters';
-				}
-
-				return undefined;
-			},
-			input,
-			output,
-		});
-
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', 'y', { name: 'y' });
 		input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
-		expect(value).toBe('xy');
+		expect(value).toBe(true);
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders cancelled value', async () => {
-		const result = prompts.password({
+	test('renders custom inactive choice', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			inactive: 'bleep',
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('renders options in vertical alignment', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			vertical: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('right arrow moves to next choice', async () => {
+		const result = prompts.confirm({
 			message: 'foo',
 			input,
 			output,
 		});
 
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', '', { name: 'escape' });
+		input.emit('keypress', 'right', { name: 'right' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(false);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('left arrow moves to previous choice', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'right', { name: 'right' });
+		input.emit('keypress', 'left', { name: 'left' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('can cancel', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'escape', { name: 'escape' });
 
 		const value = await result;
 
@@ -116,10 +138,26 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('can set initialValue', async () => {
+		const result = prompts.confirm({
+			message: 'foo',
+			initialValue: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe(false);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('can be aborted by a signal', async () => {
 		const controller = new AbortController();
-		const result = prompts.password({
-			message: 'foo',
+		const result = prompts.confirm({
+			message: 'yes?',
 			input,
 			output,
 			signal: controller.signal,
@@ -131,29 +169,8 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('clears input on error when clearOnError is true', async () => {
-		const result = prompts.password({
-			message: 'foo',
-			input,
-			output,
-			validate: (v) => (v === 'yz' ? undefined : 'Error'),
-			clearOnError: true,
-		});
-
-		input.emit('keypress', 'x', { name: 'x' });
-		input.emit('keypress', '', { name: 'return' });
-		input.emit('keypress', 'y', { name: 'y' });
-		input.emit('keypress', 'z', { name: 'z' });
-		input.emit('keypress', '', { name: 'return' });
-
-		const value = await result;
-
-		expect(value).toBe('yz');
-		expect(output.buffer).toMatchSnapshot();
-	});
-
 	test('withGuide: false removes guide', async () => {
-		const result = prompts.password({
+		const result = prompts.confirm({
 			message: 'foo',
 			withGuide: false,
 			input,
@@ -170,7 +187,7 @@ describe.each(['true', 'false'])('password (isCI = %s)', (isCI) => {
 	test('global withGuide: false removes guide', async () => {
 		updateSettings({ withGuide: false });
 
-		const result = prompts.password({
+		const result = prompts.confirm({
 			message: 'foo',
 			input,
 			output,

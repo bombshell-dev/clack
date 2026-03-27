@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
 import { beforeEach, describe, expect, test } from 'vitest';
-import { type LimitOptionsParams, limitOptions } from '../src/index.js';
+import { type LimitOptionsParams, limitOptions } from './index.js';
 import { MockWritable } from './test-utils.js';
 
 describe('limitOptions', () => {

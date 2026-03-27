@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { autocomplete, autocompleteMultiselect } from '../src/autocomplete.js';
-import { isCancel } from '../src/index.js';
+import { autocomplete, autocompleteMultiselect } from './autocomplete.js';
+import { isCancel } from './index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 describe('autocomplete', () => {

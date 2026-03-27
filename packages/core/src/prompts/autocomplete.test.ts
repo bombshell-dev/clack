@@ -1,6 +1,6 @@
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { default as AutocompletePrompt } from '../../src/prompts/autocomplete.js';
+import { default as AutocompletePrompt } from './autocomplete.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 

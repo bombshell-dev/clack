@@ -1,6 +1,6 @@
 import { vol } from 'memfs';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from '../src/index.js';
+import * as prompts from './index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 vi.mock('node:fs');
