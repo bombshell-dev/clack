@@ -1,12 +1,10 @@
 import { cursor } from 'sisteransi';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { default as AutocompletePrompt } from './autocomplete.js';
-import { MockReadable } from '../mock-readable.js';
-import { MockWritable } from '../mock-writable.js';
+import { createMocks, type Mocks } from '@bomb.sh/tools/test-utils';
 
 describe('AutocompletePrompt', () => {
-	let input: MockReadable;
-	let output: MockWritable;
+	let mocks: Mocks<{ input: true; output: true }>;
 	const testOptions = [
 		{ value: 'apple', label: 'Apple' },
 		{ value: 'banana', label: 'Banana' },
@@ -16,29 +14,24 @@ describe('AutocompletePrompt', () => {
 	];
 
 	beforeEach(() => {
-		input = new MockReadable();
-		output = new MockWritable();
-	});
-
-	afterEach(() => {
-		vi.restoreAllMocks();
+		mocks = createMocks({ input: true, output: true });
 	});
 
 	test('renders render() result', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
 		instance.prompt();
-		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
+		expect(mocks.output.buffer).to.deep.equal([cursor.hide, 'foo']);
 	});
 
 	test('initial options match provided options', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
@@ -52,8 +45,8 @@ describe('AutocompletePrompt', () => {
 
 	test('cursor navigation with event emitter', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
@@ -78,8 +71,8 @@ describe('AutocompletePrompt', () => {
 
 	test('initialValue selects correct option', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 			initialValue: ['cherry'],
@@ -95,8 +88,8 @@ describe('AutocompletePrompt', () => {
 
 	test('initialValue defaults to first option when non-multiple', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
@@ -107,8 +100,8 @@ describe('AutocompletePrompt', () => {
 
 	test('initialValue is empty when multiple', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 			multiple: true,
@@ -120,8 +113,8 @@ describe('AutocompletePrompt', () => {
 
 	test('filtering through user input', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
@@ -132,7 +125,7 @@ describe('AutocompletePrompt', () => {
 		expect(instance.filteredOptions.length).to.equal(testOptions.length);
 
 		// Simulate typing 'a' by emitting keypress event
-		input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
 
 		// Check that filtered options are updated to include options with 'a'
 		expect(instance.filteredOptions.length).to.be.lessThan(testOptions.length);
@@ -144,37 +137,37 @@ describe('AutocompletePrompt', () => {
 
 	test('default filter function works correctly', () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
 
 		instance.prompt();
 
-		input.emit('keypress', 'a', { name: 'a' });
-		input.emit('keypress', 'p', { name: 'p' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'p', { name: 'p' });
 
 		expect(instance.filteredOptions).toEqual([
 			{ value: 'apple', label: 'Apple' },
 			{ value: 'grape', label: 'Grape' },
 		]);
 
-		input.emit('keypress', 'z', { name: 'z' });
+		mocks.input.emit('keypress', 'z', { name: 'z' });
 
 		expect(instance.filteredOptions).toEqual([]);
 	});
 
 	test('submit without nav resolves to first option in non-multiple', async () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 		});
 
 		const promise = instance.prompt();
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 		const result = await promise;
 
 		expect(instance.selectedValues).to.deep.equal(['apple']);
@@ -183,15 +176,15 @@ describe('AutocompletePrompt', () => {
 
 	test('submit without nav resolves to [] in multiple', async () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 			multiple: true,
 		});
 
 		const promise = instance.prompt();
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 		const result = await promise;
 
 		expect(instance.selectedValues).to.deep.equal([]);
@@ -200,16 +193,16 @@ describe('AutocompletePrompt', () => {
 
 	test('Tab with empty input and placeholder fills input and submit returns matching option', async () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 			placeholder: 'apple',
 		});
 
 		const promise = instance.prompt();
-		input.emit('keypress', '\t', { name: 'tab' });
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '\t', { name: 'tab' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 		const result = await promise;
 
 		expect(instance.userInput).to.equal('apple');
@@ -218,15 +211,15 @@ describe('AutocompletePrompt', () => {
 
 	test('Tab with non-matching placeholder does not fill input', async () => {
 		const instance = new AutocompletePrompt({
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 			render: () => 'foo',
 			options: testOptions,
 			placeholder: 'Type to search...',
 		});
 
 		instance.prompt();
-		input.emit('keypress', '\t', { name: 'tab' });
+		mocks.input.emit('keypress', '\t', { name: 'tab' });
 
 		// Placeholder does not match any option, so input must not be filled with placeholder
 		expect(instance.userInput).not.to.equal('Type to search...');
