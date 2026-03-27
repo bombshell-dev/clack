@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { MultiSelectPrompt, wrapTextWithPrefix } from '@clack/core';
+import { MultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -93,13 +93,14 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				)}`;
 		},
 		render() {
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			const wrappedMessage = wrapTextWithPrefix(
 				opts.output,
 				opts.message,
-				`${symbolBar(this.state)}  `,
+				hasGuide ? `${symbolBar(this.state)}  ` : '',
 				`${symbol(this.state)}  `
 			);
-			const title = `${styleText('gray', S_BAR)}\n${wrappedMessage}\n`;
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${wrappedMessage}\n`;
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
@@ -126,7 +127,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const wrappedSubmitText = wrapTextWithPrefix(
 						opts.output,
 						submitText,
-						`${styleText('gray', S_BAR)}  `
+						hasGuide ? `${styleText('gray', S_BAR)}  ` : ''
 					);
 					return `${title}${wrappedSubmitText}`;
 				}
@@ -141,16 +142,18 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const wrappedLabel = wrapTextWithPrefix(
 						opts.output,
 						label,
-						`${styleText('gray', S_BAR)}  `
+						hasGuide ? `${styleText('gray', S_BAR)}  ` : ''
 					);
-					return `${title}${wrappedLabel}\n${styleText('gray', S_BAR)}`;
+					return `${title}${wrappedLabel}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
 				case 'error': {
-					const prefix = `${styleText('yellow', S_BAR)}  `;
+					const prefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${styleText('yellow', S_BAR_END)}  ${styleText('yellow', ln)}` : `   ${ln}`
+							i === 0
+								? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
+								: `   ${ln}`
 						)
 						.join('\n');
 					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
@@ -167,10 +170,10 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					}).join(`\n${prefix}`)}\n${footer}\n`;
 				}
 				default: {
-					const prefix = `${styleText('cyan', S_BAR)}  `;
+					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
-					const footerLineCount = 2; // S_BAR_END + trailing newline
+					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
@@ -179,7 +182,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
-					}).join(`\n${prefix}`)}\n${styleText('cyan', S_BAR_END)}\n`;
+					}).join(`\n${prefix}`)}\n${hasGuide ? styleText('cyan', S_BAR_END) : ''}\n`;
 				}
 			}
 		},

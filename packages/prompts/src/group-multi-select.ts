@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { GroupMultiSelectPrompt } from '@clack/core';
+import { GroupMultiSelectPrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -104,7 +104,8 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				)}`;
 		},
 		render() {
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const hasGuide = opts.withGuide ?? settings.withGuide;
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.value ?? [];
 
 			switch (this.state) {
@@ -114,25 +115,27 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.map((option) => opt(option, 'submitted'));
 					const optionsText =
 						selectedOptions.length === 0 ? '' : `  ${selectedOptions.join(styleText('dim', ', '))}`;
-					return `${title}${styleText('gray', S_BAR)}${optionsText}`;
+					return `${title}${hasGuide ? styleText('gray', S_BAR) : ''}${optionsText}`;
 				}
 				case 'cancel': {
 					const label = this.options
 						.filter(({ value: optionValue }) => value.includes(optionValue))
 						.map((option) => opt(option, 'cancelled'))
 						.join(styleText('dim', ', '));
-					return `${title}${styleText('gray', S_BAR)}  ${
-						label.trim() ? `${label}\n${styleText('gray', S_BAR)}` : ''
+					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${
+						label.trim() ? `${label}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}` : ''
 					}`;
 				}
 				case 'error': {
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
-							i === 0 ? `${styleText('yellow', S_BAR_END)}  ${styleText('yellow', ln)}` : `   ${ln}`
+							i === 0
+								? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
+								: `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${styleText('yellow', S_BAR)}  ${this.options
+					return `${title}${hasGuide ? `${styleText('yellow', S_BAR)}  ` : ''}${this.options
 						.map((option, i, options) => {
 							const selected =
 								value.includes(option.value) ||
@@ -153,7 +156,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							}
 							return opt(option, active ? 'active' : 'inactive', options);
 						})
-						.join(`\n${styleText('yellow', S_BAR)}  `)}\n${footer}\n`;
+						.join(`\n${hasGuide ? `${styleText('yellow', S_BAR)}  ` : ''}`)}\n${footer}\n`;
 				}
 				default: {
 					const optionsText = this.options
@@ -183,9 +186,11 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 							const prefix = i !== 0 && !optionText.startsWith('\n') ? '  ' : '';
 							return `${prefix}${optionText}`;
 						})
-						.join(`\n${styleText('cyan', S_BAR)}`);
+						.join(`\n${hasGuide ? styleText('cyan', S_BAR) : ''}`);
 					const optionsPrefix = optionsText.startsWith('\n') ? '' : '  ';
-					return `${title}${styleText('cyan', S_BAR)}${optionsPrefix}${optionsText}\n${styleText('cyan', S_BAR_END)}\n`;
+					return `${title}${hasGuide ? styleText('cyan', S_BAR) : ''}${optionsPrefix}${optionsText}\n${
+						hasGuide ? styleText('cyan', S_BAR_END) : ''
+					}\n`;
 				}
 			}
 		},
