@@ -6,6 +6,8 @@ export type { DateFormat, DateOptions, DateParts } from './prompts/date.js';
 export { default as DatePrompt } from './prompts/date.js';
 export type { GroupMultiSelectOptions } from './prompts/group-multiselect.js';
 export { default as GroupMultiSelectPrompt } from './prompts/group-multiselect.js';
+export type { MultiLineOptions } from './prompts/multi-line.js';
+export { default as MultiLinePrompt } from './prompts/multi-line.js';
 export type { MultiSelectOptions } from './prompts/multi-select.js';
 export { default as MultiSelectPrompt } from './prompts/multi-select.js';
 export type { PasswordOptions } from './prompts/password.js';

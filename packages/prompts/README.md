@@ -132,6 +132,31 @@ const basket = await groupMultiselect({
 });
 ```
 
+### Multi-Line Text
+
+The multi-line text component accepts multiple lines of text input. By default, pressing `Enter` twice submits the input.
+
+```js
+import { multiline } from '@clack/prompts';
+
+const bio = await multiline({
+  message: 'Tell us about yourself.',
+  placeholder: 'Start typing...',
+  validate(value) {
+    if (value.length === 0) return `value is required`;
+  },
+});
+```
+
+Set `showSubmit` to display an explicit submit button instead of double `Enter` submission:
+
+```js
+const bio = await multiline({
+  message: 'Tell us about yourself.',
+  showSubmit: true,
+});
+```
+
 ### Spinner
 
 The spinner component surfaces a pending action, such as a long-running download or dependency installation.
