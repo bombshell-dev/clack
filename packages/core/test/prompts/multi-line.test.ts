@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { default as MultiLinePrompt } from '../../src/prompts/text.js';
+import { default as MultiLinePrompt } from '../../src/prompts/multi-line.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 
@@ -139,6 +139,217 @@ describe('MultiLinePrompt', () => {
 			input.emit('keypress', '', { name: 'return' });
 			const result = await resultPromise;
 			expect(result).to.equal('x');
+		});
+
+		test('double return inserts when showSubmit is true', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				showSubmit: true,
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '\t', { name: 'tab' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x\n\n');
+		});
+
+		test('typing when submit selected jumps back to text', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+				showSubmit: true,
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '\t', { name: 'tab' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '\t', { name: 'tab' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('xy');
+		});
+
+		test('backspace deletes previous char', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'backspace' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x');
+		});
+
+		test('delete deletes next char', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'delete' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x');
+		});
+
+		test('delete does nothing at end', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'delete' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x');
+		});
+
+		test('backspace does nothing at start', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'backspace' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x');
+		});
+
+		test('left moves left until start', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('yx');
+		});
+
+		test('right moves right until end', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'right' });
+			input.emit('keypress', '', { name: 'right' });
+			input.emit('keypress', 'z', { name: 'z' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('xyz');
+		});
+
+		test('left moves across lines', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', 'z', { name: 'z' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('xz\ny');
+		});
+
+		test('right moves across lines', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'right' });
+			input.emit('keypress', '', { name: 'right' });
+			input.emit('keypress', 'z', { name: 'z' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x\nyz');
+		});
+
+		test('up moves up a line', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'up' });
+			input.emit('keypress', 'z', { name: 'z' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('xz\ny');
+		});
+
+		test('down moves down a line', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'up' });
+			input.emit('keypress', '', { name: 'down' });
+			input.emit('keypress', 'z', { name: 'z' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x\nyz');
 		});
 	});
 });

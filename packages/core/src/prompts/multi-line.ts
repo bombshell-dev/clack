@@ -91,6 +91,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 		this.on('key', (char, key) => {
 			if (key?.name && settings.actions.has(key.name as Action)) {
 				this.#handleCursor(key.name as Action);
+				return;
 			}
 			if (char === '\t' && this.#showSubmit) {
 				this.focused = this.focused === 'editor' ? 'submit' : 'editor';
