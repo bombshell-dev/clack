@@ -2,384 +2,384 @@
 
 exports[`note (isCI = false) > don't overflow 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m───────────────────────────────────────────────────────────────╮[39m
-[90m│[39m                                                                       [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string[22m               [90m│[39m
-[90m│[39m                                                                       [90m│[39m
-[90m├───────────────────────────────────────────────────────────────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>───────────────────────────────────────────────────────────────╮</fg>
+<dim>│</fg>                                                                       <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string </bold>              <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string </bold>              <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string </bold>              <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string</bold>               <dim>│</fg>
+<dim>│</fg>                                                                       <dim>│</fg>
+<dim>├───────────────────────────────────────────────────────────────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > don't overflow with formatter 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
-[90m│[39m                                                                         [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string[31m *[39m                                                 [90m│[39m
-[90m│[39m                                                                         [90m│[39m
-[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>─────────────────────────────────────────────────────────────────╮</fg>
+<dim>│</fg>                                                                         <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string <red> *</fg>                                                <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string <red> *</fg>                                                <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string <red> *</fg>                                                <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string<red> *</fg>                                                 <dim>│</fg>
+<dim>│</fg>                                                                         <dim>│</fg>
+<dim>├─────────────────────────────────────────────────────────────────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > formatter which adds colors works 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m──╮[39m
-[90m│[39m          [90m│[39m
-[90m│[39m  [31mline 0[39m  [90m│[39m
-[90m│[39m  [31mline 1[39m  [90m│[39m
-[90m│[39m  [31mline 2[39m  [90m│[39m
-[90m│[39m          [90m│[39m
-[90m├──────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>──╮</fg>
+<dim>│</fg>          <dim>│</fg>
+<dim>│</fg>  <red>line 0</fg>  <dim>│</fg>
+<dim>│</fg>  <red>line 1</fg>  <dim>│</fg>
+<dim>│</fg>  <red>line 2</fg>  <dim>│</fg>
+<dim>│</fg>          <dim>│</fg>
+<dim>├──────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > formatter which adds length works 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m──────╮[39m
-[90m│[39m              [90m│[39m
-[90m│[39m  * line 0 *  [90m│[39m
-[90m│[39m  * line 1 *  [90m│[39m
-[90m│[39m  * line 2 *  [90m│[39m
-[90m│[39m              [90m│[39m
-[90m├──────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>──────╮</fg>
+<dim>│</fg>              <dim>│</fg>
+<dim>│</fg>  * line 0 *  <dim>│</fg>
+<dim>│</fg>  * line 1 *  <dim>│</fg>
+<dim>│</fg>  * line 2 *  <dim>│</fg>
+<dim>│</fg>              <dim>│</fg>
+<dim>├──────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > handle wide characters 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0m这是标题[0m [90m─╮[39m
-[90m│[39m            [90m│[39m
-[90m│[39m  [2m이게[22m      [90m│[39m
-[90m│[39m  [2m 첫 [22m      [90m│[39m
-[90m│[39m  [2m번째[22m      [90m│[39m
-[90m│[39m  [2m [22m         [90m│[39m
-[90m│[39m  [2m줄이[22m      [90m│[39m
-[90m│[39m  [2m에요[22m      [90m│[39m
-[90m│[39m  [2mこれ[22m      [90m│[39m
-[90m│[39m  [2mは次[22m      [90m│[39m
-[90m│[39m  [2mの行[22m      [90m│[39m
-[90m│[39m  [2mです[22m      [90m│[39m
-[90m│[39m            [90m│[39m
-[90m├────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>这是标题</> <dim>─╮</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>│</fg>  <dim>이게</bold>      <dim>│</fg>
+<dim>│</fg>  <dim> 첫 </bold>      <dim>│</fg>
+<dim>│</fg>  <dim>번째</bold>      <dim>│</fg>
+<dim>│</fg>  <dim> </bold>         <dim>│</fg>
+<dim>│</fg>  <dim>줄이</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>에요</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>これ</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>は次</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>の行</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>です</bold>      <dim>│</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>├────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > handle wide characters with formatter 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0m这是标题[0m [90m─╮[39m
-[90m│[39m            [90m│[39m
-[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
-[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m게[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
-[90m│[39m  [31m* [36m첫[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
-[90m│[39m  [31m* [36m번[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m째[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
-[90m│[39m  [31m* [36m줄[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m에[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m요[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
-[90m│[39m  [31m* [36mこ[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mれ[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mは[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m次[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mの[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m行[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mで[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mす[31m *[39m    [90m│[39m
-[90m│[39m            [90m│[39m
-[90m├────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>这是标题</> <dim>─╮</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>│</fg>  <red>* <cyan><red> *</fg>      <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>이<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>게<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan> <red> *</fg>     <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>첫<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan> <red> *</fg>     <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>번<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>째<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan> <red> *</fg>     <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>줄<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>이<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>에<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>요<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan><red> *</fg>      <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>こ<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>れ<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>は<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>次<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>の<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>行<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>で<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>す<red> *</fg>    <dim>│</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>├────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > renders as wide as longest line 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
-[90m│[39m                                   [90m│[39m
-[90m│[39m  [2mshort[22m                            [90m│[39m
-[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
-[90m│[39m                                   [90m│[39m
-[90m├───────────────────────────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>───────────────────────────╮</fg>
+<dim>│</fg>                                   <dim>│</fg>
+<dim>│</fg>  <dim>short</bold>                            <dim>│</fg>
+<dim>│</fg>  <dim>somewhat questionably long line</bold>  <dim>│</fg>
+<dim>│</fg>                                   <dim>│</fg>
+<dim>├───────────────────────────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > renders message with title 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m───╮[39m
-[90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
-[90m│[39m           [90m│[39m
-[90m├───────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>───╮</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>│</fg>  <dim>message</bold>  <dim>│</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>├───────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = false) > without guide 1`] = `
 [
-  "[32m◇[39m  [0mtitle[0m [90m───╮[39m
-[90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
-[90m│[39m           [90m│[39m
-[90m╰───────────╯[39m
+  "<green>◇</fg>  </>title</> <dim>───╮</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>│</fg>  <dim>message</bold>  <dim>│</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>╰───────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > don't overflow 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m───────────────────────────────────────────────────────────────╮[39m
-[90m│[39m                                                                       [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string[22m               [90m│[39m
-[90m│[39m                                                                       [90m│[39m
-[90m├───────────────────────────────────────────────────────────────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>───────────────────────────────────────────────────────────────╮</fg>
+<dim>│</fg>                                                                       <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string </bold>              <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string </bold>              <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string </bold>              <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string test string </bold>  <dim>│</fg>
+<dim>│</fg>  <dim>test string test string test string test string test string test </bold>    <dim>│</fg>
+<dim>│</fg>  <dim>string test string test string test string test string</bold>               <dim>│</fg>
+<dim>│</fg>                                                                       <dim>│</fg>
+<dim>├───────────────────────────────────────────────────────────────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > don't overflow with formatter 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m─────────────────────────────────────────────────────────────────╮[39m
-[90m│[39m                                                                         [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string [31m *[39m                                                [90m│[39m
-[90m│[39m  [31m* [36mtest string test string test string test string test string test [31m *[39m  [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string test string test string test string test [31m *[39m       [90m│[39m
-[90m│[39m  [31m* [36mstring test string[31m *[39m                                                 [90m│[39m
-[90m│[39m                                                                         [90m│[39m
-[90m├─────────────────────────────────────────────────────────────────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>─────────────────────────────────────────────────────────────────╮</fg>
+<dim>│</fg>                                                                         <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string <red> *</fg>                                                <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string <red> *</fg>                                                <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string <red> *</fg>                                                <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>test string test string test string test string test string test <red> *</fg>  <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string test string test string test string test <red> *</fg>       <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>string test string<red> *</fg>                                                 <dim>│</fg>
+<dim>│</fg>                                                                         <dim>│</fg>
+<dim>├─────────────────────────────────────────────────────────────────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > formatter which adds colors works 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m──╮[39m
-[90m│[39m          [90m│[39m
-[90m│[39m  [31mline 0[39m  [90m│[39m
-[90m│[39m  [31mline 1[39m  [90m│[39m
-[90m│[39m  [31mline 2[39m  [90m│[39m
-[90m│[39m          [90m│[39m
-[90m├──────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>──╮</fg>
+<dim>│</fg>          <dim>│</fg>
+<dim>│</fg>  <red>line 0</fg>  <dim>│</fg>
+<dim>│</fg>  <red>line 1</fg>  <dim>│</fg>
+<dim>│</fg>  <red>line 2</fg>  <dim>│</fg>
+<dim>│</fg>          <dim>│</fg>
+<dim>├──────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > formatter which adds length works 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m──────╮[39m
-[90m│[39m              [90m│[39m
-[90m│[39m  * line 0 *  [90m│[39m
-[90m│[39m  * line 1 *  [90m│[39m
-[90m│[39m  * line 2 *  [90m│[39m
-[90m│[39m              [90m│[39m
-[90m├──────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>──────╮</fg>
+<dim>│</fg>              <dim>│</fg>
+<dim>│</fg>  * line 0 *  <dim>│</fg>
+<dim>│</fg>  * line 1 *  <dim>│</fg>
+<dim>│</fg>  * line 2 *  <dim>│</fg>
+<dim>│</fg>              <dim>│</fg>
+<dim>├──────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > handle wide characters 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0m这是标题[0m [90m─╮[39m
-[90m│[39m            [90m│[39m
-[90m│[39m  [2m이게[22m      [90m│[39m
-[90m│[39m  [2m 첫 [22m      [90m│[39m
-[90m│[39m  [2m번째[22m      [90m│[39m
-[90m│[39m  [2m [22m         [90m│[39m
-[90m│[39m  [2m줄이[22m      [90m│[39m
-[90m│[39m  [2m에요[22m      [90m│[39m
-[90m│[39m  [2mこれ[22m      [90m│[39m
-[90m│[39m  [2mは次[22m      [90m│[39m
-[90m│[39m  [2mの行[22m      [90m│[39m
-[90m│[39m  [2mです[22m      [90m│[39m
-[90m│[39m            [90m│[39m
-[90m├────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>这是标题</> <dim>─╮</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>│</fg>  <dim>이게</bold>      <dim>│</fg>
+<dim>│</fg>  <dim> 첫 </bold>      <dim>│</fg>
+<dim>│</fg>  <dim>번째</bold>      <dim>│</fg>
+<dim>│</fg>  <dim> </bold>         <dim>│</fg>
+<dim>│</fg>  <dim>줄이</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>에요</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>これ</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>は次</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>の行</bold>      <dim>│</fg>
+<dim>│</fg>  <dim>です</bold>      <dim>│</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>├────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > handle wide characters with formatter 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0m这是标题[0m [90m─╮[39m
-[90m│[39m            [90m│[39m
-[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
-[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m게[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
-[90m│[39m  [31m* [36m첫[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
-[90m│[39m  [31m* [36m번[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m째[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m [31m *[39m     [90m│[39m
-[90m│[39m  [31m* [36m줄[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m이[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m에[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m요[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m[31m *[39m      [90m│[39m
-[90m│[39m  [31m* [36mこ[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mれ[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mは[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m次[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mの[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36m行[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mで[31m *[39m    [90m│[39m
-[90m│[39m  [31m* [36mす[31m *[39m    [90m│[39m
-[90m│[39m            [90m│[39m
-[90m├────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>这是标题</> <dim>─╮</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>│</fg>  <red>* <cyan><red> *</fg>      <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>이<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>게<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan> <red> *</fg>     <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>첫<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan> <red> *</fg>     <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>번<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>째<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan> <red> *</fg>     <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>줄<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>이<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>에<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>요<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan><red> *</fg>      <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>こ<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>れ<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>は<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>次<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>の<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>行<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>で<red> *</fg>    <dim>│</fg>
+<dim>│</fg>  <red>* <cyan>す<red> *</fg>    <dim>│</fg>
+<dim>│</fg>            <dim>│</fg>
+<dim>├────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > renders as wide as longest line 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
-[90m│[39m                                   [90m│[39m
-[90m│[39m  [2mshort[22m                            [90m│[39m
-[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
-[90m│[39m                                   [90m│[39m
-[90m├───────────────────────────────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>───────────────────────────╮</fg>
+<dim>│</fg>                                   <dim>│</fg>
+<dim>│</fg>  <dim>short</bold>                            <dim>│</fg>
+<dim>│</fg>  <dim>somewhat questionably long line</bold>  <dim>│</fg>
+<dim>│</fg>                                   <dim>│</fg>
+<dim>├───────────────────────────────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > renders message with title 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  [0mtitle[0m [90m───╮[39m
-[90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
-[90m│[39m           [90m│[39m
-[90m├───────────╯[39m
+  "<dim>│</fg>
+<green>◇</fg>  </>title</> <dim>───╮</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>│</fg>  <dim>message</bold>  <dim>│</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>├───────────╯</fg>
 ",
 ]
 `;
 
 exports[`note (isCI = true) > without guide 1`] = `
 [
-  "[32m◇[39m  [0mtitle[0m [90m───╮[39m
-[90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
-[90m│[39m           [90m│[39m
-[90m╰───────────╯[39m
+  "<green>◇</fg>  </>title</> <dim>───╮</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>│</fg>  <dim>message</bold>  <dim>│</fg>
+<dim>│</fg>           <dim>│</fg>
+<dim>╰───────────╯</fg>
 ",
 ]
 `;

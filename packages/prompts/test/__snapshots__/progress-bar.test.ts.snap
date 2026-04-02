@@ -3,21 +3,21 @@
 exports[`prompts - progress (isCI = false) > message > sets message for next frame 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
+  "<magenta>◐</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> foo",
 ]
 `;
 
 exports[`prompts - progress (isCI = false) > process exit handling > prioritizes cancel option over global setting 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Progress cancel message
+  "<red>■</fg>  Progress cancel message
 ",
   "<cursor.show>",
 ]
@@ -26,9 +26,9 @@ exports[`prompts - progress (isCI = false) > process exit handling > prioritizes
 exports[`prompts - progress (isCI = false) > process exit handling > prioritizes error option over global setting 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m▲[39m  Progress error message
+  "<red>▲</fg>  Progress error message
 ",
   "<cursor.show>",
 ]
@@ -37,9 +37,9 @@ exports[`prompts - progress (isCI = false) > process exit handling > prioritizes
 exports[`prompts - progress (isCI = false) > process exit handling > uses custom cancel message when provided directly 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Custom cancel message
+  "<red>■</fg>  Custom cancel message
 ",
   "<cursor.show>",
 ]
@@ -48,9 +48,9 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses custom
 exports[`prompts - progress (isCI = false) > process exit handling > uses custom error message when provided directly 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m▲[39m  Custom error message
+  "<red>▲</fg>  Custom error message
 ",
   "<cursor.show>",
 ]
@@ -59,9 +59,9 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses custom
 exports[`prompts - progress (isCI = false) > process exit handling > uses default cancel message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Canceled
+  "<red>■</fg>  Canceled
 ",
   "<cursor.show>",
 ]
@@ -70,9 +70,9 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses defaul
 exports[`prompts - progress (isCI = false) > process exit handling > uses global custom cancel message from settings 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Global cancel message
+  "<red>■</fg>  Global cancel message
 ",
   "<cursor.show>",
 ]
@@ -81,9 +81,9 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses global
 exports[`prompts - progress (isCI = false) > process exit handling > uses global custom error message from settings 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m▲[39m  Global error message
+  "<red>▲</fg>  Global error message
 ",
   "<cursor.show>",
 ]
@@ -92,48 +92,48 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses global
 exports[`prompts - progress (isCI = false) > start > renders frames at interval 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◐</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◓[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◓</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◑[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◑</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
 ]
 `;
 
 exports[`prompts - progress (isCI = false) > start > renders message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> foo",
 ]
 `;
 
 exports[`prompts - progress (isCI = false) > start > renders timer when indicator is "timer" 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m  [0s]",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold>  [0s]",
 ]
 `;
 
 exports[`prompts - progress (isCI = false) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m■[39m  
+  "<red>■</fg>  
 ",
   "<cursor.show>",
 ]
@@ -142,12 +142,12 @@ exports[`prompts - progress (isCI = false) > stop > renders cancel symbol when c
 exports[`prompts - progress (isCI = false) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m▲[39m  
+  "<red>▲</fg>  
 ",
   "<cursor.show>",
 ]
@@ -156,12 +156,12 @@ exports[`prompts - progress (isCI = false) > stop > renders error symbol when ca
 exports[`prompts - progress (isCI = false) > stop > renders message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
   "<cursor.show>",
 ]
@@ -170,12 +170,12 @@ exports[`prompts - progress (isCI = false) > stop > renders message 1`] = `
 exports[`prompts - progress (isCI = false) > stop > renders message when cancelling 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m■[39m  cancelled :-(
+  "<red>■</fg>  cancelled :-(
 ",
   "<cursor.show>",
 ]
@@ -184,12 +184,12 @@ exports[`prompts - progress (isCI = false) > stop > renders message when cancell
 exports[`prompts - progress (isCI = false) > stop > renders message when erroring 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m▲[39m  FATAL ERROR!
+  "<red>▲</fg>  FATAL ERROR!
 ",
   "<cursor.show>",
 ]
@@ -198,12 +198,12 @@ exports[`prompts - progress (isCI = false) > stop > renders message when errorin
 exports[`prompts - progress (isCI = false) > stop > renders message without removing dots 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo.
+  "<green>◇</fg>  foo.
 ",
   "<cursor.show>",
 ]
@@ -212,12 +212,12 @@ exports[`prompts - progress (isCI = false) > stop > renders message without remo
 exports[`prompts - progress (isCI = false) > stop > renders submit symbol and stops progress 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -226,21 +226,21 @@ exports[`prompts - progress (isCI = false) > stop > renders submit symbol and st
 exports[`prompts - progress (isCI = false) > style > renders block progressbar 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m██████████[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>██████████</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m██████████[22m ",
+  "<magenta>◐</fg>  <magenta></fg><dim>██████████</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◓[39m  [35m█████[39m[2m█████[22m ",
+  "<magenta>◓</fg>  <magenta>█████</fg><dim>█████</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◑[39m  [35m█████[39m[2m█████[22m ",
+  "<magenta>◑</fg>  <magenta>█████</fg><dim>█████</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -249,21 +249,21 @@ exports[`prompts - progress (isCI = false) > style > renders block progressbar 1
 exports[`prompts - progress (isCI = false) > style > renders heavy progressbar 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━[22m ",
+  "<magenta>◐</fg>  <magenta></fg><dim>━━━━━━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◓[39m  [35m━━━━━[39m[2m━━━━━[22m ",
+  "<magenta>◓</fg>  <magenta>━━━━━</fg><dim>━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◑[39m  [35m━━━━━[39m[2m━━━━━[22m ",
+  "<magenta>◑</fg>  <magenta>━━━━━</fg><dim>━━━━━</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -272,21 +272,21 @@ exports[`prompts - progress (isCI = false) > style > renders heavy progressbar 1
 exports[`prompts - progress (isCI = false) > style > renders light progressbar 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m──────────[22m ",
+  "<magenta>◒</fg>  <magenta></fg><dim>──────────</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m──────────[22m ",
+  "<magenta>◐</fg>  <magenta></fg><dim>──────────</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◓[39m  [35m─────[39m[2m─────[22m ",
+  "<magenta>◓</fg>  <magenta>─────</fg><dim>─────</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◑[39m  [35m─────[39m[2m─────[22m ",
+  "<magenta>◑</fg>  <magenta>─────</fg><dim>─────</bold> ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -295,23 +295,23 @@ exports[`prompts - progress (isCI = false) > style > renders light progressbar 1
 exports[`prompts - progress (isCI = true) > message > sets message for next frame 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
+  "<magenta>◐</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> foo...",
 ]
 `;
 
 exports[`prompts - progress (isCI = true) > process exit handling > prioritizes cancel option over global setting 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Progress cancel message
+  "<red>■</fg>  Progress cancel message
 ",
   "<cursor.show>",
 ]
@@ -320,9 +320,9 @@ exports[`prompts - progress (isCI = true) > process exit handling > prioritizes 
 exports[`prompts - progress (isCI = true) > process exit handling > prioritizes error option over global setting 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m▲[39m  Progress error message
+  "<red>▲</fg>  Progress error message
 ",
   "<cursor.show>",
 ]
@@ -331,9 +331,9 @@ exports[`prompts - progress (isCI = true) > process exit handling > prioritizes 
 exports[`prompts - progress (isCI = true) > process exit handling > uses custom cancel message when provided directly 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Custom cancel message
+  "<red>■</fg>  Custom cancel message
 ",
   "<cursor.show>",
 ]
@@ -342,9 +342,9 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses custom 
 exports[`prompts - progress (isCI = true) > process exit handling > uses custom error message when provided directly 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m▲[39m  Custom error message
+  "<red>▲</fg>  Custom error message
 ",
   "<cursor.show>",
 ]
@@ -353,9 +353,9 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses custom 
 exports[`prompts - progress (isCI = true) > process exit handling > uses default cancel message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Canceled
+  "<red>■</fg>  Canceled
 ",
   "<cursor.show>",
 ]
@@ -364,9 +364,9 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses default
 exports[`prompts - progress (isCI = true) > process exit handling > uses global custom cancel message from settings 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m■[39m  Global cancel message
+  "<red>■</fg>  Global cancel message
 ",
   "<cursor.show>",
 ]
@@ -375,9 +375,9 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses global 
 exports[`prompts - progress (isCI = true) > process exit handling > uses global custom error message from settings 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[31m▲[39m  Global error message
+  "<red>▲</fg>  Global error message
 ",
   "<cursor.show>",
 ]
@@ -386,41 +386,41 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses global 
 exports[`prompts - progress (isCI = true) > start > renders frames at interval 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
 ]
 `;
 
 exports[`prompts - progress (isCI = true) > start > renders message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> foo...",
 ]
 `;
 
 exports[`prompts - progress (isCI = true) > start > renders timer when indicator is "timer" 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
 ]
 `;
 
 exports[`prompts - progress (isCI = true) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m■[39m  
+  "<red>■</fg>  
 ",
   "<cursor.show>",
 ]
@@ -429,14 +429,14 @@ exports[`prompts - progress (isCI = true) > stop > renders cancel symbol when ca
 exports[`prompts - progress (isCI = true) > stop > renders error symbol when calling error() 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m▲[39m  
+  "<red>▲</fg>  
 ",
   "<cursor.show>",
 ]
@@ -445,14 +445,14 @@ exports[`prompts - progress (isCI = true) > stop > renders error symbol when cal
 exports[`prompts - progress (isCI = true) > stop > renders message 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo
+  "<green>◇</fg>  foo
 ",
   "<cursor.show>",
 ]
@@ -461,14 +461,14 @@ exports[`prompts - progress (isCI = true) > stop > renders message 1`] = `
 exports[`prompts - progress (isCI = true) > stop > renders message when cancelling 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m■[39m  cancelled :-(
+  "<red>■</fg>  cancelled :-(
 ",
   "<cursor.show>",
 ]
@@ -477,14 +477,14 @@ exports[`prompts - progress (isCI = true) > stop > renders message when cancelli
 exports[`prompts - progress (isCI = true) > stop > renders message when erroring 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[31m▲[39m  FATAL ERROR!
+  "<red>▲</fg>  FATAL ERROR!
 ",
   "<cursor.show>",
 ]
@@ -493,14 +493,14 @@ exports[`prompts - progress (isCI = true) > stop > renders message when erroring
 exports[`prompts - progress (isCI = true) > stop > renders message without removing dots 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo.
+  "<green>◇</fg>  foo.
 ",
   "<cursor.show>",
 ]
@@ -509,14 +509,14 @@ exports[`prompts - progress (isCI = true) > stop > renders message without remov
 exports[`prompts - progress (isCI = true) > stop > renders submit symbol and stops progress 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -525,19 +525,19 @@ exports[`prompts - progress (isCI = true) > stop > renders submit symbol and sto
 exports[`prompts - progress (isCI = true) > style > renders block progressbar 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m██████████[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>██████████</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m█████[39m[2m█████[22m ...",
+  "<magenta>◐</fg>  <magenta>█████</fg><dim>█████</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -546,19 +546,19 @@ exports[`prompts - progress (isCI = true) > style > renders block progressbar 1`
 exports[`prompts - progress (isCI = true) > style > renders heavy progressbar 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>━━━━━━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m━━━━━[39m[2m━━━━━[22m ...",
+  "<magenta>◐</fg>  <magenta>━━━━━</fg><dim>━━━━━</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]
@@ -567,19 +567,19 @@ exports[`prompts - progress (isCI = true) > style > renders heavy progressbar 1`
 exports[`prompts - progress (isCI = true) > style > renders light progressbar 1`] = `
 [
   "<cursor.hide>",
-  "[90m│[39m
+  "<dim>│</fg>
 ",
-  "[35m◒[39m  [35m[39m[2m──────────[22m ...",
+  "<magenta>◒</fg>  <magenta></fg><dim>──────────</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[35m◐[39m  [35m─────[39m[2m─────[22m ...",
+  "<magenta>◐</fg>  <magenta>─────</fg><dim>─────</bold> ...",
   "
 ",
   "<cursor.left count=1>",
   "<erase.down>",
-  "[32m◇[39m  
+  "<green>◇</fg>  
 ",
   "<cursor.show>",
 ]

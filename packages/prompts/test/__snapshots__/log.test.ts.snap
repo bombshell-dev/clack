@@ -2,26 +2,26 @@
 
 exports[`log (isCI = false) > error > renders error message 1`] = `
 [
-  "[90m│[39m
-[31m■[39m  error message
+  "<dim>│</fg>
+<red>■</fg>  error message
 ",
 ]
 `;
 
 exports[`log (isCI = false) > info > renders info message 1`] = `
 [
-  "[90m│[39m
-[34m●[39m  info message
+  "<dim>│</fg>
+<blue>●</fg>  info message
 ",
 ]
 `;
 
 exports[`log (isCI = false) > message > renders empty lines correctly 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  foo
-[90m│[39m
-[90m│[39m  bar
+  "<dim>│</fg>
+<dim>│</fg>  foo
+<dim>│</fg>
+<dim>│</fg>  bar
 ",
 ]
 `;
@@ -38,8 +38,8 @@ bar
 
 exports[`log (isCI = false) > message > renders empty message correctly 1`] = `
 [
-  "[90m│[39m
-[90m│[39m
+  "<dim>│</fg>
+<dim>│</fg>
 ",
 ]
 `;
@@ -54,37 +54,37 @@ exports[`log (isCI = false) > message > renders empty message with guide disable
 
 exports[`log (isCI = false) > message > renders message 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  message
+  "<dim>│</fg>
+<dim>│</fg>  message
 ",
 ]
 `;
 
 exports[`log (isCI = false) > message > renders message from array 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  line 1
-[90m│[39m  line 2
-[90m│[39m  line 3
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
 ",
 ]
 `;
 
 exports[`log (isCI = false) > message > renders message with custom spacing 1`] = `
 [
-  "[90m│[39m
-[90m│[39m
-[90m│[39m
-[90m│[39m  spaced message
+  "<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>  spaced message
 ",
 ]
 `;
 
 exports[`log (isCI = false) > message > renders message with custom symbols and spacing 1`] = `
 [
-  "[33m--[39m
-[31m>>[39m  custom
-[33m--[39m  symbols
+  "<yellow>--</fg>
+<red>>></fg>  custom
+<yellow>--</fg>  symbols
 ",
 ]
 `;
@@ -99,10 +99,10 @@ standalone message
 
 exports[`log (isCI = false) > message > renders multiline message 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  line 1
-[90m│[39m  line 2
-[90m│[39m  line 3
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
 ",
 ]
 `;
@@ -119,50 +119,50 @@ line 3
 
 exports[`log (isCI = false) > step > renders step message 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  step message
+  "<dim>│</fg>
+<green>◇</fg>  step message
 ",
 ]
 `;
 
 exports[`log (isCI = false) > success > renders success message 1`] = `
 [
-  "[90m│[39m
-[32m◆[39m  success message
+  "<dim>│</fg>
+<green>◆</fg>  success message
 ",
 ]
 `;
 
 exports[`log (isCI = false) > warn > renders warn message 1`] = `
 [
-  "[90m│[39m
-[33m▲[39m  warn message
+  "<dim>│</fg>
+<yellow>▲</fg>  warn message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > error > renders error message 1`] = `
 [
-  "[90m│[39m
-[31m■[39m  error message
+  "<dim>│</fg>
+<red>■</fg>  error message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > info > renders info message 1`] = `
 [
-  "[90m│[39m
-[34m●[39m  info message
+  "<dim>│</fg>
+<blue>●</fg>  info message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > message > renders empty lines correctly 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  foo
-[90m│[39m
-[90m│[39m  bar
+  "<dim>│</fg>
+<dim>│</fg>  foo
+<dim>│</fg>
+<dim>│</fg>  bar
 ",
 ]
 `;
@@ -179,8 +179,8 @@ bar
 
 exports[`log (isCI = true) > message > renders empty message correctly 1`] = `
 [
-  "[90m│[39m
-[90m│[39m
+  "<dim>│</fg>
+<dim>│</fg>
 ",
 ]
 `;
@@ -195,37 +195,37 @@ exports[`log (isCI = true) > message > renders empty message with guide disabled
 
 exports[`log (isCI = true) > message > renders message 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  message
+  "<dim>│</fg>
+<dim>│</fg>  message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > message > renders message from array 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  line 1
-[90m│[39m  line 2
-[90m│[39m  line 3
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
 ",
 ]
 `;
 
 exports[`log (isCI = true) > message > renders message with custom spacing 1`] = `
 [
-  "[90m│[39m
-[90m│[39m
-[90m│[39m
-[90m│[39m  spaced message
+  "<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>  spaced message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > message > renders message with custom symbols and spacing 1`] = `
 [
-  "[33m--[39m
-[31m>>[39m  custom
-[33m--[39m  symbols
+  "<yellow>--</fg>
+<red>>></fg>  custom
+<yellow>--</fg>  symbols
 ",
 ]
 `;
@@ -240,10 +240,10 @@ standalone message
 
 exports[`log (isCI = true) > message > renders multiline message 1`] = `
 [
-  "[90m│[39m
-[90m│[39m  line 1
-[90m│[39m  line 2
-[90m│[39m  line 3
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
 ",
 ]
 `;
@@ -260,24 +260,24 @@ line 3
 
 exports[`log (isCI = true) > step > renders step message 1`] = `
 [
-  "[90m│[39m
-[32m◇[39m  step message
+  "<dim>│</fg>
+<green>◇</fg>  step message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > success > renders success message 1`] = `
 [
-  "[90m│[39m
-[32m◆[39m  success message
+  "<dim>│</fg>
+<green>◆</fg>  success message
 ",
 ]
 `;
 
 exports[`log (isCI = true) > warn > renders warn message 1`] = `
 [
-  "[90m│[39m
-[33m▲[39m  warn message
+  "<dim>│</fg>
+<yellow>▲</fg>  warn message
 ",
 ]
 `;

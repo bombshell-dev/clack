@@ -48,9 +48,10 @@
   ],
   "packageManager": "pnpm@9.14.2",
   "scripts": {
-    "build": "unbuild",
+    "build": "bsh build",
     "prepack": "pnpm build",
-    "test": "vitest run"
+    "test": "bsh test",
+    "lint": "bsh lint"
   },
   "dependencies": {
     "@clack/core": "workspace:*",
@@ -60,8 +61,6 @@
   },
   "devDependencies": {
     "is-unicode-supported": "^1.3.0",
-    "memfs": "^4.17.2",
-    "vitest": "^3.2.4",
-    "vitest-ansi-serializer": "^0.1.2"
+    "memfs": "^4.17.2"
   }
 }
