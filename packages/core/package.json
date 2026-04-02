@@ -48,7 +48,7 @@
   "license": "MIT",
   "packageManager": "pnpm@9.14.2",
   "scripts": {
-    "build": "bsh build",
+    "build": "bsh build \"src/**/*.ts\" \"!src/**/*.test.ts\"",
     "prepack": "pnpm build",
     "test": "bsh test",
     "lint": "bsh lint"
