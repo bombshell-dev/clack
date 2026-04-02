@@ -1,0 +1,1561 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`multiselect (isCI = false) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > can render option hints 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0 <dim>(Hint 0)</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0 <dim>(Hint 0)</bold>",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > can set cursorAt to preselect an option 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <dim>◻</bold> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > can set custom labels 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> Option 0
+<cyan>│</fg>  <dim>◻</bold> <dim>Option 1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> Option 0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > can set initial values 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > can submit without selection when required = false 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>none</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "<cyan>◆</fg>  foo
+<cyan>◻</fg> opt0
+<dim>◻</bold> <dim>opt1</bold>
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "<green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt3
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt4
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt5
+<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt6
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt6",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt6</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > renders disabled options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>opt0</fg>[29m
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>opt2</fg>[29m <dim>(Hint 2)</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > renders multiple cancelled values 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>opt0</bold>[29m<dim>, </bold>[9m<dim>opt1</bold>[29m
+<dim>│</fg>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > renders multiple selected options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold><dim>, </bold><dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > renders validation errors 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>  <cyan>◻</fg> opt0
+<yellow>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<yellow>└</fg>  <yellow>Please select at least one option.</fg>
+   </><dim>Press <dim><bg:white>[7m space [27m</bg></fg> to select, <dim><bg:white>[7m enter [27m</bg></fg> to submit</bold></>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>◼</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > shows hints for all selected options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>◼</fg> opt0 <dim>(Hint 0)</bold>
+<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold> <dim>(Hint 1)</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt0</bold> <dim>(Hint 0)</bold>
+<cyan>│</fg>  <green>◼</fg> opt1 <dim>(Hint 1)</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold> <dim>(Hint 1)</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2 <dim>(Hint 2)</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold><dim>, </bold><dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt3
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt4
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt5
+<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt6
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt7
+<cyan>│</fg>  <dim>◻</bold> <dim>opt8</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt8
+<cyan>│</fg>  <dim>◻</bold> <dim>opt9</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt8</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt9
+<cyan>│</fg>  <dim>◻</bold> <dim>opt10</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt11</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt9</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt10
+<cyan>│</fg>  <dim>◻</bold> <dim>opt11</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt10</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt11
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=7>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt8</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt9</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt10</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt11
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=7>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt11",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt11</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "<cyan>◆</fg>  foo
+<cyan>◻</fg> opt0
+<dim>◻</bold> <dim>opt1</bold>
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "<green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > wraps cancelled state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0
+<cyan>│</fg>  <dim>◻</bold> <dim>Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0</bold>[29m
+<dim>│</fg>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > wraps long messages 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo foo foo foo foo foo foo
+<green>│</fg>   foo foo foo foo foo foo 
+<green>│</fg>  foo foo foo foo foo foo foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > wraps success state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0
+<cyan>│</fg>  <dim>◻</bold> <dim>Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can be aborted by a signal 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can render option hints 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0 <dim>(Hint 0)</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0 <dim>(Hint 0)</bold>",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can set cursorAt to preselect an option 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <dim>◻</bold> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can set custom labels 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> Option 0
+<cyan>│</fg>  <dim>◻</bold> <dim>Option 1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> Option 0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can set initial values 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > can submit without selection when required = false 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>none</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "<cyan>◆</fg>  foo
+<cyan>◻</fg> opt0
+<dim>◻</bold> <dim>opt1</bold>
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "<green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt3
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt4
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt5
+<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt6
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt6",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt6</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders disabled options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>opt0</fg>[29m
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</fg> [9m<dim>opt2</fg>[29m <dim>(Hint 2)</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders multiple cancelled values 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>opt0</bold>[29m<dim>, </bold>[9m<dim>opt1</bold>[29m
+<dim>│</fg>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders multiple selected options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt1",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold><dim>, </bold><dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders validation errors 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>  <cyan>◻</fg> opt0
+<yellow>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<yellow>└</fg>  <yellow>Please select at least one option.</fg>
+   </><dim>Press <dim><bg:white>[7m space [27m</bg></fg> to select, <dim><bg:white>[7m enter [27m</bg></fg> to submit</bold></>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>◼</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > shows hints for all selected options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <green>◼</fg> opt0 <dim>(Hint 0)</bold>
+<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold> <dim>(Hint 1)</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt0</bold> <dim>(Hint 0)</bold>
+<cyan>│</fg>  <green>◼</fg> opt1 <dim>(Hint 1)</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <green>◼</fg> <dim>opt1</bold> <dim>(Hint 1)</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2 <dim>(Hint 2)</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold><dim>, </bold><dim>opt1</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt0</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt1
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt2
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt3
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt4
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt5
+<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt6
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt5</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt7
+<cyan>│</fg>  <dim>◻</bold> <dim>opt8</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt6</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt8
+<cyan>│</fg>  <dim>◻</bold> <dim>opt9</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt8</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt9
+<cyan>│</fg>  <dim>◻</bold> <dim>opt10</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt11</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt9</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt10
+<cyan>│</fg>  <dim>◻</bold> <dim>opt11</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=6>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>◻</bold> <dim>opt10</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt11
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=7>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt2</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt3</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt4</bold>
+<cyan>│</fg>  <dim>...</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>...</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt7</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt8</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt9</bold>
+<cyan>│</fg>  <dim>◻</bold> <dim>opt10</bold>
+<cyan>│</fg>  <cyan>◻</fg> opt11
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=7>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt11",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>opt11</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "<cyan>◆</fg>  foo
+<cyan>◻</fg> opt0
+<dim>◻</bold> <dim>opt1</bold>
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "<green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > wraps cancelled state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0
+<cyan>│</fg>  <dim>◻</bold> <dim>Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0</bold>[29m
+<dim>│</fg>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > wraps long messages 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>   foo foo foo foo foo foo 
+<cyan>│</fg>  foo foo foo foo foo foo foo
+<cyan>│</fg>  <cyan>◻</fg> opt0
+<cyan>│</fg>  <dim>◻</bold> <dim>opt1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=4>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo foo foo foo foo foo foo
+<green>│</fg>   foo foo foo foo foo foo 
+<green>│</fg>  foo foo foo foo foo foo foo
+<dim>│</fg>  <dim>opt0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > wraps success state with long options 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>  <cyan>◻</fg> Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0 Option 0 Option 
+<cyan>│</fg>  0 Option 0
+<cyan>│</fg>  <dim>◻</bold> <dim>Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1 Option 1 Option </bold>
+<cyan>│</fg>  <dim>1 Option 1</bold>
+<cyan>└</fg>
+",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <green>◼</fg> Option 0 Option 0 Option ",
+  "<cursor.down count=9>",
+  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0 Option 0 Option 0 </bold>
+<dim>│</fg>  <dim>Option 0</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;

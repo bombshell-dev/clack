@@ -1,0 +1,283 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`log (isCI = false) > error > renders error message 1`] = `
+[
+  "<dim>│</fg>
+<red>■</fg>  error message
+",
+]
+`;
+
+exports[`log (isCI = false) > info > renders info message 1`] = `
+[
+  "<dim>│</fg>
+<blue>●</fg>  info message
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders empty lines correctly 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  foo
+<dim>│</fg>
+<dim>│</fg>  bar
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders empty lines with guide disabled 1`] = `
+[
+  "
+foo
+
+bar
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders empty message correctly 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders empty message with guide disabled 1`] = `
+[
+  "
+
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders message 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  message
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders message from array 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders message with custom spacing 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>  spaced message
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders message with custom symbols and spacing 1`] = `
+[
+  "<yellow>--</fg>
+<red>>></fg>  custom
+<yellow>--</fg>  symbols
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders message with guide disabled 1`] = `
+[
+  "
+standalone message
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders multiline message 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
+",
+]
+`;
+
+exports[`log (isCI = false) > message > renders multiline message with guide disabled 1`] = `
+[
+  "
+line 1
+line 2
+line 3
+",
+]
+`;
+
+exports[`log (isCI = false) > step > renders step message 1`] = `
+[
+  "<dim>│</fg>
+<green>◇</fg>  step message
+",
+]
+`;
+
+exports[`log (isCI = false) > success > renders success message 1`] = `
+[
+  "<dim>│</fg>
+<green>◆</fg>  success message
+",
+]
+`;
+
+exports[`log (isCI = false) > warn > renders warn message 1`] = `
+[
+  "<dim>│</fg>
+<yellow>▲</fg>  warn message
+",
+]
+`;
+
+exports[`log (isCI = true) > error > renders error message 1`] = `
+[
+  "<dim>│</fg>
+<red>■</fg>  error message
+",
+]
+`;
+
+exports[`log (isCI = true) > info > renders info message 1`] = `
+[
+  "<dim>│</fg>
+<blue>●</fg>  info message
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders empty lines correctly 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  foo
+<dim>│</fg>
+<dim>│</fg>  bar
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders empty lines with guide disabled 1`] = `
+[
+  "
+foo
+
+bar
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders empty message correctly 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders empty message with guide disabled 1`] = `
+[
+  "
+
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders message 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  message
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders message from array 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders message with custom spacing 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>
+<dim>│</fg>  spaced message
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders message with custom symbols and spacing 1`] = `
+[
+  "<yellow>--</fg>
+<red>>></fg>  custom
+<yellow>--</fg>  symbols
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders message with guide disabled 1`] = `
+[
+  "
+standalone message
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders multiline message 1`] = `
+[
+  "<dim>│</fg>
+<dim>│</fg>  line 1
+<dim>│</fg>  line 2
+<dim>│</fg>  line 3
+",
+]
+`;
+
+exports[`log (isCI = true) > message > renders multiline message with guide disabled 1`] = `
+[
+  "
+line 1
+line 2
+line 3
+",
+]
+`;
+
+exports[`log (isCI = true) > step > renders step message 1`] = `
+[
+  "<dim>│</fg>
+<green>◇</fg>  step message
+",
+]
+`;
+
+exports[`log (isCI = true) > success > renders success message 1`] = `
+[
+  "<dim>│</fg>
+<green>◆</fg>  success message
+",
+]
+`;
+
+exports[`log (isCI = true) > warn > renders warn message 1`] = `
+[
+  "<dim>│</fg>
+<yellow>▲</fg>  warn message
+",
+]
+`;

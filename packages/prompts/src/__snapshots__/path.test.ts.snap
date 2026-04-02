@@ -1,0 +1,643 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`text (isCI = false) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>/tmp/</bold>[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > cannot submit unknown value 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/_█
+<cyan>│</fg>  <yellow>No matches found</fg>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> /tmp/_█
+<yellow>│</fg>  <yellow>No matches found</fg>
+<yellow>│</fg>  <yellow>Please select a path</fg>
+<yellow>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > initialValue sets the value 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/bar█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > renders cancelled value if one set 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/x█
+<cyan>│</fg>  <yellow>No matches found</fg>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/xy█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>/tmp/xy</bold>[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > renders submitted value 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/ba█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > validation errors render and clear (using Error) 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/r█
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> /tmp/r█
+<yellow>│</fg>  <yellow>should be /tmp/bar</fg>
+<yellow>│</fg>  <green>●</fg> /tmp/root.zip
+<yellow>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/bar</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = false) > validation errors render and clear 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/r█
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> /tmp/r█
+<yellow>│</fg>  <yellow>should be /tmp/bar</fg>
+<yellow>│</fg>  <green>●</fg> /tmp/root.zip
+<yellow>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/bar</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > can cancel 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>/tmp/</bold>[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > cannot submit unknown value 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/_█
+<cyan>│</fg>  <yellow>No matches found</fg>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> /tmp/_█
+<yellow>│</fg>  <yellow>No matches found</fg>
+<yellow>│</fg>  <yellow>Please select a path</fg>
+<yellow>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > initialValue sets the value 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/bar█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > renders cancelled value if one set 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/x█
+<cyan>│</fg>  <yellow>No matches found</fg>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/xy█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<red>■</fg>  foo
+<dim>│</fg>  [9m<dim>/tmp/xy</bold>[29m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > renders message 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > renders submitted value 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=3>",
+  "<erase.line><cursor.left count=1>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/ba█",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > validation errors render and clear (using Error) 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/r█
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> /tmp/r█
+<yellow>│</fg>  <yellow>should be /tmp/bar</fg>
+<yellow>│</fg>  <green>●</fg> /tmp/root.zip
+<yellow>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/bar</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > validation errors render and clear 1`] = `
+[
+  "<cursor.hide>",
+  "<dim>│</fg>
+<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/root.zip</bold>
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/r█
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<yellow>▲</fg>  foo
+<yellow>│</fg>
+<yellow>│</fg>  <dim>Search:</bold> /tmp/r█
+<yellow>│</fg>  <yellow>should be /tmp/bar</fg>
+<yellow>│</fg>  <green>●</fg> /tmp/root.zip
+<yellow>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<yellow>└</fg>",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<cyan>◆</fg>  foo
+<cyan>│</fg>
+<cyan>│</fg>  <dim>Search:</bold> /tmp/█
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/bar</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/foo</bold>
+<cyan>│</fg>  <dim>○</bold> <dim>/tmp/hello</bold>
+<cyan>│</fg>  <green>●</fg> /tmp/root.zip
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "<cyan>│</fg>  <dim>Search:</bold> /tmp/b█
+<cyan>│</fg>  <green>●</fg> /tmp/bar
+<cyan>│</fg>  <dim>↑/↓</bold> to select • <dim>Enter:</bold> confirm • <dim>Type:</bold> to search
+<cyan>└</fg>",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "<green>◇</fg>  foo
+<dim>│</fg>  <dim>/tmp/bar</bold>",
+  "
+",
+  "<cursor.show>",
+]
+`;
