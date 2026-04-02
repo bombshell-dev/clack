@@ -11,7 +11,7 @@ Effortlessly build beautiful command-line apps 🪄 [Try the demo](https://stack
 - 🤏 80% smaller than other options
 - 💎 Beautiful, minimal UI
 - ✅ Simple API
-- 🧱 Comes with `text`, `confirm`, `select`, `multiselect`, and `spinner` components
+- 🧱 Comes with `text`, `password`, `confirm`, `date`, `select`, `autocomplete`, `selectKey`, `multiselect`, `path`, and `spinner` components
 
 ## Basics
 
@@ -63,6 +63,22 @@ const meaning = await text({
 });
 ```
 
+### Password
+
+The password component behaves like `text`, but masks the input as the user types.
+
+```js
+import { password } from '@clack/prompts';
+
+const secret = await password({
+  message: 'Set a password.',
+  mask: '*',
+  validate(value) {
+    if (!value || value.length < 8) return 'Password must be at least 8 characters.';
+  },
+});
+```
+
 ### Confirm
 
 The confirm component accepts a yes or no answer. The result is a boolean value of `true` or `false`.
@@ -72,6 +88,21 @@ import { confirm } from '@clack/prompts';
 
 const shouldContinue = await confirm({
   message: 'Do you want to continue?',
+});
+```
+
+### Date
+
+The date component accepts a calendar date and returns a `Date` value.
+
+```js
+import { date } from '@clack/prompts';
+
+const dueDate = await date({
+  message: 'Pick a due date.',
+  format: 'YMD',
+  minDate: new Date(Date.UTC(2026, 0, 1)),
+  maxDate: new Date(Date.UTC(2026, 11, 31)),
 });
 ```
 
@@ -88,6 +119,42 @@ const projectType = await select({
     { value: 'ts', label: 'TypeScript' },
     { value: 'js', label: 'JavaScript', disabled: true },
     { value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
+  ],
+});
+```
+
+### Autocomplete
+
+The autocomplete component lets a user filter a list by typing, then choose one option from the matching results. By default, matching uses each option's `label`, `hint`, and `value`. The result is the selected option's `value`.
+
+```js
+import { autocomplete } from '@clack/prompts';
+
+const framework = await autocomplete({
+  message: 'Pick a framework.',
+  placeholder: 'Type to search...',
+  options: [
+    { value: 'next', label: 'Next.js' },
+    { value: 'nuxt', label: 'Nuxt' },
+    { value: 'sveltekit', label: 'SvelteKit' },
+    { value: 'remix', label: 'Remix' },
+  ],
+});
+```
+
+### Select Key
+
+The `selectKey` component lets a user choose an option by pressing its single-character string `value` key directly.
+
+```js
+import { selectKey } from '@clack/prompts';
+
+const action = await selectKey({
+  message: 'Pick an action.',
+  options: [
+    { value: 'd', label: 'Deploy' },
+    { value: 't', label: 'Run tests' },
+    { value: 'q', label: 'Quit' },
   ],
 });
 ```
@@ -154,6 +221,19 @@ Set `showSubmit` to display an explicit submit button instead of double `Enter` 
 const bio = await multiline({
   message: 'Tell us about yourself.',
   showSubmit: true,
+});
+```
+
+### Path
+
+The path component offers filesystem path suggestions and returns the selected path as a string. When `directory: true` is set, only directories can be selected.
+
+```js
+import { path } from '@clack/prompts';
+
+const targetDir = await path({
+  message: 'Select an existing directory.',
+  directory: true,
 });
 ```
 
