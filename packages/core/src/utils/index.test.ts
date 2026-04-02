@@ -1,19 +1,13 @@
 import type { Key } from 'node:readline';
 import { cursor } from 'sisteransi';
-import { afterEach, describe, expect, test, vi } from 'vitest';
-import { block } from '../src/utils/index.js';
-import { MockReadable } from './mock-readable.js';
-import { MockWritable } from './mock-writable.js';
+import { describe, expect, test, vi } from 'vitest';
+import { block } from './index.js';
+import { createMocks } from '@bomb.sh/tools/test-utils';
 
 describe('utils', () => {
-	afterEach(() => {
-		vi.restoreAllMocks();
-	});
-
 	describe('block', () => {
 		test('clears output on keypress', () => {
-			const input = new MockReadable();
-			const output = new MockWritable();
+			const { input, output } = createMocks({ input: true, output: true });
 			const callback = block({ input, output });
 
 			const event: Key = {
@@ -26,8 +20,7 @@ describe('utils', () => {
 		});
 
 		test('clears output vertically when return pressed', () => {
-			const input = new MockReadable();
-			const output = new MockWritable();
+			const { input, output } = createMocks({ input: true, output: true });
 			const callback = block({ input, output });
 
 			const event: Key = {
@@ -40,8 +33,7 @@ describe('utils', () => {
 		});
 
 		test('ignores additional keypresses after dispose', () => {
-			const input = new MockReadable();
-			const output = new MockWritable();
+			const { input, output } = createMocks({ input: true, output: true });
 			const callback = block({ input, output });
 
 			const event: Key = {
@@ -55,8 +47,7 @@ describe('utils', () => {
 		});
 
 		test('exits on ctrl-c', () => {
-			const input = new MockReadable();
-			const output = new MockWritable();
+			const { input, output } = createMocks({ input: true, output: true });
 			// purposely don't keep the callback since we would exit the process
 			block({ input, output });
 			const spy = vi.spyOn(process, 'exit').mockImplementation((() => {
@@ -73,8 +64,7 @@ describe('utils', () => {
 		});
 
 		test('does not clear if overwrite=false', () => {
-			const input = new MockReadable();
-			const output = new MockWritable();
+			const { input, output } = createMocks({ input: true, output: true });
 			const callback = block({ input, output, overwrite: false });
 
 			const event: Key = {

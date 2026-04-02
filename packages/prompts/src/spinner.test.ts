@@ -1,36 +1,25 @@
 import { EventEmitter } from 'node:stream';
 import { styleText } from 'node:util';
 import { getColumns, updateSettings } from '@clack/core';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from '../src/index.js';
-import { MockWritable } from './test-utils.js';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import * as prompts from './index.js';
+import { createMocks, type Mocks } from '@bomb.sh/tools/test-utils';
 
 describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
-	let originalCI: string | undefined;
-	let output: MockWritable;
-
-	beforeAll(() => {
-		originalCI = process.env.CI;
-		process.env.CI = isCI;
-	});
-
-	afterAll(() => {
-		process.env.CI = originalCI;
-	});
+	let mocks: Mocks<{ output: true }>;
 
 	beforeEach(() => {
-		output = new MockWritable();
+		mocks = createMocks({ output: true, env: { CI: isCI } });
 		vi.useFakeTimers();
 	});
 
 	afterEach(() => {
 		vi.useRealTimers();
-		vi.restoreAllMocks();
 		updateSettings({ withGuide: true });
 	});
 
 	test('returns spinner API', () => {
-		const api = prompts.spinner({ output });
+		const api = prompts.spinner({ output: mocks.output });
 
 		expect(api.stop).toBeTypeOf('function');
 		expect(api.start).toBeTypeOf('function');
@@ -39,7 +28,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 	describe('start', () => {
 		test('renders frames at interval', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -50,11 +39,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders message', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start('foo');
 
@@ -62,11 +51,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders timer when indicator is "timer"', () => {
-			const result = prompts.spinner({ output, indicator: 'timer' });
+			const result = prompts.spinner({ output: mocks.output, indicator: 'timer' });
 
 			result.start();
 
@@ -74,12 +63,12 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('handles wrapping', () => {
-			const columns = getColumns(output);
-			const result = prompts.spinner({ output });
+			const columns = getColumns(mocks.output);
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start('x'.repeat(columns + 10));
 
@@ -87,11 +76,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop('stopped');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('handles multi-line messages', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start('foo\nbar\nbaz');
 
@@ -99,13 +88,13 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 	});
 
 	describe('stop', () => {
 		test('renders submit symbol and stops spinner', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -115,11 +104,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			vi.advanceTimersByTime(80);
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders cancel symbol when calling cancel()', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -127,11 +116,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.cancel();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders error symbol when calling error()', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -139,11 +128,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.error();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders message', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -151,11 +140,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop('foo');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders message without removing dots', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -163,11 +152,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop('foo.');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders message when cancelling', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -175,11 +164,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.cancel('too dizzy — spinning cancelled');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('renders message when erroring', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -187,11 +176,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.error('error: spun too fast!');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('does not throw if called before start', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			expect(() => result.stop()).not.toThrow();
 		});
@@ -199,7 +188,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 	describe('message', () => {
 		test('sets message for next frame', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start();
 
@@ -211,13 +200,13 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 	});
 
 	describe('indicator customization', () => {
 		test('custom frames', () => {
-			const result = prompts.spinner({ output, frames: ['🐴', '🦋', '🐙', '🐶'] });
+			const result = prompts.spinner({ output: mocks.output, frames: ['🐴', '🦋', '🐙', '🐶'] });
 
 			result.start();
 
@@ -228,11 +217,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('custom frames with lots of frame have consistent ellipsis display', () => {
-			const result = prompts.spinner({ output, frames: Object.keys(Array(10).fill(0)) });
+			const result = prompts.spinner({ output: mocks.output, frames: Object.keys(Array(10).fill(0)) });
 
 			result.start();
 
@@ -242,11 +231,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('custom delay', () => {
-			const result = prompts.spinner({ output, delay: 200 });
+			const result = prompts.spinner({ output: mocks.output, delay: 200 });
 
 			result.start();
 
@@ -257,11 +246,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('custom frame style', () => {
-			const result = prompts.spinner({ output, styleFrame: (text) => styleText('red', text) });
+			const result = prompts.spinner({ output: mocks.output, styleFrame: (text) => styleText('red', text) });
 
 			result.start();
 
@@ -271,7 +260,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 	});
 
@@ -297,36 +286,36 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 		});
 
 		test('uses default cancel message', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 			result.start('Test operation');
 
 			processEmitter.emit('SIGINT');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('uses custom cancel message when provided directly', () => {
 			const result = prompts.spinner({
-				output,
+				output: mocks.output,
 				cancelMessage: 'Custom cancel message',
 			});
 			result.start('Test operation');
 
 			processEmitter.emit('SIGINT');
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('uses custom error message when provided directly', () => {
 			const result = prompts.spinner({
-				output,
+				output: mocks.output,
 				errorMessage: 'Custom error message',
 			});
 			result.start('Test operation');
 
 			processEmitter.emit('exit', 2);
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 
 		test('uses global custom cancel message from settings', () => {
@@ -336,12 +325,12 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				// Set custom message
 				prompts.settings.messages.cancel = 'Global cancel message';
 
-				const result = prompts.spinner({ output });
+				const result = prompts.spinner({ output: mocks.output });
 				result.start('Test operation');
 
 				processEmitter.emit('SIGINT');
 
-				expect(output.buffer).toMatchSnapshot();
+				expect(mocks.output.buffer).toMatchSnapshot();
 			} finally {
 				// Reset to original
 				prompts.settings.messages.cancel = originalCancelMessage;
@@ -356,12 +345,12 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				// Set custom message
 				prompts.settings.messages.error = 'Global error message';
 
-				const result = prompts.spinner({ output });
+				const result = prompts.spinner({ output: mocks.output });
 				result.start('Test operation');
 
 				processEmitter.emit('exit', 2);
 
-				expect(output.buffer).toMatchSnapshot();
+				expect(mocks.output.buffer).toMatchSnapshot();
 			} finally {
 				// Reset to original
 				prompts.settings.messages.error = originalErrorMessage;
@@ -377,13 +366,13 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				prompts.settings.messages.error = 'Global error message';
 
 				const result = prompts.spinner({
-					output,
+					output: mocks.output,
 					errorMessage: 'Spinner error message',
 				});
 				result.start('Test operation');
 
 				processEmitter.emit('exit', 2);
-				expect(output.buffer).toMatchSnapshot();
+				expect(mocks.output.buffer).toMatchSnapshot();
 			} finally {
 				// Reset to original values
 				prompts.settings.messages.error = originalErrorMessage;
@@ -399,13 +388,13 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				prompts.settings.messages.cancel = 'Global cancel message';
 
 				const result = prompts.spinner({
-					output,
+					output: mocks.output,
 					cancelMessage: 'Spinner cancel message',
 				});
 				result.start('Test operation');
 
 				processEmitter.emit('SIGINT');
-				expect(output.buffer).toMatchSnapshot();
+				expect(mocks.output.buffer).toMatchSnapshot();
 			} finally {
 				// Reset to original values
 				prompts.settings.messages.cancel = originalCancelMessage;
@@ -416,7 +405,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 	test('can be aborted by a signal', async () => {
 		const controller = new AbortController();
 		const result = prompts.spinner({
-			output,
+			output: mocks.output,
 			signal: controller.signal,
 		});
 
@@ -424,11 +413,11 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 		controller.abort();
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('withGuide: false removes guide', () => {
-		const result = prompts.spinner({ output, withGuide: false });
+		const result = prompts.spinner({ output: mocks.output, withGuide: false });
 
 		result.start('foo');
 
@@ -436,13 +425,13 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 		result.stop();
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('global withGuide: false removes guide', () => {
 		updateSettings({ withGuide: false });
 
-		const result = prompts.spinner({ output });
+		const result = prompts.spinner({ output: mocks.output });
 
 		result.start('foo');
 
@@ -450,12 +439,12 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 		result.stop();
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	describe('clear', () => {
 		test('stops and clears the spinner from the output', () => {
-			const result = prompts.spinner({ output });
+			const result = prompts.spinner({ output: mocks.output });
 
 			result.start('Loading');
 
@@ -463,7 +452,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.clear();
 
-			expect(output.buffer).toMatchSnapshot();
+			expect(mocks.output.buffer).toMatchSnapshot();
 		});
 	});
 });

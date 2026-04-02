@@ -1,29 +1,16 @@
 import { updateSettings } from '@clack/core';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import * as prompts from '../src/index.js';
-import { MockReadable, MockWritable } from './test-utils.js';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
+import * as prompts from './index.js';
+import { createMocks, type Mocks } from '@bomb.sh/tools/test-utils';
 
 describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
-	let originalCI: string | undefined;
-	let output: MockWritable;
-	let input: MockReadable;
-
-	beforeAll(() => {
-		originalCI = process.env.CI;
-		process.env.CI = isCI;
-	});
-
-	afterAll(() => {
-		process.env.CI = originalCI;
-	});
+	let mocks: Mocks<{ input: true; output: true }>;
 
 	beforeEach(() => {
-		output = new MockWritable();
-		input = new MockReadable();
+		mocks = createMocks({ input: true, output: true, env: { CI: isCI } });
 	});
 
 	afterEach(() => {
-		vi.restoreAllMocks();
 		updateSettings({ withGuide: true });
 	});
 
@@ -34,15 +21,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'return' });
+		mocks.input.emit('keypress', '', { name: 'return' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe(undefined);
 	});
 
@@ -53,15 +40,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'b', { name: 'b' });
+		mocks.input.emit('keypress', 'b', { name: 'b' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe('b');
 	});
 
@@ -72,15 +59,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'escape', { name: 'escape' });
+		mocks.input.emit('keypress', 'escape', { name: 'escape' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(prompts.isCancel(value)).toBe(true);
 	});
 
@@ -91,15 +78,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option A', value: 'A' },
 				{ label: 'Option B', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe('A');
 	});
 
@@ -110,15 +97,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a', shift: true });
+		mocks.input.emit('keypress', 'a', { name: 'a', shift: true });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe('a');
 	});
 
@@ -130,16 +117,16 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option B', value: 'b' },
 			],
 			caseSensitive: true,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a' });
-		input.emit('keypress', '', { name: 'escape' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', '', { name: 'escape' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(prompts.isCancel(value)).toBe(true);
 	});
 
@@ -152,20 +139,20 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option B', value: 'b' },
 			],
 			caseSensitive: true,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a', shift: true });
+		mocks.input.emit('keypress', 'a', { name: 'a', shift: true });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe('A');
 	});
 
 	test('long option labels are wrapped correctly', async () => {
-		output.columns = 40;
+		mocks.output.columns = 40;
 
 		const result = prompts.selectKey({
 			message: 'Select an option:',
@@ -176,20 +163,20 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				},
 				{ label: 'Short label', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
 
 		const value = await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 		expect(value).toBe('a');
 	});
 
 	test('long cancelled labels are wrapped correctly', async () => {
-		output.columns = 40;
+		mocks.output.columns = 40;
 
 		const result = prompts.selectKey({
 			message: 'Select an option:',
@@ -200,15 +187,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				},
 				{ label: 'Short label', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', '', { name: 'escape' });
+		mocks.input.emit('keypress', '', { name: 'escape' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('withGuide: false removes guide', async () => {
@@ -219,15 +206,15 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option B', value: 'b' },
 			],
 			withGuide: false,
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('global withGuide: false removes guide', async () => {
@@ -239,19 +226,19 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				{ label: 'Option A', value: 'a' },
 				{ label: 'Option B', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 
 	test('long submitted labels are wrapped correctly', async () => {
-		output.columns = 40;
+		mocks.output.columns = 40;
 
 		const result = prompts.selectKey({
 			message: 'Select an option:',
@@ -262,14 +249,14 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				},
 				{ label: 'Short label', value: 'b' },
 			],
-			input,
-			output,
+			input: mocks.input,
+			output: mocks.output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a' });
+		mocks.input.emit('keypress', 'a', { name: 'a' });
 
 		await result;
 
-		expect(output.buffer).toMatchSnapshot();
+		expect(mocks.output.buffer).toMatchSnapshot();
 	});
 });
