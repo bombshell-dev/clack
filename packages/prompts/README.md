@@ -262,7 +262,7 @@ p.start('Downloading archive');
 // Do download here
 p.advance(3, 'Downloading (30%)');
 // ...
-p.advance(8, 'Downloading (80%)');
+p.advance(5, 'Downloading (80%)');
 // ...
 p.stop('Archive downloaded');
 ```
