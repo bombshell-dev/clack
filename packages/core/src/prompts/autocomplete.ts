@@ -51,6 +51,13 @@ export interface AutocompleteOptions<T extends OptionLike>
 	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
+	/**
+	 * When set (non-empty), pressing Tab with no input fills the field with this value
+	 * and runs the normal filter/selection logic so the user can confirm with Enter.
+	 * Tab only fills the input when the placeholder matches at least one option under
+	 * the prompt's filter (so the value remains selectable).
+	 */
+	placeholder?: string;
 }
 
 export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
@@ -64,8 +71,9 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	focusedValue: T['value'] | undefined;
 	#cursor = 0;
 	#lastUserInput = '';
-	#filterFn: FilterFunction<T>;
+	#filterFn: FilterFunction<T> | undefined;
 	#options: T[] | (() => T[]);
+	#placeholder: string | undefined;
 
 	get cursor(): number {
 		return this.#cursor;
@@ -94,10 +102,12 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		super(opts);
 
 		this.#options = opts.options;
+		this.#placeholder = opts.placeholder;
 		const options = this.options;
 		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
-		this.#filterFn = opts.filter ?? defaultFilter;
+		this.#filterFn =
+			typeof opts.options === 'function' ? opts.filter : (opts.filter ?? defaultFilter);
 		let initialValues: unknown[] | undefined;
 		if (opts.initialValue && Array.isArray(opts.initialValue)) {
 			if (this.multiple) {
@@ -142,6 +152,26 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		const isUpKey = key.name === 'up';
 		const isDownKey = key.name === 'down';
 		const isReturnKey = key.name === 'return';
+
+		// Tab with empty input and placeholder: fill input with placeholder to trigger autocomplete
+		// Only when the placeholder matches at least one (non-disabled) option so the value remains selectable
+		const isEmptyOrOnlyTab = this.userInput === '' || this.userInput === '\t';
+		const placeholder = this.#placeholder;
+		const options = this.options;
+		const placeholderMatchesOption =
+			placeholder !== undefined &&
+			placeholder !== '' &&
+			options.some(
+				(opt) => !opt.disabled && (this.#filterFn ? this.#filterFn(placeholder, opt) : true)
+			);
+		if (key.name === 'tab' && isEmptyOrOnlyTab && placeholderMatchesOption) {
+			if (this.userInput === '\t') {
+				this._clearUserInput();
+			}
+			this._setUserInput(placeholder, true);
+			this.isNavigating = false;
+			return;
+		}
 
 		// Start navigation mode with up/down arrows
 		if (isUpKey || isDownKey) {
@@ -198,8 +228,8 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 			const options = this.options;
 
-			if (value) {
-				this.filteredOptions = options.filter((opt) => this.#filterFn(value, opt));
+			if (value && this.#filterFn) {
+				this.filteredOptions = options.filter((opt) => this.#filterFn?.(value, opt));
 			} else {
 				this.filteredOptions = [...options];
 			}

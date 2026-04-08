@@ -7,10 +7,15 @@ on:
   pull_request:
   workflow_dispatch:
 
+
 jobs:
   preview:
     if: github.repository_owner == 'bombshell-dev'
     uses: bombshell-dev/automation/.github/workflows/preview.yml@main
+    permissions: 
+      contents: write
+      pull-requests: write
+      id-token: write
     with:
       publish: "./packages/*"
       template: "./examples/*"

@@ -21,7 +21,6 @@ export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
 	input?: Readable;
 	output?: Writable;
-	debug?: boolean;
 	signal?: AbortSignal;
 }
 
@@ -179,6 +178,10 @@ export default class Prompt<TValue> {
 		return char === '\t';
 	}
 
+	protected _shouldSubmit(_char: string | undefined, _key: Key): boolean {
+		return true;
+	}
+
 	protected _setValue(value: TValue | undefined): void {
 		this.value = value;
 		this.emit('value', this.value);
@@ -225,7 +228,7 @@ export default class Prompt<TValue> {
 		// Call the key event handler and emit the key event
 		this.emit('key', char?.toLowerCase(), key);
 
-		if (key?.name === 'return') {
+		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {
 				const problem = this.opts.validate(this.value);
 				if (problem) {

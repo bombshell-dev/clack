@@ -44,12 +44,16 @@ export const path = (opts: PathOptions) => {
 					searchPath = dirname(userInput);
 				} else {
 					const stat = lstatSync(userInput);
-					if (stat.isDirectory()) {
+					if (stat.isDirectory() && (!opts.directory || userInput.endsWith('/'))) {
 						searchPath = userInput;
 					} else {
 						searchPath = dirname(userInput);
 					}
 				}
+
+				// Strip trailing slash so startsWith matches the directory itself among its siblings
+				const prefix =
+					userInput.length > 1 && userInput.endsWith('/') ? userInput.slice(0, -1) : userInput;
 
 				const items = readdirSync(searchPath)
 					.map((item) => {
@@ -62,9 +66,9 @@ export const path = (opts: PathOptions) => {
 						};
 					})
 					.filter(
-						({ path, isDirectory }) =>
-							path.startsWith(userInput) && (opts.directory || !isDirectory)
+						({ path, isDirectory }) => path.startsWith(prefix) && (isDirectory || !opts.directory)
 					);
+
 				return items.map((item) => ({
 					value: item.path,
 				}));

@@ -150,6 +150,29 @@ exports[`multiselect (isCI = false) > can submit without selection when required
 ]
 `;
 
+exports[`multiselect (isCI = false) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "[32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [
   "<cursor.hide>",
@@ -636,6 +659,29 @@ exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 ]
 `;
 
+exports[`multiselect (isCI = false) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "[32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`multiselect (isCI = false) > wraps cancelled state with long options 1`] = `
 [
   "<cursor.hide>",
@@ -878,6 +924,29 @@ exports[`multiselect (isCI = true) > can submit without selection when required 
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mnone[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "[32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
   "
 ",
   "<cursor.show>",
@@ -1364,6 +1433,29 @@ exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt11[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "[32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
   "
 ",
   "<cursor.show>",

@@ -146,6 +146,95 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('directory mode only allows selecting directories', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'f', { name: 'f' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo');
+	});
+
+	test('directory mode submits initial directory value on enter', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			initialValue: '/tmp',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp');
+	});
+
+	test('directory mode traverses into child when trailing slash entered', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			initialValue: '/tmp',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '/', { name: '/' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo');
+	});
+
+	test('directory mode can navigate from initial directory to child directory', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			initialValue: '/tmp/',
+			directory: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'f', { name: 'f' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo');
+	});
+
+	test('default mode allows selecting files', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'r', { name: 'r' });
+		input.emit('keypress', 'o', { name: 'o' });
+		input.emit('keypress', 'o', { name: 'o' });
+		input.emit('keypress', 't', { name: 't' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/root.zip');
+	});
+
 	test('validation errors render and clear', async () => {
 		const result = prompts.path({
 			message: 'foo',

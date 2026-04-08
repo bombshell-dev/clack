@@ -23,6 +23,7 @@ describe.each(['true', 'false'])('groupMultiselect (isCI = %s)', (isCI) => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		prompts.updateSettings({ withGuide: true });
 	});
 
 	test('renders message with options', async () => {
@@ -365,6 +366,49 @@ describe.each(['true', 'false'])('groupMultiselect (isCI = %s)', (isCI) => {
 		controller.abort();
 		const value = await result;
 		expect(prompts.isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('withGuide: false removes guide', async () => {
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			withGuide: false,
+			options: {
+				group1: [{ value: 'group1value0' }, { value: 'group1value1' }],
+			},
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['group1value0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('global withGuide: false removes guide', async () => {
+		prompts.updateSettings({ withGuide: false });
+
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			options: {
+				group1: [{ value: 'group1value0' }, { value: 'group1value1' }],
+			},
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['group1value0']);
 		expect(output.buffer).toMatchSnapshot();
 	});
 });

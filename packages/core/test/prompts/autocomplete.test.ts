@@ -197,4 +197,79 @@ describe('AutocompletePrompt', () => {
 		expect(instance.selectedValues).to.deep.equal([]);
 		expect(result).to.deep.equal([]);
 	});
+
+	test('Tab with empty input and placeholder fills input and submit returns matching option', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			placeholder: 'apple',
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const result = await promise;
+
+		expect(instance.userInput).to.equal('apple');
+		expect(result).to.equal('apple');
+	});
+
+	test('options as function skips default filter', () => {
+		const dynamicOptions = [
+			{ value: 'apple', label: 'Apple' },
+			{ value: 'banana', label: 'Banana' },
+		];
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: () => dynamicOptions,
+		});
+
+		instance.prompt();
+
+		input.emit('keypress', 'z', { name: 'z' });
+
+		expect(instance.filteredOptions).toEqual(dynamicOptions);
+	});
+
+	test('options as function applies user-provided filter', () => {
+		const dynamicOptions = [
+			{ value: 'apple', label: 'Apple' },
+			{ value: 'banana', label: 'Banana' },
+			{ value: 'cherry', label: 'Cherry' },
+		];
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: () => dynamicOptions,
+			filter: (search, opt) => (opt.label ?? '').toLowerCase().endsWith(search.toLowerCase()),
+		});
+
+		instance.prompt();
+
+		input.emit('keypress', 'a', { name: 'a' });
+
+		// 'endsWith' matches Banana but not Apple or Cherry
+		expect(instance.filteredOptions).toEqual([{ value: 'banana', label: 'Banana' }]);
+	});
+
+	test('Tab with non-matching placeholder does not fill input', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			placeholder: 'Type to search...',
+		});
+
+		instance.prompt();
+		input.emit('keypress', '\t', { name: 'tab' });
+
+		// Placeholder does not match any option, so input must not be filled with placeholder
+		expect(instance.userInput).not.to.equal('Type to search...');
+	});
 });

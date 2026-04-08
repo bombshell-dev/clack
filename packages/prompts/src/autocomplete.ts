@@ -85,6 +85,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
+		placeholder: opts.placeholder,
 		filter:
 			opts.filter ??
 			((search: string, opt: Option<Value>) => {
@@ -267,6 +268,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	const prompt = new AutocompletePrompt<Option<Value>>({
 		options: opts.options,
 		multiple: true,
+		placeholder: opts.placeholder,
 		filter:
 			opts.filter ??
 			((search, opt) => {
@@ -283,8 +285,11 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		input: opts.input,
 		output: opts.output,
 		render() {
+			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and symbol
-			const title = `${styleText('gray', S_BAR)}\n${symbol(this.state)}  ${opts.message}\n`;
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${
+				opts.message
+			}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -310,13 +315,21 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${styleText('gray', S_BAR)}  ${styleText('dim', `${this.selectedValues.length} items selected`)}`;
+					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${styleText(
+						'dim',
+						`${this.selectedValues.length} items selected`
+					)}`;
 				}
 				case 'cancel': {
-					return `${title}${styleText('gray', S_BAR)}  ${styleText(['strikethrough', 'dim'], userInput)}`;
+					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${styleText(
+						['strikethrough', 'dim'],
+						userInput
+					)}`;
 				}
 				default: {
 					const barStyle = this.state === 'error' ? 'yellow' : 'cyan';
+					const guidePrefix = hasGuide ? `${styleText(barStyle, S_BAR)}  ` : '';
+					const guidePrefixEnd = hasGuide ? styleText(barStyle, S_BAR_END) : '';
 					// Instructions
 					const instructions = [
 						`${styleText('dim', '↑/↓')} to navigate`,
@@ -328,25 +341,20 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// No results message
 					const noResults =
 						this.filteredOptions.length === 0 && userInput
-							? [`${styleText(barStyle, S_BAR)}  ${styleText('yellow', 'No matches found')}`]
+							? [`${guidePrefix}${styleText('yellow', 'No matches found')}`]
 							: [];
 
 					const errorMessage =
-						this.state === 'error'
-							? [`${styleText(barStyle, S_BAR)}  ${styleText('yellow', this.error)}`]
-							: [];
+						this.state === 'error' ? [`${guidePrefix}${styleText('yellow', this.error)}`] : [];
 
 					// Calculate header and footer line counts for rowPadding
 					const headerLines = [
-						...`${title}${styleText(barStyle, S_BAR)}`.split('\n'),
-						`${styleText(barStyle, S_BAR)}  ${styleText('dim', 'Search:')} ${searchText}${matches}`,
+						...`${title}${hasGuide ? styleText(barStyle, S_BAR) : ''}`.split('\n'),
+						`${guidePrefix}${styleText('dim', 'Search:')} ${searchText}${matches}`,
 						...noResults,
 						...errorMessage,
 					];
-					const footerLines = [
-						`${styleText(barStyle, S_BAR)}  ${instructions.join(' • ')}`,
-						styleText(barStyle, S_BAR_END),
-					];
+					const footerLines = [`${guidePrefix}${instructions.join(' • ')}`, guidePrefixEnd];
 
 					// Get limited options for display
 					const displayOptions = limitOptions({
@@ -362,7 +370,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Build the prompt display
 					return [
 						...headerLines,
-						...displayOptions.map((option) => `${styleText(barStyle, S_BAR)}  ${option}`),
+						...displayOptions.map((option) => `${guidePrefix}${option}`),
 						...footerLines,
 					].join('\n');
 				}

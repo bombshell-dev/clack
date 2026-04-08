@@ -23,6 +23,7 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		prompts.updateSettings({ withGuide: true });
 	});
 
 	test('renders message', async () => {
@@ -387,6 +388,43 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 				{ value: 'opt0', label: 'Option 0 '.repeat(10).trim() },
 				{ value: 'opt1', label: 'Option 1 '.repeat(10).trim() },
 			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['opt0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('withGuide: false removes guide', async () => {
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			withGuide: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['opt0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('global withGuide: false removes guide', async () => {
+		prompts.updateSettings({ withGuide: false });
+
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
 			input,
 			output,
 		});

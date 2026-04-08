@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { autocomplete, autocompleteMultiselect } from '../src/autocomplete.js';
-import { isCancel } from '../src/index.js';
+import { isCancel, updateSettings } from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 describe('autocomplete', () => {
@@ -21,6 +21,7 @@ describe('autocomplete', () => {
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		updateSettings({ withGuide: true });
 	});
 
 	test('renders initial UI with message and instructions', async () => {
@@ -137,6 +138,37 @@ describe('autocomplete', () => {
 		expect(value).toBe('apple');
 	});
 
+	test('Tab with placeholder fills input and Enter submits matching option', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'apple',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(value).toBe('apple');
+	});
+
+	test('Tab with non-matching placeholder does not fill input', async () => {
+		const result = autocomplete({
+			message: 'Select a fruit',
+			placeholder: 'Type to search...',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		// Tab did not fill input with placeholder (no option matches), so Enter submits first option
+		expect(value).toBe('apple');
+	});
+
 	test('supports initialValue', async () => {
 		const result = autocomplete({
 			message: 'Select a fruit',
@@ -166,6 +198,45 @@ describe('autocomplete', () => {
 		controller.abort();
 		const value = await result;
 		expect(isCancel(value)).toBe(true);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('autocompleteMultiselect respects withGuide: false', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			withGuide: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['banana']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('autocompleteMultiselect respects global withGuide: false', async () => {
+		updateSettings({ withGuide: false });
+
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['banana']);
 		expect(output.buffer).toMatchSnapshot();
 	});
 
@@ -409,6 +480,21 @@ describe('autocompleteMultiselect', () => {
 		const value = await result;
 		expect(value).toEqual([]);
 		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('Tab with placeholder fills input; Enter submits current selection', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			placeholder: 'apple',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const value = await result;
+		expect(value).toEqual([]);
 	});
 });
 
