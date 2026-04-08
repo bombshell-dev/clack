@@ -119,6 +119,21 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('raw = true replaces carriage return spinner updates', async () => {
+			const log = prompts.taskLog({
+				input,
+				output,
+				title: 'foo',
+			});
+
+			log.message('◒  Cloning repository', { raw: true });
+			log.message('\r◐  Cloning repository', { raw: true });
+			log.message('\r◓  Cloning repository', { raw: true });
+			log.message('\r◇  Repository cloned\n', { raw: true });
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('prints empty lines', async () => {
 			const log = prompts.taskLog({
 				input,
@@ -173,6 +188,38 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 
 			log.message('line 0');
 			log.message('line 1');
+
+			log.error('some error!', { showLog: false });
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('renders latest carriage return spinner line with error', () => {
+			const log = prompts.taskLog({
+				input,
+				output,
+				title: 'foo',
+			});
+
+			log.message('◒  Cloning repository', { raw: true });
+			log.message('\r◐  Cloning repository', { raw: true });
+			log.message('\r◓  Cloning repository', { raw: true });
+
+			log.error('some error!');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('clears carriage return spinner line when showLog = false', () => {
+			const log = prompts.taskLog({
+				input,
+				output,
+				title: 'foo',
+			});
+
+			log.message('◒  Cloning repository', { raw: true });
+			log.message('\r◐  Cloning repository', { raw: true });
+			log.message('\r◓  Cloning repository', { raw: true });
 
 			log.error('some error!', { showLog: false });
 

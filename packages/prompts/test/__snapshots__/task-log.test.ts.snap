@@ -1,5 +1,28 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`taskLog (isCI = false) > error > clears carriage return spinner line when showLog = false 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [2m◒  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◐  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◓  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m
+[31m■[39m  some error!
+",
+]
+`;
+
 exports[`taskLog (isCI = false) > error > clears output if showLog = false 1`] = `
 [
   "[90m│[39m
@@ -17,6 +40,32 @@ exports[`taskLog (isCI = false) > error > clears output if showLog = false 1`] =
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[90m│[39m
 [31m■[39m  some error!
+",
+]
+`;
+
+exports[`taskLog (isCI = false) > error > renders latest carriage return spinner line with error 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [2m◒  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◐  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◓  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m
+[31m■[39m  some error!
+",
+  "[90m│[39m
+[90m│[39m  [2m◓  Cloning repository[22m
 ",
 ]
 `;
@@ -712,6 +761,28 @@ exports[`taskLog (isCI = false) > message > raw = true appends message text unti
 ]
 `;
 
+exports[`taskLog (isCI = false) > message > raw = true replaces carriage return spinner updates 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "[90m│[39m  [2m◒  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◐  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◓  Cloning repository[22m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m  [2m◇  Repository cloned[22m
+",
+]
+`;
+
 exports[`taskLog (isCI = false) > message > raw = true works when mixed with non-raw messages 1`] = `
 [
   "[90m│[39m
@@ -1164,6 +1235,23 @@ exports[`taskLog (isCI = false) > writes message header 1`] = `
 ]
 `;
 
+exports[`taskLog (isCI = true) > error > clears carriage return spinner line when showLog = false 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m
+[31m■[39m  some error!
+",
+]
+`;
+
 exports[`taskLog (isCI = true) > error > clears output if showLog = false 1`] = `
 [
   "[90m│[39m
@@ -1176,6 +1264,26 @@ exports[`taskLog (isCI = true) > error > clears output if showLog = false 1`] = 
   "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "[90m│[39m
 [31m■[39m  some error!
+",
+]
+`;
+
+exports[`taskLog (isCI = true) > error > renders latest carriage return spinner line with error 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "[90m│[39m
+[31m■[39m  some error!
+",
+  "[90m│[39m
+[90m│[39m  [2m◓  Cloning repository[22m
 ",
 ]
 `;
@@ -1427,6 +1535,20 @@ exports[`taskLog (isCI = true) > message > raw = true appends message text until
 ",
   "[90m│[39m
 ",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
+]
+`;
+
+exports[`taskLog (isCI = true) > message > raw = true replaces carriage return spinner updates 1`] = `
+[
+  "[90m│[39m
+",
+  "[32m◇[39m  foo
+",
+  "[90m│[39m
+",
+  "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
   "<erase.line><cursor.up count=1><erase.line><cursor.left count=1>",
 ]

@@ -41,6 +41,24 @@ const stripDestructiveANSI = (input: string): string => {
 	return input.replace(/\x1b\[(?:\d+;)*\d*[ABCDEFGHfJKSTsu]|\x1b\[(s|u)/g, '');
 };
 
+const replaceLastLine = (input: string, replacement: string): string => {
+	const lastNewline = input.lastIndexOf('\n');
+	if (lastNewline === -1) {
+		return replacement;
+	}
+	return `${input.slice(0, lastNewline + 1)}${replacement}`;
+};
+
+const appendRawMessage = (input: string, msg: string, prependNewline: boolean): string => {
+	let next = prependNewline ? `${input}\n` : input;
+	const [first, ...overwrites] = msg.split('\r');
+	next += first;
+	for (const overwrite of overwrites) {
+		next = replaceLastLine(next, overwrite);
+	}
+	return next;
+};
+
 /**
  * Renders a log which clears on success and remains on failure
  */
@@ -139,11 +157,22 @@ export const taskLog = (opts: TaskLogOptions) => {
 	};
 	const message = (buffer: BufferEntry, msg: string, mopts?: TaskLogMessageOptions) => {
 		clear(false);
-		if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer.value !== '') {
-			buffer.value += '\n';
+		const sanitized = stripDestructiveANSI(msg);
+		if (mopts?.raw === true) {
+			const rawMessage = sanitized.replace(/\n+$/g, '');
+			buffer.value = appendRawMessage(
+				buffer.value,
+				rawMessage,
+				buffer.value !== '' && !lastMessageWasRaw && !rawMessage.startsWith('\n') && !rawMessage.startsWith('\r')
+			);
+			lastMessageWasRaw = !sanitized.endsWith('\n');
+		} else {
+			if (buffer.value !== '') {
+				buffer.value += '\n';
+			}
+			buffer.value += sanitized;
+			lastMessageWasRaw = false;
 		}
-		buffer.value += stripDestructiveANSI(msg);
-		lastMessageWasRaw = mopts?.raw === true;
 		if (opts.limit !== undefined) {
 			const lines = buffer.value.split('\n');
 			const linesToRemove = lines.length - opts.limit;
