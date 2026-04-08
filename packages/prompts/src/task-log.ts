@@ -59,6 +59,13 @@ const appendRawMessage = (input: string, msg: string, prependNewline: boolean): 
 	return next;
 };
 
+const collapseCarriageReturnUpdates = (input: string): string => {
+	return input
+		.split('\n')
+		.map((line) => line.slice(line.lastIndexOf('\r') + 1))
+		.join('\n');
+};
+
 /**
  * Renders a log which clears on success and remains on failure
  */
@@ -170,7 +177,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 			if (buffer.value !== '') {
 				buffer.value += '\n';
 			}
-			buffer.value += sanitized;
+			buffer.value += collapseCarriageReturnUpdates(sanitized);
 			lastMessageWasRaw = false;
 		}
 		if (opts.limit !== undefined) {

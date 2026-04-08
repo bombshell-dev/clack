@@ -134,6 +134,23 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('raw = false keeps only the last carriage return update when success shows the log', async () => {
+			const log = prompts.taskLog({
+				input,
+				output,
+				title: 'foo',
+			});
+
+			log.message('◒  Cloning repository\r◐  Cloning repository\r◓  Cloning repository\r◇  Repository cloned');
+			log.success('done!', { showLog: true });
+
+			const renderedLog = output.buffer.at(-1);
+			expect(renderedLog).toContain('◇  Repository cloned');
+			expect(renderedLog).not.toContain('◒  Cloning repository');
+			expect(renderedLog).not.toContain('◐  Cloning repository');
+			expect(renderedLog).not.toContain('◓  Cloning repository');
+		});
+
 		test('prints empty lines', async () => {
 			const log = prompts.taskLog({
 				input,
@@ -224,6 +241,24 @@ describe.each(['true', 'false'])('taskLog (isCI = %s)', (isCI) => {
 			log.error('some error!', { showLog: false });
 
 			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('raw = false keeps only the last carriage return update on error', () => {
+			const log = prompts.taskLog({
+				input,
+				output,
+				title: 'foo',
+			});
+
+			log.message('◒  Cloning repository\r◐  Cloning repository\r◓  Cloning repository\r◇  Repository cloned');
+
+			log.error('some error!');
+
+			const renderedLog = output.buffer.at(-1);
+			expect(renderedLog).toContain('◇  Repository cloned');
+			expect(renderedLog).not.toContain('◒  Cloning repository');
+			expect(renderedLog).not.toContain('◐  Cloning repository');
+			expect(renderedLog).not.toContain('◓  Cloning repository');
 		});
 	});
 
