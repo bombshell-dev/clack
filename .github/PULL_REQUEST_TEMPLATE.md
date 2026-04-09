@@ -1,6 +1,9 @@
 ## What does this PR do?
 
-<!-- Describe the change and why it's needed. Link to a related issue or discussion. -->
+<!--
+  Describe the change and why it's needed. Link to a related issue or discussion.
+  If there is no issue, please explain why one isn't needed.
+-->
 
 Closes #
 
