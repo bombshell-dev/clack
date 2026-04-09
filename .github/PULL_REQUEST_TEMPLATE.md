@@ -6,7 +6,7 @@ Closes #
 
 ## Type of change
 
-<!-- Check one. If "Feature", a prior Discussion is required — see below. -->
+<!-- Check one. -->
 
 - [ ] Bug fix
 - [ ] Feature
