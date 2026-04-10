@@ -225,11 +225,11 @@ exports[`box (isCI = false) > renders wide characters with specified width 1`] =
 
 exports[`box (isCI = false) > renders with formatBorder formatting 1`] = `
 [
-  "│ [31m┌[39m[31m─[39mtitle[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┐[39m
+  "│ <red>┌</fg><red>─</fg>title<red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>┐</fg>
 ",
-  "│ [31m│[39m  message   [31m│[39m
+  "│ <red>│</fg>  message   <red>│</fg>
 ",
-  "│ [31m└[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┘[39m
+  "│ <red>└</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>┘</fg>
 ",
 ]
 `;
@@ -500,11 +500,11 @@ exports[`box (isCI = true) > renders wide characters with specified width 1`] = 
 
 exports[`box (isCI = true) > renders with formatBorder formatting 1`] = `
 [
-  "│ [31m┌[39m[31m─[39mtitle[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┐[39m
+  "│ <red>┌</fg><red>─</fg>title<red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>┐</fg>
 ",
-  "│ [31m│[39m  message   [31m│[39m
+  "│ <red>│</fg>  message   <red>│</fg>
 ",
-  "│ [31m└[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┘[39m
+  "│ <red>└</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>─</fg><red>┘</fg>
 ",
 ]
 `;

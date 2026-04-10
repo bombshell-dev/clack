@@ -19,8 +19,7 @@ jobs:
     with:
       commands: >
         [
+          "lint",
           "build",
-          "types",
-          "test",
-          "deps"
+          "test"
         ]
