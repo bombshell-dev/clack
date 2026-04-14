@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 1.3.0
+
+### Minor Changes
+
+- 814ab9a: Add new multiline prompt for multi-line text input.
+
+### Patch Changes
+
+- Updated dependencies [814ab9a]
+  - @clack/core@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes
