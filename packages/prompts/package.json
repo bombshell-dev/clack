@@ -47,6 +47,9 @@
     "ui"
   ],
   "packageManager": "pnpm@9.14.2",
+  "engines": {
+    "node": ">= 20.12.0"
+  },
   "scripts": {
     "build": "unbuild",
     "prepack": "pnpm build",
