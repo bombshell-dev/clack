@@ -46,7 +46,7 @@
     "url": "https://twitter.com/n_moore"
   },
   "license": "MIT",
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@10.33.0",
   "engines": {
     "node": ">= 20.12.0"
   },
