@@ -45,7 +45,7 @@ describe('DatePrompt', () => {
 		instance.prompt();
 		expect(instance.userInput).to.equal('2025/01/15');
 		expect(instance.value).toBeInstanceOf(Date);
-		expect(instance.value!.toISOString().slice(0, 10)).to.equal('2025-01-15');
+		expect(instance.value?.toISOString().slice(0, 10)).to.equal('2025-01-15');
 	});
 
 	test('left/right navigates between segments', () => {
