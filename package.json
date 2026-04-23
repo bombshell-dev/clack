@@ -17,13 +17,13 @@
   "devDependencies": {
     "@biomejs/biome": "^2.1.2",
     "@changesets/cli": "^2.29.5",
-    "@types/node": "^24.1.0",
+    "@types/node": "^20.19.39",
     "jsr": "^0.13.4",
     "knip": "^5.62.0",
     "typescript": "^5.8.3",
     "unbuild": "^3.6.0"
   },
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@10.33.0",
   "volta": {
     "node": "20.18.1"
   }
