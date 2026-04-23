@@ -118,6 +118,10 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	}
 
+	protected override _shouldSubmit(): boolean {
+		return false;
+	}
+
 	#reset(): void {
 		this.#isActive = false;
 		this.#exitCode = 0;
