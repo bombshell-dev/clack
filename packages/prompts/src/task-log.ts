@@ -11,18 +11,55 @@ import {
 } from './common.js';
 import { log } from './log.js';
 
+/**
+ * Options for the {@link taskLog} component
+ */
 export interface TaskLogOptions extends CommonOptions {
+	/**
+	 * The title displayed for the task log.
+	 */
 	title: string;
+
+	/**
+	 * Maximum number of log lines to display at once.
+	 * Older lines are trimmed but can be retained via `retainLog`.
+	 */
 	limit?: number;
+
+	/**
+	 * Number of empty lines (spacing) between the title and log output.
+	 * @default 1
+	 */
 	spacing?: number;
+
+	/**
+	 * Whether to retain the full log history even when `limit` is set.
+	 * Retained logs are shown when `showLog: true` on completion.
+	 * @default false
+	 */
 	retainLog?: boolean;
 }
 
+/**
+ * Options for individual messages passed to {@link TaskLogResult.message | taskLog().message()}.
+ */
 export interface TaskLogMessageOptions {
+	/**
+	 * When `true`, the message is written as-is without additional formatting or line handling.
+	 * Useful for raw output that should not be processed.
+	 */
 	raw?: boolean;
 }
 
+/**
+ * Options for task completion passed to {@link TaskLogResult.success | taskLog().success()}
+ * or {@link TaskLogResult.error | taskLog().error()}.
+ */
 export interface TaskLogCompletionOptions {
+	/**
+	 * Whether to show the retained log history on completion.
+	 * Only has an effect when `retainLog: true` is set in {@link TaskLogOptions}.
+	 */
 	showLog?: boolean;
 }
 

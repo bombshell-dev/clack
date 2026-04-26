@@ -9,13 +9,54 @@ import {
 	symbol,
 } from './common.js';
 
+/**
+ * Options for the {@link confirm} component.
+ */
 export interface ConfirmOptions extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * The label to use for the active (true) option.
+	 * @default 'Yes'
+	 */
 	active?: string;
+
+	/**
+	 * The label to use for the inactive (false) option.
+	 * @default 'No'
+	 */
 	inactive?: string;
+
+	/**
+	 * The initial selected value (true or false).
+	 * @default true
+	 */
 	initialValue?: boolean;
+
+	/**
+	 * Whether to render the options vertically instead of horizontally.
+	 * @default false
+	 */
 	vertical?: boolean;
 }
+
+/**
+ * The `confirm` prompt asks the user to confirm or decline an action with a yes/no choice.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#confirmation
+ *
+ * @example
+ * ```ts
+ * import { confirm } from '@clack/prompts';
+ *
+ * const shouldProceed = await confirm({
+ *   message: 'Do you want to continue?',
+ * });
+ * ```
+ */
 export const confirm = (opts: ConfirmOptions) => {
 	const active = opts.active ?? 'Yes';
 	const inactive = opts.inactive ?? 'No';

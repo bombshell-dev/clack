@@ -9,16 +9,58 @@ const S_PROGRESS_CHAR: Record<NonNullable<ProgressOptions['style']>, string> = {
 	block: unicodeOr('█', '#'),
 };
 
+/**
+ * Options for the {@link progress} component.
+ */
 export interface ProgressOptions extends SpinnerOptions {
+	/**
+	 * Visual style of the progress bar characters.
+	 * @default 'heavy'
+	 */
 	style?: 'light' | 'heavy' | 'block';
+
+	/**
+	 * Maximum value for the progress bar (total steps).
+	 * @default 100
+	 */
 	max?: number;
+
+	/**
+	 * Display width of the progress bar in characters.
+	 * @default 40
+	 */
 	size?: number;
 }
 
+/**
+ * Result object returned by the {@link progress} component.
+ */
 export interface ProgressResult extends SpinnerResult {
+	/**
+	 * Advance the progress bar by a number of steps.
+	 * @param step - Number of steps to advance (default: 1)
+	 * @param msg - Optional message to display alongside the progress bar
+	 */
 	advance(step?: number, msg?: string): void;
 }
 
+/**
+ * The `progress` component displays an animated progress bar.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#progress
+ *
+ * @example
+ * ```ts
+ * import { progress } from '@clack/prompts';
+ *
+ * const p = progress();
+ * p.start('Uploading files');
+ * p.advance(25);
+ * p.advance(25);
+ * p.advance(50);
+ * p.stop('Upload complete');
+ * ```
+ */
 export function progress({
 	style = 'heavy',
 	max: userMax = 100,

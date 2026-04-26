@@ -3,13 +3,55 @@ import { SelectKeyPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 import type { Option } from './select.js';
 
+/**
+ * Options for the {@link selectKey} component
+ */
 export interface SelectKeyOptions<Value extends string> extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * Array of options to present. Each option has a `value` (the key to press), `label`, and optional `hint`.
+	 */
 	options: Option<Value>[];
+
+	/**
+	 * The initial selected option value.
+	 */
 	initialValue?: Value;
+
+	/**
+	 * Whether key matching is case-sensitive. Defaults to `false`.
+	 */
 	caseSensitive?: boolean;
 }
 
+/**
+ * The `selectKey` prompt allows selecting an option by pressing a key.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#select-by-key
+ *
+ * @example
+ * ```ts
+ * import { selectKey, isCancel } from '@clack/prompts';
+ *
+ * const action = await selectKey({
+ *   message: 'What next?',
+ *   options: [
+ *     { value: 'y', label: 'Continue' },
+ *     { value: 'n', label: 'Stop' },
+ *     { value: 's', label: 'Skip', hint: 'optional' },
+ *   ],
+ *   caseSensitive: false,
+ * });
+ *
+ * if (isCancel(action)) {
+ *   process.exit(0);
+ * }
+ * ```
+ */
 export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,

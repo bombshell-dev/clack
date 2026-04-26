@@ -19,12 +19,14 @@ export type Option<Value> = Value extends Primitive
 			 * Internal data for this option.
 			 */
 			value: Value;
+
 			/**
 			 * The optional, user-facing text for this option.
 			 *
 			 * By default, the `value` is converted to a string.
 			 */
 			label?: string;
+
 			/**
 			 * An optional hint to display to the user when
 			 * this option might be selected.
@@ -32,6 +34,7 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+
 			/**
 			 * Whether this option is disabled.
 			 * Disabled options are visible but cannot be selected.
@@ -45,10 +48,12 @@ export type Option<Value> = Value extends Primitive
 			 * Internal data for this option.
 			 */
 			value: Value;
+
 			/**
 			 * Required. The user-facing text for this option.
 			 */
 			label: string;
+
 			/**
 			 * An optional hint to display to the user when
 			 * this option might be selected.
@@ -56,6 +61,7 @@ export type Option<Value> = Value extends Primitive
 			 * By default, no `hint` is displayed.
 			 */
 			hint?: string;
+
 			/**
 			 * Whether this option is disabled.
 			 * Disabled options are visible but cannot be selected.
@@ -65,10 +71,28 @@ export type Option<Value> = Value extends Primitive
 			disabled?: boolean;
 		};
 
+/**
+ * Options for the {@link select} component
+ */
 export interface SelectOptions<Value> extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * The options to present for the user to choose from.
+	 */
 	options: Option<Value>[];
+
+	/**
+	 * The initial selected value.
+	 */
 	initialValue?: Value;
+
+	/**
+	 * Maximum number of items to display at once.
+	 */
 	maxItems?: number;
 }
 
@@ -82,6 +106,24 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 		.join('\n');
 };
 
+/**
+ * The `select` prompt displays a list of options for the user to choose from.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#selection
+ *
+ * @example
+ * ```ts
+ * import { select } from '@clack/prompts';
+ *
+ * const result = await select({
+ *   message: 'Select a framework',
+ *   options: [
+ *     { value: 'next', label: 'Next.js', hint: 'React framework' },
+ *     { value: 'astro', label: 'Astro', hint: 'Content-focused' },
+ *   ],
+ * });
+ * ```
+ */
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,

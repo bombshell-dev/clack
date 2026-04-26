@@ -15,8 +15,18 @@ import {
 	S_STEP_SUBMIT,
 } from './common.js';
 
+/**
+ * A function that formats a single line of the note message.
+ */
 type FormatFn = (line: string) => string;
+
+/**
+ * Options for the {@link note} component
+ */
 export interface NoteOptions extends CommonOptions {
+	/**
+	 * Custom formatting function for each line of the message.
+	 */
 	format?: FormatFn;
 }
 
@@ -34,6 +44,18 @@ const wrapWithFormat = (message: string, width: number, format: FormatFn): strin
 	return wrapAnsi(message, wrapWidth, opts);
 };
 
+/**
+ * The `note` prompt displays a formatted note/message in a box.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#note
+ *
+ * @example
+ * ```ts
+ * import { note } from '@clack/prompts';
+ *
+ * note('You can edit the file src/index.jsx', 'Next steps.');
+ * ```
+ */
 export const note = (message = '', title = '', opts?: NoteOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
 	const hasGuide = opts?.withGuide ?? settings.withGuide;

@@ -3,14 +3,54 @@ import { dirname, join } from 'node:path';
 import { autocomplete } from './autocomplete.js';
 import type { CommonOptions } from './common.js';
 
+/**
+ * Options for the {@link path} component.
+ */
 export interface PathOptions extends CommonOptions {
+	/**
+	 * Root directory for path selection.
+	 */
 	root?: string;
+
+	/**
+	 * If `true`, only directories will be shown in the suggestions.
+	 */
 	directory?: boolean;
+
+	/**
+	 * Initial value for the input field. Falls back to `root` or the current working directory.
+	 */
 	initialValue?: string;
+
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * A validation function to check the selected path.
+	 * Receives the current input value and should return `undefined` for valid input,
+	 * or a string/error message for invalid input.
+	 */
 	validate?: (value: string | undefined) => string | Error | undefined;
 }
 
+/**
+ * The `path` prompt allows selecting a file or directory path from the filesystem.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#path-selection
+ *
+ * @example
+ * ```ts
+ * import { path } from '@clack/prompts';
+ *
+ * const result = await path({
+ *   message: 'Select a file:',
+ *   root: process.cwd(),
+ *   directory: false,
+ * });
+ * ```
+ */
 export const path = (opts: PathOptions) => {
 	const validate = opts.validate;
 

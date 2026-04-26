@@ -13,14 +13,41 @@ import {
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
+/**
+ * Options for the {@link multiselect} component.
+ */
 export interface MultiSelectOptions<Value> extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * Array of options to select from.
+	 */
 	options: Option<Value>[];
+
+	/**
+	 * Initial values that are pre-selected.
+	 */
 	initialValues?: Value[];
+
+	/**
+	 * Maximum number of items to display at once when scrolling.
+	 */
 	maxItems?: number;
+
+	/**
+	 * Whether at least one option must be selected. Defaults to `true`.
+	 */
 	required?: boolean;
+
+	/**
+	 * The value to position the cursor at initially.
+	 */
 	cursorAt?: Value;
 }
+
 const computeLabel = (label: string, format: (text: string) => string) => {
 	return label
 		.split('\n')
@@ -28,6 +55,24 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 		.join('\n');
 };
 
+/**
+ * The `multiselect` prompt allows selecting multiple values from a list.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#multiple-values
+ *
+ * @example
+ * ```ts
+ * import { multiselect } from '@clack/prompts';
+ *
+ * const result = await multiselect({
+ *   message: 'Select frameworks',
+ *   options: [
+ *     { value: 'next', label: 'Next.js', hint: 'React framework' },
+ *     { value: 'astro', label: 'Astro', hint: 'Content-focused' },
+ *   ],
+ * });
+ * ```
+ */
 export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,

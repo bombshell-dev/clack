@@ -12,28 +12,109 @@ import {
 	unicode,
 } from './common.js';
 
+/**
+ * Options for the {@link spinner} component
+ */
 export interface SpinnerOptions extends CommonOptions {
+	/**
+	 * The type of indicator to display. `'dots'` shows an animated loading
+	 * dot sequence, `'timer'` shows elapsed time.
+	 *
+	 * @default 'dots'
+	 */
 	indicator?: 'dots' | 'timer';
+
+	/**
+	 * Callback invoked when the spinner is cancelled (e.g. user presses Ctrl+C).
+	 */
 	onCancel?: () => void;
+
+	/**
+	 * Message displayed when the spinner is cancelled.
+	 */
 	cancelMessage?: string;
+
+	/**
+	 * Message displayed when the spinner encounters an error.
+	 */
 	errorMessage?: string;
+
+	/**
+	 * Custom animation frames for the spinner indicator.
+	 * @default ['◒', '◐', '◓', '◑'] (unicode) or ['•', 'o', 'O', '0'] (non-unicode)
+	 */
 	frames?: string[];
+
+	/**
+	 * Delay between frame updates in milliseconds.
+	 * @default 80 (unicode) or 120 (non-unicode)
+	 */
 	delay?: number;
+
+	/**
+	 * Custom function to style each spinner frame.
+	 */
 	styleFrame?: (frame: string) => string;
 }
 
+/**
+ * The result object returned by the {@link spinner} function.
+ */
 export interface SpinnerResult {
+	/**
+	 * Start the spinner with an optional message.
+	 */
 	start(msg?: string): void;
+
+	/**
+	 * Stop the spinner and display a success message with a green checkmark.
+	 */
 	stop(msg?: string): void;
+
+	/**
+	 * Stop the spinner and display a cancellation message with a red square.
+	 */
 	cancel(msg?: string): void;
+
+	/**
+	 * Stop the spinner and display an error message with a yellow triangle.
+	 */
 	error(msg?: string): void;
+
+	/**
+	 * Update the spinner message while it is running.
+	 */
 	message(msg?: string): void;
+
+	/**
+	 * Clear the spinner without displaying any message.
+	 */
 	clear(): void;
+
+	/**
+	 * Whether the spinner was cancelled (e.g. user pressed Ctrl+C).
+	 */
 	readonly isCancelled: boolean;
 }
 
 const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
+/**
+ * The `spinner` component displays an animated loading indicator for
+ * long-running operations.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#spinner
+ *
+ * @example
+ * ```ts
+ * import { spinner } from '@clack/prompts';
+ *
+ * const s = spinner();
+ * s.start('Loading data');
+ * // ... do work ...
+ * s.stop('Data loaded');
+ * ```
+ */
 export const spinner = ({
 	indicator = 'dots',
 	onCancel,

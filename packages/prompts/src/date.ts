@@ -5,17 +5,70 @@ import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export type { DateFormat };
 
+/**
+ * Options for the {@link date} prompt.
+ */
 export interface DateOptions extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * The date format for the input segments.
+	 */
 	format?: DateFormat;
+
+	/**
+	 * The locale to use for formatting (e.g., `'en-US'`, `'de-DE'`).
+	 */
 	locale?: string;
+
+	/**
+	 * The default value returned when the user cancels without selecting a date.
+	 */
 	defaultValue?: Date;
+
+	/**
+	 * The initial date value to pre-fill the input with.
+	 */
 	initialValue?: Date;
+
+	/**
+	 * The minimum allowed date for validation.
+	 */
 	minDate?: Date;
+
+	/**
+	 * The maximum allowed date for validation.
+	 */
 	maxDate?: Date;
+
+	/**
+	 * Custom validation function for the selected date.
+	 */
 	validate?: (value: Date | undefined) => string | Error | undefined;
 }
 
+/**
+ * The `date` prompt provides an interactive date picker for selecting a date.
+ * Users can navigate between year, month, and day segments and increment or
+ * decrement values using keyboard controls.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#date-input
+ *
+ * @example
+ * ```ts
+ * import { date } from '@clack/prompts';
+ *
+ * const birthday = await date({
+ *   message: 'Pick your birthday',
+ *   minDate: new Date('1900-01-01'),
+ *   maxDate: new Date(),
+ *   initialValue: new Date(),
+ * });
+ * ```
+ */
 export const date = (opts: DateOptions) => {
 	const validate = opts.validate;
 	return new DatePrompt({

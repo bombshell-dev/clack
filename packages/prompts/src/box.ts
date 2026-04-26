@@ -16,7 +16,55 @@ import {
 	S_CORNER_TOP_RIGHT,
 } from './common.js';
 
+/**
+ * Alignment for content or titles within the box.
+ */
 export type BoxAlignment = 'left' | 'center' | 'right';
+
+/**
+ * Options for the {@link box} component
+ */
+export interface BoxOptions extends CommonOptions {
+	/**
+	 * Alignment of the content (`'left'`, `'center'`, or `'right'`).
+	 * @default 'left'
+	 */
+	contentAlign?: BoxAlignment;
+
+	/**
+	 * Alignment of the title (`'left'`, `'center'`, or `'right'`).
+	 * @default 'left'
+	 */
+	titleAlign?: BoxAlignment;
+
+	/**
+	 * Box width. Use `'auto'` to fit content or a number for a fraction of the terminal width.
+	 */
+	width?: number | 'auto';
+
+	/**
+	 * Padding around the title.
+	 * @default 1
+	 */
+	titlePadding?: number;
+
+	/**
+	 * Padding around the content.
+	 * @default 2
+	 */
+	contentPadding?: number;
+
+	/**
+	 * Use rounded corners when `true`, square corners when `false`.
+	 * @default true
+	 */
+	rounded?: boolean;
+
+	/**
+	 * Custom function to style the border characters.
+	 */
+	formatBorder?: (text: string) => string;
+}
 
 type BoxSymbols = [topLeft: string, topRight: string, bottomLeft: string, bottomRight: string];
 
@@ -27,16 +75,6 @@ const roundedSymbols: BoxSymbols = [
 	S_CORNER_BOTTOM_RIGHT,
 ];
 const squareSymbols: BoxSymbols = [S_BAR_START, S_BAR_START_RIGHT, S_BAR_END, S_BAR_END_RIGHT];
-
-export interface BoxOptions extends CommonOptions {
-	contentAlign?: BoxAlignment;
-	titleAlign?: BoxAlignment;
-	width?: number | 'auto';
-	titlePadding?: number;
-	contentPadding?: number;
-	rounded?: boolean;
-	formatBorder?: (text: string) => string;
-}
 
 function getPaddingForLine(
 	lineLength: number,
@@ -59,6 +97,24 @@ function getPaddingForLine(
 
 const defaultFormatBorder = (text: string) => text;
 
+/**
+ * Renders a customizable box around text content. It's similar to `note` but offers
+ * more styling options.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#box
+ *
+ * @example
+ * ```ts
+ * import { box } from '@clack/prompts';
+ *
+ * box('This is the content of the box', 'Box Title', {
+ *   contentAlign: 'center',
+ *   titleAlign: 'center',
+ *   width: 'auto',
+ *   rounded: true,
+ * });
+ * ```
+ */
 export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
 	const columns = getColumns(output);

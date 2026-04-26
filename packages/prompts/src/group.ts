@@ -4,18 +4,30 @@ type Prettify<T> = {
 	[P in keyof T]: T[P];
 } & {};
 
+/**
+ * The return type of a {@link PromptGroup}.
+ *
+ * Resolves all prompt results, excluding the cancel symbol.
+ */
 export type PromptGroupAwaitedReturn<T> = {
 	[P in keyof T]: Exclude<Awaited<T[P]>, symbol>;
 };
 
+/**
+ * Options for the {@link group} function.
+ */
 export interface PromptGroupOptions<T> {
 	/**
-	 * Control how the group can be canceled
-	 * if one of the prompts is canceled.
+	 * Called when one of the prompts is canceled.
 	 */
 	onCancel?: (opts: { results: Prettify<Partial<PromptGroupAwaitedReturn<T>>> }) => void;
 }
 
+/**
+ * A group of prompts to be displayed sequentially.
+ *
+ * Each prompt receives the results of all previous prompts in the group.
+ */
 export type PromptGroup<T> = {
 	[P in keyof T]: (opts: {
 		results: Prettify<Partial<PromptGroupAwaitedReturn<Omit<T, P>>>>;
@@ -23,8 +35,30 @@ export type PromptGroup<T> = {
 };
 
 /**
- * Define a group of prompts to be displayed
- * and return a results of objects within the group
+ * Define a group of prompts to be displayed and return the results as an object.
+ *
+ * Each prompt in the group receives the results of all previously completed prompts.
+ * Prompts are executed sequentially in the order they are defined.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#group
+ *
+ * @example
+ * ```ts
+ * import { group, text, password } from '@clack/prompts';
+ *
+ * const account = await group({
+ *   email: () => text({
+ *     message: 'What is your email address?',
+ *   }),
+ *   username: ({ results }) => text({
+ *     message: 'What is your username?',
+ *     placeholder: results.email?.replace(/@.+$/, '').toLowerCase() ?? '',
+ *   }),
+ *   password: () => password({
+ *     message: 'Define your password',
+ *   }),
+ * });
+ * ```
  */
 export const group = async <T>(
 	prompts: PromptGroup<T>,

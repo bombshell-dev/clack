@@ -2,12 +2,47 @@ import { styleText } from 'node:util';
 import { PasswordPrompt, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from './common.js';
 
+/**
+ * Options for the {@link password} component
+ */
 export interface PasswordOptions extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * Character to use for masking input.
+	 * @default '•'
+	 */
 	mask?: string;
+
+	/**
+	 * Custom validation function. Returns an error message if validation fails.
+	 */
 	validate?: (value: string | undefined) => string | Error | undefined;
+
+	/**
+	 * When `true`, clears the input when validation fails.
+	 * @default false
+	 */
 	clearOnError?: boolean;
 }
+
+/**
+ * The `password` prompt collects a masked password from the user.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#password-input
+ *
+ * @example
+ * ```ts
+ * import { password } from '@clack/prompts';
+ *
+ * const result = await password({
+ *   message: 'Enter your password',
+ * });
+ * ```
+ */
 export const password = (opts: PasswordOptions) => {
 	return new PasswordPrompt({
 		validate: opts.validate,

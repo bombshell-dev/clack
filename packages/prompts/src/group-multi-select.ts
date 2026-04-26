@@ -11,15 +11,70 @@ import {
 } from './common.js';
 import type { Option } from './select.js';
 
+/**
+ * Options for the {@link groupMultiselect} component
+ */
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
+	/**
+	 * The message to display to the user.
+	 */
 	message: string;
+
+	/**
+	 * Grouped options to display. Each key is a group label, and each value is an array of options.
+	 */
 	options: Record<string, Option<Value>[]>;
+
+	/**
+	 * Initial selected values.
+	 */
 	initialValues?: Value[];
+
+	/**
+	 * Whether the user must select at least one option. Defaults to `true`.
+	 */
 	required?: boolean;
+
+	/**
+	 * The value to position the cursor at initially.
+	 */
 	cursorAt?: Value;
+
+	/**
+	 * Whether groups are selectable. Defaults to `true`.
+	 */
 	selectableGroups?: boolean;
+
+	/**
+	 * Number of blank lines between groups. Defaults to `0`.
+	 */
 	groupSpacing?: number;
 }
+
+/**
+ * The `groupMultiselect` prompt displays grouped options for the user to select from.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#group-multiselect
+ *
+ * @example
+ * ```ts
+ * import { groupMultiselect } from '@clack/prompts';
+ *
+ * const result = await groupMultiselect({
+ * 	message: 'Define your project',
+ * 	options: {
+ * 		'Testing': [
+ * 			{ value: 'Jest', hint: 'JavaScript testing framework' },
+ * 			{ value: 'Playwright', hint: 'End-to-end testing' },
+ * 		],
+ * 		'Language': [
+ * 			{ value: 'js', label: 'JavaScript', hint: 'Dynamic typing' },
+ * 			{ value: 'ts', label: 'TypeScript', hint: 'Static typing' },
+ * 		],
+ * 	},
+ * });
+ * ```
+ */
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
