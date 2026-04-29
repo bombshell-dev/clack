@@ -1,5 +1,20 @@
 # @clack/prompts
 
+## 1.3.0
+
+### Minor Changes
+
+- ea5702e: fix: add engines field expressing node >=20.12 requirement
+- 814ab9a: Add new multiline prompt for multi-line text input.
+
+### Patch Changes
+
+- 5b897a7: Fix mixed type-only and runtime exports from @clack/core.
+- Updated dependencies [78fd3ae]
+- Updated dependencies [ea5702e]
+- Updated dependencies [814ab9a]
+  - @clack/core@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes
