@@ -138,5 +138,41 @@ describe('SelectPrompt', () => {
 			instance.prompt();
 			expect(instance.cursor).to.equal(1);
 		});
+
+		test('number key jumps to option', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [{ value: 'foo' }, { value: 'bar' }, { value: 'baz' }],
+			});
+			instance.prompt();
+			input.emit('keypress', '3', { name: '3' });
+			expect(instance.cursor).to.equal(2);
+		});
+
+		test('number key skips disabled option', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [{ value: 'foo' }, { value: 'bar', disabled: true }, { value: 'baz' }],
+			});
+			instance.prompt();
+			input.emit('keypress', '2', { name: '2' });
+			expect(instance.cursor).to.equal(2);
+		});
+
+		test('out-of-range number key is ignored', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [{ value: 'foo' }, { value: 'bar' }],
+			});
+			instance.prompt();
+			input.emit('keypress', '9', { name: '9' });
+			expect(instance.cursor).to.equal(0);
+		});
 	});
 });
