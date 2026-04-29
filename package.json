@@ -20,7 +20,7 @@
     "@types/node": "^20.19.39",
     "jsr": "^0.13.4",
     "knip": "^5.62.0",
-    "typescript": "^5.8.3",
+    "typescript": "^6.0.3",
     "unbuild": "^3.6.0"
   },
   "packageManager": "pnpm@10.33.0",
