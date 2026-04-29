@@ -1,5 +1,13 @@
 # @clack/core
 
+## 1.3.0
+
+### Minor Changes
+
+- 78fd3ae: Remove unused `debug` option key.
+- ea5702e: fix: add engines field expressing node >=20.12 requirement
+- 814ab9a: Add new multiline prompt for multi-line text input.
+
 ## 1.2.0
 
 ### Minor Changes
