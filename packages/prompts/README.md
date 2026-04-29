@@ -65,7 +65,7 @@ const meaning = await text({
 
 ### Password
 
-The password component behaves like `text`, but masks the input as the user types.
+The password prompt behaves like the [`text`](#text) prompt, but masks the input as the user types.
 
 ```js
 import { password } from '@clack/prompts';
@@ -201,7 +201,7 @@ const basket = await groupMultiselect({
 
 ### Multi-Line Text
 
-The multi-line text component accepts multiple lines of text input. By default, pressing `Enter` twice submits the input.
+The multi-line prompt accepts multiple lines of text input. By default, pressing `Enter` twice submits the input.
 
 ```js
 import { multiline } from '@clack/prompts';
