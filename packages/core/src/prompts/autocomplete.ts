@@ -1,7 +1,7 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findCursor } from '../utils/cursor.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: unknown;
@@ -60,7 +60,7 @@ export interface AutocompleteOptions<T extends OptionLike>
 	placeholder?: string;
 }
 
-export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
+export class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	T['value'] | T['value'][]
 > {
 	filteredOptions: T[];

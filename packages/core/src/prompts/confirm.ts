@@ -1,5 +1,5 @@
 import { cursor } from 'sisteransi';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface ConfirmOptions extends PromptOptions<boolean, ConfirmPrompt> {
 	active: string;
@@ -7,7 +7,7 @@ export interface ConfirmOptions extends PromptOptions<boolean, ConfirmPrompt> {
 	initialValue?: boolean;
 }
 
-export default class ConfirmPrompt extends Prompt<boolean> {
+export class ConfirmPrompt extends Prompt<boolean> {
 	get cursor() {
 		return this.value ? 0 : 1;
 	}

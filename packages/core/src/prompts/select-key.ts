@@ -1,11 +1,11 @@
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface SelectKeyOptions<T extends { value: string }>
 	extends PromptOptions<T['value'], SelectKeyPrompt<T>> {
 	options: T[];
 	caseSensitive?: boolean;
 }
-export default class SelectKeyPrompt<T extends { value: string }> extends Prompt<T['value']> {
+export class SelectKeyPrompt<T extends { value: string }> extends Prompt<T['value']> {
 	options: T[];
 	cursor = 0;
 
