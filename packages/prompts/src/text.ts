@@ -2,14 +2,57 @@ import { styleText } from 'node:util';
 import { settings, TextPrompt } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
+/**
+ * Options for the {@link text} prompt
+ */
 export interface TextOptions extends CommonOptions {
+	/**
+	 * The prompt message or question shown to the user above the input.
+	 */
 	message: string;
+
+	/**
+	 * A visual hint shown when the field has no content.
+	 */
 	placeholder?: string;
+
+	/**
+	 * A fallback value returned when the user provides nothing (empty input).
+	 */
 	defaultValue?: string;
+
+	/**
+	 * The starting value shown when the prompt first renders.
+	 * Users can edit this value before submitting.
+	 */
 	initialValue?: string;
+
+	/**
+	 * A function that validates user input. Return a `string` or `Error` to show as a
+	 * validation error, or `undefined` to accept the result.
+	 */
 	validate?: (value: string | undefined) => string | Error | undefined;
 }
 
+/**
+ * The text prompt accepts a single line of text.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#text-input
+ *
+ * @example
+ * ```ts
+ * import { text } from '@clack/prompts';
+ *
+ * const name = await text({
+ *   message: 'What is your name?',
+ *   placeholder: 'John Doe',
+ *   validate: (value) => {
+ *     if (!value || value.length < 2) return 'Name must be at least 2 characters';
+ *     return undefined;
+ *   },
+ * });
+ * ```
+ */
 export const text = (opts: TextOptions) => {
 	return new TextPrompt({
 		validate: opts.validate,
