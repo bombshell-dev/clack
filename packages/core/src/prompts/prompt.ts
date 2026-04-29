@@ -24,7 +24,7 @@ export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	signal?: AbortSignal;
 }
 
-export default class Prompt<TValue> {
+export class Prompt<TValue> {
 	protected input: Readable;
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;

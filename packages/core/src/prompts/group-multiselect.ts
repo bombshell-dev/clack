@@ -1,4 +1,4 @@
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface GroupMultiSelectOptions<T extends { value: any }>
 	extends PromptOptions<T['value'][], GroupMultiSelectPrompt<T>> {
@@ -8,7 +8,7 @@ export interface GroupMultiSelectOptions<T extends { value: any }>
 	cursorAt?: T['value'];
 	selectableGroups?: boolean;
 }
-export default class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt<T['value'][]> {
+export class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt<T['value'][]> {
 	options: (T & { group: string | boolean })[];
 	cursor = 0;
 	#selectableGroups: boolean;

@@ -1,6 +1,6 @@
 import type { Key } from 'node:readline';
 import { settings } from '../utils/settings.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 interface SegmentConfig {
 	type: 'year' | 'month' | 'day';
@@ -127,7 +127,7 @@ export interface DateOptions extends PromptOptions<Date, DatePrompt> {
 	maxDate?: Date;
 }
 
-export default class DatePrompt extends Prompt<Date> {
+export class DatePrompt extends Prompt<Date> {
 	#segments: SegmentConfig[];
 	#separator: string;
 	#segmentValues: DateParts;

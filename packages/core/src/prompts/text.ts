@@ -1,12 +1,12 @@
 import { styleText } from 'node:util';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface TextOptions extends PromptOptions<string, TextPrompt> {
 	placeholder?: string;
 	defaultValue?: string;
 }
 
-export default class TextPrompt extends Prompt<string> {
+export class TextPrompt extends Prompt<string> {
 	get userInputWithCursor() {
 		if (this.state === 'submit') {
 			return this.userInput;

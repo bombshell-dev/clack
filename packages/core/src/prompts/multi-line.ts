@@ -2,7 +2,7 @@ import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findTextCursor } from '../utils/cursor.js';
 import { type Action, settings } from '../utils/index.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
@@ -10,7 +10,7 @@ export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt>
 	showSubmit?: boolean;
 }
 
-export default class MultiLinePrompt extends Prompt<string> {
+export class MultiLinePrompt extends Prompt<string> {
 	#lastKeyWasReturn = false;
 	#showSubmit: boolean;
 	public focused: 'editor' | 'submit' = 'editor';
