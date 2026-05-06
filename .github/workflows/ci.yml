@@ -19,7 +19,7 @@ jobs:
     with:
       commands: >
         [
-          "lint",
           "build",
+          "lint",
           "test"
         ]
