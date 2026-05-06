@@ -8,11 +8,12 @@
     "dev": "pnpm --filter @example/changesets run start",
     "format": "bsh format",
     "lint": "pnpm -r run lint",
+    "publint": "pnpm -r run publint",
     "test": "pnpm --color -r run test",
     "pretest": "pnpm run build"
   },
   "devDependencies": {
-    "@bomb.sh/tools": "https://pkg.pr.new/@bomb.sh/tools@175116f",
+    "@bomb.sh/tools": "https://pkg.pr.new/@bomb.sh/tools@400d677",
     "@changesets/cli": "^2.29.5",
     "@types/node": "^20.19.39",
     "jsr": "^0.13.4",

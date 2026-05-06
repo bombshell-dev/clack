@@ -54,7 +54,8 @@
     "build": "bsh build",
     "prepack": "pnpm build",
     "test": "bsh test",
-    "lint": "bsh lint"
+    "lint": "bsh lint",
+    "publint": "pnpm build && bsh publint"
   },
   "dependencies": {
     "fast-wrap-ansi": "^0.2.0",
