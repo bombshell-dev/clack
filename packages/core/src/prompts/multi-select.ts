@@ -6,8 +6,10 @@ interface OptionLike {
 	disabled?: boolean;
 }
 
-export interface MultiSelectOptions<T extends OptionLike>
-	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
+export interface MultiSelectOptions<T extends OptionLike> extends PromptOptions<
+	T['value'][],
+	MultiSelectPrompt<T>
+> {
 	options: T[];
 	initialValues?: T['value'][];
 	required?: boolean;
@@ -57,7 +59,7 @@ export class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['value'][]
 		this.value = [...(opts.initialValues ?? [])];
 		const cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
-			0
+			0,
 		);
 		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.on('key', (char) => {

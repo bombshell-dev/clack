@@ -98,12 +98,13 @@ export const getRows = (output: Writable): number => {
 	return 20;
 };
 
+// oxlint-disable-next-line max-params
 export function wrapTextWithPrefix(
 	output: Writable | undefined,
 	text: string,
 	prefix: string,
 	startPrefix: string = prefix,
-	lineFormatter?: (line: string, index: number) => string
+	lineFormatter?: (line: string, index: number) => string,
 ): string {
 	const columns = getColumns(output ?? stdout);
 	const wrapped = wrapAnsi(text, columns - prefix.length, {

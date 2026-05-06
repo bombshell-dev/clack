@@ -167,7 +167,7 @@ describe.each(['true', 'false'])('date (isCI = %s)', (isCI) => {
 		await new Promise((r) => setImmediate(r));
 
 		const hasError = output.buffer.some(
-			(s) => typeof s === 'string' && s.includes('Date must be on or after')
+			(s) => typeof s === 'string' && s.includes('Date must be on or after'),
 		);
 		expect(hasError).toBe(true);
 

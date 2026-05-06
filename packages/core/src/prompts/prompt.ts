@@ -70,7 +70,7 @@ export class Prompt<TValue> {
 	 */
 	private setSubscriber<T extends keyof ClackEvents<TValue>>(
 		event: T,
-		opts: { cb: ClackEvents<TValue>[T]; once?: boolean }
+		opts: { cb: ClackEvents<TValue>[T]; once?: boolean },
 	) {
 		const params = this._subscribers.get(event) ?? [];
 		params.push(opts);
@@ -136,7 +136,7 @@ export class Prompt<TValue> {
 						this.state = 'cancel';
 						this.close();
 					},
-					{ once: true }
+					{ once: true },
 				);
 			}
 

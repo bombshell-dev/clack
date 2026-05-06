@@ -39,26 +39,25 @@ export interface BoxOptions extends CommonOptions {
 }
 
 function getPaddingForLine(
-	lineLength: number,
-	innerWidth: number,
-	padding: number,
-	contentAlign: BoxAlignment | undefined
+	sizes: { lineLength: number; innerWidth: number; padding: number },
+	contentAlign: BoxAlignment | undefined,
 ): [number, number] {
-	let leftPadding = padding;
-	let rightPadding = padding;
+	let leftPadding = sizes.padding;
+
 	if (contentAlign === 'center') {
-		leftPadding = Math.floor((innerWidth - lineLength) / 2);
+		leftPadding = Math.floor((sizes.innerWidth - sizes.lineLength) / 2);
 	} else if (contentAlign === 'right') {
-		leftPadding = innerWidth - lineLength - padding;
+		leftPadding = sizes.innerWidth - sizes.lineLength - sizes.padding;
 	}
 
-	rightPadding = innerWidth - leftPadding - lineLength;
+	const rightPadding = sizes.innerWidth - leftPadding - sizes.lineLength;
 
 	return [leftPadding, rightPadding];
 }
 
 const defaultFormatBorder = (text: string) => text;
 
+// oxlint-disable-next-line max-params
 export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const output: Writable = opts?.output ?? process.stdout;
 	const columns = getColumns(output);
@@ -103,28 +102,24 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const truncatedTitle =
 		titleWidth > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
 	const [titlePaddingLeft, titlePaddingRight] = getPaddingForLine(
-		stringWidth(truncatedTitle),
-		innerWidth,
-		titlePadding,
-		opts?.titleAlign
+		{ lineLength: stringWidth(truncatedTitle), innerWidth, padding: titlePadding },
+		opts?.titleAlign,
 	);
 	const wrappedMessage = wrapAnsi(message, innerWidth - contentPadding * 2, {
 		hard: true,
 		trim: false,
 	});
 	output.write(
-		`${linePrefix}${symbols[0]}${hSymbol.repeat(titlePaddingLeft)}${truncatedTitle}${hSymbol.repeat(titlePaddingRight)}${symbols[1]}\n`
+		`${linePrefix}${symbols[0]}${hSymbol.repeat(titlePaddingLeft)}${truncatedTitle}${hSymbol.repeat(titlePaddingRight)}${symbols[1]}\n`,
 	);
 	const wrappedLines = wrappedMessage.split('\n');
 	for (const line of wrappedLines) {
 		const [leftLinePadding, rightLinePadding] = getPaddingForLine(
-			stringWidth(line),
-			innerWidth,
-			contentPadding,
-			opts?.contentAlign
+			{ lineLength: stringWidth(line), innerWidth, padding: contentPadding },
+			opts?.contentAlign,
 		);
 		output.write(
-			`${linePrefix}${vSymbol}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${vSymbol}\n`
+			`${linePrefix}${vSymbol}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${vSymbol}\n`,
 		);
 	}
 	output.write(`${linePrefix}${symbols[2]}${hSymbol.repeat(innerWidth)}${symbols[3]}\n`);

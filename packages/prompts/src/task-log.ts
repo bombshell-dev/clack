@@ -37,7 +37,7 @@ interface BufferEntry {
 }
 
 const stripDestructiveANSI = (input: string): string => {
-	// biome-ignore lint/suspicious/noControlCharactersInRegex: intentional
+	// oxlint-disable-next-line no-control-regex
 	return input.replace(/\x1b\[(?:\d+;)*\d*[ABCDEFGHfJKSTsu]|\x1b\[(s|u)/g, '');
 };
 
@@ -105,6 +105,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 			output.write(erase.lines(lines));
 		}
 	};
+	// oxlint-disable-next-line max-params
 	const printBuffer = (buffer: BufferEntry, messageSpacing?: number, full?: boolean): void => {
 		const messages = full ? `${buffer.full}\n${buffer.value}` : buffer.value;
 		if (buffer.header !== undefined && buffer.header !== '') {
@@ -115,7 +116,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 					secondarySymbol,
 					symbol: secondarySymbol,
 					spacing: 0,
-				}
+				},
 			);
 		}
 		log.message(
@@ -125,7 +126,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 				secondarySymbol,
 				symbol: secondarySymbol,
 				spacing: messageSpacing ?? spacing,
-			}
+			},
 		);
 	};
 	const renderBuffer = (): void => {
@@ -134,10 +135,18 @@ export const taskLog = (opts: TaskLogOptions) => {
 			if ((header === undefined || header.length === 0) && value.length === 0) {
 				continue;
 			}
-			printBuffer(buffer, undefined, retainLog === true && full.length > 0);
+			printBuffer(buffer, undefined, retainLog && full.length > 0);
 		}
 	};
-	const message = (buffer: BufferEntry, msg: string, mopts?: TaskLogMessageOptions) => {
+	const message = ({
+		buffer,
+		msg,
+		mopts,
+	}: {
+		buffer: BufferEntry;
+		msg: string;
+		mopts?: TaskLogMessageOptions;
+	}) => {
 		clear(false);
 		if ((mopts?.raw !== true || !lastMessageWasRaw) && buffer.value !== '') {
 			buffer.value += '\n';
@@ -184,7 +193,8 @@ export const taskLog = (opts: TaskLogOptions) => {
 
 	return {
 		message(msg: string, mopts?: TaskLogMessageOptions) {
-			message(buffers[0], msg, mopts);
+			const buffer = buffers[0];
+			message({ buffer, msg, mopts });
 		},
 		group(name: string) {
 			const buffer: BufferEntry = {
@@ -195,7 +205,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 			buffers.push(buffer);
 			return {
 				message(msg: string, mopts?: TaskLogMessageOptions) {
-					message(buffer, msg, mopts);
+					message({ buffer, msg, mopts });
 				},
 				error(message: string) {
 					completeBuffer(buffer, {

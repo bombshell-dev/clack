@@ -28,7 +28,7 @@ export type PromptGroup<T> = {
  */
 export const group = async <T>(
 	prompts: PromptGroup<T>,
-	opts?: PromptGroupOptions<T>
+	opts?: PromptGroupOptions<T>,
 ): Promise<Prettify<PromptGroupAwaitedReturn<T>>> => {
 	const results = {} as any;
 	const promptNames = Object.keys(prompts);

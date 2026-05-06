@@ -1,7 +1,9 @@
 import { Prompt, type PromptOptions } from './prompt.js';
 
-export interface GroupMultiSelectOptions<T extends { value: any }>
-	extends PromptOptions<T['value'][], GroupMultiSelectPrompt<T>> {
+export interface GroupMultiSelectOptions<T extends { value: any }> extends PromptOptions<
+	T['value'][],
+	GroupMultiSelectPrompt<T>
+> {
 	options: Record<string, T[]>;
 	initialValues?: T['value'][];
 	required?: boolean;
@@ -36,7 +38,7 @@ export class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt<T['
 			const groupedItems = this.getGroupItems(group);
 			if (this.isGroupSelected(group)) {
 				this.value = this.value.filter(
-					(v: string) => groupedItems.findIndex((i) => i.value === v) === -1
+					(v: string) => groupedItems.findIndex((i) => i.value === v) === -1,
 				);
 			} else {
 				this.value = [...this.value, ...groupedItems.map((i) => i.value)];
@@ -61,7 +63,7 @@ export class GroupMultiSelectPrompt<T extends { value: any }> extends Prompt<T['
 		this.value = [...(opts.initialValues ?? [])];
 		this.cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
-			this.#selectableGroups ? 0 : 1
+			this.#selectableGroups ? 0 : 1,
 		);
 
 		this.on('cursor', (key) => {

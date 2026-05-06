@@ -170,6 +170,7 @@ export const spinner = ({
 		}, delay);
 	};
 
+	// oxlint-disable-next-line max-params
 	const _stop = (msg = '', code = 0, silent: boolean = false): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;

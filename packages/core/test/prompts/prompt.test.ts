@@ -1,6 +1,6 @@
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { default as Prompt } from '../../src/prompts/prompt.js';
+import { Prompt } from '../../src/prompts/prompt.js';
 import { isCancel } from '../../src/utils/index.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
@@ -186,7 +186,7 @@ describe('Prompt', () => {
 				output,
 				render: () => 'foo',
 			},
-			false
+			false,
 		);
 
 		instance.on('cursor', eventSpy);

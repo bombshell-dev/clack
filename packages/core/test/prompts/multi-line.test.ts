@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { default as MultiLinePrompt } from '../../src/prompts/multi-line.js';
+import { MultiLinePrompt } from '../../src/prompts/multi-line.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 

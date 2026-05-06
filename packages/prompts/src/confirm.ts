@@ -34,7 +34,7 @@ export const confirm = (opts: ConfirmOptions) => {
 				opts.output,
 				opts.message,
 				titlePrefixBar,
-				titlePrefix
+				titlePrefix,
 			);
 			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
 			const value = this.value ? active : inactive;

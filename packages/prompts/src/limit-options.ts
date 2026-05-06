@@ -14,18 +14,20 @@ export interface LimitOptionsParams<TOption> extends CommonOptions {
 
 const trimLines = (
 	groups: Array<string[]>,
-	initialLineCount: number,
-	startIndex: number,
-	endIndex: number,
-	maxLines: number
+	options: {
+		initialLineCount: number;
+		startIndex: number;
+		endIndex: number;
+		outputMaxItems: number;
+	},
 ) => {
-	let lineCount = initialLineCount;
+	let lineCount = options.initialLineCount;
 	let removals = 0;
-	for (let i = startIndex; i < endIndex; i++) {
+	for (let i = options.startIndex; i < options.endIndex; i++) {
 		const group = groups[i];
 		lineCount = lineCount - group.length;
 		removals++;
-		if (lineCount <= maxLines) {
+		if (lineCount <= options.outputMaxItems) {
 			break;
 		}
 	}
@@ -54,7 +56,7 @@ export const limitOptions = <TOption>({
 	if (cursor >= computedMaxItems - 3) {
 		slidingWindowLocation = Math.max(
 			Math.min(cursor - computedMaxItems + 3, options.length - computedMaxItems),
-			0
+			0,
 		);
 	}
 
@@ -64,7 +66,7 @@ export const limitOptions = <TOption>({
 
 	const slidingWindowLocationEnd = Math.min(
 		slidingWindowLocation + computedMaxItems,
-		options.length
+		options.length,
 	);
 	const lineGroups: Array<string[]> = [];
 	let lineCount = 0;
@@ -95,28 +97,33 @@ export const limitOptions = <TOption>({
 		let newLineCount = lineCount;
 		const cursorGroupIndex = cursor - slidingWindowLocationWithEllipsis;
 		const trimLinesLocal = (startIndex: number, endIndex: number) =>
-			trimLines(lineGroups, newLineCount, startIndex, endIndex, outputMaxItems);
+			trimLines(lineGroups, {
+				initialLineCount: newLineCount,
+				startIndex,
+				endIndex,
+				outputMaxItems,
+			});
 
 		if (shouldRenderTopEllipsis) {
 			({ lineCount: newLineCount, removals: precedingRemovals } = trimLinesLocal(
 				0,
-				cursorGroupIndex
+				cursorGroupIndex,
 			));
 			if (newLineCount > outputMaxItems) {
 				({ lineCount: newLineCount, removals: followingRemovals } = trimLinesLocal(
 					cursorGroupIndex + 1,
-					lineGroups.length
+					lineGroups.length,
 				));
 			}
 		} else {
 			({ lineCount: newLineCount, removals: followingRemovals } = trimLinesLocal(
 				cursorGroupIndex + 1,
-				lineGroups.length
+				lineGroups.length,
 			));
 			if (newLineCount > outputMaxItems) {
 				({ lineCount: newLineCount, removals: precedingRemovals } = trimLinesLocal(
 					0,
-					cursorGroupIndex
+					cursorGroupIndex,
 				));
 			}
 		}

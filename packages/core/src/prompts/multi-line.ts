@@ -38,7 +38,7 @@ export class MultiLinePrompt extends Prompt<string> {
 			return;
 		}
 		this._setUserInput(
-			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor)
+			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor),
 		);
 	}
 	#handleCursor(key?: Action) {
@@ -73,7 +73,7 @@ export class MultiLinePrompt extends Prompt<string> {
 		if (wasReturn) {
 			if (this.userInput[this.cursor - 1] === '\n') {
 				this._setUserInput(
-					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
+					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor),
 				);
 				this._cursor--;
 			}
@@ -103,14 +103,14 @@ export class MultiLinePrompt extends Prompt<string> {
 			this.#lastKeyWasReturn = false;
 			if (key?.name === 'backspace' && this.cursor > 0) {
 				this._setUserInput(
-					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
+					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor),
 				);
 				this._cursor--;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
 				this._setUserInput(
-					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1)
+					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1),
 				);
 				return;
 			}
