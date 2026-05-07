@@ -51,15 +51,14 @@
     "node": ">= 20.12.0"
   },
   "scripts": {
-    "build": "unbuild",
+    "build": "bsh build",
     "prepack": "pnpm build",
-    "test": "vitest run"
+    "test": "bsh test",
+    "lint": "bsh lint",
+    "publint": "pnpm build && bsh publint"
   },
   "dependencies": {
     "fast-wrap-ansi": "^0.2.0",
     "sisteransi": "^1.0.5"
-  },
-  "devDependencies": {
-    "vitest": "^3.2.4"
   }
 }

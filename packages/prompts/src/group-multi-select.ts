@@ -22,6 +22,7 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 }
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
+	// oxlint-disable-next-line max-params
 	const opt = (
 		option: Option<Value> & { group: string | boolean },
 		state:
@@ -33,7 +34,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'group-active-selected'
 			| 'submitted'
 			| 'cancelled',
-		options: (Option<Value> & { group: string | boolean })[] = []
+		options: (Option<Value> & { group: string | boolean })[] = [],
 	) => {
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
@@ -98,9 +99,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						'dim',
 						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
 							'gray',
-							styleText(['bgWhite', 'inverse'], ' enter ')
-						)} to submit`
-					)
+							styleText(['bgWhite', 'inverse'], ' enter '),
+						)} to submit`,
+					),
 				)}`;
 		},
 		render() {
@@ -132,10 +133,11 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.map((ln, i) =>
 							i === 0
 								? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
-								: `   ${ln}`
+								: `   ${ln}`,
 						)
 						.join('\n');
 					return `${title}${hasGuide ? `${styleText('yellow', S_BAR)}  ` : ''}${this.options
+						// oxlint-disable-next-line max-params
 						.map((option, i, options) => {
 							const selected =
 								value.includes(option.value) ||
@@ -160,6 +162,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				}
 				default: {
 					const optionsText = this.options
+						// oxlint-disable-next-line max-params
 						.map((option, i, options) => {
 							const selected =
 								value.includes(option.value) ||
@@ -174,7 +177,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 								optionText = opt(
 									option,
 									selected ? 'group-active-selected' : 'group-active',
-									options
+									options,
 								);
 							} else if (active && selected) {
 								optionText = opt(option, 'active-selected', options);

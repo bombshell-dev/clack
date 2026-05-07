@@ -20,7 +20,7 @@ jobs:
       commands: >
         [
           "build",
-          "types",
-          "test",
-          "deps"
+          "lint",
+          "publint",
+          "test"
         ]

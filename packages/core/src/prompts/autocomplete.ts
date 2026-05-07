@@ -1,7 +1,7 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findCursor } from '../utils/cursor.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: unknown;
@@ -13,7 +13,7 @@ type FilterFunction<T extends OptionLike> = (search: string, opt: T) => boolean;
 
 function getCursorForValue<T extends OptionLike>(
 	selected: T['value'] | undefined,
-	items: T[]
+	items: T[],
 ): number {
 	if (selected === undefined) {
 		return 0;
@@ -46,8 +46,10 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-export interface AutocompleteOptions<T extends OptionLike>
-	extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
+export interface AutocompleteOptions<T extends OptionLike> extends PromptOptions<
+	T['value'] | T['value'][],
+	AutocompletePrompt<T>
+> {
 	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
@@ -60,9 +62,7 @@ export interface AutocompleteOptions<T extends OptionLike>
 	placeholder?: string;
 }
 
-export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
-	T['value'] | T['value'][]
-> {
+export class AutocompletePrompt<T extends OptionLike> extends Prompt<T['value'] | T['value'][]> {
 	filteredOptions: T[];
 	multiple: boolean;
 	isNavigating = false;
@@ -162,7 +162,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			placeholder !== undefined &&
 			placeholder !== '' &&
 			options.some(
-				(opt) => !opt.disabled && (this.#filterFn ? this.#filterFn(placeholder, opt) : true)
+				(opt) => !opt.disabled && (this.#filterFn ? this.#filterFn(placeholder, opt) : true),
 			);
 		if (key.name === 'tab' && isEmptyOrOnlyTab && placeholderMatchesOption) {
 			if (this.userInput === '\t') {

@@ -85,7 +85,7 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
-		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled',
 	) => {
 		const label = option.label ?? String(option.value);
 		switch (state) {
@@ -120,7 +120,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				opts.output,
 				opts.message,
 				titlePrefixBar,
-				titlePrefix
+				titlePrefix,
 			);
 			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
 
@@ -130,7 +130,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'selected'),
-						submitPrefix
+						submitPrefix,
 					);
 					return `${title}${wrappedLines}`;
 				}
@@ -139,7 +139,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					const wrappedLines = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[this.cursor], 'cancelled'),
-						cancelPrefix
+						cancelPrefix,
 					);
 					return `${title}${wrappedLines}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}

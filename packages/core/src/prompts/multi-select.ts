@@ -1,19 +1,21 @@
 import { findCursor } from '../utils/cursor.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: any;
 	disabled?: boolean;
 }
 
-export interface MultiSelectOptions<T extends OptionLike>
-	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
+export interface MultiSelectOptions<T extends OptionLike> extends PromptOptions<
+	T['value'][],
+	MultiSelectPrompt<T>
+> {
 	options: T[];
 	initialValues?: T['value'][];
 	required?: boolean;
 	cursorAt?: T['value'];
 }
-export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['value'][]> {
+export class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['value'][]> {
 	options: T[];
 	cursor = 0;
 
@@ -57,7 +59,7 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 		this.value = [...(opts.initialValues ?? [])];
 		const cursor = Math.max(
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
-			0
+			0,
 		);
 		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.on('key', (char) => {

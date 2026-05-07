@@ -21,7 +21,7 @@ ${color.cyan('Filter and select multiple items in a single interface:')}
 - Press ${color.yellow('Enter')} when done selecting all items
 - Press ${color.yellow('Ctrl+C')} to cancel
   `,
-		'Instructions'
+		'Instructions',
 	);
 
 	// Frameworks in alphabetical order
@@ -80,7 +80,7 @@ ${color.cyan('Filter and select multiple items in a single interface:')}
 	// Display selected frameworks with detailed information
 	p.note(
 		`You selected ${color.green(selectedFrameworks.length)} frameworks:`,
-		'Selection Complete'
+		'Selection Complete',
 	);
 
 	// Show each selected framework with its details

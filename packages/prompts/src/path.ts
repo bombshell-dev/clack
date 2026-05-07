@@ -1,4 +1,5 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
+// oxlint-disable-next-line no-restricted-imports
 import { dirname, join } from 'node:path';
 import { autocomplete } from './autocomplete.js';
 import type { CommonOptions } from './common.js';
@@ -66,13 +67,13 @@ export const path = (opts: PathOptions) => {
 						};
 					})
 					.filter(
-						({ path, isDirectory }) => path.startsWith(prefix) && (isDirectory || !opts.directory)
+						({ path, isDirectory }) => path.startsWith(prefix) && (isDirectory || !opts.directory),
 					);
 
 				return items.map((item) => ({
 					value: item.path,
 				}));
-			} catch (_e) {
+			} catch {
 				return [];
 			}
 		},

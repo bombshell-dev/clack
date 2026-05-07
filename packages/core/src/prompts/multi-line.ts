@@ -2,7 +2,7 @@ import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findTextCursor } from '../utils/cursor.js';
 import { type Action, settings } from '../utils/index.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
@@ -10,7 +10,7 @@ export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt>
 	showSubmit?: boolean;
 }
 
-export default class MultiLinePrompt extends Prompt<string> {
+export class MultiLinePrompt extends Prompt<string> {
 	#lastKeyWasReturn = false;
 	#showSubmit: boolean;
 	public focused: 'editor' | 'submit' = 'editor';
@@ -38,7 +38,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			return;
 		}
 		this._setUserInput(
-			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor)
+			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor),
 		);
 	}
 	#handleCursor(key?: Action) {
@@ -73,7 +73,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 		if (wasReturn) {
 			if (this.userInput[this.cursor - 1] === '\n') {
 				this._setUserInput(
-					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
+					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor),
 				);
 				this._cursor--;
 			}
@@ -103,14 +103,14 @@ export default class MultiLinePrompt extends Prompt<string> {
 			this.#lastKeyWasReturn = false;
 			if (key?.name === 'backspace' && this.cursor > 0) {
 				this._setUserInput(
-					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
+					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor),
 				);
 				this._cursor--;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
 				this._setUserInput(
-					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1)
+					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1),
 				);
 				return;
 			}

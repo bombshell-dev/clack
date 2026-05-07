@@ -1,6 +1,6 @@
 import type { Key } from 'node:readline';
 import { settings } from '../utils/settings.js';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 interface SegmentConfig {
 	type: 'year' | 'month' | 'day';
@@ -78,26 +78,20 @@ function toDate(parts: DateParts): Date | undefined {
 	return p ? new Date(Date.UTC(p.year, p.month - 1, p.day)) : undefined;
 }
 
+function toParts(date: Date | undefined): { year: number; month: number; day: number } | null {
+	return date
+		? { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() }
+		: null;
+}
+
+// oxlint-disable-next-line max-params
 function segmentBounds(
 	type: 'year' | 'month' | 'day',
 	ctx: { year: number; month: number },
-	minDate: Date | undefined,
-	maxDate: Date | undefined
+	dateConstraints: { minDate: Date | undefined; maxDate: Date | undefined },
 ): { min: number; max: number } {
-	const minP = minDate
-		? {
-				year: minDate.getUTCFullYear(),
-				month: minDate.getUTCMonth() + 1,
-				day: minDate.getUTCDate(),
-			}
-		: null;
-	const maxP = maxDate
-		? {
-				year: maxDate.getUTCFullYear(),
-				month: maxDate.getUTCMonth() + 1,
-				day: maxDate.getUTCDate(),
-			}
-		: null;
+	const minP = toParts(dateConstraints.minDate);
+	const maxP = toParts(dateConstraints.maxDate);
 
 	if (type === 'year') {
 		return { min: minP?.year ?? 1, max: maxP?.year ?? 9999 };
@@ -127,7 +121,7 @@ export interface DateOptions extends PromptOptions<Date, DatePrompt> {
 	maxDate?: Date;
 }
 
-export default class DatePrompt extends Prompt<Date> {
+export class DatePrompt extends Prompt<Date> {
 	#segments: SegmentConfig[];
 	#separator: string;
 	#segmentValues: DateParts;
@@ -205,7 +199,7 @@ export default class DatePrompt extends Prompt<Date> {
 		if (!segment) return undefined;
 		this.#cursor.positionInSegment = Math.max(
 			0,
-			Math.min(this.#cursor.positionInSegment, segment.len - 1)
+			Math.min(this.#cursor.positionInSegment, segment.len - 1),
 		);
 		return { segment, index };
 	}
@@ -217,7 +211,7 @@ export default class DatePrompt extends Prompt<Date> {
 		if (!ctx) return;
 		this.#cursor.segmentIndex = Math.max(
 			0,
-			Math.min(this.#segments.length - 1, ctx.index + direction)
+			Math.min(this.#segments.length - 1, ctx.index + direction),
 		);
 		this.#cursor.positionInSegment = 0;
 		this.#segmentSelected = true;
@@ -230,12 +224,10 @@ export default class DatePrompt extends Prompt<Date> {
 		const raw = this.#segmentValues[segment.type];
 		const isBlank = !raw || raw.replace(/_/g, '') === '';
 		const num = Number.parseInt((raw || '0').replace(/_/g, '0'), 10) || 0;
-		const bounds = segmentBounds(
-			segment.type,
-			parse(this.#segmentValues),
-			this.#minDate,
-			this.#maxDate
-		);
+		const bounds = segmentBounds(segment.type, parse(this.#segmentValues), {
+			minDate: this.#minDate,
+			maxDate: this.#maxDate,
+		});
 
 		let next: number;
 		if (isBlank) {

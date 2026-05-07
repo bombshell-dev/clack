@@ -73,7 +73,7 @@ async function main() {
 				p.cancel('Operation cancelled.');
 				process.exit(0);
 			},
-		}
+		},
 	);
 
 	if (project.install) {

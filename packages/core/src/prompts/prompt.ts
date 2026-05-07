@@ -24,7 +24,7 @@ export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	signal?: AbortSignal;
 }
 
-export default class Prompt<TValue> {
+export class Prompt<TValue> {
 	protected input: Readable;
 	protected output: Writable;
 	private _abortSignal?: AbortSignal;
@@ -70,7 +70,7 @@ export default class Prompt<TValue> {
 	 */
 	private setSubscriber<T extends keyof ClackEvents<TValue>>(
 		event: T,
-		opts: { cb: ClackEvents<TValue>[T]; once?: boolean }
+		opts: { cb: ClackEvents<TValue>[T]; once?: boolean },
 	) {
 		const params = this._subscribers.get(event) ?? [];
 		params.push(opts);
@@ -136,7 +136,7 @@ export default class Prompt<TValue> {
 						this.state = 'cancel';
 						this.close();
 					},
-					{ once: true }
+					{ once: true },
 				);
 			}
 

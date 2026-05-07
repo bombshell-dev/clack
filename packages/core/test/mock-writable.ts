@@ -6,7 +6,7 @@ export class MockWritable extends Writable {
 	_write(
 		chunk: any,
 		_encoding: BufferEncoding,
-		callback: (error?: Error | null | undefined) => void
+		callback: (error?: Error | null | undefined) => void,
 	): void {
 		this.buffer.push(chunk.toString());
 		callback();

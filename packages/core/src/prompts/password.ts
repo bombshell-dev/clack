@@ -1,10 +1,10 @@
 import { styleText } from 'node:util';
-import Prompt, { type PromptOptions } from './prompt.js';
+import { Prompt, type PromptOptions } from './prompt.js';
 
 export interface PasswordOptions extends PromptOptions<string, PasswordPrompt> {
 	mask?: string;
 }
-export default class PasswordPrompt extends Prompt<string> {
+export class PasswordPrompt extends Prompt<string> {
 	private _mask = '•';
 	get cursor() {
 		return this._cursor;
