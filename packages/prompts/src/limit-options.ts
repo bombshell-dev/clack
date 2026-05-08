@@ -17,16 +17,22 @@ const trimLines = (
 	initialLineCount: number,
 	startIndex: number,
 	endIndex: number,
-	maxLines: number
+	maxLines: number,
+	fromEnd = false
 ) => {
 	let lineCount = initialLineCount;
 	let removals = 0;
-	for (let i = startIndex; i < endIndex; i++) {
-		const group = groups[i];
-		lineCount = lineCount - group.length;
-		removals++;
-		if (lineCount <= maxLines) {
-			break;
+	if (fromEnd) {
+		for (let i = endIndex - 1; i >= startIndex; i--) {
+			lineCount -= groups[i].length;
+			removals++;
+			if (lineCount <= maxLines) break;
+		}
+	} else {
+		for (let i = startIndex; i < endIndex; i++) {
+			lineCount -= groups[i].length;
+			removals++;
+			if (lineCount <= maxLines) break;
 		}
 	}
 	return { lineCount, removals };
@@ -94,30 +100,31 @@ export const limitOptions = <TOption>({
 		let followingRemovals = 0;
 		let newLineCount = lineCount;
 		const cursorGroupIndex = cursor - slidingWindowLocationWithEllipsis;
-		const trimLinesLocal = (startIndex: number, endIndex: number) =>
-			trimLines(lineGroups, newLineCount, startIndex, endIndex, outputMaxItems);
+		let adjustedMax = outputMaxItems;
+		const trimPreceding = () =>
+			trimLines(lineGroups, newLineCount, 0, cursorGroupIndex, adjustedMax);
+		const trimFollowing = () =>
+			trimLines(
+				lineGroups,
+				newLineCount,
+				cursorGroupIndex + 1,
+				lineGroups.length,
+				adjustedMax,
+				true
+			);
 
 		if (shouldRenderTopEllipsis) {
-			({ lineCount: newLineCount, removals: precedingRemovals } = trimLinesLocal(
-				0,
-				cursorGroupIndex
-			));
-			if (newLineCount > outputMaxItems) {
-				({ lineCount: newLineCount, removals: followingRemovals } = trimLinesLocal(
-					cursorGroupIndex + 1,
-					lineGroups.length
-				));
+			({ lineCount: newLineCount, removals: precedingRemovals } = trimPreceding());
+			if (newLineCount > adjustedMax) {
+				if (!shouldRenderBottomEllipsis) adjustedMax -= 1;
+				({ lineCount: newLineCount, removals: followingRemovals } = trimFollowing());
 			}
 		} else {
-			({ lineCount: newLineCount, removals: followingRemovals } = trimLinesLocal(
-				cursorGroupIndex + 1,
-				lineGroups.length
-			));
-			if (newLineCount > outputMaxItems) {
-				({ lineCount: newLineCount, removals: precedingRemovals } = trimLinesLocal(
-					0,
-					cursorGroupIndex
-				));
+			if (!shouldRenderBottomEllipsis) adjustedMax -= 1;
+			({ lineCount: newLineCount, removals: followingRemovals } = trimFollowing());
+			if (newLineCount > adjustedMax) {
+				adjustedMax -= 1;
+				({ lineCount: newLineCount, removals: precedingRemovals } = trimPreceding());
 			}
 		}
 
