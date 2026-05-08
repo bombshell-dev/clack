@@ -1,3 +1,10 @@
 packages:
   - 'examples/*'
   - 'packages/*'
+allowBuilds:
+  esbuild: true
+  oxc-resolver: true
+autoInstallPeers: false
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+saveWorkspaceProtocol: false
