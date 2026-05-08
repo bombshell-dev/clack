@@ -9,12 +9,14 @@ import {
 	S_CHECKBOX_SELECTED,
 	symbol,
 } from './common.js';
+import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	message: string;
 	options: Record<string, Option<Value>[]>;
 	initialValues?: Value[];
+	maxItems?: number;
 	required?: boolean;
 	cursorAt?: Value;
 	selectableGroups?: boolean;
@@ -42,8 +44,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const prefix = isItem ? (selectableGroups ? `${isLast ? S_BAR_END : S_BAR} ` : '  ') : '';
 		let spacingPrefix = '';
 		if (groupSpacing > 0 && !isItem) {
-			const spacingPrefixText = `\n${styleText('cyan', S_BAR)}`;
-			spacingPrefix = `${spacingPrefixText.repeat(groupSpacing - 1)}${spacingPrefixText}  `;
+			spacingPrefix = '\n'.repeat(groupSpacing);
 		}
 
 		if (state === 'active') {
@@ -108,6 +109,30 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 			const value = this.value ?? [];
 
+			const styleOption = (
+				option: Option<Value> & { group: string | boolean },
+				active: boolean
+			) => {
+				const options = this.options;
+				const selected =
+					value.includes(option.value) ||
+					(option.group === true && this.isGroupSelected(`${option.value}`));
+				const groupActive =
+					!active &&
+					typeof option.group === 'string' &&
+					this.options[this.cursor].value === option.group;
+				if (groupActive) {
+					return opt(option, selected ? 'group-active-selected' : 'group-active', options);
+				}
+				if (active && selected) {
+					return opt(option, 'active-selected', options);
+				}
+				if (selected) {
+					return opt(option, 'selected', options);
+				}
+				return opt(option, active ? 'active' : 'inactive', options);
+			};
+
 			switch (this.state) {
 				case 'submit': {
 					const selectedOptions = this.options
@@ -127,6 +152,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 					}`;
 				}
 				case 'error': {
+					const guidePrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
 					const footer = this.error
 						.split('\n')
 						.map((ln, i) =>
@@ -135,60 +161,35 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 								: `   ${ln}`
 						)
 						.join('\n');
-					return `${title}${hasGuide ? `${styleText('yellow', S_BAR)}  ` : ''}${this.options
-						.map((option, i, options) => {
-							const selected =
-								value.includes(option.value) ||
-								(option.group === true && this.isGroupSelected(`${option.value}`));
-							const active = i === this.cursor;
-							const groupActive =
-								!active &&
-								typeof option.group === 'string' &&
-								this.options[this.cursor].value === option.group;
-							if (groupActive) {
-								return opt(option, selected ? 'group-active-selected' : 'group-active', options);
-							}
-							if (active && selected) {
-								return opt(option, 'active-selected', options);
-							}
-							if (selected) {
-								return opt(option, 'selected', options);
-							}
-							return opt(option, active ? 'active' : 'inactive', options);
-						})
-						.join(`\n${hasGuide ? `${styleText('yellow', S_BAR)}  ` : ''}`)}\n${footer}\n`;
+					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
+					const titleLineCount = title.split('\n').length;
+					const footerLineCount = footer.split('\n').length + 1; // footer + trailing newline
+					const optionsText = limitOptions({
+						output: opts.output,
+						options: this.options,
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						columnPadding: guidePrefix.length,
+						rowPadding: titleLineCount + footerLineCount,
+						style: styleOption,
+					}).join(`\n${guidePrefix}`);
+					return `${title}${guidePrefix}${optionsText}\n${footer}\n`;
 				}
 				default: {
-					const optionsText = this.options
-						.map((option, i, options) => {
-							const selected =
-								value.includes(option.value) ||
-								(option.group === true && this.isGroupSelected(`${option.value}`));
-							const active = i === this.cursor;
-							const groupActive =
-								!active &&
-								typeof option.group === 'string' &&
-								this.options[this.cursor].value === option.group;
-							let optionText = '';
-							if (groupActive) {
-								optionText = opt(
-									option,
-									selected ? 'group-active-selected' : 'group-active',
-									options
-								);
-							} else if (active && selected) {
-								optionText = opt(option, 'active-selected', options);
-							} else if (selected) {
-								optionText = opt(option, 'selected', options);
-							} else {
-								optionText = opt(option, active ? 'active' : 'inactive', options);
-							}
-							const prefix = i !== 0 && !optionText.startsWith('\n') ? '  ' : '';
-							return `${prefix}${optionText}`;
-						})
-						.join(`\n${hasGuide ? styleText('cyan', S_BAR) : ''}`);
-					const optionsPrefix = optionsText.startsWith('\n') ? '' : '  ';
-					return `${title}${hasGuide ? styleText('cyan', S_BAR) : ''}${optionsPrefix}${optionsText}\n${
+					const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+					const titleLineCount = title.split('\n').length;
+					const footerLineCount = (hasGuide ? 1 : 0) + 1; // guide line + trailing newline
+					const optionsText = limitOptions({
+						output: opts.output,
+						options: this.options,
+						cursor: this.cursor,
+						maxItems: opts.maxItems,
+						columnPadding: guidePrefix.length,
+						rowPadding: titleLineCount + footerLineCount,
+						style: styleOption,
+					}).join(`\n${guidePrefix}`);
+					return `${title}${guidePrefix}${optionsText}\n${
 						hasGuide ? styleText('cyan', S_BAR_END) : ''
 					}\n`;
 				}
