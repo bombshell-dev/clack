@@ -41,7 +41,7 @@ export const multiline = (opts: MultiLineOptions) => {
 				case 'submit': {
 					const submitPrefix = `${styleText('gray', S_BAR)}  `;
 					const lines = hasGuide
-						? wrapTextWithPrefix(opts.output, value, submitPrefix, undefined, (str) =>
+						? wrapTextWithPrefix(opts.output, value, submitPrefix, undefined, undefined, (str) =>
 								styleText('dim', str)
 							)
 						: value
@@ -52,7 +52,7 @@ export const multiline = (opts: MultiLineOptions) => {
 				case 'cancel': {
 					const cancelPrefix = `${styleText('gray', S_BAR)}  `;
 					const lines = hasGuide
-						? wrapTextWithPrefix(opts.output, value, cancelPrefix, undefined, (str) =>
+						? wrapTextWithPrefix(opts.output, value, cancelPrefix, undefined, undefined, (str) =>
 								styleText(['strikethrough', 'dim'], str)
 							)
 						: value

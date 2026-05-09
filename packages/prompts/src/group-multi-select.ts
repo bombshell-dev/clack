@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { GroupMultiSelectPrompt, settings } from '@clack/core';
+import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -41,44 +41,87 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		const isItem = typeof option.group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
 		const isLast = isItem && next && next.group === true;
-		const prefix = isItem ? (selectableGroups ? `${isLast ? S_BAR_END : S_BAR} ` : '  ') : '';
+		let prefix = '';
+		let prefixEnd = '';
+		if (isItem) {
+			if (selectableGroups) {
+				prefix = isLast ? `${S_BAR_END} ` : `${S_BAR} `;
+				prefixEnd = isLast ? `  ` : `${S_BAR} `;
+			} else {
+				prefix = '  ';
+			}
+		}
 		let spacingPrefix = '';
 		if (groupSpacing > 0 && !isItem) {
 			spacingPrefix = '\n'.repeat(groupSpacing);
 		}
 
 		if (state === 'active') {
-			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('cyan', S_CHECKBOX_ACTIVE)} ${label}${
-				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
-			}`;
+			return wrapTextWithPrefix(
+				opts.output,
+				`${label}${option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''}`,
+				`${spacingPrefix}${styleText('dim', prefix)} `,
+				`${spacingPrefix}${styleText('dim', prefix)}${styleText('cyan', S_CHECKBOX_ACTIVE)} `,
+				`${spacingPrefix}${styleText('dim', prefixEnd)} `
+			);
 		}
 		if (state === 'group-active') {
-			return `${spacingPrefix}${prefix}${styleText('cyan', S_CHECKBOX_ACTIVE)} ${styleText('dim', label)}`;
+			return wrapTextWithPrefix(
+				opts.output,
+				label,
+				`${spacingPrefix}${prefix} `,
+				`${spacingPrefix}${prefix}${styleText('cyan', S_CHECKBOX_ACTIVE)} `,
+				`${spacingPrefix}${prefixEnd} `,
+				(str) => styleText('dim', str)
+			);
 		}
 		if (state === 'group-active-selected') {
-			return `${spacingPrefix}${prefix}${styleText('green', S_CHECKBOX_SELECTED)} ${styleText('dim', label)}`;
+			return wrapTextWithPrefix(
+				opts.output,
+				label,
+				`${spacingPrefix}${prefix} `,
+				`${spacingPrefix}${prefix}${styleText('green', S_CHECKBOX_SELECTED)} `,
+				`${spacingPrefix}${prefixEnd} `,
+				(str) => styleText('dim', str)
+			);
 		}
 		if (state === 'selected') {
 			const selectedCheckbox =
 				isItem || selectableGroups ? styleText('green', S_CHECKBOX_SELECTED) : '';
-			return `${spacingPrefix}${styleText('dim', prefix)}${selectedCheckbox} ${styleText('dim', label)}${
-				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
-			}`;
+			return wrapTextWithPrefix(
+				opts.output,
+				`${label}${option.hint ? ` (${option.hint})` : ''}`,
+				`${spacingPrefix}${styleText('dim', prefix)} `,
+				`${spacingPrefix}${styleText('dim', prefix)}${selectedCheckbox} `,
+				`${spacingPrefix}${styleText('dim', prefixEnd)} `,
+				(str) => styleText('dim', str)
+			);
 		}
 		if (state === 'cancelled') {
 			return `${styleText(['strikethrough', 'dim'], label)}`;
 		}
 		if (state === 'active-selected') {
-			return `${spacingPrefix}${styleText('dim', prefix)}${styleText('green', S_CHECKBOX_SELECTED)} ${label}${
-				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
-			}`;
+			return wrapTextWithPrefix(
+				opts.output,
+				`${label}${option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''}`,
+				`${spacingPrefix}${styleText('dim', prefix)} `,
+				`${spacingPrefix}${styleText('dim', prefix)}${styleText('green', S_CHECKBOX_SELECTED)} `,
+				`${spacingPrefix}${styleText('dim', prefixEnd)} `
+			);
 		}
 		if (state === 'submitted') {
 			return `${styleText('dim', label)}`;
 		}
 		const unselectedCheckbox =
 			isItem || selectableGroups ? styleText('dim', S_CHECKBOX_INACTIVE) : '';
-		return `${spacingPrefix}${styleText('dim', prefix)}${unselectedCheckbox} ${styleText('dim', label)}`;
+		return wrapTextWithPrefix(
+			opts.output,
+			label,
+			`${spacingPrefix}${styleText('dim', prefix)} `,
+			`${spacingPrefix}${styleText('dim', prefix)}${unselectedCheckbox} `,
+			`${spacingPrefix}${styleText('dim', prefixEnd)} `,
+			(str) => styleText('dim', str)
+		);
 	};
 	const required = opts.required ?? true;
 
