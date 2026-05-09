@@ -226,7 +226,7 @@ export default class Prompt<TValue> {
 		}
 
 		// Call the key event handler and emit the key event
-		this.emit('key', char?.toLowerCase(), key);
+		this.emit('key', char, key);
 
 		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {

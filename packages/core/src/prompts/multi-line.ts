@@ -1,11 +1,8 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findTextCursor } from '../utils/cursor.js';
+import { type ArrowKeyAction, settings } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
-
-const actions = ['up', 'down', 'left', 'right'];
-type Action = (typeof actions)[number];
-const actionSet = new Set(actions);
 
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
@@ -44,7 +41,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor)
 		);
 	}
-	#handleCursor(key?: Action) {
+	#handleCursor(key?: ArrowKeyAction) {
 		const text = this.value ?? '';
 		switch (key) {
 			case 'up':
@@ -92,8 +89,8 @@ export default class MultiLinePrompt extends Prompt<string> {
 		this.#showSubmit = opts.showSubmit ?? false;
 
 		this.on('key', (char, key) => {
-			if (key?.name && actionSet.has(key.name as Action)) {
-				this.#handleCursor(key.name as Action);
+			if (key?.name && settings.arrowKeyActions.has(key.name as ArrowKeyAction)) {
+				this.#handleCursor(key.name as ArrowKeyAction);
 				return;
 			}
 			if (char === '\t' && this.#showSubmit) {
@@ -121,8 +118,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 				if (this.#showSubmit && this.focused === 'submit') {
 					this.focused = 'editor';
 				}
-				const casedChar = key.shift ? char.toUpperCase() : char;
-				this.#insertAtCursor(casedChar ?? '');
+				this.#insertAtCursor(char ?? '');
 				this._cursor++;
 			}
 		});

@@ -195,7 +195,7 @@ describe('MultiLinePrompt', () => {
 			});
 			instance.prompt();
 			input.emit('keypress', 'x', { name: 'x' });
-			input.emit('keypress', 'x', { name: 'x', shift: true });
+			input.emit('keypress', 'X', { name: 'x', shift: true });
 			expect(instance.userInput).to.equal('xX');
 		});
 
