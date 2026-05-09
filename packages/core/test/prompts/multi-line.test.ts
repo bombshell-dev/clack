@@ -175,6 +175,30 @@ describe('MultiLinePrompt', () => {
 			expect(result).to.equal('xy');
 		});
 
+		test('space inserts space', () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', ' ', { name: 'space' });
+			expect(instance.userInput).to.equal('x ');
+		});
+
+		test('shift modifier inserts uppercase characters', () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', 'x', { name: 'x', shift: true });
+			expect(instance.userInput).to.equal('xX');
+		});
+
 		test('backspace deletes previous char', async () => {
 			const instance = new MultiLinePrompt({
 				input,
