@@ -15,27 +15,39 @@ export interface LimitOptionsParams<TOption> extends CommonOptions {
 const trimLines = (
 	groups: Array<string[]>,
 	initialLineCount: number,
-	startIndex: number,
-	endIndex: number,
-	maxLines: number,
-	fromEnd = false
+	index: number,
+	maxLines: number
 ) => {
 	let lineCount = initialLineCount;
-	let removals = 0;
-	if (fromEnd) {
-		for (let i = endIndex - 1; i >= startIndex; i--) {
-			lineCount -= groups[i].length;
-			removals++;
-			if (lineCount <= maxLines) break;
+	let precedingRemovals = 0;
+	let followingRemovals = 0;
+	const limit = Math.max(index, groups.length);
+
+	for (let i = 0; i < limit; i++) {
+		const left = groups[i];
+		const rightIndex = groups.length - 1 - i;
+		const right = groups[rightIndex];
+
+		if (rightIndex > index && right) {
+			lineCount -= right.length;
+			followingRemovals++;
 		}
-	} else {
-		for (let i = startIndex; i < endIndex; i++) {
-			lineCount -= groups[i].length;
-			removals++;
-			if (lineCount <= maxLines) break;
+
+		if (lineCount <= maxLines) {
+			break;
+		}
+
+		if (i < index && left) {
+			lineCount -= left.length;
+			precedingRemovals++;
+		}
+
+		if (lineCount <= maxLines) {
+			break;
 		}
 	}
-	return { lineCount, removals };
+
+	return { lineCount, precedingRemovals, followingRemovals };
 };
 
 export const limitOptions = <TOption>({
@@ -100,33 +112,9 @@ export const limitOptions = <TOption>({
 		let followingRemovals = 0;
 		let newLineCount = lineCount;
 		const cursorGroupIndex = cursor - slidingWindowLocationWithEllipsis;
-		let adjustedMax = outputMaxItems;
-		const trimPreceding = () =>
-			trimLines(lineGroups, newLineCount, 0, cursorGroupIndex, adjustedMax);
-		const trimFollowing = () =>
-			trimLines(
-				lineGroups,
-				newLineCount,
-				cursorGroupIndex + 1,
-				lineGroups.length,
-				adjustedMax,
-				true
-			);
+		const trimLocal = () => trimLines(lineGroups, newLineCount, cursorGroupIndex, outputMaxItems);
 
-		if (shouldRenderTopEllipsis) {
-			({ lineCount: newLineCount, removals: precedingRemovals } = trimPreceding());
-			if (newLineCount > adjustedMax) {
-				if (!shouldRenderBottomEllipsis) adjustedMax -= 1;
-				({ lineCount: newLineCount, removals: followingRemovals } = trimFollowing());
-			}
-		} else {
-			if (!shouldRenderBottomEllipsis) adjustedMax -= 1;
-			({ lineCount: newLineCount, removals: followingRemovals } = trimFollowing());
-			if (newLineCount > adjustedMax) {
-				adjustedMax -= 1;
-				({ lineCount: newLineCount, removals: precedingRemovals } = trimPreceding());
-			}
-		}
+		({ lineCount: newLineCount, precedingRemovals, followingRemovals } = trimLocal());
 
 		if (precedingRemovals > 0) {
 			shouldRenderTopEllipsis = true;
