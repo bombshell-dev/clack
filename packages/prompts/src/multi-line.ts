@@ -20,6 +20,8 @@ export interface MultiLineOptions extends TextOptions {
  * The multi-line prompt accepts multiple lines of text input.
  * By default, pressing `Enter` twice submits the input.
  *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#multi-line-text
+ *
  * @example
  * ```ts
  * import { multiline } from '@clack/prompts';
