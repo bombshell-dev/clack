@@ -1,5 +1,18 @@
 # @clack/prompts
 
+## 1.4.0
+
+### Minor Changes
+
+- 284677e: Support scrolling and `maxItems` option for `groupMultiselect`, and removes indent when `withGuide` is set to `false`
+
+### Patch Changes
+
+- aab46a2: docs: add jsdoc for `text`, `password`, and `multiline` prompts
+- 54be8d7: Fix line wrapping and overflow computation in group multi-select and other list-like prompts.
+- Updated dependencies [54be8d7]
+  - @clack/core@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes
