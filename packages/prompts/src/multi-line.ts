@@ -3,10 +3,36 @@ import { MultiLinePrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import { S_BAR, S_BAR_END, symbol } from './common.js';
 import type { TextOptions } from './text.js';
 
+/**
+ * Options for the {@link multiline} prompt
+ */
 export interface MultiLineOptions extends TextOptions {
+	/**
+	 * When enabled it shows a `[ submit ]` button that can be focused with tab.
+	 * By default, pressing `Enter` twice submits the input
+	 *
+	 * @default false
+	 */
 	showSubmit?: boolean;
 }
 
+/**
+ * The multi-line prompt accepts multiple lines of text input.
+ * By default, pressing `Enter` twice submits the input.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#multi-line-text
+ *
+ * @example
+ * ```ts
+ * import { multiline } from '@clack/prompts';
+ *
+ * const bio = await multiline({
+ *   message: 'Enter your bio',
+ *   placeholder: 'Tell us about yourself...',
+ *   showSubmit: true,
+ * });
+ * ```
+ */
 export const multiline = (opts: MultiLineOptions) => {
 	return new MultiLinePrompt({
 		validate: opts.validate,
