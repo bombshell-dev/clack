@@ -114,7 +114,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a', shift: true });
+		input.emit('keypress', 'A', { name: 'a', shift: true });
 
 		const value = await result;
 
@@ -156,7 +156,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
-		input.emit('keypress', 'a', { name: 'a', shift: true });
+		input.emit('keypress', 'A', { name: 'a', shift: true });
 
 		const value = await result;
 

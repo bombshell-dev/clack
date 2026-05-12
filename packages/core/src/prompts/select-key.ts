@@ -19,17 +19,17 @@ export default class SelectKeyPrompt<T extends { value: string }> extends Prompt
 		});
 		this.cursor = Math.max(keys.indexOf(opts.initialValue), 0);
 
-		this.on('key', (key, keyInfo) => {
+		this.on('key', (key) => {
 			if (!key) {
 				return;
 			}
-			const casedKey = caseSensitive && keyInfo.shift ? key.toUpperCase() : key;
+			const casedKey = caseSensitive ? key : key.toLowerCase();
 			if (!keys.includes(casedKey)) {
 				return;
 			}
 
 			const value = this.options.find(({ value: [initial] }) => {
-				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === key;
+				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === casedKey;
 			});
 			if (value) {
 				this.value = value.value;
