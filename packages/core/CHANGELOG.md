@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.3.1
+
+### Patch Changes
+
+- 54be8d7: Fix line wrapping and overflow computation in group multi-select and other list-like prompts.
+
 ## 1.3.0
 
 ### Minor Changes
