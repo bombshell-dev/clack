@@ -29,8 +29,7 @@ export default class SelectKeyPrompt<T extends { value: string }> extends Prompt
 			}
 
 			const value = this.options.find(({ value: [initial] }) => {
-				const casedInitial = caseSensitive ? initial : initial?.toLowerCase();
-				return casedInitial === casedKey;
+				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === casedKey;
 			});
 			if (value) {
 				this.value = value.value;

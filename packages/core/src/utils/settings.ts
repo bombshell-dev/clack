@@ -1,6 +1,4 @@
-const arrowKeyActions = ['up', 'down', 'left', 'right'];
-const actions = [...arrowKeyActions, 'space', 'enter', 'cancel'] as const;
-export type ArrowKeyAction = (typeof arrowKeyActions)[number];
+const actions = ['up', 'down', 'left', 'right', 'space', 'enter', 'cancel'] as const;
 export type Action = (typeof actions)[number];
 
 const DEFAULT_MONTH_NAMES = [
@@ -20,7 +18,6 @@ const DEFAULT_MONTH_NAMES = [
 
 /** Global settings for Clack programs, stored in memory */
 interface InternalClackSettings {
-	arrowKeyActions: Set<ArrowKeyAction>;
 	actions: Set<Action>;
 	aliases: Map<string, Action>;
 	messages: {
@@ -41,7 +38,6 @@ interface InternalClackSettings {
 }
 
 export const settings: InternalClackSettings = {
-	arrowKeyActions: new Set(arrowKeyActions),
 	actions: new Set(actions),
 	aliases: new Map<string, Action>([
 		// vim support
