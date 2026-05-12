@@ -43,5 +43,15 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 			}
 			this.changeValue();
 		});
+
+		this.on('key', (char, key) => {
+			if (key.ctrl || key.meta) return;
+			if (!char || char.length !== 1) return;
+			if (char < '1' || char > '9') return;
+			const target = Number(char) - 1;
+			if (target >= this.options.length) return;
+			this.cursor = this.options[target].disabled ? findCursor<T>(target, 1, this.options) : target;
+			this.changeValue();
+		});
 	}
 }
