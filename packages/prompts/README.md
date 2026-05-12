@@ -81,7 +81,7 @@ const secret = await password({
 
 ### Confirm
 
-The confirm component accepts a yes or no answer. The result is a boolean value of `true` or `false`.
+The `confirm` prompt accepts a yes or no choice, returning a boolean value corresponding to the user's selection.
 
 ```js
 import { confirm } from '@clack/prompts';
@@ -125,7 +125,7 @@ const projectType = await select({
 
 ### Autocomplete
 
-The autocomplete component lets a user filter a list by typing, then choose one option from the matching results. By default, matching uses each option's `label`, `hint`, and `value`. The result is the selected option's `value`.
+The `autocomplete` prompt combines text input with a searchable list of options. It's perfect for when you have a large list of options and want to help users find what they're looking for quickly.
 
 ```js
 import { autocomplete } from '@clack/prompts';
@@ -139,6 +139,27 @@ const framework = await autocomplete({
     { value: 'sveltekit', label: 'SvelteKit' },
     { value: 'remix', label: 'Remix' },
   ],
+});
+```
+
+### Autocomplete Multi-Select
+
+The `autocompleteMultiselect` prompt combines the search functionality of [autocomplete](#autocomplete) with the ability to select multiple options.
+
+```js
+import { autocomplete } from '@clack/prompts';
+
+const framework = await autocomplete({
+  message: 'Search for a framework',
+  options: [
+    { value: 'next', label: 'Next.js', hint: 'React framework' },
+    { value: 'astro', label: 'Astro', hint: 'Content-focused' },
+    { value: 'svelte', label: 'SvelteKit', hint: 'Compile-time framework' },
+    { value: 'remix', label: 'Remix', hint: 'Full stack framework' },
+    { value: 'nuxt', label: 'Nuxt', hint: 'Vue framework' },
+  ],
+  placeholder: 'Type to search...',
+  maxItems: 5,
 });
 ```
 
@@ -226,7 +247,7 @@ const bio = await multiline({
 
 ### Path
 
-The path component offers filesystem path suggestions and returns the selected path as a string. When `directory: true` is set, only directories can be selected.
+The `path` prompt extends [`autocomplete`](#autocomplete) to provide file and directory suggestions.
 
 ```js
 import { path } from '@clack/prompts';

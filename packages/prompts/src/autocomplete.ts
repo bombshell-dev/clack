@@ -41,45 +41,83 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
+/**
+ * Options for the {@link autocomplete} prompt.
+ */
 interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	/**
-	 * The message to display to the user.
+	 * The prompt message or question shown to the user above the input.
 	 */
 	message: string;
+
 	/**
-	 * Available options for the autocomplete prompt.
+	 * The options to present, or a function that returns the options to present
+	 * allowing for custom search/filtering.
+	 *
+	 * @see https://bomb.sh/docs/clack/packages/prompts/#dynamic-options-getter
 	 */
 	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
+
 	/**
-	 * Maximum number of items to display at once.
+	 * The maximum number of items/options to display in the autocomplete list at once.
 	 */
 	maxItems?: number;
+
 	/**
-	 * Placeholder text to display when no input is provided.
+	 * Placeholder text displayed when the search field is empty. When set, pressing
+	 * tab copies the placeholder into the input.
 	 */
 	placeholder?: string;
+
 	/**
-	 * Validates the value
+	 * A function that validates user input. Return a `string` or `Error` to show as a
+	 * validation error, or `undefined` to accept the result.
 	 */
 	validate?: (value: Value | Value[] | undefined) => string | Error | undefined;
+
 	/**
-	 * Custom filter function to match options against search input.
-	 * If not provided, a default filter that matches label, hint, and value is used.
+	 * Custom filter function to match options against the search input.
 	 */
 	filter?: (search: string, option: Option<Value>) => boolean;
 }
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
 	/**
-	 * The initial selected value.
+	 * The initially selected option from the list.
 	 */
 	initialValue?: Value;
+
 	/**
-	 * The initial user input
+	 * The starting value shown in the users input box.
 	 */
 	initialUserInput?: string;
 }
 
+/**
+ * The `autocomplete` prompt combines a text input with a searchable list of options.
+ * It's perfect for when you have a large list of options and want to help users
+ * find what they're looking for quickly.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#autocomplete
+ *
+ * @example
+ * ```ts
+ * import { autocomplete } from '@clack/prompts';
+ *
+ * const framework = await autocomplete({
+ *   message: 'Search for a framework',
+ *   options: [
+ *     { value: 'next', label: 'Next.js', hint: 'React framework' },
+ *     { value: 'astro', label: 'Astro', hint: 'Content-focused' },
+ *     { value: 'svelte', label: 'SvelteKit', hint: 'Compile-time framework' },
+ *     { value: 'remix', label: 'Remix', hint: 'Full stack framework' },
+ *     { value: 'nuxt', label: 'Nuxt', hint: 'Vue framework' },
+ *   ],
+ *   placeholder: 'Type to search...',
+ *   maxItems: 5,
+ * });
+ * ```
+ */
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
@@ -223,20 +261,45 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	return prompt.prompt() as Promise<Value | symbol>;
 };
 
-// Type definition for the autocompleteMultiselect component
+/**
+ * Options for the {@link autocompleteMultiselect} prompt
+ */
 export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
 	/**
-	 * The initial selected values
+	 * The initially selected option(s) from the list.
 	 */
 	initialValues?: Value[];
+
 	/**
-	 * If true, at least one option must be selected
+	 * When `true` at least one option must be selected.
+	 * @default false
 	 */
 	required?: boolean;
 }
 
 /**
- * Integrated autocomplete multiselect - combines type-ahead filtering with multiselect in one UI
+ * The `autocompleteMultiselect` prompt combines the search functionality of autocomplete
+ * with the ability to select multiple options.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#autocomplete-multiselect
+ *
+ * @example
+ * ```ts
+ * import { autocompleteMultiselect } from '@clack/prompts';
+ *
+ * const frameworks = await autocompleteMultiselect({
+ *   message: 'Select frameworks',
+ *   options: [
+ *     { value: 'next', label: 'Next.js', hint: 'React framework' },
+ *     { value: 'astro', label: 'Astro', hint: 'Content-focused' },
+ *     { value: 'svelte', label: 'SvelteKit', hint: 'Compile-time framework' },
+ *     { value: 'remix', label: 'Remix', hint: 'Full stack framework' },
+ *     { value: 'nuxt', label: 'Nuxt', hint: 'Vue framework' },
+ *   ],
+ *   placeholder: 'Type to search...',
+ *   maxItems: 5,
+ * });
+ * ```
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
 	const formatOption = (
