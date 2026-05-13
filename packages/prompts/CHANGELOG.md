@@ -1,5 +1,15 @@
 # @clack/prompts
 
+## 1.4.1
+
+### Patch Changes
+
+- adb6af9: docs: add jsdoc for `box`, `group`, and `group-multi-select`
+- 3dcb31a: Fixed spaces and uppercase characters in multiline prompt
+- 3170ed9: docs: add jsdoc for `autocomplete`, `confirm`, and `path` prompts
+- Updated dependencies [3dcb31a]
+  - @clack/core@1.3.2
+
 ## 1.4.0
 
 ### Minor Changes
