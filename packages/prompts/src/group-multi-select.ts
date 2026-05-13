@@ -12,16 +12,81 @@ import {
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
+/**
+ * Options for the {@link groupMultiselect} prompt.
+ */
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
+	/**
+	 * The message or question shown to the user above the input.
+	 */
 	message: string;
+
+	/**
+	 * Grouped options to display. Each key is a group label, and each value is an array of options.
+	 */
 	options: Record<string, Option<Value>[]>;
+
+	/**
+	 * The initially selected option(s).
+	 */
 	initialValues?: Value[];
+
+	/**
+	 * The maximum number of items/options to display at once.
+	 */
 	maxItems?: number;
+
+	/**
+	 * When `true` at least one option must be selected.
+	 * @default true
+	 */
 	required?: boolean;
+
+	/**
+	 * The value the cursor should be positioned at initially.
+	 */
 	cursorAt?: Value;
+
+	/**
+	 * Whether entire groups can be selected at once.
+	 * @default true
+	 */
 	selectableGroups?: boolean;
+
+	/**
+	 * Number of blank lines between groups.
+	 * @default 0
+	 */
 	groupSpacing?: number;
 }
+
+/**
+ * The `groupMultiselect` prompt extends the {@link multiselect} prompt to allow
+ * arranging distinct Multi-Selects, whilst keeping all of them interactive.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#group-multiselect
+ *
+ * @example
+ * ```ts
+ * import { groupMultiselect } from '@clack/prompts';
+ *
+ * const result = await groupMultiselect({
+ * 	message: 'Define your project',
+ * 	options: {
+ * 		'Testing': [
+ * 			{ value: 'Jest', hint: 'JavaScript testing framework' },
+ * 			{ value: 'Playwright', hint: 'End-to-end testing' },
+ * 		],
+ * 		'Language': [
+ * 			{ value: 'js', label: 'JavaScript', hint: 'Dynamic typing' },
+ * 			{ value: 'ts', label: 'TypeScript', hint: 'Static typing' },
+ * 		],
+ * 	},
+ * });
+ * ```
+ *
+ * @param opts The options for the group multiselect prompt
+ */
 export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
