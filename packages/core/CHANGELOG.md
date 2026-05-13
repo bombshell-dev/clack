@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.3.2
+
+### Patch Changes
+
+- 3dcb31a: Fixed spaces and uppercase characters in multiline prompt
+
 ## 1.3.1
 
 ### Patch Changes
