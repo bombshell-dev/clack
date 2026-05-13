@@ -46,7 +46,7 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
  */
 interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	/**
-	 * The prompt message or question shown to the user above the input.
+	 * The message or question shown to the user above the input.
 	 */
 	message: string;
 

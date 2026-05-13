@@ -8,7 +8,7 @@ import type { CommonOptions } from './common.js';
  */
 export interface PathOptions extends CommonOptions {
 	/**
-	 * The prompt message or question shown to the user above the input.
+	 * The message or question shown to the user above the input.
 	 */
 	message: string;
 

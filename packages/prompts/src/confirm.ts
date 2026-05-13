@@ -14,7 +14,7 @@ import {
  */
 export interface ConfirmOptions extends CommonOptions {
 	/**
-	 * The prompt message or question shown to the user above the input.
+	 * The message or question shown to the user above the input.
 	 */
 	message: string;
 
