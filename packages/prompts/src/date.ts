@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
-import type { DateFormat, PromptOptionsValidate, State } from '@clack/core';
-import { DatePrompt, settings } from '@clack/core';
+import type { DateFormat, State, Validate } from '@clack/core';
+import { DatePrompt, runValidation, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export type { DateFormat };
@@ -13,7 +13,7 @@ export interface DateOptions extends CommonOptions {
 	initialValue?: Date;
 	minDate?: Date;
 	maxDate?: Date;
-	validate?: PromptOptionsValidate<Date>;
+	validate?: Validate<Date>;
 }
 
 export const date = (opts: DateOptions) => {
@@ -23,7 +23,7 @@ export const date = (opts: DateOptions) => {
 		validate(value: Date | undefined) {
 			if (value === undefined) {
 				if (opts.defaultValue !== undefined) return undefined;
-				if (validate) return validate(value);
+				if (validate) return runValidation(validate, value);
 				return settings.date.messages.required;
 			}
 			const iso = (d: Date) => d.toISOString().slice(0, 10);
@@ -33,7 +33,7 @@ export const date = (opts: DateOptions) => {
 			if (opts.maxDate && iso(value) > iso(opts.maxDate)) {
 				return settings.date.messages.beforeMax(opts.maxDate);
 			}
-			if (validate) return validate(value);
+			if (validate) return runValidation(validate, value);
 			return undefined;
 		},
 		render() {

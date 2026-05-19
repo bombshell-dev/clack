@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { PromptOptionsValidate } from '@clack/core';
+import type { Validate } from '@clack/core';
 import { AutocompletePrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
@@ -74,7 +74,7 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * A function that validates user input. Return a `string` or `Error` to show as a
 	 * validation error, or `undefined` to accept the result.
 	 */
-	validate?: PromptOptionsValidate<Value | Value[]>;
+	validate?: Validate<Value | Value[]>;
 
 	/**
 	 * Custom filter function to match options against the search input.
