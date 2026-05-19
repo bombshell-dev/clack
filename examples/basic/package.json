@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@clack/prompts": "workspace:*",
+    "arktype": "^2.2.0",
     "picocolors": "^1.0.0",
     "jiti": "^1.17.0"
   },

@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { DateFormat, State } from '@clack/core';
+import type { DateFormat, PromptOptionsValidate, State } from '@clack/core';
 import { DatePrompt, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
@@ -13,7 +13,7 @@ export interface DateOptions extends CommonOptions {
 	initialValue?: Date;
 	minDate?: Date;
 	maxDate?: Date;
-	validate?: (value: Date | undefined) => string | Error | undefined;
+	validate?: PromptOptionsValidate<Date>;
 }
 
 export const date = (opts: DateOptions) => {

@@ -1,6 +1,7 @@
 import { stdin, stdout } from 'node:process';
 import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
+import type { StandardSchemaV1 } from '@standard-schema/spec';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
 import type { ClackEvents, ClackState } from '../types.js';
@@ -14,11 +15,15 @@ import {
 	settings,
 } from '../utils/index.js';
 
+export type PromptOptionsValidate<TValue> =
+	| ((value: TValue | undefined) => string | Error | undefined)
+	| StandardSchemaV1<TValue | undefined, any>;
+
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	initialValue?: any;
 	initialUserInput?: string;
-	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
+	validate?: PromptOptionsValidate<TValue> | undefined;
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
@@ -230,7 +235,21 @@ export default class Prompt<TValue> {
 
 		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {
-				const problem = this.opts.validate(this.value);
+				let problem: string | Error | undefined;
+
+				if ('~standard' in this.opts.validate) {
+					const result = this.opts.validate['~standard'].validate(this.value);
+					// https://standardschema.dev/schema#how-to-only-allow-synchronous-validation
+					if (result instanceof Promise) {
+						throw new TypeError(
+							'Schema validation must be synchronous. Update `validate()` and get rid of any asynchronous logic.'
+						);
+					}
+					problem = result.issues?.at(0)?.message;
+				} else {
+					problem = this.opts.validate(this.value);
+				}
+
 				if (problem) {
 					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';

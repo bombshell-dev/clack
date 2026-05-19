@@ -12,7 +12,7 @@ export type { MultiSelectOptions } from './prompts/multi-select.js';
 export { default as MultiSelectPrompt } from './prompts/multi-select.js';
 export type { PasswordOptions } from './prompts/password.js';
 export { default as PasswordPrompt } from './prompts/password.js';
-export type { PromptOptions } from './prompts/prompt.js';
+export type { PromptOptions, PromptOptionsValidate } from './prompts/prompt.js';
 export { default as Prompt } from './prompts/prompt.js';
 export type { SelectOptions } from './prompts/select.js';
 export { default as SelectPrompt } from './prompts/select.js';

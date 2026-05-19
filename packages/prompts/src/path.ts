@@ -1,5 +1,6 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import type { PromptOptionsValidate } from '@clack/core';
 import { autocomplete } from './autocomplete.js';
 import type { CommonOptions } from './common.js';
 
@@ -36,7 +37,7 @@ export interface PathOptions extends CommonOptions {
 	 * A function that validates the given path. Return a `string` or `Error` to show as a
 	 * validation error, or `undefined` to accept the result.
 	 */
-	validate?: (value: string | undefined) => string | Error | undefined;
+	validate?: PromptOptionsValidate<string>;
 }
 
 /**

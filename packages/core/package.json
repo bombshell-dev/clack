@@ -56,10 +56,12 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@standard-schema/spec": "^1.1.0",
     "fast-wrap-ansi": "^0.2.0",
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
+    "arktype": "^2.2.0",
     "vitest": "^3.2.4"
   }
 }
