@@ -26,7 +26,7 @@ export function runValidation<TValue>(
 		// TODO: https://github.com/bombshell-dev/clack/issues/92
 		if (result instanceof Promise) {
 			throw new TypeError(
-				'Schema validation must be synchronous. Update `validate()` and get rid of any asynchronous logic.'
+				'Schema validation must be synchronous. Update `validate()` and remove any asynchronous logic.'
 			);
 		}
 		return result.issues?.at(0)?.message;
