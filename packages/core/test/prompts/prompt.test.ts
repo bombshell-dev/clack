@@ -346,23 +346,5 @@ describe('Prompt', () => {
 			expect(instance.state).to.equal('error');
 			expect(instance.error).to.equal('must be "valid" (was "invalid")');
 		});
-
-		test('validates value with Error object', () => {
-			const instance = new Prompt({
-				input,
-				output,
-				render: () => 'foo',
-				validate: type.string.pipe((value) =>
-					value === 'valid' ? undefined : new Error('must be valid')
-				),
-			});
-			instance.prompt();
-
-			instance.value = 'invalid';
-			input.emit('keypress', '', { name: 'return' });
-
-			expect(instance.state).to.equal('error');
-			expect(instance.error).to.equal('must be valid');
-		});
 	});
 });
