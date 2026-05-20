@@ -14,8 +14,7 @@ import { text } from '@clack/prompts';
 import { type } from 'arktype';
 
 const name = await text({
-	message: 'Enter your name (letters only)',
-	initialValue: 'John123', // Invalid initial value with numbers
-+	validate: type('string.alpha').describe('Name can only contain letters'),
+	message: 'Enter your email',
++	validate: type('string.email').describe('Invalid email'),
 });
 ```

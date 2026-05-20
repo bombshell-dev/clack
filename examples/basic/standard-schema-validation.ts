@@ -7,9 +7,9 @@ async function main() {
 
 	// Example demonstrating the issue with initial value validation
 	const name = await text({
-		message: 'Enter your name (letters only)',
-		initialValue: 'John123', // Invalid initial value with numbers
-		validate: type('string.alpha').describe('Name can only contain letters'),
+		message: 'Enter your email',
+		initialValue: 'aaa', // Invalid initial value without @
+		validate: type('string.email').describe('Invalid email'),
 	});
 
 	if (!isCancel(name)) {
@@ -20,9 +20,9 @@ async function main() {
 
 	// Example with a valid initial value for comparison
 	const validName = await text({
-		message: 'Enter another name (letters only)',
-		initialValue: 'JohnDoe', // Valid initial value
-		validate: type('string.alpha').describe('Name can only contain letters'),
+		message: 'Enter another email',
+		initialValue: 'john.doe@example.com', // Valid initial value
+		validate: type('string.email').describe('Invalid email'),
 	});
 
 	if (!isCancel(validName)) {
