@@ -8,7 +8,7 @@ import type { StandardSchemaV1 } from '@standard-schema/spec';
  */
 export type Validate<TValue> =
 	| ((value: TValue | undefined) => string | Error | undefined)
-	| StandardSchemaV1<TValue | undefined, any>;
+	| StandardSchemaV1<TValue | undefined, unknown>;
 
 /**
  * Runs the `validate()` option and normalizes the result
