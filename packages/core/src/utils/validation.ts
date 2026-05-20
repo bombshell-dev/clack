@@ -23,7 +23,7 @@ export function runValidation<TValue>(
 	if ('~standard' in validate) {
 		const result = validate['~standard'].validate(value);
 		// https://standardschema.dev/schema#how-to-only-allow-synchronous-validation
-		// TODO: investigate supporting async validation
+		// TODO: https://github.com/bombshell-dev/clack/issues/92
 		if (result instanceof Promise) {
 			throw new TypeError(
 				'Schema validation must be synchronous. Update `validate()` and get rid of any asynchronous logic.'
