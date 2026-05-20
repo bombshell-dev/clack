@@ -35,8 +35,9 @@ export interface PathOptions extends CommonOptions {
 	initialValue?: string;
 
 	/**
-	 * A function that validates the given path. Return a `string` or `Error` to show as a
-	 * validation error, or `undefined` to accept the result.
+	 * A function or a [Standard Schema](https://github.com/standard-schema/standard-schema)
+	 * that validates user input. Return a `string` or `Error` to show as a validation error,
+	 * or `undefined` to accept the result.
 	 */
 	validate?: Validate<string>;
 }

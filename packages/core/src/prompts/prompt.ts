@@ -20,6 +20,12 @@ export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	initialValue?: any;
 	initialUserInput?: string;
+
+	/**
+	 * A function or a [Standard Schema](https://github.com/standard-schema/standard-schema)
+	 * that validates user input. Return a `string` or `Error` to show as a validation error,
+	 * or `undefined` to accept the result.
+	 */
 	validate?: Validate<TValue> | undefined;
 	input?: Readable;
 	output?: Writable;
@@ -233,7 +239,6 @@ export default class Prompt<TValue> {
 		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {
 				const problem = runValidation(this.opts.validate, this.value);
-
 				if (problem) {
 					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';

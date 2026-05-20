@@ -32,4 +32,4 @@ async function main() {
 	await setTimeout(1000);
 }
 
-main().catch(console.error);
+await main().catch(console.error);
