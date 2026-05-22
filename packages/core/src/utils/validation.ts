@@ -14,7 +14,7 @@ export type Validate<TValue> =
  * Runs the `validate()` option and normalizes the result
  * @param validate - The validate option
  * @param value - The user input
- * @returns string | Error | undefined
+ * @returns the validation result
  */
 export function runValidation<TValue>(
 	validate: Validate<TValue>,
