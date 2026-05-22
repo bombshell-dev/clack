@@ -3,8 +3,8 @@ import type { StandardSchemaV1 } from './standard-schema.js';
 /**
  * Represents the `validate()` option. A function or a
  * [Standard Schema](https://github.com/standard-schema/standard-schema)
- * that validates user input. Return a `string` or `Error` to show as a
- * validation error, or `undefined` to accept the result.
+ * that validates user input. If a custom function is given, you should return a
+ * `string` or `Error` to show as a validation error, or `undefined` to accept the result.
  */
 export type Validate<TValue> =
 	| ((value: TValue | undefined) => string | Error | undefined)
