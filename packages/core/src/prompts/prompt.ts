@@ -23,8 +23,8 @@ export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 
 	/**
 	 * A function or a [Standard Schema](https://github.com/standard-schema/standard-schema)
-	 * that validates user input. Return a `string` or `Error` to show as a validation error,
-	 * or `undefined` to accept the result.
+	 * that validates user input. If a custom function is given, you should return a `string` or `Error`
+	 * to show as a validation error, or `undefined` to accept the result.
 	 */
 	validate?: Validate<TValue> | undefined;
 	input?: Readable;
