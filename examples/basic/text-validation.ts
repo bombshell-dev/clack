@@ -37,4 +37,4 @@ async function main() {
 	await setTimeout(1000);
 }
 
-await main().catch(console.error);
+main().catch(console.error);
