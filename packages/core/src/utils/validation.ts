@@ -1,10 +1,36 @@
 import type { StandardSchemaV1 } from './standard-schema.js';
 
 /**
- * Represents the `validate()` option. A function or a
- * [Standard Schema](https://github.com/standard-schema/standard-schema)
+ * A function or [Standard Schema](https://github.com/standard-schema/standard-schema)
  * that validates user input. If a custom function is given, you should return a
  * `string` or `Error` to show as a validation error, or `undefined` to accept the result.
+ * 
+ * @example Using arktype
+ * ```ts
+ * import { text } from '@clack/prompts';
+ * import { type } from 'arktype';
+ * 
+ * const name = await text({
+ *   message: 'Enter your name (letters only)',
+ *   validate: type('string.alpha').describe('Name can only contain letters'),
+ * });
+ * ```
+ *
+ * @example Custom validator
+ * ```ts
+ * import { text } from '@clack/prompts';
+ * 
+ * const age = await text({
+ *   message: 'Enter your age:',
+ *   validate(value) {
+ *     if (!value) return 'Please enter a value';
+ *     const num = parseInt(value);
+ *     if (isNaN(num)) return 'Please enter a valid number';
+ *     if (num < 0 || num > 120) return 'Age must be between 0 and 120';
+ *     return undefined;
+ *   },
+ * });
+ * ```
  */
 export type Validate<TValue> =
 	| ((value: TValue | undefined) => string | Error | undefined)
