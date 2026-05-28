@@ -2,6 +2,7 @@ import { styleText } from 'node:util';
 import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
+	handleCancel,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
@@ -87,7 +88,15 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
  *
  * @param opts The options for the group multiselect prompt
  */
-export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) => {
+export function groupMultiselect<Value>(
+	opts: GroupMultiSelectOptions<Value> & { onCancel: () => never }
+): Promise<Value[]>;
+export function groupMultiselect<Value>(
+	opts: GroupMultiSelectOptions<Value>
+): Promise<Value[] | symbol>;
+export function groupMultiselect<Value>(
+	opts: GroupMultiSelectOptions<Value>
+): Promise<Value[] | symbol> {
 	const { selectableGroups = true, groupSpacing = 0 } = opts;
 	const opt = (
 		option: Option<Value> & { group: string | boolean },
@@ -190,118 +199,123 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 	};
 	const required = opts.required ?? true;
 
-	return new GroupMultiSelectPrompt({
-		options: opts.options,
-		signal: opts.signal,
-		input: opts.input,
-		output: opts.output,
-		initialValues: opts.initialValues,
-		required,
-		cursorAt: opts.cursorAt,
-		selectableGroups,
-		validate(selected: Value[] | undefined) {
-			if (required && (selected === undefined || selected.length === 0))
-				return `Please select at least one option.\n${styleText(
-					'reset',
-					styleText(
-						'dim',
-						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
-							'gray',
-							styleText(['bgWhite', 'inverse'], ' enter ')
-						)} to submit`
-					)
-				)}`;
-		},
-		render() {
-			const hasGuide = opts.withGuide ?? settings.withGuide;
-			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
-			const value = this.value ?? [];
-
-			const styleOption = (
-				option: Option<Value> & { group: string | boolean },
-				active: boolean
-			) => {
-				const options = this.options;
-				const selected =
-					value.includes(option.value) ||
-					(option.group === true && this.isGroupSelected(`${option.value}`));
-				const groupActive =
-					!active &&
-					typeof option.group === 'string' &&
-					this.options[this.cursor].value === option.group;
-				if (groupActive) {
-					return opt(option, selected ? 'group-active-selected' : 'group-active', options);
-				}
-				if (active && selected) {
-					return opt(option, 'active-selected', options);
-				}
-				if (selected) {
-					return opt(option, 'selected', options);
-				}
-				return opt(option, active ? 'active' : 'inactive', options);
-			};
-
-			switch (this.state) {
-				case 'submit': {
-					const selectedOptions = this.options
-						.filter(({ value: optionValue }) => value.includes(optionValue))
-						.map((option) => opt(option, 'submitted'));
-					const optionsText =
-						selectedOptions.length === 0 ? '' : `  ${selectedOptions.join(styleText('dim', ', '))}`;
-					return `${title}${hasGuide ? styleText('gray', S_BAR) : ''}${optionsText}`;
-				}
-				case 'cancel': {
-					const label = this.options
-						.filter(({ value: optionValue }) => value.includes(optionValue))
-						.map((option) => opt(option, 'cancelled'))
-						.join(styleText('dim', ', '));
-					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${
-						label.trim() ? `${label}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}` : ''
-					}`;
-				}
-				case 'error': {
-					const guidePrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
-					const footer = this.error
-						.split('\n')
-						.map((ln, i) =>
-							i === 0
-								? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
-								: `   ${ln}`
+	return handleCancel(
+		new GroupMultiSelectPrompt({
+			options: opts.options,
+			signal: opts.signal,
+			input: opts.input,
+			output: opts.output,
+			initialValues: opts.initialValues,
+			required,
+			cursorAt: opts.cursorAt,
+			selectableGroups,
+			validate(selected: Value[] | undefined) {
+				if (required && (selected === undefined || selected.length === 0))
+					return `Please select at least one option.\n${styleText(
+						'reset',
+						styleText(
+							'dim',
+							`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
+								'gray',
+								styleText(['bgWhite', 'inverse'], ' enter ')
+							)} to submit`
 						)
-						.join('\n');
-					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
-					const titleLineCount = title.split('\n').length;
-					const footerLineCount = footer.split('\n').length + 1; // footer + trailing newline
-					const optionsText = limitOptions({
-						output: opts.output,
-						options: this.options,
-						cursor: this.cursor,
-						maxItems: opts.maxItems,
-						columnPadding: guidePrefix.length,
-						rowPadding: titleLineCount + footerLineCount,
-						style: styleOption,
-					}).join(`\n${guidePrefix}`);
-					return `${title}${guidePrefix}${optionsText}\n${footer}\n`;
+					)}`;
+			},
+			render() {
+				const hasGuide = opts.withGuide ?? settings.withGuide;
+				const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
+				const value = this.value ?? [];
+
+				const styleOption = (
+					option: Option<Value> & { group: string | boolean },
+					active: boolean
+				) => {
+					const options = this.options;
+					const selected =
+						value.includes(option.value) ||
+						(option.group === true && this.isGroupSelected(`${option.value}`));
+					const groupActive =
+						!active &&
+						typeof option.group === 'string' &&
+						this.options[this.cursor].value === option.group;
+					if (groupActive) {
+						return opt(option, selected ? 'group-active-selected' : 'group-active', options);
+					}
+					if (active && selected) {
+						return opt(option, 'active-selected', options);
+					}
+					if (selected) {
+						return opt(option, 'selected', options);
+					}
+					return opt(option, active ? 'active' : 'inactive', options);
+				};
+
+				switch (this.state) {
+					case 'submit': {
+						const selectedOptions = this.options
+							.filter(({ value: optionValue }) => value.includes(optionValue))
+							.map((option) => opt(option, 'submitted'));
+						const optionsText =
+							selectedOptions.length === 0
+								? ''
+								: `  ${selectedOptions.join(styleText('dim', ', '))}`;
+						return `${title}${hasGuide ? styleText('gray', S_BAR) : ''}${optionsText}`;
+					}
+					case 'cancel': {
+						const label = this.options
+							.filter(({ value: optionValue }) => value.includes(optionValue))
+							.map((option) => opt(option, 'cancelled'))
+							.join(styleText('dim', ', '));
+						return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${
+							label.trim() ? `${label}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}` : ''
+						}`;
+					}
+					case 'error': {
+						const guidePrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
+						const footer = this.error
+							.split('\n')
+							.map((ln, i) =>
+								i === 0
+									? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
+									: `   ${ln}`
+							)
+							.join('\n');
+						// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
+						const titleLineCount = title.split('\n').length;
+						const footerLineCount = footer.split('\n').length + 1; // footer + trailing newline
+						const optionsText = limitOptions({
+							output: opts.output,
+							options: this.options,
+							cursor: this.cursor,
+							maxItems: opts.maxItems,
+							columnPadding: guidePrefix.length,
+							rowPadding: titleLineCount + footerLineCount,
+							style: styleOption,
+						}).join(`\n${guidePrefix}`);
+						return `${title}${guidePrefix}${optionsText}\n${footer}\n`;
+					}
+					default: {
+						const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+						// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+						const titleLineCount = title.split('\n').length;
+						const footerLineCount = (hasGuide ? 1 : 0) + 1; // guide line + trailing newline
+						const optionsText = limitOptions({
+							output: opts.output,
+							options: this.options,
+							cursor: this.cursor,
+							maxItems: opts.maxItems,
+							columnPadding: guidePrefix.length,
+							rowPadding: titleLineCount + footerLineCount,
+							style: styleOption,
+						}).join(`\n${guidePrefix}`);
+						return `${title}${guidePrefix}${optionsText}\n${
+							hasGuide ? styleText('cyan', S_BAR_END) : ''
+						}\n`;
+					}
 				}
-				default: {
-					const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
-					const titleLineCount = title.split('\n').length;
-					const footerLineCount = (hasGuide ? 1 : 0) + 1; // guide line + trailing newline
-					const optionsText = limitOptions({
-						output: opts.output,
-						options: this.options,
-						cursor: this.cursor,
-						maxItems: opts.maxItems,
-						columnPadding: guidePrefix.length,
-						rowPadding: titleLineCount + footerLineCount,
-						style: styleOption,
-					}).join(`\n${guidePrefix}`);
-					return `${title}${guidePrefix}${optionsText}\n${
-						hasGuide ? styleText('cyan', S_BAR_END) : ''
-					}\n`;
-				}
-			}
-		},
-	}).prompt() as Promise<Value[] | symbol>;
-};
+			},
+		}).prompt() as Promise<Value[] | symbol>,
+		opts.onCancel
+	);
+}

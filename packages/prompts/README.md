@@ -44,6 +44,33 @@ if (isCancel(value)) {
 }
 ```
 
+You can also provide an `onCancel` callback on any prompt to handle cancellation inline.
+When the callback calls `process.exit` or throws, the return type narrows to exclude the cancel symbol:
+
+```js
+import { cancel, text } from '@clack/prompts';
+
+const value = await text({
+  message: 'What is the meaning of life?',
+  onCancel: () => {
+    cancel('Operation cancelled.');
+    process.exit(0);
+  },
+});
+// value is `string` — no `isCancel` guard needed
+```
+
+Note: type narrowing only works when options are passed inline. If you extract options into a typed variable, the callback type widens to `() => void` and narrowing is lost:
+
+```js
+// Narrowing does NOT work here — result is `string | symbol`
+const opts: TextOptions = {
+  message: 'What is the meaning of life?',
+  onCancel: () => { process.exit(0); },
+};
+const value = await text(opts);
+```
+
 ## Components
 
 ### Text

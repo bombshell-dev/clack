@@ -58,7 +58,9 @@ export interface PathOptions extends CommonOptions {
  * });
  * ```
  */
-export const path = (opts: PathOptions) => {
+export function path(opts: PathOptions & { onCancel: () => never }): Promise<string>;
+export function path(opts: PathOptions): Promise<string | symbol>;
+export function path(opts: PathOptions): Promise<string | symbol> {
 	const validate = opts.validate;
 
 	return autocomplete({
@@ -124,4 +126,4 @@ export const path = (opts: PathOptions) => {
 			}
 		},
 	});
-};
+}

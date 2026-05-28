@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 import type { DateFormat, State, Validate } from '@clack/core';
 import { DatePrompt, runValidation, settings } from '@clack/core';
-import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
+import { type CommonOptions, handleCancel, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export type { DateFormat };
 
@@ -22,66 +22,71 @@ export interface DateOptions extends CommonOptions {
 	validate?: Validate<Date>;
 }
 
-export const date = (opts: DateOptions) => {
+export function date(opts: DateOptions & { onCancel: () => never }): Promise<Date>;
+export function date(opts: DateOptions): Promise<Date | symbol>;
+export function date(opts: DateOptions): Promise<Date | symbol> {
 	const validate = opts.validate;
-	return new DatePrompt({
-		...opts,
-		validate(value: Date | undefined) {
-			if (value === undefined) {
-				if (opts.defaultValue !== undefined) return undefined;
+	return handleCancel(
+		new DatePrompt({
+			...opts,
+			validate(value: Date | undefined) {
+				if (value === undefined) {
+					if (opts.defaultValue !== undefined) return undefined;
+					if (validate) return runValidation(validate, value);
+					return settings.date.messages.required;
+				}
+				const iso = (d: Date) => d.toISOString().slice(0, 10);
+				if (opts.minDate && iso(value) < iso(opts.minDate)) {
+					return settings.date.messages.afterMin(opts.minDate);
+				}
+				if (opts.maxDate && iso(value) > iso(opts.maxDate)) {
+					return settings.date.messages.beforeMax(opts.maxDate);
+				}
 				if (validate) return runValidation(validate, value);
-				return settings.date.messages.required;
-			}
-			const iso = (d: Date) => d.toISOString().slice(0, 10);
-			if (opts.minDate && iso(value) < iso(opts.minDate)) {
-				return settings.date.messages.afterMin(opts.minDate);
-			}
-			if (opts.maxDate && iso(value) > iso(opts.maxDate)) {
-				return settings.date.messages.beforeMax(opts.maxDate);
-			}
-			if (validate) return runValidation(validate, value);
-			return undefined;
-		},
-		render() {
-			const hasGuide = (opts?.withGuide ?? settings.withGuide) !== false;
-			const titlePrefix = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  `;
-			const title = `${titlePrefix}${opts.message}\n`;
+				return undefined;
+			},
+			render() {
+				const hasGuide = (opts?.withGuide ?? settings.withGuide) !== false;
+				const titlePrefix = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  `;
+				const title = `${titlePrefix}${opts.message}\n`;
 
-			const state = this.state !== 'initial' ? this.state : 'active';
+				const state = this.state !== 'initial' ? this.state : 'active';
 
-			const userInput = renderDate(this, state);
-			const value = this.value instanceof Date ? this.formattedValue : '';
+				const userInput = renderDate(this, state);
+				const value = this.value instanceof Date ? this.formattedValue : '';
 
-			switch (this.state) {
-				case 'error': {
-					const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
-					const bar = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
-					const barEnd = hasGuide ? styleText('yellow', S_BAR_END) : '';
-					return `${title.trim()}\n${bar}${userInput}\n${barEnd}${errorText}\n`;
+				switch (this.state) {
+					case 'error': {
+						const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
+						const bar = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';
+						const barEnd = hasGuide ? styleText('yellow', S_BAR_END) : '';
+						return `${title.trim()}\n${bar}${userInput}\n${barEnd}${errorText}\n`;
+					}
+					case 'submit': {
+						const valueText = value ? `  ${styleText('dim', value)}` : '';
+						const bar = hasGuide ? styleText('gray', S_BAR) : '';
+						return `${title}${bar}${valueText}`;
+					}
+					case 'cancel': {
+						const valueText = value ? `  ${styleText(['strikethrough', 'dim'], value)}` : '';
+						const bar = hasGuide ? styleText('gray', S_BAR) : '';
+						return `${title}${bar}${valueText}${value.trim() ? `\n${bar}` : ''}`;
+					}
+					default: {
+						const bar = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+						const barEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+						const inlineBar = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+						const inlineError = this.inlineError
+							? `\n${inlineBar}${styleText('yellow', this.inlineError)}`
+							: '';
+						return `${title}${bar}${userInput}${inlineError}\n${barEnd}\n`;
+					}
 				}
-				case 'submit': {
-					const valueText = value ? `  ${styleText('dim', value)}` : '';
-					const bar = hasGuide ? styleText('gray', S_BAR) : '';
-					return `${title}${bar}${valueText}`;
-				}
-				case 'cancel': {
-					const valueText = value ? `  ${styleText(['strikethrough', 'dim'], value)}` : '';
-					const bar = hasGuide ? styleText('gray', S_BAR) : '';
-					return `${title}${bar}${valueText}${value.trim() ? `\n${bar}` : ''}`;
-				}
-				default: {
-					const bar = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					const barEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
-					const inlineBar = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					const inlineError = this.inlineError
-						? `\n${inlineBar}${styleText('yellow', this.inlineError)}`
-						: '';
-					return `${title}${bar}${userInput}${inlineError}\n${barEnd}\n`;
-				}
-			}
-		},
-	}).prompt() as Promise<Date | symbol>;
-};
+			},
+		}).prompt() as Promise<Date | symbol>,
+		opts.onCancel
+	);
+}
 
 function renderDate(prompt: Omit<InstanceType<typeof DatePrompt>, 'prompt'>, state: State): string {
 	const parts = prompt.segmentValues;

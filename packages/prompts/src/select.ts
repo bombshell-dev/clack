@@ -2,6 +2,7 @@ import { styleText } from 'node:util';
 import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
+	handleCancel,
 	S_BAR,
 	S_BAR_END,
 	S_RADIO_ACTIVE,
@@ -82,7 +83,11 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 		.join('\n');
 };
 
-export const select = <Value>(opts: SelectOptions<Value>) => {
+export function select<Value>(
+	opts: SelectOptions<Value> & { onCancel: () => never }
+): Promise<Value>;
+export function select<Value>(opts: SelectOptions<Value>): Promise<Value | symbol>;
+export function select<Value>(opts: SelectOptions<Value>): Promise<Value | symbol> {
 	const opt = (
 		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
@@ -106,61 +111,64 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 		}
 	};
 
-	return new SelectPrompt({
-		options: opts.options,
-		signal: opts.signal,
-		input: opts.input,
-		output: opts.output,
-		initialValue: opts.initialValue,
-		render() {
-			const hasGuide = opts.withGuide ?? settings.withGuide;
-			const titlePrefix = `${symbol(this.state)}  `;
-			const titlePrefixBar = `${symbolBar(this.state)}  `;
-			const messageLines = wrapTextWithPrefix(
-				opts.output,
-				opts.message,
-				titlePrefixBar,
-				titlePrefix
-			);
-			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
+	return handleCancel(
+		new SelectPrompt({
+			options: opts.options,
+			signal: opts.signal,
+			input: opts.input,
+			output: opts.output,
+			initialValue: opts.initialValue,
+			render() {
+				const hasGuide = opts.withGuide ?? settings.withGuide;
+				const titlePrefix = `${symbol(this.state)}  `;
+				const titlePrefixBar = `${symbolBar(this.state)}  `;
+				const messageLines = wrapTextWithPrefix(
+					opts.output,
+					opts.message,
+					titlePrefixBar,
+					titlePrefix
+				);
+				const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${messageLines}\n`;
 
-			switch (this.state) {
-				case 'submit': {
-					const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
-					const wrappedLines = wrapTextWithPrefix(
-						opts.output,
-						opt(this.options[this.cursor], 'selected'),
-						submitPrefix
-					);
-					return `${title}${wrappedLines}`;
+				switch (this.state) {
+					case 'submit': {
+						const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+						const wrappedLines = wrapTextWithPrefix(
+							opts.output,
+							opt(this.options[this.cursor], 'selected'),
+							submitPrefix
+						);
+						return `${title}${wrappedLines}`;
+					}
+					case 'cancel': {
+						const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+						const wrappedLines = wrapTextWithPrefix(
+							opts.output,
+							opt(this.options[this.cursor], 'cancelled'),
+							cancelPrefix
+						);
+						return `${title}${wrappedLines}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
+					}
+					default: {
+						const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+						const prefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+						// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
+						const titleLineCount = title.split('\n').length;
+						const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline (or just trailing newline)
+						return `${title}${prefix}${limitOptions({
+							output: opts.output,
+							cursor: this.cursor,
+							options: this.options,
+							maxItems: opts.maxItems,
+							columnPadding: prefix.length,
+							rowPadding: titleLineCount + footerLineCount,
+							style: (item, active) =>
+								opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
+						}).join(`\n${prefix}`)}\n${prefixEnd}\n`;
+					}
 				}
-				case 'cancel': {
-					const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
-					const wrappedLines = wrapTextWithPrefix(
-						opts.output,
-						opt(this.options[this.cursor], 'cancelled'),
-						cancelPrefix
-					);
-					return `${title}${wrappedLines}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
-				}
-				default: {
-					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					const prefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
-					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
-					const titleLineCount = title.split('\n').length;
-					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline (or just trailing newline)
-					return `${title}${prefix}${limitOptions({
-						output: opts.output,
-						cursor: this.cursor,
-						options: this.options,
-						maxItems: opts.maxItems,
-						columnPadding: prefix.length,
-						rowPadding: titleLineCount + footerLineCount,
-						style: (item, active) =>
-							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${prefixEnd}\n`;
-				}
-			}
-		},
-	}).prompt() as Promise<Value | symbol>;
-};
+			},
+		}).prompt() as Promise<Value | symbol>,
+		opts.onCancel
+	);
+}

@@ -1,6 +1,7 @@
 import type { Readable, Writable } from 'node:stream';
 import { styleText } from 'node:util';
 import type { State } from '@clack/core';
+import { isCancel } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 
 export const unicode = isUnicodeSupported();
@@ -72,4 +73,31 @@ export interface CommonOptions {
 	output?: Writable;
 	signal?: AbortSignal;
 	withGuide?: boolean;
+	/**
+	 * Called when the user cancels the prompt (Ctrl+C or Escape).
+	 * If the callback returns `never` (e.g. calls `process.exit` or throws),
+	 * the prompt's return type narrows to exclude the cancel symbol.
+	 */
+	onCancel?: () => void;
+}
+
+/**
+ * Wraps a prompt promise with an onCancel callback.
+ * If the result is a cancel symbol, the callback is invoked before the symbol
+ * is returned. If the callback throws, the promise rejects with that error
+ * and the symbol is never returned.
+ */
+export function handleCancel<T>(
+	promise: Promise<T | symbol>,
+	onCancel?: () => void
+): Promise<T | symbol> {
+	if (!onCancel) return promise;
+	return promise.then((result) => {
+		if (isCancel(result)) {
+			// Callback fires before the symbol is returned.
+			// If onCancel throws, the symbol is never returned.
+			onCancel();
+		}
+		return result;
+	});
 }

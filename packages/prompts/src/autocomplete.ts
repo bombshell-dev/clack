@@ -3,6 +3,7 @@ import type { Validate } from '@clack/core';
 import { AutocompletePrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
+	handleCancel,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_INACTIVE,
@@ -120,7 +121,11 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
  * });
  * ```
  */
-export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
+export function autocomplete<Value>(
+	opts: AutocompleteOptions<Value> & { onCancel: () => never }
+): Promise<Value>;
+export function autocomplete<Value>(opts: AutocompleteOptions<Value>): Promise<Value | symbol>;
+export function autocomplete<Value>(opts: AutocompleteOptions<Value>): Promise<Value | symbol> {
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
@@ -260,8 +265,8 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	});
 
 	// Return the result or cancel symbol
-	return prompt.prompt() as Promise<Value | symbol>;
-};
+	return handleCancel(prompt.prompt() as Promise<Value | symbol>, opts.onCancel);
+}
 
 /**
  * Options for the {@link autocompleteMultiselect} prompt
@@ -303,7 +308,15 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  * });
  * ```
  */
-export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
+export function autocompleteMultiselect<Value>(
+	opts: AutocompleteMultiSelectOptions<Value> & { onCancel: () => never }
+): Promise<Value[]>;
+export function autocompleteMultiselect<Value>(
+	opts: AutocompleteMultiSelectOptions<Value>
+): Promise<Value[] | symbol>;
+export function autocompleteMultiselect<Value>(
+	opts: AutocompleteMultiSelectOptions<Value>
+): Promise<Value[] | symbol> {
 	const formatOption = (
 		option: Option<Value>,
 		active: boolean,
@@ -444,5 +457,5 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	});
 
 	// Return the result or cancel symbol
-	return prompt.prompt() as Promise<Value[] | symbol>;
-};
+	return handleCancel(prompt.prompt() as Promise<Value[] | symbol>, opts.onCancel);
+}

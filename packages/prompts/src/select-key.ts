@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
 import { SelectKeyPrompt, settings, wrapTextWithPrefix } from '@clack/core';
-import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
+import { type CommonOptions, handleCancel, S_BAR, S_BAR_END, symbol } from './common.js';
 import type { Option } from './select.js';
 
 export interface SelectKeyOptions<Value extends string> extends CommonOptions {
@@ -10,7 +10,15 @@ export interface SelectKeyOptions<Value extends string> extends CommonOptions {
 	caseSensitive?: boolean;
 }
 
-export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) => {
+export function selectKey<Value extends string>(
+	opts: SelectKeyOptions<Value> & { onCancel: () => never }
+): Promise<Value>;
+export function selectKey<Value extends string>(
+	opts: SelectKeyOptions<Value>
+): Promise<Value | symbol>;
+export function selectKey<Value extends string>(
+	opts: SelectKeyOptions<Value>
+): Promise<Value | symbol> {
 	const opt = (
 		option: Option<Value>,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'
@@ -32,53 +40,56 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 		}`;
 	};
 
-	return new SelectKeyPrompt({
-		options: opts.options,
-		signal: opts.signal,
-		input: opts.input,
-		output: opts.output,
-		initialValue: opts.initialValue,
-		caseSensitive: opts.caseSensitive,
-		render() {
-			const hasGuide = opts.withGuide ?? settings.withGuide;
-			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
+	return handleCancel(
+		new SelectKeyPrompt({
+			options: opts.options,
+			signal: opts.signal,
+			input: opts.input,
+			output: opts.output,
+			initialValue: opts.initialValue,
+			caseSensitive: opts.caseSensitive,
+			render() {
+				const hasGuide = opts.withGuide ?? settings.withGuide;
+				const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${opts.message}\n`;
 
-			switch (this.state) {
-				case 'submit': {
-					const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
-					const selectedOption =
-						this.options.find((opt) => opt.value === this.value) ?? opts.options[0];
-					const wrapped = wrapTextWithPrefix(
-						opts.output,
-						opt(selectedOption, 'selected'),
-						submitPrefix
-					);
-					return `${title}${wrapped}`;
-				}
-				case 'cancel': {
-					const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
-					const wrapped = wrapTextWithPrefix(
-						opts.output,
-						opt(this.options[0], 'cancelled'),
-						cancelPrefix
-					);
-					return `${title}${wrapped}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
-				}
-				default: {
-					const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
-					const wrapped = this.options
-						.map((option, i) =>
-							wrapTextWithPrefix(
-								opts.output,
-								opt(option, i === this.cursor ? 'active' : 'inactive'),
-								defaultPrefix
+				switch (this.state) {
+					case 'submit': {
+						const submitPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+						const selectedOption =
+							this.options.find((opt) => opt.value === this.value) ?? opts.options[0];
+						const wrapped = wrapTextWithPrefix(
+							opts.output,
+							opt(selectedOption, 'selected'),
+							submitPrefix
+						);
+						return `${title}${wrapped}`;
+					}
+					case 'cancel': {
+						const cancelPrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
+						const wrapped = wrapTextWithPrefix(
+							opts.output,
+							opt(this.options[0], 'cancelled'),
+							cancelPrefix
+						);
+						return `${title}${wrapped}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
+					}
+					default: {
+						const defaultPrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+						const defaultPrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+						const wrapped = this.options
+							.map((option, i) =>
+								wrapTextWithPrefix(
+									opts.output,
+									opt(option, i === this.cursor ? 'active' : 'inactive'),
+									defaultPrefix
+								)
 							)
-						)
-						.join('\n');
-					return `${title}${wrapped}\n${defaultPrefixEnd}\n`;
+							.join('\n');
+						return `${title}${wrapped}\n${defaultPrefixEnd}\n`;
+					}
 				}
-			}
-		},
-	}).prompt() as Promise<Value | symbol>;
-};
+			},
+		}).prompt() as Promise<Value | symbol>,
+		opts.onCancel
+	);
+}
