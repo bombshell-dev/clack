@@ -147,6 +147,61 @@ describe('MultiSelectPrompt', () => {
 			expect(instance.cursor).to.equal(0);
 		});
 
+		test('separator options are skipped by cursor', () => {
+			const instance = new MultiSelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [
+					{ value: 'foo' },
+					{ type: 'separator' as const, label: '---' },
+					{ value: 'bar' },
+				],
+			});
+			instance.prompt();
+
+			expect(instance.cursor).to.equal(0);
+			input.emit('keypress', 'down', { name: 'down' });
+			expect(instance.cursor).to.equal(2);
+			input.emit('keypress', 'up', { name: 'up' });
+			expect(instance.cursor).to.equal(0);
+		});
+
+		test('toggleAll excludes separators', () => {
+			const instance = new MultiSelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [
+					{ value: 'foo' },
+					{ type: 'separator' as const, label: '---' },
+					{ value: 'bar' },
+				],
+			});
+			instance.prompt();
+
+			input.emit('keypress', 'a', { name: 'a' });
+			expect(instance.value).toEqual(['foo', 'bar']);
+		});
+
+		test('toggleInvert excludes separators', () => {
+			const instance = new MultiSelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [
+					{ value: 'foo' },
+					{ type: 'separator' as const, label: '---' },
+					{ value: 'bar' },
+				],
+				initialValues: ['foo'],
+			});
+			instance.prompt();
+
+			input.emit('keypress', 'i', { name: 'i' });
+			expect(instance.value).toEqual(['bar']);
+		});
+
 		test('initial cursorAt on disabled option', () => {
 			const instance = new MultiSelectPrompt({
 				input,

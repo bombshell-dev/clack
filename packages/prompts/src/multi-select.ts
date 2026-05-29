@@ -11,7 +11,10 @@ import {
 	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
-import type { Option } from './select.js';
+import type { Option, SeparatorOption } from './select.js';
+
+const isSeparatorOption = (opt: Option<unknown>): opt is SeparatorOption =>
+	'type' in opt && opt.type === 'separator';
 
 export interface MultiSelectOptions<Value> extends CommonOptions {
 	message: string;
@@ -39,7 +42,11 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			| 'submitted'
 			| 'cancelled'
 			| 'disabled'
+			| 'separator'
 	) => {
+		if (state === 'separator') {
+			return styleText('dim', option.label ?? '────────────');
+		}
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
 			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (str) => styleText(['strikethrough', 'gray'], str))}${
@@ -104,6 +111,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
+				if (isSeparatorOption(option)) {
+					return opt(option, 'separator');
+				}
 				if (option.disabled) {
 					return opt(option, 'disabled');
 				}

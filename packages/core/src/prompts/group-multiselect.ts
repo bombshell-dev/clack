@@ -1,3 +1,4 @@
+import { isSeparator } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 export interface GroupMultiSelectOptions<T extends { value: any }>
@@ -50,6 +51,21 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		}
 	}
 
+	#moveCursor(delta: number) {
+		const len = this.options.length;
+		let next = this.cursor;
+		for (let i = 0; i < len; i++) {
+			next = next + delta;
+			if (next < 0) next = len - 1;
+			if (next >= len) next = 0;
+			const opt = this.options[next];
+			if (isSeparator(opt)) continue;
+			if (opt.group === true && !this.#selectableGroups) continue;
+			break;
+		}
+		this.cursor = next;
+	}
+
 	constructor(opts: GroupMultiSelectOptions<T>) {
 		super(opts, false);
 		const { options } = opts;
@@ -60,30 +76,20 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		]) as any;
 		this.value = [...(opts.initialValues ?? [])];
 		this.cursor = Math.max(
-			this.options.findIndex(({ value }) => value === opts.cursorAt),
+			this.options.findIndex((opt) => !isSeparator(opt) && opt.value === opts.cursorAt),
 			this.#selectableGroups ? 0 : 1
 		);
 
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'left':
-				case 'up': {
-					this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
-					const currentIsGroup = this.options[this.cursor]?.group === true;
-					if (!this.#selectableGroups && currentIsGroup) {
-						this.cursor = this.cursor === 0 ? this.options.length - 1 : this.cursor - 1;
-					}
+				case 'up':
+					this.#moveCursor(-1);
 					break;
-				}
 				case 'down':
-				case 'right': {
-					this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
-					const currentIsGroup = this.options[this.cursor]?.group === true;
-					if (!this.#selectableGroups && currentIsGroup) {
-						this.cursor = this.cursor === this.options.length - 1 ? 0 : this.cursor + 1;
-					}
+				case 'right':
+					this.#moveCursor(1);
 					break;
-				}
 				case 'space':
 					this.toggleValue();
 					break;

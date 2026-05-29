@@ -9,6 +9,7 @@ import { isActionKey } from './settings.js';
 
 export * from './settings.js';
 export * from './string.js';
+export { isSeparator, type SeparatorOption } from './cursor.js';
 
 const isWindows = globalThis.process.platform.startsWith('win');
 

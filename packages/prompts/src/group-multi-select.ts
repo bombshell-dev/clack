@@ -10,7 +10,10 @@ import {
 	symbol,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
-import type { Option } from './select.js';
+import type { Option, SeparatorOption } from './select.js';
+
+const isSeparatorOption = (opt: Option<unknown>): opt is SeparatorOption =>
+	'type' in opt && opt.type === 'separator';
 
 /**
  * Options for the {@link groupMultiselect} prompt.
@@ -99,9 +102,15 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'group-active'
 			| 'group-active-selected'
 			| 'submitted'
-			| 'cancelled',
+			| 'cancelled'
+			| 'separator',
 		options: (Option<Value> & { group: string | boolean })[] = []
 	) => {
+		if (state === 'separator') {
+			const isItem = typeof option.group === 'string';
+			const prefix = isItem ? (selectableGroups ? `${S_BAR} ` : '  ') : '';
+			return `${prefix}${styleText('dim', option.label ?? '────────────')}`;
+		}
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
@@ -222,6 +231,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				active: boolean
 			) => {
 				const options = this.options;
+				if (isSeparatorOption(option)) {
+					return opt(option, 'separator', options);
+				}
 				const selected =
 					value.includes(option.value) ||
 					(option.group === true && this.isGroupSelected(`${option.value}`));
