@@ -1,5 +1,29 @@
 # @clack/core
 
+## 1.4.0
+
+### Minor Changes
+
+- [#543](https://github.com/bombshell-dev/clack/pull/543) [`83428ac`](https://github.com/bombshell-dev/clack/commit/83428ac6d8bc5eda87615cc7b1f14e0c8b16e1b6) Thanks [@florian-lefebvre](https://github.com/florian-lefebvre)! - Adds support for Standard Schema validation
+
+  Prompts accept an optional `validate()` function to validate user input. While a function provides more flexibility and customization over your validation, it can be a bit verbose. To help solve this, there are libraries that provide schema-based validation to make shorthand and type-strict validation substantially easier.
+
+  Libraries following the [Standard Schema specification](https://github.com/standard-schema/standard-schema) are now natively supported. For example, using [Arktype](https://arktype.io/):
+
+  ```diff
+  import { text } from '@clack/prompts';
+  import { type } from 'arktype';
+
+  const name = await text({
+  	message: 'Enter your email',
+  +	validate: type('string.email').describe('Invalid email'),
+  });
+  ```
+
+### Patch Changes
+
+- [#534](https://github.com/bombshell-dev/clack/pull/534) [`3dcb31a`](https://github.com/bombshell-dev/clack/commit/3dcb31a7d63827d95a5a52ac630cbd48e3a68364) Thanks [@MattStypa](https://github.com/MattStypa)! - Fixed spaces and uppercase characters in multiline prompt
+
 ## 1.3.1
 
 ### Patch Changes
