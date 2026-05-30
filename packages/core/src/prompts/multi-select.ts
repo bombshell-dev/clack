@@ -45,6 +45,9 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 		if (this.value === undefined) {
 			this.value = [];
 		}
+		if (isSeparator(this.options[this.cursor])) {
+			return;
+		}
 		const selected = this.value.includes(this._value);
 		this.value = selected
 			? this.value.filter((value) => value !== this._value)

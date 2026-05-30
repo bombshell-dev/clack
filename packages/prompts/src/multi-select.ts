@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { MultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
+import { MultiSelectPrompt, isSeparator, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -11,10 +11,7 @@ import {
 	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
-import type { Option, SeparatorOption } from './select.js';
-
-const isSeparatorOption = (opt: Option<unknown>): opt is SeparatorOption =>
-	'type' in opt && opt.type === 'separator';
+import type { Option } from './select.js';
 
 export interface MultiSelectOptions<Value> extends CommonOptions {
 	message: string;
@@ -111,7 +108,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
-				if (isSeparatorOption(option)) {
+				if (isSeparator(option)) {
 					return opt(option, 'separator');
 				}
 				if (option.disabled) {

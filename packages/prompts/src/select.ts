@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
+import { SelectPrompt, isSeparator, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -96,9 +96,6 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 		.join('\n');
 };
 
-const isSeparatorOption = (opt: Option<unknown>): opt is SeparatorOption =>
-	'type' in opt && opt.type === 'separator';
-
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
@@ -177,7 +174,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						rowPadding: titleLineCount + footerLineCount,
 					style: (item, active) =>
-						isSeparatorOption(item)
+						isSeparator(item)
 							? opt(item, 'separator')
 							: opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
 					}).join(`\n${prefix}`)}\n${prefixEnd}\n`;

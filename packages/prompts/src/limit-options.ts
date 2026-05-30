@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { getColumns, getRows } from '@clack/core';
+import { getColumns, getRows, isSeparator } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import type { CommonOptions } from './common.js';
 
@@ -53,8 +53,8 @@ export const limitOptions = <TOption>({
 	const overflowFormat = styleText('dim', '...');
 
 	const outputMaxItems = Math.max(rows - rowPadding, 0);
-	// We clamp to minimum 5 because anything less doesn't make sense UX wise
-	const computedMaxItems = Math.max(Math.min(maxItems, outputMaxItems), 5);
+	const separatorCount = options.filter((opt) => isSeparator(opt)).length;
+	const computedMaxItems = Math.max(Math.min(maxItems + separatorCount, outputMaxItems), 5);
 	let slidingWindowLocation = 0;
 
 	if (cursor >= computedMaxItems - 3) {

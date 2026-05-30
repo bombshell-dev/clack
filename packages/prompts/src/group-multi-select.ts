@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
+import { GroupMultiSelectPrompt, isSeparator, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -10,14 +10,8 @@ import {
 	symbol,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
-import type { Option, SeparatorOption } from './select.js';
+import type { Option } from './select.js';
 
-const isSeparatorOption = (opt: Option<unknown>): opt is SeparatorOption =>
-	'type' in opt && opt.type === 'separator';
-
-/**
- * Options for the {@link groupMultiselect} prompt.
- */
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	/**
 	 * The message or question shown to the user above the input.
@@ -231,7 +225,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				active: boolean
 			) => {
 				const options = this.options;
-				if (isSeparatorOption(option)) {
+				if (isSeparator(option)) {
 					return opt(option, 'separator', options);
 				}
 				const selected =
