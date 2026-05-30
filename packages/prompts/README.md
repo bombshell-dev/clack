@@ -93,16 +93,16 @@ const shouldContinue = await confirm({
 
 ### Date
 
-The date component accepts a calendar date and returns a `Date` value.
+The `date` prompt provides an interactive date picker, allowing users to navigate between year, month, and day segments and increment/decrement values using keyboard controls.
 
 ```js
 import { date } from '@clack/prompts';
 
-const dueDate = await date({
-  message: 'Pick a due date.',
-  format: 'YMD',
-  minDate: new Date(Date.UTC(2026, 0, 1)),
-  maxDate: new Date(Date.UTC(2026, 11, 31)),
+const birthday = await date({
+  message: 'Pick your birthday',
+  minDate: new Date('1900-01-01'),
+  initialValue: new Date(),
+  maxDate: new Date(),
 });
 ```
 

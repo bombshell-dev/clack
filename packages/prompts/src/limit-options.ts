@@ -3,12 +3,44 @@ import { getColumns, getRows } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import type { CommonOptions } from './common.js';
 
+/**
+ * Options for the {@link limitOptions} function.
+ */
 export interface LimitOptionsParams<TOption> extends CommonOptions {
+	/**
+	 * The list of options to display.
+	 */
 	options: TOption[];
+
+	/**
+	 * The index of the currently active/selected option.
+	 */
 	cursor: number;
+
+	/**
+	 * A function that styles the given option string.
+	 *
+	 * @param option - The option string to style.
+	 * @param active - Whether the option is currently selected.
+	 */
 	style: (option: TOption, active: boolean) => string;
+
+	/**
+	 * Maximum number of options to display at once.
+	 * @default Infinity
+	 */
 	maxItems?: number;
+
+	/**
+	 * Number of columns to reserve for padding.
+	 * @default 0
+	 */
 	columnPadding?: number;
+
+	/**
+	 * Number of rows to reserve for padding.
+	 * @default 4
+	 */
 	rowPadding?: number;
 }
 
@@ -38,6 +70,29 @@ const trimLines = (
 	return { lineCount, removals };
 };
 
+/**
+ * Trims an option list to what fits the terminal, while keeping the active
+ * option (cursor) visible using a Clack style sliding window.
+ *
+ * @returns The lines to render.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#limitoptions
+ *
+ * @example
+ * ```ts
+ * import { limitOptions } from '@clack/prompts';
+ * import { styleText } from 'node:util';
+ *
+ * const options = ['apple', 'banana', 'cherry', 'date'];
+ * const lines = limitOptions({
+ *   options,
+ *   cursor: 2,
+ *   maxItems: 8,
+ *   style: (opt, active) =>
+ *     active ? styleText('cyan', opt) : styleText('dim', opt),
+ * });
+ * ```
+ */
 export const limitOptions = <TOption>({
 	cursor,
 	options,
