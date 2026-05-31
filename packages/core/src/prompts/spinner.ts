@@ -21,7 +21,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 	#startTime: number = 0;
 	#frameIndex: number = 0;
 	#indicatorTimer: number = 0;
-	#intervalId: ReturnType<typeof setInterval> | undefined;
+	#intervalId: ReturnType<typeof setTimeout> | undefined;
 	#delay: number;
 	#frames: string[];
 	#cancelMessage: string;
@@ -53,7 +53,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		this.#indicatorTimer = 0;
 
 		if (Number.isFinite(this.#delay)) {
-			this.#intervalId = setInterval(() => this.#onInterval(), this.#delay);
+			this.#intervalId = setTimeout(() => this.#onInterval(), this.#delay);
 		} else {
 			this.render();
 		}
@@ -127,7 +127,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		this.#exitCode = 0;
 
 		if (this.#intervalId) {
-			clearInterval(this.#intervalId);
+			clearTimeout(this.#intervalId);
 			this.#intervalId = undefined;
 		}
 
@@ -140,6 +140,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		this.#frameIndex = this.#frameIndex + 1 < this.#frames.length ? this.#frameIndex + 1 : 0;
 		// indicator increase by 1 every 8 frames
 		this.#indicatorTimer = this.#indicatorTimer < 4 ? this.#indicatorTimer + 0.125 : 0;
+		this.#intervalId = setTimeout(() => this.#onInterval(), this.#delay);
 	}
 
 	#onProcessError: () => void = () => {
