@@ -142,8 +142,6 @@ describe('limitOptions', () => {
 			'Item 4',
 			'Item 5',
 			'Item 6',
-			'Item 7',
-			'Item 8',
 			styleText('dim', '...'),
 		]);
 	});
@@ -171,8 +169,6 @@ describe('limitOptions', () => {
 		const result = limitOptions(options);
 		expect(result).toEqual([
 			styleText('dim', '...'),
-			'Item 2',
-			'Item 3',
 			'Item 4',
 			'A long item that will take up a lot of space (line 0)',
 			'A long item that will take up a lot of space (line 1)',
@@ -208,8 +204,6 @@ describe('limitOptions', () => {
 		const result = limitOptions(options);
 		expect(result).toEqual([
 			styleText('dim', '...'),
-			'Item 4',
-			'Item 5',
 			'Item 6',
 			'Item 7',
 			'A long item that will take up a lot of space (line 0)',

@@ -306,6 +306,76 @@ describe.each(['true', 'false'])('groupMultiselect (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('maxItems renders a sliding window', async () => {
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			options: {
+				group1: [...Array(6).keys()].map((k) => ({ value: `group1value${k}` })),
+				group2: [...Array(6).keys()].map((k) => ({ value: `group2value${k}` })),
+			},
+			maxItems: 6,
+		});
+
+		for (let i = 0; i < 6; i++) {
+			input.emit('keypress', '', { name: 'down' });
+		}
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['group1value5']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('sliding window loops upwards', async () => {
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			options: {
+				group1: [...Array(6).keys()].map((k) => ({ value: `group1value${k}` })),
+				group2: [...Array(6).keys()].map((k) => ({ value: `group2value${k}` })),
+			},
+			maxItems: 6,
+		});
+
+		input.emit('keypress', '', { name: 'up' });
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['group2value5']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('sliding window loops downwards', async () => {
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			options: {
+				group1: [...Array(6).keys()].map((k) => ({ value: `group1value${k}` })),
+				group2: [...Array(6).keys()].map((k) => ({ value: `group2value${k}` })),
+			},
+			maxItems: 6,
+		});
+
+		for (let i = 0; i < 15; i++) {
+			input.emit('keypress', '', { name: 'down' });
+		}
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toEqual(['group1value0']);
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	describe('groupSpacing', () => {
 		test('renders spaced groups', async () => {
 			const result = prompts.groupMultiselect({

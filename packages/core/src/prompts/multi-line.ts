@@ -1,8 +1,10 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findTextCursor } from '../utils/cursor.js';
-import { type Action, settings } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
+
+type CursorAction = 'up' | 'down' | 'left' | 'right';
+const cursorActions = new Set<CursorAction>(['up', 'down', 'left', 'right']);
 
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
@@ -41,7 +43,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			this.userInput.slice(0, this.cursor) + char + this.userInput.slice(this.cursor)
 		);
 	}
-	#handleCursor(key?: Action) {
+	#handleCursor(key?: CursorAction) {
 		const text = this.value ?? '';
 		switch (key) {
 			case 'up':
@@ -89,8 +91,8 @@ export default class MultiLinePrompt extends Prompt<string> {
 		this.#showSubmit = opts.showSubmit ?? false;
 
 		this.on('key', (char, key) => {
-			if (key?.name && settings.actions.has(key.name as Action)) {
-				this.#handleCursor(key.name as Action);
+			if (key?.name && cursorActions.has(key.name as CursorAction)) {
+				this.#handleCursor(key.name as CursorAction);
 				return;
 			}
 			if (char === '\t' && this.#showSubmit) {

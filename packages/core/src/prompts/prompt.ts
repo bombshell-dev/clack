@@ -13,12 +13,20 @@ import {
 	setRawMode,
 	settings,
 } from '../utils/index.js';
+import type { Validate } from '../utils/validation.js';
+import { runValidation } from '../utils/validation.js';
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
 	initialValue?: any;
 	initialUserInput?: string;
-	validate?: ((value: TValue | undefined) => string | Error | undefined) | undefined;
+
+	/**
+	 * A function or a [Standard Schema](https://github.com/standard-schema/standard-schema)
+	 * that validates user input. If a custom function is given, you should return a `string` or `Error`
+	 * to show as a validation error, or `undefined` to accept the result.
+	 */
+	validate?: Validate<TValue> | undefined;
 	input?: Readable;
 	output?: Writable;
 	signal?: AbortSignal;
@@ -226,11 +234,11 @@ export default class Prompt<TValue> {
 		}
 
 		// Call the key event handler and emit the key event
-		this.emit('key', char?.toLowerCase(), key);
+		this.emit('key', char, key);
 
 		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {
-				const problem = this.opts.validate(this.value);
+				const problem = runValidation(this.opts.validate, this.value);
 				if (problem) {
 					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';

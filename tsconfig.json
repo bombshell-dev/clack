@@ -17,7 +17,8 @@
     "paths": {
       "@clack/core": ["./packages/core/src/index.ts"],
       "@clack/prompts": ["./packages/prompts/src/index.ts"]
-    }
+    },
+    "types": ["node"]
   },
   "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts"]
 }

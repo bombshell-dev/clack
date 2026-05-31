@@ -1,5 +1,64 @@
 # @clack/prompts
 
+## 1.5.0
+
+### Minor Changes
+
+- [#543](https://github.com/bombshell-dev/clack/pull/543) [`83428ac`](https://github.com/bombshell-dev/clack/commit/83428ac6d8bc5eda87615cc7b1f14e0c8b16e1b6) Thanks [@florian-lefebvre](https://github.com/florian-lefebvre)! - Adds support for Standard Schema validation
+
+  Prompts accept an optional `validate()` function to validate user input. While a function provides more flexibility and customization over your validation, it can be a bit verbose. To help solve this, there are libraries that provide schema-based validation to make shorthand and type-strict validation substantially easier.
+
+  Libraries following the [Standard Schema specification](https://github.com/standard-schema/standard-schema) are now natively supported. For example, using [Arktype](https://arktype.io/):
+
+  ```diff
+  import { text } from '@clack/prompts';
+  import { type } from 'arktype';
+
+  const name = await text({
+  	message: 'Enter your email',
+  +	validate: type('string.email').describe('Invalid email'),
+  });
+  ```
+
+### Patch Changes
+
+- [#542](https://github.com/bombshell-dev/clack/pull/542) [`adb6af9`](https://github.com/bombshell-dev/clack/commit/adb6af9f5fb39408934323a7415beb46b63ecd9a) Thanks [@ghostdevv](https://github.com/ghostdevv)! - docs: add jsdoc for `box`, `group`, and `group-multi-select`
+
+- [#534](https://github.com/bombshell-dev/clack/pull/534) [`3dcb31a`](https://github.com/bombshell-dev/clack/commit/3dcb31a7d63827d95a5a52ac630cbd48e3a68364) Thanks [@MattStypa](https://github.com/MattStypa)! - Fixed spaces and uppercase characters in multiline prompt
+
+- [#540](https://github.com/bombshell-dev/clack/pull/540) [`3170ed9`](https://github.com/bombshell-dev/clack/commit/3170ed94dc2a6ed7973228d46c664fb7461969ad) Thanks [@ghostdevv](https://github.com/ghostdevv)! - docs: add jsdoc for `autocomplete`, `confirm`, and `path` prompts
+
+- Updated dependencies [[`83428ac`](https://github.com/bombshell-dev/clack/commit/83428ac6d8bc5eda87615cc7b1f14e0c8b16e1b6), [`3dcb31a`](https://github.com/bombshell-dev/clack/commit/3dcb31a7d63827d95a5a52ac630cbd48e3a68364)]:
+  - @clack/core@1.4.0
+
+## 1.4.0
+
+### Minor Changes
+
+- 284677e: Support scrolling and `maxItems` option for `groupMultiselect`, and removes indent when `withGuide` is set to `false`
+
+### Patch Changes
+
+- aab46a2: docs: add jsdoc for `text`, `password`, and `multiline` prompts
+- 54be8d7: Fix line wrapping and overflow computation in group multi-select and other list-like prompts.
+- Updated dependencies [54be8d7]
+  - @clack/core@1.3.1
+
+## 1.3.0
+
+### Minor Changes
+
+- ea5702e: fix: add engines field expressing node >=20.12 requirement
+- 814ab9a: Add new multiline prompt for multi-line text input.
+
+### Patch Changes
+
+- 5b897a7: Fix mixed type-only and runtime exports from @clack/core.
+- Updated dependencies [78fd3ae]
+- Updated dependencies [ea5702e]
+- Updated dependencies [814ab9a]
+  - @clack/core@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes

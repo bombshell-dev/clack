@@ -60,11 +60,11 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 			0
 		);
 		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
-		this.on('key', (char) => {
-			if (char === 'a') {
+		this.on('key', (_char, key) => {
+			if (key.name === 'a') {
 				this.toggleAll();
 			}
-			if (char === 'i') {
+			if (key.name === 'i') {
 				this.toggleInvert();
 			}
 		});

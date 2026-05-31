@@ -5,15 +5,19 @@ on:
     types: [opened]
   workflow_dispatch: {}
 
-permissions:
-  issues: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   detect:
-    if: github.event_name != 'workflow_dispatch'
-    uses: bombshell-dev/automation/.github/workflows/detect-agent.yml@main
+    if: github.repository_owner == 'bombshell-dev' && github.event_name != 'workflow_dispatch'
+    uses: bombshell-dev/automation/.github/workflows/detect-agent.yml@3a8b4a38fe464b0b51d14962ae416a169517fba9  # main as of 2026-05-12
+    permissions:
+      issues: write
+      pull-requests: write
 
   backfill:
-    if: github.event_name == 'workflow_dispatch'
-    uses: bombshell-dev/automation/.github/workflows/detect-agent-backfill.yml@main
+    if: github.repository_owner == 'bombshell-dev' && github.event_name == 'workflow_dispatch'
+    uses: bombshell-dev/automation/.github/workflows/detect-agent-backfill.yml@3a8b4a38fe464b0b51d14962ae416a169517fba9  # main as of 2026-05-12
+    permissions:
+      issues: write
+      pull-requests: write

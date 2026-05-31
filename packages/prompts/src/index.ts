@@ -1,4 +1,5 @@
-export { type ClackSettings, isCancel, settings, updateSettings } from '@clack/core';
+export type { ClackSettings } from '@clack/core';
+export { isCancel, settings, updateSettings } from '@clack/core';
 
 export * from './autocomplete.js';
 export * from './box.js';

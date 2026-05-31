@@ -1,16 +1,63 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import type { Validate } from '@clack/core';
+import { runValidation } from '@clack/core';
 import { autocomplete } from './autocomplete.js';
 import type { CommonOptions } from './common.js';
 
+/**
+ * Options for the {@link path} prompt.
+ */
 export interface PathOptions extends CommonOptions {
-	root?: string;
-	directory?: boolean;
-	initialValue?: string;
+	/**
+	 * The message or question shown to the user above the input.
+	 */
 	message: string;
-	validate?: (value: string | undefined) => string | Error | undefined;
+
+	/**
+	 * The starting directory for path suggestions (defaults to current working directory).
+	 */
+	root?: string;
+
+	/**
+	 * When `true` only **directories** appear in suggestions while you navigate.
+	 */
+	directory?: boolean;
+
+	/**
+	 * The starting path shown when the prompt first renders, which users can edit
+	 * before submitting. If not provided it will fall back to the given `root`,
+	 * or the current working directory.
+	 *
+	 * In `directory` mode, if the initial value points to a directory that exists,
+	 * pressing enter will submit the input instead of jumping to the first child.
+	 */
+	initialValue?: string;
+
+	/**
+	 * A function or a [Standard Schema](https://github.com/standard-schema/standard-schema)
+	 * that validates user input. If a custom function is given, you should return a `string` or `Error`
+	 * to show as a validation error, or `undefined` to accept the result.
+	 */
+	validate?: Validate<string>;
 }
 
+/**
+ * The `path` prompt extends `autocomplete` to provide file and directory suggestions.
+ *
+ * @see https://bomb.sh/docs/clack/packages/prompts/#path-selection
+ *
+ * @example
+ * ```ts
+ * import { path } from '@clack/prompts';
+ *
+ * const result = await path({
+ *   message: 'Select a file:',
+ *   root: process.cwd(),
+ *   directory: false,
+ * });
+ * ```
+ */
 export const path = (opts: PathOptions) => {
 	const validate = opts.validate;
 
@@ -27,7 +74,7 @@ export const path = (opts: PathOptions) => {
 				return 'Please select a path';
 			}
 			if (validate) {
-				return validate(value);
+				return runValidation(validate, value);
 			}
 			return undefined;
 		},

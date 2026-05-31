@@ -1,3 +1,4 @@
+import { type } from 'arktype';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as Prompt } from '../../src/prompts/prompt.js';
@@ -233,82 +234,117 @@ describe('Prompt', () => {
 		expect(instance.state).to.equal('cancel');
 	});
 
-	test('accepts invalid initial value', () => {
-		const instance = new Prompt({
-			input,
-			output,
-			render: () => 'foo',
-			initialValue: 'invalid',
-			validate: (value) => (value === 'valid' ? undefined : 'must be valid'),
-		});
-		instance.prompt();
+	describe('function validation', () => {
+		test('accepts invalid initial value', () => {
+			const instance = new Prompt({
+				input,
+				output,
+				render: () => 'foo',
+				initialValue: 'invalid',
+				validate: (value) => (value === 'valid' ? undefined : 'must be valid'),
+			});
+			instance.prompt();
 
-		expect(instance.state).to.equal('active');
-		expect(instance.error).to.equal('');
+			expect(instance.state).to.equal('active');
+			expect(instance.error).to.equal('');
+		});
+
+		test('validates value on return', () => {
+			const instance = new Prompt({
+				input,
+				output,
+				render: () => 'foo',
+				validate: (value) => (value === 'valid' ? undefined : 'must be valid'),
+			});
+			instance.prompt();
+
+			instance.value = 'invalid';
+
+			input.emit('keypress', '', { name: 'return' });
+
+			expect(instance.state).to.equal('error');
+			expect(instance.error).to.equal('must be valid');
+		});
+
+		test('validates value with Error object', () => {
+			const instance = new Prompt({
+				input,
+				output,
+				render: () => 'foo',
+				validate: (value) => (value === 'valid' ? undefined : new Error('must be valid')),
+			});
+			instance.prompt();
+
+			instance.value = 'invalid';
+			input.emit('keypress', '', { name: 'return' });
+
+			expect(instance.state).to.equal('error');
+			expect(instance.error).to.equal('must be valid');
+		});
+
+		test('validates value with regex validation', () => {
+			const instance = new Prompt<string>({
+				input,
+				output,
+				render: () => 'foo',
+				validate: (value) => (/^[A-Z]+$/.test(value ?? '') ? undefined : 'Invalid value'),
+			});
+			instance.prompt();
+
+			instance.value = 'Invalid Value $$$';
+			input.emit('keypress', '', { name: 'return' });
+
+			expect(instance.state).to.equal('error');
+			expect(instance.error).to.equal('Invalid value');
+		});
+
+		test('accepts valid value with regex validation', () => {
+			const instance = new Prompt<string>({
+				input,
+				output,
+				render: () => 'foo',
+				validate: (value) => (/^[A-Z]+$/.test(value ?? '') ? undefined : 'Invalid value'),
+			});
+			instance.prompt();
+
+			instance.value = 'VALID';
+			input.emit('keypress', '', { name: 'return' });
+
+			expect(instance.state).to.equal('submit');
+			expect(instance.error).to.equal('');
+		});
 	});
 
-	test('validates value on return', () => {
-		const instance = new Prompt({
-			input,
-			output,
-			render: () => 'foo',
-			validate: (value) => (value === 'valid' ? undefined : 'must be valid'),
+	describe('standard schema', () => {
+		test('accepts invalid initial value', () => {
+			const instance = new Prompt<string>({
+				input,
+				output,
+				render: () => 'foo',
+				initialValue: 'invalid',
+				validate: type("'valid'"),
+			});
+			instance.prompt();
+
+			expect(instance.state).to.equal('active');
+			expect(instance.error).to.equal('');
 		});
-		instance.prompt();
 
-		instance.value = 'invalid';
+		test('validates value on return', () => {
+			const instance = new Prompt<string>({
+				input,
+				output,
+				render: () => 'foo',
+				validate: type("'valid'"),
+			});
+			instance.prompt();
 
-		input.emit('keypress', '', { name: 'return' });
+			instance.value = 'invalid';
 
-		expect(instance.state).to.equal('error');
-		expect(instance.error).to.equal('must be valid');
-	});
+			input.emit('keypress', '', { name: 'return' });
 
-	test('validates value with Error object', () => {
-		const instance = new Prompt({
-			input,
-			output,
-			render: () => 'foo',
-			validate: (value) => (value === 'valid' ? undefined : new Error('must be valid')),
+			expect(instance.state).to.equal('error');
+			expect(instance.error).to.equal('must be "valid" (was "invalid")');
 		});
-		instance.prompt();
-
-		instance.value = 'invalid';
-		input.emit('keypress', '', { name: 'return' });
-
-		expect(instance.state).to.equal('error');
-		expect(instance.error).to.equal('must be valid');
-	});
-
-	test('validates value with regex validation', () => {
-		const instance = new Prompt<string>({
-			input,
-			output,
-			render: () => 'foo',
-			validate: (value) => (/^[A-Z]+$/.test(value ?? '') ? undefined : 'Invalid value'),
-		});
-		instance.prompt();
-
-		instance.value = 'Invalid Value $$$';
-		input.emit('keypress', '', { name: 'return' });
-
-		expect(instance.state).to.equal('error');
-		expect(instance.error).to.equal('Invalid value');
-	});
-
-	test('accepts valid value with regex validation', () => {
-		const instance = new Prompt<string>({
-			input,
-			output,
-			render: () => 'foo',
-			validate: (value) => (/^[A-Z]+$/.test(value ?? '') ? undefined : 'Invalid value'),
-		});
-		instance.prompt();
-
-		instance.value = 'VALID';
-		input.emit('keypress', '', { name: 'return' });
-
-		expect(instance.state).to.equal('submit');
-		expect(instance.error).to.equal('');
 	});
 });

@@ -220,13 +220,12 @@ exports[`select (isCI = false) > handles mixed size re-renders 1`] = `
   "[90m│[39m
 [36m◆[39m  Whatever
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m○[22m [2mOption 0[22m
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m│[39m  [2m○[22m [2mOption 2[22m
 [36m│[39m  [32m●[39m Option 3
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Whatever
@@ -700,13 +699,12 @@ exports[`select (isCI = true) > handles mixed size re-renders 1`] = `
   "[90m│[39m
 [36m◆[39m  Whatever
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m○[22m [2mOption 0[22m
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m│[39m  [2m○[22m [2mOption 2[22m
 [36m│[39m  [32m●[39m Option 3
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Whatever

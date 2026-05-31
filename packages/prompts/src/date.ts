@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
-import type { DateFormat, State } from '@clack/core';
-import { DatePrompt, settings } from '@clack/core';
+import type { DateFormat, State, Validate } from '@clack/core';
+import { DatePrompt, runValidation, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
 export type { DateFormat };
@@ -13,7 +13,13 @@ export interface DateOptions extends CommonOptions {
 	initialValue?: Date;
 	minDate?: Date;
 	maxDate?: Date;
-	validate?: (value: Date | undefined) => string | Error | undefined;
+
+	/**
+	 * A function or a [Standard Schema](https://github.com/standard-schema/standard-schema)
+	 * that validates user input. If a custom function is given, you should return a `string` or `Error`
+	 * to show as a validation error, or `undefined` to accept the result.
+	 */
+	validate?: Validate<Date>;
 }
 
 export const date = (opts: DateOptions) => {
@@ -23,7 +29,7 @@ export const date = (opts: DateOptions) => {
 		validate(value: Date | undefined) {
 			if (value === undefined) {
 				if (opts.defaultValue !== undefined) return undefined;
-				if (validate) return validate(value);
+				if (validate) return runValidation(validate, value);
 				return settings.date.messages.required;
 			}
 			const iso = (d: Date) => d.toISOString().slice(0, 10);
@@ -33,7 +39,7 @@ export const date = (opts: DateOptions) => {
 			if (opts.maxDate && iso(value) > iso(opts.maxDate)) {
 				return settings.date.messages.beforeMax(opts.maxDate);
 			}
-			if (validate) return validate(value);
+			if (validate) return runValidation(validate, value);
 			return undefined;
 		},
 		render() {

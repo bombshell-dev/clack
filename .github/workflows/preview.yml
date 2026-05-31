@@ -5,14 +5,16 @@ on:
     branches:
       - main
   pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
+permissions: {}
 
 jobs:
   preview:
     if: github.repository_owner == 'bombshell-dev'
-    uses: bombshell-dev/automation/.github/workflows/preview.yml@main
-    permissions: 
+    uses: bombshell-dev/automation/.github/workflows/preview.yml@3a8b4a38fe464b0b51d14962ae416a169517fba9  # main as of 2026-05-12
+    permissions:
       contents: write
       pull-requests: write
       id-token: write

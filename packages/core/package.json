@@ -1,6 +1,6 @@
 {
   "name": "@clack/core",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
@@ -60,6 +60,7 @@
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
+    "arktype": "^2.2.0",
     "vitest": "^3.2.4"
   }
 }

@@ -4,13 +4,19 @@ on:
   issues:
     types: [opened, edited, labeled, reopened]
 
+permissions: {}
+
 jobs:
   backlog:
     if: github.event.action == 'edited' || github.event.action == 'labeled'
-    uses: bombshell-dev/automation/.github/workflows/move-issue-to-backlog.yml@main
-    secrets: inherit
+    uses: bombshell-dev/automation/.github/workflows/move-issue-to-backlog.yml@3a8b4a38fe464b0b51d14962ae416a169517fba9  # main as of 2026-05-12
+    secrets:
+      BOT_APP_ID: ${{ secrets.BOT_APP_ID }}
+      BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
 
   project:
     if: github.event.action == 'opened' || github.event.action == 'reopened'
-    uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@main
-    secrets: inherit
+    uses: bombshell-dev/automation/.github/workflows/add-issue-to-project.yml@3a8b4a38fe464b0b51d14962ae416a169517fba9  # main as of 2026-05-12
+    secrets:
+      BOT_APP_ID: ${{ secrets.BOT_APP_ID }}
+      BOT_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
