@@ -4,12 +4,14 @@ import { definePreset } from 'unbuild';
 export default definePreset({
 	clean: true,
 	declaration: 'node16',
-	sourcemap: true,
+	sourcemap: false,
 	rollup: {
 		emitCJS: false,
 		inlineDependencies: true,
 		esbuild: {
-			minify: true,
+			minifySyntax: true,
+			minifyIdentifiers: true,
+			minifyWhitespace: false
 		},
 	},
 });
