@@ -1,5 +1,16 @@
 # @clack/prompts
 
+## 1.5.1
+
+### Patch Changes
+
+- [#548](https://github.com/bombshell-dev/clack/pull/548) [`2356e97`](https://github.com/bombshell-dev/clack/commit/2356e97c1f46007ead55133c3a26910404ef1cfb) Thanks [@43081j](https://github.com/43081j)! - Remove sourcemaps and enable pretty-ish build output.
+
+- [#546](https://github.com/bombshell-dev/clack/pull/546) [`56e9d67`](https://github.com/bombshell-dev/clack/commit/56e9d6707715bc858d9c2dbc444230b02813e809) Thanks [@ghostdevv](https://github.com/ghostdevv)! - docs: add jsdoc for `date`, `limit-options`, and `messages`
+
+- Updated dependencies [[`2356e97`](https://github.com/bombshell-dev/clack/commit/2356e97c1f46007ead55133c3a26910404ef1cfb)]:
+  - @clack/core@1.4.1
+
 ## 1.5.0
 
 ### Minor Changes

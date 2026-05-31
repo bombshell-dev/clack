@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.4.1
+
+### Patch Changes
+
+- [#548](https://github.com/bombshell-dev/clack/pull/548) [`2356e97`](https://github.com/bombshell-dev/clack/commit/2356e97c1f46007ead55133c3a26910404ef1cfb) Thanks [@43081j](https://github.com/43081j)! - Remove sourcemaps and enable pretty-ish build output.
+
 ## 1.4.0
 
 ### Minor Changes
