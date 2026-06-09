@@ -200,6 +200,52 @@ describe('Prompt', () => {
 		}
 	});
 
+	test('emits cursor events for ctrl+p/ctrl+n aliases when not tracking', () => {
+		const keys = [
+			['\x10', 'p', 'up'],
+			['\x0e', 'n', 'down'],
+		];
+		const eventSpy = vi.fn();
+		const instance = new Prompt(
+			{
+				input,
+				output,
+				render: () => 'foo',
+			},
+			false
+		);
+
+		instance.on('cursor', eventSpy);
+
+		instance.prompt();
+
+		for (const [sequence, name, key] of keys) {
+			input.emit('keypress', sequence, { name, ctrl: true, sequence });
+			expect(eventSpy).toBeCalledWith(key);
+		}
+	});
+
+	test('does not emit cursor events for plain n/p keys', () => {
+		const eventSpy = vi.fn();
+		const instance = new Prompt(
+			{
+				input,
+				output,
+				render: () => 'foo',
+			},
+			false
+		);
+
+		instance.on('cursor', eventSpy);
+
+		instance.prompt();
+
+		input.emit('keypress', 'n', { name: 'n', sequence: 'n' });
+		input.emit('keypress', 'p', { name: 'p', sequence: 'p' });
+
+		expect(eventSpy).not.toHaveBeenCalled();
+	});
+
 	test('aborts on abort signal', () => {
 		const abortController = new AbortController();
 

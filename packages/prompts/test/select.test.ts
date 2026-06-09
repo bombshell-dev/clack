@@ -78,6 +78,41 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('ctrl+n selects next option', async () => {
+		const result = prompts.select({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '\x0e', { name: 'n', ctrl: true, sequence: '\x0e' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('opt1');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('ctrl+p selects previous option', async () => {
+		const result = prompts.select({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'down' });
+		input.emit('keypress', '\x10', { name: 'p', ctrl: true, sequence: '\x10' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('opt0');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('can cancel', async () => {
 		const result = prompts.select({
 			message: 'foo',

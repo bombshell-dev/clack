@@ -1,3 +1,5 @@
+import type { Key } from 'node:readline';
+
 const actions = ['up', 'down', 'left', 'right', 'space', 'enter', 'cancel'] as const;
 export type Action = (typeof actions)[number];
 
@@ -45,8 +47,11 @@ export const settings: InternalClackSettings = {
 		['j', 'down'],
 		['h', 'left'],
 		['l', 'right'],
-		['\x03', 'cancel'],
+		// emacs support
+		['\x10', 'up'], // ctrl+p
+		['\x0e', 'down'], // ctrl+n
 		// opinionated defaults!
+		['\x03', 'cancel'], // ctrl+c
 		['escape', 'cancel'],
 	]),
 	messages: {
@@ -72,7 +77,7 @@ export interface ClackSettings {
 	 * This will not overwrite existing aliases, it will only add new ones!
 	 *
 	 * @param aliases - An object that maps aliases to actions
-	 * @default { k: 'up', j: 'down', h: 'left', l: 'right', '\x03': 'cancel', 'escape': 'cancel' }
+	 * @default { k: 'up', j: 'down', h: 'left', l: 'right', '\x10': 'up', '\x0e': 'down', '\x03': 'cancel', 'escape': 'cancel' }
 	 */
 	aliases?: Record<string, Action>;
 
@@ -168,6 +173,37 @@ export function updateSettings(updates: ClackSettings) {
 			}
 		}
 	}
+}
+
+/**
+ * Get the action aliased by a control-key chord (e.g. ctrl+n -> 'down').
+ * Control chords arrive as raw bytes in `char`/`key.sequence`, so they can alias
+ * actions without clashing with typed input the way plain-letter aliases would.
+ * @param char - The raw character emitted alongside the keypress
+ * @param key - The parsed key
+ * @returns the aliased action, or undefined when the key is not an aliased control chord
+ */
+export function getActionForControlKey(char: string | undefined, key: Key): Action | undefined {
+	if (!key.ctrl) {
+		return undefined;
+	}
+	return getActionForKey([char, key.sequence]);
+}
+
+/**
+ * Get the action aliased by a key, checking every representation of the key
+ * @param key - The raw key representations which might match to an action
+ * @returns the aliased action, or undefined when none matches
+ */
+export function getActionForKey(key: Array<string | undefined>): Action | undefined {
+	for (const value of key) {
+		if (value === undefined) continue;
+		const action = settings.aliases.get(value);
+		if (action !== undefined) {
+			return action;
+		}
+	}
+	return undefined;
 }
 
 /**

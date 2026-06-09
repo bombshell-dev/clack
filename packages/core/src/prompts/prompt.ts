@@ -8,6 +8,7 @@ import type { Action } from '../utils/index.js';
 import {
 	CANCEL_SYMBOL,
 	diffLines,
+	getActionForKey,
 	getRows,
 	isActionKey,
 	setRawMode,
@@ -222,8 +223,11 @@ export default class Prompt<TValue> {
 			this.state = 'active';
 		}
 		if (key?.name) {
-			if (!this._track && settings.aliases.has(key.name)) {
-				this.emit('cursor', settings.aliases.get(key.name));
+			if (!this._track) {
+				const action = getActionForKey([char, key.name, key.sequence]);
+				if (action !== undefined) {
+					this.emit('cursor', action);
+				}
 			}
 			if (settings.actions.has(key.name as Action)) {
 				this.emit('cursor', key.name as Action);

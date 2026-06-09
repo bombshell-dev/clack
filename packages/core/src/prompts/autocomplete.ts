@@ -1,6 +1,7 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findCursor } from '../utils/cursor.js';
+import { getActionForControlKey } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
@@ -148,9 +149,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		);
 	}
 
-	#onKey(_char: string | undefined, key: Key): void {
-		const isUpKey = key.name === 'up';
-		const isDownKey = key.name === 'down';
+	#onKey(char: string | undefined, key: Key): void {
+		const aliasAction = getActionForControlKey(char, key);
+		const isUpKey = key.name === 'up' || aliasAction === 'up';
+		const isDownKey = key.name === 'down' || aliasAction === 'down';
 		const isReturnKey = key.name === 'return';
 
 		// Tab with empty input and placeholder: fill input with placeholder to trigger autocomplete

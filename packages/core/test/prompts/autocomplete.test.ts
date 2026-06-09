@@ -76,6 +76,28 @@ describe('AutocompletePrompt', () => {
 		expect(instance.cursor).to.equal(0);
 	});
 
+	test('ctrl+n/ctrl+p navigate options', () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		instance.prompt();
+
+		expect(instance.cursor).to.equal(0);
+
+		input.emit('keypress', '\x0e', { name: 'n', ctrl: true, sequence: '\x0e' });
+
+		expect(instance.cursor).to.equal(1);
+
+		input.emit('keypress', '\x10', { name: 'p', ctrl: true, sequence: '\x10' });
+
+		expect(instance.cursor).to.equal(0);
+		expect(instance.userInput).to.equal('');
+	});
+
 	test('initialValue selects correct option', () => {
 		const instance = new AutocompletePrompt({
 			input,

@@ -115,6 +115,33 @@ describe('MultiLinePrompt', () => {
 	});
 
 	describe('key', () => {
+		test('ctrl+p/ctrl+n move cursor between lines without inserting text', () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			instance.prompt();
+			for (const key of ['a', 'b']) {
+				input.emit('keypress', key, { name: key });
+			}
+			input.emit('keypress', '', { name: 'return' });
+			for (const key of ['c', 'd']) {
+				input.emit('keypress', key, { name: key });
+			}
+			expect(instance.userInput).to.equal('ab\ncd');
+			expect(instance.cursor).to.equal(5);
+
+			input.emit('keypress', '\x10', { name: 'p', ctrl: true, sequence: '\x10' });
+
+			expect(instance.cursor).to.equal(2);
+
+			input.emit('keypress', '\x0e', { name: 'n', ctrl: true, sequence: '\x0e' });
+
+			expect(instance.cursor).to.equal(5);
+			expect(instance.userInput).to.equal('ab\ncd');
+		});
+
 		test('return inserts newline', () => {
 			const instance = new MultiLinePrompt({
 				input,

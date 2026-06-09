@@ -1,6 +1,7 @@
 import type { Key } from 'node:readline';
 import { styleText } from 'node:util';
 import { findTextCursor } from '../utils/cursor.js';
+import { getActionForControlKey } from '../utils/index.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 type CursorAction = 'up' | 'down' | 'left' | 'right';
@@ -93,6 +94,12 @@ export default class MultiLinePrompt extends Prompt<string> {
 		this.on('key', (char, key) => {
 			if (key?.name && cursorActions.has(key.name as CursorAction)) {
 				this.#handleCursor(key.name as CursorAction);
+				return;
+			}
+			// resolve aliased control chords before they reach text insertion below
+			const aliasAction = getActionForControlKey(char, key);
+			if (aliasAction !== undefined && cursorActions.has(aliasAction as CursorAction)) {
+				this.#handleCursor(aliasAction as CursorAction);
 				return;
 			}
 			if (char === '\t' && this.#showSubmit) {
