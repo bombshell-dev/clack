@@ -34,5 +34,10 @@ export default class PasswordPrompt extends Prompt<string> {
 		this.on('userInput', (input) => {
 			this._setValue(input);
 		});
+		this.on('finalize', () => {
+			if (this.value === undefined) {
+				this.value = '';
+			}
+		});
 	}
 }
