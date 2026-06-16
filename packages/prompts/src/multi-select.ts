@@ -3,7 +3,6 @@ import { MultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	formatInstructionFooter,
-	MULTISELECT_INSTRUCTIONS,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
@@ -13,7 +12,7 @@ import {
 	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
-import type { Option } from './select.js';
+import { MULTISELECT_INSTRUCTIONS, type Option } from './select.js';
 
 export interface MultiSelectOptions<Value> extends CommonOptions {
 	message: string;
@@ -180,10 +179,12 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				default: {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
-					const { text: footerText, lineCount: footerLineCount } = formatInstructionFooter(
+					const footerLines = formatInstructionFooter(
 						showInstructions ? MULTISELECT_INSTRUCTIONS : null,
 						hasGuide
 					);
+					const footerText = footerLines.join('\n');
+					const footerLineCount = footerLines.length + 1;
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,

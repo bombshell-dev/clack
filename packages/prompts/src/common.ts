@@ -74,20 +74,14 @@ export interface CommonOptions {
 	withGuide?: boolean;
 }
 
-export const MULTISELECT_INSTRUCTIONS = [
-	`${styleText('dim', '↑/↓')} to navigate`,
-	`${styleText('dim', 'Space:')} select`,
-	`${styleText('dim', 'Enter:')} confirm`,
-];
-
 export function formatInstructionFooter(
 	instructions: string[] | null,
 	hasGuide: boolean
-): { text: string; lineCount: number } {
+): string[] {
 	const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 	const footerLines = instructions ? [`${guidePrefix}${instructions.join(' • ')}`] : [];
 	if (hasGuide) {
 		footerLines.push(styleText('cyan', S_BAR_END));
 	}
-	return { text: footerLines.join('\n'), lineCount: footerLines.length + 1 };
+	return footerLines;
 }

@@ -340,6 +340,21 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('instructions: true renders footer', async () => {
+		const result = prompts.select({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			instructions: true,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('correctly limits options with explicit multiline message', async () => {
 		output.rows = 12;
 

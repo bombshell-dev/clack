@@ -3,7 +3,6 @@ import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/cor
 import {
 	type CommonOptions,
 	formatInstructionFooter,
-	MULTISELECT_INSTRUCTIONS,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
@@ -12,7 +11,7 @@ import {
 	symbol,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
-import type { Option } from './select.js';
+import { MULTISELECT_INSTRUCTIONS, type Option } from './select.js';
 
 /**
  * Options for the {@link groupMultiselect} prompt.
@@ -295,10 +294,12 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				default: {
 					const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
-					const { text: footerText, lineCount: footerLineCount } = formatInstructionFooter(
+					const footerLines = formatInstructionFooter(
 						showInstructions ? MULTISELECT_INSTRUCTIONS : null,
 						hasGuide
 					);
+					const footerText = footerLines.join('\n');
+					const footerLineCount = footerLines.length + 1;
 					const optionsText = limitOptions({
 						output: opts.output,
 						options: this.options,
