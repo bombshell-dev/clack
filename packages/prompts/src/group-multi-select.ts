@@ -2,8 +2,8 @@ import { styleText } from 'node:util';
 import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
-	MULTISELECT_INSTRUCTIONS,
 	formatInstructionFooter,
+	MULTISELECT_INSTRUCTIONS,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
