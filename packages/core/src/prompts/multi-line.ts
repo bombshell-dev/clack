@@ -72,7 +72,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 		}
 		const wasReturn = this.#lastKeyWasReturn;
 		this.#lastKeyWasReturn = true;
-		if (wasReturn) {
+		if (wasReturn && this.cursor === this.userInput.length) {
 			if (this.userInput[this.cursor - 1] === '\n') {
 				this._setUserInput(
 					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
@@ -87,11 +87,25 @@ export default class MultiLinePrompt extends Prompt<string> {
 	}
 
 	constructor(opts: MultiLineOptions) {
-		super(opts, false);
+		const initialUserInput = opts.initialUserInput ?? opts.initialValue;
+
+		super(
+			{
+				...opts,
+				initialUserInput,
+			},
+			false
+		);
+
+		if (initialUserInput !== undefined) {
+			this._cursor = initialUserInput.length;
+		}
+
 		this.#showSubmit = opts.showSubmit ?? false;
 
 		this.on('key', (char, key) => {
 			if (key?.name && cursorActions.has(key.name as CursorAction)) {
+				this.#lastKeyWasReturn = false;
 				this.#handleCursor(key.name as CursorAction);
 				return;
 			}
