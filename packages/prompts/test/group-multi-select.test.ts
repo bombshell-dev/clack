@@ -481,4 +481,22 @@ describe.each(['true', 'false'])('groupMultiselect (isCI = %s)', (isCI) => {
 		expect(value).toEqual(['group1value0']);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('instructions: true renders footer', async () => {
+		const result = prompts.groupMultiselect({
+			message: 'foo',
+			input,
+			output,
+			instructions: true,
+			required: false,
+			options: {
+				group1: [{ value: 'group1value0' }, { value: 'group1value1' }],
+			},
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+	});
 });

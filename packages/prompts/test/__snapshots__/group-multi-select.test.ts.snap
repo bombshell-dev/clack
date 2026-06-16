@@ -389,6 +389,144 @@ exports[`groupMultiselect (isCI = false) > initial values can be set 1`] = `
 ]
 `;
 
+exports[`groupMultiselect (isCI = false) > instructions: true renders footer 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`groupMultiselect (isCI = false) > instructions: true with maxItems renders a sliding window 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m  │ [36m◻[39m [2mgroup1value1[22m
+[36m│[39m  │ [36m◻[39m [2mgroup1value2[22m
+[36m│[39m  │ [36m◻[39m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "[36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value0
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value1[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value0[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value1
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value1[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value2
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "[36m│[39m  [2m...[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value1[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value3
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value4[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value4
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup1value5[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value4[22m
+[36m│[39m  [2m└ [22m[36m◻[39m group1value5
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2m└ [22m[32m◼[39m group1value5",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mgroup1value5[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`groupMultiselect (isCI = false) > instructions: true with withGuide: false renders footer without guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[2m[22m[36m◻[39m group1
+│ [36m◻[39m [2mgroup1value0[22m
+└ [36m◻[39m [2mgroup1value1[22m
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`groupMultiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [
   "<cursor.hide>",
@@ -1292,6 +1430,144 @@ exports[`groupMultiselect (isCI = true) > initial values can be set 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mgroup1value1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`groupMultiselect (isCI = true) > instructions: true renders footer 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m  └ [36m◻[39m [2mgroup1value1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`groupMultiselect (isCI = true) > instructions: true with maxItems renders a sliding window 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m[22m[36m◻[39m group1
+[36m│[39m  │ [36m◻[39m [2mgroup1value0[22m
+[36m│[39m  │ [36m◻[39m [2mgroup1value1[22m
+[36m│[39m  │ [36m◻[39m [2mgroup1value2[22m
+[36m│[39m  │ [36m◻[39m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "[36m│[39m  [2m[22m[2m◻[22m [2mgroup1[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value0
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value1[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value0[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value1
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=4>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value1[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value2
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=2>",
+  "<erase.down>",
+  "[36m│[39m  [2m...[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value1[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value3
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value4[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value2[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m│ [22m[36m◻[39m group1value4
+[36m│[39m  [2m└ [22m[2m◻[22m [2mgroup1value5[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=3>",
+  "<erase.down>",
+  "[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value3[22m
+[36m│[39m  [2m│ [22m[2m◻[22m [2mgroup1value4[22m
+[36m│[39m  [2m└ [22m[36m◻[39m group1value5
+[36m│[39m  [2m[22m[2m◻[22m [2mgroup2[22m
+[36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  [2m└ [22m[32m◼[39m group1value5",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mgroup1value5[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`groupMultiselect (isCI = true) > instructions: true with withGuide: false renders footer without guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[2m[22m[36m◻[39m group1
+│ [36m◻[39m [2mgroup1value0[22m
+└ [36m◻[39m [2mgroup1value1[22m
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+",
   "
 ",
   "<cursor.show>",

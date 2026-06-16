@@ -2,6 +2,8 @@ import { styleText } from 'node:util';
 import { MultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
+	MULTISELECT_INSTRUCTIONS,
+	formatInstructionFooter,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
@@ -20,6 +22,11 @@ export interface MultiSelectOptions<Value> extends CommonOptions {
 	maxItems?: number;
 	required?: boolean;
 	cursorAt?: Value;
+	/**
+	 * Show keyboard instructions below the option list.
+	 * @default false
+	 */
+	instructions?: boolean;
 }
 const computeLabel = (label: string, format: (text: string) => string) => {
 	return label
@@ -70,6 +77,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		return `${styleText('dim', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 	};
 	const required = opts.required ?? true;
+	const showInstructions = opts.instructions ?? false;
 
 	return new MultiSelectPrompt({
 		options: opts.options,
@@ -171,9 +179,11 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				}
 				default: {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
-					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline
+					const { text: footerText, lineCount: footerLineCount } = formatInstructionFooter(
+						showInstructions ? MULTISELECT_INSTRUCTIONS : null,
+						hasGuide
+					);
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
@@ -182,7 +192,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						columnPadding: prefix.length,
 						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
-					}).join(`\n${prefix}`)}\n${hasGuide ? styleText('cyan', S_BAR_END) : ''}\n`;
+					}).join(`\n${prefix}`)}\n${footerText}\n`;
 				}
 			}
 		},
