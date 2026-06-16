@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { MultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
+import { MultiSelectPrompt, isSeparator, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -39,7 +39,11 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			| 'submitted'
 			| 'cancelled'
 			| 'disabled'
+			| 'separator'
 	) => {
+		if (state === 'separator') {
+			return styleText('dim', option.label ?? '────────────');
+		}
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
 			return `${styleText('gray', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (str) => styleText(['strikethrough', 'gray'], str))}${
@@ -104,6 +108,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			const value = this.value ?? [];
 
 			const styleOption = (option: Option<Value>, active: boolean) => {
+				if (isSeparator(option)) {
+					return opt(option, 'separator');
+				}
 				if (option.disabled) {
 					return opt(option, 'disabled');
 				}

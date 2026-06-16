@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
+import { GroupMultiSelectPrompt, isSeparator, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -12,9 +12,6 @@ import {
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
 
-/**
- * Options for the {@link groupMultiselect} prompt.
- */
 export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	/**
 	 * The message or question shown to the user above the input.
@@ -99,9 +96,15 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'group-active'
 			| 'group-active-selected'
 			| 'submitted'
-			| 'cancelled',
+			| 'cancelled'
+			| 'separator',
 		options: (Option<Value> & { group: string | boolean })[] = []
 	) => {
+		if (state === 'separator') {
+			const isItem = typeof option.group === 'string';
+			const prefix = isItem ? (selectableGroups ? `${S_BAR} ` : '  ') : '';
+			return `${prefix}${styleText('dim', option.label ?? '────────────')}`;
+		}
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
 		const next = isItem && (options[options.indexOf(option) + 1] ?? { group: true });
@@ -222,6 +225,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				active: boolean
 			) => {
 				const options = this.options;
+				if (isSeparator(option)) {
+					return opt(option, 'separator', options);
+				}
 				const selected =
 					value.includes(option.value) ||
 					(option.group === true && this.isGroupSelected(`${option.value}`));

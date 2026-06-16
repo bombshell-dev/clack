@@ -138,5 +138,39 @@ describe('SelectPrompt', () => {
 			instance.prompt();
 			expect(instance.cursor).to.equal(1);
 		});
+
+		test('cursor skips separator options', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [
+					{ value: 'foo' },
+					{ type: 'separator' as const, label: '---' },
+					{ value: 'bar' },
+				],
+			});
+			instance.prompt();
+			expect(instance.cursor).to.equal(0);
+			input.emit('keypress', 'down', { name: 'down' });
+			expect(instance.cursor).to.equal(2);
+			input.emit('keypress', 'up', { name: 'up' });
+			expect(instance.cursor).to.equal(0);
+		});
+
+		test('cursor skips initial separator option', () => {
+			const instance = new SelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [
+					{ type: 'separator' as const, label: '---' },
+					{ value: 'foo' },
+					{ value: 'bar' },
+				],
+			});
+			instance.prompt();
+			expect(instance.cursor).to.equal(1);
+		});
 	});
 });

@@ -1,9 +1,10 @@
-import { findCursor } from '../utils/cursor.js';
+import { findCursor, isSeparator } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 interface OptionLike {
 	value: any;
 	disabled?: boolean;
+	type?: string;
 }
 
 export interface MultiSelectOptions<T extends OptionLike>
@@ -22,7 +23,7 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 	}
 
 	private get _enabledOptions(): T[] {
-		return this.options.filter((option) => option.disabled !== true);
+		return this.options.filter((option) => option.disabled !== true && !isSeparator(option));
 	}
 
 	private toggleAll() {
@@ -44,6 +45,9 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 		if (this.value === undefined) {
 			this.value = [];
 		}
+		if (isSeparator(this.options[this.cursor])) {
+			return;
+		}
 		const selected = this.value.includes(this._value);
 		this.value = selected
 			? this.value.filter((value) => value !== this._value)
@@ -56,10 +60,10 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 		this.options = opts.options;
 		this.value = [...(opts.initialValues ?? [])];
 		const cursor = Math.max(
-			this.options.findIndex(({ value }) => value === opts.cursorAt),
+			this.options.findIndex((opt) => !isSeparator(opt) && opt.value === opts.cursorAt),
 			0
 		);
-		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
+		this.cursor = this.options[cursor].disabled || isSeparator(this.options[cursor]) ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.on('key', (_char, key) => {
 			if (key.name === 'a') {
 				this.toggleAll();

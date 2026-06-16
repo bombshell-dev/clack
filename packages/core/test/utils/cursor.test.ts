@@ -1,5 +1,20 @@
 import { describe, expect, test } from 'vitest';
-import { findCursor, findTextCursor } from '../../src/utils/cursor.js';
+import { findCursor, findTextCursor, isSeparator } from '../../src/utils/cursor.js';
+
+describe('isSeparator', () => {
+	test('returns true for separator options', () => {
+		expect(isSeparator({ type: 'separator' })).toBe(true);
+		expect(isSeparator({ type: 'separator', label: 'Header' })).toBe(true);
+	});
+
+	test('returns false for non-separator options', () => {
+		expect(isSeparator({ value: 'foo' })).toBe(false);
+		expect(isSeparator({ value: 'foo', disabled: true })).toBe(false);
+		expect(isSeparator({})).toBe(false);
+		expect(isSeparator(null)).toBe(false);
+		expect(isSeparator(undefined)).toBe(false);
+	});
+});
 
 describe('findCursor', () => {
 	test('returns the same cursor if all options are disabled', () => {
@@ -23,6 +38,28 @@ describe('findCursor', () => {
 		const options: { disabled?: boolean }[] = [];
 		expect(findCursor(0, 1, options)).toBe(0);
 		expect(findCursor(0, -1, options)).toBe(0);
+	});
+
+	test('skips separator options', () => {
+		const options = [{ value: 'a' }, { type: 'separator' as const, label: '---' }, { value: 'b' }];
+		expect(findCursor(0, 1, options)).toBe(2);
+		expect(findCursor(2, -1, options)).toBe(0);
+	});
+
+	test('returns same cursor if all options are separators or disabled', () => {
+		const options = [{ type: 'separator' as const }, { disabled: true }];
+		expect(findCursor(0, 1, options)).toBe(0);
+	});
+
+	test('skips mix of separators and disabled', () => {
+		const options = [
+			{ value: 'a' },
+			{ type: 'separator' as const },
+			{ disabled: true },
+			{ value: 'b' },
+		];
+		expect(findCursor(0, 1, options)).toBe(3);
+		expect(findCursor(3, -1, options)).toBe(0);
 	});
 });
 

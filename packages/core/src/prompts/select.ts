@@ -1,12 +1,12 @@
-import { findCursor } from '../utils/cursor.js';
+import { findCursor, isSeparator } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
-export interface SelectOptions<T extends { value: any; disabled?: boolean }>
+export interface SelectOptions<T extends { value: any; disabled?: boolean; type?: string }>
 	extends PromptOptions<T['value'], SelectPrompt<T>> {
 	options: T[];
 	initialValue?: T['value'];
 }
-export default class SelectPrompt<T extends { value: any; disabled?: boolean }> extends Prompt<
+export default class SelectPrompt<T extends { value: any; disabled?: boolean; type?: string }> extends Prompt<
 	T['value']
 > {
 	options: T[];
@@ -25,9 +25,9 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 
 		this.options = opts.options;
 
-		const initialCursor = this.options.findIndex(({ value }) => value === opts.initialValue);
+		const initialCursor = this.options.findIndex((opt) => !isSeparator(opt) && opt.value === opts.initialValue);
 		const cursor = initialCursor === -1 ? 0 : initialCursor;
-		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
+		this.cursor = this.options[cursor].disabled || isSeparator(this.options[cursor]) ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.changeValue();
 
 		this.on('cursor', (key) => {

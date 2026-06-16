@@ -1,9 +1,22 @@
+export interface SeparatorOption {
+	type: 'separator';
+	label?: string;
+}
+
+export function isSeparator(option: unknown): option is SeparatorOption {
+	return typeof option === 'object' && option !== null && (option as any).type === 'separator';
+}
+
+function isSkippable<T extends { disabled?: boolean }>(option: T): boolean {
+	return option.disabled === true || isSeparator(option);
+}
+
 export function findCursor<T extends { disabled?: boolean }>(
 	cursor: number,
 	delta: number,
 	options: T[]
 ) {
-	const hasEnabledOptions = options.some((opt) => !opt.disabled);
+	const hasEnabledOptions = options.some((opt) => !isSkippable(opt));
 	if (!hasEnabledOptions) {
 		return cursor;
 	}
@@ -11,7 +24,7 @@ export function findCursor<T extends { disabled?: boolean }>(
 	const maxCursor = Math.max(options.length - 1, 0);
 	const clampedCursor = newCursor < 0 ? maxCursor : newCursor > maxCursor ? 0 : newCursor;
 	const newOption = options[clampedCursor];
-	if (newOption.disabled) {
+	if (isSkippable(newOption)) {
 		return findCursor(clampedCursor, delta < 0 ? -1 : 1, options);
 	}
 	return clampedCursor;

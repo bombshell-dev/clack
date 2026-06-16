@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
+import { SelectPrompt, isSeparator, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -13,57 +13,71 @@ import { limitOptions } from './limit-options.js';
 
 type Primitive = Readonly<string | boolean | number>;
 
-export type Option<Value> = Value extends Primitive
-	? {
-			/**
-			 * Internal data for this option.
-			 */
-			value: Value;
-			/**
-			 * The optional, user-facing text for this option.
-			 *
-			 * By default, the `value` is converted to a string.
-			 */
-			label?: string;
-			/**
-			 * An optional hint to display to the user when
-			 * this option might be selected.
-			 *
-			 * By default, no `hint` is displayed.
-			 */
-			hint?: string;
-			/**
-			 * Whether this option is disabled.
-			 * Disabled options are visible but cannot be selected.
-			 *
-			 * By default, options are not disabled.
-			 */
-			disabled?: boolean;
-		}
-	: {
-			/**
-			 * Internal data for this option.
-			 */
-			value: Value;
-			/**
-			 * Required. The user-facing text for this option.
-			 */
-			label: string;
-			/**
-			 * An optional hint to display to the user when
-			 * this option might be selected.
-			 *
-			 * By default, no `hint` is displayed.
-			 */
-			hint?: string;
-			/**
-			 * Whether this option is disabled.
-			 * Disabled options are visible but cannot be selected.
-			 *
-			 * By default, options are not disabled.
-			 */
-			disabled?: boolean;
-		};
+export type SeparatorOption = {
+	/**
+	 * Marks this entry as a separator. Separators are rendered but
+	 * skipped by the cursor and excluded from the result.
+	 */
+	type: 'separator';
+	/**
+	 * The text to display for this separator.
+	 */
+	label?: string;
+};
+
+export type Option<Value> =
+	| SeparatorOption
+	| (Value extends Primitive
+		? {
+				/**
+				 * Internal data for this option.
+				 */
+				value: Value;
+				/**
+				 * The optional, user-facing text for this option.
+				 *
+				 * By default, the `value` is converted to a string.
+				 */
+				label?: string;
+				/**
+				 * An optional hint to display to the user when
+				 * this option might be selected.
+				 *
+				 * By default, no `hint` is displayed.
+				 */
+				hint?: string;
+				/**
+				 * Whether this option is disabled.
+				 * Disabled options are visible but cannot be selected.
+				 *
+				 * By default, options are not disabled.
+				 */
+				disabled?: boolean;
+			}
+		: {
+				/**
+				 * Internal data for this option.
+				 */
+				value: Value;
+				/**
+				 * Required. The user-facing text for this option.
+				 */
+				label: string;
+				/**
+				 * An optional hint to display to the user when
+				 * this option might be selected.
+				 *
+				 * By default, no `hint` is displayed.
+				 */
+				hint?: string;
+				/**
+				 * Whether this option is disabled.
+				 * Disabled options are visible but cannot be selected.
+				 *
+				 * By default, options are not disabled.
+				 */
+				disabled?: boolean;
+			});
 
 export interface SelectOptions<Value> extends CommonOptions {
 	message: string;
@@ -85,8 +99,11 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
 		option: Option<Value>,
-		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled' | 'separator'
 	) => {
+		if (state === 'separator') {
+			return styleText('dim', option.label ?? '────────────');
+		}
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
@@ -156,8 +173,10 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						maxItems: opts.maxItems,
 						columnPadding: prefix.length,
 						rowPadding: titleLineCount + footerLineCount,
-						style: (item, active) =>
-							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
+					style: (item, active) =>
+						isSeparator(item)
+							? opt(item, 'separator')
+							: opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
 					}).join(`\n${prefix}`)}\n${prefixEnd}\n`;
 				}
 			}
