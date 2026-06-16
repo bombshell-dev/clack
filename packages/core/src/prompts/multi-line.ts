@@ -87,7 +87,13 @@ export default class MultiLinePrompt extends Prompt<string> {
 	}
 
 	constructor(opts: MultiLineOptions) {
-		super(opts, false);
+		super(
+			{
+				...opts,
+				initialUserInput: opts.initialUserInput ?? opts.initialValue,
+			},
+			false
+		);
 		this.#showSubmit = opts.showSubmit ?? false;
 
 		this.on('key', (char, key) => {

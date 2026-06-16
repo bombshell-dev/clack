@@ -57,6 +57,32 @@ describe('MultiLinePrompt', () => {
 		expect(result).to.equal('x');
 	});
 
+	test('seeds initialValue into the editor', () => {
+		const instance = new MultiLinePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'first line\nsecond line',
+		});
+		instance.prompt();
+		expect(instance.userInput).to.equal('first line\nsecond line');
+		expect(instance.value).to.equal('first line\nsecond line');
+	});
+
+	test('submits initialValue when not edited', async () => {
+		const instance = new MultiLinePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			initialValue: 'untouched',
+		});
+		const resultPromise = instance.prompt();
+		input.emit('keypress', '', { name: 'return' });
+		input.emit('keypress', '', { name: 'return' });
+		const result = await resultPromise;
+		expect(result).to.equal('untouched');
+	});
+
 	describe('cursor', () => {
 		test('can get cursor', () => {
 			const instance = new MultiLinePrompt({
