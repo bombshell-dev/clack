@@ -4,6 +4,7 @@ import {
 	type CommonOptions,
 	formatInstructionFooter,
 	S_BAR,
+	S_BAR_END,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
@@ -13,12 +14,6 @@ import { limitOptions } from './limit-options.js';
 
 export const SELECT_INSTRUCTIONS = [
 	`${styleText('dim', '↑/↓')} to navigate`,
-	`${styleText('dim', 'Enter:')} confirm`,
-];
-
-export const MULTISELECT_INSTRUCTIONS = [
-	`${styleText('dim', '↑/↓')} to navigate`,
-	`${styleText('dim', 'Space:')} select`,
 	`${styleText('dim', 'Enter:')} confirm`,
 ];
 
@@ -165,10 +160,11 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				default: {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
-					const footerLines = formatInstructionFooter(
-						showInstructions ? SELECT_INSTRUCTIONS : null,
-						hasGuide
-					);
+					const footerLines = showInstructions
+						? formatInstructionFooter(SELECT_INSTRUCTIONS, hasGuide)
+						: hasGuide
+							? [styleText('cyan', S_BAR_END)]
+							: [];
 					const footerText = footerLines.join('\n');
 					const footerLineCount = footerLines.length + 1;
 					return `${title}${prefix}${limitOptions({

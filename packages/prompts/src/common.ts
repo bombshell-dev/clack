@@ -74,12 +74,9 @@ export interface CommonOptions {
 	withGuide?: boolean;
 }
 
-export function formatInstructionFooter(
-	instructions: string[] | null,
-	hasGuide: boolean
-): string[] {
+export function formatInstructionFooter(instructions: string[], hasGuide: boolean): string[] {
 	const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-	const footerLines = instructions ? [`${guidePrefix}${instructions.join(' • ')}`] : [];
+	const footerLines = [`${guidePrefix}${instructions.join(' • ')}`];
 	if (hasGuide) {
 		footerLines.push(styleText('cyan', S_BAR_END));
 	}
