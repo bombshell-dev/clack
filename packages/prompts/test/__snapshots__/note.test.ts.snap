@@ -5,30 +5,30 @@ exports[`note (isCI = false) > don't overflow 1`] = `
   "[90m│[39m
 [32m◇[39m  [0mtitle[0m [90m───────────────────────────────────────────────────────────────╮[39m
 [90m│[39m                                                                       [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string[22m               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
 [90m│[39m                                                                       [90m│[39m
 [90m├───────────────────────────────────────────────────────────────────────╯[39m
 ",
@@ -107,16 +107,16 @@ exports[`note (isCI = false) > handle wide characters 1`] = `
   "[90m│[39m
 [32m◇[39m  [0m这是标题[0m [90m─╮[39m
 [90m│[39m            [90m│[39m
-[90m│[39m  [2m이게[22m      [90m│[39m
-[90m│[39m  [2m 첫 [22m      [90m│[39m
-[90m│[39m  [2m번째[22m      [90m│[39m
-[90m│[39m  [2m [22m         [90m│[39m
-[90m│[39m  [2m줄이[22m      [90m│[39m
-[90m│[39m  [2m에요[22m      [90m│[39m
-[90m│[39m  [2mこれ[22m      [90m│[39m
-[90m│[39m  [2mは次[22m      [90m│[39m
-[90m│[39m  [2mの行[22m      [90m│[39m
-[90m│[39m  [2mです[22m      [90m│[39m
+[90m│[39m  이게      [90m│[39m
+[90m│[39m   첫       [90m│[39m
+[90m│[39m  번째      [90m│[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  줄이      [90m│[39m
+[90m│[39m  에요      [90m│[39m
+[90m│[39m  これ      [90m│[39m
+[90m│[39m  は次      [90m│[39m
+[90m│[39m  の行      [90m│[39m
+[90m│[39m  です      [90m│[39m
 [90m│[39m            [90m│[39m
 [90m├────────────╯[39m
 ",
@@ -161,8 +161,8 @@ exports[`note (isCI = false) > renders as wide as longest line 1`] = `
   "[90m│[39m
 [32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
 [90m│[39m                                   [90m│[39m
-[90m│[39m  [2mshort[22m                            [90m│[39m
-[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
+[90m│[39m  short                            [90m│[39m
+[90m│[39m  somewhat questionably long line  [90m│[39m
 [90m│[39m                                   [90m│[39m
 [90m├───────────────────────────────────╯[39m
 ",
@@ -174,7 +174,7 @@ exports[`note (isCI = false) > renders message with title 1`] = `
   "[90m│[39m
 [32m◇[39m  [0mtitle[0m [90m───╮[39m
 [90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m  message  [90m│[39m
 [90m│[39m           [90m│[39m
 [90m├───────────╯[39m
 ",
@@ -185,7 +185,7 @@ exports[`note (isCI = false) > without guide 1`] = `
 [
   "[32m◇[39m  [0mtitle[0m [90m───╮[39m
 [90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m  message  [90m│[39m
 [90m│[39m           [90m│[39m
 [90m╰───────────╯[39m
 ",
@@ -197,30 +197,30 @@ exports[`note (isCI = true) > don't overflow 1`] = `
   "[90m│[39m
 [32m◇[39m  [0mtitle[0m [90m───────────────────────────────────────────────────────────────╮[39m
 [90m│[39m                                                                       [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string [22m              [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string test string [22m  [90m│[39m
-[90m│[39m  [2mtest string test string test string test string test string test [22m    [90m│[39m
-[90m│[39m  [2mstring test string test string test string test string[22m               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string test string   [90m│[39m
+[90m│[39m  test string test string test string test string test string test     [90m│[39m
+[90m│[39m  string test string test string test string test string               [90m│[39m
 [90m│[39m                                                                       [90m│[39m
 [90m├───────────────────────────────────────────────────────────────────────╯[39m
 ",
@@ -299,16 +299,16 @@ exports[`note (isCI = true) > handle wide characters 1`] = `
   "[90m│[39m
 [32m◇[39m  [0m这是标题[0m [90m─╮[39m
 [90m│[39m            [90m│[39m
-[90m│[39m  [2m이게[22m      [90m│[39m
-[90m│[39m  [2m 첫 [22m      [90m│[39m
-[90m│[39m  [2m번째[22m      [90m│[39m
-[90m│[39m  [2m [22m         [90m│[39m
-[90m│[39m  [2m줄이[22m      [90m│[39m
-[90m│[39m  [2m에요[22m      [90m│[39m
-[90m│[39m  [2mこれ[22m      [90m│[39m
-[90m│[39m  [2mは次[22m      [90m│[39m
-[90m│[39m  [2mの行[22m      [90m│[39m
-[90m│[39m  [2mです[22m      [90m│[39m
+[90m│[39m  이게      [90m│[39m
+[90m│[39m   첫       [90m│[39m
+[90m│[39m  번째      [90m│[39m
+[90m│[39m            [90m│[39m
+[90m│[39m  줄이      [90m│[39m
+[90m│[39m  에요      [90m│[39m
+[90m│[39m  これ      [90m│[39m
+[90m│[39m  は次      [90m│[39m
+[90m│[39m  の行      [90m│[39m
+[90m│[39m  です      [90m│[39m
 [90m│[39m            [90m│[39m
 [90m├────────────╯[39m
 ",
@@ -353,8 +353,8 @@ exports[`note (isCI = true) > renders as wide as longest line 1`] = `
   "[90m│[39m
 [32m◇[39m  [0mtitle[0m [90m───────────────────────────╮[39m
 [90m│[39m                                   [90m│[39m
-[90m│[39m  [2mshort[22m                            [90m│[39m
-[90m│[39m  [2msomewhat questionably long line[22m  [90m│[39m
+[90m│[39m  short                            [90m│[39m
+[90m│[39m  somewhat questionably long line  [90m│[39m
 [90m│[39m                                   [90m│[39m
 [90m├───────────────────────────────────╯[39m
 ",
@@ -366,7 +366,7 @@ exports[`note (isCI = true) > renders message with title 1`] = `
   "[90m│[39m
 [32m◇[39m  [0mtitle[0m [90m───╮[39m
 [90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m  message  [90m│[39m
 [90m│[39m           [90m│[39m
 [90m├───────────╯[39m
 ",
@@ -377,7 +377,7 @@ exports[`note (isCI = true) > without guide 1`] = `
 [
   "[32m◇[39m  [0mtitle[0m [90m───╮[39m
 [90m│[39m           [90m│[39m
-[90m│[39m  [2mmessage[22m  [90m│[39m
+[90m│[39m  message  [90m│[39m
 [90m│[39m           [90m│[39m
 [90m╰───────────╯[39m
 ",
