@@ -7,6 +7,7 @@ exports[`multiselect (isCI = false) > can be aborted by a signal 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
   "
@@ -22,9 +23,10 @@ exports[`multiselect (isCI = false) > can cancel 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
@@ -42,14 +44,15 @@ exports[`multiselect (isCI = false) > can render option hints 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -67,14 +70,15 @@ exports[`multiselect (isCI = false) > can set cursorAt to preselect an option 1`
 [36m◆[39m  foo
 [36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=2>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -92,14 +96,15 @@ exports[`multiselect (isCI = false) > can set custom labels 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m Option 0
 [36m│[39m  [2m◻[22m [2mOption 1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -117,9 +122,10 @@ exports[`multiselect (isCI = false) > can set initial values 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [32m◼[39m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -131,49 +137,6 @@ exports[`multiselect (isCI = false) > can set initial values 1`] = `
 `;
 
 exports[`multiselect (isCI = false) > can submit without selection when required = false 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [36m◻[39m opt0
-[36m│[39m  [2m◻[22m [2mopt1[22m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=5>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mnone[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`multiselect (isCI = false) > global withGuide: false removes guide 1`] = `
-[
-  "<cursor.hide>",
-  "[36m◆[39m  foo
-[36m◻[39m opt0
-[2m◻[22m [2mopt1[22m
-
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.line><cursor.left count=1>",
-  "[32m◼[39m opt0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[2mopt0[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`multiselect (isCI = false) > instructions: true renders footer 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -194,7 +157,30 @@ exports[`multiselect (isCI = false) > instructions: true renders footer 1`] = `
 ]
 `;
 
-exports[`multiselect (isCI = false) > instructions: true with maxItems renders a sliding window 1`] = `
+exports[`multiselect (isCI = false) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "[32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > maxItems accounts for instruction footer 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -291,24 +277,6 @@ exports[`multiselect (isCI = false) > instructions: true with maxItems renders a
 ]
 `;
 
-exports[`multiselect (isCI = false) > instructions: true with withGuide: false renders footer without guide 1`] = `
-[
-  "<cursor.hide>",
-  "[36m◆[39m  foo
-[36m◻[39m opt0
-[2m◻[22m [2mopt1[22m
-[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[2mnone[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
 exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [
   "<cursor.hide>",
@@ -320,9 +288,10 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
@@ -331,9 +300,10 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
@@ -341,18 +311,20 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
@@ -361,9 +333,10 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
@@ -371,9 +344,10 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
@@ -381,14 +355,15 @@ exports[`multiselect (isCI = false) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt6",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -407,18 +382,37 @@ exports[`multiselect (isCI = false) > renders disabled options 1`] = `
 [36m│[39m  [90m◻[39m [9m[90mopt0[39m[29m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [90m◻[39m [9m[90mopt2[39m[29m [2m(Hint 2)[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = false) > renders instructions without guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mnone[22m",
   "
 ",
   "<cursor.show>",
@@ -432,14 +426,15 @@ exports[`multiselect (isCI = false) > renders message 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -458,27 +453,29 @@ exports[`multiselect (isCI = false) > renders multiple cancelled values 1`] = `
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
@@ -498,34 +495,37 @@ exports[`multiselect (isCI = false) > renders multiple selected options 1`] = `
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -543,9 +543,10 @@ exports[`multiselect (isCI = false) > renders validation errors 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m  foo
@@ -560,9 +561,10 @@ exports[`multiselect (isCI = false) > renders validation errors 1`] = `
   "[36m◆[39m  foo
 [36m│[39m  [32m◼[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -581,24 +583,27 @@ exports[`multiselect (isCI = false) > shows hints for all selected options 1`] =
 [36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m [2m(Hint 0)[22m
 [36m│[39m  [32m◼[39m opt1 [2m(Hint 1)[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
 [36m│[39m  [36m◻[39m opt2 [2m(Hint 2)[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -620,9 +625,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
@@ -631,9 +637,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
@@ -641,18 +648,20 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
@@ -661,9 +670,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
@@ -671,9 +681,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
@@ -681,9 +692,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt5[22m
@@ -691,9 +703,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt7
 [36m│[39m  [2m◻[22m [2mopt8[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt6[22m
@@ -701,9 +714,10 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt8
 [36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt7[22m
@@ -711,24 +725,27 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt9
 [36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [2m◻[22m [2mopt11[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [36m◻[39m opt10
 [36m│[39m  [2m◻[22m [2mopt11[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [36m◻[39m opt11
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [36m◻[39m opt0
@@ -737,14 +754,15 @@ exports[`multiselect (isCI = false) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=7>",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=8>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -766,9 +784,10 @@ exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
@@ -777,14 +796,15 @@ exports[`multiselect (isCI = false) > sliding window loops upwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [36m◻[39m opt11
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=7>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt11",
-  "<cursor.down count=2>",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -801,7 +821,7 @@ exports[`multiselect (isCI = false) > withGuide: false removes guide 1`] = `
   "[36m◆[39m  foo
 [36m◻[39m opt0
 [2m◻[22m [2mopt1[22m
-
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
@@ -831,14 +851,15 @@ exports[`multiselect (isCI = false) > wraps cancelled state with long options 1`
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
-  "<cursor.down count=9>",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=10>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
@@ -862,14 +883,15 @@ exports[`multiselect (isCI = false) > wraps long messages 1`] = `
 [36m│[39m  foo foo foo foo foo foo foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=4>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo foo foo foo foo foo foo
@@ -895,14 +917,15 @@ exports[`multiselect (isCI = false) > wraps success state with long options 1`] 
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
-  "<cursor.down count=9>",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=10>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -923,6 +946,7 @@ exports[`multiselect (isCI = true) > can be aborted by a signal 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
   "
@@ -938,9 +962,10 @@ exports[`multiselect (isCI = true) > can cancel 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
@@ -958,14 +983,15 @@ exports[`multiselect (isCI = true) > can render option hints 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -983,14 +1009,15 @@ exports[`multiselect (isCI = true) > can set cursorAt to preselect an option 1`]
 [36m◆[39m  foo
 [36m│[39m  [2m◻[22m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=2>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1008,14 +1035,15 @@ exports[`multiselect (isCI = true) > can set custom labels 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m Option 0
 [36m│[39m  [2m◻[22m [2mOption 1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1033,9 +1061,10 @@ exports[`multiselect (isCI = true) > can set initial values 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [32m◼[39m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1047,49 +1076,6 @@ exports[`multiselect (isCI = true) > can set initial values 1`] = `
 `;
 
 exports[`multiselect (isCI = true) > can submit without selection when required = false 1`] = `
-[
-  "<cursor.hide>",
-  "[90m│[39m
-[36m◆[39m  foo
-[36m│[39m  [36m◻[39m opt0
-[36m│[39m  [2m◻[22m [2mopt1[22m
-[36m└[39m
-",
-  "<cursor.backward count=999><cursor.up count=5>",
-  "<cursor.down count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[90m│[39m  [2mnone[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`multiselect (isCI = true) > global withGuide: false removes guide 1`] = `
-[
-  "<cursor.hide>",
-  "[36m◆[39m  foo
-[36m◻[39m opt0
-[2m◻[22m [2mopt1[22m
-
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<cursor.down count=1>",
-  "<erase.line><cursor.left count=1>",
-  "[32m◼[39m opt0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[2mopt0[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
-exports[`multiselect (isCI = true) > instructions: true renders footer 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -1110,7 +1096,30 @@ exports[`multiselect (isCI = true) > instructions: true renders footer 1`] = `
 ]
 `;
 
-exports[`multiselect (isCI = true) > instructions: true with maxItems renders a sliding window 1`] = `
+exports[`multiselect (isCI = true) > global withGuide: false removes guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "[32m◼[39m opt0",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mopt0[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > maxItems accounts for instruction footer 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
@@ -1207,24 +1216,6 @@ exports[`multiselect (isCI = true) > instructions: true with maxItems renders a 
 ]
 `;
 
-exports[`multiselect (isCI = true) > instructions: true with withGuide: false renders footer without guide 1`] = `
-[
-  "<cursor.hide>",
-  "[36m◆[39m  foo
-[36m◻[39m opt0
-[2m◻[22m [2mopt1[22m
-[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
-",
-  "<cursor.backward count=999><cursor.up count=4>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-[2mnone[22m",
-  "
-",
-  "<cursor.show>",
-]
-`;
-
 exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [
   "<cursor.hide>",
@@ -1236,9 +1227,10 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
@@ -1247,9 +1239,10 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
@@ -1257,18 +1250,20 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
@@ -1277,9 +1272,10 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
@@ -1287,9 +1283,10 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
@@ -1297,14 +1294,15 @@ exports[`multiselect (isCI = true) > maxItems renders a sliding window 1`] = `
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt6",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1323,18 +1321,37 @@ exports[`multiselect (isCI = true) > renders disabled options 1`] = `
 [36m│[39m  [90m◻[39m [9m[90mopt0[39m[29m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [90m◻[39m [9m[90mopt2[39m[29m [2m(Hint 2)[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mopt1[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`multiselect (isCI = true) > renders instructions without guide 1`] = `
+[
+  "<cursor.hide>",
+  "[36m◆[39m  foo
+[36m◻[39m opt0
+[2m◻[22m [2mopt1[22m
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[2mnone[22m",
   "
 ",
   "<cursor.show>",
@@ -1348,14 +1365,15 @@ exports[`multiselect (isCI = true) > renders message 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1374,27 +1392,29 @@ exports[`multiselect (isCI = true) > renders multiple cancelled values 1`] = `
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
@@ -1414,34 +1434,37 @@ exports[`multiselect (isCI = true) > renders multiple selected options 1`] = `
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m
 [36m│[39m  [36m◻[39m opt1
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt1",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m
 [36m│[39m  [36m◻[39m opt2
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1459,9 +1482,10 @@ exports[`multiselect (isCI = true) > renders validation errors 1`] = `
 [36m◆[39m  foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[33m▲[39m  foo
@@ -1476,9 +1500,10 @@ exports[`multiselect (isCI = true) > renders validation errors 1`] = `
   "[36m◆[39m  foo
 [36m│[39m  [32m◼[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.backward count=999><cursor.up count=6>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1497,24 +1522,27 @@ exports[`multiselect (isCI = true) > shows hints for all selected options 1`] = 
 [36m│[39m  [32m◼[39m opt0 [2m(Hint 0)[22m
 [36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt0[22m [2m(Hint 0)[22m
 [36m│[39m  [32m◼[39m opt1 [2m(Hint 1)[22m
 [36m│[39m  [2m◻[22m [2mopt2[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [32m◼[39m [2mopt1[22m [2m(Hint 1)[22m
 [36m│[39m  [36m◻[39m opt2 [2m(Hint 2)[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.backward count=999><cursor.up count=7>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1536,9 +1564,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt0[22m
@@ -1547,9 +1576,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt1[22m
@@ -1557,18 +1587,20 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt2[22m
 [36m│[39m  [36m◻[39m opt3
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
@@ -1577,9 +1609,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt4
 [36m│[39m  [2m◻[22m [2mopt5[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt3[22m
@@ -1587,9 +1620,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt5
 [36m│[39m  [2m◻[22m [2mopt6[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt4[22m
@@ -1597,9 +1631,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt6
 [36m│[39m  [2m◻[22m [2mopt7[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt5[22m
@@ -1607,9 +1642,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt7
 [36m│[39m  [2m◻[22m [2mopt8[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt6[22m
@@ -1617,9 +1653,10 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt8
 [36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=3>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt7[22m
@@ -1627,24 +1664,27 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [36m◻[39m opt9
 [36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [2m◻[22m [2mopt11[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=5>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [36m◻[39m opt10
 [36m│[39m  [2m◻[22m [2mopt11[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=6>",
   "<erase.down>",
   "[36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [36m◻[39m opt11
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [36m◻[39m opt0
@@ -1653,14 +1693,15 @@ exports[`multiselect (isCI = true) > sliding window loops downwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=7>",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=8>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1682,9 +1723,10 @@ exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt3[22m
 [36m│[39m  [2m◻[22m [2mopt4[22m
 [36m│[39m  [2m...[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=2>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
@@ -1693,14 +1735,15 @@ exports[`multiselect (isCI = true) > sliding window loops upwards 1`] = `
 [36m│[39m  [2m◻[22m [2mopt9[22m
 [36m│[39m  [2m◻[22m [2mopt10[22m
 [36m│[39m  [36m◻[39m opt11
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=7>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt11",
-  "<cursor.down count=2>",
-  "<cursor.backward count=999><cursor.up count=9>",
+  "<cursor.down count=3>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
@@ -1717,7 +1760,7 @@ exports[`multiselect (isCI = true) > withGuide: false removes guide 1`] = `
   "[36m◆[39m  foo
 [36m◻[39m opt0
 [2m◻[22m [2mopt1[22m
-
+[2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 ",
   "<cursor.backward count=999><cursor.up count=4>",
   "<cursor.down count=1>",
@@ -1747,14 +1790,15 @@ exports[`multiselect (isCI = true) > wraps cancelled state with long options 1`]
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
-  "<cursor.down count=9>",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=10>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
@@ -1778,14 +1822,15 @@ exports[`multiselect (isCI = true) > wraps long messages 1`] = `
 [36m│[39m  foo foo foo foo foo foo foo
 [36m│[39m  [36m◻[39m opt0
 [36m│[39m  [2m◻[22m [2mopt1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=4>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m opt0",
-  "<cursor.down count=3>",
-  "<cursor.backward count=999><cursor.up count=7>",
+  "<cursor.down count=4>",
+  "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo foo foo foo foo foo foo
@@ -1811,14 +1856,15 @@ exports[`multiselect (isCI = true) > wraps success state with long options 1`] =
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1 Option 1 Option [22m
 [36m│[39m  [2m1 Option 1[22m
+[36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=2>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m◼[39m Option 0 Option 0 Option ",
-  "<cursor.down count=9>",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.down count=10>",
+  "<cursor.backward count=999><cursor.up count=12>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo

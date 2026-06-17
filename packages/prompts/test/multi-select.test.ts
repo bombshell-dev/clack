@@ -438,27 +438,10 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('instructions: true renders footer', async () => {
+	test('renders instructions without guide', async () => {
 		const result = prompts.multiselect({
 			message: 'foo',
 			options: [{ value: 'opt0' }, { value: 'opt1' }],
-			instructions: true,
-			required: false,
-			input,
-			output,
-		});
-
-		input.emit('keypress', '', { name: 'return' });
-
-		await result;
-		expect(output.buffer).toMatchSnapshot();
-	});
-
-	test('instructions: true with withGuide: false renders footer without guide', async () => {
-		const result = prompts.multiselect({
-			message: 'foo',
-			options: [{ value: 'opt0' }, { value: 'opt1' }],
-			instructions: true,
 			required: false,
 			withGuide: false,
 			input,
@@ -471,14 +454,13 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('instructions: true with maxItems renders a sliding window', async () => {
+	test('maxItems accounts for instruction footer', async () => {
 		const result = prompts.multiselect({
 			message: 'foo',
 			options: [...Array(12).keys()].map((k) => ({
 				value: `opt${k}`,
 			})),
 			maxItems: 6,
-			instructions: true,
 			input,
 			output,
 		});

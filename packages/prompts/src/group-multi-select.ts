@@ -60,12 +60,6 @@ export interface GroupMultiSelectOptions<Value> extends CommonOptions {
 	 * @default 0
 	 */
 	groupSpacing?: number;
-
-	/**
-	 * Show keyboard instructions below the option list.
-	 * @default false
-	 */
-	instructions?: boolean;
 }
 
 /**
@@ -197,7 +191,6 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 		);
 	};
 	const required = opts.required ?? true;
-	const showInstructions = opts.instructions ?? false;
 
 	return new GroupMultiSelectPrompt({
 		options: opts.options,
@@ -295,11 +288,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				default: {
 					const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
-					const footerLines = showInstructions
-						? formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)
-						: hasGuide
-							? [styleText('cyan', S_BAR_END)]
-							: [];
+					const footerLines = formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide);
 					const footerText = footerLines.join('\n');
 					const footerLineCount = footerLines.length + 1;
 					const optionsText = limitOptions({

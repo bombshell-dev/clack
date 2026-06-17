@@ -27,11 +27,6 @@ export interface MultiSelectOptions<Value> extends CommonOptions {
 	maxItems?: number;
 	required?: boolean;
 	cursorAt?: Value;
-	/**
-	 * Show keyboard instructions below the option list.
-	 * @default false
-	 */
-	instructions?: boolean;
 }
 const computeLabel = (label: string, format: (text: string) => string) => {
 	return label
@@ -82,7 +77,6 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 		return `${styleText('dim', S_CHECKBOX_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 	};
 	const required = opts.required ?? true;
-	const showInstructions = opts.instructions ?? false;
 
 	return new MultiSelectPrompt({
 		options: opts.options,
@@ -185,11 +179,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				default: {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
-					const footerLines = showInstructions
-						? formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)
-						: hasGuide
-							? [styleText('cyan', S_BAR_END)]
-							: [];
+					const footerLines = formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide);
 					const footerText = footerLines.join('\n');
 					const footerLineCount = footerLines.length + 1;
 					return `${title}${prefix}${limitOptions({

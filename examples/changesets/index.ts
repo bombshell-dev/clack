@@ -19,7 +19,6 @@ async function main() {
 			packages: () =>
 				p.groupMultiselect({
 					message: 'Which packages would you like to include?',
-					instructions: true,
 					options: {
 						'changed packages': [
 							{ value: '@scope/a' },
@@ -37,7 +36,6 @@ async function main() {
 				const packages = results.packages ?? [];
 				return p.multiselect({
 					message: `Which packages should have a ${color.red('major')} bump?`,
-					instructions: true,
 					options: packages.map((value) => ({ value })),
 					required: false,
 				});
@@ -49,7 +47,6 @@ async function main() {
 				if (possiblePackages.length === 0) return;
 				return p.multiselect({
 					message: `Which packages should have a ${color.yellow('minor')} bump?`,
-					instructions: true,
 					options: possiblePackages.map((value) => ({ value })),
 					required: false,
 				});
