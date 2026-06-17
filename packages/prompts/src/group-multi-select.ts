@@ -2,6 +2,7 @@ import { styleText } from 'node:util';
 import { GroupMultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
+	formatInstructionFooter,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_ACTIVE,
@@ -10,6 +11,7 @@ import {
 	symbol,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
+import { MULTISELECT_INSTRUCTIONS } from './multi-select.js';
 import type { Option } from './select.js';
 
 /**
@@ -285,9 +287,10 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				}
 				default: {
 					const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
-					const footerLineCount = (hasGuide ? 1 : 0) + 1; // guide line + trailing newline
+					const footerLines = formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide);
+					const footerText = footerLines.join('\n');
+					const footerLineCount = footerLines.length + 1;
 					const optionsText = limitOptions({
 						output: opts.output,
 						options: this.options,
@@ -297,9 +300,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						rowPadding: titleLineCount + footerLineCount,
 						style: styleOption,
 					}).join(`\n${guidePrefix}`);
-					return `${title}${guidePrefix}${optionsText}\n${
-						hasGuide ? styleText('cyan', S_BAR_END) : ''
-					}\n`;
+					return `${title}${guidePrefix}${optionsText}\n${footerText}\n`;
 				}
 			}
 		},
