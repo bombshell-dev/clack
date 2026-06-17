@@ -1,5 +1,18 @@
 # @clack/core
 
+## 1.4.2
+
+### Patch Changes
+
+- [#561](https://github.com/bombshell-dev/clack/pull/561) [`2f2b52f`](https://github.com/bombshell-dev/clack/commit/2f2b52f77cbfa9af618c6d929249ab8395fc37a1) Thanks [@avallete](https://github.com/avallete)! - Fix `password` prompt resolving to `undefined` on empty submit. It now normalizes an empty submission to `""`, matching the `text` prompt behavior and the documented `Promise<string | symbol>` return type.
+
+- [#569](https://github.com/bombshell-dev/clack/pull/569) [`e1b6ee7`](https://github.com/bombshell-dev/clack/commit/e1b6ee71a76e17a3c33ba7ee6e5fb34e886233bb) Thanks [@43081j](https://github.com/43081j)! - fix: only submit multi-line prompt when double-return happens at end of input.
+
+  Also fixes two minor things:
+
+  - Initial value is used as initial user input for multi-line prompts
+  - Cursor is placed at the end when there is initial input
+
 ## 1.4.1
 
 ### Patch Changes

@@ -1,5 +1,31 @@
 # @clack/prompts
 
+## 1.6.0
+
+### Minor Changes
+
+- [#568](https://github.com/bombshell-dev/clack/pull/568) [`f87933f`](https://github.com/bombshell-dev/clack/commit/f87933fb7b3f4c401b9e51a152b95cb8e7200fe5) Thanks [@florian-lefebvre](https://github.com/florian-lefebvre)! - Updates default formatter of `note()` to note dim lines anymore
+
+  If you want the old behavior, provide a `format()` function:
+
+  ```diff
+  import { note } from '@clack/prompts';
+  +import { styleText } from 'node:util';
+
+  note(
+    'You can edit the file src/index.jsx',
+    'Next steps.'
+  +  { format: (text) => styleText('dim', text) }
+  );
+  ```
+
+- [#567](https://github.com/bombshell-dev/clack/pull/567) [`cc6aab5`](https://github.com/bombshell-dev/clack/commit/cc6aab50186cff8a02dc98e9cfd3897c29a33b15) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add keyboard instruction footers to `select`, `multiselect`, and `groupMultiselect` in the active state, matching autocomplete. No option — always shown.
+
+### Patch Changes
+
+- Updated dependencies [[`2f2b52f`](https://github.com/bombshell-dev/clack/commit/2f2b52f77cbfa9af618c6d929249ab8395fc37a1), [`e1b6ee7`](https://github.com/bombshell-dev/clack/commit/e1b6ee71a76e17a3c33ba7ee6e5fb34e886233bb)]:
+  - @clack/core@1.4.2
+
 ## 1.5.1
 
 ### Patch Changes
