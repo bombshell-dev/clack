@@ -476,4 +476,20 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		expect(value).toEqual(['opt6']);
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('showInstructions: false hides instruction footer', async () => {
+		const result = prompts.multiselect({
+			message: 'foo',
+			options: [{ value: 'opt0' }, { value: 'opt1' }],
+			showInstructions: false,
+			required: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
