@@ -14,10 +14,7 @@ const isWindows = globalThis.process.platform.startsWith('win');
 
 export const CANCEL_SYMBOL = Symbol('clack:cancel');
 
-/** The type of the cancel symbol returned by prompts when the user cancels. */
-export type CancelSymbol = typeof CANCEL_SYMBOL;
-
-export function isCancel(value: unknown): value is CancelSymbol {
+export function isCancel(value: unknown): value is typeof CANCEL_SYMBOL {
 	return value === CANCEL_SYMBOL;
 }
 

@@ -22,7 +22,6 @@ export type { TextOptions } from './prompts/text.js';
 export { default as TextPrompt } from './prompts/text.js';
 export type { ClackState as State } from './types.js';
 export { block, getColumns, getRows, isCancel, CANCEL_SYMBOL, wrapTextWithPrefix } from './utils/index.js';
-export type { CancelSymbol } from './utils/index.js';
 export type { ClackSettings } from './utils/settings.js';
 export { settings, updateSettings } from './utils/settings.js';
 export type { Validate } from './utils/validation.js';
