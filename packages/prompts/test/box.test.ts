@@ -1,5 +1,6 @@
 import { styleText } from 'node:util';
 import { updateSettings } from '@clack/core';
+import stringWidth from 'fast-string-width';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
@@ -269,5 +270,31 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 		});
 
 		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('truncates a wide-character title that overflows the box width', () => {
+		// '这是一个非常长的标题' is 10 wide chars = 20 display columns, which
+		// exceeds the title budget at width: 0.2. The title must be truncated by
+		// display width, not by UTF-16 code units, otherwise the trailing
+		// `'─'.repeat(...)` count goes negative and box() throws RangeError.
+		const title = '这是一个非常长的标题';
+		expect(() => {
+			prompts.box('message', title, {
+				input,
+				output,
+				width: 0.2,
+			});
+		}).not.toThrow();
+
+		const rendered = output.buffer.join('');
+		expect(rendered).toContain('...');
+
+		// Every rendered border line must occupy the same number of display
+		// columns; otherwise the box corners are ragged.
+		const lineWidths = rendered
+			.split('\n')
+			.filter((line) => line.length > 0)
+			.map((line) => stringWidth(line));
+		expect(new Set(lineWidths).size).toBe(1);
 	});
 });

@@ -96,6 +96,22 @@ function getPaddingForLine(
 	return [leftPadding, rightPadding];
 }
 
+function truncateToWidth(str: string, maxWidth: number): string {
+	const ellipsis = '...';
+	const target = maxWidth - stringWidth(ellipsis);
+	let result = '';
+	let width = 0;
+	for (const char of str) {
+		const charWidth = stringWidth(char);
+		if (width + charWidth > target) {
+			break;
+		}
+		result += char;
+		width += charWidth;
+	}
+	return result + ellipsis;
+}
+
 const defaultFormatBorder = (text: string) => text;
 
 /**
@@ -162,7 +178,7 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 	const innerWidth = boxWidth - borderTotalWidth;
 	const maxTitleLength = innerWidth - titlePadding * 2;
 	const truncatedTitle =
-		titleWidth > maxTitleLength ? `${title.slice(0, maxTitleLength - 3)}...` : title;
+		titleWidth > maxTitleLength ? truncateToWidth(title, maxTitleLength) : title;
 	const [titlePaddingLeft, titlePaddingRight] = getPaddingForLine(
 		stringWidth(truncatedTitle),
 		innerWidth,
