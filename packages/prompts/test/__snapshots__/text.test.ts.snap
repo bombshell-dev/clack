@@ -52,6 +52,58 @@ exports[`text (isCI = false) > defaultValue sets the value but does not render 1
 ]
 `;
 
+exports[`text (isCI = false) > displays a validating message with async validation 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[2m◆[22m  foo
+[36m│[39m  [2mx█[22m
+[36m└[39m  [2mValidating...[22m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[33m│[39m  x█
+[33m└[39m  [33mshould be xy[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m  xy█
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[2m◆[22m  foo
+[36m│[39m  [2mxy█[22m
+[36m└[39m  [2mValidating...[22m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`text (isCI = false) > empty string when no value and no default 1`] = `
 [
   "<cursor.hide>",
@@ -343,6 +395,58 @@ exports[`text (isCI = true) > defaultValue sets the value but does not render 1`
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mbar[22m",
+  "
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`text (isCI = true) > displays a validating message with async validation 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [7m[8m_[28m[27m
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=2>",
+  "<erase.line><cursor.left count=1>",
+  "[36m│[39m  x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[2m◆[22m  foo
+[36m│[39m  [2mx█[22m
+[36m└[39m  [2mValidating...[22m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[33m▲[39m  foo
+[33m│[39m  x█
+[33m└[39m  [33mshould be xy[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[36m◆[39m  foo
+[36m│[39m  xy█
+[36m└[39m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[2m◆[22m  foo
+[36m│[39m  [2mxy█[22m
+[36m└[39m  [2mValidating...[22m
+",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mxy[22m",
   "
 ",
   "<cursor.show>",

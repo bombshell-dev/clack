@@ -75,6 +75,13 @@ export const text = (opts: TextOptions) => {
 			const value = this.value ?? '';
 
 			switch (this.state) {
+				case 'validating': {
+					const validatePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+					const validatePrefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
+					const userInputText = styleText('dim', userInput);
+					const validateText = styleText('dim', 'Validating...');
+					return `${title}${validatePrefix}${userInputText}\n${validatePrefixEnd}  ${validateText}\n`;
+				}
 				case 'error': {
 					const errorText = this.error ? `  ${styleText('yellow', this.error)}` : '';
 					const errorPrefix = hasGuide ? `${styleText('yellow', S_BAR)}  ` : '';

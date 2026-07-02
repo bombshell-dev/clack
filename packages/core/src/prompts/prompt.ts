@@ -209,7 +209,7 @@ export default class Prompt<TValue> {
 		this._setUserInput('');
 	}
 
-	private onKeypress(char: string | undefined, key: Key) {
+	private async onKeypress(char: string | undefined, key: Key) {
 		if (this._track && key.name !== 'return') {
 			if (key.name && this._isActionKey(char, key)) {
 				this.rl?.write(null, { ctrl: true, name: 'h' });
@@ -238,7 +238,21 @@ export default class Prompt<TValue> {
 
 		if (key?.name === 'return' && this._shouldSubmit(char, key)) {
 			if (this.opts.validate) {
-				const problem = runValidation(this.opts.validate, this.value);
+				const problemResult = runValidation(this.opts.validate, this.value);
+				let problem: string | Error | undefined;
+				// Only if it is not a string or an Error, we assume
+				// it is a Promise and await it.
+				if (
+					problemResult !== undefined &&
+					typeof problemResult !== 'string' &&
+					!(problemResult instanceof Error)
+				) {
+					this.state = 'validating';
+					this.render();
+					problem = await problemResult;
+				} else {
+					problem = problemResult;
+				}
 				if (problem) {
 					this.error = problem instanceof Error ? problem.message : problem;
 					this.state = 'error';

@@ -50,6 +50,8 @@ export const symbol = (state: State) => {
 			return styleText('yellow', S_STEP_ERROR);
 		case 'submit':
 			return styleText('green', S_STEP_SUBMIT);
+		case 'validating':
+			return styleText('dim', S_STEP_ACTIVE);
 	}
 };
 

@@ -1,5 +1,7 @@
 import type { StandardSchemaV1 } from './standard-schema.js';
 
+type MaybePromise<T> = T | Promise<T>;
+
 /**
  * A function or [Standard Schema](https://github.com/standard-schema/standard-schema)
  * that validates user input. If a custom function is given, you should return a
@@ -33,7 +35,7 @@ import type { StandardSchemaV1 } from './standard-schema.js';
  * ```
  */
 export type Validate<TValue> =
-	| ((value: TValue | undefined) => string | Error | undefined)
+	| ((value: TValue | undefined) => MaybePromise<string | Error | undefined>)
 	| StandardSchemaV1<TValue | undefined, unknown>;
 
 /**
@@ -45,15 +47,13 @@ export type Validate<TValue> =
 export function runValidation<TValue>(
 	validate: Validate<TValue>,
 	value: TValue | undefined
-): string | Error | undefined {
+): MaybePromise<string | Error | undefined> {
 	if ('~standard' in validate) {
 		const result = validate['~standard'].validate(value);
 		// https://standardschema.dev/schema#how-to-only-allow-synchronous-validation
 		// TODO: https://github.com/bombshell-dev/clack/issues/92
 		if (result instanceof Promise) {
-			throw new TypeError(
-				'Schema validation must be synchronous. Update `validate()` and remove any asynchronous logic.'
-			);
+			return result.then((res) => res.issues?.at(0)?.message);
 		}
 		return result.issues?.at(0)?.message;
 	}

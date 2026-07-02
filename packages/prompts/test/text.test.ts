@@ -238,4 +238,27 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('displays a validating message with async validation', async () => {
+		const result = prompts.text({
+			message: 'foo',
+			validate: async (val) => {
+				await new Promise((resolve) => setTimeout(resolve, 10));
+				return val !== 'xy' ? 'should be xy' : undefined;
+			},
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'x', { name: 'x' });
+		input.emit('keypress', '', { name: 'return' });
+		await new Promise((resolve) => setTimeout(resolve, 20));
+		input.emit('keypress', 'y', { name: 'y' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('xy');
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
