@@ -15,9 +15,10 @@ export default class TextPrompt extends Prompt<string> {
 		if (this.cursor >= userInput.length) {
 			return `${this.userInput}█`;
 		}
-		const s1 = userInput.slice(0, this.cursor);
-		const [s2, ...s3] = userInput.slice(this.cursor);
-		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
+		const preCursor = userInput.slice(0, this.cursor);
+		const cursorChar = userInput.slice(this.cursor, this.cursor + 1);
+		const rest = userInput.slice(this.cursor + 1);
+		return `${preCursor}${styleText('inverse', cursorChar)}${rest}`;
 	}
 	get cursor() {
 		return this._cursor;

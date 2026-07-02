@@ -39,7 +39,7 @@ export const log = {
 
 		const messageParts = Array.isArray(message) ? message : message.split('\n');
 		if (messageParts.length > 0) {
-			const [firstLine, ...lines] = messageParts;
+			const [firstLine, ...lines] = messageParts as [string, ...string[]];
 			if (firstLine.length > 0) {
 				parts.push(`${prefix}${firstLine}`);
 			} else {

@@ -95,9 +95,12 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
-		option: Option<Value>,
+		option: Option<Value> | undefined,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
 	) => {
+		if (option === undefined) {
+			return '';
+		}
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':

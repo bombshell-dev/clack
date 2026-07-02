@@ -28,6 +28,9 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 
 	private toggleValue() {
 		const item = this.options[this.cursor];
+		if (item === undefined) {
+			return;
+		}
 		if (this.value === undefined) {
 			this.value = [];
 		}

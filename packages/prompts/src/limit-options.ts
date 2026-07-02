@@ -56,13 +56,19 @@ const trimLines = (
 	let removals = 0;
 	if (fromEnd) {
 		for (let i = endIndex - 1; i >= startIndex; i--) {
-			lineCount -= groups[i].length;
+			const group = groups[i];
+			if (group) {
+				lineCount -= group.length;
+			}
 			removals++;
 			if (lineCount <= maxLines) break;
 		}
 	} else {
 		for (let i = startIndex; i < endIndex; i++) {
-			lineCount -= groups[i].length;
+			const group = groups[i];
+			if (group) {
+				lineCount -= group.length;
+			}
 			removals++;
 			if (lineCount <= maxLines) break;
 		}
@@ -142,7 +148,9 @@ export const limitOptions = <TOption>({
 		slidingWindowLocationEnd - (shouldRenderBottomEllipsis ? 1 : 0);
 
 	for (let i = slidingWindowLocationWithEllipsis; i < slidingWindowLocationEndWithEllipsis; i++) {
-		const wrappedLines = wrapAnsi(style(options[i], i === cursor), maxWidth, {
+		const option = options[i];
+		const styledOption = option ? style(option, i === cursor) : '';
+		const wrappedLines = wrapAnsi(styledOption, maxWidth, {
 			hard: true,
 			trim: false,
 		}).split('\n');

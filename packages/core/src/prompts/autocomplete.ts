@@ -86,9 +86,10 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		if (this._cursor >= this.userInput.length) {
 			return `${this.userInput}█`;
 		}
-		const s1 = this.userInput.slice(0, this._cursor);
-		const [s2, ...s3] = this.userInput.slice(this._cursor);
-		return `${s1}${styleText('inverse', s2)}${s3.join('')}`;
+		const preCursor = this.userInput.slice(0, this.cursor);
+		const cursorChar = this.userInput.slice(this.cursor, this.cursor + 1);
+		const rest = this.userInput.slice(this.cursor + 1);
+		return `${preCursor}${styleText('inverse', cursorChar)}${rest}`;
 	}
 
 	get options(): T[] {
@@ -117,7 +118,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			}
 		} else {
 			if (!this.multiple && this.options.length > 0) {
-				initialValues = [this.options[0].value];
+				initialValues = [this.options[0]?.value];
 			}
 		}
 

@@ -237,7 +237,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				const groupActive =
 					!active &&
 					typeof option.group === 'string' &&
-					this.options[this.cursor].value === option.group;
+					this.options[this.cursor]?.value === option.group;
 				if (groupActive) {
 					return opt(option, selected ? 'group-active-selected' : 'group-active', options);
 				}
