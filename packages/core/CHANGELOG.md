@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.4.3
+
+### Patch Changes
+
+- [#582](https://github.com/bombshell-dev/clack/pull/582) [`4b24953`](https://github.com/bombshell-dev/clack/commit/4b249539e28eecc16c13b3a1bd0ba447e9f38d06) Thanks [@43081j](https://github.com/43081j)! - Handle empty arrays in various prompts and utilities.
+
 ## 1.4.2
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @clack/prompts
 
+## 1.7.0
+
+### Minor Changes
+
+- [#574](https://github.com/bombshell-dev/clack/pull/574) [`8f1c380`](https://github.com/bombshell-dev/clack/commit/8f1c380683cfb5fb7a094610342046ae1603e28e) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add `showInstructions` option to `select`, `multiselect`, and `groupMultiselect`. Keyboard hints remain shown by default; pass `showInstructions: false` to hide them.
+
+### Patch Changes
+
+- [#582](https://github.com/bombshell-dev/clack/pull/582) [`4b24953`](https://github.com/bombshell-dev/clack/commit/4b249539e28eecc16c13b3a1bd0ba447e9f38d06) Thanks [@43081j](https://github.com/43081j)! - Handle empty arrays in various prompts and utilities.
+
+- Updated dependencies [[`4b24953`](https://github.com/bombshell-dev/clack/commit/4b249539e28eecc16c13b3a1bd0ba447e9f38d06)]:
+  - @clack/core@1.4.3
+
 ## 1.6.0
 
 ### Minor Changes
