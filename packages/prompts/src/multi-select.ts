@@ -170,8 +170,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						)
 						.join('\n');
 					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)
-					const titleLineCount = title.split('\n').length;
-					const footerLineCount = footer.split('\n').length + 1; // footer + trailing newline
+					const titleLineCount = title.split('\n').length - 1;
+					const wrappedFooter = wrapTextWithPrefix(opts.output, footer, '');
+					const footerLineCount = wrappedFooter.split('\n').length + 1; // footer + trailing newline
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,
@@ -184,14 +185,15 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				}
 				default: {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					const titleLineCount = title.split('\n').length;
+					const titleLineCount = title.split('\n').length - 1;
 					const footerLines = showInstructions
 						? formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)
 						: hasGuide
 							? [styleText('cyan', S_BAR_END)]
 							: [];
 					const footerText = footerLines.join('\n');
-					const footerLineCount = footerLines.length + 1;
+					const wrappedFooter = wrapTextWithPrefix(opts.output, footerText, '');
+					const footerLineCount = wrappedFooter.split('\n').length + 1;
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						options: this.options,

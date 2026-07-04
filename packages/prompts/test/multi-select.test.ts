@@ -492,4 +492,25 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 		await result;
 		expect(output.buffer).toMatchSnapshot();
 	});
+
+	test('calculates rowPadding properly on narrow terminals with wrapped footers', async () => {
+		output.columns = 30; // Very narrow terminal
+		output.rows = 15; // Small height
+		
+		const result = prompts.multiselect({
+			message: 'Select an option',
+			options: Array.from({ length: 20 }).map((_, i) => ({ value: `opt${i}`, label: `Option ${i}` })),
+			input,
+			output,
+		});
+
+		// Just confirm selection
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		await result;
+
+		// The output should be snapshotted correctly without overflowing the rows limit.
+		expect(output.buffer).toMatchSnapshot();
+	});
 });
