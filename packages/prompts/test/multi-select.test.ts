@@ -496,10 +496,13 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 	test('calculates rowPadding properly on narrow terminals with wrapped footers', async () => {
 		output.columns = 30; // Very narrow terminal
 		output.rows = 15; // Small height
-		
+
 		const result = prompts.multiselect({
 			message: 'Select an option',
-			options: Array.from({ length: 20 }).map((_, i) => ({ value: `opt${i}`, label: `Option ${i}` })),
+			options: Array.from({ length: 20 }).map((_, i) => ({
+				value: `opt${i}`,
+				label: `Option ${i}`,
+			})),
 			input,
 			output,
 		});
