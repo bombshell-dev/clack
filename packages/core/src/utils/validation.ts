@@ -50,8 +50,6 @@ export function runValidation<TValue>(
 ): MaybePromise<string | Error | undefined> {
 	if ('~standard' in validate) {
 		const result = validate['~standard'].validate(value);
-		// https://standardschema.dev/schema#how-to-only-allow-synchronous-validation
-		// TODO: https://github.com/bombshell-dev/clack/issues/92
 		if (result instanceof Promise) {
 			return result.then((res) => res.issues?.at(0)?.message);
 		}
