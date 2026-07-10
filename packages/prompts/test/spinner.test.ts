@@ -53,6 +53,19 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('handles wrapping', () => {
+			const columns = getColumns(output);
+			const result = prompts.spinner({ output });
+
+			result.start('x'.repeat(columns + 10));
+
+			vi.advanceTimersByTime(80);
+
+			result.stop('stopped');
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('renders message', () => {
 			const result = prompts.spinner({ output });
 
@@ -73,19 +86,6 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			vi.advanceTimersByTime(80);
 
 			result.stop();
-
-			expect(output.buffer).toMatchSnapshot();
-		});
-
-		test('handles wrapping', () => {
-			const columns = getColumns(output);
-			const result = prompts.spinner({ output });
-
-			result.start('x'.repeat(columns + 10));
-
-			vi.advanceTimersByTime(80);
-
-			result.stop('stopped');
 
 			expect(output.buffer).toMatchSnapshot();
 		});
@@ -423,6 +423,20 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 		result.start('Testing');
 
 		controller.abort();
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('lines are indented as expected', async () => {
+		const controller = new AbortController();
+		const result = prompts.spinner({
+			output,
+			signal: controller.signal,
+		});
+
+		result.start('Testing\n1, 2, 3');
+
+		result.stop('Foo\nBar\nBiz');
 
 		expect(output.buffer).toMatchSnapshot();
 	});
