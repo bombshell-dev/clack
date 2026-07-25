@@ -2,234 +2,234 @@
 
 exports[`box (isCI = false) > cannot have width larger than 100% 1`] = `
 [
-  "│ ┌─title──────────────────────────────────────────────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────────────────────────────────────────────┐
 ",
-  "│ │  message                                                                   │
+  "[90m│[39m │  message                                                                   │
 ",
-  "│ └────────────────────────────────────────────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────────────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders as specified width 1`] = `
 [
-  "│ ┌─title──────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────┐
 ",
-  "│ │  short                             │
+  "[90m│[39m │  short                             │
 ",
-  "│ │  somewhat questionably long line   │
+  "[90m│[39m │  somewhat questionably long line   │
 ",
-  "│ └────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders as wide as longest line with width: auto 1`] = `
 [
-  "│ ┌─title──────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────┐
 ",
-  "│ │  short                             │
+  "[90m│[39m │  short                             │
 ",
-  "│ │  somewhat questionably long line   │
+  "[90m│[39m │  somewhat questionably long line   │
 ",
-  "│ └────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders auto width with content longer than title 1`] = `
 [
-  "│ ┌─title──────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────┐
 ",
-  "│ │  messagemessagemessagemessage  │
+  "[90m│[39m │  messagemessagemessagemessage  │
 ",
-  "│ └────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders auto width with title longer than content 1`] = `
 [
-  "│ ┌─titletitletitletitle─┐
+  "[90m│[39m ┌─titletitletitletitle─┐
 ",
-  "│ │  message             │
+  "[90m│[39m │  message             │
 ",
-  "│ └──────────────────────┘
+  "[90m│[39m └──────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders center aligned content 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders center aligned title 1`] = `
 [
-  "│ ┌───title────┐
+  "[90m│[39m ┌───title────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders left aligned content 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders left aligned title 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders message 1`] = `
 [
-  "│ ┌────────────────────────────────────────────────────────────────────────────┐
+  "[90m│[39m ┌────────────────────────────────────────────────────────────────────────────┐
 ",
-  "│ │  message                                                                   │
+  "[90m│[39m │  message                                                                   │
 ",
-  "│ └────────────────────────────────────────────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────────────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders message with title 1`] = `
 [
-  "│ ┌─some title─────────────────────────────────────────────────────────────────┐
+  "[90m│[39m ┌─some title─────────────────────────────────────────────────────────────────┐
 ",
-  "│ │  message                                                                   │
+  "[90m│[39m │  message                                                                   │
 ",
-  "│ └────────────────────────────────────────────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────────────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders right aligned content 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │   message  │
+  "[90m│[39m │   message  │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders right aligned title 1`] = `
 [
-  "│ ┌──────title─┐
+  "[90m│[39m ┌──────title─┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders rounded corners when rounded is true 1`] = `
 [
-  "│ ╭─title──────╮
+  "[90m│[39m ╭─title──────╮
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ ╰────────────╯
+  "[90m│[39m ╰────────────╯
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders specified contentPadding 1`] = `
 [
-  "│ ┌─title──────────────┐
+  "[90m│[39m ┌─title──────────────┐
 ",
-  "│ │      message       │
+  "[90m│[39m │      message       │
 ",
-  "│ └────────────────────┘
+  "[90m│[39m └────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders specified titlePadding 1`] = `
 [
-  "│ ┌──────title───────┐
+  "[90m│[39m ┌──────title───────┐
 ",
-  "│ │  message         │
+  "[90m│[39m │  message         │
 ",
-  "│ └──────────────────┘
+  "[90m│[39m └──────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders truncated long titles 1`] = `
 [
-  "│ ┌─foofoof...─┐
+  "[90m│[39m ┌─foofoof...─┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders wide characters with auto width 1`] = `
 [
-  "│ ┌─这是标题─────────────────┐
+  "[90m│[39m ┌─这是标题─────────────────┐
 ",
-  "│ │  이게 첫 번째 줄이에요   │
+  "[90m│[39m │  이게 첫 번째 줄이에요   │
 ",
-  "│ │  これは次の行です        │
+  "[90m│[39m │  これは次の行です        │
 ",
-  "│ └──────────────────────────┘
+  "[90m│[39m └──────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders wide characters with specified width 1`] = `
 [
-  "│ ┌─这是标题───┐
+  "[90m│[39m ┌─这是标题───┐
 ",
-  "│ │  이게 첫   │
+  "[90m│[39m │  이게 첫   │
 ",
-  "│ │  번째      │
+  "[90m│[39m │  번째      │
 ",
-  "│ │  줄이에요  │
+  "[90m│[39m │  줄이에요  │
 ",
-  "│ │  これは次  │
+  "[90m│[39m │  これは次  │
 ",
-  "│ │  の行です  │
+  "[90m│[39m │  の行です  │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = false) > renders with formatBorder formatting 1`] = `
 [
-  "│ [31m┌[39m[31m─[39mtitle[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┐[39m
+  "[90m│[39m [31m┌[39m[31m─[39mtitle[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┐[39m
 ",
-  "│ [31m│[39m  message   [31m│[39m
+  "[90m│[39m [31m│[39m  message   [31m│[39m
 ",
-  "│ [31m└[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┘[39m
+  "[90m│[39m [31m└[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┘[39m
 ",
 ]
 `;
@@ -258,253 +258,253 @@ exports[`box (isCI = false) > renders without guide when withGuide is false 1`] 
 
 exports[`box (isCI = false) > wraps content to fit within specified width 1`] = `
 [
-  "│ ┌─title──────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────┐
 ",
-  "│ │  foo barfoo barfoo barfoo barfoo   │
+  "[90m│[39m │  foo barfoo barfoo barfoo barfoo   │
 ",
-  "│ │  barfoo barfoo barfoo barfoo       │
+  "[90m│[39m │  barfoo barfoo barfoo barfoo       │
 ",
-  "│ │  barfoo barfoo barfoo barfoo       │
+  "[90m│[39m │  barfoo barfoo barfoo barfoo       │
 ",
-  "│ │  barfoo barfoo barfoo barfoo       │
+  "[90m│[39m │  barfoo barfoo barfoo barfoo       │
 ",
-  "│ │  barfoo barfoo barfoo bar          │
+  "[90m│[39m │  barfoo barfoo barfoo bar          │
 ",
-  "│ └────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > cannot have width larger than 100% 1`] = `
 [
-  "│ ┌─title──────────────────────────────────────────────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────────────────────────────────────────────┐
 ",
-  "│ │  message                                                                   │
+  "[90m│[39m │  message                                                                   │
 ",
-  "│ └────────────────────────────────────────────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────────────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders as specified width 1`] = `
 [
-  "│ ┌─title──────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────┐
 ",
-  "│ │  short                             │
+  "[90m│[39m │  short                             │
 ",
-  "│ │  somewhat questionably long line   │
+  "[90m│[39m │  somewhat questionably long line   │
 ",
-  "│ └────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders as wide as longest line with width: auto 1`] = `
 [
-  "│ ┌─title──────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────┐
 ",
-  "│ │  short                             │
+  "[90m│[39m │  short                             │
 ",
-  "│ │  somewhat questionably long line   │
+  "[90m│[39m │  somewhat questionably long line   │
 ",
-  "│ └────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders auto width with content longer than title 1`] = `
 [
-  "│ ┌─title──────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────┐
 ",
-  "│ │  messagemessagemessagemessage  │
+  "[90m│[39m │  messagemessagemessagemessage  │
 ",
-  "│ └────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders auto width with title longer than content 1`] = `
 [
-  "│ ┌─titletitletitletitle─┐
+  "[90m│[39m ┌─titletitletitletitle─┐
 ",
-  "│ │  message             │
+  "[90m│[39m │  message             │
 ",
-  "│ └──────────────────────┘
+  "[90m│[39m └──────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders center aligned content 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders center aligned title 1`] = `
 [
-  "│ ┌───title────┐
+  "[90m│[39m ┌───title────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders left aligned content 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders left aligned title 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders message 1`] = `
 [
-  "│ ┌────────────────────────────────────────────────────────────────────────────┐
+  "[90m│[39m ┌────────────────────────────────────────────────────────────────────────────┐
 ",
-  "│ │  message                                                                   │
+  "[90m│[39m │  message                                                                   │
 ",
-  "│ └────────────────────────────────────────────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────────────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders message with title 1`] = `
 [
-  "│ ┌─some title─────────────────────────────────────────────────────────────────┐
+  "[90m│[39m ┌─some title─────────────────────────────────────────────────────────────────┐
 ",
-  "│ │  message                                                                   │
+  "[90m│[39m │  message                                                                   │
 ",
-  "│ └────────────────────────────────────────────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────────────────────────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders right aligned content 1`] = `
 [
-  "│ ┌─title──────┐
+  "[90m│[39m ┌─title──────┐
 ",
-  "│ │   message  │
+  "[90m│[39m │   message  │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders right aligned title 1`] = `
 [
-  "│ ┌──────title─┐
+  "[90m│[39m ┌──────title─┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders rounded corners when rounded is true 1`] = `
 [
-  "│ ╭─title──────╮
+  "[90m│[39m ╭─title──────╮
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ ╰────────────╯
+  "[90m│[39m ╰────────────╯
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders specified contentPadding 1`] = `
 [
-  "│ ┌─title──────────────┐
+  "[90m│[39m ┌─title──────────────┐
 ",
-  "│ │      message       │
+  "[90m│[39m │      message       │
 ",
-  "│ └────────────────────┘
+  "[90m│[39m └────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders specified titlePadding 1`] = `
 [
-  "│ ┌──────title───────┐
+  "[90m│[39m ┌──────title───────┐
 ",
-  "│ │  message         │
+  "[90m│[39m │  message         │
 ",
-  "│ └──────────────────┘
+  "[90m│[39m └──────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders truncated long titles 1`] = `
 [
-  "│ ┌─foofoof...─┐
+  "[90m│[39m ┌─foofoof...─┐
 ",
-  "│ │  message   │
+  "[90m│[39m │  message   │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders wide characters with auto width 1`] = `
 [
-  "│ ┌─这是标题─────────────────┐
+  "[90m│[39m ┌─这是标题─────────────────┐
 ",
-  "│ │  이게 첫 번째 줄이에요   │
+  "[90m│[39m │  이게 첫 번째 줄이에요   │
 ",
-  "│ │  これは次の行です        │
+  "[90m│[39m │  これは次の行です        │
 ",
-  "│ └──────────────────────────┘
+  "[90m│[39m └──────────────────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders wide characters with specified width 1`] = `
 [
-  "│ ┌─这是标题───┐
+  "[90m│[39m ┌─这是标题───┐
 ",
-  "│ │  이게 첫   │
+  "[90m│[39m │  이게 첫   │
 ",
-  "│ │  번째      │
+  "[90m│[39m │  번째      │
 ",
-  "│ │  줄이에요  │
+  "[90m│[39m │  줄이에요  │
 ",
-  "│ │  これは次  │
+  "[90m│[39m │  これは次  │
 ",
-  "│ │  の行です  │
+  "[90m│[39m │  の行です  │
 ",
-  "│ └────────────┘
+  "[90m│[39m └────────────┘
 ",
 ]
 `;
 
 exports[`box (isCI = true) > renders with formatBorder formatting 1`] = `
 [
-  "│ [31m┌[39m[31m─[39mtitle[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┐[39m
+  "[90m│[39m [31m┌[39m[31m─[39mtitle[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┐[39m
 ",
-  "│ [31m│[39m  message   [31m│[39m
+  "[90m│[39m [31m│[39m  message   [31m│[39m
 ",
-  "│ [31m└[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┘[39m
+  "[90m│[39m [31m└[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m─[39m[31m┘[39m
 ",
 ]
 `;
@@ -533,19 +533,19 @@ exports[`box (isCI = true) > renders without guide when withGuide is false 1`] =
 
 exports[`box (isCI = true) > wraps content to fit within specified width 1`] = `
 [
-  "│ ┌─title──────────────────────────────┐
+  "[90m│[39m ┌─title──────────────────────────────┐
 ",
-  "│ │  foo barfoo barfoo barfoo barfoo   │
+  "[90m│[39m │  foo barfoo barfoo barfoo barfoo   │
 ",
-  "│ │  barfoo barfoo barfoo barfoo       │
+  "[90m│[39m │  barfoo barfoo barfoo barfoo       │
 ",
-  "│ │  barfoo barfoo barfoo barfoo       │
+  "[90m│[39m │  barfoo barfoo barfoo barfoo       │
 ",
-  "│ │  barfoo barfoo barfoo barfoo       │
+  "[90m│[39m │  barfoo barfoo barfoo barfoo       │
 ",
-  "│ │  barfoo barfoo barfoo bar          │
+  "[90m│[39m │  barfoo barfoo barfoo bar          │
 ",
-  "│ └────────────────────────────────────┘
+  "[90m│[39m └────────────────────────────────────┘
 ",
 ]
 `;
