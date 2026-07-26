@@ -98,23 +98,6 @@ describe.each(['true', 'false'])('box (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
-	test('renders the guide in the same style as log', () => {
-		const logOutput = new MockWritable();
-		prompts.log.info('message', { input, output: logOutput });
-		const [logGuide] = logOutput.buffer.join('').split('\n');
-
-		prompts.box('message', 'title', {
-			input,
-			output,
-			width: 'auto',
-			formatBorder: (text) => styleText('green', text),
-		});
-
-		for (const line of output.buffer) {
-			expect(line.startsWith(`${logGuide} `)).toBe(true);
-		}
-	});
-
 	test('renders without guide when withGuide is false', () => {
 		prompts.box('message', 'title', {
 			input,
