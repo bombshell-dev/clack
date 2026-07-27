@@ -22,8 +22,7 @@
   },
   "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/prompts#readme",
   "files": [
-    "dist",
-    "CHANGELOG.md"
+    "dist"
   ],
   "author": {
     "name": "Nate Moore",

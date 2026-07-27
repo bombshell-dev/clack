@@ -22,8 +22,7 @@
   },
   "homepage": "https://github.com/bombshell-dev/clack/tree/main/packages/core#readme",
   "files": [
-    "dist",
-    "CHANGELOG.md"
+    "dist"
   ],
   "keywords": [
     "ask",
