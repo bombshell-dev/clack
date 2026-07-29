@@ -14,7 +14,7 @@ const isWindows = globalThis.process.platform.startsWith('win');
 
 export const CANCEL_SYMBOL = Symbol('clack:cancel');
 
-export function isCancel(value: unknown): value is symbol {
+export function isCancel(value: unknown): value is typeof CANCEL_SYMBOL {
 	return value === CANCEL_SYMBOL;
 }
 
