@@ -129,6 +129,45 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('tab completes the focused suggestion', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/foo/',
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo/bar.txt');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('tab completion can descend into directories', async () => {
+		const result = prompts.path({
+			message: 'foo',
+			root: '/tmp/',
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'f', { name: 'f' });
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '/', { name: '/' });
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(value).toBe('/tmp/foo/bar.txt');
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('initialValue sets the value', async () => {
 		const result = prompts.path({
 			message: 'foo',

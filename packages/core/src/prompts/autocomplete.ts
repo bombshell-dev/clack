@@ -58,6 +58,11 @@ export interface AutocompleteOptions<T extends OptionLike>
 	 * the prompt's filter (so the value remains selectable).
 	 */
 	placeholder?: string;
+	/**
+	 * When `true` (single-select only), pressing Tab fills the input with the
+	 * currently focused option's value, as if the user had typed it.
+	 */
+	completeOnTab?: boolean;
 }
 
 export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
@@ -74,6 +79,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	#filterFn: FilterFunction<T> | undefined;
 	#options: T[] | (() => T[]);
 	#placeholder: string | undefined;
+	#completeOnTab: boolean;
 
 	get cursor(): number {
 		return this.#cursor;
@@ -104,6 +110,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 
 		this.#options = opts.options;
 		this.#placeholder = opts.placeholder;
+		this.#completeOnTab = opts.completeOnTab === true;
 		const options = this.options;
 		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
@@ -170,6 +177,20 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				this._clearUserInput();
 			}
 			this._setUserInput(placeholder, true);
+			this.isNavigating = false;
+			return;
+		}
+
+		// Tab completion: fill input with the focused option's value
+		if (
+			key.name === 'tab' &&
+			this.#completeOnTab &&
+			!this.multiple &&
+			this.focusedValue !== undefined
+		) {
+			const completion = String(this.focusedValue); // capture before clearing resets focusedValue
+			this._clearUserInput();
+			this._setUserInput(completion, true);
 			this.isNavigating = false;
 			return;
 		}

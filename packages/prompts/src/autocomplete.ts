@@ -93,6 +93,12 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 	 * The starting value shown in the users input box.
 	 */
 	initialUserInput?: string;
+
+	/**
+	 * When `true`, pressing Tab fills the input with the currently focused
+	 * option's value, as if the user had typed it.
+	 */
+	completeOnTab?: boolean;
 }
 
 /**
@@ -126,6 +132,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
 		placeholder: opts.placeholder,
+		completeOnTab: opts.completeOnTab,
 		filter:
 			opts.filter ??
 			((search: string, opt: Option<Value>) => {
@@ -223,6 +230,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					// Show instructions
 					const instructions = [
 						`${styleText('dim', '↑/↓')} to select`,
+						...(opts.completeOnTab ? [`${styleText('dim', 'Tab:')} complete`] : []),
 						`${styleText('dim', 'Enter:')} confirm`,
 						`${styleText('dim', 'Type:')} to search`,
 					];
