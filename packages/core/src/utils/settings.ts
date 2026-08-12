@@ -25,6 +25,7 @@ interface InternalClackSettings {
 		error: string;
 	};
 	withGuide: boolean;
+	accessible: boolean | undefined;
 	date: {
 		monthNames: string[];
 		messages: {
@@ -54,6 +55,7 @@ export const settings: InternalClackSettings = {
 		error: 'Something went wrong',
 	},
 	withGuide: true,
+	accessible: undefined,
 	date: {
 		monthNames: [...DEFAULT_MONTH_NAMES],
 		messages: {
@@ -93,6 +95,12 @@ export interface ClackSettings {
 	};
 
 	withGuide?: boolean;
+
+	/**
+	 * Force accessible (static, screen-reader friendly) output on or off.
+	 * Overrides the `ACCESSIBLE` environment variable.
+	 */
+	accessible?: boolean;
 
 	/**
 	 * Date prompt localization
@@ -145,6 +153,10 @@ export function updateSettings(updates: ClackSettings) {
 		settings.withGuide = updates.withGuide !== false;
 	}
 
+	if (updates.accessible !== undefined) {
+		settings.accessible = updates.accessible === true;
+	}
+
 	if (updates.date !== undefined) {
 		const date = updates.date;
 		if (date.monthNames !== undefined) {
@@ -168,6 +180,21 @@ export function updateSettings(updates: ClackSettings) {
 			}
 		}
 	}
+}
+
+/**
+ * Resolves whether accessible (static, screen-reader friendly) output is enabled.
+ *
+ * Resolution order: per-call option > global `accessible` setting > `ACCESSIBLE`
+ * environment variable (any non-empty value enables it, except `0` and `false`).
+ *
+ * @param accessible - Per-call override; takes precedence when defined
+ */
+export function isAccessible(accessible?: boolean): boolean {
+	if (accessible !== undefined) return accessible;
+	if (settings.accessible !== undefined) return settings.accessible;
+	const value = process.env.ACCESSIBLE;
+	return value !== undefined && value !== '' && value !== '0' && value !== 'false';
 }
 
 /**
