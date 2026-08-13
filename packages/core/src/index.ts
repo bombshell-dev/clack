@@ -20,7 +20,7 @@ export type { SelectKeyOptions } from './prompts/select-key.js';
 export { default as SelectKeyPrompt } from './prompts/select-key.js';
 export type { TextOptions } from './prompts/text.js';
 export { default as TextPrompt } from './prompts/text.js';
-export type { ClackState as State } from './types.js';
+export type { ClackState as State, CommonPromptOptions } from './types.js';
 export {
 	block,
 	CANCEL_SYMBOL,

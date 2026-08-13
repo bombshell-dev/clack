@@ -2,7 +2,7 @@ import { type } from 'arktype';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as Prompt } from '../../src/prompts/prompt.js';
-import { isCancel } from '../../src/utils/index.js';
+import { isCancel, settings } from '../../src/utils/index.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 
@@ -312,6 +312,55 @@ describe('Prompt', () => {
 
 			expect(instance.state).to.equal('submit');
 			expect(instance.error).to.equal('');
+		});
+	});
+
+	describe('accessible', () => {
+		const originalEnv = process.env.ACCESSIBLE;
+
+		afterEach(() => {
+			if (originalEnv === undefined) {
+				delete process.env.ACCESSIBLE;
+			} else {
+				process.env.ACCESSIBLE = originalEnv;
+			}
+			settings.accessible = undefined;
+		});
+
+		test('accessible: true option enables it', () => {
+			const instance = new Prompt({
+				input,
+				output,
+				render: () => 'foo',
+				accessible: true,
+			});
+
+			expect(instance.accessible).to.equal(true);
+		});
+
+		test('accessible: false option overrides the env var', () => {
+			process.env.ACCESSIBLE = '1';
+			const instance = new Prompt({
+				input,
+				output,
+				render: () => 'foo',
+				accessible: false,
+			});
+
+			expect(instance.accessible).to.equal(false);
+		});
+
+		test('falls through to the env var when option is unset', () => {
+			delete process.env.ACCESSIBLE;
+			const instance = new Prompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+
+			expect(instance.accessible).to.equal(false);
+			process.env.ACCESSIBLE = '1';
+			expect(instance.accessible).to.equal(true);
 		});
 	});
 
