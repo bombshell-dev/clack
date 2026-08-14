@@ -3,7 +3,7 @@ import readline, { type Key, type ReadLine } from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
-import type { ClackEvents, ClackState, CommonPromptOptions } from '../types.js';
+import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
 import {
 	CANCEL_SYMBOL,
@@ -17,8 +17,13 @@ import {
 import type { Validate } from '../utils/validation.js';
 import { runValidation } from '../utils/validation.js';
 
-export interface PromptOptions<TValue, Self extends Prompt<TValue>> extends CommonPromptOptions {
+export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
+	/**
+	 * Whether to render this prompt in accessible (static, screen-reader friendly) mode.
+	 * Takes precedence over the global `accessible` setting and the `ACCESSIBLE` env var.
+	 */
+	accessible?: boolean;
 	initialValue?: any;
 	initialUserInput?: string;
 
