@@ -391,4 +391,37 @@ describe('Prompt', () => {
 		expect(instance.state).to.equal('submit');
 		expect(instance.error).to.equal('');
 	});
+
+	test('ignores keypresses while async validation is pending', async () => {
+		const eventSpy = vi.fn();
+		let resolveValidation: (problem: string | undefined) => void;
+		const validation = new Promise<string | undefined>((resolve) => {
+			resolveValidation = resolve;
+		});
+		const instance = new Prompt<string>({
+			input,
+			output,
+			render: () => 'foo',
+			validate: () => validation,
+		});
+		const resultPromise = instance.prompt();
+
+		instance.value = 'valid';
+		input.emit('keypress', '', { name: 'return' });
+
+		expect(instance.state).to.equal('validating');
+
+		instance.on('key', eventSpy);
+		input.emit('keypress', 'z', { name: 'z' });
+		input.emit('keypress', '\x03', { name: 'c' });
+
+		expect(eventSpy).not.toHaveBeenCalled();
+		expect(instance.state).to.equal('validating');
+
+		resolveValidation(undefined);
+		await resultPromise;
+
+		expect(instance.state).to.equal('submit');
+		expect(instance.error).to.equal('');
+	});
 });

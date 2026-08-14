@@ -210,6 +210,10 @@ export default class Prompt<TValue> {
 	}
 
 	private async onKeypress(char: string | undefined, key: Key) {
+		if (this.state === 'validating') {
+			return;
+		}
+
 		if (this._track && key.name !== 'return') {
 			if (key.name && this._isActionKey(char, key)) {
 				this.rl?.write(null, { ctrl: true, name: 'h' });
