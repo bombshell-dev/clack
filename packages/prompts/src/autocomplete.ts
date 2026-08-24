@@ -193,9 +193,11 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				: symbol(this.state);
 
 			const hasGuide = opts.withGuide ?? settings.withGuide;
+			const guide = hasGuide ? styleText('gray', S_BAR) : '';
+
 			// Title and message display
 			const headings = hasGuide
-				? [`${styleText('gray', S_BAR)}`, `${promptSymbol}  ${opts.message}`]
+				? [guide, `${promptSymbol}  ${opts.message}`]
 				: [`${promptSymbol}  ${opts.message}`];
 			const userInput = this.userInput;
 			const options = this.options;
@@ -224,16 +226,14 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${styleText('dim', selected.map(getLabel).join(', '))}` : '';
-					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
-					return `${headings.join('\n')}\n${submitPrefix}${label}`;
+					return `${headings.join('\n')}\n${guide}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput
 						? `  ${styleText(['strikethrough', 'dim'], userInput)}`
 						: '';
-					const cancelPrefix = hasGuide ? styleText('gray', S_BAR) : '';
-					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
+					return `${headings.join('\n')}\n${guide}${userInputText}`;
 				}
 
 				default: {
@@ -438,10 +438,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 
 			const hasGuide = opts.withGuide ?? settings.withGuide;
 
-			const guide = hasGuide ? styleText('gray', S_BAR) : '';
-
 			// Title and symbol
-			const title = `${guide}${promptSymbol}  ${opts.message}\n`;
+			const titleGuide = hasGuide ? `${styleText('gray', S_BAR)}\n` : '';
+			const title = `${titleGuide}${promptSymbol}  ${opts.message}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -464,16 +463,18 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						)
 					: '';
 
+
+			const inactiveGuidePrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${guide}${styleText(
+					return `${title}${inactiveGuidePrefix}${styleText(
 						'dim',
 						`${this.selectedValues.length} items selected`
 					)}`;
 				}
 				case 'cancel': {
-					return `${title}${guide}${styleText(
+					return `${title}${inactiveGuidePrefix}${styleText(
 						['strikethrough', 'dim'],
 						userInput
 					)}`;
