@@ -28,6 +28,18 @@ describe('MultiSelectPrompt', () => {
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
 	});
 
+	test('does not throw if empty options are provided', () => {
+		expect(
+			() =>
+				new MultiSelectPrompt({
+					input,
+					output,
+					render: () => 'foo',
+					options: [],
+				})
+		).not.toThrow();
+	});
+
 	describe('cursor', () => {
 		test('cursor is index of selected item', () => {
 			const instance = new MultiSelectPrompt({

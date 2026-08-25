@@ -9,6 +9,7 @@ import {
 	CANCEL_SYMBOL,
 	diffLines,
 	getRows,
+	isAccessible,
 	isActionKey,
 	setRawMode,
 	settings,
@@ -18,6 +19,11 @@ import { runValidation } from '../utils/validation.js';
 
 export interface PromptOptions<TValue, Self extends Prompt<TValue>> {
 	render(this: Omit<Self, 'prompt'>): string | undefined;
+	/**
+	 * Whether to render this prompt in accessible (static, screen-reader friendly) mode.
+	 * Takes precedence over the global `accessible` setting and the `ACCESSIBLE` env var.
+	 */
+	accessible?: boolean;
 	initialValue?: any;
 	initialUserInput?: string;
 
@@ -49,6 +55,15 @@ export default class Prompt<TValue> {
 	public error = '';
 	public value: TValue | undefined;
 	public userInput = '';
+
+	/**
+	 * Whether accessible (static, screen-reader friendly) output is enabled for
+	 * this prompt, resolved from the `accessible` option, the global setting,
+	 * and the `ACCESSIBLE` env var.
+	 */
+	public get accessible(): boolean {
+		return isAccessible(this.opts.accessible);
+	}
 
 	constructor(options: PromptOptions<TValue, Prompt<TValue>>, trackValue = true) {
 		const { input = stdin, output = stdout, render, signal, ...opts } = options;

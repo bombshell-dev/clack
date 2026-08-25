@@ -17,7 +17,8 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 	}
 
 	private changeValue() {
-		this.value = this._selectedValue.value;
+		const selectedValue = this._selectedValue;
+		this.value = selectedValue === undefined ? undefined : selectedValue.value;
 	}
 
 	constructor(opts: SelectOptions<T>) {
@@ -27,7 +28,7 @@ export default class SelectPrompt<T extends { value: any; disabled?: boolean }> 
 
 		const initialCursor = this.options.findIndex(({ value }) => value === opts.initialValue);
 		const cursor = initialCursor === -1 ? 0 : initialCursor;
-		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
+		this.cursor = this.options[cursor]?.disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.changeValue();
 
 		this.on('cursor', (key) => {

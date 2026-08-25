@@ -18,7 +18,7 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 	cursor = 0;
 
 	private get _value(): T['value'] {
-		return this.options[this.cursor].value;
+		return this.options[this.cursor]?.value;
 	}
 
 	private get _enabledOptions(): T[] {
@@ -59,7 +59,7 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 			this.options.findIndex(({ value }) => value === opts.cursorAt),
 			0
 		);
-		this.cursor = this.options[cursor].disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
+		this.cursor = this.options[cursor]?.disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
 		this.on('key', (_char, key) => {
 			if (key.name === 'a') {
 				this.toggleAll();

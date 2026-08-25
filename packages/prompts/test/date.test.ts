@@ -4,7 +4,7 @@ import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
 const d = (iso: string) => {
-	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
+	const [y, m, day] = iso.slice(0, 10).split('-').map(Number) as [number, number, number];
 	return new Date(Date.UTC(y, m - 1, day));
 };
 

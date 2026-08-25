@@ -146,7 +146,8 @@ export const spinner = ({
 			}
 			clearPrevMessage();
 			_prevMessage = _message;
-			const frame = styleFn(frames[frameIndex]);
+			// biome-ignore lint/style/noNonNullAssertion: frameIndex is always kept within frames bounds
+			const frame = styleFn(frames[frameIndex]!);
 			let outputMessage: string;
 
 			if (isCI) {

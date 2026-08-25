@@ -25,11 +25,11 @@ export default class MultiLinePrompt extends Prompt<string> {
 		if (this.cursor >= userInput.length) {
 			return `${userInput}█`;
 		}
-		const s1 = userInput.slice(0, this.cursor);
-		const s2 = userInput[this.cursor];
-		const s3 = userInput.slice(this.cursor + 1);
-		if (s2 === '\n') return `${s1}█\n${s3}`;
-		return `${s1}${styleText('inverse', s2)}${s3}`;
+		const preCursor = userInput.slice(0, this.cursor);
+		const cursorChar = userInput.slice(this.cursor, this.cursor + 1);
+		const rest = userInput.slice(this.cursor + 1);
+		if (cursorChar === '\n') return `${preCursor}█\n${rest}`;
+		return `${preCursor}${styleText('inverse', cursorChar)}${rest}`;
 	}
 	get cursor() {
 		return this._cursor;
