@@ -59,7 +59,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 		output.write(`${secondarySymbol}\n`);
 	}
 
-	const buffers: BufferEntry[] = [
+	const buffers: [BufferEntry, ...BufferEntry[]] = [
 		{
 			value: '',
 			full: '',

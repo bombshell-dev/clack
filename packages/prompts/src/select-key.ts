@@ -12,9 +12,12 @@ export interface SelectKeyOptions<Value extends string> extends CommonOptions {
 
 export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) => {
 	const opt = (
-		option: Option<Value>,
+		option: Option<Value> | undefined,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'
 	) => {
+		if (option === undefined) {
+			return '';
+		}
 		const label = option.label ?? String(option.value);
 		if (state === 'selected') {
 			return `${styleText('dim', label)}`;

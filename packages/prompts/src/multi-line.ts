@@ -47,9 +47,11 @@ export const multiline = (opts: MultiLineOptions) => {
 			const hasGuide = opts?.withGuide ?? settings.withGuide;
 			const titlePrefix = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  `;
 			const title = `${titlePrefix}${opts.message}\n`;
-			const placeholder = opts.placeholder
-				? styleText('inverse', opts.placeholder[0]) + styleText('dim', opts.placeholder.slice(1))
-				: styleText(['inverse', 'hidden'], '_');
+			const placeholder =
+				opts.placeholder && opts.placeholder.length > 0
+					? // biome-ignore lint/style/noNonNullAssertion: guarded by placeholder.length > 0
+						styleText('inverse', opts.placeholder[0]!) + styleText('dim', opts.placeholder.slice(1))
+					: styleText(['inverse', 'hidden'], '_');
 			const userInput = !this.userInput ? placeholder : this.userInputWithCursor;
 			const value = this.value ?? '';
 			const submitButton = opts.showSubmit

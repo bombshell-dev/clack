@@ -6,7 +6,7 @@ import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 
 const d = (iso: string) => {
-	const [y, m, day] = iso.slice(0, 10).split('-').map(Number);
+	const [y, m, day] = iso.slice(0, 10).split('-').map(Number) as [number, number, number];
 	return new Date(Date.UTC(y, m - 1, day));
 };
 
@@ -407,9 +407,9 @@ describe('DatePrompt', () => {
 			});
 			instance.prompt();
 			// en-US is MDY
-			expect(instance.segments[0].type).to.equal('month');
-			expect(instance.segments[1].type).to.equal('day');
-			expect(instance.segments[2].type).to.equal('year');
+			expect(instance.segments[0]?.type).to.equal('month');
+			expect(instance.segments[1]?.type).to.equal('day');
+			expect(instance.segments[2]?.type).to.equal('year');
 		});
 
 		test('explicit format overrides locale', () => {
@@ -422,7 +422,7 @@ describe('DatePrompt', () => {
 				initialValue: d('2025-03-15'),
 			});
 			instance.prompt();
-			expect(instance.segments[0].type).to.equal('year');
+			expect(instance.segments[0]?.type).to.equal('year');
 		});
 	});
 });

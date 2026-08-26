@@ -30,6 +30,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 	#message: string = '';
 	#silentExit: boolean = false;
 	#exitCode: number = 0;
+	#signal?: AbortSignal;
 
 	constructor(opts: SpinnerOptions) {
 		super(opts);
@@ -38,6 +39,7 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		this.#cancelMessage = opts.cancelMessage ?? settings.messages.cancel;
 		this.#errorMessage = opts.errorMessage ?? settings.messages.error;
 		this.#onCancel = opts.onCancel;
+		this.#signal = opts.signal;
 
 		this.on('cancel', () => this.#onExit(1));
 	}
@@ -176,6 +178,10 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		process.on('SIGINT', this.#onProcessSignal);
 		process.on('SIGTERM', this.#onProcessSignal);
 		process.on('exit', this.#onExit);
+
+		if (this.#signal) {
+			this.#signal.addEventListener('abort', this.#onProcessSignal);
+		}
 	}
 
 	#removeGlobalListeners(): void {
@@ -184,5 +190,9 @@ export default class SpinnerPrompt extends Prompt<undefined> {
 		process.removeListener('SIGINT', this.#onProcessSignal);
 		process.removeListener('SIGTERM', this.#onProcessSignal);
 		process.removeListener('exit', this.#onExit);
+
+		if (this.#signal) {
+			this.#signal.removeEventListener('abort', this.#onProcessSignal);
+		}
 	}
 }

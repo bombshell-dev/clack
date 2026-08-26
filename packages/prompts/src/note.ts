@@ -20,7 +20,7 @@ export interface NoteOptions extends CommonOptions {
 	format?: FormatFn;
 }
 
-const defaultNoteFormatter = (line: string): string => styleText('dim', line);
+const defaultNoteFormatter = (line: string): string => line;
 
 const wrapWithFormat = (message: string, width: number, format: FormatFn): string => {
 	const opts: WrapAnsiOptions = {

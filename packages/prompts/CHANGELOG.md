@@ -1,5 +1,55 @@
 # @clack/prompts
 
+## 1.7.0
+
+### Minor Changes
+
+- [#574](https://github.com/bombshell-dev/clack/pull/574) [`8f1c380`](https://github.com/bombshell-dev/clack/commit/8f1c380683cfb5fb7a094610342046ae1603e28e) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add `showInstructions` option to `select`, `multiselect`, and `groupMultiselect`. Keyboard hints remain shown by default; pass `showInstructions: false` to hide them.
+
+### Patch Changes
+
+- [#582](https://github.com/bombshell-dev/clack/pull/582) [`4b24953`](https://github.com/bombshell-dev/clack/commit/4b249539e28eecc16c13b3a1bd0ba447e9f38d06) Thanks [@43081j](https://github.com/43081j)! - Handle empty arrays in various prompts and utilities.
+
+- Updated dependencies [[`4b24953`](https://github.com/bombshell-dev/clack/commit/4b249539e28eecc16c13b3a1bd0ba447e9f38d06)]:
+  - @clack/core@1.4.3
+
+## 1.6.0
+
+### Minor Changes
+
+- [#568](https://github.com/bombshell-dev/clack/pull/568) [`f87933f`](https://github.com/bombshell-dev/clack/commit/f87933fb7b3f4c401b9e51a152b95cb8e7200fe5) Thanks [@florian-lefebvre](https://github.com/florian-lefebvre)! - Updates default formatter of `note()` to note dim lines anymore
+
+  If you want the old behavior, provide a `format()` function:
+
+  ```diff
+  import { note } from '@clack/prompts';
+  +import { styleText } from 'node:util';
+
+  note(
+    'You can edit the file src/index.jsx',
+    'Next steps.'
+  +  { format: (text) => styleText('dim', text) }
+  );
+  ```
+
+- [#567](https://github.com/bombshell-dev/clack/pull/567) [`cc6aab5`](https://github.com/bombshell-dev/clack/commit/cc6aab50186cff8a02dc98e9cfd3897c29a33b15) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add keyboard instruction footers to `select`, `multiselect`, and `groupMultiselect` in the active state, matching autocomplete. No option — always shown.
+
+### Patch Changes
+
+- Updated dependencies [[`2f2b52f`](https://github.com/bombshell-dev/clack/commit/2f2b52f77cbfa9af618c6d929249ab8395fc37a1), [`e1b6ee7`](https://github.com/bombshell-dev/clack/commit/e1b6ee71a76e17a3c33ba7ee6e5fb34e886233bb)]:
+  - @clack/core@1.4.2
+
+## 1.5.1
+
+### Patch Changes
+
+- [#548](https://github.com/bombshell-dev/clack/pull/548) [`2356e97`](https://github.com/bombshell-dev/clack/commit/2356e97c1f46007ead55133c3a26910404ef1cfb) Thanks [@43081j](https://github.com/43081j)! - Remove sourcemaps and enable pretty-ish build output.
+
+- [#546](https://github.com/bombshell-dev/clack/pull/546) [`56e9d67`](https://github.com/bombshell-dev/clack/commit/56e9d6707715bc858d9c2dbc444230b02813e809) Thanks [@ghostdevv](https://github.com/ghostdevv)! - docs: add jsdoc for `date`, `limit-options`, and `messages`
+
+- Updated dependencies [[`2356e97`](https://github.com/bombshell-dev/clack/commit/2356e97c1f46007ead55133c3a26910404ef1cfb)]:
+  - @clack/core@1.4.1
+
 ## 1.5.0
 
 ### Minor Changes

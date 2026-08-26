@@ -2,6 +2,7 @@ import { styleText } from 'node:util';
 import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
+	formatInstructionFooter,
 	S_BAR,
 	S_BAR_END,
 	S_RADIO_ACTIVE,
@@ -10,6 +11,11 @@ import {
 	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
+
+export const SELECT_INSTRUCTIONS = [
+	`${styleText('dim', '↑/↓')} to navigate`,
+	`${styleText('dim', 'Enter:')} confirm`,
+];
 
 type Primitive = Readonly<string | boolean | number>;
 
@@ -70,6 +76,11 @@ export interface SelectOptions<Value> extends CommonOptions {
 	options: Option<Value>[];
 	initialValue?: Value;
 	maxItems?: number;
+	/**
+	 * Show keyboard instructions below the option list.
+	 * @default true
+	 */
+	showInstructions?: boolean;
 }
 
 const computeLabel = (label: string, format: (text: string) => string) => {
@@ -84,9 +95,12 @@ const computeLabel = (label: string, format: (text: string) => string) => {
 
 export const select = <Value>(opts: SelectOptions<Value>) => {
 	const opt = (
-		option: Option<Value>,
+		option: Option<Value> | undefined,
 		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled'
 	) => {
+		if (option === undefined) {
+			return '';
+		}
 		const label = option.label ?? String(option.value);
 		switch (state) {
 			case 'disabled':
@@ -105,6 +119,8 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				return `${styleText('dim', S_RADIO_INACTIVE)} ${computeLabel(label, (text) => styleText('dim', text))}`;
 		}
 	};
+
+	const showInstructions = opts.showInstructions ?? true;
 
 	return new SelectPrompt({
 		options: opts.options,
@@ -145,10 +161,14 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				}
 				default: {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-					const prefixEnd = hasGuide ? styleText('cyan', S_BAR_END) : '';
-					// Calculate rowPadding: title lines + footer lines (S_BAR_END + trailing newline)
 					const titleLineCount = title.split('\n').length;
-					const footerLineCount = hasGuide ? 2 : 1; // S_BAR_END + trailing newline (or just trailing newline)
+					const footerLines = showInstructions
+						? formatInstructionFooter(SELECT_INSTRUCTIONS, hasGuide)
+						: hasGuide
+							? [styleText('cyan', S_BAR_END)]
+							: [];
+					const footerText = footerLines.join('\n');
+					const footerLineCount = footerLines.length + 1;
 					return `${title}${prefix}${limitOptions({
 						output: opts.output,
 						cursor: this.cursor,
@@ -158,7 +178,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 						rowPadding: titleLineCount + footerLineCount,
 						style: (item, active) =>
 							opt(item, item.disabled ? 'disabled' : active ? 'active' : 'inactive'),
-					}).join(`\n${prefix}`)}\n${prefixEnd}\n`;
+					}).join(`\n${prefix}`)}\n${footerText}\n`;
 				}
 			}
 		},

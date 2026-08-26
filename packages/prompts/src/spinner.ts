@@ -75,8 +75,10 @@ export const spinner = ({
 					return `${prefix}${step}${paddedMessage}`;
 				}
 			}
-			const frame = styleFn(frames[this.frameIndex]);
+			// biome-ignore lint/style/noNonNullAssertion: frameIndex is always kept within frames bounds
+			const frame = styleFn(frames[this.frameIndex]!);
 			const message = this.message;
+
 			let outputMessage: string;
 			if (isCI) {
 				outputMessage = `${frame}  ${message}...`;

@@ -73,3 +73,12 @@ export interface CommonOptions {
 	signal?: AbortSignal;
 	withGuide?: boolean;
 }
+
+export function formatInstructionFooter(instructions: string[], hasGuide: boolean): string[] {
+	const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
+	const footerLines = [`${guidePrefix}${instructions.join(' • ')}`];
+	if (hasGuide) {
+		footerLines.push(styleText('cyan', S_BAR_END));
+	}
+	return footerLines;
+}

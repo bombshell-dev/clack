@@ -25,11 +25,11 @@ export default class MultiLinePrompt extends Prompt<string> {
 		if (this.cursor >= userInput.length) {
 			return `${userInput}█`;
 		}
-		const s1 = userInput.slice(0, this.cursor);
-		const s2 = userInput[this.cursor];
-		const s3 = userInput.slice(this.cursor + 1);
-		if (s2 === '\n') return `${s1}█\n${s3}`;
-		return `${s1}${styleText('inverse', s2)}${s3}`;
+		const preCursor = userInput.slice(0, this.cursor);
+		const cursorChar = userInput.slice(this.cursor, this.cursor + 1);
+		const rest = userInput.slice(this.cursor + 1);
+		if (cursorChar === '\n') return `${preCursor}█\n${rest}`;
+		return `${preCursor}${styleText('inverse', cursorChar)}${rest}`;
 	}
 	get cursor() {
 		return this._cursor;
@@ -72,7 +72,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 		}
 		const wasReturn = this.#lastKeyWasReturn;
 		this.#lastKeyWasReturn = true;
-		if (wasReturn) {
+		if (wasReturn && this.cursor === this.userInput.length) {
 			if (this.userInput[this.cursor - 1] === '\n') {
 				this._setUserInput(
 					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
@@ -87,11 +87,25 @@ export default class MultiLinePrompt extends Prompt<string> {
 	}
 
 	constructor(opts: MultiLineOptions) {
-		super(opts, false);
+		const initialUserInput = opts.initialUserInput ?? opts.initialValue;
+
+		super(
+			{
+				...opts,
+				initialUserInput,
+			},
+			false
+		);
+
+		if (initialUserInput !== undefined) {
+			this._cursor = initialUserInput.length;
+		}
+
 		this.#showSubmit = opts.showSubmit ?? false;
 
 		this.on('key', (char, key) => {
 			if (key?.name && cursorActions.has(key.name as CursorAction)) {
+				this.#lastKeyWasReturn = false;
 				this.#handleCursor(key.name as CursorAction);
 				return;
 			}

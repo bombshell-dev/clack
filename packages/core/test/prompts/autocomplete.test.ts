@@ -272,4 +272,60 @@ describe('AutocompletePrompt', () => {
 		// Placeholder does not match any option, so input must not be filled with placeholder
 		expect(instance.userInput).not.to.equal('Type to search...');
 	});
+
+	test('completeOnTab fills input with focused option and submit returns it', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			completeOnTab: true,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', 'n', { name: 'n' });
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+		const result = await promise;
+
+		expect(instance.userInput).to.equal('banana');
+		expect(result).to.equal('banana');
+	});
+
+	test('completeOnTab with no matches leaves input unchanged', () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			completeOnTab: true,
+		});
+
+		instance.prompt();
+		input.emit('keypress', 'z', { name: 'z' });
+		input.emit('keypress', 'z', { name: 'z' });
+		input.emit('keypress', 'z', { name: 'z' });
+		input.emit('keypress', '\t', { name: 'tab' });
+
+		expect(instance.userInput).to.equal('zzz');
+	});
+
+	test('Tab does not complete when completeOnTab is not set', () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', 'n', { name: 'n' });
+		input.emit('keypress', '\t', { name: 'tab' });
+
+		expect(instance.userInput).to.equal('ban');
+	});
 });

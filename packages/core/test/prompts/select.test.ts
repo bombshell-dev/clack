@@ -28,6 +28,16 @@ describe('SelectPrompt', () => {
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
 	});
 
+	test('does not throw if empty options are provided', () => {
+		const instance = new SelectPrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: [],
+		});
+		expect(() => instance.prompt()).not.toThrow();
+	});
+
 	describe('cursor', () => {
 		test('cursor is index of selected item', () => {
 			const instance = new SelectPrompt({

@@ -22,7 +22,8 @@ const SEGMENTS: Record<string, SegmentConfig> = {
 } as const;
 
 function segmentsFor(fmt: DateFormat): SegmentConfig[] {
-	return [...fmt].map((c) => SEGMENTS[c as keyof typeof SEGMENTS]);
+	// biome-ignore lint/style/noNonNullAssertion: DateFormat only contains Y/M/D keys present in SEGMENTS
+	return [...fmt].map((c) => SEGMENTS[c as keyof typeof SEGMENTS]!);
 }
 
 function detectLocaleFormat(locale?: string): { segments: SegmentConfig[]; separator: string } {
