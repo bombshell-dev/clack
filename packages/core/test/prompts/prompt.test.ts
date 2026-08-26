@@ -467,7 +467,7 @@ describe('Prompt', () => {
 		expect(eventSpy).not.toHaveBeenCalled();
 		expect(instance.state).to.equal('validating');
 
-		resolveValidation(undefined);
+		resolveValidation!(undefined);
 		await resultPromise;
 
 		expect(instance.state).to.equal('submit');
