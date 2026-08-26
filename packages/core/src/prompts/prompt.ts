@@ -259,13 +259,7 @@ export default class Prompt<TValue> {
 			if (this.opts.validate) {
 				const problemResult = runValidation(this.opts.validate, this.value);
 				let problem: string | Error | undefined;
-				// Only if it is not a string or an Error, we assume
-				// it is a Promise and await it.
-				if (
-					problemResult !== undefined &&
-					typeof problemResult !== 'string' &&
-					!(problemResult instanceof Error)
-				) {
+				if (problemResult instanceof Promise) {
 					this.state = 'validating';
 					this.render();
 					problem = await problemResult;
