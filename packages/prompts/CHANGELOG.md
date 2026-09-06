@@ -1,5 +1,24 @@
 # @clack/prompts
 
+## 1.8.0
+
+### Minor Changes
+
+- [#592](https://github.com/bombshell-dev/clack/pull/592) [`caa32e8`](https://github.com/bombshell-dev/clack/commit/caa32e853cb65afad778f56f6bad8699d4b195bc) Thanks [@gameroman](https://github.com/gameroman)! - Export `CANCEL_SYMBOL` constant from `@clack/core` and `@clack/prompts`
+
+- [#594](https://github.com/bombshell-dev/clack/pull/594) [`37fca4e`](https://github.com/bombshell-dev/clack/commit/37fca4eb7277571b2b6f8c027dbc07e77632234b) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add tab-completion to the `path` prompt: pressing Tab fills the input with the focused suggestion, so you can quickly descend into deep directories (type `/` and Tab again). Powered by a new opt-in `completeOnTab` option on `autocomplete`, which also shows a `Tab: complete` hint in the instructions footer. Default `autocomplete` behavior is unchanged.
+
+- [#583](https://github.com/bombshell-dev/clack/pull/583) [`ae636dd`](https://github.com/bombshell-dev/clack/commit/ae636ddcb4fbc992716f294f64371e4ff4997fb8) Thanks [@43081j](https://github.com/43081j)! - Add async validation support to prompts, and validation state rendering to text prompts.
+
+### Patch Changes
+
+- [#588](https://github.com/bombshell-dev/clack/pull/588) [`6506135`](https://github.com/bombshell-dev/clack/commit/65061353e65e468035d8d8c7de9359926774626d) Thanks [@danielroe](https://github.com/danielroe)! - Style the guide bar rendered by `box({ withGuide: true })` in grey so it matches the gutter drawn by `log`, `note` and the spinner
+
+- [#599](https://github.com/bombshell-dev/clack/pull/599) [`0547d6f`](https://github.com/bombshell-dev/clack/commit/0547d6f4c16c4580b06c592e698b9ceb621f2547) Thanks [@43081j](https://github.com/43081j)! - Fixes a withGuide rendering issue leaving extra spaces in text prompts.
+
+- Updated dependencies [[`227583e`](https://github.com/bombshell-dev/clack/commit/227583efb6d3fb353477a2df7279a33f77e7837b), [`caa32e8`](https://github.com/bombshell-dev/clack/commit/caa32e853cb65afad778f56f6bad8699d4b195bc), [`37fca4e`](https://github.com/bombshell-dev/clack/commit/37fca4eb7277571b2b6f8c027dbc07e77632234b), [`ae636dd`](https://github.com/bombshell-dev/clack/commit/ae636ddcb4fbc992716f294f64371e4ff4997fb8), [`b20fa2b`](https://github.com/bombshell-dev/clack/commit/b20fa2b75446389b4caf6bb16ad660a966175f8a)]:
+  - @clack/core@1.5.0
+
 ## 1.7.0
 
 ### Minor Changes
