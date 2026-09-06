@@ -467,6 +467,7 @@ describe('Prompt', () => {
 		expect(eventSpy).not.toHaveBeenCalled();
 		expect(instance.state).to.equal('validating');
 
+		// biome-ignore lint/style/noNonNullAssertion: We know resolveValidation is defined
 		resolveValidation!(undefined);
 		await resultPromise;
 

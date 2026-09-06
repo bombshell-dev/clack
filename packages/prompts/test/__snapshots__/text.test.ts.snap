@@ -131,9 +131,14 @@ exports[`text (isCI = false) > global withGuide: false removes guide 1`] = `
 
 ",
   "<cursor.backward count=999><cursor.up count=3>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=3>",
   "<erase.down>",
   "[32m◇[39m  foo
-",
+[2mx[22m",
   "
 ",
   "<cursor.show>",
@@ -340,9 +345,14 @@ exports[`text (isCI = false) > withGuide: false removes guide 1`] = `
 
 ",
   "<cursor.backward count=999><cursor.up count=3>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=3>",
   "<erase.down>",
   "[32m◇[39m  foo
-",
+[2mx[22m",
   "
 ",
   "<cursor.show>",
@@ -480,9 +490,14 @@ exports[`text (isCI = true) > global withGuide: false removes guide 1`] = `
 
 ",
   "<cursor.backward count=999><cursor.up count=3>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=3>",
   "<erase.down>",
   "[32m◇[39m  foo
-",
+[2mx[22m",
   "
 ",
   "<cursor.show>",
@@ -689,9 +704,14 @@ exports[`text (isCI = true) > withGuide: false removes guide 1`] = `
 
 ",
   "<cursor.backward count=999><cursor.up count=3>",
+  "<cursor.down count=1>",
+  "<erase.line><cursor.left count=1>",
+  "x█",
+  "<cursor.down count=2>",
+  "<cursor.backward count=999><cursor.up count=3>",
   "<erase.down>",
   "[32m◇[39m  foo
-",
+[2mx[22m",
   "
 ",
   "<cursor.show>",

@@ -216,6 +216,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
+		input.emit('keypress', 'x', { name: 'x' });
 		input.emit('keypress', '', { name: 'return' });
 
 		await result;
@@ -232,6 +233,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 			output,
 		});
 
+		input.emit('keypress', 'x', { name: 'x' });
 		input.emit('keypress', '', { name: 'return' });
 
 		await result;

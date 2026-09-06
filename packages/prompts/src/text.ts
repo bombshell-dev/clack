@@ -91,7 +91,7 @@ export const text = (opts: TextOptions) => {
 					return `${title.trim()}\n${errorPrefix}${userInput}\n${errorPrefixEnd}${errorText}\n`;
 				}
 				case 'submit': {
-					const valueText = value ? `  ${styleText('dim', value)}` : '';
+					const valueText = value ? `${hasGuide ? '  ' : ''}${styleText('dim', value)}` : '';
 					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
 					return `${title}${submitPrefix}${valueText}`;
 				}
