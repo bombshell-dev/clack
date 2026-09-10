@@ -1,47 +1,43 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
-  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
-  "files": { "ignoreUnknown": false, "includes": ["**", "!**/dist/**"] },
-  "formatter": {
+  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "vcs": {
     "enabled": true,
-    "useEditorconfig": true,
-    "formatWithErrors": false,
-    "indentStyle": "tab",
-    "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 100,
-    "attributePosition": "auto",
-    "bracketSpacing": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
     "includes": [
       "**",
-      "!**/.github/workflows/**/*.yml",
-      "!**/.changeset/**/*.md",
-      "!**/pnpm-lock.yaml",
-      "!**/package.json"
+      "!pnpm-lock.yaml",
+      "!**/build",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/.vscode"
     ]
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "formatter": {
+    "useEditorconfig": true,
+    "lineWidth": 100
+  },
   "linter": {
-    "enabled": true,
-    "rules": { "recommended": true, "suspicious": { "noExplicitAny": "off" } }
+    "rules": {
+      "preset": "recommended",
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
+    }
   },
   "javascript": {
     "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "es5",
-      "semicolons": "always",
-      "arrowParentheses": "always",
-      "bracketSameLine": false,
       "quoteStyle": "single",
-      "attributePosition": "auto",
-      "bracketSpacing": true
+      "trailingCommas": "es5"
     }
   },
-  "overrides": [
-    {
-      "includes": ["**/*.json", "**/*.toml", "**/*.yml"],
-      "formatter": { "indentStyle": "space" }
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
     }
-  ]
+  }
 }
