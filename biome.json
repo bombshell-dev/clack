@@ -9,7 +9,6 @@
     "includes": [
       "**",
       "!pnpm-lock.yaml",
-      "!**/build",
       "!**/dist",
       "!**/node_modules",
       "!**/.vscode"
