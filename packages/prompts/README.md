@@ -271,6 +271,27 @@ s.start('Installing via npm');
 s.stop('Installed via npm');
 ```
 
+Note: The `Ctrl+C` input will hard-stop the process with a `process.exit(0)` call.
+If you wish to avoid this behavior, pass an `onCancel` callback to the spinner initialization function.
+
+```js
+import { spinner, log } from '@clack/prompts';
+
+const s = spinner({
+  onCancel: () => {
+    // Do something...or nothing
+    log.warn('Coolness reached 3.14%');
+  }
+});
+
+s.start('Downloading coolness...');
+// Do stuff...then hit Ctrl+C to cancel
+s.stop('Maximum coolness reached! :)'); // Note: This does nothing if the spinner was cancelled
+
+// Carry on... (teardown connections, etc.)
+
+```
+
 ### Progress
 
 The progress component extends the spinner component to add a progress bar to visualize the progression of an action.
