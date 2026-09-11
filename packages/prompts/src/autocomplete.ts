@@ -1,14 +1,16 @@
 import { styleText } from 'node:util';
 import type { Validate } from '@clack/core';
-import { AutocompletePrompt, settings } from '@clack/core';
+import { AutocompletePrompt, isAsync, settings } from '@clack/core';
 import {
 	type CommonOptions,
+	N_INTERVAL,
 	S_BAR,
 	S_BAR_END,
 	S_CHECKBOX_INACTIVE,
 	S_CHECKBOX_SELECTED,
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
+	S_SPINNER,
 	symbol,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
@@ -42,22 +44,30 @@ function getSelectedOptions<T>(values: T[], options: Option<T>[]): Option<T>[] {
 	return results;
 }
 
+function getAsyncFilter<Value>(
+	opts: AutocompleteOptions<Value>
+): AutocompleteSharedOptionsAsync<Value>['filter'] {
+	// filter not provided at all
+	if (!('filter' in opts)) return;
+
+	if (opts.filter) {
+		return opts.filter;
+	}
+
+	// filter undefined
+	return (search: string, opt: Option<Value>) => {
+		return getFilteredOption(search, opt);
+	};
+}
+
 /**
  * Options for the {@link autocomplete} prompt.
  */
-interface AutocompleteSharedOptions<Value> extends CommonOptions {
+type AutocompleteSharedOptions<Value> = CommonOptions & {
 	/**
 	 * The message or question shown to the user above the input.
 	 */
 	message: string;
-
-	/**
-	 * The options to present, or a function that returns the options to present
-	 * allowing for custom search/filtering.
-	 *
-	 * @see https://bomb.sh/docs/clack/packages/prompts/#dynamic-options-getter
-	 */
-	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 
 	/**
 	 * The maximum number of items/options to display in the autocomplete list at once.
@@ -76,14 +86,51 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * to show as a validation error, or `undefined` to accept the result.
 	 */
 	validate?: Validate<Value | Value[]>;
+} & (AutocompleteSharedOptionsSync<Value> | AutocompleteSharedOptionsAsync<Value>);
 
+interface AutocompleteSharedOptionsSync<Value> {
+	/**
+	 * The options to present, or a function that returns the options to present
+	 * allowing for custom search/filtering.
+	 *
+	 * @see https://bomb.sh/docs/clack/packages/prompts/#dynamic-options-getter
+	 */
+	options: Option<Value>[] | ((this: AutocompletePrompt<Option<Value>>) => Option<Value>[]);
 	/**
 	 * Custom filter function to match options against the search input.
 	 */
 	filter?: (search: string, option: Option<Value>) => boolean;
 }
 
-export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
+interface AutocompleteSharedOptionsAsync<Value> {
+	/**
+	 * Available async options for the autocomplete prompt.
+	 */
+	options: (
+		this: AutocompletePrompt<Option<Value>>,
+		signal?: AbortSignal
+	) => Promise<Option<Value>[]>;
+	/**
+	 * Frames to show during the loading of the options.
+	 */
+	frames?: string[];
+	/**
+	 * Interval between each frame.
+	 */
+	interval?: number;
+	/**
+	 * Debounce for user inputs before doing getting new options.
+	 */
+	debounce?: number;
+	/**
+	 * Custom filter function to match options against search input.
+	 * - null (default): not filter function will be used.
+	 * - undefined: a default filter that matches label, hint, and value is used.
+	 */
+	filter?: ((search: string, option: Option<Value>) => boolean);
+}
+
+export type AutocompleteOptions<Value> = AutocompleteSharedOptions<Value> & {
 	/**
 	 * The initially selected option from the list.
 	 */
@@ -127,27 +174,31 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
  * ```
  */
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
-	const prompt = new AutocompletePrompt({
-		options: opts.options,
+	const frames = ('frames' in opts && opts.frames) || S_SPINNER;
+
+	let prompt: AutocompletePrompt<Option<Value>>;
+
+	const sharedConfig = {
 		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
 		placeholder: opts.placeholder,
 		completeOnTab: opts.completeOnTab,
-		filter:
-			opts.filter ??
-			((search: string, opt: Option<Value>) => {
-				return getFilteredOption(search, opt);
-			}),
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
 		validate: opts.validate,
-		render() {
+		render(this: AutocompletePrompt<Option<Value>>) {
+			const promptSymbol = this.isLoading
+				? styleText('magenta', frames[this.spinnerIndex]!)
+				: symbol(this.state);
+
 			const hasGuide = opts.withGuide ?? settings.withGuide;
+			const guide = hasGuide ? styleText('gray', S_BAR) : '';
+
 			// Title and message display
 			const headings = hasGuide
-				? [`${styleText('gray', S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
-				: [`${symbol(this.state)}  ${opts.message}`];
+				? [guide, `${promptSymbol}  ${opts.message}`]
+				: [`${promptSymbol}  ${opts.message}`];
 			const userInput = this.userInput;
 			const options = this.options;
 			const placeholder = opts.placeholder;
@@ -175,16 +226,14 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					const selected = getSelectedOptions(this.selectedValues, options);
 					const label =
 						selected.length > 0 ? `  ${styleText('dim', selected.map(getLabel).join(', '))}` : '';
-					const submitPrefix = hasGuide ? styleText('gray', S_BAR) : '';
-					return `${headings.join('\n')}\n${submitPrefix}${label}`;
+					return `${headings.join('\n')}\n${guide}${label}`;
 				}
 
 				case 'cancel': {
 					const userInputText = userInput
 						? `  ${styleText(['strikethrough', 'dim'], userInput)}`
 						: '';
-					const cancelPrefix = hasGuide ? styleText('gray', S_BAR) : '';
-					return `${headings.join('\n')}\n${cancelPrefix}${userInputText}`;
+					return `${headings.join('\n')}\n${guide}${userInputText}`;
 				}
 
 				default: {
@@ -211,7 +260,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 
 					// No matches message
 					const noResults =
-						this.filteredOptions.length === 0 && userInput
+						this.filteredOptions.length === 0 && userInput && !this.isLoading
 							? [`${guidePrefix}${styleText('yellow', 'No matches found')}`]
 							: [];
 
@@ -265,7 +314,34 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 				}
 			}
 		},
-	});
+	};
+
+	// Create autocomplete prompt based on if the option is async or not
+	if (
+		isAsync<AutocompleteSharedOptionsSync<Value>, AutocompleteSharedOptionsAsync<Value>>(
+			opts,
+			'options'
+		)
+	) {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			frameCount: frames.length,
+			interval: opts.interval ?? N_INTERVAL,
+			debounce: opts.debounce,
+			filter: getAsyncFilter(opts),
+		});
+	} else {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			filter:
+				opts.filter ??
+				((search: string, opt: Option<Value>) => {
+					return getFilteredOption(search, opt);
+				}),
+		});
+	}
 
 	// Return the result or cancel symbol
 	return prompt.prompt() as Promise<Value | symbol>;
@@ -274,7 +350,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 /**
  * Options for the {@link autocompleteMultiselect} prompt
  */
-export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteSharedOptions<Value> {
+export type AutocompleteMultiSelectOptions<Value> = AutocompleteSharedOptions<Value> & {
 	/**
 	 * The initially selected option(s) from the list.
 	 */
@@ -285,7 +361,7 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
 	 * @default false
 	 */
 	required?: boolean;
-}
+};
 
 /**
  * The `autocompleteMultiselect` prompt combines the search functionality of autocomplete
@@ -312,6 +388,10 @@ export interface AutocompleteMultiSelectOptions<Value> extends AutocompleteShare
  * ```
  */
 export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOptions<Value>) => {
+	const frames = ('frames' in opts && opts.frames) || S_SPINNER;
+
+	let prompt: AutocompletePrompt<Option<Value>>;
+
 	const formatOption = (
 		option: Option<Value>,
 		active: boolean,
@@ -338,15 +418,9 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	};
 
 	// Create text prompt which we'll use as foundation
-	const prompt = new AutocompletePrompt<Option<Value>>({
-		options: opts.options,
+	const sharedConfig = {
 		multiple: true,
 		placeholder: opts.placeholder,
-		filter:
-			opts.filter ??
-			((search, opt) => {
-				return getFilteredOption(search, opt);
-			}),
 		validate: () => {
 			if (opts.required && prompt.selectedValues.length === 0) {
 				return 'Please select at least one item';
@@ -357,12 +431,16 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		signal: opts.signal,
 		input: opts.input,
 		output: opts.output,
-		render() {
+		render(this: AutocompletePrompt<Option<Value>>) {
+			const promptSymbol = this.isLoading
+				? styleText('magenta', frames[this.spinnerIndex]!)
+				: symbol(this.state);
+
 			const hasGuide = opts.withGuide ?? settings.withGuide;
+
 			// Title and symbol
-			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${
-				opts.message
-			}\n`;
+			const titleGuide = hasGuide ? `${styleText('gray', S_BAR)}\n` : '';
+			const title = `${titleGuide}${promptSymbol}  ${opts.message}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -385,16 +463,18 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 						)
 					: '';
 
+
+			const inactiveGuidePrefix = hasGuide ? `${styleText('gray', S_BAR)}  ` : '';
 			// Render prompt state
 			switch (this.state) {
 				case 'submit': {
-					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${styleText(
+					return `${title}${inactiveGuidePrefix}${styleText(
 						'dim',
 						`${this.selectedValues.length} items selected`
 					)}`;
 				}
 				case 'cancel': {
-					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${styleText(
+					return `${title}${inactiveGuidePrefix}${styleText(
 						['strikethrough', 'dim'],
 						userInput
 					)}`;
@@ -413,7 +493,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 
 					// No results message
 					const noResults =
-						this.filteredOptions.length === 0 && userInput
+						this.filteredOptions.length === 0 && userInput && !this.isLoading
 							? [`${guidePrefix}${styleText('yellow', 'No matches found')}`]
 							: [];
 
@@ -449,7 +529,34 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				}
 			}
 		},
-	});
+	};
+
+	// Create autocomplete prompt based on if the option is async or not
+	if (
+		isAsync<AutocompleteSharedOptionsSync<Value>, AutocompleteSharedOptionsAsync<Value>>(
+			opts,
+			'options'
+		)
+	) {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			frameCount: frames.length,
+			interval: opts.interval ?? N_INTERVAL,
+			debounce: opts.debounce,
+			filter: getAsyncFilter(opts),
+		});
+	} else {
+		prompt = new AutocompletePrompt<Option<Value>>({
+			...sharedConfig,
+			options: opts.options,
+			filter:
+				opts.filter ??
+				((search, opt) => {
+					return getFilteredOption(search, opt);
+				}),
+		});
+	}
 
 	// Return the result or cancel symbol
 	return prompt.prompt() as Promise<Value[] | symbol>;
