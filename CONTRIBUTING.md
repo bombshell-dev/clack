@@ -10,7 +10,7 @@ Thank you for your interest in contributing to Clack! This document provides det
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (version specified in `.nvmrc`, currently v20.18.1)
-- [pnpm](https://pnpm.io/) (version 9.14.2 or higher)
+- [pnpm](https://pnpm.io/) (version 10.33.0 or higher)
 
 If you use [volta](https://volta.sh/) or [nvm](https://github.com/nvm-sh/nvm), the correct Node.js version will be automatically selected based on the project's `.nvmrc` file.
 
@@ -63,16 +63,16 @@ If you want to test changes to Clack packages in your own project, you can use p
    ```bash
    # In your project
    cd /path/to/your-project
-   
+
    # Link @clack/core
    pnpm link --global /path/to/clack/packages/core
-   
+
    # Link @clack/prompts
    pnpm link --global /path/to/clack/packages/prompts
    ```
 
    **Method 2: Using local path in package.json**
-   
+
    In your project's package.json, reference the local paths:
    ```json
    {
@@ -97,7 +97,7 @@ If you want to test changes to Clack packages in your own project, you can use p
    # In the clack repository
    cd /path/to/clack
    pnpm build
-   
+
    # In your project (if using Method 2)
    cd /path/to/your-project
    pnpm install
@@ -125,11 +125,11 @@ clack/
 
 ### Key Packages
 
-1. **@clack/core** (`packages/core/`): 
+1. **@clack/core** (`packages/core/`):
    - Contains the unstyled, extensible primitives for building CLI applications
    - The foundation layer that provides the core functionality
 
-2. **@clack/prompts** (`packages/prompts/`): 
+2. **@clack/prompts** (`packages/prompts/`):
    - Built on top of @clack/core
    - Provides beautiful, ready-to-use CLI prompt components
    - What most users will interact with directly
@@ -142,7 +142,7 @@ The `examples/` directory contains sample projects that demonstrate how to use C
 
 ### Common Commands
 
-- **Build all packages**: 
+- **Build all packages**:
   ```bash
   pnpm build
   ```
@@ -194,14 +194,14 @@ The `examples/` directory contains sample projects that demonstrate how to use C
    ```bash
    # Ensure everything builds
    pnpm build
-   
+
    # Check formatting and lint issues
    pnpm format
    pnpm lint
-   
+
    # Verify type correctness
    pnpm types
-   
+
    # Run tests
    pnpm test
    ```
@@ -269,7 +269,7 @@ When encountering issues during development:
 
 ### PR Previews
 
-Clack uses [pkg.pr.new](https://pkg.pr.new) (provided by [bolt.new](https://bolt.new)) to create continuous preview releases of all PRs. This simplifies testing and makes verifying bug fixes easier for our dependents. 
+Clack uses [pkg.pr.new](https://pkg.pr.new) (provided by [bolt.new](https://bolt.new)) to create continuous preview releases of all PRs. This simplifies testing and makes verifying bug fixes easier for our dependents.
 
 The workflow that builds a preview version and adds instructions for installation as a comment on your PR should run automatically if you have contributed to Clack before. First-time contributors may need to wait until a maintainer manually approves GitHub Actions running on your PR.
 
@@ -295,10 +295,10 @@ Clack maintains a stable `v0` branch alongside the main development branch. For 
    # Ensure you have the latest v0 branch
    git checkout v0
    git pull upstream v0
-   
+
    # Cherry-pick the squashed commit from main
    git cherry-pick <commit-hash>
-   
+
    # Push the changes
    git push upstream v0
    ```

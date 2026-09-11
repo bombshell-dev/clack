@@ -15,7 +15,7 @@
     "pretest": "pnpm run build"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.2",
+    "@biomejs/biome": "^2.5.12",
     "@changesets/changelog-github": "^0.7.0",
     "@changesets/cli": "^2.31.0",
     "@types/node": "^20.19.39",
