@@ -6,13 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": [
-      "**",
-      "!pnpm-lock.yaml",
-      "!**/dist",
-      "!**/node_modules",
-      "!**/.vscode"
-    ]
+    "includes": ["**", "!pnpm-lock.yaml", "!**/dist", "!**/node_modules", "!**/.vscode"]
   },
   "formatter": {
     "useEditorconfig": true,
