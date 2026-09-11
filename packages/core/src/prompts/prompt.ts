@@ -144,7 +144,7 @@ export default class Prompt<TValue> {
 	}
 
 	public prompt() {
-		return new Promise<TValue | symbol | undefined>((resolve) => {
+		return new Promise<TValue | typeof CANCEL_SYMBOL | undefined>((resolve) => {
 			if (this._abortSignal) {
 				if (this._abortSignal.aborted) {
 					this.state = 'cancel';

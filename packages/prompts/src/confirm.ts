@@ -1,4 +1,5 @@
 import { styleText } from 'node:util';
+import type { CANCEL_SYMBOL } from '@clack/core';
 import { ConfirmPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
@@ -107,5 +108,5 @@ export const confirm = (opts: ConfirmOptions) => {
 				}
 			}
 		},
-	}).prompt() as Promise<boolean | symbol>;
+	}).prompt() as Promise<boolean | typeof CANCEL_SYMBOL>;
 };

@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { Validate } from '@clack/core';
+import type { CANCEL_SYMBOL, Validate } from '@clack/core';
 import { PasswordPrompt, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, S_PASSWORD_MASK, symbol } from './common.js';
 
@@ -88,5 +88,5 @@ export const password = (opts: PasswordOptions) => {
 				}
 			}
 		},
-	}).prompt() as Promise<string | symbol>;
+	}).prompt() as Promise<string | typeof CANCEL_SYMBOL>;
 };

@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { Validate } from '@clack/core';
+import type { CANCEL_SYMBOL, Validate } from '@clack/core';
 import { settings, TextPrompt } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
@@ -107,5 +107,5 @@ export const text = (opts: TextOptions) => {
 				}
 			}
 		},
-	}).prompt() as Promise<string | symbol>;
+	}).prompt() as Promise<string | typeof CANCEL_SYMBOL>;
 };

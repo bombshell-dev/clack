@@ -1,4 +1,5 @@
 import { styleText } from 'node:util';
+import type { CANCEL_SYMBOL } from '@clack/core';
 import { MultiSelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
@@ -204,5 +205,5 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				}
 			}
 		},
-	}).prompt() as Promise<Value[] | symbol>;
+	}).prompt() as Promise<Value[] | typeof CANCEL_SYMBOL>;
 };
