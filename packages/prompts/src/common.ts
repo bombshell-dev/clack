@@ -74,6 +74,7 @@ export interface CommonOptions {
 	output?: Writable;
 	signal?: AbortSignal;
 	withGuide?: boolean;
+	accessible?: boolean;
 }
 
 export function formatInstructionFooter(instructions: string[], hasGuide: boolean): string[] {
