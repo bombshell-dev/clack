@@ -20,12 +20,6 @@ export interface SpinnerOptions extends CommonOptions {
 	frames?: string[];
 	delay?: number;
 	styleFrame?: (frame: string) => string;
-	/**
-	 * Milliseconds between "still working" heartbeat lines in accessible mode.
-	 * Set to `0` to disable the heartbeat.
-	 * @default 30_000
-	 */
-	accessibleInterval?: number;
 }
 
 export interface SpinnerResult {
@@ -38,6 +32,8 @@ export interface SpinnerResult {
 	readonly isCancelled: boolean;
 }
 
+const ACCESSIBLE_HEARTBEAT_MS = 30_000;
+
 const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
 export const spinner = ({
@@ -48,7 +44,6 @@ export const spinner = ({
 	errorMessage,
 	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
 	delay = unicode ? 80 : 120,
-	accessibleInterval = 30_000,
 	signal,
 	...opts
 }: SpinnerOptions = {}): SpinnerResult => {
@@ -146,11 +141,9 @@ export const spinner = ({
 			if (_message !== '') {
 				output.write(`${_message}\n`);
 			}
-			if (accessibleInterval > 0) {
-				loop = setInterval(() => {
-					output.write(_message === '' ? 'still working\n' : `still working: ${_message}\n`);
-				}, accessibleInterval);
-			}
+			loop = setInterval(() => {
+				output.write(_message === '' ? 'still working\n' : `still working: ${_message}\n`);
+			}, ACCESSIBLE_HEARTBEAT_MS);
 			return;
 		}
 		unblock = block({ output });

@@ -55,21 +55,6 @@ describe('spinner (accessible)', () => {
 		}
 	});
 
-	test('accessibleInterval configures the heartbeat and 0 disables it', () => {
-		const result = prompts.spinner({ output, accessible: true, accessibleInterval: 5000 });
-		result.start('a');
-		vi.advanceTimersByTime(5000);
-		result.clear();
-		expect(output.buffer).toEqual(['a\n', 'still working: a\n']);
-
-		output = new MockWritable();
-		const silent = prompts.spinner({ output, accessible: true, accessibleInterval: 0 });
-		silent.start('a');
-		vi.advanceTimersByTime(120_000);
-		silent.clear();
-		expect(output.buffer).toEqual(['a\n']);
-	});
-
 	test('abort signal cancels with a plain line', () => {
 		const controller = new AbortController();
 		const onCancel = vi.fn();
