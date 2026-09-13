@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { Validate } from '@clack/core';
+import type { CANCEL_SYMBOL, Validate } from '@clack/core';
 import { AutocompletePrompt, settings } from '@clack/core';
 import {
 	type CommonOptions,
@@ -268,7 +268,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	});
 
 	// Return the result or cancel symbol
-	return prompt.prompt() as Promise<Value | symbol>;
+	return prompt.prompt() as Promise<Value | typeof CANCEL_SYMBOL>;
 };
 
 /**
@@ -452,5 +452,5 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 	});
 
 	// Return the result or cancel symbol
-	return prompt.prompt() as Promise<Value[] | symbol>;
+	return prompt.prompt() as Promise<Value[] | typeof CANCEL_SYMBOL>;
 };
