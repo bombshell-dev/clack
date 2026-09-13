@@ -1,5 +1,14 @@
 # @clack/prompts
 
+## 1.8.1
+
+### Patch Changes
+
+- [`8bd9129`](https://github.com/bombshell-dev/clack/commit/8bd9129a4a1ca2bb6dcbc7f952e762db21e5d395) Thanks [@gameroman](https://github.com/gameroman)! - Return type for prompts now correctly specifies `CANCEL_SYMBOL` instead of `symbol`
+
+- Updated dependencies [[`8bd9129`](https://github.com/bombshell-dev/clack/commit/8bd9129a4a1ca2bb6dcbc7f952e762db21e5d395)]:
+  - @clack/core@1.5.1
+
 ## 1.8.0
 
 ### Minor Changes
