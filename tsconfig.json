@@ -1,25 +1,13 @@
 {
+  "extends": "@bomb.sh/tools/tsconfig.json",
+  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts"],
   "compilerOptions": {
-    "noEmit": true,
-    "module": "node16",
-    "target": "ESNext",
-    "moduleResolution": "node16",
-    "strict": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "erasableSyntaxOnly": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "noUncheckedIndexedAccess": true,
-    "lib": ["ES2022"],
     "paths": {
       "@clack/core": ["./packages/core/src/index.ts"],
       "@clack/prompts": ["./packages/prompts/src/index.ts"]
     },
-    "types": ["node"]
-  },
-  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts"]
+  }
 }

@@ -59,6 +59,7 @@
     "sisteransi": "^1.0.5"
   },
   "devDependencies": {
-    "arktype": "^2.2.0"
+    "arktype": "^2.2.0",
+    "vitest": "^5.0.0"
   }
 }
