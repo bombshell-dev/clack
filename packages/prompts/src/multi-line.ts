@@ -1,4 +1,5 @@
 import { styleText } from 'node:util';
+import type { CANCEL_SYMBOL } from '@clack/core';
 import { MultiLinePrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import { S_BAR, S_BAR_END, symbol } from './common.js';
 import type { TextOptions } from './text.js';
@@ -98,5 +99,5 @@ export const multiline = (opts: MultiLineOptions) => {
 				}
 			}
 		},
-	}).prompt() as Promise<string | symbol>;
+	}).prompt() as Promise<string | typeof CANCEL_SYMBOL>;
 };

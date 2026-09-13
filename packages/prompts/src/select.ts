@@ -1,4 +1,5 @@
 import { styleText } from 'node:util';
+import type { CANCEL_SYMBOL } from '@clack/core';
 import { SelectPrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
@@ -182,5 +183,5 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 				}
 			}
 		},
-	}).prompt() as Promise<Value | symbol>;
+	}).prompt() as Promise<Value | typeof CANCEL_SYMBOL>;
 };

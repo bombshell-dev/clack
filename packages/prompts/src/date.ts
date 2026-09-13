@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { DateFormat, State, Validate } from '@clack/core';
+import type { CANCEL_SYMBOL, DateFormat, State, Validate } from '@clack/core';
 import { DatePrompt, runValidation, settings } from '@clack/core';
 import { type CommonOptions, S_BAR, S_BAR_END, symbol } from './common.js';
 
@@ -133,7 +133,7 @@ export const date = (opts: DateOptions) => {
 				}
 			}
 		},
-	}).prompt() as Promise<Date | symbol>;
+	}).prompt() as Promise<Date | typeof CANCEL_SYMBOL>;
 };
 
 function renderDate(prompt: Omit<InstanceType<typeof DatePrompt>, 'prompt'>, state: State): string {
