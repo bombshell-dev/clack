@@ -55,17 +55,18 @@ export const spinner = ({
 	let _prevMessage: string | undefined;
 	let _origin: number = performance.now();
 	const columns = getColumns(output);
+	const input = opts.input ?? process.stdin;
 	const styleFn = opts?.styleFrame ?? defaultStyleFn;
 
 	const handleExit = (code: number) => {
-		const msg =
-			code > 1
-				? (errorMessage ?? settings.messages.error)
-				: (cancelMessage ?? settings.messages.cancel);
-		isCancelled = code === 1;
+		const cancelled = code <= 1;
+		const msg = cancelled
+			? (cancelMessage ?? settings.messages.cancel)
+			: (errorMessage ?? settings.messages.error);
+		isCancelled = cancelled;
 		if (isSpinnerActive) {
-			_stop(msg, code);
-			if (isCancelled && typeof onCancel === 'function') {
+			_stop(msg, cancelled ? 1 : code);
+			if (cancelled && typeof onCancel === 'function') {
 				onCancel();
 			}
 		}
@@ -131,7 +132,7 @@ export const spinner = ({
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
-		unblock = block({ output });
+		unblock = block({ input, output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
 		if (hasGuide) {
