@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { block, getColumns, settings } from '@clack/core';
+import { block, getColumns, settings, wrapTextWithPrefix } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
 import {
@@ -127,15 +127,16 @@ export const spinner = ({
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	};
 
+	const prefix = `${styleText('gray', S_BAR)}  `;
 	const hasGuide = opts.withGuide ?? settings.withGuide;
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		unblock = block({ output });
-		_message = removeTrailingDots(msg);
+		_message = wrapTextWithPrefix(output, removeTrailingDots(msg), hasGuide ? prefix : '', '');
 		_origin = performance.now();
 		if (hasGuide) {
-			output.write(`${styleText('gray', S_BAR)}\n`);
+			output.write(`${prefix}\n`);
 		}
 		let frameIndex = 0;
 		let indicatorTimer = 0;
@@ -159,11 +160,7 @@ export const spinner = ({
 				outputMessage = `${frame}  ${_message}${loadingDots}`;
 			}
 
-			const wrapped = wrapAnsi(outputMessage, columns, {
-				hard: true,
-				trim: false,
-			});
-			output.write(wrapped);
+			output.write(outputMessage);
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			// indicator increase by 1 every 8 frames
@@ -182,7 +179,7 @@ export const spinner = ({
 				: code === 1
 					? styleText('red', S_STEP_CANCEL)
 					: styleText('red', S_STEP_ERROR);
-		_message = msg ?? _message;
+		_message = wrapTextWithPrefix(output, msg ?? _message, hasGuide ? prefix : '', '');
 		if (!silent) {
 			if (indicator === 'timer') {
 				output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
