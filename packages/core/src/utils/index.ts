@@ -29,6 +29,7 @@ interface BlockOptions {
 	output?: Writable;
 	overwrite?: boolean;
 	hideCursor?: boolean;
+	onSoftCancel?: () => void;
 }
 
 export function block({
@@ -36,6 +37,7 @@ export function block({
 	output = stdout,
 	overwrite = true,
 	hideCursor = true,
+	onSoftCancel,
 }: BlockOptions = {}) {
 	const rl = readline.createInterface({
 		input,
@@ -52,8 +54,12 @@ export function block({
 	const clear = (data: Buffer, { name, sequence }: Key) => {
 		const str = String(data);
 		if (isActionKey([str, name, sequence], 'cancel')) {
-			if (hideCursor) output.write(cursor.show);
-			process.exit(0);
+			if (typeof onSoftCancel === 'function') {
+				onSoftCancel();
+			} else {
+				if (hideCursor) output.write(cursor.show);
+				process.exit(0);
+			}
 			return;
 		}
 		if (!overwrite) return;
@@ -78,8 +84,10 @@ export function block({
 			input.setRawMode(false);
 		}
 
-		// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
-		rl.terminal = false;
+		if (typeof onSoftCancel !== 'function') {
+			// @ts-expect-error fix for https://github.com/nodejs/node/issues/31762#issuecomment-1441223907
+			rl.terminal = false;
+		}
 		rl.close();
 	};
 }

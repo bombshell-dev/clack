@@ -56,6 +56,7 @@ export const spinner = ({
 	let _origin: number = performance.now();
 	const columns = getColumns(output);
 	const styleFn = opts?.styleFrame ?? defaultStyleFn;
+	const isSoftCancel = typeof onCancel === 'function';
 
 	const handleExit = (code: number) => {
 		const msg =
@@ -131,7 +132,7 @@ export const spinner = ({
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
-		unblock = block({ output });
+		unblock = block({ output, onSoftCancel: isSoftCancel ? () => handleExit(1) : undefined });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
 		if (hasGuide) {
