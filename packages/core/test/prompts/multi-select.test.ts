@@ -143,6 +143,21 @@ describe('MultiSelectPrompt', () => {
 			expect(instance.value).toEqual(['foo']);
 		});
 
+		test('toggles option with ideographic space (U+3000) committed by IME', () => {
+			const instance = new MultiSelectPrompt({
+				input,
+				output,
+				render: () => 'foo',
+				options: [{ value: 'foo' }, { value: 'bar' }],
+			});
+			instance.prompt();
+
+			input.emit('keypress', '　', { sequence: '　' });
+			expect(instance.value).toEqual(['foo']);
+			input.emit('keypress', '　', { sequence: '　' });
+			expect(instance.value).toEqual([]);
+		});
+
 		test('disabled options are skipped', () => {
 			const instance = new MultiSelectPrompt({
 				input,

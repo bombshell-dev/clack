@@ -67,6 +67,15 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			this.#selectableGroups ? 0 : 1
 		);
 
+		this.on('key', (char, key) => {
+			// Some IMEs (e.g. Japanese or Chinese input) commit an ideographic space (U+3000)
+			// with no key name when the space key is pressed. Treat it as space so
+			// toggling options still works.
+			if (key.name === undefined && char === '　') {
+				this.toggleValue();
+			}
+		});
+
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'left':

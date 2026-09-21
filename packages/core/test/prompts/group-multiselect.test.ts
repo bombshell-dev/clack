@@ -30,6 +30,24 @@ describe('GroupMultiSelectPrompt', () => {
 		expect(output.buffer).to.deep.equal([cursor.hide, 'foo']);
 	});
 
+	test('toggles option with ideographic space (U+3000) committed by IME', () => {
+		const instance = new GroupMultiSelectPrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: {
+				group: [{ value: 'foo' }, { value: 'bar' }],
+			},
+			selectableGroups: false,
+		});
+		instance.prompt();
+
+		input.emit('keypress', '　', { sequence: '　' });
+		expect(instance.value).toEqual(['foo']);
+		input.emit('keypress', '　', { sequence: '　' });
+		expect(instance.value).toEqual([]);
+	});
+
 	test('does not throw if empty options are provided', () => {
 		const instance = new GroupMultiSelectPrompt({
 			input,
