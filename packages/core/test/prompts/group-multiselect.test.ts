@@ -42,9 +42,9 @@ describe('GroupMultiSelectPrompt', () => {
 		});
 		instance.prompt();
 
-		input.emit('keypress', '　', { sequence: '　' });
+		input.emit('keypress', '　', { sequence: '\u3000' });
 		expect(instance.value).toEqual(['foo']);
-		input.emit('keypress', '　', { sequence: '　' });
+		input.emit('keypress', '　', { sequence: '\u3000' });
 		expect(instance.value).toEqual([]);
 	});
 

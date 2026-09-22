@@ -68,9 +68,7 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 		);
 
 		this.on('key', (char, key) => {
-			// Some IMEs (e.g. Japanese or Chinese input) commit an ideographic space (U+3000)
-			// with no key name when the space key is pressed. Treat it as space so
-			// toggling options still works.
+			// Treat ideographic spaces as if they were normal spaces.
 			if (key.name === undefined && char === '　') {
 				this.toggleValue();
 			}
