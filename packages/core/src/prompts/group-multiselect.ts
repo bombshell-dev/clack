@@ -67,6 +67,13 @@ export default class GroupMultiSelectPrompt<T extends { value: any }> extends Pr
 			this.#selectableGroups ? 0 : 1
 		);
 
+		this.on('key', (char, key) => {
+			// Treat ideographic spaces as if they were normal spaces.
+			if (key.name === undefined && char === '　') {
+				this.toggleValue();
+			}
+		});
+
 		this.on('cursor', (key) => {
 			switch (key) {
 				case 'left':
