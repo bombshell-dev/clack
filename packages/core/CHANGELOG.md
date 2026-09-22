@@ -1,5 +1,13 @@
 # @clack/core
 
+## 1.5.2
+
+### Patch Changes
+
+- [#610](https://github.com/bombshell-dev/clack/pull/610) [`be35482`](https://github.com/bombshell-dev/clack/commit/be3548250f7ee90bcb8e31637d87571b68e35f50) Thanks [@43081j](https://github.com/43081j)! - Update sisteransi to 2.x (ESM only).
+
+- [#608](https://github.com/bombshell-dev/clack/pull/608) [`f2bc46b`](https://github.com/bombshell-dev/clack/commit/f2bc46b5a3a83139d75099caacdb07c3d8b77b97) Thanks [@kai-natori](https://github.com/kai-natori)! - Treat an ideographic space (U+3000) committed by IMEs (e.g. Japanese or Chinese input) as space when toggling options in multi-select prompts.
+
 ## 1.5.1
 
 ### Patch Changes
