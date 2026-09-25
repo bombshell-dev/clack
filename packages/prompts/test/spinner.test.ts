@@ -411,6 +411,36 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 				prompts.settings.messages.cancel = originalCancelMessage;
 			}
 		});
+
+		test('hard-exits the process on Ctrl+C when no onCancel callback is provided', () => {
+			const exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+				return code ?? 0;
+			}) as typeof process.exit);
+			const result = prompts.spinner({ output });
+
+			result.start('Testing');
+
+			// Simulate Ctrl+C keypress
+			const ctrlCEvent = Buffer.from([0x03]); // ASCII for Ctrl+C
+			process.stdin.emit('keypress', ctrlCEvent, { name: 'c', ctrl: true });
+
+			expect(output.buffer).toMatchSnapshot();
+			expect(exitSpy).toHaveBeenCalledWith(0);
+		});
+	});
+
+	test('can be cancelled by Ctrl+C without exiting process', () => {
+		const onCancel = vi.fn();
+		const result = prompts.spinner({ output, onCancel });
+
+		result.start('Testing');
+
+		// Simulate Ctrl+C keypress
+		const ctrlCEvent = Buffer.from([0x03]); // ASCII for Ctrl+C
+		process.stdin.emit('keypress', ctrlCEvent, { name: 'c', ctrl: true });
+
+		expect(onCancel).toHaveBeenCalled();
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('can be aborted by a signal', async () => {
