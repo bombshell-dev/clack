@@ -3,7 +3,7 @@ import { styleText } from 'node:util';
 import { getColumns, updateSettings } from '@clack/core';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
-import { MockWritable } from './test-utils.js';
+import { MockReadable, MockWritable } from './test-utils.js';
 
 describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 	let originalCI: string | undefined;
@@ -303,6 +303,23 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			processEmitter.emit('SIGINT');
 
 			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('runs onCancel when Ctrl+C exits through blocked input', () => {
+			const input = new MockReadable();
+			const onCancel = vi.fn();
+			const result = prompts.spinner({ input, output, onCancel });
+			const exitSpy = vi.spyOn(process, 'exit').mockImplementation(((code) => {
+				processEmitter.emit('exit', typeof code === 'number' ? code : 0);
+				return undefined as never;
+			}) as typeof process.exit);
+
+			result.start('Test operation');
+			input.emit('keypress', Buffer.from('\x03'), { name: 'c' });
+
+			expect(exitSpy).toHaveBeenCalled();
+			expect(onCancel).toHaveBeenCalledOnce();
+			expect(result.isCancelled).toBe(true);
 		});
 
 		test('uses custom cancel message when provided directly', () => {
