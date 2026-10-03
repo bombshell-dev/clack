@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import { block, getColumns, settings } from '@clack/core';
+import { block, getColumns, isAccessible, settings } from '@clack/core';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
 import {
@@ -32,6 +32,8 @@ export interface SpinnerResult {
 	readonly isCancelled: boolean;
 }
 
+const ACCESSIBLE_HEARTBEAT_MS = 30_000;
+
 const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
 export const spinner = ({
@@ -46,8 +48,9 @@ export const spinner = ({
 	...opts
 }: SpinnerOptions = {}): SpinnerResult => {
 	const isCI = isCIFn();
+	const accessible = isAccessible(opts.accessible);
 
-	let unblock: () => void;
+	let unblock: (() => void) | undefined;
 	let loop: NodeJS.Timeout;
 	let isSpinnerActive = false;
 	let isCancelled = false;
@@ -131,15 +134,24 @@ export const spinner = ({
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
-		unblock = block({ output });
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
+		registerHooks();
+		if (accessible) {
+			if (_message !== '') {
+				output.write(`${_message}\n`);
+			}
+			loop = setInterval(() => {
+				output.write(_message === '' ? 'still working\n' : `still working: ${_message}\n`);
+			}, ACCESSIBLE_HEARTBEAT_MS);
+			return;
+		}
+		unblock = block({ output });
 		if (hasGuide) {
 			output.write(`${styleText('gray', S_BAR)}\n`);
 		}
 		let frameIndex = 0;
 		let indicatorTimer = 0;
-		registerHooks();
 		loop = setInterval(() => {
 			if (isCI && _message === _prevMessage) {
 				return;
@@ -175,23 +187,40 @@ export const spinner = ({
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		clearInterval(loop);
-		clearPrevMessage();
-		const step =
-			code === 0
-				? styleText('green', S_STEP_SUBMIT)
-				: code === 1
-					? styleText('red', S_STEP_CANCEL)
-					: styleText('red', S_STEP_ERROR);
+		if (!accessible) {
+			clearPrevMessage();
+		}
 		_message = msg ?? _message;
 		if (!silent) {
-			if (indicator === 'timer') {
-				output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+			if (accessible) {
+				const fallback =
+					code === 1
+						? (cancelMessage ?? settings.messages.cancel)
+						: code === 2
+							? (errorMessage ?? settings.messages.error)
+							: 'Done';
+				const finalMessage = _message || fallback;
+				if (indicator === 'timer') {
+					output.write(`${finalMessage} ${formatTimer(_origin)}\n`);
+				} else {
+					output.write(`${finalMessage}\n`);
+				}
 			} else {
-				output.write(`${step}  ${_message}\n`);
+				const step =
+					code === 0
+						? styleText('green', S_STEP_SUBMIT)
+						: code === 1
+							? styleText('red', S_STEP_CANCEL)
+							: styleText('red', S_STEP_ERROR);
+				if (indicator === 'timer') {
+					output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
+				} else {
+					output.write(`${step}  ${_message}\n`);
+				}
 			}
 		}
 		clearHooks();
-		unblock();
+		unblock?.();
 	};
 
 	const stop = (msg = ''): void => _stop(msg, 0);
