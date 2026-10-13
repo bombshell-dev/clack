@@ -10,7 +10,7 @@ export interface LimitOptionsParams<TOption> extends CommonOptions {
 	/**
 	 * The list of options to display.
 	 */
-	options: TOption[];
+	options: readonly TOption[];
 
 	/**
 	 * The index of the currently active/selected option.

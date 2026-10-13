@@ -8,13 +8,13 @@ interface OptionLike {
 
 export interface MultiSelectOptions<T extends OptionLike>
 	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
-	options: T[];
-	initialValues?: T['value'][];
+	options: readonly T[];
+	initialValues?: readonly T['value'][];
 	required?: boolean;
 	cursorAt?: T['value'];
 }
 export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['value'][]> {
-	options: T[];
+	options: readonly T[];
 	cursor = 0;
 
 	private get _value(): T['value'] {
