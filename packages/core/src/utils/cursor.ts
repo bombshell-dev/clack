@@ -1,7 +1,7 @@
 export function findCursor<T extends { disabled?: boolean }>(
 	cursor: number,
 	delta: number,
-	options: T[]
+	options: readonly T[]
 ) {
 	const hasEnabledOptions = options.some((opt) => !opt.disabled);
 	if (!hasEnabledOptions) {

@@ -23,8 +23,8 @@ export const MULTISELECT_INSTRUCTIONS = [
 
 export interface MultiSelectOptions<Value> extends CommonOptions {
 	message: string;
-	options: Option<Value>[];
-	initialValues?: Value[];
+	options: readonly Option<Value>[];
+	initialValues?: readonly Value[];
 	maxItems?: number;
 	required?: boolean;
 	cursorAt?: Value;
