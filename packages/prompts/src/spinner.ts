@@ -134,6 +134,7 @@ export const spinner = ({
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
+		isCancelled = false;
 		_message = removeTrailingDots(msg);
 		_origin = performance.now();
 		registerHooks();
@@ -186,6 +187,7 @@ export const spinner = ({
 	const _stop = (msg = '', code = 0, silent: boolean = false): void => {
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
+		isCancelled = code === 1;
 		clearInterval(loop);
 		if (!accessible) {
 			clearPrevMessage();

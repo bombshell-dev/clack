@@ -130,6 +130,18 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('tracks cancellation and resets it on restart', () => {
+			const result = prompts.spinner({ output });
+
+			result.start();
+			result.cancel();
+			expect(result.isCancelled).toBe(true);
+
+			result.start();
+			expect(result.isCancelled).toBe(false);
+			result.stop();
+		});
+
 		test('renders error symbol when calling error()', () => {
 			const result = prompts.spinner({ output });
 
