@@ -129,7 +129,7 @@ export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Va
 export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 	const prompt = new AutocompletePrompt({
 		options: opts.options,
-		initialValue: opts.initialValue ? [opts.initialValue] : undefined,
+		initialValue: opts.initialValue !== undefined ? [opts.initialValue] : undefined,
 		initialUserInput: opts.initialUserInput,
 		placeholder: opts.placeholder,
 		completeOnTab: opts.completeOnTab,
