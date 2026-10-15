@@ -1,5 +1,22 @@
 # @clack/prompts
 
+## 1.9.0
+
+### Minor Changes
+
+- [#596](https://github.com/bombshell-dev/clack/pull/596) [`cbeefcb`](https://github.com/bombshell-dev/clack/commit/cbeefcb1d2e4f932203f681a6bb98970f3084907) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add accessible mode to `spinner`: when enabled via the `accessible` option, the global setting, or the `ACCESSIBLE` env var, the spinner emits static, append-only, screen-reader friendly output, a plain start line, a "still working" heartbeat every 30 seconds, and a plain final line. Instead of animated in-place repaints.
+
+- [#614](https://github.com/bombshell-dev/clack/pull/614) [`5ac9e73`](https://github.com/bombshell-dev/clack/commit/5ac9e73819f9a24a9c2f7114c4b5443c1defc9b4) Thanks [@btea](https://github.com/btea)! - Allow `multiselect` to accept readonly option arrays, e.g. options declared with `as const`. The `Value` type parameter is now inferred as a literal union (`'a' | 'b'`) from such arrays, and `initialValues` also accepts readonly arrays.
+
+### Patch Changes
+
+- [#610](https://github.com/bombshell-dev/clack/pull/610) [`be35482`](https://github.com/bombshell-dev/clack/commit/be3548250f7ee90bcb8e31637d87571b68e35f50) Thanks [@43081j](https://github.com/43081j)! - Update sisteransi to 2.x (ESM only).
+
+- [#616](https://github.com/bombshell-dev/clack/pull/616) [`f325a53`](https://github.com/bombshell-dev/clack/commit/f325a53bedd4a5e7b8ac66b5788d79a135ca5976) Thanks [@btea](https://github.com/btea)! - Fix that isCancelled returned after calling cancel and start methods in progress does not refresh.
+
+- Updated dependencies [[`be35482`](https://github.com/bombshell-dev/clack/commit/be3548250f7ee90bcb8e31637d87571b68e35f50), [`f2bc46b`](https://github.com/bombshell-dev/clack/commit/f2bc46b5a3a83139d75099caacdb07c3d8b77b97), [`f325a53`](https://github.com/bombshell-dev/clack/commit/f325a53bedd4a5e7b8ac66b5788d79a135ca5976), [`5ac9e73`](https://github.com/bombshell-dev/clack/commit/5ac9e73819f9a24a9c2f7114c4b5443c1defc9b4)]:
+  - @clack/core@1.5.2
+
 ## 1.8.1
 
 ### Patch Changes

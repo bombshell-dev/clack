@@ -1,5 +1,17 @@
 # @clack/core
 
+## 1.5.2
+
+### Patch Changes
+
+- [#610](https://github.com/bombshell-dev/clack/pull/610) [`be35482`](https://github.com/bombshell-dev/clack/commit/be3548250f7ee90bcb8e31637d87571b68e35f50) Thanks [@43081j](https://github.com/43081j)! - Update sisteransi to 2.x (ESM only).
+
+- [#608](https://github.com/bombshell-dev/clack/pull/608) [`f2bc46b`](https://github.com/bombshell-dev/clack/commit/f2bc46b5a3a83139d75099caacdb07c3d8b77b97) Thanks [@kai-natori](https://github.com/kai-natori)! - Treat an ideographic space (U+3000) committed by IMEs (e.g. Japanese or Chinese input) as space when toggling options in multi-select prompts.
+
+- [#616](https://github.com/bombshell-dev/clack/pull/616) [`f325a53`](https://github.com/bombshell-dev/clack/commit/f325a53bedd4a5e7b8ac66b5788d79a135ca5976) Thanks [@btea](https://github.com/btea)! - Fix that isCancelled returned after calling cancel and start methods in progress does not refresh.
+
+- [#614](https://github.com/bombshell-dev/clack/pull/614) [`5ac9e73`](https://github.com/bombshell-dev/clack/commit/5ac9e73819f9a24a9c2f7114c4b5443c1defc9b4) Thanks [@btea](https://github.com/btea)! - Allow `multiselect` to accept readonly option arrays, e.g. options declared with `as const`. The `Value` type parameter is now inferred as a literal union (`'a' | 'b'`) from such arrays, and `initialValues` also accepts readonly arrays.
+
 ## 1.5.1
 
 ### Patch Changes
