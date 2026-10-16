@@ -65,6 +65,23 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('b');
 	});
 
+	test('does not select disabled options', async () => {
+		const result = prompts.selectKey({
+			message: 'foo',
+			options: [
+				{ label: 'Disabled', value: 'd', disabled: true },
+				{ label: 'Enabled', value: 'e' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'd', { name: 'd' });
+		input.emit('keypress', 'e', { name: 'e' });
+
+		expect(await result).toBe('e');
+	});
+
 	test('can cancel by pressing escape', async () => {
 		const result = prompts.selectKey({
 			message: 'foo',
