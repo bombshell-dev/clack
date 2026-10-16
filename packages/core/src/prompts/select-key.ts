@@ -1,11 +1,13 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-export interface SelectKeyOptions<T extends { value: string }>
+export interface SelectKeyOptions<T extends { value: string; disabled?: boolean }>
 	extends PromptOptions<T['value'], SelectKeyPrompt<T>> {
 	options: T[];
 	caseSensitive?: boolean;
 }
-export default class SelectKeyPrompt<T extends { value: string }> extends Prompt<T['value']> {
+export default class SelectKeyPrompt<
+	T extends { value: string; disabled?: boolean },
+> extends Prompt<T['value']> {
 	options: T[];
 	cursor = 0;
 
@@ -31,7 +33,7 @@ export default class SelectKeyPrompt<T extends { value: string }> extends Prompt
 			const value = this.options.find(({ value: [initial] }) => {
 				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === casedKey;
 			});
-			if (value) {
+			if (value && !value.disabled) {
 				this.value = value.value;
 				this.state = 'submit';
 				this.emit('submit');
