@@ -205,6 +205,10 @@ export default class Prompt<TValue> {
 		return true;
 	}
 
+	protected _shouldCancel(_char: string | undefined, _key: Key): boolean {
+		return true;
+	}
+
 	protected _setValue(value: TValue | undefined): void {
 		this.value = value;
 		this.emit('value', this.value);
@@ -220,6 +224,7 @@ export default class Prompt<TValue> {
 	}
 
 	protected _clearUserInput(): void {
+		this.rl?.write(null, { ctrl: true, name: 'e' });
 		this.rl?.write(null, { ctrl: true, name: 'u' });
 		this._setUserInput('');
 	}
@@ -277,7 +282,7 @@ export default class Prompt<TValue> {
 			}
 		}
 
-		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
+		if (isActionKey([char, key?.name, key?.sequence], 'cancel') && this._shouldCancel(char, key)) {
 			this.state = 'cancel';
 		}
 
