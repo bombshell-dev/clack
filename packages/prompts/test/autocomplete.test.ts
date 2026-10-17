@@ -496,6 +496,41 @@ describe('autocompleteMultiselect', () => {
 		const value = await result;
 		expect(value).toEqual([]);
 	});
+
+	test('Escape clears the search and keeps current selections', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'g', { name: 'g' });
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'escape' });
+		input.emit('keypress', 'o', { name: 'o' });
+		input.emit('keypress', '', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+		expect(value).toEqual(['grape', 'orange']);
+	});
+
+	test('Escape cancels when clearOnCancel is false', async () => {
+		const result = autocompleteMultiselect({
+			message: 'Select fruits',
+			options: testOptions,
+			clearOnCancel: false,
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'g', { name: 'g' });
+		input.emit('keypress', '', { name: 'escape' });
+
+		const value = await result;
+		expect(isCancel(value)).toBe(true);
+	});
 });
 
 describe('autocomplete with custom filter', () => {

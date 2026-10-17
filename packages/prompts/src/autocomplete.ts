@@ -81,6 +81,12 @@ interface AutocompleteSharedOptions<Value> extends CommonOptions {
 	 * Custom filter function to match options against the search input.
 	 */
 	filter?: (search: string, option: Option<Value>) => boolean;
+
+	/**
+	 * When `true` (the default), pressing Escape while the search input has text
+	 * clears the search instead of cancelling the prompt. Ctrl+C always cancels.
+	 */
+	clearOnCancel?: boolean;
 }
 
 export interface AutocompleteOptions<Value> extends AutocompleteSharedOptions<Value> {
@@ -133,6 +139,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		initialUserInput: opts.initialUserInput,
 		placeholder: opts.placeholder,
 		completeOnTab: opts.completeOnTab,
+		clearOnCancel: opts.clearOnCancel,
 		filter:
 			opts.filter ??
 			((search: string, opt: Option<Value>) => {
@@ -342,6 +349,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		options: opts.options,
 		multiple: true,
 		placeholder: opts.placeholder,
+		clearOnCancel: opts.clearOnCancel,
 		filter:
 			opts.filter ??
 			((search, opt) => {
