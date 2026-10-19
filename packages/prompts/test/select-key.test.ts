@@ -65,6 +65,43 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('b');
 	});
 
+	test('renders disabled options dimmed', async () => {
+		const result = prompts.selectKey({
+			message: 'foo',
+			options: [
+				{ label: 'Disabled', value: 'd', disabled: true, hint: 'unavailable' },
+				{ label: 'Enabled', value: 'e' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'e', { name: 'e' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('initial cursor skips disabled options', async () => {
+		const result = prompts.selectKey({
+			message: 'foo',
+			options: [
+				{ label: 'Disabled', value: 'd', disabled: true },
+				{ label: 'Enabled', value: 'e' },
+			],
+			initialValue: 'd',
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'e', { name: 'e' });
+
+		await result;
+
+		expect(output.buffer).toMatchSnapshot();
+	});
+
 	test('can cancel by pressing escape', async () => {
 		const result = prompts.selectKey({
 			message: 'foo',
