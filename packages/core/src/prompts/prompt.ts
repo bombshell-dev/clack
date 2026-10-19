@@ -70,6 +70,7 @@ export default class Prompt<TValue> {
 
 		this.opts = opts;
 		this.onKeypress = this.onKeypress.bind(this);
+		this.onInputEnd = this.onInputEnd.bind(this);
 		this.close = this.close.bind(this);
 		this.render = this.render.bind(this);
 		this._render = render.bind(this);
@@ -194,7 +195,25 @@ export default class Prompt<TValue> {
 				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
 			});
+
+			// No answer can arrive once the input has ended (e.g. stdin is
+			// `/dev/null` or a pipe that ran out), so cancel instead of hanging.
+			if (this.input.readableEnded) {
+				this.onInputEnd();
+			} else {
+				this.input.once('end', this.onInputEnd);
+			}
 		});
+	}
+
+	private onInputEnd() {
+		if (this.state === 'submit' || this.state === 'cancel') {
+			return;
+		}
+		this.state = 'cancel';
+		this.emit('finalize');
+		this.render();
+		this.close();
 	}
 
 	protected _isActionKey(char: string | undefined, _key: Key): boolean {
@@ -293,6 +312,7 @@ export default class Prompt<TValue> {
 	protected close() {
 		this.input.unpipe();
 		this.input.removeListener('keypress', this.onKeypress);
+		this.input.removeListener('end', this.onInputEnd);
 		this.output.write('\n');
 		setRawMode(this.input, false);
 		this.rl?.close();
