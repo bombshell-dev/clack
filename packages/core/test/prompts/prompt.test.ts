@@ -1,4 +1,5 @@
 import { type } from 'arktype';
+import { Readable } from 'node:stream';
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as Prompt } from '../../src/prompts/prompt.js';
@@ -496,8 +497,16 @@ describe('Prompt with an input that ends', () => {
 	});
 
 	test('cancels when the input already ended before it starts', async () => {
-		input.destroy();
-		const instance = new Prompt({ input, output, render: () => 'foo' });
+		// A stream that has finished emits `end` once; a prompt attached afterwards
+		// never sees it, which is the "stdin ended before the prompt started" case.
+		const ended = new Readable({ read() {} });
+		const endEvent = new Promise<void>((resolve) => ended.once('end', () => resolve()));
+		ended.push(null);
+		ended.resume();
+		await endEvent;
+		expect(ended.readableEnded).to.equal(true);
+
+		const instance = new Prompt({ input: ended, output, render: () => 'foo' });
 		const result = await instance.prompt();
 		expect(isCancel(result)).to.equal(true);
 		expect(instance.state).to.equal('cancel');
