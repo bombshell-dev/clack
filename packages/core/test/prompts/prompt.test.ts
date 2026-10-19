@@ -475,3 +475,41 @@ describe('Prompt', () => {
 		expect(instance.error).to.equal('');
 	});
 });
+
+describe('Prompt with an input that ends', () => {
+	let input: MockReadable;
+	let output: MockWritable;
+
+	beforeEach(() => {
+		input = new MockReadable();
+		output = new MockWritable();
+	});
+
+	test('cancels when the input ends while it is waiting', async () => {
+		const instance = new Prompt({ input, output, render: () => 'foo' });
+		const resultPromise = instance.prompt();
+		input.emit('end');
+		const result = await resultPromise;
+		expect(isCancel(result)).to.equal(true);
+		expect(instance.state).to.equal('cancel');
+		expect(output.buffer).to.deep.equal([cursor.hide, 'foo', '\n', cursor.show]);
+	});
+
+	test('cancels when the input already ended before it starts', async () => {
+		input.destroy();
+		const instance = new Prompt({ input, output, render: () => 'foo' });
+		const result = await instance.prompt();
+		expect(isCancel(result)).to.equal(true);
+		expect(instance.state).to.equal('cancel');
+	});
+
+	test('keeps the submitted value when the input ends after settling', async () => {
+		const instance = new Prompt({ input, output, render: () => 'foo' });
+		const resultPromise = instance.prompt();
+		input.emit('keypress', '', { name: 'return' });
+		const result = await resultPromise;
+		expect(isCancel(result)).to.equal(false);
+		input.emit('end');
+		expect(instance.state).to.equal('submit');
+	});
+});
