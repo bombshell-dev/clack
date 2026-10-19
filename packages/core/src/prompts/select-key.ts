@@ -30,10 +30,13 @@ export default class SelectKeyPrompt<
 				return;
 			}
 
-			const value = this.options.find(({ value: [initial] }) => {
+			const value = this.options.find(({ value: [initial], disabled }) => {
+				if (disabled) {
+					return false;
+				}
 				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === casedKey;
 			});
-			if (value && !value.disabled) {
+			if (value) {
 				this.value = value.value;
 				this.state = 'submit';
 				this.emit('submit');

@@ -1,4 +1,5 @@
 ---
+"@clack/core": patch
 "@clack/prompts": patch
 ---
 

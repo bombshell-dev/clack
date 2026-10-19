@@ -82,6 +82,22 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(await result).toBe('e');
 	});
 
+	test('skips disabled options sharing the same initial', async () => {
+		const result = prompts.selectKey({
+			message: 'foo',
+			options: [
+				{ label: 'delete', value: 'delete', disabled: true },
+				{ label: 'deploy', value: 'deploy' },
+			],
+			input,
+			output,
+		});
+
+		input.emit('keypress', 'd', { name: 'd' });
+
+		expect(await result).toBe('deploy');
+	});
+
 	test('can cancel by pressing escape', async () => {
 		const result = prompts.selectKey({
 			message: 'foo',
