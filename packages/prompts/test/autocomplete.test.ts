@@ -185,6 +185,24 @@ describe('autocomplete', () => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 
+	test('supports falsy initialValue values', async () => {
+		for (const initialValue of [0, false, '']) {
+			const input = new MockReadable();
+			const output = new MockWritable();
+			const result = autocomplete({
+				message: 'Select a value',
+				options: [{ value: 'other' }, { value: initialValue }],
+				initialValue,
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+
+			expect(await result).toBe(initialValue);
+		}
+	});
+
 	test('can be aborted by a signal', async () => {
 		const controller = new AbortController();
 		const result = autocomplete({
