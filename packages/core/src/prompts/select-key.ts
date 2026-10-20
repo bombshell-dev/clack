@@ -1,11 +1,13 @@
 import Prompt, { type PromptOptions } from './prompt.js';
 
-export interface SelectKeyOptions<T extends { value: string }>
+export interface SelectKeyOptions<T extends { value: string; disabled?: boolean }>
 	extends PromptOptions<T['value'], SelectKeyPrompt<T>> {
 	options: T[];
 	caseSensitive?: boolean;
 }
-export default class SelectKeyPrompt<T extends { value: string }> extends Prompt<T['value']> {
+export default class SelectKeyPrompt<
+	T extends { value: string; disabled?: boolean },
+> extends Prompt<T['value']> {
 	options: T[];
 	cursor = 0;
 
@@ -17,7 +19,8 @@ export default class SelectKeyPrompt<T extends { value: string }> extends Prompt
 		const keys = this.options.map(({ value: [initial] }) => {
 			return caseSensitive ? initial : initial?.toLowerCase();
 		});
-		this.cursor = Math.max(keys.indexOf(opts.initialValue), 0);
+		const cursor = Math.max(keys.indexOf(opts.initialValue), 0);
+		this.cursor = this.options[cursor]?.disabled ? 0 : cursor;
 
 		this.on('key', (key) => {
 			if (!key) {
@@ -28,7 +31,10 @@ export default class SelectKeyPrompt<T extends { value: string }> extends Prompt
 				return;
 			}
 
-			const value = this.options.find(({ value: [initial] }) => {
+			const value = this.options.find(({ value: [initial], disabled }) => {
+				if (disabled) {
+					return false;
+				}
 				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === casedKey;
 			});
 			if (value) {

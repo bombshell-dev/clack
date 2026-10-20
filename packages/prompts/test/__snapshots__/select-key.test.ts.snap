@@ -81,6 +81,26 @@ exports[`text (isCI = false) > global withGuide: false removes guide 1`] = `
 ]
 `;
 
+exports[`text (isCI = false) > ignores a disabled initial value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m d [22m [90mDisabled[39m
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
+[36m└[39m
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mEnabled[22m",
+  "
+",
+]
+`;
+
 exports[`text (isCI = false) > input is case-insensitive by default 1`] = `
 [
   "<cursor.hide>",
@@ -248,6 +268,26 @@ exports[`text (isCI = false) > options are case-insensitive by default 1`] = `
 ]
 `;
 
+exports[`text (isCI = false) > renders disabled options dimmed 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m d [22m [90mDisabled[39m [2m(unavailable)[22m
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
+[36m└[39m
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mEnabled[22m",
+  "
+",
+]
+`;
+
 exports[`text (isCI = false) > renders message with options 1`] = `
 [
   "<cursor.hide>",
@@ -382,6 +422,26 @@ exports[`text (isCI = true) > global withGuide: false removes guide 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [2mOption A[22m",
+  "
+",
+]
+`;
+
+exports[`text (isCI = true) > ignores a disabled initial value 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m d [22m [90mDisabled[39m
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
+[36m└[39m
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mEnabled[22m",
   "
 ",
 ]
@@ -549,6 +609,26 @@ exports[`text (isCI = true) > options are case-insensitive by default 1`] = `
   "<erase.down>",
   "[32m◇[39m  foo
 [90m│[39m  [2mOption A[22m",
+  "
+",
+]
+`;
+
+exports[`text (isCI = true) > renders disabled options dimmed 1`] = `
+[
+  "<cursor.hide>",
+  "[90m│[39m
+[36m◆[39m  foo
+[36m│[39m  [2m d [22m [90mDisabled[39m [2m(unavailable)[22m
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
+[36m└[39m
+",
+  "<cursor.show>",
+  "<cursor.backward count=999><cursor.up count=5>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[32m◇[39m  foo
+[90m│[39m  [2mEnabled[22m",
   "
 ",
 ]
