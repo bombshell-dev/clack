@@ -1,6 +1,6 @@
 ---
-"@clack/core": patch
-"@clack/prompts": patch
+"@clack/core": minor
+"@clack/prompts": minor
 ---
 
-Render disabled `selectKey` options dimmed and skip them for the initial cursor.
+Add support for disabled `selectKey` options: they are rendered dimmed, cannot be selected by keypress, and are ignored when set as the initial value.

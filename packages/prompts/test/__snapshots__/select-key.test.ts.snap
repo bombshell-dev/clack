@@ -81,13 +81,13 @@ exports[`text (isCI = false) > global withGuide: false removes guide 1`] = `
 ]
 `;
 
-exports[`text (isCI = false) > initial cursor skips disabled options 1`] = `
+exports[`text (isCI = false) > ignores a disabled initial value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [2m d [22m [90mDisabled[39m
-[36m│[39m  [46m[90m e [39m[49m Enabled
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
 [36m└[39m
 ",
   "<cursor.show>",
@@ -274,7 +274,7 @@ exports[`text (isCI = false) > renders disabled options dimmed 1`] = `
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [2m d [22m [90mDisabled[39m [2m(unavailable)[22m
-[36m│[39m  [46m[90m e [39m[49m Enabled
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
 [36m└[39m
 ",
   "<cursor.show>",
@@ -427,13 +427,13 @@ exports[`text (isCI = true) > global withGuide: false removes guide 1`] = `
 ]
 `;
 
-exports[`text (isCI = true) > initial cursor skips disabled options 1`] = `
+exports[`text (isCI = true) > ignores a disabled initial value 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [2m d [22m [90mDisabled[39m
-[36m│[39m  [46m[90m e [39m[49m Enabled
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
 [36m└[39m
 ",
   "<cursor.show>",
@@ -620,7 +620,7 @@ exports[`text (isCI = true) > renders disabled options dimmed 1`] = `
   "[90m│[39m
 [36m◆[39m  foo
 [36m│[39m  [2m d [22m [90mDisabled[39m [2m(unavailable)[22m
-[36m│[39m  [46m[90m e [39m[49m Enabled
+[36m│[39m  [90m[47m[7m e [27m[49m[39m Enabled
 [36m└[39m
 ",
   "<cursor.show>",

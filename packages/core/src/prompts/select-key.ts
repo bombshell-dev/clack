@@ -1,4 +1,3 @@
-import { findCursor } from '../utils/cursor.js';
 import Prompt, { type PromptOptions } from './prompt.js';
 
 export interface SelectKeyOptions<T extends { value: string; disabled?: boolean }>
@@ -21,7 +20,7 @@ export default class SelectKeyPrompt<
 			return caseSensitive ? initial : initial?.toLowerCase();
 		});
 		const cursor = Math.max(keys.indexOf(opts.initialValue), 0);
-		this.cursor = this.options[cursor]?.disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
+		this.cursor = this.options[cursor]?.disabled ? 0 : cursor;
 
 		this.on('key', (key) => {
 			if (!key) {
@@ -32,7 +31,10 @@ export default class SelectKeyPrompt<
 				return;
 			}
 
-			const value = this.options.find(({ value: [initial] }) => {
+			const value = this.options.find(({ value: [initial], disabled }) => {
+				if (disabled) {
+					return false;
+				}
 				return caseSensitive ? initial === casedKey : initial?.toLowerCase() === casedKey;
 			});
 			if (value) {
