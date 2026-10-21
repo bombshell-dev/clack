@@ -1,4 +1,4 @@
-const actions = ['up', 'down', 'left', 'right', 'space', 'enter', 'cancel'] as const;
+const actions = ['up', 'down', 'left', 'right', 'space', 'enter', 'cancel', 'back'] as const;
 export type Action = (typeof actions)[number];
 
 const DEFAULT_MONTH_NAMES = [

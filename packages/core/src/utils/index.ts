@@ -18,6 +18,12 @@ export function isCancel(value: unknown): value is typeof CANCEL_SYMBOL {
 	return value === CANCEL_SYMBOL;
 }
 
+export const BACK_SYMBOL = Symbol('clack:back');
+
+export function isBack(value: unknown): value is typeof BACK_SYMBOL {
+	return value === BACK_SYMBOL;
+}
+
 export function setRawMode(input: Readable, value: boolean) {
 	const i = input as typeof stdin;
 

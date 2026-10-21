@@ -22,10 +22,12 @@ export type { TextOptions } from './prompts/text.js';
 export { default as TextPrompt } from './prompts/text.js';
 export type { ClackState as State } from './types.js';
 export {
+	BACK_SYMBOL,
 	block,
 	CANCEL_SYMBOL,
 	getColumns,
 	getRows,
+	isBack,
 	isCancel,
 	wrapTextWithPrefix,
 } from './utils/index.js';
