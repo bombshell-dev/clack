@@ -1,5 +1,5 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, sep } from 'node:path';
 import type { Validate } from '@clack/core';
 import { runValidation } from '@clack/core';
 import { autocomplete } from './autocomplete.js';
@@ -87,21 +87,23 @@ export const path = (opts: PathOptions) => {
 
 			try {
 				let searchPath: string;
+				// `sep` is `\` on Windows, where both separators are valid
+				const hasTrailingSeparator = userInput.endsWith('/') || userInput.endsWith(sep);
 
 				if (!existsSync(userInput)) {
 					searchPath = dirname(userInput);
 				} else {
 					const stat = lstatSync(userInput);
-					if (stat.isDirectory() && (!opts.directory || userInput.endsWith('/'))) {
+					if (stat.isDirectory() && (!opts.directory || hasTrailingSeparator)) {
 						searchPath = userInput;
 					} else {
 						searchPath = dirname(userInput);
 					}
 				}
 
-				// Strip trailing slash so startsWith matches the directory itself among its siblings
+				// Strip the trailing separator so startsWith matches the directory itself among its siblings
 				const prefix =
-					userInput.length > 1 && userInput.endsWith('/') ? userInput.slice(0, -1) : userInput;
+					userInput.length > 1 && hasTrailingSeparator ? userInput.slice(0, -1) : userInput;
 
 				const items = readdirSync(searchPath)
 					.map((item) => {
