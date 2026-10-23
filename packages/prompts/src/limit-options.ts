@@ -149,7 +149,7 @@ export const limitOptions = <TOption>({
 
 	for (let i = slidingWindowLocationWithEllipsis; i < slidingWindowLocationEndWithEllipsis; i++) {
 		const option = options[i];
-		const styledOption = option ? style(option, i === cursor) : '';
+		const styledOption = option !== undefined ? style(option, i === cursor) : '';
 		const wrappedLines = wrapAnsi(styledOption, maxWidth, {
 			hard: true,
 			trim: false,
