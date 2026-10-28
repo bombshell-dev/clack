@@ -8,6 +8,7 @@ import type { Action } from '../utils/index.js';
 import {
 	CANCEL_SYMBOL,
 	diffLines,
+	getColumns,
 	getRows,
 	isAccessible,
 	isActionKey,
@@ -303,13 +304,13 @@ export default class Prompt<TValue> {
 
 	private restoreCursor() {
 		const lines =
-			wrapAnsi(this._prevFrame, process.stdout.columns, { hard: true, trim: false }).split('\n')
+			wrapAnsi(this._prevFrame, getColumns(this.output), { hard: true, trim: false }).split('\n')
 				.length - 1;
 		this.output.write(cursor.move(-999, lines * -1));
 	}
 
 	private render() {
-		const frame = wrapAnsi(this._render(this) ?? '', process.stdout.columns, {
+		const frame = wrapAnsi(this._render(this) ?? '', getColumns(this.output), {
 			hard: true,
 			trim: false,
 		});
