@@ -87,21 +87,23 @@ export const path = (opts: PathOptions) => {
 
 			try {
 				let searchPath: string;
+				// Accept both separators on every OS: Windows users type `\`
+				const hasTrailingSeparator = userInput.endsWith('/') || userInput.endsWith('\\');
 
 				if (!existsSync(userInput)) {
 					searchPath = dirname(userInput);
 				} else {
 					const stat = lstatSync(userInput);
-					if (stat.isDirectory() && (!opts.directory || userInput.endsWith('/'))) {
+					if (stat.isDirectory() && (!opts.directory || hasTrailingSeparator)) {
 						searchPath = userInput;
 					} else {
 						searchPath = dirname(userInput);
 					}
 				}
 
-				// Strip trailing slash so startsWith matches the directory itself among its siblings
+				// Strip the trailing separator so startsWith matches the directory itself among its siblings
 				const prefix =
-					userInput.length > 1 && userInput.endsWith('/') ? userInput.slice(0, -1) : userInput;
+					userInput.length > 1 && hasTrailingSeparator ? userInput.slice(0, -1) : userInput;
 
 				const items = readdirSync(searchPath)
 					.map((item) => {
