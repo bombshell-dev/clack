@@ -1,5 +1,5 @@
 import { existsSync, lstatSync, readdirSync } from 'node:fs';
-import { dirname, join, sep } from 'node:path';
+import { dirname, join } from 'node:path';
 import type { Validate } from '@clack/core';
 import { runValidation } from '@clack/core';
 import { autocomplete } from './autocomplete.js';
@@ -87,8 +87,8 @@ export const path = (opts: PathOptions) => {
 
 			try {
 				let searchPath: string;
-				// `sep` is `\` on Windows, where both separators are valid
-				const hasTrailingSeparator = userInput.endsWith('/') || userInput.endsWith(sep);
+				// Accept both separators on every OS: Windows users type `\`
+				const hasTrailingSeparator = userInput.endsWith('/') || userInput.endsWith('\\');
 
 				if (!existsSync(userInput)) {
 					searchPath = dirname(userInput);
