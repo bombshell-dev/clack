@@ -177,6 +177,11 @@ export default class Prompt<TValue> {
 			}
 
 			this.input.on('keypress', this.onKeypress);
+			// An input stream that ends (closed stdin, a pipe that ran out, an agent
+			// shell) leaves nothing to read, so the prompt has to settle the way Ctrl-C
+			// does rather than keep the promise pending with the cursor hidden.
+			this.input.on('end', this.onInputEnd);
+			this.input.on('close', this.onInputEnd);
 			setRawMode(this.input, true);
 			this.output.on('resize', this.render);
 
@@ -194,6 +199,11 @@ export default class Prompt<TValue> {
 				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
 			});
+
+			// An input that ended before the prompt started has no event left to fire.
+			if (this.input.readableEnded || this.input.destroyed) {
+				this.onInputEnd();
+			}
 		});
 	}
 
@@ -223,6 +233,16 @@ export default class Prompt<TValue> {
 		this.rl?.write(null, { ctrl: true, name: 'u' });
 		this._setUserInput('');
 	}
+
+	private onInputEnd = (): void => {
+		// `close()` clears the interface; a second end event (the stream is shared
+		// between prompts) must not reopen a settled prompt.
+		if (this.rl === undefined) {
+			return;
+		}
+		this.state = 'cancel';
+		this.close();
+	};
 
 	private async onKeypress(char: string | undefined, key: Key) {
 		if (this.state === 'validating') {
@@ -263,6 +283,12 @@ export default class Prompt<TValue> {
 					this.state = 'validating';
 					this.render();
 					problem = await problemResult;
+					// The prompt can close while an async validator runs (the abort
+					// signal, or the input ending): a closed prompt must not then emit
+					// a submit for a value nobody read.
+					if (this.rl === undefined) {
+						return;
+					}
 				} else {
 					problem = problemResult;
 				}
@@ -293,6 +319,8 @@ export default class Prompt<TValue> {
 	protected close() {
 		this.input.unpipe();
 		this.input.removeListener('keypress', this.onKeypress);
+		this.input.removeListener('end', this.onInputEnd);
+		this.input.removeListener('close', this.onInputEnd);
 		this.output.write('\n');
 		setRawMode(this.input, false);
 		this.rl?.close();
