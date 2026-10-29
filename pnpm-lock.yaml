@@ -66,6 +66,9 @@ importers:
 
   packages/core:
     dependencies:
+      fast-string-width:
+        specifier: ^3.0.2
+        version: 3.0.2
       fast-wrap-ansi:
         specifier: ^0.2.0
         version: 0.2.0

@@ -126,37 +126,33 @@ exports[`text (isCI = false) > long cancelled labels are wrapped correctly 1`] =
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option:
-[36m│[39m  [46m[90m a [39m[49m This is a somewhat long
-[36m│[39m   label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label 
-[36m│[39m  This is a somewhat long 
-[36m│[39m  label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label
+[36m│[39m  [46m[90m a [39m[49m This is a somewhat long label 
+[36m│[39m  This is a somewhat long label This is
+[36m│[39m   a somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label
 [36m│[39m  [90m[47m[7m b [27m[49m[39m Short label
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=16>",
+  "<cursor.backward count=999><cursor.up count=14>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  Select an option:
-[90m│[39m  [9m[2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label [22m
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label[22m[29m
+[90m│[39m  [9m[2mThis is a somewhat long label This is[22m
+[90m│[39m  [2m a somewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label[22m[29m
 [90m│[39m",
   "
 ",
@@ -169,38 +165,34 @@ exports[`text (isCI = false) > long option labels are wrapped correctly 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option:
-[36m│[39m  [46m[90m a [39m[49m This is a somewhat long
-[36m│[39m   label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label 
-[36m│[39m  This is a somewhat long 
-[36m│[39m  label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label
+[36m│[39m  [46m[90m a [39m[49m This is a somewhat long label 
+[36m│[39m  This is a somewhat long label This is
+[36m│[39m   a somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label
 [36m│[39m  [90m[47m[7m b [27m[49m[39m Short label
 [36m└[39m
 ",
   "<cursor.show>",
-  "<cursor.backward count=999><cursor.up count=16>",
+  "<cursor.backward count=999><cursor.up count=14>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select an option:
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label [22m
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label[22m",
+[90m│[39m  [2mThis is a somewhat long label This is[22m
+[90m│[39m  [2m a somewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label[22m",
   "
 ",
 ]
@@ -211,38 +203,34 @@ exports[`text (isCI = false) > long submitted labels are wrapped correctly 1`] =
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option:
-[36m│[39m  [46m[90m a [39m[49m This is a somewhat long
-[36m│[39m   label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label 
-[36m│[39m  This is a somewhat long 
-[36m│[39m  label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label
+[36m│[39m  [46m[90m a [39m[49m This is a somewhat long label 
+[36m│[39m  This is a somewhat long label This is
+[36m│[39m   a somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label
 [36m│[39m  [90m[47m[7m b [27m[49m[39m Short label
 [36m└[39m
 ",
   "<cursor.show>",
-  "<cursor.backward count=999><cursor.up count=16>",
+  "<cursor.backward count=999><cursor.up count=14>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select an option:
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label [22m
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label[22m",
+[90m│[39m  [2mThis is a somewhat long label This is[22m
+[90m│[39m  [2m a somewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label[22m",
   "
 ",
 ]
@@ -472,37 +460,33 @@ exports[`text (isCI = true) > long cancelled labels are wrapped correctly 1`] = 
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option:
-[36m│[39m  [46m[90m a [39m[49m This is a somewhat long
-[36m│[39m   label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label 
-[36m│[39m  This is a somewhat long 
-[36m│[39m  label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label
+[36m│[39m  [46m[90m a [39m[49m This is a somewhat long label 
+[36m│[39m  This is a somewhat long label This is
+[36m│[39m   a somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label
 [36m│[39m  [90m[47m[7m b [27m[49m[39m Short label
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=16>",
+  "<cursor.backward count=999><cursor.up count=14>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  Select an option:
-[90m│[39m  [9m[2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label [22m
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label[22m[29m
+[90m│[39m  [9m[2mThis is a somewhat long label This is[22m
+[90m│[39m  [2m a somewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label[22m[29m
 [90m│[39m",
   "
 ",
@@ -515,38 +499,34 @@ exports[`text (isCI = true) > long option labels are wrapped correctly 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option:
-[36m│[39m  [46m[90m a [39m[49m This is a somewhat long
-[36m│[39m   label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label 
-[36m│[39m  This is a somewhat long 
-[36m│[39m  label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label
+[36m│[39m  [46m[90m a [39m[49m This is a somewhat long label 
+[36m│[39m  This is a somewhat long label This is
+[36m│[39m   a somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label
 [36m│[39m  [90m[47m[7m b [27m[49m[39m Short label
 [36m└[39m
 ",
   "<cursor.show>",
-  "<cursor.backward count=999><cursor.up count=16>",
+  "<cursor.backward count=999><cursor.up count=14>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select an option:
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label [22m
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label[22m",
+[90m│[39m  [2mThis is a somewhat long label This is[22m
+[90m│[39m  [2m a somewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label[22m",
   "
 ",
 ]
@@ -557,38 +537,34 @@ exports[`text (isCI = true) > long submitted labels are wrapped correctly 1`] = 
   "<cursor.hide>",
   "[90m│[39m
 [36m◆[39m  Select an option:
-[36m│[39m  [46m[90m a [39m[49m This is a somewhat long
-[36m│[39m   label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label 
-[36m│[39m  This is a somewhat long 
-[36m│[39m  label This is a somewhat 
-[36m│[39m  long label This is a 
-[36m│[39m  somewhat long label This is
-[36m│[39m   a somewhat long label This
-[36m│[39m   is a somewhat long label
+[36m│[39m  [46m[90m a [39m[49m This is a somewhat long label 
+[36m│[39m  This is a somewhat long label This is
+[36m│[39m   a somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label This is a 
+[36m│[39m  somewhat long label
 [36m│[39m  [90m[47m[7m b [27m[49m[39m Short label
 [36m└[39m
 ",
   "<cursor.show>",
-  "<cursor.backward count=999><cursor.up count=16>",
+  "<cursor.backward count=999><cursor.up count=14>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  Select an option:
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label [22m
-[90m│[39m  [2mThis is a somewhat long [22m
-[90m│[39m  [2mlabel This is a somewhat [22m
-[90m│[39m  [2mlong label This is a [22m
-[90m│[39m  [2msomewhat long label This is[22m
-[90m│[39m  [2m a somewhat long label This[22m
-[90m│[39m  [2m is a somewhat long label[22m",
+[90m│[39m  [2mThis is a somewhat long label This is[22m
+[90m│[39m  [2m a somewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label This is a [22m
+[90m│[39m  [2msomewhat long label[22m",
   "
 ",
 ]
