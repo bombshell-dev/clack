@@ -49,38 +49,41 @@ exports[`select (isCI = false) > correctly limits options when message wraps to 
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
+[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
+confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
   "[36m│[39m  [2m○[22m [2mOption 0[22m
 [36m│[39m  [32m●[39m Option 1
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
+[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
+confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [32m●[39m Option 2
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
+[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
+confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 3",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 4",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  This is a very 
@@ -669,38 +672,41 @@ exports[`select (isCI = true) > correctly limits options when message wraps to m
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
+[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
+confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
   "[36m│[39m  [2m○[22m [2mOption 0[22m
 [36m│[39m  [32m●[39m Option 1
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
+[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
+confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=5>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [32m●[39m Option 2
 [36m│[39m  [2m...[22m
-[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
+[36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
+confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 3",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=6>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 4",
-  "<cursor.down count=4>",
-  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=11>",
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  This is a very 
