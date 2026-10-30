@@ -20,6 +20,7 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 
 	beforeEach(() => {
 		output = new MockWritable();
+		output.isTTY = true;
 		vi.useFakeTimers();
 	});
 
