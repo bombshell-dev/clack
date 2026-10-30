@@ -96,11 +96,17 @@ describe('spinner (accessible)', () => {
 
 	test('accessible: false option overrides the global setting', () => {
 		updateSettings({ accessible: true });
+		output.isTTY = true;
 		const result = prompts.spinner({ output, accessible: false });
 
 		result.start('Loading');
+		vi.advanceTimersByTime(80);
 		result.stop('Done');
 
 		expect(output.buffer.join('')).toMatch(ANSI_REGEX);
+		// Raw cursor-hide from block() (serializer only rewrites snapshot values).
+		expect(
+			output.buffer.some((chunk) => chunk.includes('\x1b[?25l') || chunk === '<cursor.hide>')
+		).toBe(true);
 	});
 });

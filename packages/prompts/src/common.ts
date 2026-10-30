@@ -8,6 +8,15 @@ export const isCI = (): boolean => process.env.CI === 'true';
 export const isTTY = (output: Writable): boolean => {
 	return (output as Writable & { isTTY?: boolean }).isTTY === true;
 };
+
+/**
+ * Whether live components (`spinner`, `progress`) should print plain lines
+ * instead of TTY frames / cursor control sequences.
+ *
+ * Follows the same CI gate already used by spinner, and also treats non-TTY
+ * outputs as plain (aligned with `taskLog`'s `!isCI && isTTY` live path).
+ */
+export const isPlainLiveOutput = (output: Writable): boolean => isCI() || !isTTY(output);
 export const unicodeOr = (c: string, fallback: string) => (unicode ? c : fallback);
 export const S_STEP_ACTIVE = unicodeOr('◆', '*');
 export const S_STEP_CANCEL = unicodeOr('■', 'x');
