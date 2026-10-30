@@ -1,6 +1,7 @@
 import { cursor } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as AutocompletePrompt } from '../../src/prompts/autocomplete.js';
+import { isCancel } from '../../src/utils/index.js';
 import { MockReadable } from '../mock-readable.js';
 import { MockWritable } from '../mock-writable.js';
 
@@ -327,5 +328,121 @@ describe('AutocompletePrompt', () => {
 		input.emit('keypress', '\t', { name: 'tab' });
 
 		expect(instance.userInput).to.equal('ban');
+	});
+
+	test('escape clears the search input instead of cancelling', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', 'a', { name: 'a' });
+		expect(instance.filteredOptions.length).to.equal(1);
+
+		input.emit('keypress', '', { name: 'escape' });
+
+		expect(instance.state).to.equal('active');
+		expect(instance.userInput).to.equal('');
+		expect(instance.filteredOptions.length).to.equal(testOptions.length);
+
+		input.emit('keypress', 'c', { name: 'c' });
+		expect(instance.userInput).to.equal('c');
+
+		input.emit('keypress', '', { name: 'return' });
+		expect(await promise).to.equal('cherry');
+	});
+
+	test('escape cancels once the search input is empty', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '', { name: 'escape' });
+		input.emit('keypress', '', { name: 'escape' });
+
+		expect(isCancel(await promise)).to.equal(true);
+		expect(instance.state).to.equal('cancel');
+	});
+
+	test('escape clears the whole search input when the cursor is not at the end', () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', 'a', { name: 'a' });
+		input.emit('keypress', 'n', { name: 'n' });
+		input.emit('keypress', '', { name: 'left' });
+		input.emit('keypress', '', { name: 'left' });
+		input.emit('keypress', '', { name: 'escape' });
+
+		expect(instance.userInput).to.equal('');
+
+		input.emit('keypress', 'g', { name: 'g' });
+		expect(instance.userInput).to.equal('g');
+	});
+
+	test('escape keeps selections when clearing the search input in multiple mode', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			multiple: true,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'escape' });
+		input.emit('keypress', 'c', { name: 'c' });
+		input.emit('keypress', '\t', { name: 'tab' });
+		input.emit('keypress', '', { name: 'return' });
+
+		expect(await promise).to.deep.equal(['banana', 'cherry']);
+	});
+
+	test('ctrl-c cancels even when the search input has text', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '\x03', { name: 'c', ctrl: true });
+
+		expect(isCancel(await promise)).to.equal(true);
+	});
+
+	test('escape cancels with search input when clearOnCancel is false', async () => {
+		const instance = new AutocompletePrompt({
+			input,
+			output,
+			render: () => 'foo',
+			options: testOptions,
+			clearOnCancel: false,
+		});
+
+		const promise = instance.prompt();
+		input.emit('keypress', 'b', { name: 'b' });
+		input.emit('keypress', '', { name: 'escape' });
+
+		expect(isCancel(await promise)).to.equal(true);
 	});
 });
