@@ -1,8 +1,5 @@
 {
   "workspaces": {
-    ".": {
-      "ignore": ["build.preset.ts"]
-    },
     "examples/*": {
       "entry": "*.ts!",
       "project": "*.ts"

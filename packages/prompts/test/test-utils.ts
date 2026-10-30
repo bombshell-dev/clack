@@ -6,7 +6,7 @@ export class MockWritable extends Writable {
 	public columns = 80;
 	public rows = 20;
 
-	_write(
+	override _write(
 		chunk: any,
 		_encoding: BufferEncoding,
 		callback: (error?: Error | null | undefined) => void
@@ -19,7 +19,7 @@ export class MockWritable extends Writable {
 export class MockReadable extends Readable {
 	protected _buffer: unknown[] | null = [];
 
-	_read() {
+	override _read() {
 		if (this._buffer === null) {
 			this.push(null);
 			return;
