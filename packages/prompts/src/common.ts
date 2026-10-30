@@ -53,6 +53,8 @@ export const symbol = (state: State) => {
 			return styleText('green', S_STEP_SUBMIT);
 		case 'validating':
 			return styleText('dim', S_STEP_ACTIVE);
+		case 'back':
+			return styleText('dim', S_STEP_ACTIVE);
 	}
 };
 
@@ -67,6 +69,8 @@ export const symbolBar = (state: State) => {
 			return styleText('yellow', S_BAR);
 		case 'submit':
 			return styleText('green', S_BAR);
+		case 'back':
+			return styleText('dim', S_BAR);
 	}
 };
 
