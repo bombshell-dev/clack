@@ -42,54 +42,52 @@ exports[`select (isCI = false) > correctly limits options when message wraps to 
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  This is a very 
-[36m│[39m  long message that
-[36m│[39m   will wrap to 
-[36m│[39m  multiple lines
+[36m◆[39m  This is a very long message
+[36m│[39m   that will wrap to multiple
+[36m│[39m   lines
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m│[39m  [2m...[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
-confirm
+[36m│[39m  confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m○[22m [2mOption 0[22m
 [36m│[39m  [32m●[39m Option 1
 [36m│[39m  [2m...[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
-confirm
+[36m│[39m  confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [32m●[39m Option 2
 [36m│[39m  [2m...[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
-confirm
+[36m│[39m  confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=6>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 3",
   "<cursor.down count=5>",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=6>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 4",
   "<cursor.down count=5>",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  This is a very 
-[32m│[39m  long message that
-[32m│[39m   will wrap to 
-[32m│[39m  multiple lines
+  "[32m◇[39m  This is a very long message
+[32m│[39m   that will wrap to multiple
+[32m│[39m   lines
 [90m│[39m  [2mOption 4[22m",
   "
 ",
@@ -557,11 +555,10 @@ exports[`select (isCI = false) > wraps long cancelled message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
-[90m│[39m  [9m[2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m[29m
+[90m│[39m  [9m[2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo[22m[29m
 [90m│[39m",
   "
 ",
@@ -573,9 +570,9 @@ exports[`select (isCI = false) > wraps long messages 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
+[36m◆[39m  foo foo foo foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo foo foo 
+[36m│[39m  foo foo
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
@@ -584,9 +581,9 @@ exports[`select (isCI = false) > wraps long messages 1`] = `
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo foo foo foo foo foo foo
-[32m│[39m   foo foo foo foo foo foo 
-[32m│[39m  foo foo foo foo foo foo foo
+  "[32m◇[39m  foo foo foo foo foo foo foo foo foo 
+[32m│[39m  foo foo foo foo foo foo foo foo foo 
+[32m│[39m  foo foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -612,11 +609,10 @@ exports[`select (isCI = false) > wraps long results 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m",
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo[22m",
   "
 ",
   "<cursor.show>",
@@ -665,54 +661,52 @@ exports[`select (isCI = true) > correctly limits options when message wraps to m
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  This is a very 
-[36m│[39m  long message that
-[36m│[39m   will wrap to 
-[36m│[39m  multiple lines
+[36m◆[39m  This is a very long message
+[36m│[39m   that will wrap to multiple
+[36m│[39m   lines
 [36m│[39m  [32m●[39m Option 0
 [36m│[39m  [2m○[22m [2mOption 1[22m
 [36m│[39m  [2m...[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
-confirm
+[36m│[39m  confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m○[22m [2mOption 0[22m
 [36m│[39m  [32m●[39m Option 1
 [36m│[39m  [2m...[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
-confirm
+[36m│[39m  confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=5>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=4>",
   "<erase.down>",
   "[36m│[39m  [2m...[22m
 [36m│[39m  [32m●[39m Option 2
 [36m│[39m  [2m...[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m 
-confirm
+[36m│[39m  confirm
 [36m└[39m
 ",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=6>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 3",
   "<cursor.down count=5>",
-  "<cursor.backward count=999><cursor.up count=11>",
-  "<cursor.down count=6>",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=5>",
   "<erase.line><cursor.left count=1>",
   "[36m│[39m  [32m●[39m Option 4",
   "<cursor.down count=5>",
-  "<cursor.backward count=999><cursor.up count=11>",
+  "<cursor.backward count=999><cursor.up count=10>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  This is a very 
-[32m│[39m  long message that
-[32m│[39m   will wrap to 
-[32m│[39m  multiple lines
+  "[32m◇[39m  This is a very long message
+[32m│[39m   that will wrap to multiple
+[32m│[39m   lines
 [90m│[39m  [2mOption 4[22m",
   "
 ",
@@ -1180,11 +1174,10 @@ exports[`select (isCI = true) > wraps long cancelled message 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[31m■[39m  foo
-[90m│[39m  [9m[2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m[29m
+[90m│[39m  [9m[2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo[22m[29m
 [90m│[39m",
   "
 ",
@@ -1196,9 +1189,9 @@ exports[`select (isCI = true) > wraps long messages 1`] = `
 [
   "<cursor.hide>",
   "[90m│[39m
-[36m◆[39m  foo foo foo foo foo foo foo
-[36m│[39m   foo foo foo foo foo foo 
-[36m│[39m  foo foo foo foo foo foo foo
+[36m◆[39m  foo foo foo foo foo foo foo foo foo 
+[36m│[39m  foo foo foo foo foo foo foo foo foo 
+[36m│[39m  foo foo
 [36m│[39m  [32m●[39m opt0
 [36m│[39m  [2m○[22m [2mopt1[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
@@ -1207,9 +1200,9 @@ exports[`select (isCI = true) > wraps long messages 1`] = `
   "<cursor.backward count=999><cursor.up count=8>",
   "<cursor.down count=1>",
   "<erase.down>",
-  "[32m◇[39m  foo foo foo foo foo foo foo
-[32m│[39m   foo foo foo foo foo foo 
-[32m│[39m  foo foo foo foo foo foo foo
+  "[32m◇[39m  foo foo foo foo foo foo foo foo foo 
+[32m│[39m  foo foo foo foo foo foo foo foo foo 
+[32m│[39m  foo foo
 [90m│[39m  [2mopt0[22m",
   "
 ",
@@ -1235,11 +1228,10 @@ exports[`select (isCI = true) > wraps long results 1`] = `
   "<cursor.down count=1>",
   "<erase.down>",
   "[32m◇[39m  foo
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo foo foo foo[22m
-[90m│[39m  [2m foo foo foo foo foo foo [22m
-[90m│[39m  [2mfoo foo foo foo[22m",
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo foo foo foo foo foo foo [22m
+[90m│[39m  [2mfoo foo foo[22m",
   "
 ",
   "<cursor.show>",

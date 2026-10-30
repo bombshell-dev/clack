@@ -3,6 +3,7 @@ import type { Key } from 'node:readline';
 import * as readline from 'node:readline';
 import type { Readable, Writable } from 'node:stream';
 import { ReadStream } from 'node:tty';
+import stringWidth from 'fast-string-width';
 import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor } from 'sisteransi';
 import { isActionKey } from './settings.js';
@@ -107,7 +108,8 @@ export function wrapTextWithPrefix(
 	lineFormatter?: (line: string, index: number) => string
 ): string {
 	const columns = getColumns(output ?? stdout);
-	const wrapped = wrapAnsi(text, columns - prefix.length, {
+	const prefixWidth = stringWidth(prefix);
+	const wrapped = wrapAnsi(text, columns - prefixWidth, {
 		hard: true,
 		trim: false,
 	});

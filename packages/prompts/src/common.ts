@@ -1,6 +1,7 @@
 import type { Readable, Writable } from 'node:stream';
 import { styleText } from 'node:util';
 import type { State } from '@clack/core';
+import { wrapTextWithPrefix } from '@clack/core';
 import isUnicodeSupported from 'is-unicode-supported';
 
 export const unicode = isUnicodeSupported();
@@ -77,9 +78,13 @@ export interface CommonOptions {
 	accessible?: boolean;
 }
 
-export function formatInstructionFooter(instructions: string[], hasGuide: boolean): string[] {
+export function formatInstructionFooter(
+	output: Writable | undefined,
+	instructions: string[],
+	hasGuide: boolean
+): string[] {
 	const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
-	const footerLines = [`${guidePrefix}${instructions.join(' • ')}`];
+	const footerLines = wrapTextWithPrefix(output, instructions.join(' • '), guidePrefix).split('\n');
 	if (hasGuide) {
 		footerLines.push(styleText('cyan', S_BAR_END));
 	}

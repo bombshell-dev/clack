@@ -55,6 +55,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "fast-string-width": "^3.0.2",
     "fast-wrap-ansi": "^0.2.0",
     "sisteransi": "^2.0.0"
   },

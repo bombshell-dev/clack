@@ -187,7 +187,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
 					const footerLines = showInstructions
-						? formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)
+						? formatInstructionFooter(opts.output, MULTISELECT_INSTRUCTIONS, hasGuide)
 						: hasGuide
 							? [styleText('cyan', S_BAR_END)]
 							: [];
