@@ -205,7 +205,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 						this.filteredOptions.length !== options.length
 							? styleText(
 									'dim',
-									` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
+									` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`,
 								)
 							: '';
 
@@ -224,7 +224,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 					headings.push(
 						`${guidePrefix}${styleText('dim', 'Search:')}${searchText}${matches}`,
 						...noResults,
-						...validationError
+						...validationError,
 					);
 
 					// Show instructions
@@ -249,7 +249,7 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 									style: (option, active) => {
 										return opt(
 											option,
-											option.disabled ? 'disabled' : active ? 'active' : 'inactive'
+											option.disabled ? 'disabled' : active ? 'active' : 'inactive',
 										);
 									},
 									maxItems: opts.maxItems,
@@ -316,7 +316,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		option: Option<Value>,
 		active: boolean,
 		selectedValues: Value[],
-		focusedValue: Value | undefined
+		focusedValue: Value | undefined,
 	) => {
 		const isSelected = selectedValues.includes(option.value);
 		const label = option.label ?? String(option.value ?? '');
@@ -381,7 +381,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				this.filteredOptions.length !== options.length
 					? styleText(
 							'dim',
-							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`
+							` (${this.filteredOptions.length} match${this.filteredOptions.length === 1 ? '' : 'es'})`,
 						)
 					: '';
 
@@ -390,13 +390,13 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 				case 'submit': {
 					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${styleText(
 						'dim',
-						`${this.selectedValues.length} items selected`
+						`${this.selectedValues.length} items selected`,
 					)}`;
 				}
 				case 'cancel': {
 					return `${title}${hasGuide ? `${styleText('gray', S_BAR)}  ` : ''}${styleText(
 						['strikethrough', 'dim'],
-						userInput
+						userInput,
 					)}`;
 				}
 				default: {

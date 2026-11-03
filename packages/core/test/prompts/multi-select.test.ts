@@ -36,7 +36,7 @@ describe('MultiSelectPrompt', () => {
 					output,
 					render: () => 'foo',
 					options: [],
-				})
+				}),
 		).not.toThrow();
 	});
 

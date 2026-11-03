@@ -115,7 +115,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 					secondarySymbol,
 					symbol: secondarySymbol,
 					spacing: 0,
-				}
+				},
 			);
 		}
 		log.message(
@@ -125,7 +125,7 @@ export const taskLog = (opts: TaskLogOptions) => {
 				secondarySymbol,
 				symbol: secondarySymbol,
 				spacing: messageSpacing ?? spacing,
-			}
+			},
 		);
 	};
 	const renderBuffer = (): void => {

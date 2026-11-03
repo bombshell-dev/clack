@@ -14,7 +14,7 @@ export interface SelectKeyOptions<Value extends string> extends CommonOptions {
 export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) => {
 	const opt = (
 		option: Option<Value> | undefined,
-		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive'
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive',
 	) => {
 		if (option === undefined) {
 			return '';
@@ -55,7 +55,7 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 					const wrapped = wrapTextWithPrefix(
 						opts.output,
 						opt(selectedOption, 'selected'),
-						submitPrefix
+						submitPrefix,
 					);
 					return `${title}${wrapped}`;
 				}
@@ -64,7 +64,7 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 					const wrapped = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[0], 'cancelled'),
-						cancelPrefix
+						cancelPrefix,
 					);
 					return `${title}${wrapped}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
@@ -76,8 +76,8 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 							wrapTextWithPrefix(
 								opts.output,
 								opt(option, i === this.cursor ? 'active' : 'inactive'),
-								defaultPrefix
-							)
+								defaultPrefix,
+							),
 						)
 						.join('\n');
 					return `${title}${wrapped}\n${defaultPrefixEnd}\n`;

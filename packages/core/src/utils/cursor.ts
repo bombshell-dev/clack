@@ -1,7 +1,7 @@
 export function findCursor<T extends { disabled?: boolean }>(
 	cursor: number,
 	delta: number,
-	options: T[]
+	options: T[],
 ) {
 	const hasEnabledOptions = options.some((opt) => !opt.disabled);
 	if (!hasEnabledOptions) {
@@ -21,7 +21,7 @@ export function findTextCursor(
 	cursor: number,
 	deltaX: number,
 	deltaY: number,
-	value: string
+	value: string,
 ): number {
 	const lines = value.split('\n');
 	let cursorY = 0;

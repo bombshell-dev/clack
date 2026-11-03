@@ -13,7 +13,7 @@ type FilterFunction<T extends OptionLike> = (search: string, opt: T) => boolean;
 
 function getCursorForValue<T extends OptionLike>(
 	selected: T['value'] | undefined,
-	items: T[]
+	items: T[],
 ): number {
 	if (selected === undefined) {
 		return 0;
@@ -46,8 +46,10 @@ function normalisedValue<T>(multiple: boolean, values: T[] | undefined): T | T[]
 	return values[0];
 }
 
-export interface AutocompleteOptions<T extends OptionLike>
-	extends PromptOptions<T['value'] | T['value'][], AutocompletePrompt<T>> {
+export interface AutocompleteOptions<T extends OptionLike> extends PromptOptions<
+	T['value'] | T['value'][],
+	AutocompletePrompt<T>
+> {
 	options: T[] | ((this: AutocompletePrompt<T>) => T[]);
 	filter?: FilterFunction<T>;
 	multiple?: boolean;
@@ -170,7 +172,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 			placeholder !== undefined &&
 			placeholder !== '' &&
 			options.some(
-				(opt) => !opt.disabled && (this.#filterFn ? this.#filterFn(placeholder, opt) : true)
+				(opt) => !opt.disabled && (this.#filterFn ? this.#filterFn(placeholder, opt) : true),
 			);
 		if (key.name === 'tab' && isEmptyOrOnlyTab && placeholderMatchesOption) {
 			if (this.userInput === '\t') {

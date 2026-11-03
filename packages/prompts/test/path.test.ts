@@ -33,7 +33,7 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 				'./root.zip': '6',
 				'./bar': '7',
 			},
-			'/tmp'
+			'/tmp',
 		);
 	});
 

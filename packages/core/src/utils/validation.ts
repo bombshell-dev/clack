@@ -46,7 +46,7 @@ export type Validate<TValue> =
  */
 export function runValidation<TValue>(
 	validate: Validate<TValue>,
-	value: TValue | undefined
+	value: TValue | undefined,
 ): MaybePromise<string | Error | undefined> {
 	if ('~standard' in validate) {
 		const result = validate['~standard'].validate(value);

@@ -25,7 +25,7 @@ export const log = {
 			output = process.stdout,
 			spacing = 1,
 			withGuide,
-		}: LogMessageOptions = {}
+		}: LogMessageOptions = {},
 	) => {
 		const parts: string[] = [];
 		const hasGuide = withGuide ?? settings.withGuide;
