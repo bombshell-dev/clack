@@ -237,6 +237,45 @@ describe.each(['true', 'false'])('text (isCI = %s)', (isCI) => {
 		expect(value).toBe('/tmp/foo');
 	});
 
+	// Windows path semantics: node:path is win32 there, and memfs maps C:\\tmp to /tmp.
+	test.skipIf(process.platform !== 'win32')(
+		'directory mode traverses into child when trailing backslash entered',
+		async () => {
+			const result = prompts.path({
+				message: 'foo',
+				initialValue: 'C:\\tmp',
+				directory: true,
+				input,
+				output,
+			});
+
+			input.emit('keypress', '\\', { name: '\\' });
+			input.emit('keypress', '', { name: 'return' });
+			// cancel instead of hanging if return did not submit
+			input.emit('keypress', '', { name: 'escape' });
+
+			expect(await result).toBe('C:\\tmp\\foo');
+		}
+	);
+
+	test.skipIf(process.platform !== 'win32')(
+		'directory mode lists children of an initial value ending in a backslash',
+		async () => {
+			const result = prompts.path({
+				message: 'foo',
+				initialValue: 'C:\\tmp\\',
+				directory: true,
+				input,
+				output,
+			});
+
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'escape' });
+
+			expect(await result).toBe('C:\\tmp\\foo');
+		}
+	);
+
 	test('directory mode can navigate from initial directory to child directory', async () => {
 		const result = prompts.path({
 			message: 'foo',

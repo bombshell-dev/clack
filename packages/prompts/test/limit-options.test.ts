@@ -93,6 +93,16 @@ describe('limitOptions', () => {
 		expect(result).toEqual([]);
 	});
 
+	test('styles falsy primitive options and identifies the active option', () => {
+		const result = limitOptions({
+			output,
+			options: [0, false, '', 1],
+			cursor: 1,
+			style: (option, active) => `${active ? '> ' : ''}[${String(option)}]`,
+		});
+		expect(result).toEqual(['[0]', '> [false]', '[]', '[1]']);
+	});
+
 	test('if items exceed output height, clamp to fit', async () => {
 		options.options = [
 			{ value: 'Item 1' },

@@ -164,7 +164,7 @@ export const select = <Value>(opts: SelectOptions<Value>) => {
 					const prefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 					const titleLineCount = title.split('\n').length;
 					const footerLines = showInstructions
-						? formatInstructionFooter(SELECT_INSTRUCTIONS, hasGuide)
+						? formatInstructionFooter(opts.output, SELECT_INSTRUCTIONS, hasGuide)
 						: hasGuide
 							? [styleText('cyan', S_BAR_END)]
 							: [];

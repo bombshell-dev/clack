@@ -99,6 +99,15 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('tracks cancellation', () => {
+			const result = prompts.progress({ output });
+
+			result.start();
+			result.cancel();
+
+			expect(result.isCancelled).toBe(true);
+		});
+
 		test('renders error symbol when calling error()', () => {
 			const result = prompts.progress({ output });
 

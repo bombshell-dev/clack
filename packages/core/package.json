@@ -55,8 +55,9 @@
     "test": "bsh test"
   },
   "dependencies": {
+    "fast-string-width": "^3.0.2",
     "fast-wrap-ansi": "^0.2.0",
-    "sisteransi": "^1.0.5"
+    "sisteransi": "^2.0.0"
   },
   "devDependencies": {
     "arktype": "^2.2.0",

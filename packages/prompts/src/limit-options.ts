@@ -10,7 +10,7 @@ export interface LimitOptionsParams<TOption> extends CommonOptions {
 	/**
 	 * The list of options to display.
 	 */
-	options: TOption[];
+	options: readonly TOption[];
 
 	/**
 	 * The index of the currently active/selected option.
@@ -149,7 +149,7 @@ export const limitOptions = <TOption>({
 
 	for (let i = slidingWindowLocationWithEllipsis; i < slidingWindowLocationEndWithEllipsis; i++) {
 		const option = options[i];
-		const styledOption = option ? style(option, i === cursor) : '';
+		const styledOption = option !== undefined ? style(option, i === cursor) : '';
 		const wrappedLines = wrapAnsi(styledOption, maxWidth, {
 			hard: true,
 			trim: false,

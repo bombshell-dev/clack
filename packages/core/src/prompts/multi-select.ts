@@ -6,17 +6,16 @@ interface OptionLike {
 	disabled?: boolean;
 }
 
-export interface MultiSelectOptions<T extends OptionLike> extends PromptOptions<
-	T['value'][],
-	MultiSelectPrompt<T>
-> {
-	options: T[];
-	initialValues?: T['value'][];
+export interface MultiSelectOptions<T extends OptionLike>
+	extends PromptOptions<T['value'][], MultiSelectPrompt<T>> {
+	options: readonly T[];
+	initialValues?: readonly T['value'][];
 	required?: boolean;
 	cursorAt?: T['value'];
 }
+
 export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['value'][]> {
-	options: T[];
+	options: readonly T[];
 	cursor = 0;
 
 	private get _value(): T['value'] {
@@ -62,12 +61,18 @@ export default class MultiSelectPrompt<T extends OptionLike> extends Prompt<T['v
 			0,
 		);
 		this.cursor = this.options[cursor]?.disabled ? findCursor<T>(cursor, 1, this.options) : cursor;
-		this.on('key', (_char, key) => {
+		this.on('key', (char, key) => {
 			if (key.name === 'a') {
 				this.toggleAll();
 			}
 			if (key.name === 'i') {
 				this.toggleInvert();
+			}
+			// Some IMEs (e.g. Japanese or Chinese input) commit an ideographic space (U+3000)
+			// with no key name when the space key is pressed. Treat it as space so
+			// toggling options still works.
+			if (key.name === undefined && char === '　') {
+				this.toggleValue();
 			}
 		});
 

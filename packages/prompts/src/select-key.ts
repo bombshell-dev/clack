@@ -14,12 +14,17 @@ export interface SelectKeyOptions<Value extends string> extends CommonOptions {
 export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) => {
 	const opt = (
 		option: Option<Value> | undefined,
-		state: 'inactive' | 'active' | 'selected' | 'cancelled' = 'inactive',
+		state: 'inactive' | 'active' | 'selected' | 'cancelled' | 'disabled' = 'inactive'
 	) => {
 		if (option === undefined) {
 			return '';
 		}
 		const label = option.label ?? String(option.value);
+		if (state === 'disabled') {
+			return `${styleText('dim', ` ${option.value} `)} ${styleText('gray', label)}${
+				option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''
+			}`;
+		}
 		if (state === 'selected') {
 			return `${styleText('dim', label)}`;
 		}
@@ -75,9 +80,12 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 						.map((option, i) =>
 							wrapTextWithPrefix(
 								opts.output,
-								opt(option, i === this.cursor ? 'active' : 'inactive'),
-								defaultPrefix,
-							),
+								opt(
+									option,
+									option.disabled ? 'disabled' : i === this.cursor ? 'active' : 'inactive'
+								),
+								defaultPrefix
+							)
 						)
 						.join('\n');
 					return `${title}${wrapped}\n${defaultPrefixEnd}\n`;

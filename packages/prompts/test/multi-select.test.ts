@@ -1,4 +1,14 @@
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	expectTypeOf,
+	test,
+	vi,
+} from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockReadable, MockWritable } from './test-utils.js';
 
@@ -491,5 +501,29 @@ describe.each(['true', 'false'])('multiselect (isCI = %s)', (isCI) => {
 
 		await result;
 		expect(output.buffer).toMatchSnapshot();
+	});
+
+	test('accepts readonly options defined with `as const`', async () => {
+		const options = [
+			{ value: 'opt0', label: 'Option 0' },
+			{ value: 'opt1', label: 'Option 1' },
+		] as const;
+
+		const result = prompts.multiselect({
+			message: 'foo',
+			options,
+			initialValues: ['opt1'] as const,
+			input,
+			output,
+		});
+
+		input.emit('keypress', '', { name: 'space' });
+		input.emit('keypress', '', { name: 'return' });
+
+		const value = await result;
+
+		expect(prompts.isCancel(value)).toBe(false);
+		expect(value).toEqual(['opt1', 'opt0']);
+		expectTypeOf(value).toEqualTypeOf<('opt0' | 'opt1')[] | typeof prompts.CANCEL_SYMBOL>();
 	});
 });

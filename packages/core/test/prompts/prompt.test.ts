@@ -1,5 +1,5 @@
 import { type } from 'arktype';
-import { cursor } from 'sisteransi';
+import { cursor, erase } from 'sisteransi';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { default as Prompt } from '../../src/prompts/prompt.js';
 import { isCancel, settings } from '../../src/utils/index.js';
@@ -90,6 +90,33 @@ describe('Prompt', () => {
 
 		expect(renderFn).toHaveBeenCalledTimes(2);
 	});
+
+	test.each([
+		{ columns: 4, text: 'abcdefgh', wrapped: 'abcd\nefgh' },
+		{ columns: 7, text: 'abcdefghijklmnop', wrapped: 'abcdefg\nhijklmn\nop' },
+	])(
+		'wraps and clears frames using the output width ($columns columns)',
+		async ({ columns, text, wrapped }) => {
+			Object.assign(output, { columns });
+			const render = vi.fn(() => text);
+			const instance = new Prompt({ input, output, render });
+			const result = instance.prompt();
+
+			expect(output.buffer).to.deep.equal([cursor.hide, wrapped]);
+
+			output.buffer = [];
+			render.mockReturnValue('x');
+			output.emit('resize');
+
+			expect(output.buffer).to.deep.equal([
+				cursor.move(-999, -(wrapped.split('\n').length - 1)),
+				erase.down(),
+				'x',
+			]);
+			input.emit('keypress', '\x03', { name: 'c' });
+			await result;
+		}
+	);
 
 	test('state is active after first render', async () => {
 		const instance = new Prompt({
