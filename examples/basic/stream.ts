@@ -22,7 +22,7 @@ async function main() {
 					await setTimeout(1000);
 				}
 			}
-		})()
+		})(),
 	);
 
 	p.outro(`Problems? ${color.underline(color.cyan('https://example.com/issues'))}`);

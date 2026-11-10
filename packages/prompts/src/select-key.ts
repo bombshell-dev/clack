@@ -60,7 +60,7 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 					const wrapped = wrapTextWithPrefix(
 						opts.output,
 						opt(selectedOption, 'selected'),
-						submitPrefix
+						submitPrefix,
 					);
 					return `${title}${wrapped}`;
 				}
@@ -69,7 +69,7 @@ export const selectKey = <Value extends string>(opts: SelectKeyOptions<Value>) =
 					const wrapped = wrapTextWithPrefix(
 						opts.output,
 						opt(this.options[0], 'cancelled'),
-						cancelPrefix
+						cancelPrefix,
 					);
 					return `${title}${wrapped}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}

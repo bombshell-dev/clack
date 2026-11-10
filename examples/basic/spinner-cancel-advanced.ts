@@ -56,7 +56,7 @@ async function main() {
 			onCancel: () => {
 				p.note(
 					'You cancelled during processing. Any completed work will be saved.',
-					'Processing Cancelled'
+					'Processing Cancelled',
 				);
 			},
 		});
@@ -114,7 +114,7 @@ async function main() {
 					onCancel: () => {
 						p.note(
 							'Final operation was cancelled, but processing results are still valid.',
-							'Final Stage Cancelled'
+							'Final Stage Cancelled',
 						);
 					},
 				});

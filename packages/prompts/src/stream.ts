@@ -12,7 +12,7 @@ const prefix = `${styleText('gray', S_BAR)}  `;
 export const stream = {
 	message: async (
 		iterable: Iterable<string> | AsyncIterable<string>,
-		{ symbol = styleText('gray', S_BAR) }: LogMessageOptions = {}
+		{ symbol = styleText('gray', S_BAR) }: LogMessageOptions = {},
 	) => {
 		process.stdout.write(`${styleText('gray', S_BAR)}\n${symbol}  `);
 		let lineWidth = 3;

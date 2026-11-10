@@ -105,7 +105,7 @@ export function wrapTextWithPrefix(
 	prefix: string,
 	startPrefix: string = prefix,
 	endPrefix: string = prefix,
-	lineFormatter?: (line: string, index: number) => string
+	lineFormatter?: (line: string, index: number) => string,
 ): string {
 	const columns = getColumns(output ?? stdout);
 	const prefixWidth = stringWidth(prefix);

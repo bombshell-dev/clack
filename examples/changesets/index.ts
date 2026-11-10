@@ -56,7 +56,7 @@ async function main() {
 				const major = Array.isArray(results.major) ? results.major : [];
 				const minor = Array.isArray(results.minor) ? results.minor : [];
 				const possiblePackages = packages.filter(
-					(pkg) => !major.includes(pkg) && !minor.includes(pkg)
+					(pkg) => !major.includes(pkg) && !minor.includes(pkg),
 				);
 				if (possiblePackages.length === 0) return;
 				const note = possiblePackages.join(color.dim(', '));
@@ -67,7 +67,7 @@ async function main() {
 		},
 		{
 			onCancel,
-		}
+		},
 	);
 
 	const message = await p.multiline({

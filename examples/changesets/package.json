@@ -1,15 +1,14 @@
 {
   "name": "@example/changesets",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
-  "dependencies": {
-    "jiti": "^1.17.0",
-    "@clack/prompts": "workspace:*",
-    "picocolors": "^1.0.0"
-  },
+  "private": true,
   "scripts": {
     "start": "jiti ./index.ts"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "@clack/prompts": "workspace:*",
+    "jiti": "^1.17.0",
+    "picocolors": "^1.0.0"
+  }
 }

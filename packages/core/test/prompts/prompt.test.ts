@@ -216,7 +216,7 @@ describe('Prompt', () => {
 				output,
 				render: () => 'foo',
 			},
-			false
+			false,
 		);
 
 		instance.on('cursor', eventSpy);

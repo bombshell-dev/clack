@@ -116,7 +116,7 @@ export const path = (opts: PathOptions) => {
 						};
 					})
 					.filter(
-						({ path, isDirectory }) => path.startsWith(prefix) && (isDirectory || !opts.directory)
+						({ path, isDirectory }) => path.startsWith(prefix) && (isDirectory || !opts.directory),
 					);
 
 				return items.map((item) => ({

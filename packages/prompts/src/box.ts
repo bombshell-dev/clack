@@ -82,7 +82,7 @@ function getPaddingForLine(
 	lineLength: number,
 	innerWidth: number,
 	padding: number,
-	contentAlign: BoxAlignment | undefined
+	contentAlign: BoxAlignment | undefined,
 ): [number, number] {
 	let leftPadding = padding;
 	let rightPadding = padding;
@@ -168,14 +168,14 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 		stringWidth(truncatedTitle),
 		innerWidth,
 		titlePadding,
-		opts?.titleAlign
+		opts?.titleAlign,
 	);
 	const wrappedMessage = wrapAnsi(message, innerWidth - contentPadding * 2, {
 		hard: true,
 		trim: false,
 	});
 	output.write(
-		`${linePrefix}${symbols[0]}${hSymbol.repeat(titlePaddingLeft)}${truncatedTitle}${hSymbol.repeat(titlePaddingRight)}${symbols[1]}\n`
+		`${linePrefix}${symbols[0]}${hSymbol.repeat(titlePaddingLeft)}${truncatedTitle}${hSymbol.repeat(titlePaddingRight)}${symbols[1]}\n`,
 	);
 	const wrappedLines = wrappedMessage.split('\n');
 	for (const line of wrappedLines) {
@@ -183,10 +183,10 @@ export const box = (message = '', title = '', opts?: BoxOptions) => {
 			stringWidth(line),
 			innerWidth,
 			contentPadding,
-			opts?.contentAlign
+			opts?.contentAlign,
 		);
 		output.write(
-			`${linePrefix}${vSymbol}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${vSymbol}\n`
+			`${linePrefix}${vSymbol}${' '.repeat(leftLinePadding)}${line}${' '.repeat(rightLinePadding)}${vSymbol}\n`,
 		);
 	}
 	output.write(`${linePrefix}${symbols[2]}${hSymbol.repeat(innerWidth)}${symbols[3]}\n`);
