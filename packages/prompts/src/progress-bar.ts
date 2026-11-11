@@ -1,5 +1,5 @@
 import { styleText } from 'node:util';
-import type { State } from '@clack/core';
+import { isAccessible, type State } from '@clack/core';
 import { unicodeOr } from './common.js';
 import { type SpinnerOptions, type SpinnerResult, spinner } from './spinner.js';
 
@@ -23,11 +23,15 @@ export function progress({
 	style = 'heavy',
 	max: userMax = 100,
 	size: userSize = 40,
+	output = process.stdout,
 	...spinnerOptions
 }: ProgressOptions = {}): ProgressResult {
-	const spin = spinner(spinnerOptions);
+	const accessible = isAccessible(spinnerOptions.accessible);
+	const spin = spinner({ ...spinnerOptions, output });
 	let value = 0;
 	let previousMessage = '';
+	let running = false;
+	let announced = 0;
 
 	const max = Math.max(1, userMax);
 	const size = Math.max(1, userSize);
@@ -51,21 +55,39 @@ export function progress({
 		return `${activeStyle(state)(S_PROGRESS_CHAR[style].repeat(active))}${styleText('dim', S_PROGRESS_CHAR[style].repeat(size - active))} ${msg}`;
 	};
 
+	const label = accessible ? (_state: State, msg: string) => msg : drawProgress;
+
+	const announce = () => {
+		if (!accessible || !running || spin.isCancelled) return;
+		const reached = Math.floor((value * 4) / max) * 25;
+		if (reached <= announced) return;
+		announced = reached;
+		const msg = previousMessage.replace(/\.+$/, '');
+		output.write(msg === '' ? `${reached}%\n` : `${reached}%: ${msg}\n`);
+	};
+
+	const finish = (end: (msg?: string) => void) => (msg?: string) => {
+		running = false;
+		end(msg);
+	};
+
 	const start = (msg = '') => {
 		previousMessage = msg;
-		spin.start(drawProgress('initial', msg));
+		running = true;
+		spin.start(label('initial', msg));
 	};
 	const advance = (step = 1, msg?: string): void => {
 		value = Math.min(max, step + value);
-		spin.message(drawProgress('active', msg ?? previousMessage));
+		spin.message(label('active', msg ?? previousMessage));
 		previousMessage = msg ?? previousMessage;
+		announce();
 	};
 	return {
 		start,
-		stop: spin.stop,
-		cancel: spin.cancel,
-		error: spin.error,
-		clear: spin.clear,
+		stop: finish(spin.stop),
+		cancel: finish(spin.cancel),
+		error: finish(spin.error),
+		clear: finish(spin.clear),
 		advance,
 		get isCancelled() {
 			return spin.isCancelled;
