@@ -1,5 +1,11 @@
 # @clack/core
 
+## 1.6.1
+
+### Patch Changes
+
+- [#638](https://github.com/bombshell-dev/clack/pull/638) [`5f27460`](https://github.com/bombshell-dev/clack/commit/5f274603f0a4c15633d46b1060eb1d4eb69609f2) Thanks [@kuldeepsinh19](https://github.com/kuldeepsinh19)! - Stop the multi-line prompt from inserting control characters into its value, such as the DEL sent by backspace at the start of the input or the characters sent by ctrl+key combinations.
+
 ## 1.6.0
 
 ### Minor Changes

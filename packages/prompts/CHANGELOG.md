@@ -1,5 +1,14 @@
 # @clack/prompts
 
+## 1.9.1
+
+### Patch Changes
+
+- [#635](https://github.com/bombshell-dev/clack/pull/635) [`c8d14b1`](https://github.com/bombshell-dev/clack/commit/c8d14b15a4da2d48082651655d2af446eb4ef8b8) Thanks [@kyungseopk1m](https://github.com/kyungseopk1m)! - Restore the `formatInstructionFooter(instructions, hasGuide)` signature from 1.8. The `output` stream added in 1.9.0 is now an optional third argument instead of the first, so existing two-argument calls work again.
+
+- Updated dependencies [[`5f27460`](https://github.com/bombshell-dev/clack/commit/5f274603f0a4c15633d46b1060eb1d4eb69609f2)]:
+  - @clack/core@1.6.1
+
 ## 1.9.0
 
 ### Minor Changes
