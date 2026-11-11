@@ -346,6 +346,22 @@ describe('MultiLinePrompt', () => {
 			expect(result).to.equal('x');
 		});
 
+		test('tab and newline characters are still inserted', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '\t', { name: 'tab', sequence: '\t' });
+			input.emit('keypress', '\n', { name: 'enter', sequence: '\n' });
+			input.emit('keypress', 'y', { name: 'y' });
+			expect(instance.userInput).to.equal('x\t\ny');
+			input.emit('keypress', '', { name: 'escape' });
+			await resultPromise;
+		});
+
 		test('left moves left until start', async () => {
 			const instance = new MultiLinePrompt({
 				input,
