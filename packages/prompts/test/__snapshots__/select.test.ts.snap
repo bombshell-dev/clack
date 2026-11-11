@@ -1,5 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`formatInstructionFooter > accepts the two-argument form 1`] = `
+[
+  "[36m│[39m  ↑/↓ navigate • Enter confirm",
+  "[36m└[39m",
+]
+`;
+
+exports[`formatInstructionFooter > wraps to the width of the given output 1`] = `
+[
+  "↑/↓ navigate • Enter",
+  " confirm",
+]
+`;
+
 exports[`select (isCI = false) > can be aborted by a signal 1`] = `
 [
   "<cursor.hide>",
