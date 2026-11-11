@@ -6,6 +6,12 @@ import Prompt, { type PromptOptions } from './prompt.js';
 type CursorAction = 'up' | 'down' | 'left' | 'right';
 const cursorActions = new Set<CursorAction>(['up', 'down', 'left', 'right']);
 
+// readline reports keys like backspace or ctrl+a as a control character (`\x7f`, `\x01`)
+function isControlCharacter(char: string): boolean {
+	const code = char.charCodeAt(0);
+	return code === 0x7f || (code < 0x20 && char !== '\t' && char !== '\n');
+}
+
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
 	defaultValue?: string;
@@ -130,7 +136,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 				);
 				return;
 			}
-			if (char) {
+			if (char && !isControlCharacter(char)) {
 				if (this.#showSubmit && this.focused === 'submit') {
 					this.focused = 'editor';
 				}

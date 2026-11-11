@@ -309,6 +309,43 @@ describe('MultiLinePrompt', () => {
 			await resultPromise;
 		});
 
+		test('backspace at start does not insert its control character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			// a terminal sends DEL (or BS) as the character of the backspace key
+			input.emit('keypress', '\x7f', { name: 'backspace', sequence: '\x7f' });
+			expect(instance.userInput).to.equal('');
+			input.emit('keypress', '\b', { name: 'backspace', sequence: '\b' });
+			expect(instance.userInput).to.equal('');
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x');
+		});
+
+		test('ctrl key combinations do not insert control characters', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			// ctrl+a and ctrl+u arrive as the control characters SOH and NAK
+			input.emit('keypress', '\x01', { name: 'a', sequence: '\x01', ctrl: true });
+			input.emit('keypress', '\x15', { name: 'u', sequence: '\x15', ctrl: true });
+			expect(instance.userInput).to.equal('x');
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('x');
+		});
+
 		test('left moves left until start', async () => {
 			const instance = new MultiLinePrompt({
 				input,
