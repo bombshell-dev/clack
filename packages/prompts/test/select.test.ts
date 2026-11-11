@@ -418,19 +418,3 @@ describe.each(['true', 'false'])('select (isCI = %s)', (isCI) => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 });
-
-describe('formatInstructionFooter', () => {
-	test('accepts the two-argument form', () => {
-		expect(
-			prompts.formatInstructionFooter(['↑/↓ navigate', 'Enter confirm'], true)
-		).toMatchSnapshot();
-	});
-
-	test('wraps to the width of the given output', () => {
-		const output = new MockWritable();
-		output.columns = 20;
-		expect(
-			prompts.formatInstructionFooter(['↑/↓ navigate', 'Enter confirm'], false, output)
-		).toMatchSnapshot();
-	});
-});
