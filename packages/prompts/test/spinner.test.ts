@@ -20,6 +20,8 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 	beforeEach(() => {
 		output = new MockWritable();
+		// Animated path requires a TTY; plain/CI mode uses isPlainLiveOutput().
+		output.isTTY = true;
 		vi.useFakeTimers();
 	});
 

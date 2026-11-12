@@ -597,412 +597,226 @@ exports[`spinner (isCI = false) > withGuide: false removes guide 1`] = `
 
 exports[`spinner (isCI = true) > can be aborted by a signal 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Testing
 ",
   "[31m■[39m  Canceled
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > clear > stops and clears the spinner from the output 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Loading
 ",
-  "[35m◒[39m  Loading...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > global withGuide: false removes guide 1`] = `
 [
-  "<cursor.hide>",
-  "[35m◒[39m  foo...",
-  "
+  "foo
 ",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > indicator customization > custom delay 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > indicator customization > custom frame style 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[31m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > indicator customization > custom frames 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m🐴[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > indicator customization > custom frames with lots of frame have consistent ellipsis display 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m0[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > message > sets message for next frame 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "foo
 ",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  foo...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > prioritizes cancel option over global setting 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m■[39m  Spinner cancel message
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > prioritizes error option over global setting 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m▲[39m  Spinner error message
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > uses custom cancel message when provided directly 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m■[39m  Custom cancel message
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > uses custom error message when provided directly 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m▲[39m  Custom error message
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > uses default cancel message 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m■[39m  Canceled
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > uses global custom cancel message from settings 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m■[39m  Global cancel message
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > process exit handling > uses global custom error message from settings 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "Test operation
 ",
   "[31m▲[39m  Global error message
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > start > handles multi-line messages 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  foo
+  "foo
 bar
-baz...",
-  "
+baz
 ",
-  "<cursor.up count=2>",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > start > handles wrapping 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ",
-  "[35m◒[39m  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxx...",
-  "
-",
-  "<cursor.up count=1>",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  stopped
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > start > renders frames at interval 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > start > renders message 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
+  "foo
 ",
-  "[35m◒[39m  foo...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > start > renders timer when indicator is "timer" 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m   [0s]
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders cancel symbol when calling cancel() 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[31m■[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders error symbol when calling error() 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[31m▲[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders message 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  foo
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders message when cancelling 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[31m■[39m  too dizzy — spinning cancelled
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders message when erroring 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[31m▲[39m  error: spun too fast!
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders message without removing dots 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  foo.
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > stop > renders submit symbol and stops spinner 1`] = `
 [
-  "<cursor.hide>",
-  "[90m│[39m
-",
-  "[35m◒[39m  ...",
-  "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;
 
 exports[`spinner (isCI = true) > withGuide: false removes guide 1`] = `
 [
-  "<cursor.hide>",
-  "[35m◒[39m  foo...",
-  "
+  "foo
 ",
-  "<cursor.left count=1>",
-  "<erase.down>",
   "[32m◇[39m  
 ",
-  "<cursor.show>",
 ]
 `;

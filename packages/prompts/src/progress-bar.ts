@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
 import type { State } from '@clack/core';
-import { unicodeOr } from './common.js';
+import { isPlainLiveOutput, unicodeOr } from './common.js';
 import { type SpinnerOptions, type SpinnerResult, spinner } from './spinner.js';
 
 const S_PROGRESS_CHAR: Record<NonNullable<ProgressOptions['style']>, string> = {
@@ -23,9 +23,11 @@ export function progress({
 	style = 'heavy',
 	max: userMax = 100,
 	size: userSize = 40,
+	output = process.stdout,
 	...spinnerOptions
 }: ProgressOptions = {}): ProgressResult {
-	const spin = spinner(spinnerOptions);
+	const plain = isPlainLiveOutput(output);
+	const spin = spinner({ ...spinnerOptions, output });
 	let value = 0;
 	let previousMessage = '';
 
@@ -53,12 +55,24 @@ export function progress({
 
 	const start = (msg = '') => {
 		previousMessage = msg;
-		spin.start(drawProgress('initial', msg));
+		if (plain) {
+			spin.start(msg);
+		} else {
+			spin.start(drawProgress('initial', msg));
+		}
 	};
 	const advance = (step = 1, msg?: string): void => {
 		value = Math.min(max, step + value);
-		spin.message(drawProgress('active', msg ?? previousMessage));
-		previousMessage = msg ?? previousMessage;
+		const nextMessage = msg ?? previousMessage;
+		if (plain) {
+			// Only emit when the human-readable message changes — bar ticks stay silent in CI.
+			if (msg !== undefined) {
+				spin.message(msg);
+			}
+		} else {
+			spin.message(drawProgress('active', nextMessage));
+		}
+		previousMessage = nextMessage;
 	};
 	return {
 		start,

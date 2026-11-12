@@ -4,7 +4,7 @@ import { wrapAnsi } from 'fast-wrap-ansi';
 import { cursor, erase } from 'sisteransi';
 import {
 	type CommonOptions,
-	isCI as isCIFn,
+	isPlainLiveOutput,
 	S_BAR,
 	S_STEP_CANCEL,
 	S_STEP_ERROR,
@@ -20,6 +20,12 @@ export interface SpinnerOptions extends CommonOptions {
 	frames?: string[];
 	delay?: number;
 	styleFrame?: (frame: string) => string;
+	/**
+	 * When plain/CI output is active, print a new line each time `message()`
+	 * changes. Set to `false` to only print the start and final status lines.
+	 * @default true
+	 */
+	plainMessageUpdates?: boolean;
 }
 
 export interface SpinnerResult {
@@ -45,13 +51,14 @@ export const spinner = ({
 	frames = unicode ? ['◒', '◐', '◓', '◑'] : ['•', 'o', 'O', '0'],
 	delay = unicode ? 80 : 120,
 	signal,
+	plainMessageUpdates = true,
 	...opts
 }: SpinnerOptions = {}): SpinnerResult => {
-	const isCI = isCIFn();
+	const plain = isPlainLiveOutput(output);
 	const accessible = isAccessible(opts.accessible);
 
 	let unblock: (() => void) | undefined;
-	let loop: NodeJS.Timeout;
+	let loop: NodeJS.Timeout | undefined;
 	let isSpinnerActive = false;
 	let isCancelled = false;
 	let _message = '';
@@ -106,7 +113,6 @@ export const spinner = ({
 
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
-		if (isCI) output.write('\n');
 		const wrapped = wrapAnsi(_prevMessage, columns, {
 			hard: true,
 			trim: false,
@@ -130,12 +136,27 @@ export const spinner = ({
 		return min > 0 ? `[${min}m ${secs}s]` : `[${secs}s]`;
 	};
 
+	const writePlainStatus = (code: number, msg: string): void => {
+		const step =
+			code === 0
+				? styleText('green', S_STEP_SUBMIT)
+				: code === 1
+					? styleText('red', S_STEP_CANCEL)
+					: styleText('red', S_STEP_ERROR);
+		if (indicator === 'timer') {
+			output.write(`${step}  ${msg} ${formatTimer(_origin)}\n`);
+		} else {
+			output.write(`${step}  ${msg}\n`);
+		}
+	};
+
 	const hasGuide = opts.withGuide ?? settings.withGuide;
 
 	const start = (msg = ''): void => {
 		isSpinnerActive = true;
 		isCancelled = false;
 		_message = removeTrailingDots(msg);
+		_prevMessage = undefined;
 		_origin = performance.now();
 		registerHooks();
 		if (accessible) {
@@ -147,6 +168,14 @@ export const spinner = ({
 			}, ACCESSIBLE_HEARTBEAT_MS);
 			return;
 		}
+		if (plain) {
+			// Plain CI / non-TTY: one start line, no cursor hide, no frames.
+			if (_message !== '') {
+				output.write(`${_message}\n`);
+			}
+			_prevMessage = _message;
+			return;
+		}
 		unblock = block({ output });
 		if (hasGuide) {
 			output.write(`${styleText('gray', S_BAR)}\n`);
@@ -154,18 +183,13 @@ export const spinner = ({
 		let frameIndex = 0;
 		let indicatorTimer = 0;
 		loop = setInterval(() => {
-			if (isCI && _message === _prevMessage) {
-				return;
-			}
 			clearPrevMessage();
 			_prevMessage = _message;
 			// biome-ignore lint/style/noNonNullAssertion: frameIndex is always kept within frames bounds
 			const frame = styleFn(frames[frameIndex]!);
 			let outputMessage: string;
 
-			if (isCI) {
-				outputMessage = `${frame}  ${_message}...`;
-			} else if (indicator === 'timer') {
+			if (indicator === 'timer') {
 				outputMessage = `${frame}  ${_message} ${formatTimer(_origin)}`;
 			} else {
 				const loadingDots = '.'.repeat(Math.floor(indicatorTimer)).slice(0, 3);
@@ -188,8 +212,11 @@ export const spinner = ({
 		if (!isSpinnerActive) return;
 		isSpinnerActive = false;
 		isCancelled = code === 1;
-		clearInterval(loop);
-		if (!accessible) {
+		if (loop !== undefined) {
+			clearInterval(loop);
+			loop = undefined;
+		}
+		if (!accessible && !plain) {
 			clearPrevMessage();
 		}
 		_message = msg ?? _message;
@@ -207,6 +234,8 @@ export const spinner = ({
 				} else {
 					output.write(`${finalMessage}\n`);
 				}
+			} else if (plain) {
+				writePlainStatus(code, _message);
 			} else {
 				const step =
 					code === 0
@@ -234,7 +263,19 @@ export const spinner = ({
 	const clear = (): void => _stop('', 0, true);
 
 	const message = (msg = ''): void => {
-		_message = removeTrailingDots(msg ?? _message);
+		const next = removeTrailingDots(msg ?? _message);
+		if (
+			plain &&
+			!accessible &&
+			isSpinnerActive &&
+			plainMessageUpdates &&
+			next !== _message &&
+			next !== ''
+		) {
+			output.write(`${next}\n`);
+			_prevMessage = next;
+		}
+		_message = next;
 	};
 
 	return {
