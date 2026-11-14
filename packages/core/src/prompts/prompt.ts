@@ -6,6 +6,7 @@ import { cursor, erase } from 'sisteransi';
 import type { ClackEvents, ClackState } from '../types.js';
 import type { Action } from '../utils/index.js';
 import {
+	BACK_SYMBOL,
 	CANCEL_SYMBOL,
 	diffLines,
 	getColumns,
@@ -145,7 +146,8 @@ export default class Prompt<TValue> {
 	}
 
 	public prompt() {
-		return new Promise<TValue | typeof CANCEL_SYMBOL | undefined>((resolve) => {
+		type Resolution = TValue | typeof CANCEL_SYMBOL | typeof BACK_SYMBOL | undefined;
+		return new Promise<Resolution>((resolve) => {
 			if (this._abortSignal) {
 				if (this._abortSignal.aborted) {
 					this.state = 'cancel';
@@ -194,6 +196,12 @@ export default class Prompt<TValue> {
 				this.output.off('resize', this.render);
 				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
+			});
+			this.once('back', () => {
+				this.output.write(cursor.show);
+				this.output.off('resize', this.render);
+				setRawMode(this.input, false);
+				resolve(BACK_SYMBOL);
 			});
 		});
 	}
@@ -281,12 +289,20 @@ export default class Prompt<TValue> {
 		if (isActionKey([char, key?.name, key?.sequence], 'cancel')) {
 			this.state = 'cancel';
 		}
+		// `back` lets a caller (e.g. the `group` utility) return to a previous
+		// step. It is unbound by default, so standalone prompts are unaffected.
+		if (this.state !== 'cancel' && isActionKey([char, key?.name, key?.sequence], 'back')) {
+			this.state = 'back';
+		}
 
-		if (this.state === 'submit' || this.state === 'cancel') {
+		if (this.state === 'submit' || this.state === 'cancel' || this.state === 'back') {
 			this.emit('finalize');
 		}
-		this.render();
-		if (this.state === 'submit' || this.state === 'cancel') {
+		// `back` leaves no frame behind (see close()), so skip its render.
+		if (this.state !== 'back') {
+			this.render();
+		}
+		if (this.state === 'submit' || this.state === 'cancel' || this.state === 'back') {
 			this.close();
 		}
 	}
@@ -294,7 +310,14 @@ export default class Prompt<TValue> {
 	protected close() {
 		this.input.unpipe();
 		this.input.removeListener('keypress', this.onKeypress);
-		this.output.write('\n');
+		if (this.state === 'back') {
+			// Going back: erase this step's output so navigation stays clean,
+			// rather than leaving a finalized frame behind like submit/cancel do.
+			this.restoreCursor();
+			this.output.write(erase.down());
+		} else {
+			this.output.write('\n');
+		}
 		setRawMode(this.input, false);
 		this.rl?.close();
 		this.rl = undefined;

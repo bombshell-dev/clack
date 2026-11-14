@@ -4,7 +4,14 @@ import type { Action } from './utils/settings.js';
 /**
  * The state of the prompt
  */
-export type ClackState = 'initial' | 'active' | 'cancel' | 'submit' | 'error' | 'validating';
+export type ClackState =
+	| 'initial'
+	| 'active'
+	| 'cancel'
+	| 'back'
+	| 'submit'
+	| 'error'
+	| 'validating';
 
 /**
  * Typed event emitter for clack
@@ -13,6 +20,7 @@ export interface ClackEvents<TValue> {
 	initial: (value?: any) => void;
 	active: (value?: any) => void;
 	cancel: (value?: any) => void;
+	back: (value?: any) => void;
 	submit: (value?: any) => void;
 	error: (value?: any) => void;
 	validating: (value?: any) => void;
