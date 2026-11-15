@@ -50,7 +50,7 @@ const trimLines = (
 	startIndex: number,
 	endIndex: number,
 	maxLines: number,
-	fromEnd = false
+	fromEnd = false,
 ) => {
 	let lineCount = initialLineCount;
 	let removals = 0;
@@ -121,7 +121,7 @@ export const limitOptions = <TOption>({
 	if (cursor >= computedMaxItems - 3) {
 		slidingWindowLocation = Math.max(
 			Math.min(cursor - computedMaxItems + 3, options.length - computedMaxItems),
-			0
+			0,
 		);
 	}
 
@@ -131,7 +131,7 @@ export const limitOptions = <TOption>({
 
 	const slidingWindowLocationEnd = Math.min(
 		slidingWindowLocation + computedMaxItems,
-		options.length
+		options.length,
 	);
 	const lineGroups: Array<string[]> = [];
 	let lineCount = 0;
@@ -173,7 +173,7 @@ export const limitOptions = <TOption>({
 				cursorGroupIndex + 1,
 				lineGroups.length,
 				adjustedMax,
-				true
+				true,
 			);
 
 		if (shouldRenderTopEllipsis) {

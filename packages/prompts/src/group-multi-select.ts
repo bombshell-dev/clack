@@ -109,7 +109,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			| 'group-active-selected'
 			| 'submitted'
 			| 'cancelled',
-		options: (Option<Value> & { group: string | boolean })[] = []
+		options: (Option<Value> & { group: string | boolean })[] = [],
 	) => {
 		const label = option.label ?? String(option.value);
 		const isItem = typeof option.group === 'string';
@@ -136,7 +136,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				`${label}${option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''}`,
 				`${spacingPrefix}${styleText('dim', prefix)} `,
 				`${spacingPrefix}${styleText('dim', prefix)}${styleText('cyan', S_CHECKBOX_ACTIVE)} `,
-				`${spacingPrefix}${styleText('dim', prefixEnd)} `
+				`${spacingPrefix}${styleText('dim', prefixEnd)} `,
 			);
 		}
 		if (state === 'group-active') {
@@ -146,7 +146,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				`${spacingPrefix}${prefix} `,
 				`${spacingPrefix}${prefix}${styleText('cyan', S_CHECKBOX_ACTIVE)} `,
 				`${spacingPrefix}${prefixEnd} `,
-				(str) => styleText('dim', str)
+				(str) => styleText('dim', str),
 			);
 		}
 		if (state === 'group-active-selected') {
@@ -156,7 +156,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				`${spacingPrefix}${prefix} `,
 				`${spacingPrefix}${prefix}${styleText('green', S_CHECKBOX_SELECTED)} `,
 				`${spacingPrefix}${prefixEnd} `,
-				(str) => styleText('dim', str)
+				(str) => styleText('dim', str),
 			);
 		}
 		if (state === 'selected') {
@@ -168,7 +168,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				`${spacingPrefix}${styleText('dim', prefix)} `,
 				`${spacingPrefix}${styleText('dim', prefix)}${selectedCheckbox} `,
 				`${spacingPrefix}${styleText('dim', prefixEnd)} `,
-				(str) => styleText('dim', str)
+				(str) => styleText('dim', str),
 			);
 		}
 		if (state === 'cancelled') {
@@ -180,7 +180,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 				`${label}${option.hint ? ` ${styleText('dim', `(${option.hint})`)}` : ''}`,
 				`${spacingPrefix}${styleText('dim', prefix)} `,
 				`${spacingPrefix}${styleText('dim', prefix)}${styleText('green', S_CHECKBOX_SELECTED)} `,
-				`${spacingPrefix}${styleText('dim', prefixEnd)} `
+				`${spacingPrefix}${styleText('dim', prefixEnd)} `,
 			);
 		}
 		if (state === 'submitted') {
@@ -194,7 +194,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 			`${spacingPrefix}${styleText('dim', prefix)} `,
 			`${spacingPrefix}${styleText('dim', prefix)}${unselectedCheckbox} `,
 			`${spacingPrefix}${styleText('dim', prefixEnd)} `,
-			(str) => styleText('dim', str)
+			(str) => styleText('dim', str),
 		);
 	};
 	const required = opts.required ?? true;
@@ -217,9 +217,9 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						'dim',
 						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
 							'gray',
-							styleText(['bgWhite', 'inverse'], ' enter ')
-						)} to submit`
-					)
+							styleText(['bgWhite', 'inverse'], ' enter '),
+						)} to submit`,
+					),
 				)}`;
 		},
 		render() {
@@ -229,7 +229,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 
 			const styleOption = (
 				option: Option<Value> & { group: string | boolean },
-				active: boolean
+				active: boolean,
 			) => {
 				const options = this.options;
 				const selected =
@@ -276,7 +276,7 @@ export const groupMultiselect = <Value>(opts: GroupMultiSelectOptions<Value>) =>
 						.map((ln, i) =>
 							i === 0
 								? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
-								: `   ${ln}`
+								: `   ${ln}`,
 						)
 						.join('\n');
 					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)

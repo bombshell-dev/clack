@@ -16,7 +16,7 @@ export declare namespace StandardSchemaV1 {
 		/** Validates unknown input values. */
 		readonly validate: (
 			value: unknown,
-			options?: StandardSchemaV1.Options | undefined
+			options?: StandardSchemaV1.Options | undefined,
 		) => Result<Output> | Promise<Result<Output>>;
 		/** Inferred types associated with the schema. */
 		readonly types?: Types<Input, Output> | undefined;

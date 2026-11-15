@@ -51,7 +51,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 			| 'active-selected'
 			| 'submitted'
 			| 'cancelled'
-			| 'disabled'
+			| 'disabled',
 	) => {
 		const label = option.label ?? String(option.value);
 		if (state === 'disabled') {
@@ -101,9 +101,9 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						'dim',
 						`Press ${styleText(['gray', 'bgWhite', 'inverse'], ' space ')} to select, ${styleText(
 							'gray',
-							styleText('bgWhite', styleText('inverse', ' enter '))
-						)} to submit`
-					)
+							styleText('bgWhite', styleText('inverse', ' enter ')),
+						)} to submit`,
+					),
 				)}`;
 		},
 		render() {
@@ -112,7 +112,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 				opts.output,
 				opts.message,
 				hasGuide ? `${symbolBar(this.state)}  ` : '',
-				`${symbol(this.state)}  `
+				`${symbol(this.state)}  `,
 			);
 			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${wrappedMessage}\n`;
 			const value = this.value ?? [];
@@ -141,7 +141,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const wrappedSubmitText = wrapTextWithPrefix(
 						opts.output,
 						submitText,
-						hasGuide ? `${styleText('gray', S_BAR)}  ` : ''
+						hasGuide ? `${styleText('gray', S_BAR)}  ` : '',
 					);
 					return `${title}${wrappedSubmitText}`;
 				}
@@ -156,7 +156,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 					const wrappedLabel = wrapTextWithPrefix(
 						opts.output,
 						label,
-						hasGuide ? `${styleText('gray', S_BAR)}  ` : ''
+						hasGuide ? `${styleText('gray', S_BAR)}  ` : '',
 					);
 					return `${title}${wrappedLabel}${hasGuide ? `\n${styleText('gray', S_BAR)}` : ''}`;
 				}
@@ -167,7 +167,7 @@ export const multiselect = <Value>(opts: MultiSelectOptions<Value>) => {
 						.map((ln, i) =>
 							i === 0
 								? `${hasGuide ? `${styleText('yellow', S_BAR_END)}  ` : ''}${styleText('yellow', ln)}`
-								: `   ${ln}`
+								: `   ${ln}`,
 						)
 						.join('\n');
 					// Calculate rowPadding: title lines + footer lines (error message + trailing newline)

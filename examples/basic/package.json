@@ -1,14 +1,8 @@
 {
   "name": "@example/basic",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
-  "dependencies": {
-    "@clack/prompts": "workspace:*",
-    "arktype": "^2.2.0",
-    "picocolors": "^1.0.0",
-    "jiti": "^1.17.0"
-  },
+  "private": true,
   "scripts": {
     "start": "jiti ./index.ts",
     "stream": "jiti ./stream.ts",
@@ -19,6 +13,12 @@
     "spinner-ci": "npx cross-env CI=\"true\" jiti ./spinner-ci.ts",
     "spinner-timer": "jiti ./spinner-timer.ts",
     "task-log": "jiti ./task-log.ts"
+  },
+  "dependencies": {
+    "@clack/prompts": "workspace:*",
+    "arktype": "^2.2.0",
+    "picocolors": "^1.0.0",
+    "jiti": "^1.17.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"

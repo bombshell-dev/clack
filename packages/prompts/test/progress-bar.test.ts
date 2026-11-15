@@ -334,7 +334,7 @@ describe.each(['true', 'false'])('prompts - progress (isCI = %s)', (isCI) => {
 				result.stop();
 
 				expect(output.buffer).toMatchSnapshot();
-			}
+			},
 		);
 	});
 });

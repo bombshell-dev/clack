@@ -21,7 +21,7 @@ export function findTextCursor(
 	cursor: number,
 	deltaX: number,
 	deltaY: number,
-	value: string
+	value: string,
 ): number {
 	const lines = value.split('\n');
 	let cursorY = 0;

@@ -83,7 +83,7 @@ function segmentBounds(
 	type: 'year' | 'month' | 'day',
 	ctx: { year: number; month: number },
 	minDate: Date | undefined,
-	maxDate: Date | undefined
+	maxDate: Date | undefined,
 ): { min: number; max: number } {
 	const minP = minDate
 		? {
@@ -206,7 +206,7 @@ export default class DatePrompt extends Prompt<Date> {
 		if (!segment) return undefined;
 		this.#cursor.positionInSegment = Math.max(
 			0,
-			Math.min(this.#cursor.positionInSegment, segment.len - 1)
+			Math.min(this.#cursor.positionInSegment, segment.len - 1),
 		);
 		return { segment, index };
 	}
@@ -218,7 +218,7 @@ export default class DatePrompt extends Prompt<Date> {
 		if (!ctx) return;
 		this.#cursor.segmentIndex = Math.max(
 			0,
-			Math.min(this.#segments.length - 1, ctx.index + direction)
+			Math.min(this.#segments.length - 1, ctx.index + direction),
 		);
 		this.#cursor.positionInSegment = 0;
 		this.#segmentSelected = true;
@@ -235,7 +235,7 @@ export default class DatePrompt extends Prompt<Date> {
 			segment.type,
 			parse(this.#segmentValues),
 			this.#minDate,
-			this.#maxDate
+			this.#maxDate,
 		);
 
 		let next: number;

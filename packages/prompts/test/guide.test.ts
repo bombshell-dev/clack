@@ -46,7 +46,7 @@ function firstGuide(frame: string): string {
 
 async function renderGuide(
 	name: PromptName,
-	opts: Omit<CommonOptions, 'input' | 'output'> = {}
+	opts: Omit<CommonOptions, 'input' | 'output'> = {},
 ): Promise<string> {
 	const input = new MockReadable();
 	const output = new MockWritable();

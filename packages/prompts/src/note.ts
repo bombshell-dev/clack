@@ -47,12 +47,12 @@ export const note = (message = '', title = '', opts?: NoteOptions) => {
 				const width = stringWidth(ln);
 				return width > sum ? width : sum;
 			}, 0),
-			titleLen
+			titleLen,
 		) + 2;
 	const msg = lines
 		.map(
 			(ln) =>
-				`${styleText('gray', S_BAR)}  ${ln}${' '.repeat(len - stringWidth(ln))}${styleText('gray', S_BAR)}`
+				`${styleText('gray', S_BAR)}  ${ln}${' '.repeat(len - stringWidth(ln))}${styleText('gray', S_BAR)}`,
 		)
 		.join('\n');
 	const leadingBorder = hasGuide ? `${styleText('gray', S_BAR)}\n` : '';
@@ -60,7 +60,7 @@ export const note = (message = '', title = '', opts?: NoteOptions) => {
 	output.write(
 		`${leadingBorder}${styleText('green', S_STEP_SUBMIT)}  ${styleText('reset', title)} ${styleText(
 			'gray',
-			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT
-		)}\n${msg}\n${styleText('gray', bottomLeft + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`
+			S_BAR_H.repeat(Math.max(len - titleLen - 1, 1)) + S_CORNER_TOP_RIGHT,
+		)}\n${msg}\n${styleText('gray', bottomLeft + S_BAR_H.repeat(len + 2) + S_CORNER_BOTTOM_RIGHT)}\n`,
 	);
 };

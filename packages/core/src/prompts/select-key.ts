@@ -5,6 +5,7 @@ export interface SelectKeyOptions<T extends { value: string; disabled?: boolean 
 	options: T[];
 	caseSensitive?: boolean;
 }
+
 export default class SelectKeyPrompt<
 	T extends { value: string; disabled?: boolean },
 > extends Prompt<T['value']> {

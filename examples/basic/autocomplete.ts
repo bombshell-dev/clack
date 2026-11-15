@@ -14,7 +14,7 @@ ${color.cyan('This example demonstrates the type-ahead autocomplete feature:')}
 - Press ${color.yellow('Enter')} to select the highlighted option
 - Press ${color.yellow('Ctrl+C')} to cancel
   `,
-		'Instructions'
+		'Instructions',
 	);
 
 	const countries = [
