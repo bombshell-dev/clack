@@ -79,9 +79,9 @@ export interface CommonOptions {
 }
 
 export function formatInstructionFooter(
-	output: Writable | undefined,
 	instructions: string[],
-	hasGuide: boolean
+	hasGuide: boolean,
+	output?: Writable
 ): string[] {
 	const guidePrefix = hasGuide ? `${styleText('cyan', S_BAR)}  ` : '';
 	const footerLines = wrapTextWithPrefix(output, instructions.join(' • '), guidePrefix).split('\n');

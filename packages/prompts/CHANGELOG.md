@@ -1,5 +1,32 @@
 # @clack/prompts
 
+## 1.9.0
+
+### Minor Changes
+
+- [#596](https://github.com/bombshell-dev/clack/pull/596) [`cbeefcb`](https://github.com/bombshell-dev/clack/commit/cbeefcb1d2e4f932203f681a6bb98970f3084907) Thanks [@dreyfus92](https://github.com/dreyfus92)! - Add accessible mode to `spinner`: when enabled via the `accessible` option, the global setting, or the `ACCESSIBLE` env var, the spinner emits static, append-only, screen-reader friendly output, a plain start line, a "still working" heartbeat every 30 seconds, and a plain final line. Instead of animated in-place repaints.
+
+- [#614](https://github.com/bombshell-dev/clack/pull/614) [`5ac9e73`](https://github.com/bombshell-dev/clack/commit/5ac9e73819f9a24a9c2f7114c4b5443c1defc9b4) Thanks [@btea](https://github.com/btea)! - Allow `multiselect` to accept readonly option arrays, e.g. options declared with `as const`. The `Value` type parameter is now inferred as a literal union (`'a' | 'b'`) from such arrays, and `initialValues` also accepts readonly arrays.
+
+- [#622](https://github.com/bombshell-dev/clack/pull/622) [`1835f41`](https://github.com/bombshell-dev/clack/commit/1835f415776dda400cfece4365ec66380be12f71) Thanks [@btea](https://github.com/btea)! - Add support for disabled `selectKey` options: they are rendered dimmed, cannot be selected by keypress, and are ignored when set as the initial value.
+
+### Patch Changes
+
+- [#610](https://github.com/bombshell-dev/clack/pull/610) [`be35482`](https://github.com/bombshell-dev/clack/commit/be3548250f7ee90bcb8e31637d87571b68e35f50) Thanks [@43081j](https://github.com/43081j)! - Update sisteransi to 2.x (ESM only).
+
+- [#618](https://github.com/bombshell-dev/clack/pull/618) [`3e0bffd`](https://github.com/bombshell-dev/clack/commit/3e0bffd211143408b14520bbd160cfd3d2bac8f9) Thanks [@btea](https://github.com/btea)! - Use an explicit undefined check when forwarding autocomplete initialValue so 0, false, and empty strings remain selectable instead of falling back to the first option.
+
+- [#631](https://github.com/bombshell-dev/clack/pull/631) [`9053625`](https://github.com/bombshell-dev/clack/commit/90536254aa475dcdcd02cde10ba88ca654e437fd) Thanks [@43081j](https://github.com/43081j)! - Account for escape sequences in prefixes during line wrapping. Very narrow outputs will now render correctly.
+
+- [#616](https://github.com/bombshell-dev/clack/pull/616) [`f325a53`](https://github.com/bombshell-dev/clack/commit/f325a53bedd4a5e7b8ac66b5788d79a135ca5976) Thanks [@btea](https://github.com/btea)! - Fix that isCancelled returned after calling cancel and start methods in progress does not refresh.
+
+- [#627](https://github.com/bombshell-dev/clack/pull/627) [`34976a7`](https://github.com/bombshell-dev/clack/commit/34976a7c0684ae100143090f292c0fb9465f0325) Thanks [@b84330808](https://github.com/b84330808)! - Fix the `path` prompt in `directory` mode on Windows: typing a trailing `\` after a directory now lists its children instead of showing no matches.
+
+- [#628](https://github.com/bombshell-dev/clack/pull/628) [`85f6aff`](https://github.com/bombshell-dev/clack/commit/85f6affb76a1f627a7d3f851dc19566d1ff8eeac) Thanks [@imharjot](https://github.com/imharjot)! - Render falsy primitive options through the `limitOptions` style callback instead of leaving blank rows.
+
+- Updated dependencies [[`be35482`](https://github.com/bombshell-dev/clack/commit/be3548250f7ee90bcb8e31637d87571b68e35f50), [`9053625`](https://github.com/bombshell-dev/clack/commit/90536254aa475dcdcd02cde10ba88ca654e437fd), [`f2bc46b`](https://github.com/bombshell-dev/clack/commit/f2bc46b5a3a83139d75099caacdb07c3d8b77b97), [`f325a53`](https://github.com/bombshell-dev/clack/commit/f325a53bedd4a5e7b8ac66b5788d79a135ca5976), [`5ac9e73`](https://github.com/bombshell-dev/clack/commit/5ac9e73819f9a24a9c2f7114c4b5443c1defc9b4), [`e66ab12`](https://github.com/bombshell-dev/clack/commit/e66ab12fd8fe824d9dd32d34136d41dc99ccc593), [`1835f41`](https://github.com/bombshell-dev/clack/commit/1835f415776dda400cfece4365ec66380be12f71)]:
+  - @clack/core@1.6.0
+
 ## 1.8.1
 
 ### Patch Changes
