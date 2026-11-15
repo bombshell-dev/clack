@@ -11,7 +11,7 @@
     "lint": "bsh lint",
     "types": "tsc --noEmit",
     "deps": "pnpm exec knip --production",
-    "test": "bsh test",
+    "test": "pnpm -r run test",
     "pretest": "pnpm run build"
   },
   "devDependencies": {
