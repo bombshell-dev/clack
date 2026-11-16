@@ -141,7 +141,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 					this.focused = 'editor';
 				}
 				this.#insertAtCursor(char ?? '');
-				this._cursor++;
+				this._cursor += char.length;
 			}
 		});
 

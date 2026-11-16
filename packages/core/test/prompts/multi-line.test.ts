@@ -246,6 +246,23 @@ describe('MultiLinePrompt', () => {
 			expect(instance.userInput).to.equal('xX');
 		});
 
+		test('typing continues after an astral character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', 'x', { name: 'x' });
+			expect(instance.userInput).to.equal('👍x');
+			expect(instance.cursor).to.equal(3);
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('👍x');
+		});
+
 		test('backspace deletes previous char', async () => {
 			const instance = new MultiLinePrompt({
 				input,
