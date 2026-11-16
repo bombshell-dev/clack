@@ -135,16 +135,14 @@ export default class MultiLinePrompt extends Prompt<string> {
 			}
 			this.#lastKeyWasReturn = false;
 			if (key?.name === 'backspace' && this.cursor > 0) {
-				this._setUserInput(
-					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
-				);
-				this._cursor--;
+				const start = this.cursor - (splitsSurrogatePair(this.userInput, this.cursor - 1) ? 2 : 1);
+				this._setUserInput(this.userInput.slice(0, start) + this.userInput.slice(this.cursor));
+				this._cursor = start;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
-				this._setUserInput(
-					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1)
-				);
+				const end = this.cursor + (splitsSurrogatePair(this.userInput, this.cursor + 1) ? 2 : 1);
+				this._setUserInput(this.userInput.slice(0, this.cursor) + this.userInput.slice(end));
 				return;
 			}
 			if (char && !isControlCharacter(char)) {
