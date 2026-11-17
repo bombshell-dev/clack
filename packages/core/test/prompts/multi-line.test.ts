@@ -145,6 +145,19 @@ describe('MultiLinePrompt', () => {
 			expect(instance.userInputWithCursor).to.equal(`fo${styleText('inverse', 'o')}`);
 		});
 
+		test('highlights a whole astral character', () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', undefined, { name: 'left' });
+			expect(instance.userInputWithCursor).to.equal(`x${styleText('inverse', '👍')}`);
+		});
+
 		test('shows cursor at end if beyond value', () => {
 			const instance = new MultiLinePrompt({
 				input,
@@ -246,6 +259,23 @@ describe('MultiLinePrompt', () => {
 			expect(instance.userInput).to.equal('xX');
 		});
 
+		test('typing continues after an astral character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', 'x', { name: 'x' });
+			expect(instance.userInput).to.equal('👍x');
+			expect(instance.cursor).to.equal(3);
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '', { name: 'return' });
+			const result = await resultPromise;
+			expect(result).to.equal('👍x');
+		});
+
 		test('backspace deletes previous char', async () => {
 			const instance = new MultiLinePrompt({
 				input,
@@ -277,6 +307,40 @@ describe('MultiLinePrompt', () => {
 			input.emit('keypress', '', { name: 'return' });
 			const result = await resultPromise;
 			expect(result).to.equal('x');
+		});
+
+		test('backspace deletes a whole astral character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', '\x7f', { name: 'backspace' });
+			expect(instance.userInput).to.equal('x');
+			expect(instance.cursor).to.equal(1);
+			input.emit('keypress', '', { name: 'escape' });
+			await resultPromise;
+		});
+
+		test('delete deletes a whole astral character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'delete' });
+			expect(instance.userInput).to.equal('x');
+			expect(instance.cursor).to.equal(0);
+			input.emit('keypress', '', { name: 'escape' });
+			await resultPromise;
 		});
 
 		test('delete does nothing at end', async () => {
@@ -397,6 +461,26 @@ describe('MultiLinePrompt', () => {
 			expect(result).to.equal('xyz');
 		});
 
+		test('left and right move over an astral character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', 'a', { name: 'a' });
+			input.emit('keypress', '', { name: 'right' });
+			input.emit('keypress', 'b', { name: 'b' });
+			expect(instance.userInput).to.equal('xa👍by');
+			input.emit('keypress', '', { name: 'escape' });
+			await resultPromise;
+		});
+
 		test('left moves across lines', async () => {
 			const instance = new MultiLinePrompt({
 				input,
@@ -470,6 +554,26 @@ describe('MultiLinePrompt', () => {
 			input.emit('keypress', '', { name: 'return' });
 			const result = await resultPromise;
 			expect(result).to.equal('x\nyz');
+		});
+
+		test('down does not land inside an astral character', async () => {
+			const instance = new MultiLinePrompt({
+				input,
+				output,
+				render: () => 'foo',
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'x', { name: 'x' });
+			input.emit('keypress', 'y', { name: 'y' });
+			input.emit('keypress', '', { name: 'return' });
+			input.emit('keypress', '👍', { name: undefined });
+			input.emit('keypress', '', { name: 'up' });
+			input.emit('keypress', '', { name: 'left' });
+			input.emit('keypress', '', { name: 'down' });
+			input.emit('keypress', 'z', { name: 'z' });
+			expect(instance.userInput).to.equal('xy\nz👍');
+			input.emit('keypress', '', { name: 'escape' });
+			await resultPromise;
 		});
 	});
 });

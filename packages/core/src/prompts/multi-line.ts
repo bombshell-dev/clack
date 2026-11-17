@@ -12,6 +12,13 @@ function isControlCharacter(char: string): boolean {
 	return code === 0x7f || (code < 0x20 && char !== '\t' && char !== '\n');
 }
 
+// true when `index` sits between the two halves of a surrogate pair (an emoji, for example)
+function splitsSurrogatePair(text: string, index: number): boolean {
+	const high = text.charCodeAt(index - 1);
+	const low = text.charCodeAt(index);
+	return high >= 0xd800 && high <= 0xdbff && low >= 0xdc00 && low <= 0xdfff;
+}
+
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
 	placeholder?: string;
 	defaultValue?: string;
@@ -31,9 +38,10 @@ export default class MultiLinePrompt extends Prompt<string> {
 		if (this.cursor >= userInput.length) {
 			return `${userInput}█`;
 		}
+		const cursorEnd = this.cursor + (splitsSurrogatePair(userInput, this.cursor + 1) ? 2 : 1);
 		const preCursor = userInput.slice(0, this.cursor);
-		const cursorChar = userInput.slice(this.cursor, this.cursor + 1);
-		const rest = userInput.slice(this.cursor + 1);
+		const cursorChar = userInput.slice(this.cursor, cursorEnd);
+		const rest = userInput.slice(cursorEnd);
 		if (cursorChar === '\n') return `${preCursor}█\n${rest}`;
 		return `${preCursor}${styleText('inverse', cursorChar)}${rest}`;
 	}
@@ -113,6 +121,9 @@ export default class MultiLinePrompt extends Prompt<string> {
 			if (key?.name && cursorActions.has(key.name as CursorAction)) {
 				this.#lastKeyWasReturn = false;
 				this.#handleCursor(key.name as CursorAction);
+				if (splitsSurrogatePair(this.userInput, this._cursor)) {
+					this._cursor += key.name === 'right' ? 1 : -1;
+				}
 				return;
 			}
 			if (char === '\t' && this.#showSubmit) {
@@ -124,16 +135,14 @@ export default class MultiLinePrompt extends Prompt<string> {
 			}
 			this.#lastKeyWasReturn = false;
 			if (key?.name === 'backspace' && this.cursor > 0) {
-				this._setUserInput(
-					this.userInput.slice(0, this.cursor - 1) + this.userInput.slice(this.cursor)
-				);
-				this._cursor--;
+				const start = this.cursor - (splitsSurrogatePair(this.userInput, this.cursor - 1) ? 2 : 1);
+				this._setUserInput(this.userInput.slice(0, start) + this.userInput.slice(this.cursor));
+				this._cursor = start;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
-				this._setUserInput(
-					this.userInput.slice(0, this.cursor) + this.userInput.slice(this.cursor + 1)
-				);
+				const end = this.cursor + (splitsSurrogatePair(this.userInput, this.cursor + 1) ? 2 : 1);
+				this._setUserInput(this.userInput.slice(0, this.cursor) + this.userInput.slice(end));
 				return;
 			}
 			if (char && !isControlCharacter(char)) {
@@ -141,7 +150,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 					this.focused = 'editor';
 				}
 				this.#insertAtCursor(char ?? '');
-				this._cursor++;
+				this._cursor += char.length;
 			}
 		});
 
