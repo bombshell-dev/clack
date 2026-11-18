@@ -63,6 +63,12 @@ export interface AutocompleteOptions<T extends OptionLike>
 	 * currently focused option's value, as if the user had typed it.
 	 */
 	completeOnTab?: boolean;
+	/**
+	 * When `true` (the default), triggering the cancel action (e.g. pressing Escape)
+	 * while the input has text clears the input instead of cancelling the prompt.
+	 * Ctrl+C always cancels.
+	 */
+	clearOnCancel?: boolean;
 }
 
 export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
@@ -80,6 +86,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 	#options: T[] | (() => T[]);
 	#placeholder: string | undefined;
 	#completeOnTab: boolean;
+	#clearOnCancel: boolean;
 
 	get cursor(): number {
 		return this.#cursor;
@@ -111,6 +118,7 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 		this.#options = opts.options;
 		this.#placeholder = opts.placeholder;
 		this.#completeOnTab = opts.completeOnTab === true;
+		this.#clearOnCancel = opts.clearOnCancel !== false;
 		const options = this.options;
 		this.filteredOptions = [...options];
 		this.multiple = opts.multiple === true;
@@ -154,6 +162,14 @@ export default class AutocompletePrompt<T extends OptionLike> extends Prompt<
 				char !== undefined &&
 				char !== '')
 		);
+	}
+
+	protected override _shouldCancel(char: string | undefined, _key: Key): boolean {
+		if (this.#clearOnCancel && this.userInput !== '' && char !== '\x03') {
+			this._clearUserInput();
+			return false;
+		}
+		return true;
 	}
 
 	#onKey(_char: string | undefined, key: Key): void {
