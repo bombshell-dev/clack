@@ -10,7 +10,7 @@ permissions: {}
 jobs:
   publish:
     if: github.repository_owner == 'bombshell-dev'
-    uses: bombshell-dev/automation/.github/workflows/publish.yml@3a8b4a38fe464b0b51d14962ae416a169517fba9  # main as of 2026-05-12
+    uses: bombshell-dev/automation/.github/workflows/publish.yml@a08dd196d81296cd0a59d3616d973218e0371f13
     permissions:
       id-token: write
       contents: write
