@@ -263,6 +263,54 @@ describe('Prompt', () => {
 		expect(instance.state).to.equal('cancel');
 	});
 
+	test('cancels when the input ends', async () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+		const resultPromise = instance.prompt();
+		input.close();
+		input.resume();
+
+		const result = await resultPromise;
+		expect(isCancel(result)).to.equal(true);
+		expect(instance.state).to.equal('cancel');
+		expect(output.buffer.at(-1)).to.equal(cursor.show);
+		expect(input.listenerCount('end')).to.equal(0);
+	});
+
+	test('cancels immediately if the input has already ended', async () => {
+		input.close();
+		input.resume();
+		await new Promise((resolve) => input.once('end', resolve));
+
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+		const result = await instance.prompt();
+		expect(isCancel(result)).to.equal(true);
+		expect(instance.state).to.equal('cancel');
+	});
+
+	test('does not cancel a submitted prompt when the input ends afterwards', async () => {
+		const instance = new Prompt({
+			input,
+			output,
+			render: () => 'foo',
+		});
+		const resultPromise = instance.prompt();
+		input.emit('keypress', '', { name: 'return' });
+		input.close();
+		input.resume();
+
+		const result = await resultPromise;
+		expect(isCancel(result)).to.equal(false);
+		expect(instance.state).to.equal('submit');
+	});
+
 	describe('function validation', () => {
 		test('accepts invalid initial value', () => {
 			const instance = new Prompt({
