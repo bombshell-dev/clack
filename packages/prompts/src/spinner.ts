@@ -56,8 +56,8 @@ export const spinner = ({
 	let isCancelled = false;
 	let _message = '';
 	let _prevMessage: string | undefined;
+	let _prevFrame = '';
 	let _origin: number = performance.now();
-	const columns = getColumns(output);
 	const styleFn = opts?.styleFrame ?? defaultStyleFn;
 
 	const handleExit = (code: number) => {
@@ -107,7 +107,9 @@ export const spinner = ({
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
 		if (isCI) output.write('\n');
-		const wrapped = wrapAnsi(_prevMessage, columns, {
+		// re-wrap the last rendered frame at the current width, since the
+		// terminal may have been resized (and reflowed) since it was written
+		const wrapped = wrapAnsi(_prevFrame, getColumns(output), {
 			hard: true,
 			trim: false,
 		});
@@ -172,10 +174,11 @@ export const spinner = ({
 				outputMessage = `${frame}  ${_message}${loadingDots}`;
 			}
 
-			const wrapped = wrapAnsi(outputMessage, columns, {
+			const wrapped = wrapAnsi(outputMessage, getColumns(output), {
 				hard: true,
 				trim: false,
 			});
+			_prevFrame = wrapped;
 			output.write(wrapped);
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
