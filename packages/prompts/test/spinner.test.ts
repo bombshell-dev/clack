@@ -1,6 +1,7 @@
 import { EventEmitter } from 'node:stream';
 import { styleText } from 'node:util';
 import { getColumns, updateSettings } from '@clack/core';
+import { cursor } from 'sisteransi';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
@@ -88,6 +89,39 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			result.stop('stopped');
 
 			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('clears wrapped lines after the terminal is narrowed', () => {
+			output.columns = 80;
+			const result = prompts.spinner({ output });
+
+			result.start('x'.repeat(70));
+
+			vi.advanceTimersByTime(80);
+
+			output.columns = 40;
+			output.buffer = [];
+			result.message('y'.repeat(70));
+
+			vi.advanceTimersByTime(80);
+
+			result.stop();
+
+			expect(output.buffer).toContain(cursor.up(1));
+		});
+
+		test('accounts for the frame prefix when clearing wrapped lines', () => {
+			const columns = getColumns(output);
+			const result = prompts.spinner({ output });
+
+			result.start('x'.repeat(columns - 1));
+
+			vi.advanceTimersByTime(80);
+
+			output.buffer = [];
+			result.stop();
+
+			expect(output.buffer).toContain(cursor.up(1));
 		});
 
 		test('handles multi-line messages', () => {
