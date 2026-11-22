@@ -5,10 +5,8 @@ exports[`prompts - progress (isCI = false) > message > sets message for next fra
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo<erase.lineEnd>[?2026l",
 ]
 `;
 
@@ -17,8 +15,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > prioritizes
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Progress cancel message
-",
+  "[?2026h[31m■[39m  Progress cancel message<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -28,8 +26,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > prioritizes
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m▲[39m  Progress error message
-",
+  "[?2026h[31m▲[39m  Progress error message<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -39,8 +37,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses custom
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Custom cancel message
-",
+  "[?2026h[31m■[39m  Custom cancel message<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -50,8 +48,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses custom
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m▲[39m  Custom error message
-",
+  "[?2026h[31m▲[39m  Custom error message<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -61,8 +59,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses defaul
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
-",
+  "[?2026h[31m■[39m  Canceled<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -72,8 +70,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses global
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Global cancel message
-",
+  "[?2026h[31m■[39m  Global cancel message<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -83,8 +81,8 @@ exports[`prompts - progress (isCI = false) > process exit handling > uses global
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m▲[39m  Global error message
-",
+  "[?2026h[31m▲[39m  Global error message<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -94,16 +92,10 @@ exports[`prompts - progress (isCI = false) > start > renders frames at interval 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◓[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◑[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◓[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◑[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
 ]
 `;
 
@@ -112,7 +104,7 @@ exports[`prompts - progress (isCI = false) > start > renders message 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo<erase.lineEnd>[?2026l",
 ]
 `;
 
@@ -121,7 +113,7 @@ exports[`prompts - progress (isCI = false) > start > renders timer when indicato
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m  [0s]",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m  [0s]<erase.lineEnd>[?2026l",
 ]
 `;
 
@@ -130,11 +122,9 @@ exports[`prompts - progress (isCI = false) > stop > renders cancel symbol when c
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m■[39m  
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[31m■[39m  <erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -144,11 +134,9 @@ exports[`prompts - progress (isCI = false) > stop > renders error symbol when ca
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m▲[39m  
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[31m▲[39m  <erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -158,11 +146,9 @@ exports[`prompts - progress (isCI = false) > stop > renders message 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[32m◇[39m  foo<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -172,11 +158,9 @@ exports[`prompts - progress (isCI = false) > stop > renders message when cancell
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m■[39m  cancelled :-(
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[31m■[39m  cancelled :-(<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -186,11 +170,9 @@ exports[`prompts - progress (isCI = false) > stop > renders message when errorin
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m▲[39m  FATAL ERROR!
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[31m▲[39m  FATAL ERROR!<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -200,11 +182,9 @@ exports[`prompts - progress (isCI = false) > stop > renders message without remo
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo.
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[32m◇[39m  foo.<erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -214,11 +194,9 @@ exports[`prompts - progress (isCI = false) > stop > renders submit symbol and st
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -228,20 +206,12 @@ exports[`prompts - progress (isCI = false) > style > renders block progressbar 1
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m██████████[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m██████████[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◓[39m  [35m█████[39m[2m█████[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◑[39m  [35m█████[39m[2m█████[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m██████████[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◐[39m  [35m[39m[2m██████████[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◓[39m  [35m█████[39m[2m█████[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◑[39m  [35m█████[39m[2m█████[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -251,20 +221,12 @@ exports[`prompts - progress (isCI = false) > style > renders heavy progressbar 1
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◓[39m  [35m━━━━━[39m[2m━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◑[39m  [35m━━━━━[39m[2m━━━━━[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◐[39m  [35m[39m[2m━━━━━━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◓[39m  [35m━━━━━[39m[2m━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◑[39m  [35m━━━━━[39m[2m━━━━━[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -274,20 +236,12 @@ exports[`prompts - progress (isCI = false) > style > renders light progressbar 1
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m──────────[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m──────────[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◓[39m  [35m─────[39m[2m─────[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◑[39m  [35m─────[39m[2m─────[22m ",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
-",
+  "[?2026h[35m◒[39m  [35m[39m[2m──────────[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◐[39m  [35m[39m[2m──────────[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◓[39m  [35m─────[39m[2m─────[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[35m◑[39m  [35m─────[39m[2m─────[22m <erase.lineEnd>[?2026l",
+  "[?2026h<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
+[?2026l",
   "<cursor.show>",
 ]
 `;
@@ -297,12 +251,9 @@ exports[`prompts - progress (isCI = true) > message > sets message for next fram
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
+<cursor.left count=1>[35m◐[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...<erase.lineEnd>",
 ]
 `;
 
@@ -311,7 +262,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > prioritizes 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Progress cancel message
+  "[31m■[39m  Progress cancel message<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -322,7 +273,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > prioritizes 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m▲[39m  Progress error message
+  "[31m▲[39m  Progress error message<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -333,7 +284,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses custom 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Custom cancel message
+  "[31m■[39m  Custom cancel message<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -344,7 +295,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses custom 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m▲[39m  Custom error message
+  "[31m▲[39m  Custom error message<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -355,7 +306,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses default
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Canceled
+  "[31m■[39m  Canceled<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -366,7 +317,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses global 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m■[39m  Global cancel message
+  "[31m■[39m  Global cancel message<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -377,7 +328,7 @@ exports[`prompts - progress (isCI = true) > process exit handling > uses global 
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[31m▲[39m  Global error message
+  "[31m▲[39m  Global error message<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -388,7 +339,7 @@ exports[`prompts - progress (isCI = true) > start > renders frames at interval 1
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
 ]
 `;
 
@@ -397,7 +348,7 @@ exports[`prompts - progress (isCI = true) > start > renders message 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m foo...<erase.lineEnd>",
 ]
 `;
 
@@ -406,7 +357,7 @@ exports[`prompts - progress (isCI = true) > start > renders timer when indicator
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
 ]
 `;
 
@@ -415,12 +366,9 @@ exports[`prompts - progress (isCI = true) > stop > renders cancel symbol when ca
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m■[39m  
+<cursor.left count=1>[31m■[39m  <erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -431,12 +379,9 @@ exports[`prompts - progress (isCI = true) > stop > renders error symbol when cal
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m▲[39m  
+<cursor.left count=1>[31m▲[39m  <erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -447,12 +392,9 @@ exports[`prompts - progress (isCI = true) > stop > renders message 1`] = `
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo
+<cursor.left count=1>[32m◇[39m  foo<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -463,12 +405,9 @@ exports[`prompts - progress (isCI = true) > stop > renders message when cancelli
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m■[39m  cancelled :-(
+<cursor.left count=1>[31m■[39m  cancelled :-(<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -479,12 +418,9 @@ exports[`prompts - progress (isCI = true) > stop > renders message when erroring
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[31m▲[39m  FATAL ERROR!
+<cursor.left count=1>[31m▲[39m  FATAL ERROR!<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -495,12 +431,9 @@ exports[`prompts - progress (isCI = true) > stop > renders message without remov
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  foo.
+<cursor.left count=1>[32m◇[39m  foo.<erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -511,12 +444,9 @@ exports[`prompts - progress (isCI = true) > stop > renders submit symbol and sto
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
+<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -527,17 +457,11 @@ exports[`prompts - progress (isCI = true) > style > renders block progressbar 1`
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m██████████[22m ...",
+  "[35m◒[39m  [35m[39m[2m██████████[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m█████[39m[2m█████[22m ...",
+<cursor.left count=1>[35m◐[39m  [35m█████[39m[2m█████[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
+<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -548,17 +472,11 @@ exports[`prompts - progress (isCI = true) > style > renders heavy progressbar 1`
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ...",
+  "[35m◒[39m  [35m[39m[2m━━━━━━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m━━━━━[39m[2m━━━━━[22m ...",
+<cursor.left count=1>[35m◐[39m  [35m━━━━━[39m[2m━━━━━[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
+<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
 ",
   "<cursor.show>",
 ]
@@ -569,17 +487,11 @@ exports[`prompts - progress (isCI = true) > style > renders light progressbar 1`
   "<cursor.hide>",
   "[90m│[39m
 ",
-  "[35m◒[39m  [35m[39m[2m──────────[22m ...",
+  "[35m◒[39m  [35m[39m[2m──────────[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[35m◐[39m  [35m─────[39m[2m─────[22m ...",
+<cursor.left count=1>[35m◐[39m  [35m─────[39m[2m─────[22m ...<erase.lineEnd>",
   "
-",
-  "<cursor.left count=1>",
-  "<erase.down>",
-  "[32m◇[39m  
+<cursor.left count=1>[32m◇[39m  <erase.lineEnd>
 ",
   "<cursor.show>",
 ]

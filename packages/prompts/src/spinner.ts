@@ -33,6 +33,8 @@ export interface SpinnerResult {
 }
 
 const ACCESSIBLE_HEARTBEAT_MS = 30_000;
+const SYNC_START = '\x1b[?2026h';
+const SYNC_END = '\x1b[?2026l';
 
 const defaultStyleFn: SpinnerOptions['styleFrame'] = (frame) => styleText('magenta', frame);
 
@@ -56,6 +58,7 @@ export const spinner = ({
 	let isCancelled = false;
 	let _message = '';
 	let _prevMessage: string | undefined;
+	let _prevLineCount = 0;
 	let _origin: number = performance.now();
 	const columns = getColumns(output);
 	const styleFn = opts?.styleFrame ?? defaultStyleFn;
@@ -104,19 +107,19 @@ export const spinner = ({
 		}
 	};
 
-	const clearPrevMessage = () => {
-		if (_prevMessage === undefined) return;
-		if (isCI) output.write('\n');
-		const wrapped = wrapAnsi(_prevMessage, columns, {
-			hard: true,
-			trim: false,
-		});
-		const prevLines = wrapped.split('\n');
-		if (prevLines.length > 1) {
-			output.write(cursor.up(prevLines.length - 1));
+	const getRewindSequence = (): string => {
+		if (_prevMessage === undefined) return '';
+		let seq = '';
+		if (isCI) seq += '\n';
+		if (_prevLineCount > 1) {
+			seq += cursor.up(_prevLineCount - 1);
 		}
-		output.write(cursor.to(0));
-		output.write(erase.down());
+		seq += cursor.to(0);
+		return seq;
+	};
+
+	const writeFrame = (content: string): void => {
+		output.write(isCI ? content : `${SYNC_START}${content}${SYNC_END}`);
 	};
 
 	const removeTrailingDots = (msg: string): string => {
@@ -136,6 +139,8 @@ export const spinner = ({
 		isSpinnerActive = true;
 		isCancelled = false;
 		_message = removeTrailingDots(msg);
+		_prevMessage = undefined;
+		_prevLineCount = 0;
 		_origin = performance.now();
 		registerHooks();
 		if (accessible) {
@@ -157,8 +162,7 @@ export const spinner = ({
 			if (isCI && _message === _prevMessage) {
 				return;
 			}
-			clearPrevMessage();
-			_prevMessage = _message;
+			const rewind = getRewindSequence();
 			// biome-ignore lint/style/noNonNullAssertion: frameIndex is always kept within frames bounds
 			const frame = styleFn(frames[frameIndex]!);
 			let outputMessage: string;
@@ -176,7 +180,13 @@ export const spinner = ({
 				hard: true,
 				trim: false,
 			});
-			output.write(wrapped);
+			const lines = wrapped.split('\n');
+			const rendered = lines.map((line) => `${line}${erase.lineEnd}`).join('\n');
+			const clearTail = lines.length < _prevLineCount ? erase.down() : '';
+			writeFrame(`${rewind}${rendered}${clearTail}`);
+
+			_prevMessage = _message;
+			_prevLineCount = lines.length;
 
 			frameIndex = frameIndex + 1 < frames.length ? frameIndex + 1 : 0;
 			// indicator increase by 1 every 8 frames
@@ -189,37 +199,44 @@ export const spinner = ({
 		isSpinnerActive = false;
 		isCancelled = code === 1;
 		clearInterval(loop);
-		if (!accessible) {
-			clearPrevMessage();
-		}
+		const rewind = accessible ? '' : getRewindSequence();
+		const hadPrev = _prevMessage !== undefined;
+		const prevLineCount = _prevLineCount;
+		_prevMessage = undefined;
+		_prevLineCount = 0;
 		_message = msg ?? _message;
-		if (!silent) {
-			if (accessible) {
-				const fallback =
-					code === 1
-						? (cancelMessage ?? settings.messages.cancel)
-						: code === 2
-							? (errorMessage ?? settings.messages.error)
-							: 'Done';
-				const finalMessage = _message || fallback;
-				if (indicator === 'timer') {
-					output.write(`${finalMessage} ${formatTimer(_origin)}\n`);
-				} else {
-					output.write(`${finalMessage}\n`);
-				}
-			} else {
-				const step =
-					code === 0
-						? styleText('green', S_STEP_SUBMIT)
-						: code === 1
-							? styleText('red', S_STEP_CANCEL)
-							: styleText('red', S_STEP_ERROR);
-				if (indicator === 'timer') {
-					output.write(`${step}  ${_message} ${formatTimer(_origin)}\n`);
-				} else {
-					output.write(`${step}  ${_message}\n`);
-				}
+		if (silent) {
+			if (!accessible && hadPrev) {
+				writeFrame(`${rewind}${erase.down()}`);
 			}
+		} else if (accessible) {
+			const fallback =
+				code === 1
+					? (cancelMessage ?? settings.messages.cancel)
+					: code === 2
+						? (errorMessage ?? settings.messages.error)
+						: 'Done';
+			const finalMessage = _message || fallback;
+			if (indicator === 'timer') {
+				output.write(`${finalMessage} ${formatTimer(_origin)}\n`);
+			} else {
+				output.write(`${finalMessage}\n`);
+			}
+		} else {
+			const step =
+				code === 0
+					? styleText('green', S_STEP_SUBMIT)
+					: code === 1
+						? styleText('red', S_STEP_CANCEL)
+						: styleText('red', S_STEP_ERROR);
+			const finalLine =
+				indicator === 'timer'
+					? `${step}  ${_message} ${formatTimer(_origin)}`
+					: `${step}  ${_message}`;
+			const finalLines = finalLine.split('\n');
+			const rendered = finalLines.map((line) => `${line}${erase.lineEnd}`).join('\n');
+			const clearTail = finalLines.length < prevLineCount ? erase.down() : '';
+			writeFrame(`${rewind}${rendered}\n${clearTail}`);
 		}
 		clearHooks();
 		unblock?.();
