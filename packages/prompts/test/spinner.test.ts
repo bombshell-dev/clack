@@ -478,4 +478,57 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 	});
+
+	describe('flicker-free frame rendering', () => {
+		test('writes each frame in a single write without erase-before-draw', () => {
+			const result = prompts.spinner({ output, withGuide: false });
+
+			result.start('Loading');
+			const writesBeforeFirstFrame = output.buffer.length;
+
+			vi.advanceTimersByTime(80);
+			const firstFrameWrites = output.buffer.slice(writesBeforeFirstFrame);
+			expect(firstFrameWrites).toHaveLength(1);
+
+			const writesBeforeSecondFrame = output.buffer.length;
+			vi.advanceTimersByTime(80);
+			const secondFrameWrites = output.buffer.slice(writesBeforeSecondFrame);
+
+			if (isCI === 'true') {
+				expect(secondFrameWrites).toHaveLength(0);
+				expect(firstFrameWrites[0]).not.toContain('\x1b[?2026h');
+			} else {
+				expect(secondFrameWrites).toHaveLength(1);
+				const secondFrame = secondFrameWrites[0] ?? '';
+				expect(secondFrame.startsWith('\x1b[?2026h')).toBe(true);
+				expect(secondFrame.endsWith('\x1b[?2026l')).toBe(true);
+				// Overwrites in place with CSI K instead of erase-down (CSI J)
+				expect(secondFrame).toContain('\x1b[K');
+				expect(secondFrame).not.toContain('\x1b[J');
+			}
+
+			result.stop('Done');
+		});
+
+		test('clears leftover rows after drawing when a multi-line frame shrinks', () => {
+			const result = prompts.spinner({ output, withGuide: false });
+
+			result.start('line 1\nline 2\nline 3');
+			vi.advanceTimersByTime(80);
+
+			result.message('short');
+			const writesBeforeShrink = output.buffer.length;
+			vi.advanceTimersByTime(80);
+			const shrinkWrites = output.buffer.slice(writesBeforeShrink);
+
+			expect(shrinkWrites).toHaveLength(1);
+			const frame = shrinkWrites[0] ?? '';
+			const textIndex = frame.indexOf('short');
+			const eraseDownIndex = frame.indexOf('\x1b[J');
+			expect(textIndex).toBeGreaterThan(-1);
+			expect(eraseDownIndex).toBeGreaterThan(textIndex);
+
+			result.stop('Done');
+		});
+	});
 });
