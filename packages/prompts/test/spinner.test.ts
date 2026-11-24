@@ -90,6 +90,39 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			expect(output.buffer).toMatchSnapshot();
 		});
 
+		test('clears wrapped lines after the terminal is narrowed', () => {
+			output.columns = 80;
+			const result = prompts.spinner({ output });
+
+			result.start('x'.repeat(70));
+
+			vi.advanceTimersByTime(80);
+
+			output.columns = 40;
+			output.buffer = [];
+			result.message('y'.repeat(70));
+
+			vi.advanceTimersByTime(80);
+
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
+		test('accounts for the frame prefix when clearing wrapped lines', () => {
+			const columns = getColumns(output);
+			const result = prompts.spinner({ output });
+
+			result.start('x'.repeat(columns - 1));
+
+			vi.advanceTimersByTime(80);
+
+			output.buffer = [];
+			result.stop();
+
+			expect(output.buffer).toMatchSnapshot();
+		});
+
 		test('handles multi-line messages', () => {
 			const result = prompts.spinner({ output });
 
