@@ -13,10 +13,8 @@ function isControlCharacter(char: string): boolean {
 }
 
 // true when `index` sits between the two halves of a surrogate pair (an emoji, for example)
-function splitsSurrogatePair(text: string, index: number): boolean {
-	const high = text.charCodeAt(index - 1);
-	const low = text.charCodeAt(index);
-	return high >= 0xd800 && high <= 0xdbff && low >= 0xdc00 && low <= 0xdfff;
+function isInsideSurrogate(text: string, index: number): boolean {
+	return (text.codePointAt(index - 1) ?? 0) > 0xffff;
 }
 
 export interface MultiLineOptions extends PromptOptions<string, MultiLinePrompt> {
@@ -38,7 +36,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 		if (this.cursor >= userInput.length) {
 			return `${userInput}█`;
 		}
-		const cursorEnd = this.cursor + (splitsSurrogatePair(userInput, this.cursor + 1) ? 2 : 1);
+		const cursorEnd = this.cursor + (isInsideSurrogate(userInput, this.cursor + 1) ? 2 : 1);
 		const preCursor = userInput.slice(0, this.cursor);
 		const cursorChar = userInput.slice(this.cursor, cursorEnd);
 		const rest = userInput.slice(cursorEnd);
@@ -121,7 +119,7 @@ export default class MultiLinePrompt extends Prompt<string> {
 			if (key?.name && cursorActions.has(key.name as CursorAction)) {
 				this.#lastKeyWasReturn = false;
 				this.#handleCursor(key.name as CursorAction);
-				if (splitsSurrogatePair(this.userInput, this._cursor)) {
+				if (isInsideSurrogate(this.userInput, this._cursor)) {
 					this._cursor += key.name === 'right' ? 1 : -1;
 				}
 				return;
@@ -135,13 +133,13 @@ export default class MultiLinePrompt extends Prompt<string> {
 			}
 			this.#lastKeyWasReturn = false;
 			if (key?.name === 'backspace' && this.cursor > 0) {
-				const start = this.cursor - (splitsSurrogatePair(this.userInput, this.cursor - 1) ? 2 : 1);
+				const start = this.cursor - (isInsideSurrogate(this.userInput, this.cursor - 1) ? 2 : 1);
 				this._setUserInput(this.userInput.slice(0, start) + this.userInput.slice(this.cursor));
 				this._cursor = start;
 				return;
 			}
 			if (key?.name === 'delete' && this.cursor < this.userInput.length) {
-				const end = this.cursor + (splitsSurrogatePair(this.userInput, this.cursor + 1) ? 2 : 1);
+				const end = this.cursor + (isInsideSurrogate(this.userInput, this.cursor + 1) ? 2 : 1);
 				this._setUserInput(this.userInput.slice(0, this.cursor) + this.userInput.slice(end));
 				return;
 			}
