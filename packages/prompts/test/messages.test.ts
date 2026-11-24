@@ -1,7 +1,5 @@
-import { styleText } from 'node:util';
 import { settings, updateSettings } from '@clack/core';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
-import { S_BAR_END } from '../src/common.js';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
 
@@ -17,19 +15,16 @@ describe('cancel', () => {
 		updateSettings({ messages: { cancel: defaultCancel } });
 	});
 
-	const line = (message: string) =>
-		`${styleText('gray', S_BAR_END)}  ${styleText('red', message)}\n\n`;
-
 	test('renders the given message', () => {
 		prompts.cancel('Installation canceled', { output });
 
-		expect(output.buffer.join('')).toBe(line('Installation canceled'));
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('renders the default cancel message when called without a message', () => {
 		prompts.cancel(undefined, { output });
 
-		expect(output.buffer.join('')).toBe(line(defaultCancel));
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('renders the cancel message set with updateSettings', () => {
@@ -37,7 +32,7 @@ describe('cancel', () => {
 
 		prompts.cancel(undefined, { output });
 
-		expect(output.buffer.join('')).toBe(line('Operation cancelled'));
+		expect(output.buffer).toMatchSnapshot();
 	});
 
 	test('an explicit empty message still renders nothing', () => {
@@ -45,6 +40,6 @@ describe('cancel', () => {
 
 		prompts.cancel('', { output });
 
-		expect(output.buffer.join('')).toBe(line(''));
+		expect(output.buffer).toMatchSnapshot();
 	});
 });

@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`cancel > an explicit empty message still renders nothing 1`] = `
+[
+  "[90m└[39m  [31m[39m
+
+",
+]
+`;
+
+exports[`cancel > renders the cancel message set with updateSettings 1`] = `
+[
+  "[90m└[39m  [31mOperation cancelled[39m
+
+",
+]
+`;
+
+exports[`cancel > renders the default cancel message when called without a message 1`] = `
+[
+  "[90m└[39m  [31mCanceled[39m
+
+",
+]
+`;
+
+exports[`cancel > renders the given message 1`] = `
+[
+  "[90m└[39m  [31mInstallation canceled[39m
+
+",
+]
+`;
