@@ -1,7 +1,6 @@
 import { EventEmitter } from 'node:stream';
 import { styleText } from 'node:util';
 import { getColumns, updateSettings } from '@clack/core';
-import { cursor } from 'sisteransi';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as prompts from '../src/index.js';
 import { MockWritable } from './test-utils.js';
@@ -107,7 +106,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 
 			result.stop();
 
-			expect(output.buffer).toContain(cursor.up(1));
+			expect(output.buffer).toMatchSnapshot();
 		});
 
 		test('accounts for the frame prefix when clearing wrapped lines', () => {
@@ -121,7 +120,7 @@ describe.each(['true', 'false'])('spinner (isCI = %s)', (isCI) => {
 			output.buffer = [];
 			result.stop();
 
-			expect(output.buffer).toContain(cursor.up(1));
+			expect(output.buffer).toMatchSnapshot();
 		});
 
 		test('handles multi-line messages', () => {

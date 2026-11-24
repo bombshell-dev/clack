@@ -107,8 +107,6 @@ export const spinner = ({
 	const clearPrevMessage = () => {
 		if (_prevMessage === undefined) return;
 		if (isCI) output.write('\n');
-		// re-wrap the last rendered frame at the current width, since the
-		// terminal may have been resized (and reflowed) since it was written
 		const wrapped = wrapAnsi(_prevFrame, getColumns(output), {
 			hard: true,
 			trim: false,

@@ -401,6 +401,33 @@ exports[`spinner (isCI = false) > process exit handling > uses global custom err
 ]
 `;
 
+exports[`spinner (isCI = false) > start > accounts for the frame prefix when clearing wrapped lines 1`] = `
+[
+  "<cursor.up count=1>",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = false) > start > clears wrapped lines after the terminal is narrowed 1`] = `
+[
+  "<cursor.up count=1>",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+  "<cursor.up count=1>",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
 exports[`spinner (isCI = false) > start > handles multi-line messages 1`] = `
 [
   "<cursor.hide>",
@@ -791,6 +818,39 @@ exports[`spinner (isCI = true) > process exit handling > uses global custom erro
   "[90m│[39m
 ",
   "[31m▲[39m  Global error message
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > start > accounts for the frame prefix when clearing wrapped lines 1`] = `
+[
+  "
+",
+  "<cursor.up count=1>",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
+",
+  "<cursor.show>",
+]
+`;
+
+exports[`spinner (isCI = true) > start > clears wrapped lines after the terminal is narrowed 1`] = `
+[
+  "
+",
+  "<cursor.up count=1>",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[35m◐[39m  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy...",
+  "
+",
+  "<cursor.up count=1>",
+  "<cursor.left count=1>",
+  "<erase.down>",
+  "[32m◇[39m  
 ",
   "<cursor.show>",
 ]
