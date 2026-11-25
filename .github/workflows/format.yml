@@ -11,7 +11,7 @@ permissions: {}
 jobs:
   format:
     if: github.repository_owner == 'bombshell-dev'
-    uses: bombshell-dev/automation/.github/workflows/format.yml@a08dd196d81296cd0a59d3616d973218e0371f13
+    uses: bombshell-dev/automation/.github/workflows/format.yml@655ca52a65f643d8593705129155291df68287fe
     permissions:
       contents: write
       pull-requests: write
