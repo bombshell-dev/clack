@@ -158,6 +158,8 @@ export default class Prompt<TValue> {
 					'abort',
 					() => {
 						this.state = 'cancel';
+						this.emit('finalize');
+						this.render();
 						this.close();
 					},
 					{ once: true }

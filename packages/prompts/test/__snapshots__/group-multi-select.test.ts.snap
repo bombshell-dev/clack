@@ -12,6 +12,11 @@ exports[`groupMultiselect (isCI = false) > can be aborted by a signal 1`] = `
 [36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  Select a fruit
+[90m│[39m  ",
   "
 ",
   "<cursor.show>",
@@ -1000,6 +1005,11 @@ exports[`groupMultiselect (isCI = true) > can be aborted by a signal 1`] = `
 [36m│[39m  [2m↑/↓[22m to navigate • [2mSpace:[22m select • [2mEnter:[22m confirm
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=8>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  Select a fruit
+[90m│[39m  ",
   "
 ",
   "<cursor.show>",
