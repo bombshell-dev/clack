@@ -1,5 +1,17 @@
 # @clack/prompts
 
+## 1.9.1
+
+### Patch Changes
+
+- [#643](https://github.com/bombshell-dev/clack/pull/643) [`7883b4c`](https://github.com/bombshell-dev/clack/commit/7883b4c5c6efc0e4ce9e748c63a7ec5553ee0f34) Thanks [@IG-ABHINAV](https://github.com/IG-ABHINAV)! - `cancel()` called without a message now shows `settings.messages.cancel`, so a message set with `updateSettings({ messages: { cancel } })` is displayed.
+
+- [#635](https://github.com/bombshell-dev/clack/pull/635) [`c8d14b1`](https://github.com/bombshell-dev/clack/commit/c8d14b15a4da2d48082651655d2af446eb4ef8b8) Thanks [@kyungseopk1m](https://github.com/kyungseopk1m)! - Restore the `formatInstructionFooter(instructions, hasGuide)` signature from 1.8. The `output` stream added in 1.9.0 is now an optional third argument instead of the first, so existing two-argument calls work again.
+
+- [#645](https://github.com/bombshell-dev/clack/pull/645) [`de5c537`](https://github.com/bombshell-dev/clack/commit/de5c537cb5231f17c49f9b771245c0bb9edd5cf6) Thanks [@utsxvrai](https://github.com/utsxvrai)! - Fix `spinner` (and `progress`) leaving stale lines behind when the terminal is resized, or when the spinner frame wraps, by measuring the last rendered frame at the current terminal width before clearing it.
+- Updated dependencies [[`5f27460`](https://github.com/bombshell-dev/clack/commit/5f274603f0a4c15633d46b1060eb1d4eb69609f2), [`549f7df`](https://github.com/bombshell-dev/clack/commit/549f7df14f74dd55a24a1fd5c00ead12ff102061)]:
+  - @clack/core@1.6.1
+
 ## 1.9.0
 
 ### Minor Changes
