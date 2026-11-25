@@ -391,6 +391,38 @@ describe('Prompt', () => {
 			process.env.ACCESSIBLE = '1';
 			expect(instance.accessible).to.equal(true);
 		});
+
+		test('appends changed frames without cursor movement', async () => {
+			const instance = new Prompt({
+				input,
+				output,
+				render() {
+					return `${this.state}\n`;
+				},
+				accessible: true,
+			});
+			const resultPromise = instance.prompt();
+			input.emit('keypress', 'a', { name: 'a' });
+			input.emit('keypress', 'b', { name: 'b' });
+			input.emit('keypress', '', { name: 'return' });
+			await resultPromise;
+
+			expect(output.buffer).to.deep.equal(['initial\n', 'active\n', 'submit\n', '\n']);
+		});
+
+		test('does not render on resize', () => {
+			const render = vi.fn(() => 'foo');
+			const instance = new Prompt({
+				input,
+				output,
+				render,
+				accessible: true,
+			});
+			instance.prompt();
+			output.emit('resize');
+
+			expect(render).toHaveBeenCalledOnce();
+		});
 	});
 
 	describe('standard schema', () => {

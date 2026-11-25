@@ -179,19 +179,26 @@ export default class Prompt<TValue> {
 
 			this.input.on('keypress', this.onKeypress);
 			setRawMode(this.input, true);
-			this.output.on('resize', this.render);
+			const accessible = this.accessible;
+			if (!accessible) {
+				this.output.on('resize', this.render);
+			}
 
 			this.render();
 
 			this.once('submit', () => {
-				this.output.write(cursor.show);
-				this.output.off('resize', this.render);
+				if (!accessible) {
+					this.output.write(cursor.show);
+					this.output.off('resize', this.render);
+				}
 				setRawMode(this.input, false);
 				resolve(this.value);
 			});
 			this.once('cancel', () => {
-				this.output.write(cursor.show);
-				this.output.off('resize', this.render);
+				if (!accessible) {
+					this.output.write(cursor.show);
+					this.output.off('resize', this.render);
+				}
 				setRawMode(this.input, false);
 				resolve(CANCEL_SYMBOL);
 			});
@@ -310,6 +317,17 @@ export default class Prompt<TValue> {
 	}
 
 	private render() {
+		if (this.accessible) {
+			const frame = this._render(this) ?? '';
+			if (this.state === 'initial') {
+				this.state = 'active';
+			}
+			if (frame === this._prevFrame) return;
+			this.output.write(frame);
+			this._prevFrame = frame;
+			return;
+		}
+
 		const frame = wrapAnsi(this._render(this) ?? '', getColumns(this.output), {
 			hard: true,
 			trim: false,
