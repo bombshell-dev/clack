@@ -92,6 +92,11 @@ exports[`autocomplete > can be aborted by a signal 1`] = `
 [36m│[39m  [2m○[22m [2mOrange[22m
 [36m│[39m  [2m↑/↓[22m to select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -630,6 +635,11 @@ exports[`autocompleteMultiselect > can be aborted by a signal 1`] = `
 [36m│[39m  [2m◻[22m [2mOrange[22m
 [36m│[39m  [2m↑/↓[22m to navigate • [2mTab:[22m select • [2mEnter:[22m confirm • [2mType:[22m to search
 [36m└[39m",
+  "<cursor.backward count=999><cursor.up count=10>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2m[22m[29m",
   "
 ",
   "<cursor.show>",

@@ -248,6 +248,39 @@ describe('Prompt', () => {
 		expect(instance.state).to.equal('cancel');
 	});
 
+	test('renders cancel frame on abort signal', async () => {
+		const abortController = new AbortController();
+		const onFinalize = vi.fn();
+
+		const instance = new Prompt({
+			input,
+			output,
+			render() {
+				return this.state === 'cancel' ? 'cancelled' : 'foo';
+			},
+			signal: abortController.signal,
+		});
+		instance.on('finalize', onFinalize);
+
+		const resultPromise = instance.prompt();
+		abortController.abort();
+		const result = await resultPromise;
+
+		expect(isCancel(result)).to.equal(true);
+		expect(onFinalize).toHaveBeenCalledOnce();
+		expect(output.buffer).to.deep.equal([
+			cursor.hide,
+			'foo',
+			cursor.move(-999, 0),
+			cursor.move(0, 0),
+			erase.lines(1),
+			'cancelled',
+			cursor.move(0, 0),
+			'\n',
+			cursor.show,
+		]);
+	});
+
 	test('returns immediately if signal is already aborted', () => {
 		const abortController = new AbortController();
 		abortController.abort();

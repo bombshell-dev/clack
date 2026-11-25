@@ -10,6 +10,12 @@ exports[`select (isCI = false) > can be aborted by a signal 1`] = `
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mopt0[22m[29m
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -629,6 +635,12 @@ exports[`select (isCI = true) > can be aborted by a signal 1`] = `
 [36m│[39m  [2m↑/↓[22m to navigate • [2mEnter:[22m confirm
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=6>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  foo
+[90m│[39m  [9m[2mopt0[22m[29m
+[90m│[39m",
   "
 ",
   "<cursor.show>",

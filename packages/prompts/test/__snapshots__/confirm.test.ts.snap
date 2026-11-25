@@ -8,6 +8,12 @@ exports[`confirm (isCI = false) > can be aborted by a signal 1`] = `
 [36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  yes?
+[90m│[39m  [9m[2mYes[22m[29m
+[90m│[39m",
   "
 ",
   "<cursor.show>",
@@ -248,6 +254,12 @@ exports[`confirm (isCI = true) > can be aborted by a signal 1`] = `
 [36m│[39m  [32m●[39m Yes [2m/[22m [2m○[22m [2mNo[22m
 [36m└[39m
 ",
+  "<cursor.backward count=999><cursor.up count=4>",
+  "<cursor.down count=1>",
+  "<erase.down>",
+  "[31m■[39m  yes?
+[90m│[39m  [9m[2mYes[22m[29m
+[90m│[39m",
   "
 ",
   "<cursor.show>",
