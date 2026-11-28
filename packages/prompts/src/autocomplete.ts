@@ -1,6 +1,6 @@
 import { styleText } from 'node:util';
 import type { CANCEL_SYMBOL, Validate } from '@clack/core';
-import { AutocompletePrompt, settings } from '@clack/core';
+import { AutocompletePrompt, settings, wrapTextWithPrefix } from '@clack/core';
 import {
 	type CommonOptions,
 	S_BAR,
@@ -10,6 +10,7 @@ import {
 	S_RADIO_ACTIVE,
 	S_RADIO_INACTIVE,
 	symbol,
+	symbolBar,
 } from './common.js';
 import { limitOptions } from './limit-options.js';
 import type { Option } from './select.js';
@@ -145,9 +146,13 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 		render() {
 			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and message display
-			const headings = hasGuide
-				? [`${styleText('gray', S_BAR)}`, `${symbol(this.state)}  ${opts.message}`]
-				: [`${symbol(this.state)}  ${opts.message}`];
+			const messageLines = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				hasGuide ? `${symbolBar(this.state)}  ` : '',
+				`${symbol(this.state)}  `
+			).split('\n');
+			const headings = hasGuide ? [`${styleText('gray', S_BAR)}`, ...messageLines] : messageLines;
 			const userInput = this.userInput;
 			const options = this.options;
 			const placeholder = opts.placeholder;
@@ -222,7 +227,11 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 						headings.push(`${guidePrefix.trimEnd()}`);
 					}
 					headings.push(
-						`${guidePrefix}${styleText('dim', 'Search:')}${searchText}${matches}`,
+						...wrapTextWithPrefix(
+							opts.output,
+							`${styleText('dim', 'Search:')}${searchText}${matches}`,
+							guidePrefix
+						).split('\n'),
 						...noResults,
 						...validationError
 					);
@@ -235,7 +244,10 @@ export const autocomplete = <Value>(opts: AutocompleteOptions<Value>) => {
 						`${styleText('dim', 'Type:')} to search`,
 					];
 
-					const footers = [`${guidePrefix}${instructions.join(' • ')}`, guidePrefixEnd];
+					const footers = [
+						...wrapTextWithPrefix(opts.output, instructions.join(' • '), guidePrefix).split('\n'),
+						guidePrefixEnd,
+					];
 
 					// Render options with selection
 					const displayOptions =
@@ -360,9 +372,13 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 		render() {
 			const hasGuide = opts.withGuide ?? settings.withGuide;
 			// Title and symbol
-			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${symbol(this.state)}  ${
-				opts.message
-			}\n`;
+			const wrappedMessage = wrapTextWithPrefix(
+				opts.output,
+				opts.message,
+				hasGuide ? `${symbolBar(this.state)}  ` : '',
+				`${symbol(this.state)}  `
+			);
+			const title = `${hasGuide ? `${styleText('gray', S_BAR)}\n` : ''}${wrappedMessage}\n`;
 
 			// Selection counter
 			const userInput = this.userInput;
@@ -423,11 +439,18 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 					// Calculate header and footer line counts for rowPadding
 					const headerLines = [
 						...`${title}${hasGuide ? styleText(barStyle, S_BAR) : ''}`.split('\n'),
-						`${guidePrefix}${styleText('dim', 'Search:')} ${searchText}${matches}`,
+						...wrapTextWithPrefix(
+							opts.output,
+							`${styleText('dim', 'Search:')} ${searchText}${matches}`,
+							guidePrefix
+						).split('\n'),
 						...noResults,
 						...errorMessage,
 					];
-					const footerLines = [`${guidePrefix}${instructions.join(' • ')}`, guidePrefixEnd];
+					const footerLines = [
+						...wrapTextWithPrefix(opts.output, instructions.join(' • '), guidePrefix).split('\n'),
+						guidePrefixEnd,
+					];
 
 					// Get limited options for display
 					const displayOptions = limitOptions({
@@ -437,6 +460,7 @@ export const autocompleteMultiselect = <Value>(opts: AutocompleteMultiSelectOpti
 							formatOption(option, active, this.selectedValues, this.focusedValue),
 						maxItems: opts.maxItems,
 						output: opts.output,
+						columnPadding: hasGuide ? 3 : 0, // for `|  ` when guide is shown
 						rowPadding: headerLines.length + footerLines.length,
 					});
 

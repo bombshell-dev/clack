@@ -574,3 +574,35 @@ describe('autocomplete with custom filter', () => {
 		expect(output.buffer).toMatchSnapshot();
 	});
 });
+
+describe('autocomplete prompts in a narrow terminal', () => {
+	test.each([
+		['autocomplete', autocomplete],
+		['autocompleteMultiselect', autocompleteMultiselect],
+	] as const)('%s keeps the first frame within the terminal height', async (_name, prompt) => {
+		const input = new MockReadable();
+		const output = new MockWritable();
+		output.columns = 40;
+		output.rows = 20;
+		const controller = new AbortController();
+
+		const result = prompt({
+			message: 'Which languages would you like to translate your project into?',
+			options: Array.from({ length: 30 }, (_, i) => ({
+				value: `opt${i}`,
+				label: `Option ${i} with a label long enough to wrap`,
+			})),
+			input,
+			output,
+			signal: controller.signal,
+		});
+
+		// A frame taller than the terminal scrolls its top away, and every
+		// redraw then leaves stale rows behind.
+		const firstFrame = output.buffer.join('');
+		expect(firstFrame.split('\n').length).toBeLessThanOrEqual(output.rows);
+
+		controller.abort();
+		await result;
+	});
+});
